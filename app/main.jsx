@@ -77,7 +77,7 @@ const App = React.createClass({
 
 
 const routes = (
-  <Route handler={App} path="/">
+  <Route handler={App} path="*">
   </Route>
 )
 

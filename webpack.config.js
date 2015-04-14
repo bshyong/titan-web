@@ -3,7 +3,7 @@ module.exports = {
     app: ['./app/main.jsx']
   },
   output: {
-    path: './build',
+    path: './dist',
     filename: 'bundle.js'
   },
   module: {
