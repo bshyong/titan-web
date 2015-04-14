@@ -13,14 +13,16 @@ const Post = React.createClass({
   },
 
   render() {
-    const {username, body, created_at} = this.props.post
-
+    const {post: {username, body, created_at}} = this.props
     const [title, content] = body.split("\n", 2)
+    const author = {
+      username: username
+    }
 
     return <div className="relative">
       <div className="relative clearfix py2" onClick={this.handleOpen}>
         <div className="left mr2">
-          <Avatar user={{username: username}} size={42} />
+          <Avatar user={author} size={42} />
         </div>
         <div className="overflow-hidden">
           <Markdown text={title} />
