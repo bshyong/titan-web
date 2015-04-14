@@ -5,13 +5,13 @@ import React from 'react'
 import Router from 'react-router'
 
 const {Route, DefaultRoute, RouteHandler, HistoryLocation} = Router
-
-import Post from './components/post.js.jsx'
-import NewPost from './components/new_post.js.jsx'
-import PostsStore from './stores/posts_store'
-import PostsActionCreator from './actions/posts_action_creator'
-
 import {List} from 'immutable'
+
+import NewPost from './components/new_post.js.jsx'
+import Post from './components/post.js.jsx'
+import PostsActionCreator from './actions/posts_action_creator'
+import PostsStore from './stores/posts_store'
+import Tile from './components/ui/tile.js.jsx'
 
 const ASSEMBLY_ORG_ID = '8ace1942-bfc3-4d2e-95dc-8882785cf7f4'
 
@@ -35,7 +35,13 @@ const App = React.createClass({
   render() {
 
     const posts = List(this.state.posts).sortBy((post) => { return post.created_at }).reverse().map((post) => {
-      return <Post post={post} key={post.id} />
+      return (
+        <Tile key={post.id}>
+          <div className="px2">
+            <Post post={post} />
+          </div>
+        </Tile>
+      )
     })
 
     return <div>
@@ -46,7 +52,11 @@ const App = React.createClass({
         </div>
 
         <div className="mb3">
-          <NewPost />
+          <Tile>
+            <div className="p2">
+              <NewPost />
+            </div>
+          </Tile>
         </div>
 
         <div>
@@ -63,7 +73,6 @@ const App = React.createClass({
       posts: PostsStore.all()
     })
   }
-
 })
 
 
