@@ -12,6 +12,8 @@ import Post from './components/post.js.jsx'
 import PostsActionCreator from './actions/posts_action_creator'
 import PostsStore from './stores/posts_store'
 import Tile from './components/ui/tile.js.jsx'
+import Navbar from './components/ui/navbar.js.jsx'
+import Avatar from './components/avatar.js.jsx'
 
 const ASSEMBLY_ORG_ID = '8ace1942-bfc3-4d2e-95dc-8882785cf7f4'
 
@@ -46,11 +48,18 @@ const App = React.createClass({
 
     return <div>
       <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
-      <div className="container col-8">
-        <div className="py3">
-          Assembly <span className="mid-gray">Changelog</span>
+      <Navbar>
+        <div className="clearfix">
+          <div className="left">
+            Assembly <span className="mid-gray">Changelog</span>
+          </div>
+          <div className="right">
+            <Avatar user={{username: 'chrislloyd'}} size={24} />
+          </div>
         </div>
+      </Navbar>
 
+      <div className="container col-8">
         <div className="mb3">
           <Tile>
             <div className="p2">
