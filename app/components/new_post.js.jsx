@@ -1,6 +1,7 @@
 import React from 'react'
 import Textarea from 'react-textarea-autosize'
 
+import Button from './ui/button.js.jsx'
 import PostsActionCreator from '../actions/posts_action_creator'
 
 const NewPost = React.createClass({
@@ -56,7 +57,7 @@ const NewPost = React.createClass({
       return
     }
     return <div className="mt2">
-      <button className="button" type="submit">Post</button>
+      <Button>Post</Button>
     </div>
   },
 
