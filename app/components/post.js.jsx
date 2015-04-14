@@ -14,7 +14,8 @@ const Post = React.createClass({
 
   render() {
     const {post: {username, body, created_at}} = this.props
-    const [title, content] = body.split("\n", 2)
+    const [title, ...contentParts] = body.split("\n\n")
+    const content = contentParts.join("\n\n")
     const author = {
       username: username
     }
@@ -22,10 +23,11 @@ const Post = React.createClass({
     return <div className="relative">
       <div className="relative clearfix py2" onClick={this.handleOpen}>
         <div className="left mr2">
-          <Avatar user={author} size={42} />
+          <Avatar user={author} size={24} />
         </div>
         <div className="overflow-hidden">
-          <Markdown text={title} />
+          <h4 className="mt0 mb2">{title}</h4>
+          <Markdown text={content} />
           <div className="h6 mid-gray">
             {username} posted {moment(created_at).fromNow()}
           </div>
