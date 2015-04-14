@@ -1,0 +1,32 @@
+{
+  "name": "titan",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "NODE_ENV=development webpack-dev-server --hot --colors --config webpack.config.js",
+    "start": "npm run dev",
+    "deploy": "NODE_ENV=production ./node_modules/.bin/webpack -p"
+  },
+  "engines": "0.10.x",
+  "dependencies": {
+    "basscss": "~5.2",
+    "classnames": "~1.2",
+    "flux": "~2.0",
+    "immutable": "~3.6",
+    "marked": "^0.3.3",
+    "moment": "^2.10.2",
+    "react": "~0.13",
+    "react-router": "~0.13",
+    "react-textarea-autosize": "^1.1.0",
+    "reqwest": "^1.1.5",
+    "webpack-dev-server": "~1.8"
+  },
+  "devDependencies": {
+    "babel": "~4.1",
+    "babel-loader": "~4.0",
+    "css-loader": "~0.9",
+    "jsx-loader": "~0.12",
+    "react-tools": "~0.12",
+    "style-loader": "~0.8",
+    "webpack": "~1.8"
+  }
+}

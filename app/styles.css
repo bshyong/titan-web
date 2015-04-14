@@ -1,0 +1,10 @@
+body {
+  font-family: 'Neue Haas Unica Pro', 'Helvetica Neue', Helvetica, sans-serif;
+
+  /* FIXME: (@chrislloyd) Add other browser variants of this property */
+  -webkit-font-feature-settings: "kern" 1;
+}
+
+.markdown p:last-child {
+  margin-bottom: 0;
+}
