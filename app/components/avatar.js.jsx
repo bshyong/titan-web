@@ -3,7 +3,8 @@ import React from 'react'
 const AvatarUrls = {
   chrislloyd: 'https://avatars2.githubusercontent.com/u/718?v=3&s=460',
   whatupdave: 'https://avatars3.githubusercontent.com/u/7064?v=3&s=460',
-  mdeiters:   'https://avatars3.githubusercontent.com/u/7330?v=3&s=460'
+  mdeiters:   'https://avatars3.githubusercontent.com/u/7330?v=3&s=460',
+  pletcher:   'https://avatars3.githubusercontent.com/u/2015049?v=3&s=460'
 }
 
 const Avatar = React.createClass({

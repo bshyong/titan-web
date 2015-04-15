@@ -26,7 +26,7 @@ const Post = React.createClass({
           <Avatar user={author} size={24} />
         </div>
         <div className="overflow-hidden">
-          <h4 className="mt0 mb2">{title}</h4>
+          <h3 className="mt0 mb2">{title}</h3>
           <Markdown text={content} />
           <div className="h6 mid-gray">
             {username} posted {moment(created_at).fromNow()}

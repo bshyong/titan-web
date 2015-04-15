@@ -38,11 +38,13 @@ const App = React.createClass({
 
     const posts = List(this.state.posts).sortBy((post) => { return post.created_at }).reverse().map((post) => {
       return (
-        <Tile key={post.id}>
-          <div className="px2">
-            <Post post={post} />
-          </div>
-        </Tile>
+        <div className="mb2" key={post.id}>
+          <Tile>
+            <div className="px2">
+              <Post post={post} />
+            </div>
+          </Tile>
+        </div>
       )
     })
 
