@@ -1,10 +1,20 @@
+require('basscss/css/basscss.css')
+import classnames from 'classnames'
 import React from 'react'
 
 const Button = React.createClass({
+  getDefaultProps() {
+    return {
+      bg: 'blue',
+      color: 'white'
+    }
+  },
+
   render() {
-    const {children} = this.props
+    const {children, bg, color} = this.props
+    const cn = classnames('button px3', `bg-${bg}`, color)
     return (
-      <button className="button px3" style={{borderRadius: 99}} type="submit">
+      <button className={cn} style={{borderRadius: 99}} type="submit">
         {children}
       </button>
     )

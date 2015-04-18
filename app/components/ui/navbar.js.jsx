@@ -1,9 +1,10 @@
+require('basscss/css/basscss.css')
 import React from 'react'
 
 const Navbar = React.createClass({
   render() {
     const {children} = this.props
-    return <div className="bg-white border-bottom py2 mb3">
+    return <div className="border-bottom bg-white py2">
       <div className="container col-8">
         {children}
       </div>

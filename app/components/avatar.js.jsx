@@ -1,3 +1,4 @@
+require('basscss/css/basscss.css')
 import React from 'react'
 
 // In order of github-ness
@@ -15,7 +16,7 @@ const Avatar = React.createClass({
     user: React.PropTypes.shape({
       username: React.PropTypes.string.isRequired
     }).isRequired,
-    size: React.PropTypes.number.isRequired
+    size: React.PropTypes.string.isRequired
   },
 
   render() {

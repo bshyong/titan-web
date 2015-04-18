@@ -1,8 +1,8 @@
+require('basscss/css/basscss.css')
+import Button from 'components/ui/button.js.jsx'
+import PostsActionCreator from 'actions/posts_action_creator'
 import React from 'react'
 import Textarea from 'react-textarea-autosize'
-
-import Button from './ui/button.js.jsx'
-import PostsActionCreator from '../actions/posts_action_creator'
 
 const NewPost = React.createClass({
 
@@ -13,52 +13,57 @@ const NewPost = React.createClass({
   },
 
   render() {
-    return <form onSubmit={this.handleSubmit}>
-      <input className="full-width block field-light mb1" type="text" placeholder="GitHub username (this is until we have auth)" ref="username" />
-      <Textarea className="full-width block field-light mb0" placeholder="What did you do?" onKeyDown={this.handleTextareaChange} onChange={this.handleTextareaChange} value={this.state.body} ref="body"></Textarea>
-        <div className="clearfix">
-          <div className="left py1 mr1">
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <Textarea
+          className="full-width block field-light mb0"
+          placeholder="What did you ship?" onKeyDown={this.handleTextareaChange} onChange={this.handleTextareaChange}
+          value={this.state.body}
+          ref="body"
+          rows={1} />
+        <div className="clearfix mt2">
+          <div className="left mr1 sm-show">
             <div className="h6 light-gray">Recently:</div>
           </div>
           <div className="overflow-hidden">
             <ul className="list-reset">
               <li className="left">
-                <a className="h6 p1 block" href="#" onClick={this.handleServiceClick}>
-                  <span className="fa fa-github"></span> +12 commits
+                <a className="h6 px1 block" href="#" onClick={this.handleServiceClick}>
+                  <span className="fa fa-github"></span> +12 <span className="sm-show-inline">commits</span>
                 </a>
               </li>
 
               <li className="left">
-                <a className="h6 p1 block" href="#">
-                  <span className="fa fa-dropbox"></span> +6 files
+                <a className="h6 px1 block" href="#">
+                  <span className="fa fa-dropbox"></span> +6 <span className="sm-show-inline">files</span>
                 </a>
               </li>
 
               <li className="left">
-                <a className="h6 p1 block" href="#">
+                <a className="h6 px1 block" href="#">
                   <span className="fa fa-twitter"></span> +2 tweets
                 </a>
               </li>
 
               <li className="left">
-                <a className="h6 p1 block" href="#">
+                <a className="h6 px1 block" href="#">
                   <span className="fa fa-envelope"></span> +24 emails
                 </a>
               </li>
             </ul>
           </div>
         </div>
-      {this.renderAction()}
-    </form>
+        {this.renderAction()}
+      </form>
+    )
   },
 
   renderAction() {
-    if (this.state.body.length < 2) {
-      return
+    if (this.state.body.length > 0) {
+      return <div className="mt2">
+        <Button>Post</Button>
+      </div>
     }
-    return <div className="mt2">
-      <Button>Post</Button>
-    </div>
   },
 
   handleTextareaChange(e) {
@@ -67,9 +72,9 @@ const NewPost = React.createClass({
 
   handleSubmit(e) {
     e.preventDefault()
-    PostsActionCreator.create('8ace1942-bfc3-4d2e-95dc-8882785cf7f4', {
+    const {org: {id: id}} = this.props
+    PostsActionCreator.create(id, {
       body: this.refs.body.getDOMNode().value,
-      username: this.refs.username.getDOMNode().value
     })
     this.setState({body: ''})
   },

@@ -12,6 +12,6 @@ export default class Store extends EventEmitter {
   }
 
   removeChangeListener(callback) {
-    this.off(CHANGE_EVENT, callback)
+    this.removeListener(CHANGE_EVENT, callback)
   }
 }

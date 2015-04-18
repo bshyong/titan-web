@@ -1,5 +1,5 @@
-import Store from '../lib/store'
 import Dispatcher from '../lib/dispatcher'
+import Store from '../lib/store'
 
 class PostsStore extends Store {
   constructor() {

@@ -1,0 +1,11 @@
+/*
+FIXME @chrislloyd: Uncomment when we decide to actually do some design.
+
+body, h1, h2, h3, h4, h5, h6 {
+  font-family: "Avenir Next"
+}
+*/
+
+h1, h2, h3, h4, h5, h6, .bold, .button {
+  font-weight: 600;
+}

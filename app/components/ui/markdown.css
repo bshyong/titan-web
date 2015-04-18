@@ -1,0 +1,7 @@
+.markdown:first-line {
+  font-weight: bold;
+}
+
+.markdown p:last-child {
+  margin-bottom: 0;
+}
