@@ -6,7 +6,7 @@
     "test": "exit 1",
     "postinstall": "npm run dist",
     "dist": "NODE_ENV=production ./node_modules/.bin/webpack --optimize-minimize",
-    "dev": "NODE_ENV=development node server.js"
+    "dev": "NODE_ENV=development node dev-server.js"
   },
   "engines": "0.10.x",
   "dependencies": {

@@ -1,3 +1,4 @@
+var path = require('path')
 var webpack = require('webpack');
 
 module.exports = {
@@ -8,7 +9,7 @@ module.exports = {
     app: ['./app/main.jsx']
   },
   output: {
-    path: '/dist/',
+    path: path.join(__dirname, 'dist'),
     filename: 'bundle.js'
   },
   devtool: 'sourcemap',
