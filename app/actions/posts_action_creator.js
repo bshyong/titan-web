@@ -1,11 +1,12 @@
 import Dispatcher from '../lib/dispatcher'
 import request from 'reqwest'
+import SessionStore from 'stores/session_store'
 
 export default {
 
   fetchAll(org_id, params) {
     request({
-      url: `${ASSEMBLY_API_HOST}/orgs/${org_id}/posts`,
+      url: `${API_URL}/orgs/${org_id}/posts`,
       method: 'get',
       error: (err) => {},
       success: (resp) => {
@@ -23,11 +24,11 @@ export default {
     })
 
     request({
-      url: `${ASSEMBLY_API_HOST}/orgs/${org_id}/posts`,
+      url: `${API_URL}/orgs/${org_id}/posts`,
       method: 'post',
       data: {
         post: {
-          username: 'chrislloyd',
+          username: SessionStore.user.username,
           body: params.body
         }
       },

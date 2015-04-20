@@ -8,14 +8,14 @@ module.exports = {
     app: ['./app/main.jsx']
   },
   output: {
-    path: './dist',
+    path: '/dist/',
     filename: 'bundle.js'
   },
   devtool: 'sourcemap',
   plugins: [
     new webpack.DefinePlugin({
-      APP_ENV:           JSON.stringify(process.env.APP_ENV),
-      ASSEMBLY_API_HOST: JSON.stringify(process.env.ASSEMBLY_API_HOST)
+      APP_ENV: JSON.stringify(process.env.APP_ENV),
+      API_URL: JSON.stringify(process.env.API_URL)
     })
   ],
   module: {

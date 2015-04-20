@@ -6,7 +6,7 @@
     "test": "exit 1",
     "postinstall": "npm run dist",
     "dist": "NODE_ENV=production ./node_modules/.bin/webpack --optimize-minimize",
-    "dev": "NODE_ENV=development webpack-dev-server --hot --colors --config webpack.config.js"
+    "dev": "NODE_ENV=development node server.js"
   },
   "engines": "0.10.x",
   "dependencies": {
@@ -22,6 +22,8 @@
     "image-webpack-loader": "^1.4.0",
     "immutable": "~3.6",
     "jsx-loader": "~0.12",
+    "jwt-decode": "^1.1.0",
+    "keymirror": "^0.1.1",
     "marked": "^0.3.3",
     "moment": "^2.10.2",
     "react": "~0.13",
