@@ -10,7 +10,7 @@ import PostsStore from 'stores/posts_store'
 import React from 'react'
 import Timeline from 'components/ui/timeline.js.jsx'
 
-const ASSEMBLY_ORG_ID = '6f0a1898-cffa-4798-8abd-6964d7fd68ee'
+const ASSEMBLY_ORG_ID = '8ace1942-bfc3-4d2e-95dc-8882785cf7f4'
 
 export default AuthenticatedComponent(class Org extends React.Component {
   constructor(props) {
