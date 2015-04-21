@@ -8,7 +8,9 @@
     "dist": "NODE_ENV=production ./node_modules/.bin/webpack --optimize-minimize",
     "dev": "NODE_ENV=development node dev-server.js"
   },
-  "engines": "0.10.x",
+  "engines": {
+    "node": "0.10.x"
+  },
   "dependencies": {
     "babel": "~4.1",
     "babel-loader": "~4.0",
