@@ -4,7 +4,7 @@ var gzipStatic = require('connect-gzip-static');
 
 var app = express()
 app.use(gzipStatic(__dirname + '/dist', {
-  maxAge: 2592000
+  maxAge: 2592999
 }))
 app.use(require('morgan')('dev'));
 
