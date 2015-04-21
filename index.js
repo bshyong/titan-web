@@ -3,7 +3,8 @@ var app = express()
 var fs = require('fs');
 
 app.use(express.static(__dirname + '/dist', {
-  maxAge: 155520000,
+  etag: true,
+  maxAge: 155520000
 }))
 app.use(require('morgan')('dev'));
 
