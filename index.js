@@ -2,7 +2,9 @@ var express = require('express')
 var app = express()
 var fs = require('fs');
 
-app.use(express.static(__dirname + '/dist'))
+app.use(express.static(__dirname + '/dist', {
+  maxAge: 155520000,
+}))
 app.use(require('morgan')('dev'));
 
 var stats = require(__dirname + "/dist/stats.json");
