@@ -13,7 +13,6 @@ module.exports = {
     filename: 'bundle-[hash].js',
     publicPath: 'https://d1b1o966bfdaym.cloudfront.net/'
   },
-  devtool: 'sourcemap',
   plugins: [
     new webpack.DefinePlugin({
       APP_ENV: JSON.stringify(process.env.APP_ENV),

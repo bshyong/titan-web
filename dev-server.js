@@ -2,7 +2,8 @@ var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.config');
 
-config.output.filename = 'bundle.js',
+config.devtool = 'sourcemap'
+config.output.filename = 'bundle.js'
 delete config.output.publicPath
 
 
