@@ -1,10 +1,9 @@
 var express = require('express')
-var app = express()
 var fs = require('fs');
+var gzipStatic = require('connect-gzip-static');
 
-// app.use(require('compression'))
-app.use(express.static(__dirname + '/dist', {
-  etag: true,
+var app = express()
+app.use(gzipStatic(__dirname + '/dist', {
   maxAge: 31536000
 }))
 app.use(require('morgan')('dev'));

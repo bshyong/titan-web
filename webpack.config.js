@@ -1,3 +1,4 @@
+var CompressionPlugin = require("compression-webpack-plugin");
 var path = require('path')
 var webpack = require('webpack');
 
@@ -25,7 +26,14 @@ module.exports = {
           JSON.stringify(stats.toJson())
         );
       });
-    }
+    },
+    new CompressionPlugin({
+      asset: "{file}.gz",
+      algorithm: "gzip",
+      regExp: /\.js$|\.html$/,
+      threshold: 10240,
+      minRatio: 0.8
+    })
   ],
   module: {
     loaders: [
