@@ -3,10 +3,12 @@
   "version": "0.0.1",
   "scripts": {
     "start": "node index.js",
-    "test": "exit 1",
+    "test": "jest",
+
     "postinstall": "npm run dist",
-    "dist": "NODE_ENV=production ./node_modules/.bin/webpack --optimize-minimize",
-    "dev": "NODE_ENV=development node dev-server.js"
+    
+    "dist":        "NODE_ENV=production webpack --optimize-minimize",
+    "dev":         "NODE_ENV=development node dev-server.js"
   },
   "engines": {
     "node": "0.10.x"
@@ -41,6 +43,7 @@
     "webpack": "~1.8"
   },
   "devDependencies": {
+    "jest-cli": "^0.4.0",
     "webpack-dev-server": "~1.8"
   }
 }
