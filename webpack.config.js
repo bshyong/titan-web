@@ -10,14 +10,23 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js'
+    filename: 'bundle-[hash].js',
+    publicPath: 'https://d1b1o966bfdaym.cloudfront.net/'
   },
   devtool: 'sourcemap',
   plugins: [
     new webpack.DefinePlugin({
       APP_ENV: JSON.stringify(process.env.APP_ENV),
       API_URL: JSON.stringify(process.env.API_URL)
-    })
+    }),
+    function() {
+      this.plugin("done", function(stats) {
+        require("fs").writeFileSync(
+          path.join(__dirname, "dist", "stats.json"),
+          JSON.stringify(stats.toJson())
+        );
+      });
+    }
   ],
   module: {
     loaders: [

@@ -1,4 +1,3 @@
-require('file?name=index.html!../../index.html')
 require('stylesheets')
 import {Link, RouteHandler} from 'react-router'
 import Avatar from 'components/avatar.js.jsx'
