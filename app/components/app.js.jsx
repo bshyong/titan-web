@@ -44,12 +44,16 @@ export default class App extends React.Component {
 
   renderUserOptions() {
     if (this.state.user) {
-      return <div className="right" onClick={SessionActions.signout}>
-        <Avatar user={this.state.user} size="1.5rem" />
+      return <div className="right">
+        <a href="#" onClick={SessionActions.signout}>
+          <Avatar user={this.state.user} size="1.5rem" />
+        </a>
       </div>
     } else {
-      return <div className="right" onClick={SessionActions.signin}>
-        Sign in
+      return <div className="right">
+        <a href="#" onClick={SessionActions.signin}>
+          Sign in
+        </a>
       </div>
     }
   }
