@@ -20,7 +20,7 @@ export default AuthenticatedComponent(class NewPost extends React.Component {
         <Tile>
           <div className="clearfix py2 px2">
             <div className="left">
-              <Avatar user={{username: this.props.user.username}} size="2rem" />
+              <Avatar user={this.props.user} size="2rem" />
             </div>
             <div className="px2 overflow-hidden">
               <form onSubmit={this.handleSubmit.bind(this)}>
