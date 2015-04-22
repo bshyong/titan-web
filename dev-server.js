@@ -4,7 +4,7 @@ var config = require('./webpack.config');
 
 config.devtool = 'sourcemap'
 config.output.filename = 'bundle.js'
-delete config.output.publicPath
+config.output.publicPath = '/'
 
 
 new WebpackDevServer(webpack(config), {

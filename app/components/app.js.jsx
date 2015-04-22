@@ -31,7 +31,7 @@ export default class App extends React.Component {
         <div className="clearfix">
           <div className="left">
             <Link to="root" className="black">
-              <img className="block" src={'/' + LogoSrc} style={{height: '1.5rem'}} />
+              <img className="block" src={LogoSrc} style={{height: '1.5rem'}} />
             </Link>
           </div>
           {this.renderUserOptions()}
