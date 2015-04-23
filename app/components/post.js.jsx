@@ -19,12 +19,8 @@ const Post = React.createClass({
   },
 
   render() {
-    const {post: {username, body}} = this.props
+    const {post: {user, body}} = this.props
     const [title] = body.split("\n\n")
-    const author = {
-      username: username
-    }
-
     let b = (
       <div>{title}<a className="silver" href="#" onClick={this.handleOpen}> <span className="fa fa-plus-circle"></span></a></div>
     )
@@ -37,7 +33,7 @@ const Post = React.createClass({
       <div className="clearfix px2" onClick={this.handleOpen}>
 
         <div className="left mxn2">
-          <Avatar user={author} size="2rem" />
+          <Avatar user={user} size="2rem" />
         </div>
         <div className="right ">
           <div className="bg-teal circle ml1 mr1" style={{width: '1rem', height: '1rem'}} />
