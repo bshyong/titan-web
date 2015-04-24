@@ -6,7 +6,7 @@ export default {
 
   fetchAll(org_id, params) {
     request({
-      url: `${API_URL}/orgs/${org_id}/posts`,
+      url: `${API_URL}/changelogs/${org_id}/posts`,
       method: 'get',
       error: (err) => {},
       success: (resp) => {
@@ -24,7 +24,7 @@ export default {
     })
 
     request({
-      url: `${API_URL}/orgs/${org_id}/posts`,
+      url: `${API_URL}/changelogs/${org_id}/posts`,
       method: 'post',
       data: {
         post: {

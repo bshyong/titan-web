@@ -1,6 +1,7 @@
 require('stylesheets')
 import {Link, RouteHandler} from 'react-router'
 import Avatar from 'components/avatar.js.jsx'
+import RouterContainer from 'lib/router_container'
 import SessionActions from 'actions/session_actions'
 import SessionStore from 'stores/session_store'
 import Navbar from 'components/ui/navbar.js.jsx'
@@ -18,7 +19,9 @@ import LogoSrc from 'images/logo.svg'
 // import LogoSrc from 'images/logo-fat.svg'
 
 export default class App extends React.Component {
-  constructor() {
+  constructor(props) {
+    props.changelogId = RouterContainer.get().getCurrentParams().changelogId
+    super(props)
     this.state = {
       user: SessionStore.user
     }
@@ -30,7 +33,7 @@ export default class App extends React.Component {
       <Navbar>
         <div className="clearfix">
           <div className="left">
-            <Link to="root" className="black">
+            <Link to="changelog" params={{changelogId: this.props.changelogId}} className="black">
               <img className="block" src={LogoSrc} style={{height: '1.5rem'}} />
             </Link>
           </div>
