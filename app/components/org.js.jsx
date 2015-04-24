@@ -8,12 +8,12 @@ import Post from 'components/post.js.jsx'
 import PostsActionCreator from 'actions/posts_action_creator'
 import PostsStore from 'stores/posts_store'
 import React from 'react'
+import RouterContainer from 'lib/router_container'
 import Timeline from 'components/ui/timeline.js.jsx'
-
-const ASSEMBLY_ORG_ID = '8ace1942-bfc3-4d2e-95dc-8882785cf7f4'
 
 export default AuthenticatedComponent(class Org extends React.Component {
   constructor(props) {
+    props.changelogId = RouterContainer.get().getCurrentParams().changelogId
     super(props)
     this.state = {
       posts: []
@@ -23,7 +23,7 @@ export default AuthenticatedComponent(class Org extends React.Component {
   componentDidMount() {
     this.changeListener = this.onPostAdded.bind(this)
     PostsStore.addChangeListener(this.changeListener)
-    PostsActionCreator.fetchAll(ASSEMBLY_ORG_ID)
+    PostsActionCreator.fetchAll(this.props.changelogId)
   }
 
   componentWillUnmount() {
@@ -53,7 +53,7 @@ export default AuthenticatedComponent(class Org extends React.Component {
           <Timeline>
             <div className="ml2 px3 py2 mid-gray">Today</div>
 
-            {this.props.signedIn ? <NewPost org={{id: ASSEMBLY_ORG_ID}} /> : null}
+            {this.props.signedIn ? <NewPost org={{id: this.props.changelogId}} /> : null}
             {posts}
           </Timeline>
 

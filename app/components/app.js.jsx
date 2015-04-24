@@ -1,6 +1,7 @@
 require('stylesheets')
 import {Link, RouteHandler} from 'react-router'
 import Avatar from 'components/avatar.js.jsx'
+import RouterContainer from 'lib/router_container'
 import SessionActions from 'actions/session_actions'
 import SessionStore from 'stores/session_store'
 import Navbar from 'components/ui/navbar.js.jsx'
@@ -18,21 +19,21 @@ import LogoSrc from 'images/logo.svg'
 // import LogoSrc from 'images/logo-fat.svg'
 
 export default class App extends React.Component {
-  constructor() {
+  constructor(props) {
+    super(props)
     this.state = {
       user: SessionStore.user
     }
   }
 
   render() {
+    var changelogId = RouterContainer.get().getCurrentParams().changelogId
     return <div>
       <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
       <Navbar>
         <div className="clearfix">
           <div className="left">
-            <Link to="root" className="black">
-              <img className="block" src={LogoSrc} style={{height: '1.5rem'}} />
-            </Link>
+            {changelogId ? this.renderTopLink(changelogId) : null}
           </div>
           {this.renderUserOptions()}
         </div>
@@ -40,6 +41,12 @@ export default class App extends React.Component {
 
       <RouteHandler />
     </div>
+  }
+
+  renderTopLink(changelogId) {
+    return <Link to="changelog" params={{changelogId: changelogId}} className="black">
+      <img className="block" src={LogoSrc} style={{height: '1.5rem'}} />
+    </Link>
   }
 
   renderUserOptions() {
