@@ -21,7 +21,7 @@
     "compression": "^1.4.3",
     "compression-webpack-plugin": "^0.2.0",
     "connect-gzip-static": "^1.0.0",
-    "css-loader": "~0.9",
+    "css-loader": "chrislloyd/css-loader",
     "express": "^4.12.3",
     "file-loader": "^0.8.1",
     "flux": "~2.0",

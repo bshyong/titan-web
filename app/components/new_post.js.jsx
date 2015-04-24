@@ -6,15 +6,32 @@ import PostsActionCreator from 'actions/posts_action_creator'
 import React from 'react'
 import Textarea from 'react-textarea-autosize'
 import Tile from 'components/ui/tile.js.jsx'
+import Highlight from 'components/highlight.js.jsx'
+import HighlightsStore from 'stores/highlights_store'
+import HighlightsActionCreator from 'actions/highlights_action_creator'
+
+import {List} from 'immutable'
 
 export default AuthenticatedComponent(class NewPost extends React.Component {
   constructor() {
     this.state = {
-      body: ''
+      body: '',
+      highlights: []
     }
   }
 
+  componentDidMount() {
+    HighlightsStore.addChangeListener(this.onHighlightsChange.bind(this))
+    HighlightsActionCreator.fetchAll(this.props.org.id)
+  }
+
+  componentWillUnmount() {
+    HighlightsStore.removeChangeListener(this.onHighlightsChange)
+  }
+
   render() {
+    const {org} = this.props
+
     return (
       <div className="mxn2 mb3">
         <Tile>
@@ -30,37 +47,8 @@ export default AuthenticatedComponent(class NewPost extends React.Component {
                   value={this.state.body}
                   ref="body"
                   rows={1} />
-                <div className="clearfix mt2">
-                  <div className="left mr1 sm-show">
-                    <div className="h6 light-gray">Recently:</div>
-                  </div>
-                  <div className="overflow-hidden">
-                    <ul className="list-reset">
-                      <li className="left">
-                        <a className="h6 px1 block" href="#" onClick={this.handleServiceClick.bind(this)}>
-                          <span className="fa fa-github"></span> +12 <span className="sm-show-inline">commits</span>
-                        </a>
-                      </li>
-
-                      <li className="left">
-                        <a className="h6 px1 block" href="#">
-                          <span className="fa fa-dropbox"></span> +6 <span className="sm-show-inline">files</span>
-                        </a>
-                      </li>
-
-                      <li className="left">
-                        <a className="h6 px1 block" href="#">
-                          <span className="fa fa-twitter"></span> +2 tweets
-                        </a>
-                      </li>
-
-                      <li className="left">
-                        <a className="h6 px1 block" href="#">
-                          <span className="fa fa-envelope"></span> +24 emails
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
+                <div className="mt1">
+                  {this.renderHighlights()}
                 </div>
                 {this.renderAction()}
               </form>
@@ -72,12 +60,32 @@ export default AuthenticatedComponent(class NewPost extends React.Component {
     )
   }
 
+  renderHighlights() {
+    const {highlights} = this.state
+
+    return List(highlights).map((highlight) => {
+      const handleHighlightAction = this.genHandleHighlightAction(highlight.content)
+
+      return (
+        <a className="block p1" href="#" onClick={handleHighlightAction}>
+          <Highlight highlight={highlight} />
+        </a>
+      )
+    })
+  }
+
   renderAction() {
     if (this.state.body.length > 0) {
       return <div className="mt2">
         <Button>Post</Button>
       </div>
     }
+  }
+
+  onHighlightsChange() {
+    this.setState({
+      highlights: HighlightsStore.all()
+    })
   }
 
   handleTextareaChange(e) {
@@ -93,9 +101,11 @@ export default AuthenticatedComponent(class NewPost extends React.Component {
     this.setState({body: ''})
   }
 
-  handleServiceClick(e) {
-    e.preventDefault()
-    this.appendToBody("[assemblymade/meta#79a3474](https://github.com/assemblymade/meta/commit/79a3474f1eb17f72f44f0b64a624244de8621486)")
+  genHandleHighlightAction(text) {
+    return (e) => {
+      e.preventDefault()
+      this.appendToBody(text)
+    }
   }
 
   appendToBody(text) {

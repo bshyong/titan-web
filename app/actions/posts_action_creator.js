@@ -4,9 +4,9 @@ import SessionStore from 'stores/session_store'
 
 export default {
 
-  fetchAll(org_id, params) {
+  fetchAll(changelog_id, params) {
     request({
-      url: `${API_URL}/changelogs/${org_id}/posts`,
+      url: `${API_URL}/changelogs/${changelog_id}/posts`,
       method: 'get',
       error: (err) => {},
       success: (resp) => {
@@ -18,13 +18,13 @@ export default {
     })
   },
 
-  create(org_id, params) {
+  create(changelog_id, params) {
     Dispatcher.dispatch({
       type: 'POST_CREATING'
     })
 
     request({
-      url: `${API_URL}/changelogs/${org_id}/posts`,
+      url: `${API_URL}/changelogs/${changelog_id}/posts`,
       method: 'post',
       data: {
         post: {

@@ -7,7 +7,7 @@ import React from 'react'
 const Post = React.createClass({
 
   propTypes: {
-    post: React.PropTypes.shape({
+    story: React.PropTypes.shape({
       body: React.PropTypes.string.isRequired
     }).isRequired
   },
@@ -19,7 +19,7 @@ const Post = React.createClass({
   },
 
   render() {
-    const {post: {user, body}} = this.props
+    const {story: {user, body}} = this.props
     const [title] = body.split("\n\n")
     let b = (
       <div>{title}<a className="silver" href="#" onClick={this.handleOpen}> <span className="fa fa-plus-circle"></span></a></div>
