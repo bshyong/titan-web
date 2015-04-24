@@ -6,7 +6,7 @@ export default {
 
   fetchAll(changelog_id, params) {
     request({
-      url: `${API_URL}/changelogs/${changelog_id}/posts`,
+      url: `${API_URL}/changelogs/${changelog_id}/stories`,
       method: 'get',
       error: (err) => {},
       success: (resp) => {
@@ -24,7 +24,7 @@ export default {
     })
 
     request({
-      url: `${API_URL}/changelogs/${changelog_id}/posts`,
+      url: `${API_URL}/changelogs/${changelog_id}/stories`,
       method: 'post',
       data: {
         post: {
