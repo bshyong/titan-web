@@ -12,7 +12,7 @@ import Tile from 'components/ui/tile.js.jsx'
 
 import {List} from 'immutable'
 
-export default AuthenticatedComponent(class NewPost extends React.Component {
+export default AuthenticatedComponent(class NewStory extends React.Component {
   constructor() {
     this.state = {
       body: '',

@@ -2,11 +2,11 @@ require('basscss/css/basscss.css')
 import {List} from 'immutable'
 import {RouteHandler} from 'react-router'
 import AuthenticatedComponent from 'components/authenticated_component.js.jsx'
-import NewPost from 'components/new_post.js.jsx'
+import NewStory from 'components/new_story.js.jsx'
 import OrgHeader from 'components/org_header.js.jsx'
 import Story from 'components/story.js.jsx'
 import StoriesActionCreator from 'actions/stories_action_creator'
-import PostsStore from 'stores/posts_store'
+import StoriesStore from 'stores/stories_store'
 import React from 'react'
 import RouterContainer from 'lib/router_container'
 import Timeline from 'components/ui/timeline.js.jsx'
@@ -16,34 +16,35 @@ export default AuthenticatedComponent(class Org extends React.Component {
     props.changelogId = RouterContainer.get().getCurrentParams().changelogId
     super(props)
     this.state = {
-      posts: []
+      stories: []
     }
   }
 
   componentDidMount() {
-    this.changeListener = this.onPostAdded.bind(this)
-    PostsStore.addChangeListener(this.changeListener)
+    this.changeListener = this.onStoryAdded.bind(this)
+    StoriesStore.addChangeListener(this.changeListener)
     StoriesActionCreator.fetchAll(this.props.changelogId)
   }
 
   componentWillUnmount() {
-    PostsStore.removeChangeListener(this.changeListener)
+    StoriesStore.removeChangeListener(this.changeListener)
   }
 
-  onPostAdded() {
+  onStoryAdded() {
     this.setState({
-      posts: PostsStore.all()
+      stories: StoriesStore.all()
     })
   }
 
   render() {
-    const posts = List(this.state.posts).sortBy((post) => { return post.created_at }).reverse().map((post) => {
-      return (
-        <div className="mb2" key={post.id}>
-          <Story story={post} />
+    const stories = List(this.state.stories).
+                    sortBy(story => story.created_at).
+                    reverse().map(story => (
+        <div className="mb2" key={story.id}>
+          <Story story={story} />
         </div>
       )
-    })
+    )
 
     return (
       <div>
@@ -53,8 +54,8 @@ export default AuthenticatedComponent(class Org extends React.Component {
           <Timeline>
             <div className="ml2 px3 py2 mid-gray">Today</div>
 
-            {this.props.signedIn ? <NewPost org={{id: this.props.changelogId}} /> : null}
-            {posts}
+            {this.props.signedIn ? <NewStory org={{id: this.props.changelogId}} /> : null}
+            {stories}
           </Timeline>
 
           <RouteHandler />

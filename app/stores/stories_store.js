@@ -1,19 +1,19 @@
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
 
-class PostsStore extends Store {
+class StoriesStore extends Store {
   constructor() {
-    this.posts = []
+    this.stories = []
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
-        case 'POST_CREATING':
+        case 'STORY_CREATING':
           break;
-        case 'POSTS_FETCHED':
-          this.posts = action.posts
+        case 'STORIES_FETCHED':
+          this.stories = action.stories
           this.emitChange()
           break;
-        case 'POST_FETCH':
-          this.posts.unshift(action.post)
+        case 'STORY_FETCH':
+          this.stories.unshift(action.story)
           this.emitChange()
           break;
         default:
@@ -23,8 +23,8 @@ class PostsStore extends Store {
   }
 
   all() {
-    return this.posts
+    return this.stories
   }
 }
 
-export default new PostsStore()
+export default new StoriesStore()

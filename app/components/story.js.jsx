@@ -4,7 +4,7 @@ import Avatar from 'components/avatar.js.jsx'
 import Markdown from 'components/ui/markdown.js.jsx'
 import React from 'react'
 
-const Post = React.createClass({
+const Story = React.createClass({
 
   propTypes: {
     story: React.PropTypes.shape({
@@ -53,4 +53,4 @@ const Post = React.createClass({
   }
 })
 
-export default Post
+export default Story

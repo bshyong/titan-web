@@ -1,5 +1,4 @@
 require('basscss/css/basscss.css')
-import PostsActionCreator from 'actions/highlights_action_creator'
 import HighlightsStore from 'stores/highlights_store'
 import React from 'react'
 

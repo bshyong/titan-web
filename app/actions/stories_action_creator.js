@@ -11,8 +11,8 @@ export default {
       error: (err) => {},
       success: (resp) => {
         Dispatcher.dispatch({
-          type: 'POSTS_FETCHED',
-          posts: resp
+          type: 'STORIES_FETCHED',
+          stories: resp
         })
       }
     })
@@ -20,14 +20,14 @@ export default {
 
   create(changelog_id, params) {
     Dispatcher.dispatch({
-      type: 'POST_CREATING'
+      type: 'STORY_CREATING'
     })
 
     request({
       url: `${API_URL}/changelogs/${changelog_id}/stories`,
       method: 'post',
       data: {
-        post: {
+        story: {
           username: SessionStore.user.username,
           body: params.body
         }
@@ -35,8 +35,8 @@ export default {
       error: (err) => {},
       success: (resp) => {
         Dispatcher.dispatch({
-          type: 'POST_FETCH',
-          post: resp
+          type: 'STORY_FETCH',
+          story: resp
         })
       }
     })
