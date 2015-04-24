@@ -20,7 +20,6 @@ import LogoSrc from 'images/logo.svg'
 
 export default class App extends React.Component {
   constructor(props) {
-    props.changelogId = RouterContainer.get().getCurrentParams().changelogId
     super(props)
     this.state = {
       user: SessionStore.user
@@ -28,14 +27,13 @@ export default class App extends React.Component {
   }
 
   render() {
+    var changelogId = RouterContainer.get().getCurrentParams().changelogId
     return <div>
       <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
       <Navbar>
         <div className="clearfix">
           <div className="left">
-            <Link to="changelog" params={{changelogId: this.props.changelogId}} className="black">
-              <img className="block" src={LogoSrc} style={{height: '1.5rem'}} />
-            </Link>
+            {changelogId ? this.renderTopLink(changelogId) : null}
           </div>
           {this.renderUserOptions()}
         </div>
@@ -43,6 +41,12 @@ export default class App extends React.Component {
 
       <RouteHandler />
     </div>
+  }
+
+  renderTopLink(changelogId) {
+    return <Link to="changelog" params={{changelogId: changelogId}} className="black">
+      <img className="block" src={LogoSrc} style={{height: '1.5rem'}} />
+    </Link>
   }
 
   renderUserOptions() {
