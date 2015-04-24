@@ -2,13 +2,13 @@ require('basscss/css/basscss.css')
 import AuthenticatedComponent from 'components/authenticated_component.js.jsx'
 import Avatar from 'components/avatar.js.jsx'
 import Button from 'components/ui/button.js.jsx'
-import PostsActionCreator from 'actions/posts_action_creator'
+import Highlight from 'components/highlight.js.jsx'
+import HighlightsActionCreator from 'actions/highlights_action_creator'
+import HighlightsStore from 'stores/highlights_store'
+import StoriesActionCreator from 'actions/stories_action_creator'
 import React from 'react'
 import Textarea from 'react-textarea-autosize'
 import Tile from 'components/ui/tile.js.jsx'
-import Highlight from 'components/highlight.js.jsx'
-import HighlightsStore from 'stores/highlights_store'
-import HighlightsActionCreator from 'actions/highlights_action_creator'
 
 import {List} from 'immutable'
 
@@ -95,7 +95,7 @@ export default AuthenticatedComponent(class NewPost extends React.Component {
   handleSubmit(e) {
     e.preventDefault()
     const {org: {id: id}} = this.props
-    PostsActionCreator.create(id, {
+    StoriesActionCreator.create(id, {
       body: this.refs.body.getDOMNode().value,
     })
     this.setState({body: ''})

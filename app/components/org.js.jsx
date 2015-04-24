@@ -5,7 +5,7 @@ import AuthenticatedComponent from 'components/authenticated_component.js.jsx'
 import NewPost from 'components/new_post.js.jsx'
 import OrgHeader from 'components/org_header.js.jsx'
 import Story from 'components/story.js.jsx'
-import PostsActionCreator from 'actions/posts_action_creator'
+import StoriesActionCreator from 'actions/stories_action_creator'
 import PostsStore from 'stores/posts_store'
 import React from 'react'
 import RouterContainer from 'lib/router_container'
@@ -23,7 +23,7 @@ export default AuthenticatedComponent(class Org extends React.Component {
   componentDidMount() {
     this.changeListener = this.onPostAdded.bind(this)
     PostsStore.addChangeListener(this.changeListener)
-    PostsActionCreator.fetchAll(this.props.changelogId)
+    StoriesActionCreator.fetchAll(this.props.changelogId)
   }
 
   componentWillUnmount() {
