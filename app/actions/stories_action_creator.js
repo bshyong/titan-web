@@ -26,11 +26,11 @@ export default {
     request({
       url: `${API_URL}/changelogs/${changelog_id}/stories`,
       method: 'post',
+      headers: {
+        'Authorization': 'Bearer ' + SessionStore.jwt
+      },
       data: {
-        story: {
-          username: SessionStore.user.username,
-          body: params.body
-        }
+        body: params.body
       },
       error: (err) => {},
       success: (resp) => {
@@ -41,5 +41,4 @@ export default {
       }
     })
   }
-
 }
