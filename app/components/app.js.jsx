@@ -30,15 +30,6 @@ export default class App extends React.Component {
     var changelogId = RouterContainer.get().getCurrentParams().changelogId
     return <div>
       <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
-      <Navbar>
-        <div className="clearfix">
-          <div className="left">
-            {changelogId ? this.renderTopLink(changelogId) : null}
-          </div>
-          {this.renderUserOptions()}
-        </div>
-      </Navbar>
-
       <RouteHandler />
     </div>
   }

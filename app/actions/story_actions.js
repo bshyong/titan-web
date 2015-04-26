@@ -26,7 +26,7 @@ export default {
     })
   },
 
-  create(changelog_id, params) {
+  publish(changelog_id, params) {
     Dispatcher.dispatch({
       type: 'STORY_CREATING'
     })

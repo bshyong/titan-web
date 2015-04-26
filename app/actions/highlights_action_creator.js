@@ -18,4 +18,18 @@ export default {
     })
   },
 
+  ignore(highlight) {
+    Dispatcher.dispatch({
+      type: 'HIGHLIGHT_IGNORED',
+      highlight: highlight
+    })
+  },
+
+  use(highlight) {
+    Dispatcher.dispatch({
+      type: 'HIGHLIGHT_USED',
+      highlight: highlight
+    })
+  }
+
 }

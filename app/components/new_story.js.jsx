@@ -67,9 +67,9 @@ export default AuthenticatedComponent(class NewStory extends React.Component {
       const handleHighlightAction = this.genHandleHighlightAction(highlight.content)
 
       return (
-        <a className="block p1" href="#" onClick={handleHighlightAction}>
+        <div className="block p1">
           <Highlight highlight={highlight} />
-        </a>
+        </div>
       )
     })
   }
