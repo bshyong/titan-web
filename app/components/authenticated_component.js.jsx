@@ -1,4 +1,6 @@
+import NotFound from 'components/not_found.js.jsx'
 import React from 'react'
+import RoutesStore from 'stores/routes_store'
 import SessionStore from 'stores/session_store'
 
 export default (ComposedComponent) => {
@@ -7,7 +9,6 @@ export default (ComposedComponent) => {
     static willTransitionTo(transition) {
       if (!SessionStore.isSignedIn()) {
         console.error('must login...')
-        // transition.redirect('/login', {}, {'nextPath' : transition.path})
       }
     }
 
@@ -17,14 +18,20 @@ export default (ComposedComponent) => {
 
     componentDidMount() {
       this.changeListener = this._onChange.bind(this)
+      RoutesStore.addChangeListener(this.changeListener)
       SessionStore.addChangeListener(this.changeListener)
     }
 
     componentWillUnmount() {
+      RoutesStore.removeChangeListener(this.changeListener)
       SessionStore.removeChangeListener(this.changeListener)
     }
 
     render() {
+      if (!this.state.resourceFound) {
+        return <NotFound />
+      }
+
       return (
       <ComposedComponent
         {...this.props}
@@ -35,6 +42,7 @@ export default (ComposedComponent) => {
 
     getStateFromStores() {
       return {
+        resourceFound: RoutesStore.resourceFound,
         signedIn: SessionStore.isSignedIn(),
         user: SessionStore.user
       }

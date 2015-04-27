@@ -26,7 +26,6 @@ export default {
       error: (err) => {},
       success: (resp) => {
         this.signinFromToken(resp.token)
-        console.log(resp.return_url)
         RouterContainer.get().transitionTo(resp.return_url);
       }
     })

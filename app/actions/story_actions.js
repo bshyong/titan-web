@@ -1,5 +1,8 @@
+import { RESOURCE_NOT_FOUND, RESOURCE_FOUND } from 'constants'
+
 import Dispatcher from '../lib/dispatcher'
 import request from 'reqwest'
+import RouterContainer from 'lib/router_container'
 import SessionStore from 'stores/session_store'
 
 export default {
@@ -8,8 +11,13 @@ export default {
     request({
       url: `${API_URL}/changelogs/${changelog_id}/stories`,
       method: 'get',
-      error: (err) => {},
+      error: (err) => {
+        if (err.status == 404) {
+          Dispatcher.dispatch({type: RESOURCE_NOT_FOUND})
+        }
+      },
       success: (resp) => {
+        Dispatcher.dispatch({type: RESOURCE_FOUND})
         Dispatcher.dispatch({
           type: 'STORIES_FETCHED',
           stories: resp
@@ -32,7 +40,7 @@ export default {
       data: {
         body: params.body
       },
-      error: (err) => {},
+      error: (err) => { },
       success: (resp) => {
         Dispatcher.dispatch({
           type: 'STORY_FETCH',

@@ -5,13 +5,13 @@ import AuthenticatedComponent from 'components/authenticated_component.js.jsx'
 import NewStory from 'components/new_story.js.jsx'
 import OrgHeader from 'components/org_header.js.jsx'
 import Story from 'components/story.js.jsx'
-import StoriesActionCreator from 'actions/stories_action_creator'
+import StoryActions from 'actions/story_actions'
 import StoriesStore from 'stores/stories_store'
 import React from 'react'
 import RouterContainer from 'lib/router_container'
 import Timeline from 'components/ui/timeline.js.jsx'
 
-export default AuthenticatedComponent(class Org extends React.Component {
+export default AuthenticatedComponent(class Changelog extends React.Component {
   constructor(props) {
     props.changelogId = RouterContainer.get().getCurrentParams().changelogId
     super(props)
@@ -23,7 +23,7 @@ export default AuthenticatedComponent(class Org extends React.Component {
   componentDidMount() {
     this.changeListener = this.onStoryAdded.bind(this)
     StoriesStore.addChangeListener(this.changeListener)
-    StoriesActionCreator.fetchAll(this.props.changelogId)
+    StoryActions.fetchAll(this.props.changelogId)
   }
 
   componentWillUnmount() {

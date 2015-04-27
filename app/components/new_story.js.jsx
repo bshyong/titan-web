@@ -5,7 +5,7 @@ import Button from 'components/ui/button.js.jsx'
 import Highlight from 'components/highlight.js.jsx'
 import HighlightsActionCreator from 'actions/highlights_action_creator'
 import HighlightsStore from 'stores/highlights_store'
-import StoriesActionCreator from 'actions/stories_action_creator'
+import StoryActions from 'actions/story_actions'
 import React from 'react'
 import Textarea from 'react-textarea-autosize'
 import Tile from 'components/ui/tile.js.jsx'
@@ -95,7 +95,7 @@ export default AuthenticatedComponent(class NewStory extends React.Component {
   handleSubmit(e) {
     e.preventDefault()
     const {org: {id: id}} = this.props
-    StoriesActionCreator.create(id, {
+    StoryActions.create(id, {
       body: this.refs.body.getDOMNode().value,
     })
     this.setState({body: ''})
