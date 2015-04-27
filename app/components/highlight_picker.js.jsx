@@ -5,6 +5,7 @@ import HighlightsStore from 'stores/highlights_store'
 import {Link} from 'react-router'
 import RouterContainer from 'lib/router_container'
 import Icon from 'components/ui/icon.js.jsx'
+import {List} from 'immutable'
 
 export default class HighlightPicker extends React.Component {
 
@@ -26,11 +27,13 @@ export default class HighlightPicker extends React.Component {
 
   render() {
     const changelogId = RouterContainer.get().getCurrentParams().changelogId
-    const highlights = this.state.highlights.map((highlight) => {
-      return <div className="border-bottom" key={highlight.id} >
-        <Highlight highlight={highlight} />
-      </div>
-    })
+    const highlights = List(this.state.highlights)
+      .sortBy((highlight) => { return -highlight.updated_at })
+      .map((highlight) => {
+        return <div className="border-bottom" key={highlight.id} >
+          <Highlight highlight={highlight} />
+        </div>
+      })
 
     return (
       <div className="bg-white">
