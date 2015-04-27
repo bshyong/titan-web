@@ -3,6 +3,8 @@ import Highlight from 'components/highlight.js.jsx'
 import HighlightsActionCreator from 'actions/highlights_action_creator'
 import HighlightsStore from 'stores/highlights_store'
 import {Link} from 'react-router'
+import RouterContainer from 'lib/router_container'
+import Icon from 'components/ui/icon.js.jsx'
 
 export default class HighlightPicker extends React.Component {
 
@@ -23,20 +25,21 @@ export default class HighlightPicker extends React.Component {
   }
 
   render() {
-    const {highlights} = this.state
-    let card
-
-    if (highlights.length > 0) {
-      card = <Highlight highlight={highlights[0]} />
-    } else {
-      card = <div className="flex-auto flex-center">
-        <Link to="new">Done!</Link>
+    const changelogId = RouterContainer.get().getCurrentParams().changelogId
+    const highlights = this.state.highlights.map((highlight) => {
+      return <div className="border-bottom" key={highlight.id} >
+        <Highlight highlight={highlight} />
       </div>
-    }
+    })
 
     return (
-      <div className="flex flex-column absolute top-0 bottom-0 left-0 right-0 bg-light-gray p2 ">
-        {card}
+      <div className="bg-white">
+        <div className="px2 py1 bg-light-gray">
+          <Link to="new" params={{changelogId: changelogId}}>
+            <Icon icon="angle-left" /> Back
+          </Link>
+        </div>
+        {highlights}
       </div>
     )
   }

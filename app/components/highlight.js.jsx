@@ -17,26 +17,21 @@ export default class Highlight extends React.Component {
     } = this.props
 
     return (
-      <div className="flex-auto flex flex-column bg-white border rounded">
-        <div className="flex-auto flex flex-center">
-          <div className="full-width center p3">
-            <h2 className="mt0 mb2 block">{label}</h2>
-            <div className="gray">{why}</div>
-          </div>
+      <div className="flex flex-center px1">
 
+        <div className="flex-auto p1">
+          <h4 className="mt0 mb0 block">{label}</h4>
+          <div className="h5 gray">{why}</div>
         </div>
 
-        <div className="flex-none clearfix border-top">
-          <div className="flex">
-            <a className="half-width center p2 gray" onClick={this.handleIgnore}>
-              Ignore
-            </a>
-            <div className="border-left"></div>
-            <a className="half-width center p2 green" onClick={this.handleUse}>
-              Use
-            </a>
-          </div>
-        </div>
+        <a className="flex-none center p1 green" onClick={this.handleUse} href="#">
+          Use
+        </a>
+
+        <a className="flex-none center p1 gray" onClick={this.handleIgnore} href="#">
+          Ignore
+        </a>
+
       </div>
     )
   }

@@ -23,6 +23,11 @@ export default {
       type: 'HIGHLIGHT_IGNORED',
       highlight: highlight
     })
+
+    request({
+      url: `${API_URL}/${highlight.url}/archive`,
+      method: 'POST'
+    })
   },
 
   use(highlight) {

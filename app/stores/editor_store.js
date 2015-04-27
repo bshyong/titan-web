@@ -10,6 +10,10 @@ class EditorStore extends Store {
           this.text = action.text
           this.emitChange()
           break;
+        case 'STORY_PUBLISHED':
+          this.text = ''
+          this.emitChange()
+          break;
         case 'HIGHLIGHT_USED':
           this.text += action.highlight.content
           this.emitChange()

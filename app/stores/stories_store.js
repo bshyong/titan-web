@@ -12,7 +12,7 @@ class StoriesStore extends Store {
           this.stories = action.stories
           this.emitChange()
           break;
-        case 'STORY_FETCH':
+        case 'STORY_PUBLISHED':
           this.stories.unshift(action.story)
           this.emitChange()
           break;

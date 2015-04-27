@@ -5,8 +5,9 @@ import Icon from 'components/ui/icon.js.jsx'
 import HighlightsStore from 'stores/highlights_store'
 import EditorStore from 'stores/editor_store'
 import HighlightsActionCreator from 'actions/highlights_action_creator'
-import StoriesActionCreator from 'actions/stories_action_creator'
+import StoriesActionCreator from 'actions/story_actions'
 import {Link} from 'react-router'
+import RouterContainer from 'lib/router_container'
 
 export default class Playground extends React.Component {
   constructor(props) {
@@ -37,11 +38,12 @@ export default class Playground extends React.Component {
 
   render() {
     const {highlights} = this.state
+    const changelogId = RouterContainer.get().getCurrentParams().changelogId
 
     let highlightsLink
 
     if (highlights.length > 0) {
-      highlightsLink = <Link to="highlights" className="block left p1 blue">
+      highlightsLink = <Link to="highlights" params={{changelogId: changelogId}} className="block left p1 blue">
         {highlights.length} highlights
       </Link>
     }

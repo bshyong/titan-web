@@ -43,8 +43,12 @@ export default {
       error: (err) => { },
       success: (resp) => {
         Dispatcher.dispatch({
-          type: 'STORY_FETCH',
+          type: 'STORY_PUBLISHED',
           story: resp
+        })
+
+        RouterContainer.get().transitionTo('changelog', {
+          changelogId: 'assembly'
         })
       }
     })
