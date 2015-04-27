@@ -15,7 +15,6 @@ export default class HighlightPicker extends React.Component {
   }
 
   componentDidMount() {
-    // HighlightsActionCreator.fetchAll('assembly')
     HighlightsStore.addChangeListener(this.onStoreChange)
   }
 

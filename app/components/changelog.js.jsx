@@ -53,8 +53,6 @@ export default AuthenticatedComponent(class Changelog extends React.Component {
         <div className="container sm-col-8">
           <Timeline>
             <div className="ml2 px3 py2 mid-gray">Today</div>
-
-            {this.props.signedIn ? <NewStory org={{id: this.props.changelogId}} /> : null}
             {stories}
           </Timeline>
 

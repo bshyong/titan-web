@@ -1,6 +1,7 @@
 require('basscss/css/basscss.css')
 import classnames from 'classnames'
 import React from 'react'
+import {Link} from 'react-router'
 
 const OrgHeader = React.createClass({
   render() {
@@ -13,6 +14,10 @@ const OrgHeader = React.createClass({
           <h3 className="mt0 mb0 left" style={{lineHeight: '2.5rem'}}>
             Meta
           </h3>
+
+          <div className="right">
+            <Link className="block py1 px2" to="new">Write</Link>
+          </div>
         </div>
       </div>
     )
