@@ -61,7 +61,6 @@ export default class Playground extends React.Component {
               <a className="block left p1 black" onClick={this.handleTogglePrivacy} onTouchStart={this.handleTogglePrivacy}>
                 <Icon icon={this.state.public ? 'globe' : 'lock'} fw={true} />
               </a>
-              {highlightsLink}
             </div>
 
           </div>

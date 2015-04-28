@@ -4,11 +4,11 @@ import HighlightsActionCreator from 'actions/highlights_action_creator'
 import React from 'react'
 import Icon from 'components/ui/icon.js.jsx'
 
-const Sources = [
-  {name: 'Github', icon: 'github'},
-  {name: 'Trello', icon: 'trello'},
-  {name: 'Slack', icon: 'slack'}
-]
+const Sources = {
+  'slack': 'slack',
+  'trello-reporter': 'trello',
+  'githubber': 'github'
+}
 
 export default class Highlight extends React.Component {
   constructor(props) {
@@ -25,21 +25,21 @@ export default class Highlight extends React.Component {
     return (
       <div className="flex flex-center px1">
 
-        <div className="flex-none px1">
-          {this.source()}
-        </div>
+        <div className="flex-auto pointer" onClick={this.handleUse}>
+          <div className="flex flex-center">
+            <div className="flex-none px1">
+              {this.source()}
+            </div>
 
-        <div className="flex-auto p1">
-          <h4 className="mt0 mb0 block">{label}</h4>
-          <div className="h5 gray">{why}</div>
+            <div className="flex-auto p1">
+              <h4 className="mt0 mb0 block">{label}</h4>
+              <p className="gray h5 mb0">{why}</p>
+            </div>
+          </div>
         </div>
-
-        <a className="flex-none center p1 green" onClick={this.handleUse} href="#">
-          Use
-        </a>
 
         <a className="flex-none center p1 gray" onClick={this.handleIgnore} href="#">
-          <Icon icon="times-circle" />
+          <Icon icon="times-circle" fw={true} />
         </a>
 
       </div>
@@ -47,10 +47,10 @@ export default class Highlight extends React.Component {
   }
 
   source() {
-    const s = Sources[Math.floor(Math.random() * Sources.length)]
+    const icon = Sources[this.props.highlight.source]
     return (
-      <div className="h3">
-        <Icon icon={s.icon} />
+      <div className="h3 light-gray">
+        <Icon icon={icon} fw={true} />
       </div>
     )
   }
