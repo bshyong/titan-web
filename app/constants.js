@@ -1,6 +1,8 @@
 var keyMirror = require('keymirror')
 
 export default keyMirror({
+  CHANGELOG_FETCHED: null,
+  
   RESOURCE_FOUND: null,
   RESOURCE_NOT_FOUNE: null,
 

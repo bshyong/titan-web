@@ -13,11 +13,11 @@ export default {
       method: 'get',
       error: (err) => {
         if (err.status == 404) {
-          Dispatcher.dispatch({type: RESOURCE_NOT_FOUND})
+          Dispatcher.dispatch({ type: RESOURCE_NOT_FOUND })
         }
       },
       success: (resp) => {
-        Dispatcher.dispatch({type: RESOURCE_FOUND})
+        Dispatcher.dispatch({ type: RESOURCE_FOUND })
         Dispatcher.dispatch({
           type: 'STORIES_FETCHED',
           stories: resp
@@ -48,7 +48,7 @@ export default {
         })
 
         RouterContainer.get().transitionTo('changelog', {
-          changelogId: 'assembly'
+          changelogId: changelog_id
         })
         analytics.track('Wrote Story', {
           storyLength: params.body.length

@@ -1,3 +1,4 @@
+import ChangelogStore from 'stores/changelog_store'
 import React from 'react'
 import Button from 'components/ui/button.js.jsx'
 import Editor from 'components/editor.js.jsx'
@@ -80,7 +81,7 @@ export default class Playground extends React.Component {
 
   _handlePublish(e) {
     e.preventDefault()
-    StoriesActionCreator.publish('assembly', {
+    StoriesActionCreator.publish(ChangelogStore.slug, {
       body: this.state.text
     })
   }
