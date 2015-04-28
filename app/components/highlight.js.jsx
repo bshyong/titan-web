@@ -4,6 +4,12 @@ import HighlightsActionCreator from 'actions/highlights_action_creator'
 import React from 'react'
 import Icon from 'components/ui/icon.js.jsx'
 
+const Sources = [
+  {name: 'Github', icon: 'github'},
+  {name: 'Trello', icon: 'trello'},
+  {name: 'Slack', icon: 'slack'}
+]
+
 export default class Highlight extends React.Component {
   constructor(props) {
     super(props)
@@ -19,6 +25,10 @@ export default class Highlight extends React.Component {
     return (
       <div className="flex flex-center px1">
 
+        <div className="flex-none px1">
+          {this.source()}
+        </div>
+
         <div className="flex-auto p1">
           <h4 className="mt0 mb0 block">{label}</h4>
           <div className="h5 gray">{why}</div>
@@ -29,9 +39,18 @@ export default class Highlight extends React.Component {
         </a>
 
         <a className="flex-none center p1 gray" onClick={this.handleIgnore} href="#">
-          Ignore
+          <Icon icon="times-circle" />
         </a>
 
+      </div>
+    )
+  }
+
+  source() {
+    const s = Sources[Math.floor(Math.random() * Sources.length)]
+    return (
+      <div className="h3">
+        <Icon icon={s.icon} />
       </div>
     )
   }
