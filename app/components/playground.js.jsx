@@ -49,7 +49,7 @@ export default class Playground extends React.Component {
     }
 
     return (
-      <div className="flex flex-column full-width absolute top-0 bottom-0">
+      <div className="flex flex-column full-width absolute bottom-0" style={{top: 57}}>
         <div className="flex-auto flex bg-light-gray">
           <Editor />
         </div>
