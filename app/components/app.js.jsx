@@ -66,9 +66,21 @@ export default class App extends React.Component {
     }
   }
 
+  identifyUser() {
+    var user = SessionStore.user
+    if(user){
+      analytics.identify(user.id, {
+        email: user.email,
+        avatar: user.avatar_url,
+        username: user.username,
+      })
+    }
+  }
+
   componentDidMount() {
     this.changeListener = this._onChange.bind(this)
     SessionStore.addChangeListener(this.changeListener)
+    this.identifyUser()
   }
 
   componentWillUnmount() {
@@ -79,5 +91,6 @@ export default class App extends React.Component {
     this.setState({
       user: SessionStore.user
     })
+    this.identifyUser()
   }
 }
