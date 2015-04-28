@@ -38,7 +38,7 @@ export default class HighlightPicker extends React.Component {
     return (
       <div className="bg-white">
         <div className="px2 py1 bg-light-gray">
-          <Link to="new" params={{changelogId: changelogId}}>
+          <Link to="changelog" params={{changelogId: changelogId}}>
             <Icon icon="angle-left" /> Back
           </Link>
         </div>
