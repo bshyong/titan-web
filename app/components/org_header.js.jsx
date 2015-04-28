@@ -19,7 +19,7 @@ export default class OrgHeader extends React.Component {
           </h3>
 
           <div className="right">
-            <Link className="block py1 px2" to="new" params={{changelogId: changelogId}}>Write</Link>
+            <Link className="block py1 px2" to="highlights" params={{changelogId: changelogId}}>Write</Link>
           </div>
         </div>
       </div>

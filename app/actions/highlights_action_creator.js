@@ -1,6 +1,7 @@
 import Dispatcher from '../lib/dispatcher'
 import request from 'reqwest'
 import SessionStore from 'stores/session_store'
+import RouterContainer from 'lib/router_container'
 
 export default {
 
@@ -35,6 +36,7 @@ export default {
       type: 'HIGHLIGHT_USED',
       highlight: highlight
     })
+    RouterContainer.get().transitionTo('new', {changelogId: 'assembly'})
   }
 
 }
