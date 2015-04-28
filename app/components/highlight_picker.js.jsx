@@ -28,7 +28,7 @@ export default class HighlightPicker extends React.Component {
   render() {
     const changelogId = RouterContainer.get().getCurrentParams().changelogId
     const highlights = List(this.state.highlights)
-      .sortBy((highlight) => { return highlight.updated_at })
+      .sortBy((highlight) => { return highlight.created_at })
       .reverse()
       .map((highlight) => {
         return <div className="border-bottom" key={highlight.id} >
