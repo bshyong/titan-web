@@ -29,7 +29,7 @@ export default class Editor extends React.Component {
     }
 
     return <textarea
-      className="flex-auto field-light mb0 block full-width"
+      className="field-light mb0 block full-width"
       style={style}
       placeholder="What did you do?"
       ref="textarea"
