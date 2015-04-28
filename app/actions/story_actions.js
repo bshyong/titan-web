@@ -50,6 +50,9 @@ export default {
         RouterContainer.get().transitionTo('changelog', {
           changelogId: 'assembly'
         })
+        analytics.track('Story Created', {
+          storyLength: params.body.length
+        })
       }
     })
   }
