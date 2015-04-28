@@ -3,6 +3,7 @@ import HighlightsStore from 'stores/highlights_store'
 import HighlightsActionCreator from 'actions/highlights_action_creator'
 import React from 'react'
 import Icon from 'components/ui/icon.js.jsx'
+import moment from 'moment'
 
 const Sources = {
   'slack': 'slack',
@@ -19,7 +20,7 @@ export default class Highlight extends React.Component {
 
   render() {
     const {
-      highlight: {why, label, content}
+      highlight: {why, label, content, updated_at}
     } = this.props
 
     return (
@@ -33,7 +34,9 @@ export default class Highlight extends React.Component {
 
             <div className="flex-auto p1">
               <h4 className="mt0 mb0 block">{label}</h4>
-              <p className="gray h5 mb0">{why}</p>
+              <p className="gray h5 mb0">
+                {why} &middot; {moment(updated_at).fromNow()}
+              </p>
             </div>
           </div>
         </div>
