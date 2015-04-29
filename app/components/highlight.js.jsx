@@ -20,7 +20,7 @@ export default class Highlight extends React.Component {
 
   render() {
     const {
-      highlight: {why, label, content, created_at}
+      highlight: {content, created_at}
     } = this.props
 
     return (
@@ -33,9 +33,9 @@ export default class Highlight extends React.Component {
             </div>
 
             <div className="flex-auto p1">
-              <h4 className="mt0 mb0 block">{label}</h4>
+              <h4 className="mt0 mb0 block">{content}</h4>
               <p className="gray h5 mb0">
-                {why} &middot; {moment(created_at).fromNow()}
+                {moment(created_at).fromNow()}
               </p>
             </div>
           </div>
