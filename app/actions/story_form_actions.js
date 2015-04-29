@@ -1,12 +1,10 @@
 import Dispatcher from '../lib/dispatcher'
 
 export default {
-
-  typed(text) {
+  change(fields) {
     Dispatcher.dispatch({
-      type: 'EDITOR_TYPED',
-      text: text
+      type: 'STORY_FORM_CHANGE',
+      fields: fields
     })
   }
-
 }

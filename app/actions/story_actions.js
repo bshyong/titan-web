@@ -26,7 +26,7 @@ export default {
     })
   },
 
-  publish(changelog_id, params) {
+  publish(changelog_id, data) {
     Dispatcher.dispatch({
       type: 'STORY_CREATING'
     })
@@ -37,9 +37,7 @@ export default {
       headers: {
         'Authorization': 'Bearer ' + SessionStore.jwt
       },
-      data: {
-        body: params.body
-      },
+      data: data,
       error: (err) => { },
       success: (resp) => {
         Dispatcher.dispatch({

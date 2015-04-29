@@ -1,21 +1,28 @@
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
 
-class EditorStore extends Store {
+class StoryFormStore extends Store {
   constructor() {
-    this.text = ''
+    this.title = ''
+    this.body  = ''
+    this.isPublic = false
+
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
-        case 'EDITOR_TYPED':
-          this.text = action.text
+        case 'STORY_FORM_CHANGE':
+          this.title = action.fields.title
+          this.body = action.fields.body
           this.emitChange()
           break;
+
         case 'STORY_PUBLISHED':
           this.text = ''
+          this.body = ''
           this.emitChange()
           break;
+
         case 'HIGHLIGHT_USED':
-          this.text += action.highlight.content
+          this.title = action.highlight.content
           this.emitChange()
           break;
         default:
@@ -23,6 +30,11 @@ class EditorStore extends Store {
       }
     })
   }
+
+  isValid() {
+    return this.title.length > 0
+  }
+
 }
 
-export default new EditorStore()
+export default new StoryFormStore()

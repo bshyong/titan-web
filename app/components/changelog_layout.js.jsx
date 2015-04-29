@@ -1,12 +1,12 @@
 require('basscss/css/basscss.css')
-import {Link} from 'react-router'
+import {Link, RouteHandler} from 'react-router'
 import classnames from 'classnames'
 import ChangelogActions from 'actions/changelog_actions'
 import ChangelogStore from 'stores/changelog_store'
 import React from 'react'
 import RouterContainer from 'lib/router_container'
 
-export default class OrgHeader extends React.Component {
+export default class ChangelogLayout extends React.Component {
   constructor() {
     this.state = {
       changelog: ChangelogStore.changelog
@@ -27,21 +27,27 @@ export default class OrgHeader extends React.Component {
     if (!this.state.changelog) {
       return <div />
     }
+
     const color = "black"
     const bg = "white"
     const cn = classnames("py2 border-bottom", `bg-${bg}`, color)
     const changelogId = RouterContainer.get().getCurrentParams().changelogId
 
     return (
-      <div className={cn}>
-        <div className="container sm-col-8 clearfix">
-          <h3 className="mt0 mb0 left" style={{lineHeight: '2.5rem'}}>
-            {this.state.changelog.name}
-          </h3>
+      <div>
+        <div className={cn}>
+          <div className="container sm-col-8 clearfix">
+            <h3 className="mt0 mb0 left" style={{lineHeight: '2.5rem'}}>
+              {this.state.changelog.name}
+            </h3>
 
-          <div className="right">
-            <Link className="block py1 px2" to="highlights" params={{changelogId: changelogId}}>Write</Link>
+            <div className="right">
+              <Link className="block py1 px2" to="highlights" params={{changelogId: changelogId}}>Write</Link>
+            </div>
           </div>
+        </div>
+        <div className="container sm-col-8 relative">
+          <RouteHandler />
         </div>
       </div>
     )

@@ -11,21 +11,23 @@ import React from 'react'
 import SigninSSO from 'components/signin_sso.js.jsx'
 
 import StoryComposer from 'components/story_composer.js.jsx'
-import Playground from 'components/playground.js.jsx'
+import StoryForm from 'components/story_form.js.jsx'
 import HighlightPicker from 'components/highlight_picker.js.jsx'
+import ChangelogLayout from 'components/changelog_layout.js.jsx'
 
 export default (
   <Route handler={App}>
     <Route handler={SigninSSO} path='/signin/sso' name="sso" />
 
-    <Route path='/:changelogId'>
-      <Route handler={StoryComposer} path='new'>
-        <Route path='highlights' handler={HighlightPicker} name="highlights" />
-        <DefaultRoute handler={Playground} name="new" />
-      </Route>
-
+    <Route handler={ChangelogLayout} path="/:changelogId">
       <DefaultRoute handler={Changelog} name="changelog" />
+
+      <Route handler={StoryComposer} path="new">
+        <DefaultRoute handler={StoryForm} name="new" />
+        <Route handler={HighlightPicker} path="highlights" name="highlights" />
+      </Route>
     </Route>
+
 
     <Redirect from="/" to="changelog" params={{changelogId: 'assembly'}} />
 
