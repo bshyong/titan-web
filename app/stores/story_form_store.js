@@ -22,7 +22,7 @@ class StoryFormStore extends Store {
           break;
 
         case 'HIGHLIGHT_USED':
-          this.title = action.highlight.content
+          this.body = action.highlight.content
           this.emitChange()
           break;
         default:
