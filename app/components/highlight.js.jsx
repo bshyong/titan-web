@@ -50,7 +50,7 @@ export default class Highlight extends React.Component {
           </div>
         </div>
 
-        <a className="flex-none center p1 gray" onClick={this.handleIgnore} href="#">
+        <a className="flex-none center p1 light-gray" onClick={this.handleIgnore} href="#">
           <Icon icon="times-circle" fw={true} />
         </a>
 
@@ -61,7 +61,7 @@ export default class Highlight extends React.Component {
   source() {
     const icon = Sources[this.props.highlight.source]
     return (
-      <div className="h3 light-gray">
+      <div className="h3 gray">
         <Icon icon={icon} fw={true} />
       </div>
     )
