@@ -1,9 +1,10 @@
 import {Link} from 'react-router'
 import Avatar from 'components/ui/avatar.jsx'
-import Markdown from 'components/ui/markdown.js.jsx'
-import React from 'react'
 import Icon from 'components/ui/icon.js.jsx'
 import Label from 'components/ui/label.jsx'
+import Markdown from 'components/ui/markdown.js.jsx'
+import React from 'react'
+import Stack from 'components/ui/stack.jsx'
 
 const Labels = [
   {name: 'Feature', color: '#0074D9', bg: '#E5F1FB'},
@@ -26,11 +27,11 @@ export default class Story extends React.Component {
 
     return (
       <div className="flex mxn1">
-        <div className="flex-auto px1">
+        <a className="flex-auto px1">
           {title}
-        </div>
+        </a>
         <div className="flex-none px1">
-          <Avatar user={user} size={24} />
+          <Stack items={[<Avatar user={user} size={24} />]} />
         </div>
       </div>
     )
