@@ -6,8 +6,9 @@ import {Link} from 'react-router'
 import RouterContainer from 'lib/router_container'
 import Icon from 'components/ui/icon.js.jsx'
 import {List} from 'immutable'
+import AuthenticatedMixin from 'components/mixins/authenticated_mixin.jsx'
 
-export default class HighlightPicker extends React.Component {
+export default AuthenticatedMixin(class HighlightPicker extends React.Component {
 
   constructor(props) {
     super(props)
@@ -53,4 +54,4 @@ export default class HighlightPicker extends React.Component {
       highlights: HighlightsStore.all()
     })
   }
-}
+})

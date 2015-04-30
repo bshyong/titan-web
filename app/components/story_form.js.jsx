@@ -12,8 +12,9 @@ import Story from 'components/story.js.jsx'
 import StoryFormStore from 'stores/story_form_store'
 
 import StoryFormActions from 'actions/story_form_actions'
+import AuthenticatedMixin from 'components/mixins/authenticated_mixin.jsx'
 
-export default class StoryForm extends React.Component {
+export default AuthenticatedMixin(class StoryForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -99,4 +100,4 @@ export default class StoryForm extends React.Component {
     })
   }
 
-}
+})

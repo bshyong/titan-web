@@ -1,6 +1,5 @@
 import {List} from 'immutable'
 import {RouteHandler} from 'react-router'
-import AuthenticatedComponent from 'components/authenticated_component.js.jsx'
 import moment from 'moment'
 import React from 'react'
 import RouterContainer from 'lib/router_container'
@@ -9,7 +8,7 @@ import Story from 'components/story.js.jsx'
 import StoryActions from 'actions/story_actions'
 import Timeline from 'components/ui/timeline.js.jsx'
 
-export default AuthenticatedComponent(class Changelog extends React.Component {
+export default class Changelog extends React.Component {
   constructor(props) {
     props.changelogId = RouterContainer.get().getCurrentParams().changelogId
     super(props)
@@ -58,4 +57,4 @@ export default AuthenticatedComponent(class Changelog extends React.Component {
     return <Timeline>{a.toJS()}</Timeline>
   }
 
-})
+}

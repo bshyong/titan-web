@@ -3,12 +3,12 @@ import React from 'react'
 import RoutesStore from 'stores/routes_store'
 import SessionStore from 'stores/session_store'
 
-export default (ComposedComponent) => {
-  return class AuthenticatedComponent extends React.Component {
+export default (AuthenticatedComponent) => {
+  return class AuthenticatedMixin extends React.Component {
 
     static willTransitionTo(transition) {
       if (!SessionStore.isSignedIn()) {
-        console.error('must login...')
+        console.error('must login...', AuthenticatedComponent.name)
       }
     }
 
@@ -33,7 +33,7 @@ export default (ComposedComponent) => {
       }
 
       return (
-      <ComposedComponent
+      <AuthenticatedComponent
         {...this.props}
         user={this.state.user}
         signedIn={this.state.signedIn} />

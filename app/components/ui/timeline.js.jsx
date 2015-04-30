@@ -10,7 +10,7 @@ export default class Timeline extends React.Component {
   render() {
     const {children} = this.props
     return (
-      <div className="px1">
+      <div className="px2">
         {children}
       </div>
     )

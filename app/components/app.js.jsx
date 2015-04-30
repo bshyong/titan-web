@@ -7,17 +7,6 @@ import SessionStore from 'stores/session_store'
 import Navbar from 'components/ui/navbar.js.jsx'
 import React from 'react'
 
-// Logo versions:
-
-// Blurry, medium weight:
-import LogoSrc from 'images/logo.svg'
-
-// Crisp-er, thin weight:
-// import LogoSrc from 'images/logo-thin.svg'
-
-// Crisp, fat weight:
-// import LogoSrc from 'images/logo-fat.svg'
-
 export default class App extends React.Component {
   constructor(props) {
     super(props)
@@ -30,16 +19,6 @@ export default class App extends React.Component {
     var changelogId = RouterContainer.get().getCurrentParams().changelogId
     return <div>
       <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
-
-      <Navbar>
-        <div className="flex-auto">
-          {changelogId ? this.renderTopLink(changelogId) : null}
-        </div>
-        <div className="flex-none">
-          {this.renderUserOptions()}
-        </div>
-       </Navbar>
-
       <RouteHandler />
     </div>
   }
