@@ -1,18 +1,17 @@
-import ChangelogStore from 'stores/changelog_store'
-import React from 'react'
-import Button from 'components/ui/button.js.jsx'
-import Icon from 'components/ui/icon.js.jsx'
-import HighlightsStore from 'stores/highlights_store'
-import HighlightsActionCreator from 'actions/highlights_action_creator'
-import StoriesActionCreator from 'actions/story_actions'
 import {Link} from 'react-router'
-import RouterContainer from 'lib/router_container'
-import Story from 'components/story.js.jsx'
-
-import StoryFormStore from 'stores/story_form_store'
-
-import StoryFormActions from 'actions/story_form_actions'
 import AuthenticatedMixin from 'components/mixins/authenticated_mixin.jsx'
+import Button from 'components/ui/button.js.jsx'
+import ChangelogStore from 'stores/changelog_store'
+import HighlightsActionCreator from 'actions/highlights_action_creator'
+import HighlightsStore from 'stores/highlights_store'
+import Icon from 'components/ui/icon.js.jsx'
+import React from 'react'
+import RouterContainer from 'lib/router_container'
+import StoriesActionCreator from 'actions/story_actions'
+import Story from 'components/story.js.jsx'
+import StoryFormActions from 'actions/story_form_actions'
+import StoryFormStore from 'stores/story_form_store'
+import Textarea from 'react-textarea-autosize'
 
 export default AuthenticatedMixin(class StoryForm extends React.Component {
   constructor(props) {
@@ -48,7 +47,7 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
         </div>
 
         <div className="mb2">
-          <textarea
+          <Textarea
             className="field-light mb0 block full-width"
             placeholder="What did you do?"
             ref="body"
