@@ -2,13 +2,16 @@ import NotFound from 'components/not_found.js.jsx'
 import React from 'react'
 import RoutesStore from 'stores/routes_store'
 import SessionStore from 'stores/session_store'
+import SessionActions from 'actions/session_actions'
+
 
 export default (AuthenticatedComponent) => {
   return class AuthenticatedMixin extends React.Component {
 
     static willTransitionTo(transition) {
       if (!SessionStore.isSignedIn()) {
-        console.error('must login...', AuthenticatedComponent.name)
+        transition.abort()
+        SessionActions.signin()
       }
     }
 
