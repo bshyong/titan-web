@@ -1,6 +1,6 @@
 import React from 'react'
 import Highlight from 'components/highlight.js.jsx'
-import HighlightsActionCreator from 'actions/highlights_action_creator'
+import HighlightsActionCreator from 'actions/highlight_actions'
 import HighlightsStore from 'stores/highlights_store'
 import {Link} from 'react-router'
 import RouterContainer from 'lib/router_container'
