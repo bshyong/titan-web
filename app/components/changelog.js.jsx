@@ -1,4 +1,3 @@
-require('basscss/css/basscss.css')
 import {List} from 'immutable'
 import {RouteHandler} from 'react-router'
 import AuthenticatedComponent from 'components/authenticated_component.js.jsx'

@@ -1,4 +1,3 @@
-require('basscss/css/basscss.css')
 import {Link} from 'react-router'
 import Avatar from 'components/avatar.js.jsx'
 import Markdown from 'components/ui/markdown.js.jsx'

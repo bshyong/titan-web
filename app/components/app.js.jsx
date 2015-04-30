@@ -1,4 +1,4 @@
-require('stylesheets')
+import 'stylesheets/application.css'
 import {Link, RouteHandler} from 'react-router'
 import Avatar from 'components/avatar.js.jsx'
 import RouterContainer from 'lib/router_container'

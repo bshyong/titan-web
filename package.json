@@ -4,11 +4,9 @@
   "scripts": {
     "start": "node index.js",
     "test": "jest --coverage",
-
     "postinstall": "npm run dist",
-
-    "dist":        "NODE_ENV=production webpack --optimize-minimize",
-    "dev":         "NODE_ENV=development node dev-server.js"
+    "dist": "NODE_ENV=production webpack --optimize-minimize",
+    "dev": "NODE_ENV=development node dev-server.js"
   },
   "engines": {
     "node": "0.10.x"
@@ -22,6 +20,7 @@
     "compression-webpack-plugin": "^0.2.0",
     "connect-gzip-static": "^1.0.0",
     "css-loader": "chrislloyd/css-loader",
+    "cssnext-loader": "^1.0.1",
     "express": "^4.12.3",
     "file-loader": "^0.8.1",
     "flux": "~2.0",

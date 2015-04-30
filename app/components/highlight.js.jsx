@@ -1,4 +1,3 @@
-require('basscss/css/basscss.css')
 import HighlightsStore from 'stores/highlights_store'
 import HighlightsActionCreator from 'actions/highlights_action_creator'
 import React from 'react'

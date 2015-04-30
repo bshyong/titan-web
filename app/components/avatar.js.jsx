@@ -1,4 +1,3 @@
-require('basscss/css/basscss.css')
 import React from 'react'
 
 const Avatar = React.createClass({

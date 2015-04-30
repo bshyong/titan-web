@@ -1,0 +1,8 @@
+@import 'basscss';
+@import 'base/typography';
+@import 'utilities/pointer';
+
+:root {
+  --bold-font-weight: 600;
+  --container-width: 48rem;
+}

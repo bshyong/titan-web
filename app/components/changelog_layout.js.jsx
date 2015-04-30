@@ -1,4 +1,3 @@
-require('basscss/css/basscss.css')
 import {Link, RouteHandler} from 'react-router'
 import classnames from 'classnames'
 import ChangelogActions from 'actions/changelog_actions'
