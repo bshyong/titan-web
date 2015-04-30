@@ -24,7 +24,7 @@ export default (
 
       <Route handler={StoryComposer} path="new">
         <DefaultRoute handler={StoryForm} name="new" />
-        <Route handler={HighlightPicker} path="highlights" name="highlights" />
+        <Route handler={HighlightPicker} path="highlights/?:filter?" name="highlights" />
       </Route>
     </Route>
 
