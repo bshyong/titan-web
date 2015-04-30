@@ -4,16 +4,32 @@
 // styling is non-existant (ATM). ~ @chrislloyd
 
 import React from 'react'
+import moment from 'moment'
 
-const Timeline = React.createClass({
+export default class Timeline extends React.Component {
   render() {
     const {children} = this.props
     return (
-      <div>
+      <div className="px1">
         {children}
       </div>
     )
   }
-})
+}
 
-export default Timeline
+class TimelineDate extends React.Component {
+  render() {
+    const {date} = this.props
+    return <div className="py2 mid-gray bold j">
+      {moment(date).format('LL')}
+    </div>
+  }
+}
+
+TimelineDate.propTypes = {
+  // It sucks having to create a new moment object to do a check - it
+  // would be nice if moment exported a class ~ @chrislloyd
+  date: React.PropTypes.instanceOf(moment().constructor).isRequired
+}
+
+Timeline.Date = TimelineDate

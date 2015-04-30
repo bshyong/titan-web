@@ -1,20 +1,13 @@
 import {List} from 'immutable'
 import {RouteHandler} from 'react-router'
 import AuthenticatedComponent from 'components/authenticated_component.js.jsx'
-import NewStory from 'components/new_story.js.jsx'
-import Story from 'components/story.js.jsx'
-import StoryActions from 'actions/story_actions'
-import StoriesStore from 'stores/stories_store'
+import moment from 'moment'
 import React from 'react'
 import RouterContainer from 'lib/router_container'
+import StoriesStore from 'stores/stories_store'
+import Story from 'components/story.js.jsx'
+import StoryActions from 'actions/story_actions'
 import Timeline from 'components/ui/timeline.js.jsx'
-import moment from 'moment'
-
-function renderDate(date) {
-  return <div className="py2 mid-gray bold j">
-    {date.format('LL')}
-  </div>
-}
 
 export default AuthenticatedComponent(class Changelog extends React.Component {
   constructor(props) {
@@ -48,8 +41,9 @@ export default AuthenticatedComponent(class Changelog extends React.Component {
                     .groupBy(story => moment(story.created_at).startOf('day'))
 
     const a = stories.reduce(function (reduction, value, key, iter) {
+      const date = key.format('l')
       let a = reduction.push(
-        renderDate(key)
+        <Timeline.Date date={key} key={key.toISOString()} />
       )
       let b = a.push(
         value.map(story => (

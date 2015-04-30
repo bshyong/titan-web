@@ -4,6 +4,7 @@ import ChangelogActions from 'actions/changelog_actions'
 import ChangelogStore from 'stores/changelog_store'
 import React from 'react'
 import RouterContainer from 'lib/router_container'
+import Navbar from 'components/ui/navbar.js.jsx'
 
 export default class ChangelogLayout extends React.Component {
   constructor() {
@@ -27,25 +28,20 @@ export default class ChangelogLayout extends React.Component {
       return <div />
     }
 
-    const color = "black"
-    const bg = "white"
-    const cn = classnames("py2 border-bottom", `bg-${bg}`, color)
     const changelogId = RouterContainer.get().getCurrentParams().changelogId
 
     return (
       <div>
-        <div className={cn}>
-          <div className="container sm-col-8 clearfix">
-            <h3 className="mt0 mb0 left" style={{lineHeight: '2.5rem'}}>
-              {this.state.changelog.name}
-            </h3>
+        <Navbar>
+          <h3 className="flex-auto mt0 mb0" style={{lineHeight: '2.5rem'}}>
+            {this.state.changelog.name}
+          </h3>
 
-            <div className="right">
-              <Link className="block py1 px2" to="highlights" params={{changelogId: changelogId}}>Write</Link>
-            </div>
+          <div className="flex-none">
+            <Link className="block py1 px2" to="highlights" params={{changelogId: changelogId}}>Write</Link>
           </div>
-        </div>
-        <div className="container sm-col-8 relative">
+        </Navbar>
+        <div className="container">
           <RouteHandler />
         </div>
       </div>

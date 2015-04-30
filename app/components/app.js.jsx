@@ -32,10 +32,10 @@ export default class App extends React.Component {
       <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
 
       <Navbar>
-        <div className="clearfix">
-          <div className="left">
-            {changelogId ? this.renderTopLink(changelogId) : null}
-          </div>
+        <div className="flex-auto">
+          {changelogId ? this.renderTopLink(changelogId) : null}
+        </div>
+        <div className="flex-none">
           {this.renderUserOptions()}
         </div>
        </Navbar>
@@ -52,17 +52,17 @@ export default class App extends React.Component {
 
   renderUserOptions() {
     if (this.state.user) {
-      return <div className="right">
+      return (
         <a href="#" onClick={SessionActions.signout}>
-          <Avatar user={this.state.user} size="1.5rem" />
+          <Avatar user={this.state.user} size={24} />
         </a>
-      </div>
+      )
     } else {
-      return <div className="right">
+      return (
         <a href="#" onClick={SessionActions.signin}>
           Sign in
         </a>
-      </div>
+      )
     }
   }
 
