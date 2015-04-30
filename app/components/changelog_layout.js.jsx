@@ -1,5 +1,5 @@
 import {Link, RouteHandler} from 'react-router'
-import Avatar from 'components/avatar.js.jsx'
+import Avatar from 'components/ui/avatar.jsx'
 import ChangelogActions from 'actions/changelog_actions'
 import ChangelogStore from 'stores/changelog_store'
 import classnames from 'classnames'

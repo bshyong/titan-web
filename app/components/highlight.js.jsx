@@ -1,8 +1,11 @@
-import HighlightsStore from 'stores/highlights_store'
+import {List} from 'immutable'
+import Avatar from 'components/ui/avatar.jsx'
 import HighlightsActionCreator from 'actions/highlights_action_creator'
-import React from 'react'
+import HighlightsStore from 'stores/highlights_store'
 import Icon from 'components/ui/icon.js.jsx'
 import moment from 'moment'
+import React from 'react'
+import Stack from 'components/ui/stack.jsx'
 
 const Sources = {
   'slack': 'slack',
@@ -19,11 +22,17 @@ export default class Highlight extends React.Component {
 
   render() {
     const {
-      highlight: {content, occurred_at}
+      highlight: {content, occurred_at, mentioned_users}
     } = this.props
 
+    const avatars = List(mentioned_users).map((user) => {
+      return (
+        <Avatar user={user} size={24} key={user.id} />
+      )
+    })
+
     return (
-      <div className="flex flex-center px1">
+      <div className="flex flex-center p1">
 
         <div className="flex-auto pointer" onClick={this.handleUse}>
           <div className="flex flex-center">
@@ -33,9 +42,10 @@ export default class Highlight extends React.Component {
 
             <div className="flex-auto p1">
               <h4 className="mt0 mb0 block">{content}</h4>
-              <p className="gray h5 mb0">
+              <p className="gray h5 mb1">
                 {moment(occurred_at).fromNow()}
               </p>
+              <Stack items={avatars} />
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import {Link} from 'react-router'
-import Avatar from 'components/avatar.js.jsx'
+import Avatar from 'components/ui/avatar.jsx'
 import Markdown from 'components/ui/markdown.js.jsx'
 import React from 'react'
 import Icon from 'components/ui/icon.js.jsx'
