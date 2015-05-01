@@ -22,32 +22,24 @@ export default class Highlight extends React.Component {
 
   render() {
     const {
-      highlight: {content, occurred_at, mentioned_users}
+      highlight: {label, content, occurred_at}
     } = this.props
 
-    const avatars = List(mentioned_users).map((user) => {
-      return (
-        <Avatar user={user} size={24} key={user.id} />
-      )
-    })
+    const sourceIcon = Sources[this.props.highlight.source] || 'quote-left'
 
     return (
       <div className="flex flex-center p1">
 
-        <div className="flex-auto pointer" onClick={this.handleUse}>
-          <div className="flex flex-center">
-            <div className="flex-none px1">
-              {this.source()}
-            </div>
-
-            <div className="flex-auto p1">
-              <h4 className="mt0 mb0 block">{content}</h4>
-              <p className="gray h5 mb1">
-                {moment(occurred_at).fromNow()}
-              </p>
-              <Stack items={avatars} />
-            </div>
-          </div>
+        <div className="flex-auto pointer p1" onClick={this.handleUse}>
+          <p className="gray h5 mb0">
+            <Icon icon={sourceIcon} fw={true} />
+            {' '}
+            {label}
+            {' '}
+            {moment(occurred_at).fromNow()}
+          </p>
+          <h4 className="mt0 mb0 block">{content}</h4>
+          {this.renderAvatarStack()}
         </div>
 
         <a className="flex-none center p1 light-gray" onClick={this.handleIgnore} href="#">
@@ -58,13 +50,19 @@ export default class Highlight extends React.Component {
     )
   }
 
-  source() {
-    const icon = Sources[this.props.highlight.source]
-    return (
-      <div className="h3 gray">
-        <Icon icon={icon} fw={true} />
-      </div>
-    )
+  renderAvatarStack() {
+    const {highlight: {mentioned_users}} = this.props
+    const avatars = List(mentioned_users).map((user) => {
+      return (
+        <Avatar user={user} size={24} key={user.id} />
+      )
+    })
+
+    if (avatars.isEmpty()) {
+      return
+    }
+
+    return <div className="mt1"><Stack items={avatars} /></div>
   }
 
   _handleUse(e) {
