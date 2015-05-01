@@ -6,11 +6,11 @@ import Markdown from 'components/ui/markdown.js.jsx'
 import React from 'react'
 import Stack from 'components/ui/stack.jsx'
 
-const Labels = [
-  {name: 'Feature', color: '#0074D9', bg: '#E5F1FB'},
-  {name: 'Fix', color: '#2ECC40', bg: '#EBFAED'},
-  {name: 'Annoucement', color: '#FFDC00', bg: '#FFFDEA'}
-]
+const Labels = {
+  'Feature': {name: 'Feature', color: '#2ECC40', bg: '#EBFAED'},
+  'Improvement': {name: 'Improvement', color: '#2ECC40', bg: '#EBFAED'},
+  'Annoucement': {name: 'Annoucement', color: '#FFDC00', bg: '#FFFDEA'}
+}
 
 export default class Story extends React.Component {
 
@@ -27,8 +27,9 @@ export default class Story extends React.Component {
 
     return (
       <div className="flex mxn1">
-        <a className="flex-auto px1">
-          {title}
+        {this.label()}
+        <a className="flex-auto px1 black" href="#">
+          {this.title()}
         </a>
         <div className="flex-none px1">
           <Stack items={[<Avatar user={user} size={24} />]} />
@@ -37,9 +38,25 @@ export default class Story extends React.Component {
     )
   }
 
+  title() {
+    const {story: {title}} = this.props
+    const match = title.match(/^(\[([\w]+)\]\s)(.+)/)
+    if (match) {
+      return match[3]
+    } else {
+      return title
+    }
+  }
+
   label() {
-    const l = Labels[Math.floor(Math.random() * Labels.length)]
-    return <Label {...l} />
+    const {story: {title}} = this.props
+    const match = title.match(/^(\[([\w]+)\]\s)(.+)/)
+    if (match) {
+      const l = Labels[match[2]]
+      return <div className="flex-none px1">
+        <Label {...l} />
+      </div>
+    }
   }
 
   _handleOpen(e) {
