@@ -1,5 +1,6 @@
 import { USER_SIGNIN, USER_SIGNOUT } from 'constants'
 import Dispatcher from '../lib/dispatcher'
+import jwt_decode from 'jwt-decode'
 import request from 'reqwest'
 import RouterContainer from 'lib/router_container'
 
@@ -26,9 +27,9 @@ export default {
       error: (err) => {},
       success: (resp) => {
         this.signinFromToken(resp.token)
-        RouterContainer.get().transitionTo(resp.return_url, {}, {
-          u: resp.username // This is a hack so the mobile app knows who we are
-        });
+        // This is a hack to let the mobile app know who we are
+        window.location = `${resp.return_url}?u=${jwt_decode(resp.token).user.username}`
+        RouterContainer.get().transitionTo(resp.return_url);
       }
     })
   },
