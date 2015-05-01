@@ -1,12 +1,13 @@
+import AuthenticatedMixin from 'components/mixins/authenticated_mixin.jsx'
 import React from 'react'
 import Highlight from 'components/highlight.js.jsx'
-import HighlightsActionCreator from 'actions/highlights_action_creator'
+import HighlightsActionCreator from 'actions/highlight_actions'
 import HighlightsStore from 'stores/highlights_store'
-import {Link} from 'react-router'
-import RouterContainer from 'lib/router_container'
 import Icon from 'components/ui/icon.js.jsx'
+import {Link} from 'react-router'
 import {List} from 'immutable'
-import AuthenticatedMixin from 'components/mixins/authenticated_mixin.jsx'
+import RouterContainer from 'lib/router_container'
+import SessionStore from 'stores/session_store'
 
 export default AuthenticatedMixin(class HighlightPicker extends React.Component {
 
@@ -28,7 +29,15 @@ export default AuthenticatedMixin(class HighlightPicker extends React.Component 
 
   render() {
     const changelogId = RouterContainer.get().getCurrentParams().changelogId
+    const filter = RouterContainer.get().getCurrentParams().filter
     const highlights = List(this.state.highlights)
+      .filter(highlight => {
+        if (filter != 'mine') { return true }
+
+        return List(highlight.mentioned_users).some((user) => {
+          return user.username == SessionStore.user.username
+        })
+      })
       .sortBy((highlight) => { return highlight.occurred_at })
       .reverse()
       .map((highlight) => {
@@ -39,10 +48,22 @@ export default AuthenticatedMixin(class HighlightPicker extends React.Component 
 
     return (
       <div className="bg-white">
-        <div className="px2 py1 bg-light-gray">
-          <Link to="changelog" params={{changelogId: changelogId}}>
-            <Icon icon="angle-left" /> Back
-          </Link>
+        <div className="px2 py1 bg-light-gray clearfix">
+          <div className="left">
+            <Link to="changelog" params={{changelogId: changelogId}}>
+              <Icon icon="angle-left" /> Back
+            </Link>
+          </div>
+          <div className="right px2">
+            <Link to="highlights" params={{changelogId: changelogId}}>
+              All Highlights
+            </Link>
+          </div>
+          <div className="right">
+            <Link to="highlights" params={{changelogId: changelogId, filter: 'mine'}}>
+              Mine
+            </Link>
+          </div>
         </div>
         {highlights}
       </div>

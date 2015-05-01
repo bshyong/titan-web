@@ -26,7 +26,9 @@ export default {
       error: (err) => {},
       success: (resp) => {
         this.signinFromToken(resp.token)
-        RouterContainer.get().transitionTo(resp.return_url);
+        RouterContainer.get().transitionTo(resp.return_url, {}, {
+          u: resp.username // This is a hack so the mobile app knows who we are
+        });
       }
     })
   },

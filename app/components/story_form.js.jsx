@@ -2,16 +2,16 @@ import {Link} from 'react-router'
 import AuthenticatedMixin from 'components/mixins/authenticated_mixin.jsx'
 import Button from 'components/ui/button.js.jsx'
 import ChangelogStore from 'stores/changelog_store'
-import HighlightsActionCreator from 'actions/highlights_action_creator'
+import HighlightsActionCreator from 'actions/highlight_actions'
 import HighlightsStore from 'stores/highlights_store'
 import Icon from 'components/ui/icon.js.jsx'
-import React from 'react'
 import RouterContainer from 'lib/router_container'
 import StoriesActionCreator from 'actions/story_actions'
 import Story from 'components/story.js.jsx'
 import StoryFormActions from 'actions/story_form_actions'
 import StoryFormStore from 'stores/story_form_store'
 import Textarea from 'react-textarea-autosize'
+import React from 'react'
 
 export default AuthenticatedMixin(class StoryForm extends React.Component {
   constructor(props) {
