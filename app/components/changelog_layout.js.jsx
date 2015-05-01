@@ -46,13 +46,13 @@ export default class ChangelogLayout extends React.Component {
         <Navbar>
           <div className="flex px1">
             <div className="flex-none p1">
-              <Link to="changelog" params={{changelogId: changelogId}} className="black">
-                <img className="block" src={LogoSrc} style={{height: '1.5rem'}} />
-              </Link>
+              <img className="block" src={LogoSrc} style={{height: '1.5rem'}} />
             </div>
 
             <h3 className="flex-auto mt0 mb0 p1">
-              {this.state.changelog.name}
+              <Link to="changelog" params={{changelogId: changelogId}} className="black">
+                {this.state.changelog.name}
+              </Link>
             </h3>
 
             <Link className="flex-none block p1" to="highlights" params={{changelogId: changelogId}}>Write</Link>

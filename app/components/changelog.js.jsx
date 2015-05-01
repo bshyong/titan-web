@@ -34,6 +34,7 @@ export default class Changelog extends React.Component {
   }
 
   render() {
+    const {changelogId} = this.props
     const stories = List(this.state.stories)
                     .sortBy(story => story.created_at)
                     .reverse()
@@ -47,7 +48,7 @@ export default class Changelog extends React.Component {
       let b = a.push(
         value.map(story => (
           <div className="mb2" key={story.id}>
-            <Story story={story} />
+            <Story story={story} changelogId={changelogId} />
           </div>
         ))
       )

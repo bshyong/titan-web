@@ -2,7 +2,6 @@ import {Link} from 'react-router'
 import Avatar from 'components/ui/avatar.jsx'
 import Icon from 'components/ui/icon.js.jsx'
 import Label from 'components/ui/label.jsx'
-import Markdown from 'components/ui/markdown.js.jsx'
 import React from 'react'
 import Stack from 'components/ui/stack.jsx'
 
@@ -17,14 +16,17 @@ export default class Story extends React.Component {
   }
 
   render() {
-    const {story: {user, title, body}} = this.props
+    const {
+      changelogId,
+      story: {id: storyId, user, title, body},
+    } = this.props
 
     return (
       <div className="flex mxn1">
         {this.label()}
-        <a className="flex-auto px1 black" href="#">
+        <Link className="flex-auto px1 black" to="story" params={{storyId: storyId, changelogId}}>
           {this.title()}
-        </a>
+        </Link>
         <div className="flex-none px1">
           <Stack items={[<Avatar user={user} size={24} />]} />
         </div>
@@ -60,6 +62,7 @@ export default class Story extends React.Component {
 }
 
 Story.propTypes = {
+  changelogId: React.PropTypes.string.isRequired,
   story: React.PropTypes.shape({
     body: React.PropTypes.string.isRequired
   }).isRequired

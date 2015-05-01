@@ -7,9 +7,9 @@ import SessionStore from 'stores/session_store'
 
 export default {
 
-  fetchAll(changelog_id, params) {
+  fetchAll(changelogId, params) {
     request({
-      url: `${API_URL}/changelogs/${changelog_id}/stories`,
+      url: `${API_URL}/changelogs/${changelogId}/stories`,
       method: 'get',
       error: (err) => {
         if (err.status == 404) {
@@ -21,6 +21,28 @@ export default {
         Dispatcher.dispatch({
           type: 'STORIES_FETCHED',
           stories: resp
+        })
+      }
+    })
+  },
+
+  fetch(changelogId, storyId, params: {}) {
+    request({
+      url: `${API_URL}/changelogs/${changelogId}/stories/${storyId}`,
+      method: 'get',
+      headers: {
+        'Authorization': 'Bearer ' + SessionStore.jwt
+      },
+      error: (err) => {
+        if (err.status == 404) {
+          Dispatcher.dispatch({ type: RESOURCE_NOT_FOUND })
+        }
+      },
+      success: (resp) => {
+        Dispatcher.dispatch({ type: RESOURCE_FOUND })
+        Dispatcher.dispatch({
+          type: 'STORY_FETCHED',
+          story: resp
         })
       }
     })

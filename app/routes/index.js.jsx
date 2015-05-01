@@ -14,6 +14,7 @@ import StoryComposer from 'components/story_composer.js.jsx'
 import StoryForm from 'components/story_form.js.jsx'
 import HighlightPicker from 'components/highlight_picker.js.jsx'
 import ChangelogLayout from 'components/changelog_layout.js.jsx'
+import StoryPage from 'components/story_page.jsx'
 
 export default (
   <Route handler={App}>
@@ -26,6 +27,8 @@ export default (
         <DefaultRoute handler={StoryForm} name="new" />
         <Route handler={HighlightPicker} path="highlights/?:filter?" name="highlights" />
       </Route>
+
+      <Route handler={StoryPage} path=":storyId" name="story" />
     </Route>
 
 
