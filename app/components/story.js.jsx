@@ -6,12 +6,6 @@ import Markdown from 'components/ui/markdown.js.jsx'
 import React from 'react'
 import Stack from 'components/ui/stack.jsx'
 
-const Labels = {
-  'Feature': {name: 'Feature', color: '#2ECC40', bg: '#EBFAED'},
-  'Improvement': {name: 'Improvement', color: '#2ECC40', bg: '#EBFAED'},
-  'Annoucement': {name: 'Annoucement', color: '#FFDC00', bg: '#FFFDEA'}
-}
-
 export default class Story extends React.Component {
 
   constructor(props) {
@@ -52,9 +46,9 @@ export default class Story extends React.Component {
     const {story: {title}} = this.props
     const match = title.match(/^(\[([\w]+)\]\s)(.+)/)
     if (match) {
-      const l = Labels[match[2]]
+      const labelName = match[2]
       return <div className="flex-none px1">
-        <Label {...l} />
+        <Label name={labelName} color="#2ECC40" bg="#EBFAED" />
       </div>
     }
   }
@@ -64,8 +58,6 @@ export default class Story extends React.Component {
     this.setState({open: true})
   }
 }
-
-Story.Labels = Labels
 
 Story.propTypes = {
   story: React.PropTypes.shape({
