@@ -2,13 +2,16 @@ import React from 'react'
 
 export default class Label extends React.Component {
   render() {
-    const {name, color, bg} = this.props
+    const {name} = this.props
     const style = {
-      color: color,
-      backgroundColor: bg
+      backgroundColor: "#EBFAED"
     }
-    return <div className="rounded px1 inline-block bold" style={style}>
+    return <div className="rounded px1 inline-block bold green" style={style}>
       {name}
     </div>
   }
+}
+
+Label.propTypes = {
+  name: React.PropTypes.string.isRequired
 }

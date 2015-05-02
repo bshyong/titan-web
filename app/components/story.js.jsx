@@ -1,4 +1,5 @@
 import {Link} from 'react-router'
+import {List} from 'immutable'
 import Avatar from 'components/ui/avatar.jsx'
 import Icon from 'components/ui/icon.js.jsx'
 import Label from 'components/ui/label.jsx'
@@ -23,9 +24,9 @@ export default class Story extends React.Component {
 
     return (
       <div className="flex mxn1">
-        {this.label()}
+        {this.labels()}
         <Link className="flex-auto px1 black" to="story" params={{storyId: storyId, changelogId}}>
-          {this.title()}
+          {title}
         </Link>
         <div className="flex-none px1">
           <Stack items={[<Avatar user={user} size={24} />]} />
@@ -34,25 +35,13 @@ export default class Story extends React.Component {
     )
   }
 
-  title() {
-    const {story: {title}} = this.props
-    const match = title.match(/^(\[([\w]+)\]\s)(.+)/)
-    if (match) {
-      return match[3]
-    } else {
-      return title
-    }
-  }
-
-  label() {
-    const {story: {title}} = this.props
-    const match = title.match(/^(\[([\w]+)\]\s)(.+)/)
-    if (match) {
-      const labelName = match[2]
+  labels() {
+    const {story: {labels}} = this.props
+    return List(labels).map(label => {
       return <div className="flex-none px1">
-        <Label name={labelName} color="#2ECC40" bg="#EBFAED" />
+        <Label name={label} />
       </div>
-    }
+    }).toJS()
   }
 
   _handleOpen(e) {

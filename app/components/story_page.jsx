@@ -1,8 +1,12 @@
+import {List} from 'immutable'
+import Avatar from 'components/ui/avatar.jsx'
+import Label from 'components/ui/label.jsx'
+import Markdown from 'components/ui/markdown.jsx'
 import React from 'react'
+import Router from 'lib/router_container'
+import Stack from 'components/ui/stack.jsx'
 import StoryActions from 'actions/story_actions'
 import StoryPageStore from 'stores/story_page_store'
-import Router from 'lib/router_container'
-import Markdown from 'components/ui/markdown.jsx'
 
 export default class StoryPage extends React.Component {
 
@@ -33,11 +37,25 @@ export default class StoryPage extends React.Component {
     }
 
     return (
-      <div className="px2">
-        <h1>{story.title}</h1>
+      <div className="px2 mt4">
+        <div className="mb2">
+          {this.labels()}
+        </div>
+        <h1 className="mt0 mb3">{story.title}</h1>
+        <div className="mb3">
+          <Stack items={[<Avatar user={story.user} size={36} />]} />
+        </div>
+
         <Markdown markdown={story.body} />
       </div>
     )
+  }
+
+  labels() {
+    const {story: {labels}} = this.state
+    return List(labels).map(label => {
+      return <Label name={label} key={label} />
+    }).toJS()
   }
 
   _onStoreChange() {
