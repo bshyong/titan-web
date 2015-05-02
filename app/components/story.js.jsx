@@ -38,7 +38,7 @@ export default class Story extends React.Component {
   labels() {
     const {story: {labels}} = this.props
     return List(labels).map(label => {
-      return <div className="flex-none px1">
+      return <div className="flex-none px1" key={label}>
         <Label name={label} />
       </div>
     }).toJS()

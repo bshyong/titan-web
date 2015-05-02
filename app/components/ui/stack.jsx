@@ -7,7 +7,7 @@ export default class Stack extends React.Component {
     const renderedItems = List(items).map((item, i) => {
       const zIndex = i
       return (
-        <div style={{marginLeft: '-.25rem', zIndex: zIndex}}>
+        <div style={{marginLeft: '-.25rem', zIndex: zIndex}} key={i}>
           {item}
         </div>
       )
