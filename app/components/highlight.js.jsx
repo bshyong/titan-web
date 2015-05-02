@@ -22,7 +22,7 @@ export default class Highlight extends React.Component {
 
   render() {
     const {
-      highlight: {label, content, occurred_at}
+      highlight: {label, content, created_at, occurred_at}
     } = this.props
 
     const sourceIcon = Sources[this.props.highlight.source] || 'quote-left'
@@ -36,7 +36,7 @@ export default class Highlight extends React.Component {
             {' '}
             {label}
             {' '}
-            {moment(occurred_at).fromNow()}
+            {moment(occurred_at || created_at).fromNow()}
           </p>
           <h4 className="mt0 mb0 block">{content}</h4>
           {this.renderAvatarStack()}
