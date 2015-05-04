@@ -1,3 +1,9 @@
+# Installing
+
+```
+npm install
+```
+
 # Titan Web
 
 Start the dev server with the API_URL:
