@@ -7,19 +7,19 @@ import Router from 'lib/router_container'
 import Stack from 'components/ui/stack.jsx'
 import StoryActions from 'actions/story_actions'
 import StoryPageStore from 'stores/story_page_store'
+import StoryReadersStore from 'stores/story_readers_store'
 
 export default class StoryPage extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      story: StoryPageStore.story
-    }
+    this.state = this._stateFromStores()
     this.onStoreChange = this._onStoreChange.bind(this)
   }
 
   componentDidMount() {
     StoryPageStore.addChangeListener(this.onStoreChange)
+    StoryReadersStore.addChangeListener(this.onStoreChange)
 
     const {changelogId, storyId} = Router.get().getCurrentParams()
 
@@ -28,6 +28,7 @@ export default class StoryPage extends React.Component {
 
   componentWillUnmount() {
     StoryPageStore.removeChangeListener(this.onStoreChange)
+    StoryReadersStore.removeChangeListener(this.onStoreChange)
   }
 
   render() {
@@ -47,6 +48,11 @@ export default class StoryPage extends React.Component {
         </div>
 
         <Markdown markdown={story.body} />
+
+        {this.state.totalReads > 0 ? <div className="gray mt4">
+          Read {this.pluralize(this.state.totalReads, 'time ', 'times ')}
+          by {this.pluralize(this.state.uniqueReads, 'person ', 'people ')}
+        </div> : null}
       </div>
     )
   }
@@ -58,9 +64,19 @@ export default class StoryPage extends React.Component {
     }).toJS()
   }
 
+  pluralize(count, singular, plural) {
+    return `${count} ${count === 1 ? singular : plural}`
+  }
+
+  _stateFromStores() {
+    return {
+      story: StoryPageStore.story,
+      totalReads: StoryReadersStore.totalReads,
+      uniqueReads: StoryReadersStore.uniqueReads
+    }
+  }
+
   _onStoreChange() {
-    this.setState({
-      story: StoryPageStore.story
-    })
+    this.setState(this._stateFromStores())
   }
 }
