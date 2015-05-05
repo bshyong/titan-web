@@ -47,9 +47,9 @@ export default class Changelog extends React.Component {
       )
       let b = a.push(
         value.map(story => (
-          <div className="mb2" key={story.id}>
+          <Timeline.Item key={story.id}>
             <Story story={story} changelogId={changelogId} />
-          </div>
+          </Timeline.Item>
         ))
       )
       return b

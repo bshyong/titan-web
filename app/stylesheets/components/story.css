@@ -1,0 +1,11 @@
+.story {
+  transition: box-shadow var(--time-2), margin var(--time-2);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  will-change: box-shadow, margin;
+}
+
+.story--opened {
+  margin: 2rem -2rem;
+  box-shadow: 0 0 0 1px var(--silver), 0 0 1rem 0 var(--silver);
+}

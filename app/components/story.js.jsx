@@ -5,12 +5,16 @@ import Icon from 'components/ui/icon.js.jsx'
 import Label from 'components/ui/label.jsx'
 import React from 'react'
 import Stack from 'components/ui/stack.jsx'
+import classnames from 'classnames'
+import moment from 'moment'
+import Markdown from 'components/ui/markdown.jsx'
+import LoadingBar from 'components/ui/loading_bar.jsx'
 
 export default class Story extends React.Component {
 
   constructor(props) {
     super(props)
-    this.handleOpen = this._handleOpen.bind(this)
+    this.handleToggle = this._handleToggle.bind(this)
     this.state = {
       open: false
     }
@@ -18,35 +22,119 @@ export default class Story extends React.Component {
 
   render() {
     const {
+      open
+    } = this.state
+
+    let cs = classnames('story', {
+      'story--opened': open
+    })
+
+    let content
+    if (open) {
+      content = this.renderOpen()
+    } else {
+      content = this.renderClosed()
+    }
+
+    return (
+      <div className={cs}>
+        {content}
+      </div>
+    )
+  }
+
+  renderClosed() {
+    const {
       changelogId,
       story: {id: storyId, user, title, body},
     } = this.props
 
     return (
-      <div className="flex mxn1">
+      <div className="sm-flex">
         {this.labels()}
-        <Link className="flex-auto px1 black" to="story" params={{storyId: storyId, changelogId}}>
-          {title}
-        </Link>
-        <div className="flex-none px1">
-          <Stack items={[<Avatar user={user} size={24} />]} />
+        <div className="flex-auto flex">
+          <a className="flex-auto black" href="#" onClick={this.handleToggle}>
+            {title}
+          </a>
+          <div className="flex-none ml2">
+            <Stack items={[<Avatar user={user} size={24} />]} />
+          </div>
         </div>
       </div>
     )
   }
 
+  renderOpen() {
+    const {
+      story,
+    } = this.props
+
+    let body
+
+    if (!this.state.isFakeLoading && story.body.length > 0) {
+      body = <div className="p3">
+        <Markdown markdown={story.body} />
+      </div>
+    }
+
+    return (
+      <div>
+        <div className="p3">
+          <div className="mb1">
+            {this.labels()}
+          </div>
+
+          <div className="flex">
+            <div className="flex-auto">
+              <h1 className="mt0 mb0">{story.title}</h1>
+            </div>
+            <div className="flex-none ml3">
+              <Stack items={[<Avatar user={story.user} size={40} />]} />
+            </div>
+          </div>
+        </div>
+
+        <div className="flex h5 gray px3" style={{backgroundColor: 'rgba(0,0,0,.05)'}}>
+
+          <div className="flex-none p1" style={{opacity: 0.5}}>
+            <Avatar user={story.user} size={19} />
+          </div>
+          <div className="flex-auto p1">
+            Done {moment(story.created_at).fromNow()}
+          </div>
+          <a className="flex-none p1 block gray">
+            Share
+          </a>
+
+          <a className="flex-none p1 block gray" href="#">
+            <Icon icon="pencil" />
+          </a>
+
+          <a className="flex-none p1 block gray" href="#">
+            <Icon icon="trash" />
+          </a>
+        </div>
+
+        {body}
+
+        <LoadingBar loading={false} />
+      </div>
+    )
+  }
+
   labels() {
-    const {story: {labels}} = this.props
+    let {story: {labels}} = this.props
     return List(labels).map(label => {
-      return <div className="flex-none px1" key={label}>
+      return <div className="flex-none mr2 mb1 sm-mb0" key={label}>
         <Label name={label} />
       </div>
     }).toJS()
   }
 
-  _handleOpen(e) {
+  _handleToggle(e) {
     e.preventDefault()
-    this.setState({open: true})
+    this.setState({open: !this.state.open})
+    const isOpen = this.state.open
   }
 }
 

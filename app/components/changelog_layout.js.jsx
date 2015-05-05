@@ -3,6 +3,7 @@ import Avatar from 'components/ui/avatar.jsx'
 import ChangelogActions from 'actions/changelog_actions'
 import ChangelogStore from 'stores/changelog_store'
 import classnames from 'classnames'
+import Icon from 'components/ui/icon.js.jsx'
 import Navbar from 'components/ui/navbar.js.jsx'
 import React from 'react'
 import RouterContainer from 'lib/router_container'
@@ -44,12 +45,15 @@ export default class ChangelogLayout extends React.Component {
     return (
       <div>
         <Navbar>
-          <div className="flex px1">
+          <div className="flex mxn1">
             <div className="flex-none p1">
               <img className="block" src={LogoSrc} style={{height: '1.5rem'}} />
             </div>
 
             <h3 className="flex-auto mt0 mb0 p1">
+              <div className="light-gray left mr2">
+                <Icon icon="angle-right" />
+              </div>
               <Link to="changelog" params={{changelogId: changelogId}} className="black">
                 {this.state.changelog.name}
               </Link>
@@ -61,7 +65,7 @@ export default class ChangelogLayout extends React.Component {
           </div>
         </Navbar>
 
-        <div className="container">
+        <div className="container px2">
           <RouteHandler />
         </div>
       </div>
