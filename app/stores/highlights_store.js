@@ -4,6 +4,7 @@ import {List} from 'immutable'
 
 class HighlightsStore extends Store {
   constructor() {
+    super()
     this.highlights = List([])
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {

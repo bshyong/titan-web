@@ -4,6 +4,7 @@ import Store from '../lib/store'
 
 class ChangelogStore extends Store {
   constructor() {
+    super()
     this._changelog = null
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {

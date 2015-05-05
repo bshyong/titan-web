@@ -4,6 +4,7 @@ import Store from '../lib/store'
 
 class StoryPageStore extends Store {
   constructor() {
+    super()
     this.story = null
 
     this.dispatchToken = Dispatcher.register(action => {

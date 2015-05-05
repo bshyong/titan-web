@@ -4,8 +4,8 @@ import {RouteHandler} from 'react-router'
 import HighlightsActionCreator from 'actions/highlight_actions'
 
 export default class StoryComposer extends React.Component {
-  componentDidMount() {
-    HighlightsActionCreator.fetchAll(ChangelogStore.slug)
+  static willTransitionTo(transition, params, query) {
+    HighlightsActionCreator.fetchAll(params.changelogId)
   }
 
   render() {

@@ -16,6 +16,7 @@ export default (AuthenticatedComponent) => {
     }
 
     constructor() {
+      super()
       this.state = this.getStateFromStores()
     }
 

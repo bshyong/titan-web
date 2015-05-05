@@ -52,7 +52,6 @@ export default class Story extends React.Component {
     let bodyMarker
 
     if (body.length > 0) {
-      console.log('body')
       bodyMarker = <div className="inline-block bg-black white ml2 px1 rounded h6" style={{opacity: 0.1}}>
         <Icon icon="ellipsis-h" />
       </div>

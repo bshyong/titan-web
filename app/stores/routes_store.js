@@ -4,6 +4,7 @@ import Store from '../lib/store'
 
 class RoutesStore extends Store {
   constructor() {
+    super()
     this.resourceFound = true
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {

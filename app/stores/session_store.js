@@ -5,6 +5,7 @@ import Store from 'lib/store'
 
 class SessionStore extends Store {
   constructor() {
+    super()
     this._user = null
 
     this.dispatchToken = Dispatcher.register(action => {

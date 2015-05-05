@@ -3,6 +3,7 @@ import Store from '../lib/store'
 
 class StoriesStore extends Store {
   constructor() {
+    super()
     this.stories = []
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {

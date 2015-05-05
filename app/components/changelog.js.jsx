@@ -9,28 +9,21 @@ import StoryActions from 'actions/story_actions'
 import Timeline from 'components/ui/timeline.js.jsx'
 
 export default class Changelog extends React.Component {
+  static willTransitionTo(transition, params, query) {
+    StoryActions.fetchAll(params.changelogId)
+  }
+
   constructor(props) {
-    props.changelogId = RouterContainer.get().getCurrentParams().changelogId
     super(props)
-    this.state = {
-      stories: []
-    }
+    this.stores = [StoriesStore]
+    this.state = this.getStateFromStores()
+    this.handleStoresChanged = this.handleStoresChanged.bind(this)
   }
 
-  componentDidMount() {
-    this.changeListener = this.onStoryAdded.bind(this)
-    StoriesStore.addChangeListener(this.changeListener)
-    StoryActions.fetchAll(this.props.changelogId)
-  }
-
-  componentWillUnmount() {
-    StoriesStore.removeChangeListener(this.changeListener)
-  }
-
-  onStoryAdded() {
-    this.setState({
+  getStateFromStores() {
+    return {
       stories: StoriesStore.all()
-    })
+    }
   }
 
   render() {
@@ -58,4 +51,26 @@ export default class Changelog extends React.Component {
     return <Timeline>{a.toJS()}</Timeline>
   }
 
+  // Stores mixin
+  componentWillMount() {
+    this.stores.forEach(store =>
+      store.addChangeListener(this.handleStoresChanged)
+    );
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!shallowEqual(nextProps, this.props)) {
+      this.setState(getState(nextProps));
+    }
+  }
+
+  componentWillUnmount() {
+    this.stores.forEach(store =>
+      store.removeChangeListener(this.handleStoresChanged)
+    );
+  }
+
+  handleStoresChanged() {
+    this.setState(this.getStateFromStores(this.props));
+  }
 }

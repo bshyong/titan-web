@@ -4,6 +4,7 @@ import SessionStore from 'stores/session_store'
 
 export default class SigninSSO extends React.Component {
   constructor() {
+    super()
     SessionActions.signinFromSSO(window.location.search.substr(1))
     this.state = {}
   }

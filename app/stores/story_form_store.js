@@ -3,6 +3,7 @@ import Store from '../lib/store'
 
 class StoryFormStore extends Store {
   constructor() {
+    super()
     this.title = ''
     this.body  = ''
     this.isPublic = false

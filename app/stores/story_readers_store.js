@@ -8,6 +8,7 @@ import Store from '../lib/store'
 
 class StoryReadersStore extends Store {
   constructor() {
+    super()
     this.article = null
 
     this.dispatchToken = Dispatcher.register(action => {

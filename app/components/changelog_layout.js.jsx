@@ -16,6 +16,7 @@ import LogoSrc from 'images/logo.svg'
 
 export default class ChangelogLayout extends React.Component {
   constructor() {
+    super()
     this.state = {
       changelog: ChangelogStore.changelog,
       user:      SessionStore.user
@@ -66,7 +67,7 @@ export default class ChangelogLayout extends React.Component {
         </Navbar>
 
         <div className="container px2">
-          <RouteHandler />
+          <RouteHandler changelogId={changelogId} />
         </div>
       </div>
     )
