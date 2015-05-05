@@ -72,14 +72,12 @@ export default class Story extends React.Component {
     let body
 
     if (!this.state.isFakeLoading && story.body.length > 0) {
-      body = <div className="p3">
-        <Markdown markdown={story.body} />
-      </div>
+      body = <Markdown markdown={story.body} />
     }
 
     return (
       <div>
-        <div className="p3">
+        <div className="mb3 pointer" onClick={this.handleToggle}>
           <div className="mb1">
             {this.labels()}
           </div>
@@ -94,7 +92,7 @@ export default class Story extends React.Component {
           </div>
         </div>
 
-        <div className="flex h5 gray px3" style={{backgroundColor: 'rgba(0,0,0,.05)'}}>
+        <div className="flex h5 gray mxn3 px3 mb3" style={{backgroundColor: 'rgba(0,0,0,.05)'}}>
 
           <div className="flex-none p1" style={{opacity: 0.5}}>
             <Avatar user={story.user} size={19} />
@@ -134,7 +132,6 @@ export default class Story extends React.Component {
   _handleToggle(e) {
     e.preventDefault()
     this.setState({open: !this.state.open})
-    const isOpen = this.state.open
   }
 }
 
