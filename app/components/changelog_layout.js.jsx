@@ -60,7 +60,7 @@ export default class ChangelogLayout extends React.Component {
               </Link>
             </h3>
 
-            <Link className="flex-none block p1" to="highlights" params={{changelogId: changelogId}}>Write</Link>
+            <Link className="flex-none block p1" to="highlights" params={{changelogId: changelogId, filter: 'mine'}}>Write</Link>
 
             {this.renderProfileNav()}
           </div>
