@@ -1,0 +1,73 @@
+:root {
+  --loading-bar-height: calc(var(--space-1) / 2);
+}
+
+.loading-bar {
+  min-width: 4rem;
+  height: 0;
+  overflow: hidden;
+  transition: height var(--time-2);
+}
+
+.loading-bar--shown {
+  height: var(--loading-bar-height);
+}
+
+.loading-bar-left,
+.loading-bar-right {
+  height: var(--loading-bar-height);
+  border-radius: var(--space-1);
+
+  will-change: width, background-color;
+
+  animation-duration: var(--time-4);
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-timing-function: ease-in-out;
+}
+
+.loading-bar-left {
+  margin-right: 1rem;
+  animation-name: loading-bar-left;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.loading-bar-right {
+  margin-left: 1rem;
+  animation-name: loading-bar-right;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+@keyframes loading-bar-left {
+  from {
+    width: 1rem;
+    background-color: var(--aqua);
+  }
+
+  50% {
+    background-color: var(--teal);
+  }
+
+  to {
+    width: calc(100% - 2rem);
+    background-color: var(--blue);
+  }
+}
+
+@keyframes loading-bar-right {
+  from {
+    width: calc(100% - 2rem);
+    background-color: var(--yellow);
+  }
+
+  50% {
+    background-color: var(--orange);
+  }
+
+  to {
+    width: 1rem;
+    background-color: var(--red);
+  }
+}

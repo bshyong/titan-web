@@ -1,8 +1,14 @@
 @import 'basscss';
 @import 'base/typography';
 @import 'utilities/pointer';
+@import 'components/loading_bar';
 
 :root {
   --bold-font-weight: 600;
   --container-width: 48rem;
+
+  --time-1: 150ms;
+  --time-2: 300ms;
+  --time-3: 600ms;
+  --time-4: 1200ms;
 }
