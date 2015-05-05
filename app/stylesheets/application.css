@@ -2,7 +2,9 @@
 @import 'base/typography';
 @import 'utilities/pointer';
 @import 'utilities/whitespace';
+@import 'components/button';
 @import 'components/loading_bar';
+@import 'components/markdown';
 
 :root {
   --bold-font-weight: 600;

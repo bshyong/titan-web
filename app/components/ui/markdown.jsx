@@ -1,4 +1,3 @@
-import './markdown.css'
 import marked from 'marked'
 import React from 'react'
 

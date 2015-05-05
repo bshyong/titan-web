@@ -1,0 +1,7 @@
+.markdown > p:last-child {
+  margin-bottom: 0;
+}
+
+.markdown > blockquote {
+  border-left: 2px solid var(--silver);
+}
