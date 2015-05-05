@@ -1,6 +1,7 @@
 @import 'basscss';
 @import 'base/typography';
 @import 'utilities/pointer';
+@import 'utilities/whitespace';
 @import 'components/loading_bar';
 
 :root {
