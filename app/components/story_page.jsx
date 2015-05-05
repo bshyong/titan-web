@@ -22,7 +22,6 @@ export default class StoryPage extends React.Component {
     StoryReadersStore.addChangeListener(this.onStoreChange)
 
     const {changelogId, storyId} = Router.get().getCurrentParams()
-
     StoryActions.fetch(changelogId, storyId)
   }
 

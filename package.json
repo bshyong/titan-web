@@ -39,7 +39,8 @@
     "react-tools": "~0.12",
     "reqwest": "^1.1.5",
     "style-loader": "~0.8",
-    "webpack": "~1.8"
+    "webpack": "~1.8",
+    "whatwg-fetch": "^0.8.1"
   },
   "devDependencies": {
     "jest-cli": "^0.4.0",

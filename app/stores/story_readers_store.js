@@ -1,3 +1,7 @@
+import {
+  STORY_FETCHED
+} from 'constants'
+
 import Dispatcher from '../lib/dispatcher'
 import readraptor from 'lib/readraptor'
 import Store from '../lib/store'
@@ -8,7 +12,7 @@ class StoryReadersStore extends Store {
 
     this.dispatchToken = Dispatcher.register(action => {
       switch (action.type) {
-        case 'STORY_FETCHED':
+        case STORY_FETCHED:
           this.article = null
           this.emitChange()
           readraptor.getArticle(action.story.id, a => {
