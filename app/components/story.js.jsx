@@ -49,12 +49,22 @@ export default class Story extends React.Component {
       story: {id: storyId, user, title, body},
     } = this.props
 
+    let bodyMarker
+
+    if (body.length > 0) {
+      console.log('body')
+      bodyMarker = <div className="inline-block bg-black white ml2 px1 rounded h6" style={{opacity: 0.1}}>
+        <Icon icon="ellipsis-h" />
+      </div>
+    }
+
     return (
       <div className="sm-flex">
         {this.labels()}
         <div className="flex-auto flex">
           <a className="flex-auto black" href="#" onClick={this.handleToggle}>
             {title}
+            {bodyMarker}
           </a>
           <div className="flex-none ml2">
             <Stack items={[<Avatar user={user} size={24} />]} />
@@ -71,7 +81,7 @@ export default class Story extends React.Component {
 
     let body
 
-    if (!this.state.isFakeLoading && story.body.length > 0) {
+    if (story.body.length > 0) {
       body = <Markdown markdown={story.body} />
     }
 
