@@ -15,7 +15,7 @@ import SessionStore from 'stores/session_store'
 export default {
 
   fetchAll(changelogId, params) {
-    api.get(`/changelogs/${changelogId}/stories`).
+    api.get(`changelogs/${changelogId}/stories`).
       then(resp => {
         Dispatcher.dispatch({
           type: STORIES_FETCHED,
@@ -50,7 +50,7 @@ export default {
           changelogId: changelog_id
         })
         analytics.track('Wrote Story', {
-          storyLength: params.body.length
+          storyLength: data.body.length
         })
       })
   }

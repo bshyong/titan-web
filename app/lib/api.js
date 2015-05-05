@@ -7,20 +7,26 @@ import SessionStore from 'stores/session_store'
 module.exports = {
   get(url) {
     return this.req(url, {
-      method: 'GET',
-      headers: this.headers()
+      method: 'GET'
     })
   },
 
   post(url, data) {
     return this.req(url, {
-      data: data,
-      method: 'POST',
-      headers: this.headers()
+      body: JSON.stringify(data),
+      method: 'POST'
     })
   },
 
   req(url, options) {
+    options.headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+    if (SessionStore.jwt) {
+      options.headers['Authorization'] = 'Bearer ' + SessionStore.jwt
+    }
+
     return fetch(`${API_URL}/${url}`, options).
       then(resp => resp.json()).
       then(json => {
@@ -32,13 +38,5 @@ module.exports = {
           Dispatcher.dispatch({ type: RESOURCE_NOT_FOUND })
         }
       })
-  },
-
-  headers() {
-    if (SessionStore.jwt) {
-      return {
-        'Authorization': 'Bearer ' + SessionStore.jwt
-      }
-    }
   }
 }
