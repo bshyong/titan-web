@@ -86,7 +86,7 @@ export default class Story extends React.Component {
 
     return (
       <div>
-        <div className="mb3 pointer" onClick={this.handleToggle}>
+        <div className="mb2 pointer" onClick={this.handleToggle}>
           <div className="mb1">
             {this.labels()}
           </div>
@@ -101,25 +101,18 @@ export default class Story extends React.Component {
           </div>
         </div>
 
-        <div className="flex h5 gray mxn3 px3 mb3" style={{backgroundColor: 'rgba(0,0,0,.05)'}}>
+        <div className="flex h5 gray mxn3 px3 mb3">
 
-          <div className="flex-none p1" style={{opacity: 0.5}}>
+          <div className="flex-none p1">
             <Avatar user={story.user} size={19} />
           </div>
           <div className="flex-auto p1">
-            Done {moment(story.created_at).fromNow()}
+            Written {moment(story.created_at).fromNow()}
           </div>
-          <a className="flex-none p1 block gray">
-            Share
-          </a>
 
           <Link to="edit" params={{changelogId: this.props.changelogId, storyId: this.props.story.id}} className="flex-none p1 block gray">
             <Icon icon="pencil" />
           </Link>
-
-          <a className="flex-none p1 block gray" href="#">
-            <Icon icon="trash" />
-          </a>
         </div>
 
         {body}
