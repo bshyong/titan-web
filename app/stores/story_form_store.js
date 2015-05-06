@@ -6,6 +6,7 @@ class StoryFormStore extends Store {
     super()
     this.title = ''
     this.body  = ''
+    this.contributors = ''
     this.isPublic = false
 
     this.dispatchToken = Dispatcher.register((action) => {
@@ -13,6 +14,7 @@ class StoryFormStore extends Store {
         case 'STORY_FORM_CHANGE':
           this.title = action.fields.title
           this.body = action.fields.body
+          this.contributors = action.fields.contributors
           this.emitChange()
           break;
 

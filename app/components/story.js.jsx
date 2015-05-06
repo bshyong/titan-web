@@ -18,6 +18,8 @@ export default class Story extends React.Component {
     this.state = {
       open: false
     }
+
+    this.contributors = this.contributors.bind(this)
   }
 
   render() {
@@ -66,11 +68,18 @@ export default class Story extends React.Component {
             {bodyMarker}
           </a>
           <div className="flex-none ml2">
-            <Stack items={[<Avatar user={user} size={24} />]} />
+            <Stack items={this.contributors().map(user => <Avatar user={user} size={24} />)} />
           </div>
         </div>
       </div>
     )
+  }
+
+  contributors() {
+    if (this.props.story.contributors && this.props.story.contributors.length > 0) {
+      return this.props.story.contributors
+    }
+    return [this.props.story.user]
   }
 
   renderOpen() {

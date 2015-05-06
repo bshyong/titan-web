@@ -36,7 +36,7 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
   }
 
   render() {
-    const {title, body, isPublic} = this.state
+    const {title, body, contributors, isPublic} = this.state
     const changelogId = RouterContainer.get().getCurrentParams().changelogId
 
     return (
@@ -55,6 +55,9 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
             onChange={this.handleChanged} />
         </div>
 
+        <div className="mb2">
+          <input type="text" className="field-light full-width block mb0" placeholder="@mention any contributors who helped" value={contributors} onChange={this.handleChanged} ref="contributors" />
+        </div>
 
         <div className="clearfix border-top">
           <div className="left">
@@ -79,6 +82,7 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
     StoryFormActions.change({
       title: this.refs.title.getDOMNode().value,
       body:  this.refs.body.getDOMNode().value,
+      contributors: this.refs.contributors.getDOMNode().value,
       isPublic: false
     })
   }
@@ -87,15 +91,17 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
     e.preventDefault()
     StoriesActionCreator.publish(ChangelogStore.slug, {
       title: this.state.title,
-      body:  this.state.body
+      body:  this.state.body,
+      contributors: this.state.contributors
     })
   }
 
   _onStoreChange() {
     this.setState({
-      title:    StoryFormStore.title,
-      body:     StoryFormStore.body,
-      isPublic: StoryFormStore.isPublic
+      title:        StoryFormStore.title,
+      body:         StoryFormStore.body,
+      contributors: StoryFormStore.contributors,
+      isPublic:     StoryFormStore.isPublic
     })
   }
 
