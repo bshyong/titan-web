@@ -9,6 +9,7 @@ import classnames from 'classnames'
 import moment from 'moment'
 import Markdown from 'components/ui/markdown.jsx'
 import LoadingBar from 'components/ui/loading_bar.jsx'
+import Discussion from 'components/discussion.jsx'
 
 export default class Story extends React.Component {
 
@@ -117,6 +118,10 @@ export default class Story extends React.Component {
 
         {body}
 
+        <hr />
+
+        <Discussion comments={[{author: story.user, body: 'This is a comment!'}]} />
+
         <LoadingBar loading={false} />
       </div>
     )
@@ -124,6 +129,7 @@ export default class Story extends React.Component {
 
   labels() {
     let {story: {labels}} = this.props
+
     return List(labels).map(label => {
       return <div className="flex-none mr2 mb1 sm-mb0" key={label}>
         <Label name={label} />
