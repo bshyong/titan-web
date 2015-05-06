@@ -16,11 +16,7 @@ import React from 'react'
 export default AuthenticatedMixin(class StoryForm extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      title:    StoryFormStore.title,
-      body:     StoryFormStore.body,
-      isPublic: StoryFormStore.isPublic,
-    }
+    this.state = this.getStateFromStores()
 
     this.handleChanged = this._handleChanged.bind(this)
     this.handlePublish = this._handlePublish.bind(this)
@@ -96,13 +92,17 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
     })
   }
 
-  _onStoreChange() {
-    this.setState({
+  getStateFromStores() {
+    return {
       title:        StoryFormStore.title,
       body:         StoryFormStore.body,
       contributors: StoryFormStore.contributors,
       isPublic:     StoryFormStore.isPublic
-    })
+    }
+  }
+
+  _onStoreChange() {
+    this.setState(this.getStateFromStores())
   }
 
 })

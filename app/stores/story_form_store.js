@@ -1,4 +1,5 @@
 import Dispatcher from '../lib/dispatcher'
+import { List } from 'immutable'
 import Store from '../lib/store'
 
 class StoryFormStore extends Store {
@@ -26,6 +27,7 @@ class StoryFormStore extends Store {
 
         case 'HIGHLIGHT_USED':
           this.body = action.highlight.content
+          this.contributors = List(action.highlight.mentioned_users).map(u => `@${u.username}`).join(', ')
           this.emitChange()
           break;
         default:
