@@ -15,9 +15,6 @@ export default class Discussion extends React.Component {
           <div className="half-width">
             {pluralize(comments.length, 'comment', 'comments')}
           </div>
-          <div className="half-width right-align">
-            <a className="" href="#">Subscribe</a>
-          </div>
         </div>
 
         {comments.map(comment =>
