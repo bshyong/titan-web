@@ -27,7 +27,7 @@ class TimelineDate extends React.Component {
   render() {
     const {date} = this.props
     const m = moment(date)
-    return <div className="py2 px2 mid-gray bold">
+    return <div className="p2 mid-gray bold">
       {moment(date).calendar()}
     </div>
   }
