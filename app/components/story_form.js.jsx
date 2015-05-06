@@ -13,7 +13,7 @@ import StoryFormActions from 'actions/story_form_actions'
 import StoryFormStore from 'stores/story_form_store'
 import StoryActions from 'actions/story_actions'
 import StoryPageStore from 'stores/story_page_store'
-import Textarea from 'react-textarea-autosize'
+import MarkdownArea from 'components/ui/markdown_area.jsx'
 import React from 'react'
 
 export default AuthenticatedMixin(class StoryForm extends React.Component {
@@ -54,8 +54,7 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
         </div>
 
         <div className="mb2">
-          <Textarea
-            className="field-light mb0 block full-width"
+          <MarkdownArea
             placeholder="What did you do?"
             ref="body"
             value={body}
