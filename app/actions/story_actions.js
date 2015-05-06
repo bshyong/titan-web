@@ -5,6 +5,7 @@ import {
   STORY_CREATING,
   STORY_FETCHED,
   STORY_PUBLISHED,
+  STORY_EDITING,
 } from 'constants'
 
 import api from 'lib/api'
@@ -30,6 +31,24 @@ export default {
         Dispatcher.dispatch({
           type: STORY_FETCHED,
           story: resp
+        })
+      })
+  },
+
+  edit(changelogId, storyId, data) {
+    Dispatcher.dispatch({
+      type: STORY_EDITING
+    })
+
+    api.post(`changelogs/${changelogId}/stories/${storyId}`, data).
+      then(resp => {
+        Dispatcher.dispatch({
+          type: 'STORY_UPDATED',
+          story: resp
+        })
+
+        RouterContainer.get().transitionTo('changelog', {
+          changelogId: changelogId
         })
       })
   },

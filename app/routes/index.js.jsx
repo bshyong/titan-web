@@ -25,6 +25,7 @@ export default (
 
       <Route handler={StoryComposer} path="new">
         <DefaultRoute handler={StoryForm} name="new" />
+        <Route handler={StoryForm} path=":storyId/edit" name="edit" />
         <Route handler={HighlightPicker} path="highlights/?:filter?" name="highlights" />
       </Route>
 

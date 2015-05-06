@@ -122,9 +122,9 @@ export default class Story extends React.Component {
             Share
           </a>
 
-          <a className="flex-none p1 block gray" href="#">
+          <Link to="edit" params={{changelogId: this.props.changelogId, storyId: this.props.story.id}} className="flex-none p1 block gray">
             <Icon icon="pencil" />
-          </a>
+          </Link>
 
           <a className="flex-none p1 block gray" href="#">
             <Icon icon="trash" />

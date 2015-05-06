@@ -12,7 +12,9 @@ export default keyMirror({
   STORY_FETCH: null,
   STORY_FETCHED: null,
   STORY_PUBLISHED: null,
-  
+  STORY_EDITING: null,
+  STORY_UPDATED: null,
+
   USER_SIGNIN: null,
   USER_SIGNOUT: null
 })
