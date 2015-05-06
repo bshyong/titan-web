@@ -19,4 +19,6 @@ app.get('*', function (req, res) {
   res.end(html);
 })
 
+console.log('listening port='+process.env.PORT+' bundle='+stats.assetsByChunkName.app)
+
 app.listen(process.env.PORT || 5000);
