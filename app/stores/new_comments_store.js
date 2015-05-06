@@ -12,13 +12,18 @@ class NewCommentsStore extends Store {
           this.comments = this.comments.set(action.storyId, action.comment)
           this.emitChange()
           break;
-        case 'COMMENT_POSTED':
+        case 'COMMENT_PUBLISHED':
           this.comments = this.comments.delete(action.storyId)
           this.emitChange()
         default:
           break;
       }
     })
+  }
+
+  valid(storyId) {
+    const comment = this.comments.get(storyId)
+    return comment && comment.length > 0
   }
 
   get(storyId) {

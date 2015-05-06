@@ -10,10 +10,15 @@ export default class CommentForm extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = this.getStateFromStores()
+    this.state = {
+      comment: NewCommentsStore.get(this.props.storyId),
+      user: SessionStore.user,
+      isSignedIn: SessionStore.isSignedIn()
+    }
 
     this.onStoreChange = this._onStoreChange.bind(this)
     this.handleOnChange = this._handleOnChange.bind(this)
+    this.handleOnPublish = this._handleOnPublish.bind(this)
   }
 
   componentDidMount() {
@@ -22,6 +27,13 @@ export default class CommentForm extends React.Component {
 
   componentWillUnmount() {
     NewCommentsStore.removeChangeListener(this.onStoreChange)
+  }
+
+  renderButton() {
+    const valid = NewCommentsStore.valid(this.props.storyId)
+    return (
+      <Button bg="navy" color={valid ? 'green' : 'grey'} disabled={!valid} onClick={this.handleOnPublish}>Post comment</Button>
+    )
   }
 
   render() {
@@ -40,9 +52,17 @@ export default class CommentForm extends React.Component {
           <div className="mb2">
             <MarkdownArea ref="comment" placeholder="What do you think of this story?" onChange={this.handleOnChange} value={this.state.comment} />
           </div>
-          <Button bg="navy" color="white">Post comment</Button>
+          {this.renderButton()}
         </div>
       </div>
+    )
+  }
+
+  _handleOnPublish() {
+    CommentFormActions.publish(
+      this.props.changelogId,
+      this.props.storyId,
+      this.state.comment
     )
   }
 
@@ -57,13 +77,7 @@ export default class CommentForm extends React.Component {
     this.setState({
       comment: NewCommentsStore.get(this.props.storyId)
     })
-  }
-
-  getStateFromStores() {
-    return {
-      comment: NewCommentsStore.get(this.props.storyId),
-      user: SessionStore.user,
-      isSignedIn: SessionStore.isSignedIn()
-    }
+    // TODO: fix this! temporary fix because state change is not changing the value of textfield in MarkdownArea
+    React.findDOMNode(this.refs.comment).value = this.state.comment || ''
   }
 }
