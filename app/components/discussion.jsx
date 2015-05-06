@@ -23,9 +23,13 @@ export default class Discussion extends React.Component {
           </div>
         )}
 
-        <CommentForm />
+        <CommentForm storyId={this.props.storyId}/>
       </div>
     )
   }
 
+}
+
+Discussion.propTypes = {
+  storyId: React.PropTypes.string.isRequired
 }
