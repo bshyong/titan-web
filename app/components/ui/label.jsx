@@ -17,10 +17,8 @@ export default class Label extends React.Component {
       lineHeight: '1.5rem',
       fontSize: 10
     }
-    return <div className="" style={{width: '8rem'}}>
-      <div className={`inline-block px2 pill bold white center bg-${color} h6`} style={style}>
-        {name}
-      </div>
+    return <div className={`inline-block px2 pill bold white center bg-${color} h6`} style={style}>
+      {name}
     </div>
   }
 }
