@@ -133,7 +133,7 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
     this.setState({
       title: story.title,
       body: story.body,
-      contributors: story.contributors.map(u => u.username),
+      contributors: story.contributors.map(u => '@' + u.username),
       isPublic: story.isPublic
     })
   }
