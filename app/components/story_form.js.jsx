@@ -86,9 +86,9 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
 
   _handleChanged(e) {
     StoryFormActions.change({
-      title: this.refs.title.getDOMNode().value,
-      body:  this.refs.body.getDOMNode().value,
-      contributors: this.refs.contributors.getDOMNode().value,
+      title: React.findDOMNode(this.refs.title).value,
+      body:  React.findDOMNode(this.refs.body).value,
+      contributors: React.findDOMNode(this.refs.contributors).value,
       isPublic: false
     })
   }
