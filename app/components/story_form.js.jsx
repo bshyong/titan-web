@@ -13,6 +13,7 @@ import StoryFormActions from 'actions/story_form_actions'
 import StoryFormStore from 'stores/story_form_store'
 import StoryActions from 'actions/story_actions'
 import StoryPageStore from 'stores/story_page_store'
+import StoriesStore from 'stores/stories_store'
 import MarkdownArea from 'components/ui/markdown_area.jsx'
 import React from 'react'
 
@@ -20,27 +21,22 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
   constructor(props) {
     super(props)
 
-    this.state = this.getStateFromStores()
+    this.state = this.getInitialState()
 
     this.handleChanged = this._handleChanged.bind(this)
     this.handlePublish = this._handlePublish.bind(this)
     this.onStoreChange = this._onStoreChange.bind(this)
-    this.getStoryFromStore = this._getStoryFromStore.bind(this)
+    this.onStoryFetched = this._onStoryFetched.bind(this)
   }
 
   componentDidMount() {
+    StoryPageStore.addChangeListener(this.onStoryFetched)
     StoryFormStore.addChangeListener(this.onStoreChange)
-    StoryPageStore.addChangeListener(this.getStoryFromStore)
-
-    const {changelogId, storyId} = this.state
-    if (storyId) {
-      StoryActions.fetch(changelogId, storyId)
-    }
   }
 
   componentWillUnmount() {
+    StoryPageStore.removeChangeListener(this.onStoryFetched)
     StoryFormStore.removeChangeListener(this.onStoreChange)
-    StoryPageStore.removeChangeListener(this.getStoryFromStore)
   }
 
   render() {
@@ -112,9 +108,11 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
   }
 
   getStateFromStores() {
+    const { storyId, changelogId } = Router.get().getCurrentParams()
+
     return {
-      storyId:      Router.get().getCurrentParams().storyId,
-      changelogId:  Router.get().getCurrentParams().changelogId,
+      storyId:      storyId,
+      changelogId:  changelogId,
       title:        StoryFormStore.title,
       body:         StoryFormStore.body,
       contributors: StoryFormStore.contributors,
@@ -126,15 +124,36 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
     this.setState(this.getStateFromStores())
   }
 
-  _getStoryFromStore() {
+  _onStoryFetched() {
     const story = StoryPageStore.story
-
     this.setState({
       title: story.title,
       body: story.body,
-      contributors: story.contributors.map(u => '@' + u.username).join(' '),
+      contributors: story.contributors.map(u => '@' + u.username).join(', '),
       isPublic: story.isPublic
     })
+  }
+
+  getInitialState() {
+    const { storyId, changelogId } = Router.get().getCurrentParams()
+
+    const story = StoriesStore.get(storyId)
+    if (story) {
+      return {
+        storyId:      storyId,
+        changelogId:  changelogId,
+        title:        story.title,
+        body:         story.body,
+        contributors: story.contributors.map(c => '@' + c.username).join(', '),
+        isPublic:     story.isPublic
+      }
+    } else {
+      StoryActions.fetch(changelogId, storyId)
+      return {
+        storyId: storyId,
+        changelogId: changelogId
+      }
+    }
   }
 
 })

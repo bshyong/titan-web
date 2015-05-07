@@ -23,6 +23,12 @@ class StoriesStore extends Store {
     })
   }
 
+  get(storyId) {
+    return this.stories.filter(function(s) {
+      return s.id === storyId
+    }).pop()
+  }
+
   all() {
     return this.stories
   }
