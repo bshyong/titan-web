@@ -7,14 +7,14 @@ export default class Stack extends React.Component {
     const renderedItems = List(items).map((item, i) => {
       const zIndex = i
       return (
-        <div style={{marginLeft: '-.25rem', zIndex: zIndex}} key={i}>
+        <div className="stack-item" style={{zIndex: zIndex}} key={i}>
           {item}
         </div>
       )
     })
 
     return (
-      <div className="flex">
+      <div className="stack flex">
         <div className="flex-shrink">
           <div className="flex" style={{flexDirection: 'row-reverse', marginLeft: '.25rem'}}>
             {renderedItems}

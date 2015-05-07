@@ -8,6 +8,7 @@
 @import 'components/emoji';
 @import 'components/loading_bar';
 @import 'components/markdown';
+@import 'components/stack';
 @import 'components/story';
 
 :root {

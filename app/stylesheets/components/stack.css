@@ -1,0 +1,12 @@
+.stack-item {
+  margin-left: -.5rem;
+  transition: margin-left var(--time-2);
+}
+
+.stack:hover {
+  margin-left: -var(--border-width);
+}
+
+.stack:hover .stack-item {
+  margin-left: var(--border-width);
+}
