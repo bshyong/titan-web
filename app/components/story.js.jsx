@@ -1,15 +1,26 @@
 import {Link} from 'react-router'
 import {List} from 'immutable'
 import Avatar from 'components/ui/avatar.jsx'
+import classnames from 'classnames'
+import Discussion from 'components/discussion.jsx'
+import Emoji from 'components/ui/emoji.jsx'
 import Icon from 'components/ui/icon.js.jsx'
 import Label from 'components/ui/label.jsx'
+import LoadingBar from 'components/ui/loading_bar.jsx'
+import Markdown from 'components/ui/markdown.jsx'
+import moment from 'moment'
 import React from 'react'
 import Stack from 'components/ui/stack.jsx'
-import classnames from 'classnames'
-import moment from 'moment'
-import Markdown from 'components/ui/markdown.jsx'
-import LoadingBar from 'components/ui/loading_bar.jsx'
-import Discussion from 'components/discussion.jsx'
+
+const EmojiMappings = {
+  'discussion': '💬',
+  'improvement': '📈',
+  'feature': '💯',
+  'update': '🎉',
+  'bugfix': '🐛',
+  'doc': '📄',
+  'default': '✅'
+}
 
 export default class Story extends React.Component {
 
@@ -49,29 +60,47 @@ export default class Story extends React.Component {
   renderClosed() {
     const {
       changelogId,
-      story: {id: storyId, user, title, body},
+      story: {id: storyId, user, body, title, labels, comments_count},
     } = this.props
 
-    return (
-      <div className="sm-flex">
-        {this.labels()}
-        <div className="flex-auto flex">
-          <a className="flex-auto black" href="#" onClick={this.handleToggle}>
-            {title}
-          </a>
-          <div className="flex-none ml2">
-            <Stack items={this.contributors().map(user => <Avatar user={user} size={24} />)} />
-          </div>
+    const label = labels[0] || 'default'
+    const emojiChar = EmojiMappings[label.toLowerCase()]
+
+    let comments
+
+    if (comments_count > 0) {
+      comments = comments = (
+        <div className="flex-none gray" style={{minWidth: '4rem'}}>
+          <span className="light-gray">
+            <Icon icon="comment" fw={true} />
+          </span>
+          {' '}
+          {comments_count}
         </div>
-      </div>
+      )
+    }
+
+    return (
+      <a className="p1 flex blue pointer" onClick={this.handleToggle}>
+        <div className="flex-none mr1" key={label}>
+          {this.emoji()}
+        </div>
+        <div className="flex-auto black">
+          {title}
+        </div>
+        <div className="flex-none sm-show px1">
+          <Stack items={this.contributors().map(user => <Avatar user={user} size={24} />)} />
+        </div>
+      </a>
     )
   }
 
   contributors() {
-    if (this.props.story.contributors && this.props.story.contributors.length > 0) {
-      return this.props.story.contributors
+    const {story} = this.props
+    if (story.contributors && story.contributors.length > 0) {
+      return story.contributors
     }
-    return [this.props.story.user]
+    return [story.user]
   }
 
   renderOpen() {
@@ -87,18 +116,16 @@ export default class Story extends React.Component {
 
     return (
       <div>
-        <div className="mb2 pointer" onClick={this.handleToggle}>
-          <div className="mb1">
-            {this.labels()}
+        <div className="flex mb2 pointer" onClick={this.handleToggle}>
+          <div className="mr2">
+            {this.emoji()}
           </div>
 
-          <div className="flex">
-            <div className="flex-auto">
-              <h1 className="mt0 mb0">{story.title}</h1>
-            </div>
-            <div className="flex-none ml3">
-              <Stack items={[<Avatar user={story.user} size={40} />]} />
-            </div>
+          <div className="flex-auto">
+            <h1 className="mt0 mb0">{story.title}</h1>
+          </div>
+          <div className="flex-none ml3">
+            <Stack items={[<Avatar user={story.user} size={40} />]} />
           </div>
         </div>
 
@@ -127,12 +154,20 @@ export default class Story extends React.Component {
     )
   }
 
+  emoji(story) {
+    const {story: {labels}} = this.props
+    const label = labels[0] || 'default'
+    const emojiChar = EmojiMappings[label.toLowerCase()]
+    return <Emoji char={emojiChar} />
+  }
+
   labels() {
     let {story: {labels}} = this.props
 
     return List(labels).map(label => {
+      const emoji = EmojiMappings[label.toLowerCase()] || '✅'
       return <div className="flex-none mr2 mb1 sm-mb0" key={label}>
-        <Label name={label} />
+        <Emoji char={emoji} />
       </div>
     }).toJS()
   }
