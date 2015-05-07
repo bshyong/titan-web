@@ -4,6 +4,7 @@
 @import 'utilities/pointer';
 @import 'utilities/whitespace';
 @import 'components/button';
+@import 'components/emoji';
 @import 'components/loading_bar';
 @import 'components/markdown';
 @import 'components/story';

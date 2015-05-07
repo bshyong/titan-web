@@ -62,7 +62,7 @@ export default class Highlight extends React.Component {
       return
     }
 
-    return <div className="mt1"><Stack items={avatars} /></div>
+    return <div className="mt1"><Stack items={avatars.toJS()} /></div>
   }
 
   _handleUse(e) {
