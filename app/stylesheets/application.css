@@ -2,6 +2,7 @@
 @import 'base/typography';
 @import 'utilities/pill';
 @import 'utilities/pointer';
+@import 'utilities/typography';
 @import 'utilities/whitespace';
 @import 'components/button';
 @import 'components/emoji';
