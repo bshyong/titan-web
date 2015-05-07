@@ -1,7 +1,19 @@
-.btn {
-  background-color: transparent;
+.button {
   border: none;
   line-height: 1.5rem;
-
   outline: none;
+  font-size: 1rem;
+  transition: box-shadow var(--time-1);
+}
+
+.button:hover,
+.button--hover {
+  box-shadow: 0 0 0 1px var(--darken-2),
+              0 1px .5rem 0 var(--darken-2);
+}
+
+.button--block {
+  display: block;
+  text-align: center;
+  width: 100%;
 }

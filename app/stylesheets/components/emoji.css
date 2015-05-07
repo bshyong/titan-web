@@ -1,7 +1,11 @@
+/*
+  TODO (@chrislloyd) This is a hack for putting emojis in the labels of
+  stories in the timeline. This should be far more general.
+*/
 .emoji {
-   height: 1.5rem;
-   width: 1.5rem;
-   margin-left: .1em;
-   margin-right: .05em;
-   vertical-align: -0.1em;
+   height: 20px;
+   width:20px;
+   margin-top: 2px;
+   margin-bottom: 2px;
+   display: block;
 }

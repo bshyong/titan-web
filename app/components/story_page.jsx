@@ -11,12 +11,26 @@ import StoryActions from 'actions/story_actions'
 import StoryPageStore from 'stores/story_page_store'
 import StoryReadersStore from 'stores/story_readers_store'
 import LoadingBar from 'components/ui/loading_bar.jsx'
+import pluralize from 'lib/pluralize'
+import Emoji from 'components/ui/emoji.jsx'
+import {Link} from 'react-router'
+import Discussion from 'components/discussion.jsx'
+
+const EmojiMappings = {
+  'discussion': '💬',
+  'improvement': '✅',
+  'feature': '✅',
+  'update': '🎉',
+  'bugfix': '🐛',
+  'doc': '📄',
+  'default': '✅'
+}
 
 export default class StoryPage extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = this._stateFromStores()
+    this.state = this._getStateFromStores()
     this.onStoreChange = this._onStoreChange.bind(this)
   }
 
@@ -24,10 +38,11 @@ export default class StoryPage extends React.Component {
     StoryPageStore.addChangeListener(this.onStoreChange)
     StoryReadersStore.addChangeListener(this.onStoreChange)
 
-    const {changelogId, storyId} = Router.get().getCurrentParams()
+    const {
+      changelogId,
+      storyId
+    } = Router.get().getCurrentParams()
     StoryActions.fetch(changelogId, storyId)
-
-    setTimeout(() => { this.setState({isFakeLoading: false})}, 5000)
   }
 
   componentWillUnmount() {
@@ -43,78 +58,58 @@ export default class StoryPage extends React.Component {
       return <div />
     }
 
-    if (!this.state.isFakeLoading && story.body.length > 0) {
-      body = <div className="p3">
-        <Markdown markdown={story.body} />
-      </div>
+    if (story.body.length > 0) {
+      body = <Markdown markdown={story.body} />
     }
 
     return (
-      <div className="px2 py4">
-        <div className="mxn3 rounded border overflow-hidden" style={{boxShadow: '0 0 1rem rgba(0,0,0,.05)'}}>
-          <div className="p3">
-            <div className="mb1">
-              {this.labels()}
-            </div>
-
-        <Markdown markdown={story.body} />
-            <div className="flex">
-              <div className="flex-auto">
-                <h1 className="mt0 mb0">{story.title}</h1>
-              </div>
-              <div className="flex-none ml3">
-                <Stack items={[<Avatar user={story.user} size={40} />]} />
-              </div>
-            </div>
-
+      <div>
+        <div className="flex mb2 pointer" onClick={this.handleToggle}>
+          <div className="flex-none mr2">
+            {this.emoji()}
           </div>
 
-            <div className="flex h5 gray px3" style={{backgroundColor: 'rgba(0,0,0,.05)'}}>
-
-              <div className="flex-none p1" style={{opacity: 0.5}}>
-                <Avatar user={story.user} size={19} />
-              </div>
-              <div className="flex-auto p1">
-                Done {moment(story.created_at).fromNow()}
-              </div>
-              <a className="flex-none p1 block gray">
-                Share
-              </a>
-
-              <a className="flex-none p1 block gray" href="#">
-                <Icon icon="pencil" />
-              </a>
-
-              <a className="flex-none p1 block gray" href="#">
-                <Icon icon="trash" />
-              </a>
-            </div>
-
-            {body}
-
-            {this.state.totalReads > 0 ? <div className="gray mt4">
-              Read {this.pluralize(this.state.totalReads, 'time ', 'times ')}
-              by {this.pluralize(this.state.uniqueReads, 'person ', 'people ')}
-            </div> : null}
-
-          <LoadingBar loading={this.state.isFakeLoading} />
+          <div className="flex-auto">
+            <h2 className="mt0 mb0">{story.title}</h2>
+          </div>
+          <div className="flex-none ml3">
+            <Stack items={story.contributors.map(user => <Avatar user={user} size={40} />)} />
+          </div>
         </div>
+
+        <div className="flex h5 gray mxn3 px3 mb3">
+
+          <div className="flex-none p1">
+            <Avatar user={story.user} size={19} />
+          </div>
+          <div className="flex-auto p1">
+            Written {moment(story.created_at).fromNow()}
+          </div>
+        </div>
+
+        {body}
+
+
+        {this.state.totalReads > 0 ? <div className="gray mt4">
+          Read {pluralize(this.state.totalReads, 'time ', 'times ')}
+          by {pluralize(this.state.uniqueReads, 'person ', 'people ')}
+        </div> : null}
+
+        <hr />
+
+        <Discussion storyId={story.id} changelogId={this.props.changelogId} />
       </div>
     )
   }
 
-  labels() {
+  emoji(story) {
     const {story: {labels}} = this.state
-    return List(labels).map(label => {
-      return <Label name={label} key={label} />
-    }).toJS()
+    const label = labels[0] || 'default'
+    const emojiChar = EmojiMappings[label.toLowerCase()]
+    return <Emoji char={emojiChar} size={36} />
   }
 
-  pluralize(count, singular, plural) {
-    return `${count} ${count === 1 ? singular : plural}`
-  }
-
-  _stateFromStores() {
+  _getStateFromStores() {
     return {
       story: StoryPageStore.story,
       totalReads: StoryReadersStore.totalReads,
@@ -124,6 +119,6 @@ export default class StoryPage extends React.Component {
   }
 
   _onStoreChange() {
-    this.setState(this._stateFromStores())
+    this.setState(this._getStateFromStores())
   }
 }

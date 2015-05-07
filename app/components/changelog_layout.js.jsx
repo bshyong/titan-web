@@ -9,10 +9,8 @@ import React from 'react'
 import RouterContainer from 'lib/router_container'
 import SessionActions from 'actions/session_actions'
 import SessionStore from 'stores/session_store'
+import Button from 'components/ui/button.js.jsx'
 
-// Logo versions:
-
-import LogoSrc from 'images/logo.svg'
 
 export default class ChangelogLayout extends React.Component {
   constructor() {
@@ -46,24 +44,29 @@ export default class ChangelogLayout extends React.Component {
     return (
       <div>
         <Navbar>
-          <div className="flex mxn1">
-            <div className="flex-none p1">
-              <img className="block" src={LogoSrc} style={{height: '1.5rem'}} />
-            </div>
 
-            <h4 className="flex-auto mt0 mb0 p1">
-              <Link to="changelog" params={{changelogId: changelogId}} className="black">
-                {this.state.changelog.name}
-              </Link>
-            </h4>
-
-            <Link className="flex-none block p1" to="highlights" params={{changelogId: changelogId, filter: 'mine'}}>Write</Link>
-
-            {this.renderProfileNav()}
-          </div>
         </Navbar>
 
-        <div className="container px1">
+        <div className="bg-blue">
+          <div className="container">
+
+            <div className="sm-flex py3 px2 md-px0">
+              <Link className="block flex-auto mb2 md-mb0 center sm-left-align white" to="changelog" params={{changelogId}}>
+                <h2 className="mt0 mb0">Assembly</h2>
+                <div>This is where we're tracking change to the assembly product</div>
+              </Link>
+
+              <div className="flex-none sm-ml2">
+                <Button bg="white" text="blue" block={true}>
+                  Follow Changelog
+                </Button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div className="container">
           <RouteHandler changelogId={changelogId} />
         </div>
       </div>

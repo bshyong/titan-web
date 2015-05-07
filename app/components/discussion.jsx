@@ -28,11 +28,13 @@ export default class Discussion extends React.Component {
   render() {
     const { comments } = this.state
     return (
-      <div>
-        <div className="flex mb2">
-          <div className="half-width">
-            {pluralize(comments.length, 'comment', 'comments')}
-          </div>
+      <div className="p2 md-p0">
+        <div className="mb2">
+          {pluralize(comments.length, 'comment', 'comments')}
+        </div>
+
+        <div className="mb2">
+          <CommentForm storyId={this.props.storyId} changelogId={this.props.changelogId}/>
         </div>
 
         {comments.map(comment =>
@@ -40,8 +42,6 @@ export default class Discussion extends React.Component {
             <Comment comment={comment}/>
           </div>
         )}
-
-        <CommentForm storyId={this.props.storyId} changelogId={this.props.changelogId}/>
       </div>
     )
   }

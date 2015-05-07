@@ -32,7 +32,7 @@ export default class CommentForm extends React.Component {
   renderButton() {
     const valid = NewCommentsStore.valid(this.props.storyId)
     return (
-      <Button bg="navy" color={valid ? 'green' : 'grey'} disabled={!valid} onClick={this.handleOnPublish}>Post comment</Button>
+      <Button bg="navy" text="white" disabled={!valid} action={this.handleOnPublish}>Post comment</Button>
     )
   }
 

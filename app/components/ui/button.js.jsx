@@ -1,23 +1,41 @@
 import classnames from 'classnames'
 import React from 'react'
 
-const Button = React.createClass({
-  getDefaultProps() {
+export default class Button extends React.Component {
+
+  static getDefaultProps() {
     return {
       bg: 'blue',
-      color: 'white'
+      text: 'white',
+      block: false
     }
-  },
+  }
 
   render() {
-    const {children, bg, color} = this.props
-    const cn = classnames('btn px2 py1 regular', `bg-${bg}`, color)
+    const {
+      action,
+      bg,
+      block,
+      children,
+      disabled,
+      text,
+    } = this.props
+
+    const cn = classnames('button px2 py1 rounded', `bg-${bg}`, text, {
+      'button--block':    block,
+      'button--disabled': disabled
+    })
+
     return (
-      <button className={cn} style={{borderRadius: 0}} type="submit" {...this.props}>
+      <button className={cn} type="submit" disabled={disabled} onClick={action}>
         {children}
       </button>
     )
   }
-})
+}
 
-export default Button
+Button.propTypes = {
+  bg: React.PropTypes.string.isRequired,
+  text: React.PropTypes.string.isRequired,
+  block: React.PropTypes.bool.isRequired
+}

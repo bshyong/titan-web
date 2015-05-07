@@ -10,7 +10,7 @@ export default class Timeline extends React.Component {
   render() {
     const {children} = this.props
     return (
-      <div className="mxn1">
+      <div className="">
         {children}
       </div>
     )
@@ -19,7 +19,7 @@ export default class Timeline extends React.Component {
 
 class TimelineItem extends React.Component {
   render() {
-    return <div className="">{this.props.children}</div>
+    return <div className="border-bottom">{this.props.children}</div>
   }
 }
 
@@ -27,7 +27,7 @@ class TimelineDate extends React.Component {
   render() {
     const {date} = this.props
     const m = moment(date)
-    return <div className="px1 py2 mid-gray bold bg-white">
+    return <div className="px2 md-px0 mt2 py2 gray bold border-bottom">
       {moment(date).calendar()}
     </div>
   }

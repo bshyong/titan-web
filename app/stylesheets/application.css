@@ -1,20 +1,27 @@
 @import 'basscss';
+
+/* Base */
 @import 'base/typography';
 @import 'base/colors';
+
+/* Utilities */
 @import 'utilities/pill';
 @import 'utilities/pointer';
 @import 'utilities/typography';
 @import 'utilities/whitespace';
+
+/* Components */
 @import 'components/button';
 @import 'components/emoji';
 @import 'components/loading_bar';
 @import 'components/markdown';
+@import 'components/navbar';
 @import 'components/stack';
 @import 'components/story';
 
 :root {
   --bold-font-weight: 600;
-  --container-width: 48rem;
+  --container-width: 52rem;
 
   --time-1: 150ms;
   --time-2: 300ms;
@@ -26,4 +33,8 @@
   --green: #93BD16;
   --yellow: #FCCB0E;
   --navy: #205B67;
+
+  --smoke: #F7F6F5;
+
+  --border-color: var(--smoke);
 }
