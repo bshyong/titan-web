@@ -75,9 +75,7 @@ export default class CommentForm extends React.Component {
 
   _onStoreChange() {
     this.setState({
-      comment: NewCommentsStore.get(this.props.storyId)
+      comment: NewCommentsStore.get(this.props.storyId) || ''
     })
-    // TODO: fix this! temporary fix because state change is not changing the value of textfield in MarkdownArea
-    React.findDOMNode(this.refs.comment).value = this.state.comment || ''
   }
 }
