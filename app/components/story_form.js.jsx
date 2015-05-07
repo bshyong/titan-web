@@ -73,7 +73,7 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
           </div>
 
           <div className="right">
-            <Button bg="white" color={StoryFormStore.isValid() ? 'green' : 'gray' } onClick={this.handlePublish}>{storyId ? 'Update' : 'Publish'}</Button>
+            <Button bg="white" text={StoryFormStore.isValid() ? 'green' : 'gray' } action={this.handlePublish}>{storyId ? 'Update' : 'Publish'}</Button>
           </div>
         </div>
       </div>
