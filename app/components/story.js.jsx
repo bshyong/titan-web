@@ -120,7 +120,7 @@ export default class Story extends React.Component {
 
         <hr />
 
-        <Discussion comments={[{author: story.user, body: 'This is a comment!'}]} />
+        <Discussion comments={[{author: story.user, body: 'This is a comment!'}]} storyId={story.id} changelogId={this.props.changelogId} />
 
         <LoadingBar loading={false} />
       </div>
