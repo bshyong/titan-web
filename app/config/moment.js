@@ -5,7 +5,7 @@ moment.locale('en', {
         lastDay : '[Yesterday]',
         sameDay : '[Today]',
         nextDay : '[Tomorrow]',
-        lastWeek : '[Last] dddd',
+        lastWeek : 'dddd',
         nextWeek : 'dddd [at]',
         sameElse : 'LL'
     }
