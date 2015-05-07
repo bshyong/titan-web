@@ -69,7 +69,7 @@ export default class Story extends React.Component {
     let comments
 
     if (comments_count > 0) {
-      comments = comments = (
+      comments = (
         <div className="flex-none gray" style={{minWidth: '4rem'}}>
           <span className="light-gray">
             <Icon icon="comment" fw={true} />
@@ -157,7 +157,7 @@ export default class Story extends React.Component {
   emoji(story) {
     const {story: {labels}} = this.props
     const label = labels[0] || 'default'
-    const emojiChar = EmojiMappings[label.toLowerCase()]
+    const emojiChar = EmojiMappings[label.toLowerCase()] || '✅'
     return <Emoji char={emojiChar} />
   }
 
