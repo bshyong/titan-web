@@ -3,9 +3,11 @@ import {
   RESOURCE_FOUND,
   STORIES_FETCHED,
   STORY_CREATING,
-  STORY_FETCHED,
-  STORY_PUBLISHED,
   STORY_EDITING,
+  STORY_FETCHED,
+  STORY_HEARTED,
+  STORY_PUBLISHED,
+  STORY_UNHEARTED,
 } from 'constants'
 
 import api from 'lib/api'
@@ -53,6 +55,13 @@ export default {
       })
   },
 
+  heart(storyId) {
+    api.put(`user/hearts/stories/${storyId}`)
+    Dispatcher.dispatch({
+      type: STORY_HEARTED
+    })
+  },
+
   publish(changelog_id, data) {
     Dispatcher.dispatch({
       type: STORY_CREATING
@@ -72,5 +81,12 @@ export default {
           storyLength: data.body.length
         })
       })
+  },
+
+  unheart(storyId) {
+    api.delete(`user/hearts/stories/${storyId}`)
+    Dispatcher.dispatch({
+      type: STORY_UNHEARTED
+    })
   }
 }

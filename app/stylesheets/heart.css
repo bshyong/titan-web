@@ -1,0 +1,30 @@
+.svg-icon-heart {
+  width: 1.6rem;
+}
+.svg-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1.5rem;
+}
+
+svg {
+  max-height: 100%;
+}
+
+.svg-icon-heart .path1 {
+  fill: transparent;
+}
+
+.svg-icon-heart .path2 {
+  fill: #c2c4c9;
+}
+
+.heart:hover .svg-icon-heart .path1,
+.heart:hover .svg-icon-heart .path2 {
+  fill: #EC3750;
+}
+
+.heart .svg-icon-heart.red .path1,
+.heart .svg-icon-heart.red .path2 {
+  fill: #EC3750;
+}

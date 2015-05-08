@@ -36,7 +36,7 @@ export default class Story extends React.Component {
   render() {
     const {
       changelogId,
-      story: {id: storyId, user, body, title, labels, comments_count},
+      story: {id: storyId, user, body, title, labels, comments_count, hearts_count},
     } = this.props
 
     const label = labels[0] || 'default'
@@ -52,7 +52,7 @@ export default class Story extends React.Component {
             <div className="px1">
               <span className="silver"><Icon icon="heart" /></span>
               {' '}
-              2
+              {hearts_count}
             </div>
             <div className="px1">
               <span className=" silver"><Icon icon="comment" /></span>

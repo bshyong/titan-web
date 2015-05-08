@@ -11,6 +11,12 @@ module.exports = {
     })
   },
 
+  put(url) {
+    return this.req(url, {
+      method: 'PUT'
+    })
+  },
+
   post(url, data) {
     return this.req(url, {
       body: JSON.stringify(data),

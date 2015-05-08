@@ -1,11 +1,13 @@
 import {List} from 'immutable'
 import Avatar from 'components/ui/avatar.jsx'
+import Heart from 'components/ui/heart.jsx'
 import Label from 'components/ui/label.jsx'
 import Icon from 'components/ui/icon.js.jsx'
 import Markdown from 'components/ui/markdown.jsx'
 import moment from 'moment'
 import React from 'react'
 import Router from 'lib/router_container'
+import SessionStore from 'stores/session_store'
 import Stack from 'components/ui/stack.jsx'
 import StoryActions from 'actions/story_actions'
 import StoryPageStore from 'stores/story_page_store'
@@ -27,27 +29,15 @@ const EmojiMappings = {
 }
 
 export default class StoryPage extends React.Component {
+  static willTransitionTo(transition, params, query) {
+    StoryActions.fetch(params.changelogId, params.storyId)
+  }
 
   constructor(props) {
     super(props)
-    this.state = this._getStateFromStores()
-    this.onStoreChange = this._onStoreChange.bind(this)
-  }
-
-  componentDidMount() {
-    StoryPageStore.addChangeListener(this.onStoreChange)
-    StoryReadersStore.addChangeListener(this.onStoreChange)
-
-    const {
-      changelogId,
-      storyId
-    } = Router.get().getCurrentParams()
-    StoryActions.fetch(changelogId, storyId)
-  }
-
-  componentWillUnmount() {
-    StoryPageStore.removeChangeListener(this.onStoreChange)
-    StoryReadersStore.removeChangeListener(this.onStoreChange)
+    this.stores = [StoryPageStore, StoryReadersStore]
+    this.state = this.getStateFromStores()
+    this.handleStoresChanged = this.handleStoresChanged.bind(this)
   }
 
   render() {
@@ -94,6 +84,11 @@ export default class StoryPage extends React.Component {
           by {pluralize(this.state.uniqueReads, 'person ', 'people ')}
         </div> : null}
 
+        <Heart
+          count={story.hearts_count}
+          onClick={() => this.heartClicked(story)}
+          hearted={story.viewer_has_hearted} />
+
         <hr />
 
         <Discussion storyId={Router.get().getCurrentParams().storyId} changelogId={this.props.changelogId} />
@@ -108,7 +103,17 @@ export default class StoryPage extends React.Component {
     return <Emoji char={emojiChar} size={36} />
   }
 
-  _getStateFromStores() {
+  heartClicked(story) {
+    if (SessionStore.isSignedIn()) {
+      if (story.viewer_has_hearted) {
+        StoryActions.unheart(story.id)
+      } else {
+        StoryActions.heart(story.id)
+      }
+    }
+  }
+
+  getStateFromStores() {
     return {
       story: StoryPageStore.story,
       totalReads: StoryReadersStore.totalReads,
@@ -117,7 +122,26 @@ export default class StoryPage extends React.Component {
     }
   }
 
-  _onStoreChange() {
-    this.setState(this._getStateFromStores())
+  // Stores mixin
+  componentWillMount() {
+    this.stores.forEach(store =>
+      store.addChangeListener(this.handleStoresChanged)
+    );
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!shallowEqual(nextProps, this.props)) {
+      this.setState(getState(nextProps));
+    }
+  }
+
+  componentWillUnmount() {
+    this.stores.forEach(store =>
+      store.removeChangeListener(this.handleStoresChanged)
+    );
+  }
+
+  handleStoresChanged() {
+    this.setState(this.getStateFromStores(this.props));
   }
 }
