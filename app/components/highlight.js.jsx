@@ -27,6 +27,11 @@ export default class Highlight extends React.Component {
 
     const sourceIcon = Sources[this.props.highlight.source] || 'quote-left'
 
+    var formatted_content = content.substring(0, 300)
+    if (content.length>300) {
+      formatted_content = formatted_content + "..."
+    }
+
     return (
       <div className="flex flex-center p1">
 
@@ -38,7 +43,7 @@ export default class Highlight extends React.Component {
             {' '}
             {moment(occurred_at || created_at).fromNow()}
           </p>
-          <h4 className="mt0 mb0 block">{content}</h4>
+          <h4 className="mt0 mb0 block">{formatted_content}</h4>
           {this.renderAvatarStack()}
         </div>
 
