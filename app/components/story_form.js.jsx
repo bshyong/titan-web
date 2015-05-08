@@ -134,25 +134,33 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
     })
   }
 
+  // if storyId exists, try to fetch from existing store;
+  // if not found, fetch it from API
+  // if storyId doesn't exist, use the blank slate from StoryFormStore
   getInitialState() {
     const { storyId, changelogId } = Router.get().getCurrentParams()
 
-    const story = StoriesStore.get(storyId)
-    if (story) {
-      return {
-        storyId:      storyId,
-        changelogId:  changelogId,
-        title:        story.title,
-        body:         story.body,
-        contributors: story.contributors.map(c => '@' + c.username).join(', '),
-        isPublic:     story.isPublic
+    if (storyId) {
+      const story = StoriesStore.get(storyId)
+
+      if (story) {
+        return {
+          storyId:      storyId,
+          changelogId:  changelogId,
+          title:        story.title,
+          body:         story.body,
+          contributors: story.contributors.map(c => '@' + c.username).join(', '),
+          isPublic:     story.isPublic
+        }
+      } else {
+        StoryActions.fetch(changelogId, storyId)
+        return {
+          storyId: storyId,
+          changelogId: changelogId
+        }
       }
     } else {
-      StoryActions.fetch(changelogId, storyId)
-      return {
-        storyId: storyId,
-        changelogId: changelogId
-      }
+      return this.getStateFromStores()
     }
   }
 
