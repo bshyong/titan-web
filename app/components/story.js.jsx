@@ -79,7 +79,13 @@ export default class Story extends React.Component {
   emoji(story) {
     const {story: {labels}} = this.props
     const label = labels[0] || 'default'
-    const emojiChar = EmojiMappings[label.toLowerCase()] || '🔸'
+    if (this.props.story.team_member_only) {
+      var emojiChar = '🔒'
+    }
+    else {
+      var emojiChar = EmojiMappings[label.toLowerCase()] || '🔸'
+    }
+
     return (
       <div className="flex-none px1" key={label}>
         <Emoji char={emojiChar} size={36} />
