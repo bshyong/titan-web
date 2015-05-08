@@ -23,9 +23,9 @@ export default (
     <Route handler={ChangelogLayout} path="/:changelogId">
       <DefaultRoute handler={Changelog} name="changelog" />
 
+      <Route handler={StoryForm} path=":storyId/edit" name="edit" />
       <Route handler={StoryComposer} path="new">
         <DefaultRoute handler={StoryForm} name="new" />
-        <Route handler={StoryForm} path=":storyId/edit" name="edit" />
         <Route handler={HighlightPicker} path="highlights/?:filter?" name="highlights" />
       </Route>
 
