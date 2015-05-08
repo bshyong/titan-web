@@ -12,6 +12,7 @@ export default class CommentForm extends React.Component {
     super(props)
     this.state = {
       comment: NewCommentsStore.get(this.props.storyId),
+      formOpen: false,
       user: SessionStore.user,
       isSignedIn: SessionStore.isSignedIn()
     }
@@ -19,6 +20,7 @@ export default class CommentForm extends React.Component {
     this.onStoreChange = this._onStoreChange.bind(this)
     this.handleOnChange = this._handleOnChange.bind(this)
     this.handleOnPublish = this._handleOnPublish.bind(this)
+    this.handleFormFocus = this._handleFormFocus.bind(this)
   }
 
   componentDidMount() {
@@ -31,9 +33,51 @@ export default class CommentForm extends React.Component {
 
   renderButton() {
     const valid = NewCommentsStore.valid(this.props.storyId)
-    return (
-      <Button bg="navy" text="white" disabled={!valid} action={this.handleOnPublish}>Post comment</Button>
-    )
+    if (valid && this.state.formOpen) {
+      return (
+        <Button
+          bg="navy"
+          text="white"
+          block={true}
+          disabled={!(valid && this.state.comment.length > 2)}
+          action={this.handleOnPublish}>
+            Post your thoughts
+        </Button>
+      )
+    } else {
+      return <div />
+    }
+  }
+
+  renderTextArea() {
+    const placeholder = "What do you think of this story?"
+
+    if (this.state.formOpen) {
+      return (
+        <MarkdownArea
+          ref="comment"
+          placeholder={placeholder}
+          onChange={this.handleOnChange}
+          value={this.state.comment}
+          onBlur={this.handleFormFocus} />
+      )
+    } else {
+      return (
+        <textarea
+          ref="blank_comment"
+          placeholder={placeholder}
+          className="field-light mb0 block full-width"
+          style={{height: '44px'}}
+          onFocus={this.handleFormFocus} />
+      )
+    }
+  }
+
+  _handleFormFocus() {
+    const open = React.findDOMNode(this.refs.comment)
+    this.setState({
+      formOpen: !open || this.state.comment
+    }, () => {React.findDOMNode(this.refs.comment).focus()})
   }
 
   render() {
@@ -50,7 +94,7 @@ export default class CommentForm extends React.Component {
         </div>
         <div className="flex-auto">
           <div className="mb2">
-            <MarkdownArea ref="comment" placeholder="What do you think of this story?" onChange={this.handleOnChange} value={this.state.comment} />
+            {this.renderTextArea()}
           </div>
           {this.renderButton()}
         </div>

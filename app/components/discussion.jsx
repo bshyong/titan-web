@@ -48,7 +48,9 @@ export default class Discussion extends React.Component {
 
   _onStoreChange() {
     this.setState({
-      comments: CommentsStore.all()
+      comments: CommentsStore.all().sort(function(a,b){
+        return a.created_at < b.created_at
+      })
     })
   }
 
