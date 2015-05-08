@@ -10,6 +10,7 @@ import RouterContainer from 'lib/router_container'
 import SessionActions from 'actions/session_actions'
 import SessionStore from 'stores/session_store'
 import Button from 'components/ui/button.js.jsx'
+import FollowButton from 'components/follow_button.jsx'
 
 
 export default class ChangelogLayout extends React.Component {
@@ -57,9 +58,7 @@ export default class ChangelogLayout extends React.Component {
               </Link>
 
               <div className="flex-none sm-ml2">
-                <Button bg="white" text="blue" block={true}>
-                  Follow Changelog
-                </Button>
+                <FollowButton changelog={this.state.changelog}/>
               </div>
             </div>
 

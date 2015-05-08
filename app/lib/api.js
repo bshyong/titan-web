@@ -18,6 +18,13 @@ module.exports = {
     })
   },
 
+  delete(url, data) {
+    return this.req(url, {
+      body: JSON.stringify(data),
+      method: 'DELETE'
+    })
+  },
+
   req(url, options) {
     options.headers = {
       'Accept': 'application/json',
