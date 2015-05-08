@@ -28,6 +28,8 @@ export default {
       type: 'HIGHLIGHT_USED',
       highlight: highlight
     })
+    api.post(`${highlight.url}/used`)
+
     RouterContainer.get().transitionTo('new', {changelogId: 'assembly'})
   }
 
