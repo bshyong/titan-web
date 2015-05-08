@@ -2,15 +2,6 @@ import classnames from 'classnames'
 import React from 'react'
 
 export default class Button extends React.Component {
-
-  static getDefaultProps() {
-    return {
-      bg: 'blue',
-      text: 'white',
-      block: false
-    }
-  }
-
   render() {
     const {
       action,
@@ -38,4 +29,10 @@ Button.propTypes = {
   bg: React.PropTypes.string.isRequired,
   text: React.PropTypes.string.isRequired,
   block: React.PropTypes.bool.isRequired
+}
+
+Button.defaultProps = {
+  bg: 'blue',
+  text: 'white',
+  block: false
 }
