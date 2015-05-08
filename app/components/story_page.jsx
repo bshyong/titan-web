@@ -89,7 +89,6 @@ export default class StoryPage extends React.Component {
 
         {body}
 
-
         {this.state.totalReads > 0 ? <div className="gray mt4">
           Read {pluralize(this.state.totalReads, 'time ', 'times ')}
           by {pluralize(this.state.uniqueReads, 'person ', 'people ')}
@@ -97,7 +96,7 @@ export default class StoryPage extends React.Component {
 
         <hr />
 
-        <Discussion storyId={story.id} changelogId={this.props.changelogId} />
+        <Discussion storyId={Router.get().getCurrentParams().storyId} changelogId={this.props.changelogId} />
       </div>
     )
   }
