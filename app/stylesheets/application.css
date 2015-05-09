@@ -6,6 +6,7 @@
 /* Utilities */
 @import 'utilities/pill';
 @import 'utilities/pointer';
+@import 'utilities/shadow';
 @import 'utilities/typography';
 @import 'utilities/whitespace';
 
