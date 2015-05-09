@@ -1,0 +1,10 @@
+.list-item > a {
+  display: block;
+  padding: .5rem 2rem;
+  color: var(--black);
+}
+
+.list--small > .list-item > a {
+  color: var(--gray);
+  font-size: var(--h5);
+}

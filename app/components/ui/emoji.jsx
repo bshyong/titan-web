@@ -4,18 +4,22 @@ import twemoji from 'twemoji'
 
 const EmojiMappings = {
   'discussion': '💬',
-  'improvement': '✅',
-  'feature': '✅',
+  'improvement': '🔧',
+  'feature': '🚀',
   'update': '🎉',
   'bugfix': '🐛',
   'doc': '📄',
-  'default': '✅'
+  'default': '👍'
 }
 
 export default class Emoji extends React.Component {
 
   render() {
-    const {char, size} = this.props
+    const {story: {labels}, size} = this.props
+
+    const label = labels[0] || 'default'
+    const char = EmojiMappings[label.toLowerCase()] || '👍'
+
     const html = twemoji.parse(char, (icon, options, variant) => {
        return `https://twemoji.maxcdn.com/${size}x${size}/${icon}.png`
      })
@@ -26,6 +30,8 @@ export default class Emoji extends React.Component {
 }
 
 Emoji.propTypes = {
-  char: React.PropTypes.string.isRequired,
+  story: React.PropTypes.shape({
+    labels: React.PropTypes.array
+  }).isRequired,
   size: React.PropTypes.oneOf([16, 36, 72]).isRequired
 }

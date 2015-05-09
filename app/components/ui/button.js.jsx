@@ -12,7 +12,7 @@ export default class Button extends React.Component {
       text,
     } = this.props
 
-    const cn = classnames('button px2 py1 rounded', `bg-${bg}`, text, {
+    const cn = classnames('button px2 py1 rounded', `border-${bg}`, text, {
       'button--block':    block,
       'button--disabled': disabled
     })

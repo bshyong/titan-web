@@ -14,12 +14,12 @@ import Stack from 'components/ui/stack.jsx'
 
 const EmojiMappings = {
   'discussion': '💬',
-  'improvement': '🔸',
-  'feature': '🔸',
+  'improvement': '🔧',
+  'feature': '🚀',
   'update': '🎉',
-  'bugfix': '🐞',
+  'bugfix': '🐛',
   'doc': '📄',
-  'default': '🔸'
+  'default': '👍'
 }
 
 export default class Story extends React.Component {
@@ -43,11 +43,16 @@ export default class Story extends React.Component {
     const emojiChar = EmojiMappings[label.toLowerCase()]
 
     return (
-      <Link className="flex black pointer mxn1 p2 md-px0" to="story" params={{changelogId, storyId}}>
+      <Link className="flex black gray-visited pointer mxn1 p2 md-px0" to="story" params={{changelogId, storyId}}>
         {this.emoji()}
         <div className="flex-auto px1">
           <div>{title}</div>
+        </div>
+        <div className="flex-none sm-show px1">
+          <Stack items={this.contributors().map(user => <Avatar user={user} size={24} />)} />
+        </div>
 
+        <div className="flex-none px1">
           <div className="h5 gray mxn1 flex">
             <div className="px1">
               <span className="silver"><Icon icon="heart" /></span>
@@ -61,9 +66,7 @@ export default class Story extends React.Component {
             </div>
           </div>
         </div>
-        <div className="flex-none sm-show px1">
-          <Stack items={this.contributors().map(user => <Avatar user={user} size={24} />)} />
-        </div>
+
       </Link>
     )
   }
@@ -77,8 +80,9 @@ export default class Story extends React.Component {
   }
 
   emoji(story) {
-    const {story: {labels}} = this.props
+    const {story: {labels, hearts_count}} = this.props
     const label = labels[0] || 'default'
+    
     if (this.props.story.team_member_only) {
       var emojiChar = '🔒'
     }

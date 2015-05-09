@@ -17,13 +17,14 @@ import ChangelogLayout from 'components/changelog_layout.js.jsx'
 import StoryPage from 'components/story_page.jsx'
 
 export default (
-  <Route handler={App}>
+  <Route handler={App}  name="root" path="/">
     <Route handler={SigninSSO} path='/signin/sso' name="sso" />
 
     <Route handler={ChangelogLayout} path="/:changelogId">
       <DefaultRoute handler={Changelog} name="changelog" />
 
       <Route handler={StoryForm} path=":storyId/edit" name="edit" />
+      
       <Route handler={StoryComposer} path="new">
         <DefaultRoute handler={StoryForm} name="new" />
         <Route handler={HighlightPicker} path="highlights/?:filter?" name="highlights" />

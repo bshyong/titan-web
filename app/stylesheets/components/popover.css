@@ -1,0 +1,46 @@
+.popover-menu {
+  will-animate: transform;
+}
+
+.popover-menu-arrow {
+  transform: rotate(45deg);
+
+  box-shadow: -1px -1px 1px -1px var(--darken-4);
+
+  background: white;
+  width: .5rem;
+  height: .5rem;
+
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  margin-top: 5px;
+  margin-right: 8px;
+
+  border-radius: 1px;
+}
+
+/* Transition */
+
+.popover-menu-enter {
+  /* http://easings.net/#easeOutCubic */
+  transition: transform var(--time-1) cubic-bezier(0.215, 0.61, 0.355, 1);
+  transform: scale(0, 0) rotate(30deg);
+  transform-origin: calc(100% - 1rem) 0;
+}
+
+.popover-menu-enter.popover-menu-enter-active {
+  transform: scale(1, 1) rotate(0deg);
+}
+
+.popover-menu-leave {
+  /* http://easings.net/#easeInCubic */
+  transition: transform var(--time-1) cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  transform: scale(1, 1) rotate(0deg);
+  transform-origin: calc(100% - 1rem) 0;
+}
+
+.popover-menu-leave.popover-menu-leave-active {
+  transform: scale(0, 0) rotate(30deg);
+}

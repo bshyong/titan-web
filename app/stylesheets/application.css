@@ -4,6 +4,7 @@
 @import 'base/typography';
 
 /* Utilities */
+@import 'utilities/color';
 @import 'utilities/pill';
 @import 'utilities/pointer';
 @import 'utilities/shadow';
@@ -14,15 +15,18 @@
 @import 'components/button';
 @import 'components/comment';
 @import 'components/emoji';
+@import 'components/list';
 @import 'components/loading_bar';
 @import 'components/markdown';
 @import 'components/navbar';
+@import 'components/popover';
 @import 'components/stack';
 @import 'components/story';
 @import 'components/table';
 
 :root {
   --bold-font-weight: 600;
+  --heading-font-weight: 600;
   --container-width: 52rem;
 
   --time-1: 150ms;

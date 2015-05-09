@@ -1,12 +1,16 @@
-import {List} from 'immutable'
-import {RouteHandler} from 'react-router'
+import {List, Set} from 'immutable'
+import {RouteHandler, Link} from 'react-router'
 import moment from 'moment'
 import React from 'react'
 import RouterContainer from 'lib/router_container'
 import StoriesStore from 'stores/stories_store'
 import Story from 'components/story.js.jsx'
 import StoryActions from 'actions/story_actions'
-import Timeline from 'components/ui/timeline.js.jsx'
+import Table from 'components/ui/table.js.jsx'
+import Avatar from 'components/ui/avatar.jsx'
+import Stack from 'components/ui/stack.jsx'
+import Icon from 'components/ui/icon.js.jsx'
+import Emoji from 'components/ui/emoji.jsx'
 
 export default class Changelog extends React.Component {
   static willTransitionTo(transition, params, query) {
@@ -34,21 +38,38 @@ export default class Changelog extends React.Component {
                     .groupBy(story => moment(story.created_at).startOf('day'))
 
     const a = stories.reduce(function (reduction, value, key, iter) {
-      const date = key.format('l')
       let a = reduction.push(
-        <Timeline.Date date={key} key={key.toISOString()} />
+        <Table.Separator label={key.calendar()} key={key.toISOString()} />
       )
       let b = a.push(
-        value.map(story => (
-          <Timeline.Item key={story.id}>
-            <Story story={story} changelogId={changelogId} />
-          </Timeline.Item>
-        ))
+        value.map((story) => {
+          const contributors = Set(story.contributors)
+          return (
+            <Table.Cell key={story.id} image={<div className="p2"><Emoji story={story} size={36} /></div>} to="story" params={{changelogId, storyId: story.id}}>
+              <div className="flex">
+                <div className="flex-auto">{story.title}</div>
+                <div className="flex-none sm-show ml2">
+                  <Stack items={contributors.map(user => <Avatar user={user} size={24} />).toJS()} />
+                </div>
+
+                <div className="flex-none ml2">
+                  <div className="h5 gray mxn1 flex">
+                    <div className="px1">
+                      <span className=" silver"><Icon icon="comment" /></span>
+                      {' '}
+                      {story.comments_count}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Table.Cell>
+          )
+        })
       )
       return b
     }, List())
 
-    return <Timeline>{a.toJS()}</Timeline>
+    return <Table>{a.toJS()}</Table>
   }
 
   // Stores mixin
