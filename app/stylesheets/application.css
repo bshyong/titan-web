@@ -19,6 +19,7 @@
 @import 'components/navbar';
 @import 'components/stack';
 @import 'components/story';
+@import 'components/table';
 
 :root {
   --bold-font-weight: 600;
