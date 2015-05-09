@@ -1,6 +1,10 @@
 var keyMirror = require('keymirror')
 
 export default keyMirror({
+  ATTACHMENT_FAILED: null,
+  ATTACHMENT_UPLOADED: null,
+  ATTACHMENT_UPLOADING: null,
+
   CHANGELOG_FETCHED: null,
 
   RESOURCE_FOUND: null,

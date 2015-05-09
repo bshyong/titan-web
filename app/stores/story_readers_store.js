@@ -16,10 +16,14 @@ class StoryReadersStore extends Store {
         case STORY_FETCHED:
           this.article = null
           this.emitChange()
-          readraptor.getArticle(action.story.id, a => {
-            this.article = a
-            this.emitChange()
-          })
+
+          if (action.story) {
+            readraptor.getArticle(action.story.id, a => {
+              this.article = a
+              this.emitChange()
+            })
+          }
+
           break;
       }
     })

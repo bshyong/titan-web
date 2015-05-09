@@ -13,7 +13,7 @@ const EmojiMappings = {
 }
 
 export default class Emoji extends React.Component {
-  
+
   render() {
     const {char, size} = this.props
     const html = twemoji.parse(char, (icon, options, variant) => {
@@ -27,5 +27,5 @@ export default class Emoji extends React.Component {
 
 Emoji.propTypes = {
   char: React.PropTypes.string.isRequired,
-  size: React.PropTypes.oneOf(16, 36, 72).isRequired
+  size: React.PropTypes.oneOf([16, 36, 72]).isRequired
 }

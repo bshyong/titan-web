@@ -12,6 +12,7 @@
 
 /* Components */
 @import 'components/button';
+@import 'components/comment';
 @import 'components/emoji';
 @import 'components/loading_bar';
 @import 'components/markdown';

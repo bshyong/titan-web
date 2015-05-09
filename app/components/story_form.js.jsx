@@ -25,6 +25,8 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
 
     this.handleChanged = this._handleChanged.bind(this)
     this.handlePublish = this._handlePublish.bind(this)
+    this.handleUploaded = this._handleUploaded.bind(this)
+    this.handleUploading = this._handleUploading.bind(this)
     this.onStoreChange = this._onStoreChange.bind(this)
     this.onStoryFetched = this._onStoryFetched.bind(this)
   }
@@ -46,7 +48,12 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
       <div className="flex flex-column">
 
         <div className="mb2">
-          <input type="text" className="field-light full-width block mb0" placeholder="What changed?" value={title} onChange={this.handleChanged} ref="title" />
+          <input type="text"
+            className="field-light full-width block mb0"
+            placeholder="What changed?"
+            value={title}
+            onChange={this.handleChanged}
+            ref="title" />
         </div>
 
         <div className="mb2">
@@ -107,6 +114,45 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
     }
   }
 
+  _handleUploaded(oldText, fileText) {
+    let body = React.findDOMNode(this.refs.body)
+    let value = body && body.value
+
+    if (!value) {
+      return
+    }
+
+    // next tick
+    setTimeout(() => {
+
+      StoryFormActions.change({
+        title: React.findDOMNode(this.refs.title).value,
+        body:  value.replace(oldText, fileText),
+        contributors: React.findDOMNode(this.refs.contributors).value,
+        isPublic: false
+      })
+    }, 0)
+  }
+
+  _handleUploading(fileText) {
+    let body = React.findDOMNode(this.refs.body)
+    let value = body && body.value
+
+    if (!value) {
+      return
+    }
+
+    // next tick
+    setTimeout(() => {
+      StoryFormActions.change({
+        title: React.findDOMNode(this.refs.title).value,
+        body: `${React.findDOMNode(this.refs.body).value} ${fileText}`,
+        contributors: React.findDOMNode(this.refs.contributors).value,
+        isPublic: false
+      })
+    }, 0)
+  }
+
   getStateFromStores() {
     const { storyId, changelogId } = Router.get().getCurrentParams()
 
@@ -126,12 +172,15 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
 
   _onStoryFetched() {
     const story = StoryPageStore.story
-    this.setState({
-      title: story.title,
-      body: story.body,
-      contributors: story.contributors.map(u => '@' + u.username).join(', '),
-      isPublic: story.isPublic
-    })
+
+    if (story) {
+      this.setState({
+        title: story.title,
+        body: story.body,
+        contributors: story.contributors.map(u => '@' + u.username).join(', '),
+        isPublic: story.isPublic
+      })
+    }
   }
 
   // if storyId exists, try to fetch from existing store;

@@ -1,13 +1,13 @@
-import React from 'react'
 import Avatar from 'components/ui/avatar.jsx'
-import MarkdownArea from 'components/ui/markdown_area.jsx'
 import Button from 'components/ui/button.js.jsx'
 import CommentFormActions from 'actions/comment_form_actions'
-import SessionStore from 'stores/session_store'
+import DropzoneContainer from 'components/dropzone_container.jsx'
+import MarkdownArea from 'components/ui/markdown_area.jsx'
 import NewCommentsStore from 'stores/new_comments_store'
+import React from 'react'
+import SessionStore from 'stores/session_store'
 
 export default class CommentForm extends React.Component {
-
   constructor(props) {
     super(props)
     this.state = {
@@ -17,10 +17,12 @@ export default class CommentForm extends React.Component {
       isSignedIn: SessionStore.isSignedIn()
     }
 
-    this.onStoreChange = this._onStoreChange.bind(this)
+    this.handleUploaded = this._handleUploaded.bind(this)
+    this.handleUploading = this._handleUploading.bind(this)
     this.handleOnChange = this._handleOnChange.bind(this)
     this.handleOnPublish = this._handleOnPublish.bind(this)
     this.handleFormFocus = this._handleFormFocus.bind(this)
+    this.onStoreChange = this._onStoreChange.bind(this)
   }
 
   componentDidMount() {
@@ -54,12 +56,16 @@ export default class CommentForm extends React.Component {
 
     if (this.state.formOpen) {
       return (
-        <MarkdownArea
-          ref="comment"
-          placeholder={placeholder}
-          onChange={this.handleOnChange}
-          value={this.state.comment}
-          onBlur={this.handleFormFocus} />
+        <DropzoneContainer id={this.props.storyId}
+            onUploaded={this.handleUploaded}
+            onUploading={this.handleUploading}>
+          <MarkdownArea
+            ref="comment"
+            placeholder={placeholder}
+            onChange={this.handleOnChange}
+            value={this.state.comment}
+            onBlur={this.handleFormFocus} />
+        </DropzoneContainer>
       )
     } else {
       return (
@@ -115,6 +121,29 @@ export default class CommentForm extends React.Component {
       this.props.storyId,
       React.findDOMNode(this.refs.comment).value
     )
+  }
+
+  _handleUploaded(oldText, fileText) {
+    // next tick
+    setTimeout(() => {
+      let value = React.findDOMNode(this.refs.comment).value
+
+
+      CommentFormActions.change(
+        this.props.storyId,
+        value.replace(oldText, fileText)
+      )
+    }, 0)
+  }
+
+  _handleUploading(fileText) {
+    // next tick
+    setTimeout(() => {
+      CommentFormActions.change(
+        this.props.storyId,
+        `${React.findDOMNode(this.refs.comment).value} ${fileText}`
+      )
+    }, 0)
   }
 
   _onStoreChange() {
