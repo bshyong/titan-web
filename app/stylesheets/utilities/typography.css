@@ -1,3 +1,5 @@
+.caps { letter-spacing: .1em }
+
 @media (--breakpoint-sm) {
   .sm-left-align  { text-align: left }
   .sm-center      { text-align: center }
