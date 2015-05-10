@@ -21,9 +21,9 @@ class NewCommentsStore extends Store {
     })
   }
 
-  valid(storyId) {
+  isValid(storyId) {
     const comment = this.comments.get(storyId)
-    return comment && comment.length > 0
+    return comment && comment.length > 1
   }
 
   get(storyId) {

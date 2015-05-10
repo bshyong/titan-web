@@ -34,14 +34,13 @@ export default class CommentForm extends React.Component {
   }
 
   renderButton() {
-    const valid = NewCommentsStore.valid(this.props.storyId)
+    const valid = NewCommentsStore.isValid(this.props.storyId)
     if (valid && this.state.formOpen) {
       return (
         <Button
           bg="navy"
           text="white"
           block={true}
-          disabled={!(valid && this.state.comment.length > 2)}
           action={this.handleOnPublish}>
             Post your thoughts
         </Button>
