@@ -14,6 +14,7 @@ export default class Comment extends React.Component {
           <Avatar user={user} size={24} />
         </div>
         <div className="flex-auto">
+          <h4 className="mt0 mb1">{user.username}</h4>
           <Markdown markdown={body} />
         </div>
       </div>
