@@ -13,7 +13,6 @@ import ScrollPaginator from 'components/ui/scroll_paginator.jsx'
 import shallowEqual from 'react-pure-render/shallowEqual'
 import Stack from 'components/ui/stack.jsx'
 import StoriesStore from 'stores/stories_store'
-import Story from 'components/story.js.jsx'
 import StoryActions from 'actions/story_actions'
 import Table from 'components/ui/table.js.jsx'
 
