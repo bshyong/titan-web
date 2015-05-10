@@ -43,7 +43,7 @@ export default class StoryPage extends React.Component {
     }
 
     return (
-      <div>
+      <div className="container p2">
         <div className="flex mb2 pointer" onClick={this.handleToggle}>
           <div className="flex-none mr2">
             <Emoji story={story} size={36} />
