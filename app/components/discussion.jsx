@@ -28,8 +28,8 @@ export default class Discussion extends React.Component {
   render() {
     const { comments } = this.state
     return (
-      <div className="p2 md-p0">
-        <div className="mb2">
+      <div>
+        <div className="mb2 gray caps h6 bold">
           {pluralize(comments.length, 'comment', 'comments')}
         </div>
 
