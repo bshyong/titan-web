@@ -96,7 +96,7 @@ export default class Changelog extends React.Component {
           </Link>
 
           <div className="flex-none sm-ml2">
-            <FollowButton changelog={this.state.changelog}/>
+            <FollowButton changelogId={this.props.changelogId}/>
           </div>
         </div>
       </Jumbotron>

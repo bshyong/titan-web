@@ -3,8 +3,8 @@ import api from 'lib/api'
 
 export default {
 
-  fetchAll(changelog) {
-    api.get(`${changelog.url}/followers`).then(resp => {
+  fetchAll(changelog_id) {
+    api.get(`changelogs/${changelog_id}/followers`).then(resp => {
       Dispatcher.dispatch({
         type: 'CHANGELOG_FOLLOWERS_FETCHED',
         followers: resp
@@ -12,20 +12,20 @@ export default {
     })
   },
 
-  follow(changelog) {
+  follow(changelog_id) {
     Dispatcher.dispatch({
       type: 'CHANGELOG_FOLLOWED'
     })
 
-    api.post(`${changelog.url}/follow`)
+    api.post(`changelogs/${changelog_id}/follow`)
   },
 
-  unfollow(changelog) {
+  unfollow(changelog_id) {
     Dispatcher.dispatch({
       type: 'CHANGELOG_UNFOLLOWED'
     })
 
-    api.post(`${changelog.url}/unfollow`)
+    api.post(`changelogs/${changelog_id}/unfollow`)
   }
 
 }

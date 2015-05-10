@@ -17,7 +17,7 @@ export default class FollowButton extends React.Component {
 
   componentDidMount() {
     FollowersStore.addChangeListener(this.onStoreChange)
-    FollowActions.fetchAll(this.props.changelog)
+    FollowActions.fetchAll(this.props.changelogId)
   }
 
   componentWillUnmount() {
@@ -38,9 +38,9 @@ export default class FollowButton extends React.Component {
     }
 
     if (this.state.following) {
-      FollowActions.unfollow(this.props.changelog)
+      FollowActions.unfollow(this.props.changelogId)
     } else {
-      FollowActions.follow(this.props.changelog)
+      FollowActions.follow(this.props.changelogId)
     }
   }
 
@@ -52,5 +52,5 @@ export default class FollowButton extends React.Component {
 }
 
 FollowButton.propTypes = {
-  changelog: React.PropTypes.object.isRequired
+  changelogId: React.PropTypes.string.isRequired
 }
