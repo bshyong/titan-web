@@ -1,9 +1,10 @@
 import React from 'react'
+import MetaLogoSrc from 'images/meta-logo.svg'
 
 export default class Logo extends React.Component {
   render() {
     const { size } = this.props
-    const src = "https://pbs.twimg.com/profile_images/459865462927413248/luicO7zK_400x400.png"
+    const src = MetaLogoSrc
     const style = {
       width: size,
       height: size

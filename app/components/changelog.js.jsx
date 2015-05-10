@@ -15,6 +15,8 @@ import Jumbotron from 'components/ui/jumbotron.jsx'
 import FollowButton from 'components/follow_button.jsx'
 import Logo from 'components/logo.jsx'
 
+import MetaBannerUrl from 'images/meta-banner.jpg'
+
 export default class Changelog extends React.Component {
   static willTransitionTo(transition, params, query) {
     StoryActions.fetchAll(params.changelogId)
@@ -80,7 +82,7 @@ export default class Changelog extends React.Component {
     }, List())
 
     return <div>
-      <Jumbotron bgColor="white" bgImageUrl="https://github.com/images/modules/about/about-header.jpg">
+      <Jumbotron bgColor="blue" bgImageUrl={MetaBannerUrl}>
         <div className="sm-flex flex-center">
 
           <div className="flex-none mb2 sm-mb0">
