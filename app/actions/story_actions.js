@@ -58,7 +58,8 @@ export default {
   heart(storyId) {
     api.put(`user/hearts/stories/${storyId}`)
     Dispatcher.dispatch({
-      type: STORY_HEARTED
+      type: STORY_HEARTED,
+      storyId: storyId
     })
   },
 
@@ -86,7 +87,8 @@ export default {
   unheart(storyId) {
     api.delete(`user/hearts/stories/${storyId}`)
     Dispatcher.dispatch({
-      type: STORY_UNHEARTED
+      type: STORY_UNHEARTED,
+      storyId: storyId
     })
   }
 }

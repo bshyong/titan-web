@@ -10,24 +10,25 @@ import {Map} from 'immutable'
 class StoryPageStore extends Store {
   constructor() {
     super()
-    this.story = null
     this.stories = Map()
 
     this.dispatchToken = Dispatcher.register(action => {
       switch (action.type) {
         case STORY_FETCHED:
-          this.story = action.story
+          const { story } = action
           this.stories = this.stories.set(action.story.id, action.story)
           this.emitChange()
           break
         case STORY_HEARTED:
-          this.story.viewer_has_hearted = true
-          this.story.hearts_count += 1
+          const { storyId } = action
+          this.get(storyId).viewer_has_hearted = true
+          this.get(storyId).hearts_count += 1
           this.emitChange()
           break
         case STORY_UNHEARTED:
-          this.story.viewer_has_hearted = false
-          this.story.hearts_count -= 1
+          const { storyId } = action
+          this.get(storyId).viewer_has_hearted = false
+          this.get(storyId).hearts_count -= 1
           this.emitChange()
           break
       }
