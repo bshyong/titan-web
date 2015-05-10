@@ -4,6 +4,7 @@ import React from 'react'
 import RouterContainer from 'lib/router_container'
 import SessionActions from 'actions/session_actions'
 
+import 'config/dropzone'
 import 'config/moment'
 
 let jwt = localStorage.getItem('jwt')

@@ -4,8 +4,6 @@ import Dropzone from 'dropzone'
 import React from 'react'
 import UploadingAttachmentsStore from 'stores/uploading_attachment_store'
 
-Dropzone.autoDiscover = false
-
 export default class DropzoneContainer extends React.Component {
   constructor(props) {
     super(props)

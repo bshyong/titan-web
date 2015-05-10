@@ -23,7 +23,7 @@ class NewCommentsStore extends Store {
 
   isValid(storyId) {
     const comment = this.comments.get(storyId)
-    return comment && comment.length > 1
+    return comment && comment.length > 0
   }
 
   get(storyId) {

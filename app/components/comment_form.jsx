@@ -12,7 +12,7 @@ export default class CommentForm extends React.Component {
     super(props)
     this.state = {
       comment: NewCommentsStore.get(this.props.storyId),
-      formOpen: false,
+      isFocused: false,
       user: SessionStore.user,
       isSignedIn: SessionStore.isSignedIn()
     }
@@ -21,8 +21,7 @@ export default class CommentForm extends React.Component {
     this.handleUploading = this._handleUploading.bind(this)
     this.handleOnChange = this._handleOnChange.bind(this)
     this.handleOnPublish = this._handleOnPublish.bind(this)
-    this.handleFormFocus = this._handleFormFocus.bind(this)
-    this.handleFormBlur = this._handleFormBlur.bind(this)
+    this.handleToggleFocus = this._handleToggleFocus.bind(this)
     this.onStoreChange = this._onStoreChange.bind(this)
   }
 
@@ -36,59 +35,39 @@ export default class CommentForm extends React.Component {
 
   renderButton() {
     const valid = NewCommentsStore.isValid(this.props.storyId)
-    if (valid && this.state.formOpen) {
-      return (
-        <Button
-          bg="navy"
-          text="white"
-          block={true}
-          action={this.handleOnPublish}>
-            Post your thoughts
-        </Button>
-      )
-    } else {
-      return <div />
+    if (!valid) {
+      return
     }
+    return (
+      <Button
+        bg="navy"
+        text="white"
+        block={true}
+        action={this.handleOnPublish}>
+          Post your thoughts
+      </Button>
+    )
   }
 
   renderTextArea() {
-    const placeholder = "What do you think of this story?"
-
-    if (this.state.formOpen) {
-      return (
-        <DropzoneContainer id={this.props.storyId}
-            onUploaded={this.handleUploaded}
-            onUploading={this.handleUploading}>
-          <MarkdownArea
-            ref="comment"
-            placeholder={placeholder}
-            onChange={this.handleOnChange}
-            value={this.state.comment}
-            onBlur={this.handleFormBlur} />
-        </DropzoneContainer>
-      )
-    } else {
-      return (
-        <textarea
-          ref="blank_comment"
-          placeholder={placeholder}
-          className="field-light mb0 block full-width"
-          style={{height: '44px'}}
-          onFocus={this.handleFormFocus} />
-      )
-    }
+    return (
+      <DropzoneContainer id={this.props.storyId}
+          onUploaded={this.handleUploaded}
+          onUploading={this.handleUploading}>
+        <MarkdownArea
+          ref="comment"
+          placeholder="What do you think of this story?"
+          onChange={this.handleOnChange}
+          value={this.state.comment}
+          rows={(this.state.isFocused || NewCommentsStore.isValid(this.props.storyId)) ? 2 : 1}
+          onBlur={this.handleToggleFocus}
+          onFocus={this.handleToggleFocus} />
+      </DropzoneContainer>
+    )
   }
 
-  _handleFormBlur() {
-    this.setState({
-      formOpen: !this.state.formOpen || this.state.comment
-    })
-  }
-
-  _handleFormFocus() {
-    this.setState({
-      formOpen: !this.state.formOpen || this.state.comment
-    }, () => {React.findDOMNode(this.refs.comment).focus()})
+  _handleToggleFocus() {
+    this.setState({ isFocused: !this.state.isFocused })
   }
 
   render() {
