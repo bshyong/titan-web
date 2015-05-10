@@ -13,7 +13,7 @@ export default class Jumbotron extends React.Component {
     }
     return (
       <div className={cn} style={style}>
-        <div className="absolute top-0 right-0 bottom-0 left-0 bg-darken-4" />
+        <div className="absolute top-0 right-0 bottom-0 left-0 bg-darken-3" />
         <div className="container px2 md-px0 relative">
           {children}
         </div>
