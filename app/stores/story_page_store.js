@@ -5,16 +5,19 @@ import {
 } from 'constants'
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
+import {Map} from 'immutable'
 
 class StoryPageStore extends Store {
   constructor() {
     super()
     this.story = null
+    this.stories = Map()
 
     this.dispatchToken = Dispatcher.register(action => {
       switch (action.type) {
         case STORY_FETCHED:
           this.story = action.story
+          this.stories = this.stories.set(action.story.id, action.story)
           this.emitChange()
           break
         case STORY_HEARTED:
@@ -29,6 +32,10 @@ class StoryPageStore extends Store {
           break
       }
     })
+  }
+
+  get(storyId) {
+    return this.stories.get(storyId)
   }
 }
 

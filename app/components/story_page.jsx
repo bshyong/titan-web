@@ -81,7 +81,7 @@ export default class StoryPage extends React.Component {
 
         <hr />
 
-        <Discussion storyId={Router.get().getCurrentParams().storyId} changelogId={this.props.changelogId} />
+        <Discussion storyId={this.state.story.id} changelogId={this.props.changelogId} />
       </div>
     )
   }
@@ -97,8 +97,9 @@ export default class StoryPage extends React.Component {
   }
 
   getStateFromStores() {
+    const storyId = Router.get().getCurrentParams().storyId
     return {
-      story: StoryPageStore.story,
+      story: StoryPageStore.get(storyId),
       totalReads: StoryReadersStore.totalReads,
       uniqueReads: StoryReadersStore.uniqueReads,
       isFakeLoading: true

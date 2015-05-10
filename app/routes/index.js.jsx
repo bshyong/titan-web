@@ -24,7 +24,7 @@ export default (
       <DefaultRoute handler={Changelog} name="changelog" />
 
       <Route handler={StoryForm} path=":storyId/edit" name="edit" />
-      
+
       <Route handler={StoryComposer} path="new">
         <DefaultRoute handler={StoryForm} name="new" />
         <Route handler={HighlightPicker} path="highlights/?:filter?" name="highlights" />
@@ -32,7 +32,6 @@ export default (
 
       <Route handler={StoryPage} path=":storyId" name="story" />
     </Route>
-
 
     <Redirect from="/" to="changelog" params={{changelogId: 'assembly'}} />
 
