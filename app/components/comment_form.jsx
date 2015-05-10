@@ -22,6 +22,7 @@ export default class CommentForm extends React.Component {
     this.handleOnChange = this._handleOnChange.bind(this)
     this.handleOnPublish = this._handleOnPublish.bind(this)
     this.handleFormFocus = this._handleFormFocus.bind(this)
+    this.handleFormBlur = this._handleFormBlur.bind(this)
     this.onStoreChange = this._onStoreChange.bind(this)
   }
 
@@ -63,7 +64,7 @@ export default class CommentForm extends React.Component {
             placeholder={placeholder}
             onChange={this.handleOnChange}
             value={this.state.comment}
-            onBlur={this.handleFormFocus} />
+            onBlur={this.handleFormBlur} />
         </DropzoneContainer>
       )
     } else {
@@ -78,10 +79,15 @@ export default class CommentForm extends React.Component {
     }
   }
 
-  _handleFormFocus() {
-    const open = React.findDOMNode(this.refs.comment)
+  _handleFormBlur() {
     this.setState({
-      formOpen: !open || this.state.comment
+      formOpen: !this.state.formOpen || this.state.comment
+    })
+  }
+
+  _handleFormFocus() {
+    this.setState({
+      formOpen: !this.state.formOpen || this.state.comment
     }, () => {React.findDOMNode(this.refs.comment).focus()})
   }
 
