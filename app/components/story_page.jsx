@@ -44,40 +44,40 @@ export default class StoryPage extends React.Component {
 
     return (
       <div className="container p2">
-        <div className="flex mb2 pointer" onClick={this.handleToggle}>
-          <div className="flex-none mr2">
-            <Emoji story={story} size={36} />
+
+        <div className="mb1">
+          <div className="pill bg-light-gray inline-block px2" style={{paddingTop: ".25rem", paddingBottom: '.25rem'}}>
+            <div className="left mr1">
+              <Emoji story={story} size={36} />
+            </div> Bugfix
           </div>
 
-          <div className="flex-auto">
-            <h2 className="mt0 mb0">{story.title}</h2>
+        </div>
+
+        <div className="mb2">
+          <div className="h6">
+            Posted {moment(story.created_at).fromNow()} by <span className="orange">{story.user.username}</span>
           </div>
-          <div className="flex-none ml3">
-            <Stack items={story.contributors.map(user => <Avatar user={user} size={40} />)} />
+          <div className="h6 gray">
+            {pluralize(this.state.totalReads, 'view', 'views')}
           </div>
         </div>
 
-        <div className="flex h5 gray mxn3 px3 mb3">
-
-          <div className="flex-none p1">
-            <Avatar user={story.user} size={19} />
-          </div>
-          <div className="flex-auto p1">
-            Written {moment(story.created_at).fromNow()}
-          </div>
+        <div className="mb3">
+          <h2 className="mt0 mb0">{story.title}</h2>
+          {body}
         </div>
 
-        {body}
+        <div className="mb3">
+          <Stack items={story.contributors.map(user => <Avatar user={user} size={32} />)} />
+        </div>
 
-        {this.state.totalReads > 0 ? <div className="gray mt4">
-          Read {pluralize(this.state.totalReads, 'time ', 'times ')}
-          by {pluralize(this.state.uniqueReads, 'person ', 'people ')}
-        </div> : null}
-
-        <Heart
-          count={story.hearts_count}
-          onClick={() => this.heartClicked(story)}
-          hearted={story.viewer_has_hearted} />
+        <div className="mb3">
+          <Heart
+            count={story.hearts_count}
+            onClick={() => this.heartClicked(story)}
+            hearted={story.viewer_has_hearted} />
+        </div>
 
         <hr />
 
