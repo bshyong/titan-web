@@ -12,16 +12,6 @@ import moment from 'moment'
 import React from 'react'
 import Stack from 'components/ui/stack.jsx'
 
-const EmojiMappings = {
-  'discussion': '💬',
-  'improvement': '🔧',
-  'feature': '🚀',
-  'update': '🎉',
-  'bugfix': '🐛',
-  'doc': '📄',
-  'default': '👍'
-}
-
 export default class Story extends React.Component {
 
   constructor(props) {
@@ -38,9 +28,6 @@ export default class Story extends React.Component {
       changelogId,
       story: {id: storyId, user, body, title, labels, comments_count, hearts_count},
     } = this.props
-
-    const label = labels[0] || 'default'
-    const emojiChar = EmojiMappings[label.toLowerCase()]
 
     return (
       <Link className="flex black gray-visited pointer mxn1 p2 md-px0" to="story" params={{changelogId, storyId}}>
@@ -77,24 +64,6 @@ export default class Story extends React.Component {
       return story.contributors
     }
     return [story.user]
-  }
-
-  emoji(story) {
-    const {story: {labels, hearts_count}} = this.props
-    const label = labels[0] || 'default'
-    
-    if (this.props.story.team_member_only) {
-      var emojiChar = '🔒'
-    }
-    else {
-      var emojiChar = EmojiMappings[label.toLowerCase()] || '🔸'
-    }
-
-    return (
-      <div className="flex-none px1" key={label}>
-        <Emoji char={emojiChar} size={36} />
-      </div>
-    )
   }
 }
 

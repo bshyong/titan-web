@@ -26,8 +26,8 @@ export default class FollowButton extends React.Component {
 
   render() {
     return (
-      <Button bg="white" text="blue" block={true} action={this.handleOnClick}>
-        {this.state.following ? 'Following' : 'Follow'} Changelog
+      <Button bg="blue" text="white" block={true} action={this.handleOnClick}>
+        {this.state.following ? 'Following' : 'Follow Changelog'}
       </Button>
     )
   }

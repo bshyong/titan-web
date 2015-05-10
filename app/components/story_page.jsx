@@ -18,16 +18,6 @@ import Emoji from 'components/ui/emoji.jsx'
 import {Link} from 'react-router'
 import Discussion from 'components/discussion.jsx'
 
-const EmojiMappings = {
-  'discussion': '💬',
-  'improvement': '✅',
-  'feature': '✅',
-  'update': '🎉',
-  'bugfix': '🐛',
-  'doc': '📄',
-  'default': '✅'
-}
-
 export default class StoryPage extends React.Component {
   static willTransitionTo(transition, params, query) {
     StoryActions.fetch(params.changelogId, params.storyId)
@@ -56,7 +46,7 @@ export default class StoryPage extends React.Component {
       <div>
         <div className="flex mb2 pointer" onClick={this.handleToggle}>
           <div className="flex-none mr2">
-            {this.emoji()}
+            <Emoji story={story} size={36} />
           </div>
 
           <div className="flex-auto">
@@ -94,13 +84,6 @@ export default class StoryPage extends React.Component {
         <Discussion storyId={Router.get().getCurrentParams().storyId} changelogId={this.props.changelogId} />
       </div>
     )
-  }
-
-  emoji(story) {
-    const {story: {labels}} = this.state
-    const label = labels[0] || 'default'
-    const emojiChar = EmojiMappings[label.toLowerCase()]
-    return <Emoji char={emojiChar} size={36} />
   }
 
   heartClicked(story) {

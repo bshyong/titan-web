@@ -11,6 +11,9 @@ import Avatar from 'components/ui/avatar.jsx'
 import Stack from 'components/ui/stack.jsx'
 import Icon from 'components/ui/icon.js.jsx'
 import Emoji from 'components/ui/emoji.jsx'
+import Jumbotron from 'components/ui/jumbotron.jsx'
+import FollowButton from 'components/follow_button.jsx'
+import Logo from 'components/logo.jsx'
 
 export default class Changelog extends React.Component {
   static willTransitionTo(transition, params, query) {
@@ -47,13 +50,20 @@ export default class Changelog extends React.Component {
           return (
             <Table.Cell key={story.id} image={<div className="p2"><Emoji story={story} size={36} /></div>} to="story" params={{changelogId, storyId: story.id}}>
               <div className="flex">
-                <div className="flex-auto">{story.title}</div>
+                <div className="flex-auto">
+                  {story.team_member_only ? <Icon icon="lock" /> : null} {story.title}
+                </div>
                 <div className="flex-none sm-show ml2">
                   <Stack items={contributors.map(user => <Avatar user={user} size={24} />).toJS()} />
                 </div>
 
                 <div className="flex-none ml2">
                   <div className="h5 gray mxn1 flex">
+                    <div className="px1">
+                      <span className="silver"><Icon icon="heart" /></span>
+                      {' '}
+                      {story.hearts_count}
+                    </div>
                     <div className="px1">
                       <span className=" silver"><Icon icon="comment" /></span>
                       {' '}
@@ -69,7 +79,29 @@ export default class Changelog extends React.Component {
       return b
     }, List())
 
-    return <Table>{a.toJS()}</Table>
+    return <div>
+      <Jumbotron bgColor="white" bgImageUrl="https://github.com/images/modules/about/about-header.jpg">
+        <div className="sm-flex flex-center">
+
+          <div className="flex-none mb2 sm-mb0">
+            <div className="mx-auto" style={{width: '4rem'}}><Logo size="4rem"/></div>
+          </div>
+
+          <Link className="block flex-auto mb2 md-mb0 sm-px3 center sm-left-align white" to="changelog" params={{changelogId}}>
+            <h2 className="mt0 mb0">Meta</h2>
+            <div>Building Assembly on Assembly.</div>
+
+          </Link>
+
+          <div className="flex-none sm-ml2">
+            <FollowButton changelog={this.state.changelog}/>
+          </div>
+        </div>
+      </Jumbotron>
+      <div className="container">
+        <Table>{a.toJS()}</Table>
+      </div>
+    </div>
   }
 
   // Stores mixin
