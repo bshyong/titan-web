@@ -66,13 +66,8 @@ export default class Changelog extends React.Component {
                 </div>
 
                 <div className="flex-none ml2">
-                  <div className="h5 gray mxn1 flex">
-                    <div className="px1">
-                      <span className="silver"><Icon icon="heart" /></span>
-                      {' '}
-                      {story.hearts_count}
-                    </div>
-                    <div className="px1">
+                  <div className="h5 gray  mxn1 flex">
+                    <div className="px1 no-underline">
                       <span className=" silver"><Icon icon="comment" /></span>
                       {' '}
                       {story.comments_count}
