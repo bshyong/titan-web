@@ -29,19 +29,15 @@ export default class Discussion extends React.Component {
     const { comments } = this.state
     return (
       <div>
-        <div className="mb2 gray caps h6 bold">
-          {pluralize(comments.length, 'comment', 'comments')}
+        <div className="mb3">
+          {comments.map(comment =>
+            <div className="mb2" key={comment.id}>
+              <Comment comment={comment}/>
+            </div>
+          )}
         </div>
 
-        <div className="mb2">
-          <CommentForm storyId={this.props.storyId} changelogId={this.props.changelogId}/>
-        </div>
-
-        {comments.map(comment =>
-          <div className="mb2" key={comment.id}>
-            <Comment comment={comment}/>
-          </div>
-        )}
+        <CommentForm storyId={this.props.storyId} changelogId={this.props.changelogId}/>
       </div>
     )
   }
