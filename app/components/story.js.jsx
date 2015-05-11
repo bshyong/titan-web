@@ -26,7 +26,7 @@ export default class Story extends React.Component {
   render() {
     const {
       changelogId,
-      story: {id: storyId, user, body, title, labels, comments_count, hearts_count},
+      story: {id: storyId, user, title, comments_count, hearts_count},
     } = this.props
 
     return (

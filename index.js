@@ -10,9 +10,10 @@ app.use(require('morgan')('dev'));
 
 var stats = require(__dirname + "/dist/stats.json");
 var publicPath = stats.publicPath;
-var scriptUrl = publicPath + [].concat(stats.assetsByChunkName.app)[0];
 
-var html = fs.readFileSync("index.html", "utf-8").replace("/bundle.js", scriptUrl);
+var html = fs.readFileSync("index.html", "utf-8").
+  replace("/app.js", publicPath + stats.assetsByChunkName.app).
+  replace("/commons.js", publicPath + stats.assetsByChunkName.commons)
 
 app.get('*', function (req, res) {
   res.contentType = "text/html; charset=utf8";

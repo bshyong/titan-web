@@ -1,5 +1,3 @@
-'use strict';
-
 import { ATTACHMENT_FAILED, ATTACHMENT_UPLOADED } from '../constants'
 import Dispatcher from 'lib/dispatcher'
 import { Map } from 'immutable'

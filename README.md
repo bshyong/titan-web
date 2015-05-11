@@ -15,6 +15,6 @@ API_URL=http://api.titan.dev:8787 npm run dev
 ## Starting the production server locally:
 
 ```
-API_URL=http://api.titan.dev:8787 npm run local
+ASSET_HOST=/ API_URL=http://titan.dev:8787 npm run dist
 PORT=8080 npm start
 ```
