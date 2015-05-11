@@ -58,7 +58,7 @@ export default class StoryPage extends React.Component {
           </div>
 
 
-          <div className="shadow rounded bg-white border-silver p2 sm-p3">
+          <div className="border rounded bg-white border-silver p2 sm-p3">
 
             <div className="mb2 sm-mb3">
               <h2 className="mt0 mb1">{story.title}</h2>
