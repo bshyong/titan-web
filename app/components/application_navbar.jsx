@@ -62,7 +62,7 @@ export default class ApplicatioNavbar extends React.Component {
             </Link>
           </List.Item>
         </List>
-        <hr className="mt1 mb1" />
+        <hr className="mt1 border-top mb1" />
         <List type="small">
           <List.Item>
             <a href="https://assembly.com/about">About</a>
