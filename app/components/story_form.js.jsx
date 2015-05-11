@@ -29,6 +29,7 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
     this.handleUploading = this._handleUploading.bind(this)
     this.onStoreChange = this._onStoreChange.bind(this)
     this.onStoryFetched = this._onStoryFetched.bind(this)
+    this.handleTogglePrivacy = this._handleTogglePrivacy.bind(this)
   }
 
   componentDidMount() {
@@ -39,6 +40,12 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
   componentWillUnmount() {
     StoryPageStore.removeChangeListener(this.onStoryFetched)
     StoryFormStore.removeChangeListener(this.onStoreChange)
+  }
+
+  _handleTogglePrivacy() {
+    this.setState({
+      isPublic: !this.state.isPublic
+    })
   }
 
   render() {
@@ -92,7 +99,7 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
       title: React.findDOMNode(this.refs.title).value,
       body:  React.findDOMNode(this.refs.body).value,
       contributors: React.findDOMNode(this.refs.contributors).value,
-      isPublic: false
+      isPublic: this.state.isPublic
     })
   }
 
@@ -103,13 +110,15 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
       StoriesActionCreator.edit(ChangelogStore.slug, this.state.storyId, {
         title: this.state.title,
         body:  this.state.body,
-        contributors: this.state.contributors
+        contributors: this.state.contributors,
+        team_member_only: !this.state.isPublic
       })
     } else {
       StoriesActionCreator.publish(ChangelogStore.slug, {
         title: this.state.title,
         body:  this.state.body,
-        contributors: this.state.contributors
+        contributors: this.state.contributors,
+        team_member_only: !this.state.isPublic
       })
     }
   }
@@ -128,8 +137,7 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
       StoryFormActions.change({
         title: React.findDOMNode(this.refs.title).value,
         body:  value.replace(oldText, fileText),
-        contributors: React.findDOMNode(this.refs.contributors).value,
-        isPublic: false
+        contributors: React.findDOMNode(this.refs.contributors).value
       })
     }, 0)
   }
@@ -147,8 +155,7 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
       StoryFormActions.change({
         title: React.findDOMNode(this.refs.title).value,
         body: `${React.findDOMNode(this.refs.body).value} ${fileText}`,
-        contributors: React.findDOMNode(this.refs.contributors).value,
-        isPublic: false
+        contributors: React.findDOMNode(this.refs.contributors).value
       })
     }, 0)
   }
@@ -161,8 +168,7 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
       changelogId:  changelogId,
       title:        StoryFormStore.title,
       body:         StoryFormStore.body,
-      contributors: StoryFormStore.contributors,
-      isPublic:     StoryFormStore.isPublic
+      contributors: StoryFormStore.contributors
     }
   }
 
@@ -198,8 +204,7 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
           changelogId:  changelogId,
           title:        story.title,
           body:         story.body,
-          contributors: story.contributors.map(c => '@' + c.username).join(', '),
-          isPublic:     story.isPublic
+          contributors: story.contributors.map(c => '@' + c.username).join(', ')
         }
       } else {
         StoryActions.fetch(changelogId, storyId)
