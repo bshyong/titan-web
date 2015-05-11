@@ -70,7 +70,7 @@ export default class StoryPage extends React.Component {
             </div>
 
             <div className="mb2 sm-mb3">
-              <Stack items={story.contributors.map(user => <Avatar user={user} size={32} />)} />
+              <Stack items={story.allContributors.map(user => <Avatar user={user} size={32} />)} />
             </div>
 
 

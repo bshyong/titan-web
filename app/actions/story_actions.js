@@ -21,7 +21,7 @@ export default {
   fetchAll(changelogId, page=1, per=25) {
     api.get(`changelogs/${changelogId}/stories?page=${page}&per=${per}`).
       then(resp => {
-        var stories = List(resp)
+        var stories = List(resp).map(combineAuthorAndContributors)
         Dispatcher.dispatch({
           type: STORIES_FETCHED,
           stories: stories,
@@ -36,7 +36,7 @@ export default {
       then(resp => {
         Dispatcher.dispatch({
           type: STORY_FETCHED,
-          story: resp
+          story: combineAuthorAndContributors(resp)
         })
       })
   },
@@ -95,4 +95,12 @@ export default {
       storyId: storyId
     })
   }
+}
+
+function combineAuthorAndContributors(story) {
+  story.allContributors = List(story.contributors)
+  if (!story.allContributors.find(c => story.user.id == c.id)) {
+    story.allContributors = story.allContributors.concat(story.user)
+  }
+  return story
 }

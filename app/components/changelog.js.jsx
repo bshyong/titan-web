@@ -45,7 +45,7 @@ export default class Changelog extends React.Component {
 
   render() {
     const { changelogId } = this.props
-    const stories = List(this.state.stories)
+    const stories = this.state.stories
                     .sortBy(story => story.created_at)
                     .reverse()
                     .groupBy(story => moment(story.created_at).startOf('day'))
@@ -56,7 +56,6 @@ export default class Changelog extends React.Component {
       )
       let b = a.push(
         value.map((story) => {
-          const contributors = Set(story.contributors)
           return (
             <Table.Cell key={story.id} image={<div className="p2"><Emoji story={story} size={36} /></div>} to="story" params={{changelogId, storyId: story.id}}>
               <div className="flex">
@@ -64,7 +63,7 @@ export default class Changelog extends React.Component {
                   {story.team_member_only ? <Icon icon="lock" /> : null} {story.title}
                 </div>
                 <div className="flex-none sm-show ml2">
-                  <Stack items={contributors.map(user => <Avatar user={user} size={24} />).toJS()} />
+                  <Stack items={story.allContributors.map(user => <Avatar user={user} size={24} />)} />
                 </div>
 
                 <div className="flex-none ml2">
