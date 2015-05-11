@@ -39,13 +39,14 @@ export default class CommentForm extends React.Component {
       return
     }
     return (
-      <Button
-        bg="navy"
-        text="white"
-        block={true}
-        action={this.handleOnPublish}>
-          Post your thoughts
-      </Button>
+      <div className="mt2">
+        <Button
+          bg="navy"
+          text="white"
+          action={this.handleOnPublish}>
+            Post your thoughts
+        </Button>
+      </div>
     )
   }
 
@@ -56,7 +57,7 @@ export default class CommentForm extends React.Component {
           onUploading={this.handleUploading}>
         <MarkdownArea
           ref="comment"
-          placeholder="What do you think of this story?"
+          placeholder="What do you think?"
           onChange={this.handleOnChange}
           value={this.state.comment}
           rows={(this.state.isFocused || NewCommentsStore.isValid(this.props.storyId)) ? 2 : 1}
@@ -79,13 +80,11 @@ export default class CommentForm extends React.Component {
 
     return (
       <div className="flex">
-        <div className="flex-none mr2">
+        <div className="flex-none py1 mr2" style={{marginTop: 2, marginBottom: 2}}>
           <Avatar user={user} size={24} />
         </div>
         <div className="flex-auto">
-          <div className="mb2">
-            {this.renderTextArea()}
-          </div>
+          {this.renderTextArea()}
           {this.renderButton()}
         </div>
       </div>
