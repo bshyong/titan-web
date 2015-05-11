@@ -88,11 +88,11 @@ export default AuthenticatedMixin(class HighlightPicker extends React.Component 
     );
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (!shallowEqual(nextProps, this.props)) {
-      this.setState(getState(nextProps));
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   if (!shallowEqual(nextProps, this.props)) {
+  //     this.setState(getState(nextProps));
+  //   }
+  // }
 
   componentWillUnmount() {
     this.stores.forEach(store =>
