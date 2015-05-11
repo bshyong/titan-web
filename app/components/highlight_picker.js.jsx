@@ -45,7 +45,7 @@ export default AuthenticatedMixin(class HighlightPicker extends React.Component 
           return user.username == SessionStore.user.username
         })
       })
-      .sortBy(highlight => highlight.sort_score)
+      .sortBy(highlight => highlight.occurred_at)
       .reverse()
       .map((highlight) => {
         return <div className="border-bottom" key={highlight.id} >
