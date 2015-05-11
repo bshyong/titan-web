@@ -17,12 +17,20 @@ export default {
       type: 'CHANGELOG_FOLLOWED'
     })
 
+    analytics.track('Followed Changelog', {
+      changelog: changelog_id
+    })
+
     api.post(`changelogs/${changelog_id}/follow`)
   },
 
   unfollow(changelog_id) {
     Dispatcher.dispatch({
       type: 'CHANGELOG_UNFOLLOWED'
+    })
+
+    analytics.track('Unfollowed Changelog', {
+      changelog: changelog_id
     })
 
     api.post(`changelogs/${changelog_id}/unfollow`)
