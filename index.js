@@ -16,8 +16,7 @@ var html = fs.readFileSync("index.html", "utf-8").
   replace("/commons.js", publicPath + stats.assetsByChunkName.commons)
 
 app.get('*', function (req, res) {
-  res.contentType = "text/html; charset=utf8";
-  res.end(html);
+  res.send(html);
 })
 
 console.log('listening port='+process.env.PORT+' bundle='+stats.assetsByChunkName.app)
