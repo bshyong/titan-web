@@ -60,9 +60,7 @@ export default class CommentForm extends React.Component {
           placeholder="What do you think?"
           onChange={this.handleOnChange}
           value={this.state.comment}
-          rows={(this.state.isFocused || NewCommentsStore.isValid(this.props.storyId)) ? 2 : 1}
-          onBlur={this.handleToggleFocus}
-          onFocus={this.handleToggleFocus} />
+          rows={1} />
       </DropzoneContainer>
     )
   }

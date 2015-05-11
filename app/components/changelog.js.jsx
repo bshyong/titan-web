@@ -1,5 +1,5 @@
 import {List, Set} from 'immutable'
-import {RouteHandler, Link} from 'react-router'
+import { RouteHandler, Link } from 'react-router'
 import Avatar from 'components/ui/avatar.jsx'
 import Emoji from 'components/ui/emoji.jsx'
 import FollowButton from 'components/follow_button.jsx'
@@ -23,7 +23,9 @@ export default class Changelog extends React.Component {
     StoryActions.fetchAll(params.changelogId)
   }
   static get defaultProps() {
-    changelogId: RouterContainer.get().getCurrentParams().changelogId
+    return {
+      changelogId: RouterContainer.get().getCurrentParams().changelogId
+    }
   }
 
   constructor(props) {

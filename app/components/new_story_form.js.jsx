@@ -7,6 +7,7 @@ import HighlightsActionCreator from 'actions/highlight_actions'
 import HighlightsStore from 'stores/highlights_store'
 import Icon from 'components/ui/icon.js.jsx'
 import Router from 'lib/router_container'
+import RouterContainer from 'lib/router_container'
 import StoriesActionCreator from 'actions/story_actions'
 import StoryFormActions from 'actions/story_form_actions'
 import StoryFormStore from 'stores/story_form_store'
@@ -36,6 +37,12 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
     this.onStoreChange = this._onStoreChange.bind(this)
     this.onStoryFetched = this._onStoryFetched.bind(this)
     this.handleTogglePrivacy = this._handleTogglePrivacy.bind(this)
+  }
+
+  static get defaultProps() {
+    return {
+      changelogId: RouterContainer.get().getCurrentParams().changelogId
+    }
   }
 
   componentDidMount() {
@@ -100,6 +107,12 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
           <div className="right">
             <Button bg="white" text={StoryFormStore.isValid() ? 'green' : 'gray' } action={this.props.onPublish || this.handlePublish}>{storyId ? 'Update' : 'Publish'}</Button>
           </div>
+        </div>
+
+        <div className="mt2">
+          <Link to="highlights" params={{changelogId: this.props.changelogId}}>
+            View Highlights
+          </Link>
         </div>
       </div>
     )

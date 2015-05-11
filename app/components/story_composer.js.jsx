@@ -1,7 +1,8 @@
+import { RouteHandler, Link } from 'react-router'
 import ChangelogStore from 'stores/changelog_store'
-import React from 'react'
-import {RouteHandler} from 'react-router'
 import HighlightsActionCreator from 'actions/highlight_actions'
+import React from 'react'
+import RouterContainer from 'lib/router_container'
 
 export default class StoryComposer extends React.Component {
   static willTransitionTo(transition, params, query) {
@@ -9,6 +10,10 @@ export default class StoryComposer extends React.Component {
   }
 
   render() {
-    return <RouteHandler />
+    return (
+      <div className="container p2">
+        <RouteHandler />
+      </div>
+    )
   }
 }
