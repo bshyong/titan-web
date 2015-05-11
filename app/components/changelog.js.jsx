@@ -23,6 +23,7 @@ export default class Changelog extends React.Component {
     StoryActions.fetchAll(params.changelogId)
   }
   static get defaultProps() {
+    console.log(RouterContainer.get().getCurrentParams())
     return {
       changelogId: RouterContainer.get().getCurrentParams().changelogId
     }
