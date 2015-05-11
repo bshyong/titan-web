@@ -18,6 +18,7 @@ import Emoji from 'components/ui/emoji.jsx'
 import {Link} from 'react-router'
 import Discussion from 'components/discussion.jsx'
 import shallowEqual from 'react-pure-render/shallowEqual'
+import ChangelogStore from 'stores/changelog_store'
 
 export default class StoryPage extends React.Component {
   static willTransitionTo(transition, params, query) {
@@ -26,9 +27,10 @@ export default class StoryPage extends React.Component {
 
   constructor(props) {
     super(props)
-    this.stores = [StoryPageStore, StoryReadersStore]
+    this.stores = [StoryPageStore, StoryReadersStore, ChangelogStore]
     this.state = this.getStateFromStores()
     this.handleStoresChanged = this.handleStoresChanged.bind(this)
+    this.renderEditLink = this.renderEditLink.bind(this)
   }
 
   render() {
@@ -87,6 +89,7 @@ export default class StoryPage extends React.Component {
                   <li className="px1">
                     <span className="silver"><Icon icon="comment" /></span> {story.comments_count}
                   </li>
+                  {this.renderEditLink()}
                 </ul>
               </div>
             </div>
@@ -98,6 +101,18 @@ export default class StoryPage extends React.Component {
         </div>
       </div>
     )
+  }
+
+  renderEditLink() {
+    if (this.state.changelog.user_is_team_member) {
+      return (
+        <li className="px1">
+          <Link to="edit" params={{changelogId: ChangelogStore.slug, storyId: this.state.story.id}}>
+            <span className="gray"><Icon icon="pencil" /> Edit</span>
+          </Link>
+        </li>
+      )
+    }
   }
 
   heartClicked(story) {
@@ -116,7 +131,8 @@ export default class StoryPage extends React.Component {
       story: StoryPageStore.get(storyId),
       totalReads: StoryReadersStore.totalReads,
       uniqueReads: StoryReadersStore.uniqueReads,
-      isFakeLoading: true
+      isFakeLoading: true,
+      changelog: ChangelogStore.changelog
     }
   }
 
