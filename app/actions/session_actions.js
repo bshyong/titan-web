@@ -42,5 +42,6 @@ export default {
     Dispatcher.dispatch({
       type: USER_SIGNOUT
     })
+    window.location = '/'
   }
 }
