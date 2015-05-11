@@ -49,7 +49,7 @@ export default class StoryPage extends React.Component {
         <div className="sm-col-10 md-col-8 mx-auto">
 
           <Link className="py2 block" to="changelog" params={{changelogId}}>
-            <Icon icon="chevron-left" /> Meta
+            <Icon icon="chevron-left" /> {changelogId[0].toUpperCase() + changelogId.slice(1)}
           </Link>
 
           <div className="mb3 border-bottom py2">
