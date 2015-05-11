@@ -35,7 +35,6 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
     this.handleUploaded = this._handleUploaded.bind(this)
     this.handleUploading = this._handleUploading.bind(this)
     this.onStoreChange = this._onStoreChange.bind(this)
-    this.onStoryFetched = this._onStoryFetched.bind(this)
     this.handleTogglePrivacy = this._handleTogglePrivacy.bind(this)
   }
 
@@ -98,7 +97,7 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
 
             <div className="clearfix">
               <a className="block left p1 black" onClick={this.handleTogglePrivacy} onTouchStart={this.handleTogglePrivacy}>
-                <Icon icon={isPublic ? 'globe' : 'lock'} fw={true} />
+                <Icon icon={isPublic ? 'globe' : 'lock'} fw={true} /> {isPublic ? 'Public' : 'Private'}
               </a>
             </div>
 
@@ -130,7 +129,7 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
   _handleTogglePrivacy() {
     this.setState({
       isPublic: !this.state.isPublic
-    })
+    }, this.handleChanged)
   }
 
   _handlePublish(e) {
@@ -196,19 +195,6 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
 
   _onStoreChange() {
     this.setState(this.getStateFromStores())
-  }
-
-  _onStoryFetched() {
-    const story = StoryPageStore.story
-
-    if (story) {
-      this.setState({
-        title: story.title,
-        body: story.body,
-        contributors: story.contributors.map(u => '@' + u.username).join(', '),
-        isPublic: story.isPublic
-      })
-    }
   }
 
 })

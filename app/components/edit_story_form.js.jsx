@@ -50,7 +50,7 @@ export default AuthenticatedMixin(class EditStoryForm extends React.Component {
     if (story) {
       this.setState({
         title: story.title,
-        isPublic: story.isPublic,
+        isPublic: !story.team_member_only,
         contributors: story.contributors,
         body: story.body
       })
@@ -72,7 +72,8 @@ export default AuthenticatedMixin(class EditStoryForm extends React.Component {
     StoryActions.edit(this.state.changelogId, this.state.storyId, {
       title: this.state.title,
       body:  this.state.body,
-      contributors: this.state.contributors
+      contributors: this.state.contributors,
+      team_member_only: !this.state.isPublic
     })
   }
 
@@ -86,7 +87,7 @@ export default AuthenticatedMixin(class EditStoryForm extends React.Component {
     if (story) {
       this.setState({
         title: story.title,
-        isPublic: story.isPublic,
+        isPublic: !story.team_member_only,
         contributors: story.contributors,
         body: story.body
       })
