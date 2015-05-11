@@ -1,5 +1,6 @@
 import {Link} from 'react-router'
 import Avatar from 'components/ui/avatar.jsx'
+import ChangelogStore from 'stores/changelog_store.js'
 import Icon from 'components/ui/icon.js.jsx'
 import List from 'components/ui/list.jsx'
 import Navbar from 'components/ui/navbar.jsx'
@@ -8,6 +9,7 @@ import React from 'react'
 import RouterContainer from 'lib/router_container'
 import SessionActions from 'actions/session_actions'
 import SessionStore from 'stores/session_store'
+
 
 // Logo versions:
 
@@ -21,6 +23,7 @@ export default class ApplicatioNavbar extends React.Component {
   }
 
   componentDidMount() {
+    ChangelogStore.addChangeListener(this.onStoreChange)
     SessionStore.addChangeListener(this.onStoreChange)
   }
 
@@ -43,6 +46,18 @@ export default class ApplicatioNavbar extends React.Component {
     )
   }
 
+  render_new_story(changelogId) {
+    if (this.state.changelog.user_is_team_member) {
+      return (
+        <List.Item>
+          <Link to="new" params={{changelogId}}>
+            <Icon icon="pencil" fw={true} /> New story
+          </Link>
+        </List.Item>
+      )
+    }
+  }
+
   right() {
     const { user } = this.state
 
@@ -56,11 +71,7 @@ export default class ApplicatioNavbar extends React.Component {
     return (
       <Popover trigger={avatar}>
         <List>
-          <List.Item>
-            <Link to="new" params={{changelogId}}>
-              <Icon icon="pencil" fw={true} /> New story
-            </Link>
-          </List.Item>
+          {this.render_new_story(changelogId)}
         </List>
         <hr className="mt1 border-top mb1" />
         <List type="small">
@@ -85,7 +96,8 @@ export default class ApplicatioNavbar extends React.Component {
 
   getStateFromStores() {
     return {
-      user: SessionStore.user
+      user: SessionStore.user,
+      changelog: ChangelogStore.changelog
     }
   }
 }
