@@ -197,6 +197,7 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
   // if not found, fetch it from API
   // if storyId doesn't exist, use the blank slate from StoryFormStore
   getInitialState() {
+    this.setState({isPublic: true})
     const { storyId, changelogId } = Router.get().getCurrentParams()
 
     if (storyId) {
