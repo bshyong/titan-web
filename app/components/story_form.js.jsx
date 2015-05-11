@@ -43,6 +43,7 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
   }
 
   _handleTogglePrivacy() {
+    console.log("privacy")
     this.setState({
       isPublic: !this.state.isPublic
     })
@@ -95,11 +96,13 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
   }
 
   _handleChanged(e) {
+    const isPublic = this.state.isPublic
+
     StoryFormActions.change({
       title: React.findDOMNode(this.refs.title).value,
       body:  React.findDOMNode(this.refs.body).value,
       contributors: React.findDOMNode(this.refs.contributors).value,
-      isPublic: this.state.isPublic
+      isPublic: isPublic
     })
   }
 
@@ -168,7 +171,8 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
       changelogId:  changelogId,
       title:        StoryFormStore.title,
       body:         StoryFormStore.body,
-      contributors: StoryFormStore.contributors
+      contributors: StoryFormStore.contributors,
+      isPublic: StoryFormStore.isPublic
     }
   }
 
