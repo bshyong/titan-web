@@ -14,6 +14,7 @@ import api from 'lib/api'
 import Dispatcher from 'lib/dispatcher'
 import RouterContainer from 'lib/router_container'
 import SessionStore from 'stores/session_store'
+import { List } from 'immutable'
 
 export default {
 
@@ -22,7 +23,7 @@ export default {
       then(resp => {
         Dispatcher.dispatch({
           type: STORIES_FETCHED,
-          stories: resp
+          stories: List(resp)
         })
       })
   },

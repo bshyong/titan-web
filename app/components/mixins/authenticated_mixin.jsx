@@ -53,7 +53,12 @@ export default (AuthenticatedComponent) => {
     }
 
     _onChange() {
-      this.setState(this.getStateFromStores())
+      var newState = this.getStateFromStores()
+      if (!newState.user) {
+        RouterContainer.get().transitionTo('/')
+      } else {
+        this.setState(this.getStateFromStores())
+      }
     }
   }
 }

@@ -12,7 +12,7 @@ class SessionStore extends Store {
       switch (action.type) {
         case USER_SIGNIN:
           this._jwt = action.jwt
-          this._user = jwt_decode(this._jwt).user
+          this._user = action.user
           this.emitChange()
           break
         case USER_SIGNOUT:

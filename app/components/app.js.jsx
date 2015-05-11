@@ -15,9 +15,7 @@ export default class App extends React.Component {
   }
 
   render() {
-    var changelogId = RouterContainer.get().getCurrentParams().changelogId
     return <div>
-      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
       <RouteHandler />
     </div>
   }

@@ -1,11 +1,15 @@
 import React from 'react'
+import RouterContainer from 'lib/router_container'
 import SessionActions from 'actions/session_actions'
 import SessionStore from 'stores/session_store'
 
 export default class SigninSSO extends React.Component {
+  static willTransitionTo(transition, params, query) {
+    SessionActions.signinFromSSO(query.payload, query.sig)
+  }
+
   constructor() {
     super()
-    SessionActions.signinFromSSO(window.location.search.substr(1))
     this.state = {}
   }
 

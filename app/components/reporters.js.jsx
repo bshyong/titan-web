@@ -1,6 +1,5 @@
 export default class Reporters extends React.Component {
   constructor() {
-    SessionActions.signinFromSSO(window.location.search.substr(1))
     this.state = {}
   }
 

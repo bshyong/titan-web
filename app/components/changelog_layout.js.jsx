@@ -14,6 +14,10 @@ import SessionStore from 'stores/session_store'
 
 
 export default class ChangelogLayout extends React.Component {
+  static willTransitionTo(transition, params, query) {
+    ChangelogActions.select(params.changelogId)
+  }
+
   constructor() {
     super()
     this.state = {
@@ -26,8 +30,6 @@ export default class ChangelogLayout extends React.Component {
   componentDidMount() {
     ChangelogStore.addChangeListener(this.onStoreChange)
     SessionStore.addChangeListener(this.onStoreChange)
-
-    ChangelogActions.select(RouterContainer.get().getCurrentParams().changelogId)
   }
 
   componentWillUnmount() {

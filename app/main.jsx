@@ -1,3 +1,4 @@
+import FastClick from 'fastclick'
 import Routes from './routes/index.js.jsx'
 import Router from 'react-router'
 import React from 'react'
@@ -20,6 +21,5 @@ RouterContainer.set(router)
 
 router.run((Handler) => {
   React.render(<Handler />, document.body)
+  FastClick.attach(document.body)
 })
-
-window.RouterContainer = RouterContainer
