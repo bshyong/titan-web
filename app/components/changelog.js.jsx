@@ -14,6 +14,7 @@ import Emoji from 'components/ui/emoji.jsx'
 import Jumbotron from 'components/ui/jumbotron.jsx'
 import FollowButton from 'components/follow_button.jsx'
 import Logo from 'components/logo.jsx'
+import shallowEqual from 'react-pure-render/shallowEqual'
 
 import MetaBannerUrl from 'images/meta-banner.jpg'
 

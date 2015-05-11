@@ -17,6 +17,7 @@ import pluralize from 'lib/pluralize'
 import Emoji from 'components/ui/emoji.jsx'
 import {Link} from 'react-router'
 import Discussion from 'components/discussion.jsx'
+import shallowEqual from 'react-pure-render/shallowEqual'
 
 export default class StoryPage extends React.Component {
   static willTransitionTo(transition, params, query) {
