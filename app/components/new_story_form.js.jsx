@@ -17,32 +17,49 @@ import StoriesStore from 'stores/stories_store'
 import MarkdownArea from 'components/ui/markdown_area.jsx'
 import React from 'react'
 
-export default AuthenticatedMixin(class StoryForm extends React.Component {
+export default AuthenticatedMixin(class NewStoryForm extends React.Component {
+
   constructor(props) {
     super(props)
 
-    this.state = this.getInitialState()
+    this.state = {
+      title: this.props.title,
+      body: this.props.body,
+      isPublic: this.props.isPublic,
+      storyId: this.props.id,
+      contributors: (this.props.contributors || []).map(c => '@' + c.username).join(', ')
+    }
 
     this.handleChanged = this._handleChanged.bind(this)
     this.handlePublish = this._handlePublish.bind(this)
     this.handleUploaded = this._handleUploaded.bind(this)
     this.handleUploading = this._handleUploading.bind(this)
     this.onStoreChange = this._onStoreChange.bind(this)
-    this.onStoryFetched = this._onStoryFetched.bind(this)
   }
 
   componentDidMount() {
-    StoryPageStore.addChangeListener(this.onStoryFetched)
     StoryFormStore.addChangeListener(this.onStoreChange)
   }
 
   componentWillUnmount() {
-    StoryPageStore.removeChangeListener(this.onStoryFetched)
     StoryFormStore.removeChangeListener(this.onStoreChange)
   }
 
+  componentWillReceiveProps(nextProps) {
+    let contributors = nextProps.contributors
+
+    if (Array.isArray(contributors)) {
+      contributors = contributors.map(c => '@' + c.username).join(', ')
+    }
+
+    this.setState({
+      ...nextProps,
+      contributors: contributors
+    })
+  }
+
   render() {
-    const {title, body, isPublic, contributors, storyId} = this.state
+    const {title, body, isPublic, storyId, contributors} = this.state
 
     return (
       <div className="flex flex-column">
@@ -73,14 +90,14 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
 
             <div className="clearfix">
               <a className="block left p1 black" onClick={this.handleTogglePrivacy} onTouchStart={this.handleTogglePrivacy}>
-                <Icon icon={this.state.isPublic ? 'globe' : 'lock'} fw={true} />
+                <Icon icon={isPublic ? 'globe' : 'lock'} fw={true} />
               </a>
             </div>
 
           </div>
 
           <div className="right">
-            <Button bg="white" text={StoryFormStore.isValid() ? 'green' : 'gray' } action={this.handlePublish}>{storyId ? 'Update' : 'Publish'}</Button>
+            <Button bg="white" text={StoryFormStore.isValid() ? 'green' : 'gray' } action={this.props.onPublish || this.handlePublish}>{storyId ? 'Update' : 'Publish'}</Button>
           </div>
         </div>
       </div>
@@ -99,19 +116,11 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
   _handlePublish(e) {
     e.preventDefault()
 
-    if (this.state.storyId) {
-      StoriesActionCreator.edit(ChangelogStore.slug, this.state.storyId, {
-        title: this.state.title,
-        body:  this.state.body,
-        contributors: this.state.contributors
-      })
-    } else {
-      StoriesActionCreator.publish(ChangelogStore.slug, {
-        title: this.state.title,
-        body:  this.state.body,
-        contributors: this.state.contributors
-      })
-    }
+    StoriesActionCreator.publish(ChangelogStore.slug, {
+      title: this.state.title,
+      body:  this.state.body,
+      contributors: this.state.contributors
+    })
   }
 
   _handleUploaded(oldText, fileText) {
@@ -168,49 +177,6 @@ export default AuthenticatedMixin(class StoryForm extends React.Component {
 
   _onStoreChange() {
     this.setState(this.getStateFromStores())
-  }
-
-  _onStoryFetched() {
-    const story = StoryPageStore.story
-
-    if (story) {
-      this.setState({
-        title: story.title,
-        body: story.body,
-        contributors: story.contributors.map(u => '@' + u.username).join(', '),
-        isPublic: story.isPublic
-      })
-    }
-  }
-
-  // if storyId exists, try to fetch from existing store;
-  // if not found, fetch it from API
-  // if storyId doesn't exist, use the blank slate from StoryFormStore
-  getInitialState() {
-    const { storyId, changelogId } = Router.get().getCurrentParams()
-
-    if (storyId) {
-      const story = StoriesStore.get(storyId)
-
-      if (story) {
-        return {
-          storyId:      storyId,
-          changelogId:  changelogId,
-          title:        story.title,
-          body:         story.body,
-          contributors: story.contributors.map(c => '@' + c.username).join(', '),
-          isPublic:     story.isPublic
-        }
-      } else {
-        StoryActions.fetch(changelogId, storyId)
-        return {
-          storyId: storyId,
-          changelogId: changelogId
-        }
-      }
-    } else {
-      return this.getStateFromStores()
-    }
   }
 
 })

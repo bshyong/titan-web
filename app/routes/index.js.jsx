@@ -9,9 +9,9 @@ import Changelog from 'components/changelog.js.jsx'
 import NotFound from 'components/not_found.js.jsx'
 import React from 'react'
 import SigninSSO from 'components/signin_sso.js.jsx'
-
 import StoryComposer from 'components/story_composer.js.jsx'
-import StoryForm from 'components/story_form.js.jsx'
+import EditStoryForm from 'components/edit_story_form.js.jsx'
+import NewStoryForm from 'components/new_story_form.js.jsx'
 import HighlightPicker from 'components/highlight_picker.js.jsx'
 import ChangelogLayout from 'components/changelog_layout.js.jsx'
 import StoryPage from 'components/story_page.jsx'
@@ -23,10 +23,10 @@ export default (
     <Route handler={ChangelogLayout} path="/:changelogId">
       <DefaultRoute handler={Changelog} name="changelog" />
 
-      <Route handler={StoryForm} path=":storyId/edit" name="edit" />
+      <Route handler={EditStoryForm} path=":storyId/edit" name="edit" />
 
       <Route handler={StoryComposer} path="new">
-        <DefaultRoute handler={StoryForm} name="new" />
+        <DefaultRoute handler={NewStoryForm} name="new" />
         <Route handler={HighlightPicker} path="highlights/?:filter?" name="highlights" />
       </Route>
 
