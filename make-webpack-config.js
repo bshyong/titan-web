@@ -32,6 +32,7 @@ module.exports = function makeConfig(options) {
         "twemoji",
       ],
     },
+    devtool: options.devServer ? 'sourcemap' : undefined,
     output: {
       path: path.join(__dirname, 'dist'),
       filename: basename + '.js',

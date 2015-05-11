@@ -6,10 +6,14 @@ class HighlightsStore extends Store {
   constructor() {
     super()
     this.highlights = List([])
+    this._page = 0
+    this._moreAvailable = true
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
         case 'HIGHLIGHTS_FETCHED':
-          this.highlights = List(action.highlights)
+          this.highlights = this.highlights.concat(action.highlights)
+          this._page = action.page
+          this._moreAvailable = action.moreAvailable
           this.emitChange()
           break;
         case 'HIGHLIGHT_IGNORED':
@@ -24,7 +28,15 @@ class HighlightsStore extends Store {
   }
 
   all() {
-    return this.highlights.toJS()
+    return this.highlights
+  }
+
+  get moreAvailable() {
+    return this._moreAvailable
+  }
+
+  get page() {
+    return this._page
   }
 }
 

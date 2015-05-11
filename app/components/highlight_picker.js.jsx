@@ -1,30 +1,37 @@
 import AuthenticatedMixin from 'components/mixins/authenticated_mixin.jsx'
 import React from 'react'
 import Highlight from 'components/highlight.js.jsx'
-import HighlightsActionCreator from 'actions/highlight_actions'
+import HighlightActions from 'actions/highlight_actions'
 import HighlightsStore from 'stores/highlights_store'
 import Icon from 'components/ui/icon.js.jsx'
 import {Link} from 'react-router'
 import {List} from 'immutable'
 import RouterContainer from 'lib/router_container'
+import ScrollPaginator from 'components/ui/scroll_paginator.jsx'
 import SessionStore from 'stores/session_store'
+import shallowEqual from 'react-pure-render/shallowEqual'
 
 export default AuthenticatedMixin(class HighlightPicker extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      highlights: HighlightsStore.all()
+    this.stores = [HighlightsStore]
+    this.state = this.getStateFromStores()
+    this.handleStoresChanged = this.handleStoresChanged.bind(this)
+  }
+
+  static get defaultProps() {
+    return {
+      changelogId: RouterContainer.get().getCurrentParams().changelogId
     }
-    this.onStoreChange = this._onStoreChange.bind(this)
   }
 
-  componentDidMount() {
-    HighlightsStore.addChangeListener(this.onStoreChange)
-  }
-
-  componentWillUnmount() {
-    HighlightsStore.removeChangeListener(this.onStoreChange)
+  getStateFromStores() {
+    return {
+      highlights: HighlightsStore.all(),
+      page: HighlightsStore.page,
+      moreAvailable: HighlightsStore.moreAvailable
+    }
   }
 
   render() {
@@ -48,6 +55,10 @@ export default AuthenticatedMixin(class HighlightPicker extends React.Component 
 
     return (
       <div className="bg-white">
+        {this.state.moreAvailable ?
+          <ScrollPaginator page={this.state.page}
+            onScrollBottom={() => HighlightActions.fetchAll(this.props.changelogId, this.state.page + 1)} /> : null}
+
         <div className="px2 py1 bg-light-gray clearfix">
           <div className="left">
             <Link to="changelog" params={{changelogId: changelogId}}>
@@ -70,9 +81,26 @@ export default AuthenticatedMixin(class HighlightPicker extends React.Component 
     )
   }
 
-  _onStoreChange() {
-    this.setState({
-      highlights: HighlightsStore.all()
-    })
+  // Stores mixin
+  componentWillMount() {
+    this.stores.forEach(store =>
+      store.addChangeListener(this.handleStoresChanged)
+    );
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!shallowEqual(nextProps, this.props)) {
+      this.setState(getState(nextProps));
+    }
+  }
+
+  componentWillUnmount() {
+    this.stores.forEach(store =>
+      store.removeChangeListener(this.handleStoresChanged)
+    );
+  }
+
+  handleStoresChanged() {
+    this.setState(this.getStateFromStores(this.props));
   }
 })
