@@ -33,6 +33,7 @@ export default class StoryPage extends React.Component {
 
   render() {
     const {story} = this.state
+    const changelogId = Router.get().getCurrentParams().changelogId
     let body
 
     if (!story) {
@@ -47,6 +48,9 @@ export default class StoryPage extends React.Component {
       <div className="container">
         <div className="sm-col-10 md-col-8 mx-auto">
 
+          <Link className="py2 block" to="changelog" params={{changelogId}}>
+            <Icon icon="chevron-left" /> Meta
+          </Link>
 
           <div className="mb3 border-bottom py2">
             <div className="flex">
