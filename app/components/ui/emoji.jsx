@@ -9,7 +9,8 @@ const EmojiMappings = {
   'update': '🎉',
   'bugfix': '🐛',
   'doc': '📄',
-  'default': '👍'
+  'default': '👍',
+  'idea': '💡'
 }
 
 export default class Emoji extends React.Component {
