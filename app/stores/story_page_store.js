@@ -16,7 +16,7 @@ class StoryPageStore extends Store {
       switch (action.type) {
         case STORY_FETCHED:
           const { story } = action
-          this.stories = this.stories.set(action.story.id, action.story)
+          this.stories = this.stories.set(story.id, story)
           this.emitChange()
           break
         case STORY_HEARTED:
