@@ -1,25 +1,29 @@
 import {List, Set} from 'immutable'
 import {RouteHandler, Link} from 'react-router'
+import Avatar from 'components/ui/avatar.jsx'
+import Emoji from 'components/ui/emoji.jsx'
+import FollowButton from 'components/follow_button.jsx'
+import Icon from 'components/ui/icon.js.jsx'
+import Jumbotron from 'components/ui/jumbotron.jsx'
+import Logo from 'components/logo.jsx'
 import moment from 'moment'
 import React from 'react'
 import RouterContainer from 'lib/router_container'
+import ScrollPaginator from 'components/ui/scroll_paginator.jsx'
+import shallowEqual from 'react-pure-render/shallowEqual'
+import Stack from 'components/ui/stack.jsx'
 import StoriesStore from 'stores/stories_store'
-import Story from 'components/story.js.jsx'
 import StoryActions from 'actions/story_actions'
 import Table from 'components/ui/table.js.jsx'
-import Avatar from 'components/ui/avatar.jsx'
-import Stack from 'components/ui/stack.jsx'
-import Icon from 'components/ui/icon.js.jsx'
-import Emoji from 'components/ui/emoji.jsx'
-import Jumbotron from 'components/ui/jumbotron.jsx'
-import FollowButton from 'components/follow_button.jsx'
-import Logo from 'components/logo.jsx'
 
 import MetaBannerUrl from 'images/meta-banner.jpg'
 
 export default class Changelog extends React.Component {
   static willTransitionTo(transition, params, query) {
     StoryActions.fetchAll(params.changelogId)
+  }
+  static get defaultProps() {
+    changelogId: RouterContainer.get().getCurrentParams().changelogId
   }
 
   constructor(props) {
@@ -31,12 +35,14 @@ export default class Changelog extends React.Component {
 
   getStateFromStores() {
     return {
-      stories: StoriesStore.all()
+      page: StoriesStore.page,
+      stories: StoriesStore.all(),
+      moreAvailable: StoriesStore.moreAvailable
     }
   }
 
   render() {
-    const {changelogId} = this.props
+    const { changelogId } = this.props
     const stories = List(this.state.stories)
                     .sortBy(story => story.created_at)
                     .reverse()
@@ -60,13 +66,8 @@ export default class Changelog extends React.Component {
                 </div>
 
                 <div className="flex-none ml2">
-                  <div className="h5 gray mxn1 flex">
-                    <div className="px1">
-                      <span className="silver"><Icon icon="heart" /></span>
-                      {' '}
-                      {story.hearts_count}
-                    </div>
-                    <div className="px1">
+                  <div className="h5 gray  mxn1 flex">
+                    <div className="px1 no-underline">
                       <span className=" silver"><Icon icon="comment" /></span>
                       {' '}
                       {story.comments_count}
@@ -82,6 +83,10 @@ export default class Changelog extends React.Component {
     }, List())
 
     return <div>
+      {this.state.moreAvailable ?
+        <ScrollPaginator page={this.state.page}
+          onScrollBottom={() => StoryActions.fetchAll(this.props.changelogId, this.state.page + 1)} /> : null}
+
       <Jumbotron bgColor="blue" bgImageUrl={MetaBannerUrl}>
         <div className="sm-flex flex-center">
 

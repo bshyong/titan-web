@@ -1,6 +1,6 @@
 import React from 'react'
 import twemoji from 'twemoji'
-
+import StoryActions from 'actions/story_actions'
 
 const EmojiMappings = {
   'discussion': '💬',
@@ -9,10 +9,16 @@ const EmojiMappings = {
   'update': '🎉',
   'bugfix': '🐛',
   'doc': '📄',
-  'default': '👍'
+  'default': '👍',
+  'idea': '💡'
 }
 
 export default class Emoji extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.handleClick = this._handleClick.bind(this)
+  }
 
   render() {
     const {story: {labels}, size} = this.props
@@ -24,7 +30,12 @@ export default class Emoji extends React.Component {
        return `https://twemoji.maxcdn.com/${size}x${size}/${icon}.png`
      })
 
-    return <div dangerouslySetInnerHTML={{__html: html}} />
+    return <div dangerouslySetInnerHTML={{__html: html}} onClick={this.handleClick} />
+  }
+
+  _handleClick(e) {
+    e.preventDefault()
+    StoryActions.heart(this.props.story.id)
   }
 
 }

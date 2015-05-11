@@ -1,10 +1,13 @@
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
-var config = require('./webpack.config');
 
-config.devtool = 'sourcemap'
-config.output.filename = 'bundle.js'
-config.output.publicPath = '/'
+var config = require('./make-webpack-config')({
+  devServer: true
+});
+
+// config.devtool = 'sourcemap'
+// config.output.filename = 'bundle.js'
+// config.output.publicPath = '/'
 
 
 new WebpackDevServer(webpack(config), {

@@ -1,16 +1,21 @@
+import { List } from 'immutable'
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
 
 class StoriesStore extends Store {
   constructor() {
     super()
-    this.stories = []
+    this.stories = List()
+    this._page = 0
+    this._moreAvailable = true
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
         case 'STORY_CREATING':
           break;
         case 'STORIES_FETCHED':
-          this.stories = action.stories
+          this.stories = this.stories.concat(action.stories)
+          this._page = action.page
+          this._moreAvailable = action.moreAvailable
           this.emitChange()
           break;
         case 'STORY_PUBLISHED':
@@ -31,6 +36,14 @@ class StoriesStore extends Store {
 
   all() {
     return this.stories
+  }
+
+  get moreAvailable() {
+    return this._moreAvailable
+  }
+
+  get page() {
+    return this._page
   }
 }
 

@@ -17,6 +17,7 @@ import pluralize from 'lib/pluralize'
 import Emoji from 'components/ui/emoji.jsx'
 import {Link} from 'react-router'
 import Discussion from 'components/discussion.jsx'
+import shallowEqual from 'react-pure-render/shallowEqual'
 
 export default class StoryPage extends React.Component {
   static willTransitionTo(transition, params, query) {
@@ -43,45 +44,54 @@ export default class StoryPage extends React.Component {
     }
 
     return (
-      <div className="container p2">
+      <div className="container">
+        <div className="sm-col-10 md-col-8 mx-auto">
 
-        <div className="mb1">
-          <div className="pill bg-light-gray inline-block px2" style={{paddingTop: ".25rem", paddingBottom: '.25rem'}}>
-            <div className="left mr1">
+
+          <div className="mb3 border-bottom py2">
+            <div className="flex">
               <Emoji story={story} size={36} />
-            </div> Bugfix
+              <div className="ml1 h5" style={{lineHeight:'2rem'}}>
+                {story.hearts_count}
+              </div>
+            </div>
           </div>
 
-        </div>
 
-        <div className="mb2">
-          <div className="h6">
-            Posted {moment(story.created_at).fromNow()} by <span className="orange">{story.user.username}</span>
+          <div className="shadow rounded bg-white border-silver p2 sm-p3">
+
+            <div className="mb2 sm-mb3">
+              <h2 className="mt0 mb1">{story.title}</h2>
+              {body}
+            </div>
+
+            <div className="mb2 sm-mb3">
+              <Stack items={story.contributors.map(user => <Avatar user={user} size={32} />)} />
+            </div>
+
+
+            <div className="flex h5 gray">
+              <div className="flex-auto h5">
+                {moment(story.created_at).format('ll - LT')} by <span className="bold">@{story.user.username}</span>
+              </div>
+
+              <div className="flex-none">
+                <ul className="list-reset mb0 mxn1 h5 flex">
+                  <li className="px1">
+                    <span className="silver"><Icon icon="eye" /></span> {this.state.totalReads}
+                  </li>
+                  <li className="px1">
+                    <span className="silver"><Icon icon="comment" /></span> {story.comments_count}
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
-          <div className="h6 gray">
-            {pluralize(this.state.totalReads, 'view', 'views')}
+
+          <div className="p2 sm-p3">
+            <Discussion storyId={this.state.story.id} changelogId={this.props.changelogId} />
           </div>
         </div>
-
-        <div className="mb3">
-          <h2 className="mt0 mb0">{story.title}</h2>
-          {body}
-        </div>
-
-        <div className="mb3">
-          <Stack items={story.contributors.map(user => <Avatar user={user} size={32} />)} />
-        </div>
-
-        <div className="mb3">
-          <Heart
-            count={story.hearts_count}
-            onClick={() => this.heartClicked(story)}
-            hearted={story.viewer_has_hearted} />
-        </div>
-
-        <hr />
-
-        <Discussion storyId={this.state.story.id} changelogId={this.props.changelogId} />
       </div>
     )
   }

@@ -1,6 +1,7 @@
 import AttachmentActions from 'actions/attachment_actions'
 import AttachmentStore from 'stores/attachment_store'
 import Dropzone from 'dropzone'
+import Icon from 'components/ui/icon.js.jsx'
 import React from 'react'
 import UploadingAttachmentsStore from 'stores/uploading_attachment_store'
 
@@ -16,7 +17,7 @@ export default class DropzoneContainer extends React.Component {
   componentDidMount() {
     this.dropzone = new Dropzone(React.findDOMNode(this.refs.dropzone), {
       accept: AttachmentActions.uploadAttachment(this.props.id),
-      clickable: false,
+      clickable: React.findDOMNode(this.refs.clickable),
       sending: this.onSending,
       url: `https://s3.amazonaws.com/titan-api`
     })
@@ -33,7 +34,14 @@ export default class DropzoneContainer extends React.Component {
   }
 
   render() {
-    return <div ref="dropzone">{this.props.children}</div>;
+    return (
+      <div ref="dropzone" className="relative clearfix gray">
+        {this.props.children}
+        <div className="absolute bottom-0 right-0 mr1" ref="clickable">
+          <Icon icon="file-image-o" />
+        </div>
+      </div>
+    )
   }
 
   _getAttachments() {

@@ -18,7 +18,7 @@ export default class Popover extends React.Component {
   }
 
   componentWillUnmount() {
-    this.unbindRootCloseHandlers()
+    this.unbindDocumentHandlers()
   }
 
   render() {

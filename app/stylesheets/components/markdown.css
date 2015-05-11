@@ -5,3 +5,10 @@
 .markdown > blockquote {
   border-left: 2px solid var(--silver);
 }
+
+.markdown img {
+  border: 1px solid var(--border-color);
+  padding: 1px;
+  border-radius: var(--border-radius);
+  display: block;
+}

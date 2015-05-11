@@ -9,7 +9,10 @@ export default class MarkdownArea extends React.Component {
       resize: 'none'
     }
 
-    return <TextareaAutosize {...this.props} className="field-light mb0 block full-width" style={style} />
+    return <TextareaAutosize
+              {...this.props}
+              className="field-light border-silver mb0 block full-width"
+              style={style} />
   }
 }
 
