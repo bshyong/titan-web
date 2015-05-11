@@ -18,6 +18,13 @@ export default class Emoji extends React.Component {
   constructor(props) {
     super(props)
     this.handleClick = this._handleClick.bind(this)
+    this.state = this.getState()
+  }
+
+  getState() {
+    return {
+      hearted: this.props.story.viewer_has_hearted
+    }
   }
 
   render() {
@@ -34,8 +41,12 @@ export default class Emoji extends React.Component {
   }
 
   _handleClick(e) {
-    e.preventDefault()
-    StoryActions.heart(this.props.story.id)
+    if (!this.state.hearted)
+      {
+        this.setState({hearted: true})
+        e.preventDefault()
+        StoryActions.heart(this.props.story.id)
+      }
   }
 
 }
