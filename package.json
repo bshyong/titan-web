@@ -13,6 +13,7 @@
     "node": "0.10.x"
   },
   "dependencies": {
+    "aws-sdk": "^2.1.27",
     "babel-core": "^5.2.15",
     "babel-loader": "^5.0.0",
     "basscss": "~5.2",
