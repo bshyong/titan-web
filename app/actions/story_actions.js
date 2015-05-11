@@ -18,12 +18,15 @@ import { List } from 'immutable'
 
 export default {
 
-  fetchAll(changelogId, params) {
-    api.get(`changelogs/${changelogId}/stories`).
+  fetchAll(changelogId, page=1, per=25) {
+    api.get(`changelogs/${changelogId}/stories?page=${page}&per=${per}`).
       then(resp => {
+        var stories = List(resp)
         Dispatcher.dispatch({
           type: STORIES_FETCHED,
-          stories: List(resp)
+          stories: stories,
+          page: page,
+          moreAvailable: stories.size == per
         })
       })
   },
