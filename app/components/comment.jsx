@@ -15,11 +15,11 @@ export default class Comment extends React.Component {
           <Avatar user={user} size={24} />
         </div>
         <div className="flex-auto">
-          <h4 className="mt0 mb1">
-            {user.username}
+          <div>
+            <span className="bold">{user.username}</span>
             {' '}
             <span className="gray regular">{moment(created_at).fromNow(true)}</span>
-          </h4>
+          </div>
           <Markdown markdown={body} />
         </div>
       </div>
