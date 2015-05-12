@@ -59,7 +59,11 @@ export default class StoryPage extends React.Component {
             <div className="sm-col-8">
 
               <div className="mb2 sm-mb3">
-                <h1 className="mt0 mb2">{story.title}</h1>
+                <h1 className="mt0 mb2">
+                  {story.team_member_only ? <Icon icon="lock" /> : null}
+                  {' '}
+                  {story.title}
+                </h1>
                 {body}
               </div>
 
