@@ -31,18 +31,18 @@ export default class Discussion extends React.Component {
     const comments = List(this.state.comments).sortBy(comment => comment.created_at)
     return (
       <div style={{marginBottom: '20rem'}}>
-        <div className="mb3">
-          <Table>
-            <Table.Separator label={pluralize(comments.count(), 'Comment', 'Comments')} />
-            {comments.map(comment =>
-              <Table.Cell key={comment.id} image={<Avatar user={comment.user} size={24} />}>
-                <Comment comment={comment}/>
-              </Table.Cell>
-            )}
-          </Table>
-        </div>
+        <Table>
+          <Table.Separator label={pluralize(comments.count(), 'Comment', 'Comments')} />
+          {comments.map(comment =>
+            <Table.Cell key={comment.id} image={<Avatar user={comment.user} size={24} />}>
+              <Comment comment={comment}/>
+            </Table.Cell>
+          )}
+        </Table>
 
-        <CommentForm storyId={this.props.storyId} changelogId={this.props.changelogId}/>
+        <div className="p2 md-px0">
+          <CommentForm storyId={this.props.storyId} changelogId={this.props.changelogId}/>
+        </div>
       </div>
     )
   }
