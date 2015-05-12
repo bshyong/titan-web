@@ -35,7 +35,7 @@ export default class Discussion extends React.Component {
           <Table>
             <Table.Separator label={pluralize(comments.count(), 'Comment', 'Comments')} />
             {comments.map(comment =>
-              <Table.Cell key={comment.id} image={<div className="p2"><Avatar user={comment.user} size={24} /></div>}>
+              <Table.Cell key={comment.id} image={<Avatar user={comment.user} size={24} />}>
                 <Comment comment={comment}/>
               </Table.Cell>
             )}

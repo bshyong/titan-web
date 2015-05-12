@@ -3,9 +3,28 @@
   stories in the timeline. This should be far more general.
 */
 .emoji {
-   height: 20px;
-   width:20px;
-   margin-top: 2px;
-   margin-bottom: 2px;
-   display: block;
+  width: 100%;
+  display: block;
+}
+
+.emoji-container--sm > div > .emoji {
+  width: 1.25rem;
+}
+
+.emoji-container--sm > .emoji-count {
+  margin-left: .5em;
+  color: var(--silver);
+  font-size: var(--h5);
+}
+
+.emoji-container--lg {
+  width: var(--h1);
+}
+
+.emoji-container--lg > .emoji-count {
+  margin-top: var(--space-1);
+}
+
+.emoji-container--hearted > div > .emoji {
+  opacity: .2;
 }

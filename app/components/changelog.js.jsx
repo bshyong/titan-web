@@ -52,14 +52,17 @@ export default class Changelog extends React.Component {
                     .reverse()
                     .groupBy(story => moment(story.created_at).startOf('day'))
 
-    const a = stories.reduce(function (reduction, value, key, iter) {
+    const a = stories.reduce((reduction, value, key, iter) => {
       let a = reduction.push(
         <Table.Separator label={key.calendar()} key={key.toISOString()} />
       )
       let b = a.push(
         value.map((story) => {
+          const emoji = (
+            <Emoji story={story} size="sm" hearted={story.viewer_has_hearted} />
+          )
           return (
-            <Table.Cell key={story.id} image={<div className="p2"><Emoji story={story} size={36} /></div>} to="story" params={{changelogId, storyId: story.id}}>
+            <Table.Cell key={story.id} image={emoji} to="story" params={{changelogId, storyId: story.id}}>
               <div className="flex">
                 <div className="flex-auto">
                   {story.team_member_only ? <Icon icon="lock" /> : null} {story.title}
@@ -122,12 +125,6 @@ export default class Changelog extends React.Component {
       store.addChangeListener(this.handleStoresChanged)
     );
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   if (!shallowEqual(nextProps, this.props)) {
-  //     this.setState(getState(nextProps));
-  //   }
-  // }
 
   componentWillUnmount() {
     this.stores.forEach(store =>

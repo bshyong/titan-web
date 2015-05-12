@@ -32,7 +32,7 @@ class TableCell extends React.Component {
     }
 
     return (
-      <div className="table-cell-image flex-none">{image}</div>
+      <div className="table-cell-image flex-none py2 mr2 ml2 md-ml0">{image}</div>
     )
   }
 

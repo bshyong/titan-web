@@ -1,6 +1,7 @@
 import React from 'react'
 import twemoji from 'twemoji'
 import StoryActions from 'actions/story_actions'
+import classnames from 'classnames'
 
 const EmojiMappings = {
   'discussion': '💬',
@@ -17,43 +18,53 @@ export default class Emoji extends React.Component {
 
   constructor(props) {
     super(props)
-    this.handleClick = this._handleClick.bind(this)
-    this.state = this.getState()
-  }
-
-  getState() {
-    return {
-      hearted: this.props.story.viewer_has_hearted
-    }
   }
 
   render() {
-    const {story: {labels}, size} = this.props
+    const {
+      story: { hearts_count },
+      hearted,
+      size,
+      onClick
+    } = this.props
 
+    const cn = classnames('emoji-container', 'flex flex-center pointer', {
+      'emoji-container--sm': size == 'sm',
+      'emoji-container--lg flex-column': size == 'lg',
+      'emoji-container--hearted': hearted
+    })
+
+    return (
+      <div className={cn} onClick={onClick}>
+        {this.icon()}
+        <div className="emoji-count">{hearts_count}</div>
+      </div>
+    )
+  }
+
+  icon() {
+    const {story: {labels}} = this.props
     const label = labels[0] || 'default'
     const char = EmojiMappings[label.toLowerCase()] || '👍'
-
-    const html = twemoji.parse(char, (icon, options, variant) => {
-       return `https://twemoji.maxcdn.com/${size}x${size}/${icon}.png`
-     })
-
-    return <div dangerouslySetInnerHTML={{__html: html}} onClick={this.handleClick} />
+    const html = twemoji.parse(
+      char,
+      icon => `https://twemoji.maxcdn.com/svg/${icon}.svg`
+    )
+    return <div dangerouslySetInnerHTML={{__html: html}} />
   }
-
-  _handleClick(e) {
-    if (!this.state.hearted)
-      {
-        this.setState({hearted: true})
-        e.preventDefault()
-        StoryActions.heart(this.props.story.id)
-      }
-  }
-
 }
 
 Emoji.propTypes = {
   story: React.PropTypes.shape({
-    labels: React.PropTypes.array
+    labels: React.PropTypes.array.isRequired,
+    hearts_count: React.PropTypes.number.isRequired
   }).isRequired,
-  size: React.PropTypes.oneOf([16, 36, 72]).isRequired
+  hearted: React.PropTypes.bool.isRequired,
+  size: React.PropTypes.oneOf(['sm', 'lg']).isRequired,
+  onClick: React.PropTypes.func
+}
+
+Emoji.defaultProps = {
+  size: 'sm',
+  hearted: false
 }

@@ -1,6 +1,5 @@
 import {List} from 'immutable'
 import Avatar from 'components/ui/avatar.jsx'
-import Heart from 'components/ui/heart.jsx'
 import Label from 'components/ui/label.jsx'
 import Icon from 'components/ui/icon.js.jsx'
 import Markdown from 'components/ui/markdown.jsx'
@@ -28,7 +27,9 @@ export default class StoryPage extends React.Component {
   constructor(props) {
     super(props)
     this.stores = [StoryPageStore, StoryReadersStore, ChangelogStore]
+
     this.state = this.getStateFromStores()
+
     this.handleStoresChanged = this.handleStoresChanged.bind(this)
     this.renderEditLink = this.renderEditLink.bind(this)
   }
@@ -89,10 +90,10 @@ export default class StoryPage extends React.Component {
             <div className="flex-first sm-col-2">
 
               <div className="flex flex-column flex-center px2 center">
-                <Emoji story={story} size={36} />
-                <div className="center py1 bold">
-                  {story.hearts_count}
-                </div>
+                <Emoji story={story}
+                       size="lg"
+                       hearted={story.viewer_has_hearted}
+                       onClick={(e) => { this.heartClicked(story) }} />
               </div>
 
             </div>
@@ -139,7 +140,6 @@ export default class StoryPage extends React.Component {
       story: StoryPageStore.get(storyId),
       totalReads: StoryReadersStore.totalReads,
       uniqueReads: StoryReadersStore.uniqueReads,
-      isFakeLoading: true,
       changelog: ChangelogStore.changelog
     }
   }
