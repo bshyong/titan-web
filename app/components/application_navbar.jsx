@@ -76,6 +76,11 @@ export default class ApplicatioNavbar extends React.Component {
         <hr className="mt1 border-top mb1" />
         <List type="small">
           <List.Item>
+            <a href={`/users/${this.state.user.username}`}>
+              Profile
+            </a>
+          </List.Item>
+          <List.Item>
             <a href="https://assembly.com/about">About</a>
           </List.Item>
           <List.Item>
