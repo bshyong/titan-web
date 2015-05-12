@@ -13,7 +13,7 @@ import RouterContainer from 'lib/router_container'
 import ScrollPaginator from 'components/ui/scroll_paginator.jsx'
 import shallowEqual from 'react-pure-render/shallowEqual'
 import Stack from 'components/ui/stack.jsx'
-import StoriesStore from 'stores/story_store'
+import StoryStore from 'stores/story_store'
 import StoryActions from 'actions/story_actions'
 import Table from 'components/ui/table.js.jsx'
 
@@ -31,17 +31,17 @@ export default class Changelog extends React.Component {
 
   constructor(props) {
     super(props)
-    this.stores = [StoriesStore]
+    this.stores = [StoryStore]
     this.state = this.getStateFromStores()
     this.handleStoresChanged = this.handleStoresChanged.bind(this)
   }
 
   getStateFromStores() {
     return {
-      page: StoriesStore.page,
-      stories: StoriesStore.all(),
-      moreAvailable: StoriesStore.moreAvailable,
-      loading: StoriesStore.loading
+      page: StoryStore.page,
+      stories: StoryStore.all(),
+      moreAvailable: StoryStore.moreAvailable,
+      loading: StoryStore.loading
     }
   }
 

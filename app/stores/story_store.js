@@ -11,7 +11,7 @@ import { Map } from 'immutable'
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
 
-class StoriesStore extends Store {
+class StoryStore extends Store {
   constructor() {
     super()
     this.stories = Map()
@@ -84,4 +84,4 @@ class StoriesStore extends Store {
   }
 }
 
-export default new StoriesStore()
+export default new StoryStore()
