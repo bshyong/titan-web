@@ -51,5 +51,6 @@
 
   --border-color: var(--smoke);
 
+  --font-family: "Avenir Next", "Avenir", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --heading-font-family: var(--font-family);
 }
