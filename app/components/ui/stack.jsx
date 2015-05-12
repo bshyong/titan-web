@@ -1,9 +1,10 @@
 import React from 'react'
+import classnames from 'classnames'
 import {List} from 'immutable'
 
 export default class Stack extends React.Component {
   render() {
-    const {items} = this.props
+    const {items, align} = this.props
     const renderedItems = List(items).map((item, i) => {
       const zIndex = i
       return (
@@ -13,10 +14,15 @@ export default class Stack extends React.Component {
       )
     })
 
+    const cn = classnames('stack', 'flex', {
+      'stack--left': align === 'left',
+      'stack--right': align === 'right'
+    })
+
     return (
-      <div className="stack flex">
+      <div className="flex">
         <div className="flex-shrink">
-          <div className="flex" style={{flexDirection: 'row-reverse', marginLeft: '.25rem'}}>
+          <div className={cn} style={{}}>
             {renderedItems}
           </div>
         </div>
@@ -26,5 +32,10 @@ export default class Stack extends React.Component {
 }
 
 Stack.propTypes = {
-  items: React.PropTypes.arrayOf(React.PropTypes.element).isRequired
+  items: React.PropTypes.arrayOf(React.PropTypes.element).isRequired,
+  align: React.PropTypes.oneOf(['left', 'right'])
+}
+
+Stack.defaultProps = {
+  align: 'left'
 }

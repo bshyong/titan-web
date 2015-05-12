@@ -68,7 +68,7 @@ export default class Changelog extends React.Component {
                   {story.team_member_only ? <Icon icon="lock" /> : null} {story.title}
                 </div>
                 <div className="flex-none sm-show ml2">
-                  <Stack items={story.allContributors.map(user => <Avatar user={user} size={24} />)} />
+                  <Stack items={story.allContributors.map(user => <Avatar user={user} size={24} />)} align="right" />
                 </div>
 
                 <div className="flex-none ml2">
