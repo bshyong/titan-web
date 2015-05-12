@@ -54,7 +54,7 @@ class StoriesStore extends Store {
           this.emitChange()
           break;
         case STORY_PUBLISHED:
-          this.stories.unshift(action.story)
+          this.stories = this.stories.set(action.story.id, action.story)
           this.emitChange()
           break;
         default:
