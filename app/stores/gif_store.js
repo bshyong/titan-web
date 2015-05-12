@@ -1,10 +1,12 @@
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
+import {List} from 'immutable'
 
 class GifStore extends Store {
   constructor() {
     super()
     this.gifs = List([])
+    this.searchTerm = null
 
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
@@ -12,8 +14,12 @@ class GifStore extends Store {
           this.emitChange()
           break;
         case 'GIFS_FETCHED':
-          this.emitChange()
           this.gifs = List(action.gifs)
+          this.emitChange()
+          break;
+        case 'GIF_FORM_CHANGED':
+          this.searchTerm = action.searchTerm
+          this.emitChange()
           break;
         default:
           break;
@@ -22,7 +28,11 @@ class GifStore extends Store {
   }
 
   getAll() {
-    return this.gifs
+    return this.gifs.toJS()
+  }
+
+  currentSearchTerm() {
+    return this.searchTerm
   }
 
 
