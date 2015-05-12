@@ -47,56 +47,66 @@ export default class StoryPage extends React.Component {
     }
 
     return (
-      <div className="container">
-        <div className="sm-col-10 md-col-8 mx-auto">
+      <div className="flex flex-column" style={{minHeight: 'calc(100vh - 3.5rem)'}}>
 
-          <Link className="py2 block" to="changelog" params={{changelogId}}>
-            <Icon icon="chevron-left" /> {changelogId[0].toUpperCase() + changelogId.slice(1)}
-          </Link>
 
-          <div className="mb3 border-bottom py2">
-            <div className="flex">
-              <Emoji story={story} size={36} />
-              <div className="ml1 h5" style={{lineHeight:'2rem'}}>
-                {story.hearts_count}
+        <Link className="p2" to="changelog" params={{changelogId}}>
+          <Icon icon="chevron-left" /> Meta
+        </Link>
+
+        <div className="p2 sm-px0 sm-py3 md-py4">
+
+          <div className="container sm-flex">
+            <div className="sm-col-8">
+
+              <div className="mb2 sm-mb3">
+                <h1 className="mt0 mb2">{story.title}</h1>
+                {body}
+              </div>
+
+              <div className="mb2 sm-mb3">
+                <Stack items={story.allContributors.map(user => <Avatar user={user} size={32} />)} />
+              </div>
+
+              <div className="flex h5 gray">
+                <div className="flex-auto h5">
+                  {moment(story.created_at).format('ll @ LT')} by <span className="bold">@{story.user.username}</span>
+                </div>
+
+                <div className="flex-none">
+                  <ul className="list-reset mb0 mxn1 h5 flex">
+                    <li className="px1">
+                      <span className="silver"><Icon icon="eye" /></span> {this.state.totalReads}
+                    </li>
+                    <li className="px1">
+                      <span className="silver"><Icon icon="comment" /></span> {story.comments_count}
+                    </li>
+                    {this.renderEditLink()}
+                  </ul>
+                </div>
               </div>
             </div>
+
+
+            <div className="flex-first sm-col-2">
+
+              <div className="flex flex-column flex-center px2 center">
+                <Emoji story={story} size={36} />
+                <div className="center py1 bold">
+                  {story.hearts_count}
+                </div>
+              </div>
+
+            </div>
+
           </div>
+        </div>
 
-
-          <div className="border rounded bg-white border-silver p2 sm-p3">
-
-            <div className="mb2 sm-mb3">
-              <h2 className="mt0 mb1">{story.title}</h2>
-              {body}
+        <div className="flex-auto" style={{background: '#FAF9F8'}}>
+          <div className="container">
+            <div className="sm-col-8 mx-auto">
+              <Discussion storyId={this.state.story.id} changelogId={this.props.changelogId} />
             </div>
-
-            <div className="mb2 sm-mb3">
-              <Stack items={story.allContributors.map(user => <Avatar user={user} size={32} />)} />
-            </div>
-
-
-            <div className="flex h5 gray">
-              <div className="flex-auto h5">
-                {moment(story.created_at).format('ll - LT')} by <span className="bold">@{story.user.username}</span>
-              </div>
-
-              <div className="flex-none">
-                <ul className="list-reset mb0 mxn1 h5 flex">
-                  <li className="px1">
-                    <span className="silver"><Icon icon="eye" /></span> {this.state.totalReads}
-                  </li>
-                  <li className="px1">
-                    <span className="silver"><Icon icon="comment" /></span> {story.comments_count}
-                  </li>
-                  {this.renderEditLink()}
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div className="p2 sm-p3">
-            <Discussion storyId={this.state.story.id} changelogId={this.props.changelogId} />
           </div>
         </div>
       </div>
@@ -142,12 +152,6 @@ export default class StoryPage extends React.Component {
       store.addChangeListener(this.handleStoresChanged)
     );
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   if (!shallowEqual(nextProps, this.props)) {
-  //     this.setState(getState(nextProps));
-  //   }
-  // }
 
   componentWillUnmount() {
     this.stores.forEach(store =>

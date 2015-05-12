@@ -1,1 +1,3 @@
 .gray-visited:visited { color: var(--gray) }
+
+.bg-smoke { background-color: var(--smoke) }
