@@ -35,11 +35,14 @@
   --smoke: #F7F6F5;
 
   --bold-font-weight: 600;
-  --heading-font-weight: 600;
+  --heading-font-weight: 400;
+  --button-font-weight: 500;
   --container-width: 52rem;
 
   --link-color: var(--orange);
   --link-text-decoration: none;
+
+  --h1: 2.25rem;
 
   --time-1: 150ms;
   --time-2: 300ms;
@@ -47,4 +50,6 @@
   --time-4: 1200ms;
 
   --border-color: var(--smoke);
+
+  --heading-font-family: var(--font-family);
 }
