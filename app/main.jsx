@@ -6,8 +6,6 @@ import RouterContainer from 'lib/router_container'
 import SessionActions from 'actions/session_actions'
 
 import 'images/favicon.ico'
-import 'config/dropzone'
-import 'config/moment'
 
 let jwt = localStorage.getItem('jwt')
 if (jwt) {

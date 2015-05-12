@@ -1,19 +1,6 @@
-var AWS = require('aws-sdk');
-var cloudfront = new AWS.CloudFront();
-var stats = require(__dirname + "/dist/stats.json");
+var fastly = require('fastly')(process.env.FASTLY_API_KEY);
 
-var params = {
-  DistributionId: 'EFI6XFIBVMT0I',
-  InvalidationBatch: {
-    CallerReference: stats.assetsByChunkName.app,
-    Paths: {
-      Quantity: 1,
-      Items: ['/',]
-    }
-  }
-};
-
-cloudfront.createInvalidation(params, function(err, data) {
-  if (err) console.log(err, err.stack); // an error occurred
-  else     console.log(data);           // successful response
+fastly.purge('titan-web.herokuapp.com', '/', function(err, obj) {
+  if (err) return console.dir(err);   // Oh no!
+  console.dir(obj);                   // Response body from the fastly API
 });

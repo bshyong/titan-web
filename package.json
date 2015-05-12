@@ -13,7 +13,6 @@
     "node": "0.10.x"
   },
   "dependencies": {
-    "aws-sdk": "^2.1.27",
     "babel-core": "^5.2.15",
     "babel-loader": "^5.0.0",
     "basscss": "~5.2",
@@ -27,6 +26,7 @@
     "es6-promise": "^2.1.1",
     "express": "^4.12.3",
     "fastclick": "^1.0.6",
+    "fastly": "^1.2.1",
     "file-loader": "^0.8.1",
     "flux": "~2.0",
     "image-loader": "0.0.1",

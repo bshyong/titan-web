@@ -3,7 +3,7 @@ import Avatar from 'components/ui/avatar.jsx'
 import HighlightsStore from 'stores/highlights_store'
 import HighlightsActionCreator from 'actions/highlight_actions'
 import Icon from 'components/ui/icon.js.jsx'
-import moment from 'moment'
+import moment from 'config/moment'
 import React from 'react'
 import Stack from 'components/ui/stack.jsx'
 

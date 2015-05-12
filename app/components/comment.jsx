@@ -1,7 +1,7 @@
 import React from 'react'
 import Avatar from 'components/ui/avatar.jsx'
 import Markdown from 'components/ui/markdown.jsx'
-import moment from 'moment'
+import moment from 'config/moment'
 
 export default class Comment extends React.Component {
   render() {

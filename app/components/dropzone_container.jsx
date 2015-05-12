@@ -1,6 +1,6 @@
 import AttachmentActions from 'actions/attachment_actions'
 import AttachmentStore from 'stores/attachment_store'
-import Dropzone from 'dropzone'
+import Dropzone from 'config/dropzone'
 import Icon from 'components/ui/icon.js.jsx'
 import React from 'react'
 import UploadingAttachmentsStore from 'stores/uploading_attachment_store'

@@ -25,3 +25,5 @@ moment.locale('en', {
       yy: "%dy"
   }
 })
+
+export default moment

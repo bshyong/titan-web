@@ -1,10 +1,6 @@
 deployment:
   production:
     branch: master
-    heroku:
-      appname: titan-web
-
-  cloudfront:
-    branch: master
     commands:
+      - git push git@heroku.com:titan-web.git $CIRCLE_SHA1:master
       - node ./post-deploy.js
