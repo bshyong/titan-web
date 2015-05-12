@@ -2,7 +2,7 @@ import AuthenticatedMixin from 'components/mixins/authenticated_mixin.jsx'
 import StoryForm from 'components/new_story_form.js.jsx'
 import StoryFormStore from 'stores/story_form_store'
 import StoryActions from 'actions/story_actions'
-import StoryPageStore from 'stores/story_page_store'
+import StoriesStore from 'stores/story_store'
 import Router from 'lib/router_container'
 import React from 'react'
 
@@ -21,13 +21,13 @@ export default AuthenticatedMixin(class EditStoryForm extends React.Component {
   }
 
   componentDidMount() {
-    StoryPageStore.addChangeListener(this.onStoryFetched)
+    StoriesStore.addChangeListener(this.onStoryFetched)
     StoryFormStore.addChangeListener(this.onStoreChange)
     this.getExistingStory()
   }
 
   componentWillUnmount() {
-    StoryPageStore.removeChangeListener(this.onStoryFetched)
+    StoriesStore.removeChangeListener(this.onStoryFetched)
     StoryFormStore.removeChangeListener(this.onStoreChange)
   }
 
@@ -47,7 +47,7 @@ export default AuthenticatedMixin(class EditStoryForm extends React.Component {
   }
 
   getExistingStory() {
-    const story = StoryPageStore.get(this.state.storyId)
+    const story = StoriesStore.get(this.state.storyId)
 
     if (story) {
       this.setState({
@@ -84,7 +84,7 @@ export default AuthenticatedMixin(class EditStoryForm extends React.Component {
   }
 
   _onStoryFetched() {
-    const story = StoryPageStore.get(this.state.storyId)
+    const story = StoriesStore.get(this.state.storyId)
 
     if (story) {
       this.setState({

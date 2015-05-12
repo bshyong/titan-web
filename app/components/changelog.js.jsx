@@ -13,7 +13,7 @@ import RouterContainer from 'lib/router_container'
 import ScrollPaginator from 'components/ui/scroll_paginator.jsx'
 import shallowEqual from 'react-pure-render/shallowEqual'
 import Stack from 'components/ui/stack.jsx'
-import StoriesStore from 'stores/stories_store'
+import StoriesStore from 'stores/story_store'
 import StoryActions from 'actions/story_actions'
 import Table from 'components/ui/table.js.jsx'
 
@@ -57,9 +57,11 @@ export default class Changelog extends React.Component {
         <Table.Separator label={key.calendar()} key={key.toISOString()} />
       )
       let b = a.push(
-        value.map((story) => {
+        value.map(story => {
           const emoji = (
-            <Emoji story={story} size="sm" hearted={story.viewer_has_hearted} />
+            <Emoji story={story} size="sm"
+                   hearted={story.viewer_has_hearted}
+                   onClick={() => StoryActions.clickHeart(story)} />
           )
           return (
             <Table.Cell key={story.id} image={emoji} to="story" params={{changelogId, storyId: story.id}}>

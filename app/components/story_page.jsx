@@ -9,7 +9,7 @@ import Router from 'lib/router_container'
 import SessionStore from 'stores/session_store'
 import Stack from 'components/ui/stack.jsx'
 import StoryActions from 'actions/story_actions'
-import StoryPageStore from 'stores/story_page_store'
+import StoriesStore from 'stores/story_store'
 import StoryReadersStore from 'stores/story_readers_store'
 import LoadingBar from 'components/ui/loading_bar.jsx'
 import pluralize from 'lib/pluralize'
@@ -26,7 +26,7 @@ export default class StoryPage extends React.Component {
 
   constructor(props) {
     super(props)
-    this.stores = [StoryPageStore, StoryReadersStore, ChangelogStore]
+    this.stores = [StoriesStore, StoryReadersStore, ChangelogStore]
 
     this.state = this.getStateFromStores()
 
@@ -93,7 +93,7 @@ export default class StoryPage extends React.Component {
                 <Emoji story={story}
                        size="lg"
                        hearted={story.viewer_has_hearted}
-                       onClick={(e) => { this.heartClicked(story) }} />
+                       onClick={() => StoryActions.clickHeart(story)} />
               </div>
 
             </div>
@@ -124,20 +124,10 @@ export default class StoryPage extends React.Component {
     }
   }
 
-  heartClicked(story) {
-    if (SessionStore.isSignedIn()) {
-      if (story.viewer_has_hearted) {
-        StoryActions.unheart(story.id)
-      } else {
-        StoryActions.heart(story.id)
-      }
-    }
-  }
-
   getStateFromStores() {
     const storyId = Router.get().getCurrentParams().storyId
     return {
-      story: StoryPageStore.get(storyId),
+      story: StoriesStore.get(storyId),
       totalReads: StoryReadersStore.totalReads,
       uniqueReads: StoryReadersStore.uniqueReads,
       changelog: ChangelogStore.changelog

@@ -24,8 +24,8 @@ export default class Emoji extends React.Component {
     const {
       story: { hearts_count },
       hearted,
-      size,
-      onClick
+      onClick,
+      size
     } = this.props
 
     const cn = classnames('emoji-container', 'flex flex-center pointer', {

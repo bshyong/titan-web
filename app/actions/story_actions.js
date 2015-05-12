@@ -64,6 +64,16 @@ export default {
       })
   },
 
+  clickHeart(story) {
+    if (SessionStore.isSignedIn()) {
+      if (!story.viewer_has_hearted) {
+        this.heart(story.id)
+      } else {
+        this.unheart(story.id)
+      }
+    }
+  },
+
   heart(storyId) {
     api.put(`user/hearts/stories/${storyId}`)
     Dispatcher.dispatch({
