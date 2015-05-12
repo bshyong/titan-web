@@ -59,6 +59,7 @@ export default class CommentForm extends React.Component {
           ref="comment"
           placeholder="What do you think?"
           onChange={this.handleOnChange}
+          onCmdEnter={this.handleOnPublish}
           value={this.state.comment}
           rows={1} />
       </DropzoneContainer>
