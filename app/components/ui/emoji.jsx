@@ -44,8 +44,17 @@ export default class Emoji extends React.Component {
 
   icon() {
     const {story: {labels}} = this.props
-    const label = labels[0] || 'default'
-    const char = EmojiMappings[label.toLowerCase()] || '👍'
+    var char = ""
+    if (!this.props.story.emoji) {
+      const label = labels[0] || 'default'
+      char = EmojiMappings[label.toLowerCase()] || '👍'
+    }
+    else {
+      char = this.props.story.emoji.character
+    }
+
+
+
     const html = twemoji.parse(
       char,
       icon => `https://twemoji.maxcdn.com/svg/${icon}.svg`
@@ -55,10 +64,7 @@ export default class Emoji extends React.Component {
 }
 
 Emoji.propTypes = {
-  story: React.PropTypes.shape({
-    labels: React.PropTypes.array.isRequired,
-    hearts_count: React.PropTypes.number.isRequired
-  }).isRequired,
+  story: React.PropTypes.object.isRequired,
   hearted: React.PropTypes.bool.isRequired,
   size: React.PropTypes.oneOf(['sm', 'lg']).isRequired,
   onClick: React.PropTypes.func
