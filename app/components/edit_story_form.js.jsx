@@ -35,12 +35,14 @@ export default AuthenticatedMixin(class EditStoryForm extends React.Component {
     const {contributors, isPublic, title, body} = this.state
 
     return (
-      <StoryForm
-        contributors={this.state.contributors}
-        isPublic={this.state.isPublic}
-        title={title}
-        body={this.state.body}
-        onPublish={this.handleOnPublish} />
+      <div className="container p2">
+        <StoryForm
+          contributors={this.state.contributors}
+          isPublic={this.state.isPublic}
+          title={title}
+          body={this.state.body}
+          onPublish={this.handleOnPublish} />
+      </div>
     )
   }
 
