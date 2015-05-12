@@ -2,6 +2,7 @@ import React from 'react'
 import GifActions from 'actions/gif_actions'
 import GifStore from 'stores/gif_store'
 import Button from 'components/ui/button.js.jsx'
+import Icon from 'components/ui/icon.js.jsx'
 
 export default class GifPicker extends React.Component {
   constructor(props) {
@@ -29,34 +30,54 @@ export default class GifPicker extends React.Component {
   render() {
     return (
       <div>
+        <form className="mb2 flex">
+          <input type="text"
+            className="field-light flex-grow"
+            placeholder="gif search"
+            value={this.state.searchTerm}
+            onChange={this.handleOnChange}
+            ref="gifSearch" />
+          <Button className="flex-shrink">Search</Button>
+        </form>
         {this.renderButtons()}
-        <input type="text"
-          className="field-light full-width block mb2"
-          placeholder="gif search"
-          value={this.state.searchTerm}
-          onChange={this.handleOnChange}
-          ref="gifSearch" />
-        <img src={this.state.gifs[this.state.currentGifIndex]} />
+        <div className="center">
+          {this.renderGif()}
+        </div>
       </div>
     )
+  }
+
+  renderGif() {
+    const gif = this.state.gifs[this.state.currentGifIndex]
+    if (gif) {
+      return (
+        <iframe
+          src={`${gif.embed_url}?html5=true`}
+          height={`${gif.height}px`}
+          frameBorder="0"
+          webkitAllowFullScreen
+          mozallowfullscreen
+          allowFullScreen />
+      )
+    } else {
+      return
+    }
   }
 
   renderButtons() {
     if (this.state.gifs && this.state.gifs.length > 0) {
       return (
-        <div>
-          <Button
-            bg="navy"
-            text="white"
-            action={this.clickPrev}>
-              Prev
-          </Button>
-          <Button
-            bg="navy"
-            text="white"
-            action={this.clickNext}>
-              Next
-          </Button>
+        <div className="center flex">
+          <div className="flex-grow" />
+          <ul className="list-reset mb0 mxn1 h5 flex">
+            <li className="px1 blue" onClick={this.clickPrev}>
+              <Icon icon="chevron-left" /> Prev
+            </li>
+            <li className="px1 blue" onClick={this.clickNext}>
+              <Icon icon="chevron-right" /> Next
+            </li>
+          </ul>
+          <div className="flex-grow" />
         </div>
       )
     } else {
@@ -95,7 +116,7 @@ export default class GifPicker extends React.Component {
     this.setState({
       gifs: GifStore.getAll(),
       searchTerm: GifStore.currentSearchTerm()
-    }, console.log(this.state.gifs))
+    })
   }
 
 }

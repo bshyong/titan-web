@@ -13,7 +13,7 @@ export default {
         .then(resp => {
           Dispatcher.dispatch({
             type: 'GIFS_FETCHED',
-            gifs: resp.data.map(g => g.images.fixed_height.url)
+            gifs: resp.data.map(g => {return {...g.images.fixed_height, embed_url: g.embed_url}})
           })
         })
   },
