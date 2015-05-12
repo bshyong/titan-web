@@ -11,6 +11,7 @@ export default keyMirror({
   RESOURCE_NOT_FOUNE: null,
 
   STORIES_FETCHED: null,
+  STORIES_FETCHING: null,
 
   STORY_CREATING: null,
   STORY_FETCH: null,

@@ -2,12 +2,13 @@ import {
   RESOURCE_NOT_FOUND,
   RESOURCE_FOUND,
   STORIES_FETCHED,
+  STORIES_FETCHING,
   STORY_CREATING,
   STORY_EDITING,
   STORY_FETCHED,
   STORY_HEARTED,
   STORY_PUBLISHED,
-  STORY_UNHEARTED,
+  STORY_UNHEARTED
 } from 'constants'
 
 import api from 'lib/api'
@@ -19,6 +20,10 @@ import { List } from 'immutable'
 export default {
 
   fetchAll(changelogId, page=1, per=25) {
+    Dispatcher.dispatch({
+      type: STORIES_FETCHING
+    })
+
     api.get(`changelogs/${changelogId}/stories?page=${page}&per=${per}`).
       then(resp => {
         var stories = List(resp).map(combineAuthorAndContributors)

@@ -5,6 +5,7 @@ import Emoji from 'components/ui/emoji.jsx'
 import FollowButton from 'components/follow_button.jsx'
 import Icon from 'components/ui/icon.js.jsx'
 import Jumbotron from 'components/ui/jumbotron.jsx'
+import LoadingBar from 'components/ui/loading_bar.jsx'
 import Logo from 'components/logo.jsx'
 import moment from 'moment'
 import React from 'react'
@@ -39,7 +40,8 @@ export default class Changelog extends React.Component {
     return {
       page: StoriesStore.page,
       stories: StoriesStore.all(),
-      moreAvailable: StoriesStore.moreAvailable
+      moreAvailable: StoriesStore.moreAvailable,
+      loading: StoriesStore.loading
     }
   }
 
@@ -107,7 +109,9 @@ export default class Changelog extends React.Component {
         </div>
       </Jumbotron>
       <div className="container">
-        <Table>{a.toJS()}</Table>
+        <Table>{a}</Table>
+
+        <LoadingBar loading={this.state.loading} />
       </div>
     </div>
   }
