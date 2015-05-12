@@ -79,7 +79,7 @@ export default class CommentForm extends React.Component {
 
     return (
       <div className="flex">
-        <div className="flex-none py1 mr2" style={{marginTop: 2, marginBottom: 2}}>
+        <div className="flex-none px2 py1" style={{marginTop: 2, marginBottom: 2}}>
           <Avatar user={user} size={24} />
         </div>
         <div className="flex-auto">

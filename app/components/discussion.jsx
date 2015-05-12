@@ -6,6 +6,7 @@ import pluralize from 'lib/pluralize'
 import React from 'react'
 import DiscussionActions from 'actions/discussion_actions'
 import CommentsStore from 'stores/comments_store'
+import Table from 'components/ui/table.js.jsx'
 
 export default class Discussion extends React.Component {
   constructor(props) {
@@ -28,13 +29,16 @@ export default class Discussion extends React.Component {
   render() {
     const { comments } = this.state
     return (
-      <div>
+      <div style={{marginBottom: '20rem'}}>
         <div className="mb3">
-          {comments.map(comment =>
-            <div className="mb2" key={comment.id}>
-              <Comment comment={comment}/>
-            </div>
-          )}
+          <Table>
+            <Table.Separator label={pluralize(comments.length, 'Comment', 'Comments')} />
+            {comments.map(comment =>
+              <Table.Cell key={comment.id} image={<div className="p2"><Avatar user={comment.user} size={24} /></div>}>
+                <Comment comment={comment}/>
+              </Table.Cell>
+            )}
+          </Table>
         </div>
 
         <CommentForm storyId={this.props.storyId} changelogId={this.props.changelogId}/>

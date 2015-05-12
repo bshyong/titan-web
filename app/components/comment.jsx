@@ -10,18 +10,14 @@ export default class Comment extends React.Component {
     } = this.props
 
     return (
-      <div className="flex">
-        <div className="flex-none mr2">
-          <Avatar user={user} size={24} />
-        </div>
-        <div className="flex-auto">
-          <div>
-            <span className="bold">{user.username}</span>
-            {' '}
-            <span className="gray regular">{moment(created_at).fromNow(true)}</span>
+      <div className="flex-auto h5">
+        <div className="flex">
+          <div className="flex-auto bold">{user.username}</div>
+          <div className="flex-none gray">
+            {moment(created_at).fromNow(true)}
           </div>
-          <Markdown markdown={body} />
         </div>
+        <Markdown markdown={body} />
       </div>
     )
   }
