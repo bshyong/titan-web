@@ -87,6 +87,12 @@ module.exports = function makeConfig(options) {
               'file?hash=sha512&digest=hex&name=[hash].[ext]',
               'image?bypassOnDebug&optimizationLevel=7&interlaced=false'
           ]
+        },
+        {
+          test:    /favicon\.ico$/i,
+          loaders: [
+              'file?name=favicon.ico'
+          ]
         }
       ]
     },
