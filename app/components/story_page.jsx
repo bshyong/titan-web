@@ -49,13 +49,11 @@ export default class StoryPage extends React.Component {
     return (
       <div className="flex flex-column" style={{minHeight: 'calc(100vh - 3.5rem)'}}>
 
-
         <Link className="p2" to="changelog" params={{changelogId}}>
           <Icon icon="chevron-left" /> Meta
         </Link>
 
         <div className="p2 sm-px0 sm-py3 md-py4">
-
           <div className="container sm-flex">
             <div className="sm-col-8">
 
@@ -65,7 +63,7 @@ export default class StoryPage extends React.Component {
               </div>
 
               <div className="mb2 sm-mb3">
-                <Stack items={story.allContributors.map(user => <Avatar user={user} size={32} />)} />
+                <Stack items={story.allContributors.map(user => <Avatar user={user} size={32} />).toJS()} />
               </div>
 
               <div className="flex h5 gray">
