@@ -31,6 +31,7 @@ export default class Emoji extends React.Component {
     const cn = classnames('emoji-container', 'flex flex-center pointer', {
       'emoji-container--sm': size == 'sm',
       'emoji-container--lg flex-column': size == 'lg',
+      'emoji-container--unhearted': !hearted,
       'emoji-container--hearted': hearted
     })
 
