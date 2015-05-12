@@ -2,3 +2,10 @@
   box-shadow: 0 0 .5rem 0 var(--darken-3),
               0 0 0 1px var(--darken-1)
 }
+
+@media (--breakpoint-md) {
+  .shadow {
+    box-shadow: 0 .125rem .5rem 0 var(--darken-3),
+                0 0 0 1px var(--darken-1)
+  }
+}
