@@ -12,3 +12,24 @@
   border-radius: var(--border-radius);
   display: block;
 }
+
+.markdown h1 {
+  font-size: var(--h3);
+}
+
+.markdown h2,
+.markdown h3,
+.markdown h4,
+.markdown h5,
+.markdown h6 {
+  font-size: var(--h4);
+}
+
+.markdown h1,
+.markdown h2,
+.markdown h3,
+.markdown h4,
+.markdown h5,
+.markdown h6 {
+  font-weight: 500;
+}
