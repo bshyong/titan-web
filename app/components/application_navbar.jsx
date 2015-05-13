@@ -80,11 +80,6 @@ export default class ApplicatioNavbar extends React.Component {
         </List>
         <List type="small">
           <List.Item>
-            <a href={`/users/${this.state.user.username}`}>
-              Profile
-            </a>
-          </List.Item>
-          <List.Item>
             <a href="https://assembly.com/about">About</a>
           </List.Item>
           <List.Item>
