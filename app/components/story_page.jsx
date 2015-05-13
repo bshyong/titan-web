@@ -9,7 +9,7 @@ import Router from 'lib/router_container'
 import SessionStore from 'stores/session_store'
 import Stack from 'components/ui/stack.jsx'
 import StoryActions from 'actions/story_actions'
-import StoriesStore from 'stores/story_store'
+import StoryStore from 'stores/story_store'
 import StoryReadersStore from 'stores/story_readers_store'
 import LoadingBar from 'components/ui/loading_bar.jsx'
 import pluralize from 'lib/pluralize'
@@ -26,7 +26,7 @@ export default class StoryPage extends React.Component {
 
   constructor(props) {
     super(props)
-    this.stores = [StoriesStore, StoryReadersStore, ChangelogStore]
+    this.stores = [StoryStore, StoryReadersStore, ChangelogStore]
 
     this.state = this.getStateFromStores()
 
@@ -127,7 +127,7 @@ export default class StoryPage extends React.Component {
   getStateFromStores() {
     const storyId = Router.get().getCurrentParams().storyId
     return {
-      story: StoriesStore.get(storyId),
+      story: StoryStore.get(storyId),
       totalReads: StoryReadersStore.totalReads,
       uniqueReads: StoryReadersStore.uniqueReads,
       changelog: ChangelogStore.changelog

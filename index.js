@@ -12,7 +12,8 @@ var stats = require(__dirname + "/dist/stats.json");
 var publicPath = stats.publicPath;
 
 var html = fs.readFileSync("index.html", "utf-8").
-  replace("/app.js", publicPath + stats.assetsByChunkName.app).
+  replace("/app.js", publicPath + stats.assetsByChunkName.app[0]).
+  replace("/app.css", publicPath + stats.assetsByChunkName.app[1]).
   replace("/commons.js", publicPath + stats.assetsByChunkName.commons)
 
 app.get('*', function (req, res) {

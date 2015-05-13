@@ -91,7 +91,7 @@ export default {
       then(resp => {
         Dispatcher.dispatch({
           type: 'STORY_PUBLISHED',
-          story: resp
+          story: combineAuthorAndContributors(resp)
         })
 
         RouterContainer.get().transitionTo('changelog', {

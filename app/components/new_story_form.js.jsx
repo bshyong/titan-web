@@ -12,7 +12,7 @@ import StoriesActionCreator from 'actions/story_actions'
 import StoryFormActions from 'actions/story_form_actions'
 import StoryFormStore from 'stores/story_form_store'
 import StoryActions from 'actions/story_actions'
-import StoriesStore from 'stores/story_store'
+import StoryStore from 'stores/story_store'
 import MarkdownArea from 'components/ui/markdown_area.jsx'
 import React from 'react'
 

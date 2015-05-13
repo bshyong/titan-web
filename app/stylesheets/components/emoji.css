@@ -1,3 +1,8 @@
+.emoji-container > div > .emoji {
+  transition: transform var(--time-1);
+  will-change: transform;
+}
+
 /*
   TODO (@chrislloyd) This is a hack for putting emojis in the labels of
   stories in the timeline. This should be far more general.
@@ -27,4 +32,8 @@
 
 .emoji-container--hearted > div > .emoji {
   opacity: .2;
+}
+
+.emoji-container--unhearted:hover > div > .emoji {
+  transform: translate(0, -0.25rem);
 }

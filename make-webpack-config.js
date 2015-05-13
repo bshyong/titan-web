@@ -1,6 +1,7 @@
-var CompressionPlugin = require("compression-webpack-plugin");
+var CompressionPlugin = require("compression-webpack-plugin")
+var ExtractTextPlugin = require("extract-text-webpack-plugin")
 var path = require('path')
-var webpack = require('webpack');
+var webpack = require('webpack')
 
 module.exports = function makeConfig(options) {
   var publicPath = options.devServer ?
@@ -63,7 +64,8 @@ module.exports = function makeConfig(options) {
       new webpack.optimize.CommonsChunkPlugin(
         "commons",
         options.devServer ? "commons.js" : "commons-[chunkhash].js"
-      )
+      ),
+      new ExtractTextPlugin(basename + ".css")
     ],
     module: {
       loaders: [
@@ -79,7 +81,7 @@ module.exports = function makeConfig(options) {
         },
         {
           test:   /\.css$/,
-          loader: "style-loader!css-loader!cssnext-loader"
+          loader: ExtractTextPlugin.extract("css-loader!cssnext-loader"),
         },
         {
           test:    /\.(jpe?g|png|gif|svg)$/i,

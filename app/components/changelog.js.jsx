@@ -1,6 +1,7 @@
 import {List, Set} from 'immutable'
 import { RouteHandler, Link } from 'react-router'
 import Avatar from 'components/ui/avatar.jsx'
+import ChangelogStore from 'stores/changelog_store'
 import Emoji from 'components/ui/emoji.jsx'
 import FollowButton from 'components/follow_button.jsx'
 import Icon from 'components/ui/icon.js.jsx'
@@ -13,7 +14,7 @@ import RouterContainer from 'lib/router_container'
 import ScrollPaginator from 'components/ui/scroll_paginator.jsx'
 import shallowEqual from 'react-pure-render/shallowEqual'
 import Stack from 'components/ui/stack.jsx'
-import StoriesStore from 'stores/story_store'
+import StoryStore from 'stores/story_store'
 import StoryActions from 'actions/story_actions'
 import Table from 'components/ui/table.js.jsx'
 
@@ -31,17 +32,18 @@ export default class Changelog extends React.Component {
 
   constructor(props) {
     super(props)
-    this.stores = [StoriesStore]
+    this.stores = [ChangelogStore, StoryStore]
     this.state = this.getStateFromStores()
     this.handleStoresChanged = this.handleStoresChanged.bind(this)
   }
 
   getStateFromStores() {
     return {
-      page: StoriesStore.page,
-      stories: StoriesStore.all(),
-      moreAvailable: StoriesStore.moreAvailable,
-      loading: StoriesStore.loading
+      page: StoryStore.page,
+      stories: StoryStore.all(),
+      moreAvailable: StoryStore.moreAvailable,
+      loading: StoryStore.loading,
+      following: ChangelogStore.following
     }
   }
 
@@ -109,7 +111,7 @@ export default class Changelog extends React.Component {
           </Link>
 
           <div className="flex-none sm-ml2">
-            <FollowButton changelogId={this.props.changelogId}/>
+            <FollowButton changelogId={this.props.changelogId} toggled={this.state.following}/>
           </div>
         </div>
       </Jumbotron>
