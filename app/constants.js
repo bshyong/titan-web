@@ -10,7 +10,7 @@ export default keyMirror({
   CHANGELOG_UNFOLLOWED: null,
 
   RESOURCE_FOUND: null,
-  RESOURCE_NOT_FOUNE: null,
+  RESOURCE_NOT_FOUND: null,
 
   STORIES_FETCHED: null,
   STORIES_FETCHING: null,

@@ -8,11 +8,7 @@ import Dispatcher from 'lib/dispatcher'
 
 class AttachmentActions {
   uploadAttachment(commentId) {
-    let handler = (file, done) => {
-      _upload(commentId, file, done)
-    }
-
-    return handler
+    return (file, done) => _upload(commentId, file, done)
   }
 }
 
@@ -23,7 +19,7 @@ function _upload(commentId, file, done) {
   Dispatcher.dispatch({
     actionType: ATTACHMENT_UPLOADING,
     commentId: commentId,
-    text: '![Uploading... ' + file.name + ']()'
+    attachment: file
   })
 
   api.post('attachments', {

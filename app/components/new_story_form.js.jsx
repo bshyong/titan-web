@@ -31,8 +31,6 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
 
     this.handleChanged = this._handleChanged.bind(this)
     this.handlePublish = this._handlePublish.bind(this)
-    this.handleUploaded = this._handleUploaded.bind(this)
-    this.handleUploading = this._handleUploading.bind(this)
     this.onStoreChange = this._onStoreChange.bind(this)
     this.handleTogglePrivacy = this._handleTogglePrivacy.bind(this)
   }
@@ -81,6 +79,7 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
 
         <div className="mb2">
           <MarkdownArea
+            id={storyId || "new_story"}
             placeholder="What did you do?"
             ref="body"
             value={body}
@@ -116,10 +115,10 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
     )
   }
 
-  _handleChanged() {
+  _handleChanged(e) {
     StoryFormActions.change({
       title: React.findDOMNode(this.refs.title).value,
-      body:  React.findDOMNode(this.refs.body).value,
+      body: e.target.value,
       contributors: React.findDOMNode(this.refs.contributors).value,
       isPublic: this.state.isPublic
     })
@@ -140,43 +139,6 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
       contributors: this.state.contributors,
       team_member_only: !this.state.isPublic
     })
-  }
-
-  _handleUploaded(oldText, fileText) {
-    let body = React.findDOMNode(this.refs.body)
-    let value = body && body.value
-
-    if (!value) {
-      return
-    }
-
-    // next tick
-    setTimeout(() => {
-
-      StoryFormActions.change({
-        title: React.findDOMNode(this.refs.title).value,
-        body:  value.replace(oldText, fileText),
-        contributors: React.findDOMNode(this.refs.contributors).value
-      })
-    }, 0)
-  }
-
-  _handleUploading(fileText) {
-    let body = React.findDOMNode(this.refs.body)
-    let value = body && body.value
-
-    if (!value) {
-      return
-    }
-
-    // next tick
-    setTimeout(() => {
-      StoryFormActions.change({
-        title: React.findDOMNode(this.refs.title).value,
-        body: `${React.findDOMNode(this.refs.body).value} ${fileText}`,
-        contributors: React.findDOMNode(this.refs.contributors).value
-      })
-    }, 0)
   }
 
   getStateFromStores() {

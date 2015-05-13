@@ -43,7 +43,8 @@ module.exports = function makeConfig(options) {
     plugins: [
       new webpack.DefinePlugin({
         APP_ENV: JSON.stringify(process.env.APP_ENV),
-        API_URL: JSON.stringify(process.env.API_URL)
+        API_URL: JSON.stringify(process.env.API_URL),
+        __DEV__: options.devServer ? true : false
       }),
       function() {
         this.plugin("done", function(stats) {

@@ -37,7 +37,7 @@ export default class DropzoneContainer extends React.Component {
     return (
       <div ref="dropzone" className="relative clearfix gray">
         {this.props.children}
-        <div className="absolute right-0 py1 mr1" ref="clickable">
+        <div className="absolute right-0 top-0 mr1 h3" ref="clickable">
           <Icon icon="camera" />
         </div>
       </div>
@@ -46,12 +46,11 @@ export default class DropzoneContainer extends React.Component {
 
   _getAttachments() {
     let id = this.props.id
-    let attachment = AttachmentStore.getAttachments(id)
+    let attachment = AttachmentStore.getAttachment(id)
 
-    this.props.onUploaded(
-      `![Uploading... ${attachment.name}]()`,
-      `![${attachment.name}](${attachment.firesize_url}/${attachment.href})\n`
-    )
+    if (attachment) {
+      this.props.onUploaded(attachment)
+    }
   }
 
   _getUploadingAttachments() {
@@ -59,7 +58,7 @@ export default class DropzoneContainer extends React.Component {
     let attachments = UploadingAttachmentsStore.getAttachments(id)
 
     if (attachments.size) {
-      this.props.onUploading(attachments.join(' '))
+      this.props.onUploading(attachments)
     }
   }
 

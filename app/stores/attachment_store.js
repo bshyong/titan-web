@@ -32,7 +32,7 @@ class AttachmentsStore extends Store {
     });
   }
 
-  getAttachments(commentId) {
+  getAttachment(commentId) {
     return this.attachments.get(commentId);
   }
 

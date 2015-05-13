@@ -12,10 +12,10 @@ class UploadingAttachmentsStore extends Store {
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.actionType) {
         case ATTACHMENT_UPLOADING:
-          let { commentId, text } = action
+          let { commentId, attachment } = action
           this.attachments = this.attachments.set(
             commentId,
-            (this.attachments.get(commentId) || List()).push(text)
+            (this.attachments.get(commentId) || List()).push(attachment)
           )
           break
         default:

@@ -1,7 +1,6 @@
 import Avatar from 'components/ui/avatar.jsx'
 import Button from 'components/ui/button.js.jsx'
 import CommentFormActions from 'actions/comment_form_actions'
-import DropzoneContainer from 'components/dropzone_container.jsx'
 import MarkdownArea from 'components/ui/markdown_area.jsx'
 import NewCommentsStore from 'stores/new_comments_store'
 import React from 'react'
@@ -17,8 +16,6 @@ export default class CommentForm extends React.Component {
       isSignedIn: SessionStore.isSignedIn()
     }
 
-    this.handleUploaded = this._handleUploaded.bind(this)
-    this.handleUploading = this._handleUploading.bind(this)
     this.handleOnChange = this._handleOnChange.bind(this)
     this.handleOnPublish = this._handleOnPublish.bind(this)
     this.handleToggleFocus = this._handleToggleFocus.bind(this)
@@ -49,17 +46,14 @@ export default class CommentForm extends React.Component {
 
   renderTextArea() {
     return (
-      <DropzoneContainer id={this.props.storyId}
-          onUploaded={this.handleUploaded}
-          onUploading={this.handleUploading}>
-        <MarkdownArea
-          ref="comment"
-          placeholder="What do you think?"
-          onChange={this.handleOnChange}
-          onCmdEnter={this.handleOnPublish}
-          value={this.state.comment}
-          rows={1} />
-      </DropzoneContainer>
+      <MarkdownArea
+        id={this.props.storyId}
+        ref="comment"
+        placeholder="What do you think?"
+        onChange={this.handleOnChange}
+        onCmdEnter={this.handleOnPublish}
+        value={this.state.comment}
+        rows={1} />
     )
   }
 
@@ -95,34 +89,11 @@ export default class CommentForm extends React.Component {
     )
   }
 
-  _handleOnChange() {
+  _handleOnChange(e) {
     CommentFormActions.change(
       this.props.storyId,
-      React.findDOMNode(this.refs.comment).value
+      e.target.value
     )
-  }
-
-  _handleUploaded(oldText, fileText) {
-    // next tick
-    setTimeout(() => {
-      let value = React.findDOMNode(this.refs.comment).value
-
-
-      CommentFormActions.change(
-        this.props.storyId,
-        value.replace(oldText, fileText)
-      )
-    }, 0)
-  }
-
-  _handleUploading(fileText) {
-    // next tick
-    setTimeout(() => {
-      CommentFormActions.change(
-        this.props.storyId,
-        `${React.findDOMNode(this.refs.comment).value} ${fileText}`
-      )
-    }, 0)
   }
 
   _onStoreChange() {
