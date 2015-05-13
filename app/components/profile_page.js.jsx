@@ -40,7 +40,6 @@ export default class ProfilePage extends React.Component {
   render_score_pair(emoji, score) {
     return (
       <span className="px1">
-        {emoji}
         {score}
       </span>
     )
