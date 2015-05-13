@@ -1,6 +1,7 @@
 import {List, Set} from 'immutable'
 import { RouteHandler, Link } from 'react-router'
 import Avatar from 'components/ui/avatar.jsx'
+import ChangelogStore from 'stores/changelog_store'
 import Emoji from 'components/ui/emoji.jsx'
 import FollowButton from 'components/follow_button.jsx'
 import Icon from 'components/ui/icon.js.jsx'
@@ -31,7 +32,7 @@ export default class Changelog extends React.Component {
 
   constructor(props) {
     super(props)
-    this.stores = [StoryStore]
+    this.stores = [ChangelogStore, StoryStore]
     this.state = this.getStateFromStores()
     this.handleStoresChanged = this.handleStoresChanged.bind(this)
   }
@@ -41,7 +42,8 @@ export default class Changelog extends React.Component {
       page: StoryStore.page,
       stories: StoryStore.all(),
       moreAvailable: StoryStore.moreAvailable,
-      loading: StoryStore.loading
+      loading: StoryStore.loading,
+      following: ChangelogStore.following
     }
   }
 
@@ -109,7 +111,7 @@ export default class Changelog extends React.Component {
           </Link>
 
           <div className="flex-none sm-ml2">
-            <FollowButton changelogId={this.props.changelogId}/>
+            <FollowButton changelogId={this.props.changelogId} toggled={this.state.following}/>
           </div>
         </div>
       </Jumbotron>
