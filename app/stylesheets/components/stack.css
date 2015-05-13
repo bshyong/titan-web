@@ -5,16 +5,12 @@
 
 /* --- */
 
-.stack--left {
-  margin-right: .25rem;
-}
-
 .stack--left:hover {
   margin-right: -var(--border-width);
 }
 
 .stack--left > .stack-item {
-  margin-right: -.5rem;
+  margin-right: -2.5%;
 }
 
 .stack--left:hover > .stack-item {
@@ -25,7 +21,6 @@
 /* --- */
 
 .stack--right {
-  margin-left: .25rem;
   flex-direction: row-reverse;
 }
 
@@ -34,7 +29,7 @@
 }
 
 .stack--right > .stack-item {
-  margin-left: -.5rem;
+  margin-left: -2.5%;
 }
 
 .stack--right:hover > .stack-item {

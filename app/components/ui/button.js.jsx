@@ -5,17 +5,23 @@ export default class Button extends React.Component {
   render() {
     const {
       action,
-      bg,
       block,
+      color,
       children,
       disabled,
-      text,
+      style,
     } = this.props
 
-    const cn = classnames('button px2 py1 rounded', `border-${bg}`, text, {
-      'button--block':    block,
-      'button--disabled': disabled
-    })
+    const cn = classnames(
+      {
+        'block full-width':       block,
+        'button--disabled':    disabled,
+        'button':              style === 'solid',
+        'button-outline':      style === 'outline',
+        'button-transparent':  style === 'transparent'
+      },
+      color
+    )
 
     return (
       <button className={cn} type="submit" disabled={disabled} onClick={action}>
@@ -26,13 +32,18 @@ export default class Button extends React.Component {
 }
 
 Button.propTypes = {
-  bg: React.PropTypes.string.isRequired,
-  text: React.PropTypes.string.isRequired,
-  block: React.PropTypes.bool
+  action:   React.PropTypes.func,
+  color:    React.PropTypes.string,
+  block:    React.PropTypes.bool.isRequired,
+  disabled: React.PropTypes.bool.isRequired,
+  style:    React.PropTypes.oneOf([
+    'solid',
+    'outline',
+    'transparent']).isRequired,
 }
 
 Button.defaultProps = {
-  bg: 'blue',
-  text: 'white',
-  block: false
+  block:    false,
+  disabled: false,
+  style:    'solid'
 }

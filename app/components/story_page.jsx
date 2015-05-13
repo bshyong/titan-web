@@ -51,7 +51,7 @@ export default class StoryPage extends React.Component {
       <div className="flex flex-column" style={{minHeight: 'calc(100vh - 3.5rem)'}}>
 
         <Link className="p2" to="changelog" params={{changelogId}}>
-          <Icon icon="chevron-left" /> Meta
+          <Icon icon="angle-left" /> Meta
         </Link>
 
         <div className="p2 sm-px0 sm-py3 md-py4">
@@ -59,7 +59,11 @@ export default class StoryPage extends React.Component {
             <div className="sm-col-8">
 
               <div className="mb2 sm-mb3">
-                <h1 className="mt0 mb2">{story.title}</h1>
+                <h1 className="mt0 mb2">
+                  {story.team_member_only ? <Icon icon="lock" /> : null}
+                  {' '}
+                  {story.title}
+                </h1>
                 {body}
               </div>
 

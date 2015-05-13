@@ -7,17 +7,19 @@ import FollowActions from 'actions/follow_actions'
 export default class FollowButton extends React.Component {
   constructor(props) {
     super(props)
+    this.handleClick = this._handleClick.bind(this)
   }
 
   render() {
+    const { toggled } = this.props
     return (
-      <Button bg="blue" text="white" block={true} action={this.handleOnClick.bind(this)}>
-        {this.props.toggled ? 'Following' : 'Follow Changelog'}
+      <Button color="white" style="outline" block={true} action={this.handleClick}>
+        {toggled ? 'Following' : 'Follow Changelog'}
       </Button>
     )
   }
 
-  handleOnClick() {
+  _handleClick() {
     if (!SessionStore.isSignedIn()) {
       return SessionActions.signin()
     }

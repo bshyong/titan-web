@@ -1,19 +1,31 @@
-.button {
-  border: none;
-  line-height: 1.5rem;
-  outline: none;
-  font-size: 1rem;
-  transition: box-shadow var(--time-1);
+.button-outline,
+.button-outline:focus {
+  border-width: 2px;
+  transition-property: border, box-shadow, background-color;
+  box-shadow: none;
 }
 
-.button:hover,
-.button--hover {
-  box-shadow: 0 0 0 1px var(--darken-2),
-              0 1px .5rem 0 var(--darken-2);
+/* --- */
+
+.button-outline.white {
+  border-color: color(var(--white) alpha(50%));
 }
 
-.button--block {
-  display: block;
-  text-align: center;
-  width: 100%;
+.button-outline.white:hover {
+  border-color: var(--white);
+}
+
+.button-outline.white:active {
+  background-color: color(var(--black) alpha(20%));
+  box-shadow: none;
+}
+
+/* --- */
+
+.button-outline.black {
+  border-color: color(var(--black) alpha(50%));
+}
+
+.button-outline.black:hover {
+  border-color: var(--black);
 }

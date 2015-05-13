@@ -99,7 +99,6 @@ export default class Changelog extends React.Component {
 
       <Jumbotron bgColor="blue" bgImageUrl={MetaBannerUrl}>
         <div className="sm-flex flex-center">
-
           <div className="flex-none mb2 sm-mb0">
             <div className="mx-auto" style={{width: '4rem'}}><Logo size="4rem"/></div>
           </div>
@@ -115,9 +114,9 @@ export default class Changelog extends React.Component {
           </div>
         </div>
       </Jumbotron>
+
       <div className="container">
         <Table>{a}</Table>
-
         <LoadingBar loading={this.state.loading} />
       </div>
     </div>
