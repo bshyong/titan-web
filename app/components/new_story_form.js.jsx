@@ -1,5 +1,5 @@
 import {Link} from 'react-router'
-import {List} from 'immutable'
+import {List, Map} from 'immutable'
 import AuthenticatedMixin from 'components/mixins/authenticated_mixin.jsx'
 import Button from 'components/ui/button.js.jsx'
 import ChangelogStore from 'stores/changelog_store'
@@ -26,13 +26,16 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
       body: this.props.body,
       isPublic: this.props.isPublic,
       storyId: this.props.id,
-      contributors: (this.props.contributors || []).map(c => '@' + c.username).join(', ')
+      contributors: (this.props.contributors || []).map(c => `@${c.username}`).join(', ')
     }
 
-    this.handleChanged = this._handleChanged.bind(this)
+    this.handleBodyChanged = this._handleBodyChanged.bind(this)
+    this.handleContributorsChanged = this._handleContributorsChanged.bind(this)
+    this.handleTitleChanged = this._handleTitleChanged.bind(this)
     this.handlePublish = this._handlePublish.bind(this)
     this.onStoreChange = this._onStoreChange.bind(this)
     this.handleTogglePrivacy = this._handleTogglePrivacy.bind(this)
+    this.updateForm = this._updateForm.bind(this)
   }
 
   static get defaultProps() {
@@ -53,7 +56,7 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
     let contributors = nextProps.contributors
 
     if (Array.isArray(contributors)) {
-      contributors = contributors.map(c => '@' + c.username).join(', ')
+      contributors = contributors.map(c => `@${c.username}`).join(', ')
     }
 
     this.setState({
@@ -73,7 +76,7 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
             className="field-light full-width block mb0"
             placeholder="What changed?"
             value={title}
-            onChange={this.handleChanged}
+            onChange={this.handleTitleChanged}
             ref="title" />
         </div>
 
@@ -83,11 +86,16 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
             placeholder="What did you do?"
             ref="body"
             value={body}
-            onChange={this.handleChanged} />
+            onChange={this.handleBodyChanged} />
         </div>
 
         <div className="mb2">
-          <input type="text" className="field-light full-width block mb0" placeholder="@mention any contributors who helped" value={contributors} onChange={this.handleChanged} ref="contributors" />
+          <input type="text"
+            className="field-light full-width block mb0"
+            placeholder="@mention any contributors who helped"
+            value={contributors}
+            onChange={this.handleContributorsChanged}
+            ref="contributors" />
         </div>
 
         <div className="clearfix border-top">
@@ -115,19 +123,20 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
     )
   }
 
-  _handleChanged(e) {
-    StoryFormActions.change({
-      title: React.findDOMNode(this.refs.title).value,
-      body: e.target.value,
-      contributors: React.findDOMNode(this.refs.contributors).value,
-      isPublic: this.state.isPublic
-    })
+  _handleBodyChanged(e) {
+    this.updateForm('body', e.target.value)
+  }
+
+  _handleContributorsChanged(e) {
+    this.updateForm('contributors', e.target.value)
+  }
+
+  _handleTitleChanged(e) {
+    this.updateForm('title', e.target.value)
   }
 
   _handleTogglePrivacy() {
-    this.setState({
-      isPublic: !this.state.isPublic
-    }, this.handleChanged)
+    this.updateForm('isPublic', !this.state.isPublic)
   }
 
   _handlePublish(e) {
@@ -158,4 +167,7 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
     this.setState(this.getStateFromStores())
   }
 
+  _updateForm(field, value) {
+    StoryFormActions.change(Map(this.getStateFromStores()).set(field, value).toJS())
+  }
 })

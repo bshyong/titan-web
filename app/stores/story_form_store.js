@@ -8,7 +8,7 @@ class StoryFormStore extends Store {
     this.title = ''
     this.body  = ''
     this.contributors = ''
-    this.isPublic = true
+    this.isPublic = false
 
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {

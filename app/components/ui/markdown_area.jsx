@@ -47,7 +47,7 @@ export default class MarkdownArea extends React.Component {
 
   _onUploaded(attachment) {
     setTimeout(() => {
-      let value = this.props.value
+      let value = this.props.value || ''
       let text = value.replace(
         `![Uploading ${attachment.name}...]()`,
         `![${attachment.name}](${attachment.firesize_url}/${attachment.href})\n`
