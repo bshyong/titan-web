@@ -39,10 +39,10 @@ export default class ProfilePage extends React.Component {
 
   render_score_pair(emoji, score) {
     return (
-      <div>
+      <span className="px1">
         {emoji}
         {score}
-      </div>
+      </span>
     )
   }
 
@@ -72,9 +72,9 @@ export default class ProfilePage extends React.Component {
     }
 
     return (
-      <div>
+      <div className="px1 py1">
         <Link to="story" params={{changelogId: story.changelog_slug, storyId: story.id}}>
-          {emoj}  {n}  {story.title}
+          {emoj}{n}<span className="px2">{story.title}</span>
         </Link>
       </div>
     )
@@ -103,16 +103,25 @@ export default class ProfilePage extends React.Component {
       return (
         <div>
           <ApplicationNavbar />
-          <div className="flex flex-column flex-center" style={{minHeight: 'calc(100vh - 3.5rem)'}}>
+          <div className="flex flex-column" style={{minHeight: 'calc(100vh - 3.5rem)'}}>
 
-            <h1>{this.state.user.username}</h1>
+            <div className="clearfix mx-auto">
+              <div className="">
+                <h1>{this.state.user.username}</h1>
+                <Avatar user={this.state.user} size={128} />
+              </div>
+            </div>
 
-            <Avatar user={this.state.user} size={128} />
 
-            {this.render_emoji_scores()}
+            <div className="clearfix mx-auto">
+              <div className="col col-4 px2">
+                {this.render_emoji_scores()}
+              </div>
 
-            {this.render_stories()}
-
+              <div className="col-right col col-4 px2 ">
+                {this.render_stories()}
+              </div>
+            </div>
           </div>
         </div>
       )
