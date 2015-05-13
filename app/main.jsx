@@ -5,6 +5,7 @@ import RouterContainer from './lib/router_container'
 import SessionActions from './actions/session_actions'
 
 import './images/favicon.ico'
+import 'isomorphic-fetch'
 
 let jwt = localStorage.getItem('jwt')
 if (jwt) {
