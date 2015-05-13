@@ -24,6 +24,7 @@ export default keyMirror({
   STORY_UNHEARTED: null,
   STORY_UPDATED: null,
 
+  USER_FETCHED: null,
   USER_SIGNIN: null,
   USER_SIGNOUT: null
 })

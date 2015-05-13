@@ -47,14 +47,19 @@ export default class ApplicatioNavbar extends React.Component {
   }
 
   render_new_story(changelogId) {
-    if (this.state.changelog.user_is_team_member) {
-      return (
-        <List.Item>
-          <Link to="new" params={{changelogId}}>
-            <Icon icon="pencil" fw={true} /> New story
-          </Link>
-        </List.Item>
-      )
+    if(this.state.changelog) {
+      if (this.state.changelog.user_is_team_member) {
+        return (
+          <div>
+            <List.Item>
+              <Link to="new" params={{changelogId}}>
+                <Icon icon="pencil" fw={true} /> New story
+              </Link>
+            </List.Item>
+            <hr className="mt1 border-top mb1" />
+          </div>
+        )
+      }
     }
   }
 
@@ -73,8 +78,12 @@ export default class ApplicatioNavbar extends React.Component {
         <List>
           {this.render_new_story(changelogId)}
         </List>
-        <hr className="mt1 border-top mb1" />
         <List type="small">
+          <List.Item>
+            <a href={`/users/${this.state.user.username}`}>
+              Profile
+            </a>
+          </List.Item>
           <List.Item>
             <a href="https://assembly.com/about">About</a>
           </List.Item>
