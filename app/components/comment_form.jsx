@@ -40,11 +40,8 @@ export default class CommentForm extends React.Component {
     }
     return (
       <div className="mt2">
-        <Button
-          bg="navy"
-          text="white"
-          action={this.handleOnPublish}>
-            Post your thoughts
+        <Button action={this.handleOnPublish}>
+          Post your thoughts
         </Button>
       </div>
     )
