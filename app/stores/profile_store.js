@@ -1,6 +1,5 @@
-import { USER_SIGNIN, USER_SIGNOUT } from 'constants'
+import { USER_FETCHED } from 'constants'
 import Dispatcher from 'lib/dispatcher'
-import jwt_decode from 'jwt-decode'
 import Store from 'lib/store'
 
 class ProfileStore extends Store {
@@ -10,14 +9,8 @@ class ProfileStore extends Store {
 
     this.dispatchToken = Dispatcher.register(action => {
       switch (action.type) {
-        case USER_SIGNIN:
-          this._jwt = action.jwt
+        case USER_FETCHED:
           this._user = action.user
-          this.emitChange()
-          break
-        case USER_SIGNOUT:
-          this._jwt = null
-          this._user = null
           this.emitChange()
           break
       }
@@ -27,14 +20,6 @@ class ProfileStore extends Store {
   get user() {
     return this._user
   }
-
-  get jwt() {
-    return this._jwt
-  }
-
-  isSignedIn() {
-    return !!this._user
-  }
 }
 
-export default new SessionStore()
+export default new ProfileStore()

@@ -1,39 +1,122 @@
 import React from 'react'
+import {Link} from 'react-router'
 import Button from 'components/ui/button.js.jsx'
 import Avatar from 'components/ui/avatar.jsx'
+import ProfileStore from 'stores/profile_store.js'
+import ProfileActions from 'actions/profile_actions.js'
+import ApplicationNavbar from 'components/application_navbar.jsx'
 
 export default class ProfilePage extends React.Component {
   static willTransitionTo(transition, params, query) {
     console.log(params)
-    // StoryActions.fetch(params.changelogId, params.storyId)
+    ProfileActions.fetch(params.username)
   }
 
   constructor(props) {
     super(props)
-    this.state = {
-      following: false
-    }
-
+    this.state = this.getStateFromStores()
+    this.handleStoresChanged = this.handleStoresChanged.bind(this)
   }
 
+  getStateFromStores() {
+    return {
+      user: ProfileStore.user
+    }
+  }
 
+  handleStoresChanged() {
+    this.setState(this.getStateFromStores());
+  }
 
   componentDidMount() {
-    // FollowersStore.addChangeListener(this.onStoreChange)
-    // FollowActions.fetchAll(this.props.changelogId)
+    ProfileStore.addChangeListener(this.handleStoresChanged)
+
   }
 
   componentWillUnmount() {
-  //  FollowersStore.removeChangeListener(this.onStoreChange)
+    ProfileStore.removeChangeListener(this.handleStoresChanged)
+  }
+
+  render_score_pair(emoji, score) {
+    return (
+      <div>
+        {emoji}
+        {score}
+      </div>
+    )
+  }
+
+  render_emoji_scores() {
+    if (this.state.user) {
+      const emojis = this.state.user.emoji_scores
+      return (
+        <div>
+          <h2>Emojishments</h2>
+          {Object.keys(emojis).map((key) => {
+            return this.render_score_pair(key, emojis[key])
+          })}
+        </div>
+      )
+    }
+  }
+
+  render_story(story) {
+    var emoj = ""
+    var n = story.hearts_count
+    if (story.emoji)
+    {
+      emoj = story.emoji.character
+    }
+    else {
+      emoj = ""
+    }
+
+    return (
+      <div>
+        <Link to="story" params={{changelogId: story.changelog_slug, storyId: story.id}}>
+          {emoj}  {n}  {story.title}
+        </Link>
+      </div>
+    )
+  }
+
+  render_stories() {
+    if (this.state.user) {
+      const stories = this.state.user.stories_written
+      return (
+        <div>
+          <h2>Posts</h2>
+          { stories.map(story => { return this.render_story(story) })  }
+        </div>
+      )
+    }
   }
 
   render() {
-    return (
-      <div>
-        <h1>hi</h1>
-      //  <Avatar user={this.props.user} size={24} />
-      </div>
-    )
+    const user = this.state.user
+    if (!user) {
+      return (
+        <div />
+      )
+    }
+    else {
+      return (
+        <div>
+          <ApplicationNavbar />
+          <div className="flex flex-column flex-center" style={{minHeight: 'calc(100vh - 3.5rem)'}}>
+
+            <h1>{this.state.user.username}</h1>
+
+            <Avatar user={this.state.user} size={128} />
+
+            {this.render_emoji_scores()}
+
+            {this.render_stories()}
+
+          </div>
+        </div>
+      )
+    }
   }
 
 }

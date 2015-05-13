@@ -3,13 +3,12 @@ import api from 'lib/api'
 
 export default {
 
-  fetchAll(changelog_id, storyId) {
-    api.get(`changelogs/${changelog_id}/stories/${storyId}/comments`).then(resp => {
+  fetch(username) {
+    api.get(`users/${username}`).then(resp => {
       Dispatcher.dispatch({
-        type: 'COMMENTS_FETCHED',
-        comments: resp
+        type: 'USER_FETCHED',
+        user: resp
       })
     })
   }
-
 }
