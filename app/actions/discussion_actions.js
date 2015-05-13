@@ -10,6 +10,15 @@ export default {
         comments: resp
       })
     })
+  },
+
+  deleteComment(changelog_id, storyId, commentId) {
+    api.delete(`changelogs/${changelog_id}/stories/${storyId}/comments/${commentId}`).then(resp => {
+      Dispatcher.dispatch({
+        type: 'COMMENT_DELETED',
+        comments: resp
+      })
+    })
   }
 
 }

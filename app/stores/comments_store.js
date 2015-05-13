@@ -15,6 +15,11 @@ class CommentsStore extends Store {
         case 'COMMENT_PUBLISHED':
           this.comments = List(this.comments).push(action.comment)
           this.emitChange()
+          break;
+        case 'COMMENT_DELETED':
+          this.comments = List(action.comments)
+          this.emitChange()
+          break;
         default:
           break;
       }
