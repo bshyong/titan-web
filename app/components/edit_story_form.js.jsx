@@ -1,5 +1,6 @@
 import AuthenticatedMixin from 'components/mixins/authenticated_mixin.jsx'
 import StoryForm from 'components/new_story_form.js.jsx'
+import StoryFormActions from 'actions/story_form_actions'
 import StoryFormStore from 'stores/story_form_store'
 import StoryActions from 'actions/story_actions'
 import StoryStore from 'stores/story_store'
@@ -37,10 +38,10 @@ export default AuthenticatedMixin(class EditStoryForm extends React.Component {
     return (
       <div className="container p2">
         <StoryForm
-          contributors={this.state.contributors}
-          isPublic={this.state.isPublic}
+          contributors={contributors}
+          isPublic={isPublic}
           title={title}
-          body={this.state.body}
+          body={body}
           onPublish={this.handleOnPublish} />
       </div>
     )
@@ -87,12 +88,14 @@ export default AuthenticatedMixin(class EditStoryForm extends React.Component {
     const story = StoryStore.get(this.state.storyId)
 
     if (story) {
-      this.setState({
-        title: story.title,
-        isPublic: !story.team_member_only,
-        contributors: story.contributors,
-        body: story.body
-      })
+      setTimeout(() => {
+        StoryFormActions.change({
+          title: story.title,
+          isPublic: !story.team_member_only,
+          contributors: story.contributors,
+          body: story.body
+        })
+      }, 0)
     }
   }
 

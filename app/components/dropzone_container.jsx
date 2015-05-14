@@ -26,6 +26,10 @@ export default class DropzoneContainer extends React.Component {
     UploadingAttachmentsStore.addChangeListener(this.getUploadingAttachments)
   }
 
+  componentDidUpdate() {
+    this.dropzone.options.accept = AttachmentActions.uploadAttachment(this.props.id)
+  }
+
   componentWillUnmount() {
     this.dropzone = null
 
@@ -42,6 +46,18 @@ export default class DropzoneContainer extends React.Component {
         </div>
       </div>
     )
+  }
+
+  shouldComponentUpdate(nextProps) {
+    if (nextProps.id !== this.props.id) {
+      return true
+    }
+
+    if (nextProps.children !== this.props.children) {
+      return true
+    }
+
+    return false
   }
 
   _getAttachments() {
