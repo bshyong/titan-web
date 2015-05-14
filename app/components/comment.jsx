@@ -17,7 +17,7 @@ export default class Comment extends React.Component {
 
   render() {
     const {
-      comment: {id, user, body, created_at, deleted_at}
+      comment: {id, user, body, parsed_body, created_at, deleted_at}
     } = this.props
 
     if (deleted_at) {
@@ -32,7 +32,7 @@ export default class Comment extends React.Component {
             </div>
             {this.renderDeleteButton()}
           </div>
-          <Markdown markdown={body || ''} />
+          <Markdown markdown={parsed_body || body || ''} />
         </div>
       )
     }
