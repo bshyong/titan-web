@@ -1,5 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router'
+import {List, Set} from 'immutable'
 import Button from 'components/ui/button.js.jsx'
 import Avatar from 'components/ui/avatar.jsx'
 import ProfileStore from 'stores/profile_store.js'
@@ -71,10 +72,14 @@ export default class ProfilePage extends React.Component {
       emoj = ""
     }
 
+    var title = story.title
+    if (story.written) {
+      title = <b>{title}</b>
+    }
     return (
       <div className="px1 py1">
         <Link to="story" params={{changelogId: story.changelog_slug, storyId: story.id}}>
-          {emoj}{n}<span className="px2">{story.title}</span>
+          {emoj}{n}<span className="px2">{title}</span>
         </Link>
       </div>
     )
@@ -82,12 +87,47 @@ export default class ProfilePage extends React.Component {
 
   render_stories() {
     if (this.state.user) {
-      const stories = this.state.user.stories_written
+      const stories = this.state.user.stories_participated
+      console.log(stories)
       return (
         <div>
           <h2>Posts</h2>
-          { stories.map(story => { return this.render_story(story) })  }
+          { List(stories).
+              sortBy(story => story.hearts_count).
+              reverse().
+              map(story => { return this.render_story(story) })  }
         </div>
+      )
+    }
+  }
+
+  renderProduct(changelog) {
+    var part = " "
+    if (changelog.participation=="member") {
+      part = "⭐️ "
+    }
+    return (
+      <div>
+        <Link to="changelog" params={{changelogId: changelog.slug}}>
+          {part}{changelog.name}{"   "}{changelog.followers_count}
+        </Link>
+      </div>
+    )
+  }
+
+  renderProducts() {
+    if (this.state.user) {
+      var changelogs = this.state.user.changelogs
+      var participation_emoji = ""
+      return (
+        <div>
+          <h2>Changelogs</h2>
+          {List(changelogs).
+            sortBy(story => story.followers_count).
+            reverse().
+            map(changelog => { return this.renderProduct(changelog) })  }
+        </div>
+
       )
     }
   }
@@ -121,6 +161,11 @@ export default class ProfilePage extends React.Component {
               <div className="col-right col col-4 px2 ">
                 {this.render_stories()}
               </div>
+
+              <div className="col col-4 px2">
+                {this.renderProducts()}
+              </div>
+
             </div>
           </div>
         </div>
