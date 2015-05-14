@@ -21,7 +21,6 @@ module.exports = function makeConfig(options) {
       app: ['./app/main.jsx'],
       commons: [
         "dropzone",
-        "fastclick",
         "flux",
         "immutable",
         "jwt-decode",
