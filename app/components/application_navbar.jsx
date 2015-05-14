@@ -10,6 +10,7 @@ import React from 'react'
 import RouterContainer from '../lib/router_container'
 import SessionActions from '../actions/session_actions'
 import SessionStore from '../stores/session_store'
+import NotificationsList from './notifications_list.js.jsx'
 
 // Logo versions:
 import LogoSrc from '../images/logo.svg'
@@ -67,9 +68,13 @@ export default class ApplicationNavbar extends React.Component {
     }
 
     const changelogId = RouterContainer.get().getCurrentParams().changelogId
+    const bell = <div className="mr1"><Icon icon="bell silver" />N</div>
 
     return (
-      <div style={{paddingTop: 4}}>
+      <div className="flex" style={{paddingTop: 4}}>
+        <Popover trigger={bell}>
+          <NotificationsList />
+        </Popover>
         <Popover trigger={<Avatar user={user} size={32} />}>
           <List>
             {this.render_new_story(changelogId)}
