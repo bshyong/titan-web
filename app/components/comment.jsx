@@ -44,8 +44,8 @@ export default class Comment extends React.Component {
     return (
       <div className="flex-auto h5">
         <div className="flex">
-          <div className="silver flex-auto">Deleted</div>
-          <div className="flex-none silver">
+          <div className="flex-auto gray">Deleted</div>
+          <div className="flex-none gray">
             {moment(created_at).fromNow(true)}
           </div>
         </div>

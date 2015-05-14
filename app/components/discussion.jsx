@@ -33,17 +33,36 @@ export default class Discussion extends React.Component {
       <div style={{marginBottom: '20rem'}}>
         <Table>
           <Table.Separator label={pluralize(comments.count(), 'Comment', 'Comments')} />
-          {comments.map(comment =>
-            <Table.Cell key={comment.id} image={<Avatar user={comment.user} size={24} />}>
-              <Comment comment={comment}/>
-            </Table.Cell>
-          )}
+          {this.renderComments()}
         </Table>
 
         <div className="p2 md-px0">
           <CommentForm storyId={this.props.storyId} changelogId={this.props.changelogId}/>
         </div>
       </div>
+    )
+  }
+
+  renderComments() {
+    const comments = List(this.state.comments).sortBy(comment => comment.created_at)
+    return (
+      comments.map(
+        comment => {
+          if (comment.deleted_at) {
+            return (
+              <Table.DisabledCell key={comment.id} image={<Avatar user={comment.user} size={24} />}>
+                <Comment comment={comment}/>
+              </Table.DisabledCell>
+            )
+          } else {
+            return (
+              <Table.Cell key={comment.id} image={<Avatar user={comment.user} size={24} />}>
+                <Comment comment={comment}/>
+              </Table.Cell>
+            )
+          }
+        }
+      )
     )
   }
 

@@ -60,6 +60,21 @@ TableCell.propTypes = {
   to: React.PropTypes.oneOfType([React.PropTypes.string, Route])
 }
 
+class TableDisabledCell extends TableCell {
+  render() {
+    return (
+      <div className="flex muted">
+        {this.image()}
+        {this.cell()}
+      </div>
+    )
+  }
+}
+
+TableDisabledCell.propTypes = {
+  image: React.PropTypes.node
+}
+
 class TableSeparator extends React.Component {
   render() {
     const { label } = this.props
@@ -72,4 +87,5 @@ TableSeparator.propTypes = {
 }
 
 Table.Cell = TableCell
+Table.DisabledCell = TableDisabledCell
 Table.Separator = TableSeparator
