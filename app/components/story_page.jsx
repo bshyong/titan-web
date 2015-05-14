@@ -44,7 +44,7 @@ export default class StoryPage extends React.Component {
     }
 
     if (story.body.length > 0) {
-      body = <Markdown markdown={story.body} />
+      body = <Markdown markdown={story.parsed_body || story.body} />
     }
 
     return (
