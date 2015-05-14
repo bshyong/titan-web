@@ -48,16 +48,19 @@ export default class Discussion extends React.Component {
     return (
       comments.map(
         comment => {
+          const renderedComment = <Comment comment={comment}
+              storyId={this.props.storyId}
+              changelogId={this.props.changelogId} />
           if (comment.deleted_at) {
             return (
               <Table.DisabledCell key={comment.id} image={<Avatar user={comment.user} size={24} />}>
-                <Comment comment={comment}/>
+                {renderedComment}
               </Table.DisabledCell>
             )
           } else {
             return (
               <Table.Cell key={comment.id} image={<Avatar user={comment.user} size={24} />}>
-                <Comment comment={comment}/>
+                {renderedComment}
               </Table.Cell>
             )
           }

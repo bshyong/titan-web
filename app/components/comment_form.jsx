@@ -9,12 +9,20 @@ import SessionStore from 'stores/session_store'
 export default class CommentForm extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      comment: NewCommentsStore.get(this.props.storyId),
-      isFocused: false,
-      user: SessionStore.user,
-      isSignedIn: SessionStore.isSignedIn()
+
+    if (props.id) {
+      this.state = {
+        comment: props.body
+      }
+    } else {
+      this.state = {
+        comment: NewCommentsStore.get(this.props.storyId)
+      }
     }
+
+    this.state.isFocused = false
+    this.state.user = SessionStore.user
+    this.state.isSignedIn = SessionStore.isSignedIn()
 
     this.handleOnChange = this._handleOnChange.bind(this)
     this.handleOnPublish = this._handleOnPublish.bind(this)
@@ -31,14 +39,14 @@ export default class CommentForm extends React.Component {
   }
 
   renderButton() {
-    const valid = NewCommentsStore.isValid(this.props.storyId)
+    const valid = NewCommentsStore.isValid(this.props.id || this.props.storyId)
     if (!valid) {
       return
     }
     return (
       <div className="mt2">
         <Button action={this.handleOnPublish}>
-          Post your thoughts
+          {this.props.id ? 'Update' : 'Post your thoughts'}
         </Button>
       </div>
     )
@@ -70,9 +78,7 @@ export default class CommentForm extends React.Component {
 
     return (
       <div className="flex">
-        <div className="flex-none mr2 py1" style={{marginTop: 2, marginBottom: 2}}>
-          <Avatar user={user} size={24} />
-        </div>
+        {this.renderAvatar()}
         <div className="flex-auto">
           {this.renderTextArea()}
           {this.renderButton()}
@@ -81,24 +87,43 @@ export default class CommentForm extends React.Component {
     )
   }
 
+  renderAvatar() {
+    if (!this.props.id) {
+      return (
+        <div className="flex-none mr2 py1" style={{marginTop: 2, marginBottom: 2}}>
+          <Avatar user={this.state.user} size={24} />
+        </div>
+      )
+    }
+  }
+
   _handleOnPublish() {
-    CommentFormActions.publish(
-      this.props.changelogId,
-      this.props.storyId,
-      this.state.comment
-    )
+    if (this.props.id) {
+      CommentFormActions.update(
+        this.props.changelogId,
+        this.props.storyId,
+        this.props.id,
+        this.state.comment
+      )
+    } else {
+      CommentFormActions.publish(
+        this.props.changelogId,
+        this.props.storyId,
+        this.state.comment
+      )
+    }
   }
 
   _handleOnChange(e) {
     CommentFormActions.change(
-      this.props.storyId,
+      this.props.id || this.props.storyId,
       e.target.value
     )
   }
 
   _onStoreChange() {
     this.setState({
-      comment: NewCommentsStore.get(this.props.storyId) || ''
+      comment: NewCommentsStore.get(this.props.id || this.props.storyId) || ''
     })
   }
 }

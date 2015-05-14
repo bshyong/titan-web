@@ -37,7 +37,7 @@ export default class MarkdownArea extends React.Component {
         // FIXME: (pletcher) There must be a better
         // way to get the textarea to take up the full
         // height of its parent
-        marginBottom: -7,
+        marginBottom: -6,
         borderRadius: 3
       }
     }
