@@ -35,5 +35,6 @@ export default keyMirror({
 
   USER_FETCHED: null,
   USER_SIGNIN: null,
-  USER_SIGNOUT: null
+  USER_SIGNOUT: null,
+  USER_UPDATED: null
 })

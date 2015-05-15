@@ -6,6 +6,7 @@ import Avatar from 'components/ui/avatar.jsx'
 import ProfileStore from 'stores/profile_store.js'
 import ProfileActions from 'actions/profile_actions.js'
 import ApplicationNavbar from 'components/application_navbar.jsx'
+import BlurbBox from 'components/ui/blurb_box.jsx'
 
 export default class ProfilePage extends React.Component {
   static willTransitionTo(transition, params, query) {
@@ -140,18 +141,29 @@ export default class ProfilePage extends React.Component {
       )
     }
     else {
+      var blurb = ""
+      if (user.blurb != null) {
+        blurb = user.blurb
+      }
       return (
         <div>
           <ApplicationNavbar />
           <div className="flex flex-column" style={{minHeight: 'calc(100vh - 3.5rem)'}}>
 
             <div className="clearfix mx-auto">
-              <div className="">
-                <h1>{this.state.user.username}</h1>
-                <Avatar user={this.state.user} size={128} />
+              <h1>{this.state.user.username}</h1>
+              <Avatar user={this.state.user} size={128} />
+            </div>
+            <br />
+            <div className="clearfix mx-auto">
+              <div className="block">
+                <div className="gray-2 center">
+                  <BlurbBox text={this.state.user.blurb} owner={this.state.user.username} />
+                </div>
               </div>
             </div>
 
+            <br />
 
             <div className="clearfix mx-auto">
               <div className="col col-4 px2">
