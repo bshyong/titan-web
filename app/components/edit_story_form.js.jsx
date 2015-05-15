@@ -51,7 +51,7 @@ export default AuthenticatedMixin(class EditStoryForm extends React.Component {
     const story = StoryStore.get(this.state.storyId)
 
     if (story) {
-      this.setState({
+      StoryFormActions.change({
         title: story.title,
         isPublic: !story.team_member_only,
         contributors: story.contributors,

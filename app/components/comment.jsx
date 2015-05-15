@@ -59,9 +59,13 @@ export default class Comment extends React.Component {
 
   renderBody() {
     if (this.state.editing) {
-      return <CommentForm {...this.props.comment}
-          storyId={this.props.storyId}
-          changelogId={this.props.changelogId} />
+      return (
+        <div className="mt1">
+          <CommentForm {...this.props.comment}
+              storyId={this.props.storyId}
+              changelogId={this.props.changelogId} />
+        </div>
+      )
     }
 
     const {
