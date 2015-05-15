@@ -10,7 +10,6 @@ import BlurbBox from 'components/ui/blurb_box.jsx'
 
 export default class ProfilePage extends React.Component {
   static willTransitionTo(transition, params, query) {
-    console.log(params)
     ProfileActions.fetch(params.username)
   }
 
@@ -89,7 +88,7 @@ export default class ProfilePage extends React.Component {
   render_stories() {
     if (this.state.user) {
       const stories = this.state.user.stories_participated
-      console.log(stories)
+
       return (
         <div>
           <h2>Posts</h2>

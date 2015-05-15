@@ -13,7 +13,6 @@ export default {
   },
 
   update_blurb(username, blurb) {
-    console.log("BLURBGN", blurb)
     api.post(`users/${username}/profile`, {username: username, blurb: blurb})
   }
 
