@@ -9,6 +9,15 @@ export default keyMirror({
   CHANGELOG_FOLLOWED: null,
   CHANGELOG_UNFOLLOWED: null,
 
+  COMMENT_CREATING: null,
+  COMMENT_DELETED: null,
+  COMMENT_FORM_CHANGE: null,
+  COMMENT_PUBLISHED: null,
+  COMMENT_UPDATED: null,
+  COMMENT_UPDATING: null,
+
+  COMMENTS_FETCHED: null,
+
   RESOURCE_FOUND: null,
   RESOURCE_NOT_FOUND: null,
 

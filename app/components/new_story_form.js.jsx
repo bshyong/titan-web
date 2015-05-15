@@ -46,6 +46,7 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
 
   componentDidMount() {
     StoryFormStore.addChangeListener(this.onStoreChange)
+    StoryFormActions.change({})
   }
 
   componentWillUnmount() {
