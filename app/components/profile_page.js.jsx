@@ -151,15 +151,18 @@ export default class ProfilePage extends React.Component {
           <div className="flex flex-column" style={{minHeight: 'calc(100vh - 3.5rem)'}}>
 
             <div className="clearfix mx-auto">
-              <div className="">
-                <h1>{this.state.user.username}</h1>
-                <Avatar user={this.state.user} size={128} />
-                <br />
+              <h1>{this.state.user.username}</h1>
+              <Avatar user={this.state.user} size={128} />
+            </div>
+            <br />
+            <div className="clearfix mx-auto">
+              <div className="block">
                 <div className="gray-2 center">
                   <BlurbBox text={this.state.user.blurb} owner={this.state.user.username} />
                 </div>
               </div>
             </div>
+
             <br />
 
             <div className="clearfix mx-auto">
