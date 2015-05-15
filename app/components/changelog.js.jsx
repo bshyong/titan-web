@@ -59,7 +59,7 @@ export default class Changelog extends React.Component {
         <Table.Separator label={key.calendar()} key={key.toISOString()} />
       )
       let b = a.push(
-        value.map(story => {
+        value.sortBy(story => -story.hearts_count).map(story => {
           const emoji = (
             <Emoji story={story} size="sm"
                    hearted={story.viewer_has_hearted}
