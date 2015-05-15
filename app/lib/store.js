@@ -3,6 +3,11 @@ import {EventEmitter} from 'events'
 const CHANGE_EVENT = 'change'
 
 export default class Store extends EventEmitter {
+  constructor() {
+    super()
+    super.setMaxListeners(0)
+  }
+
   emitChange() {
     this.emit(CHANGE_EVENT)
   }

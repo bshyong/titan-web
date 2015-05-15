@@ -19,7 +19,8 @@ export default {
 
   publish(changelogId, storyId, comment) {
     Dispatcher.dispatch({
-      type: COMMENT_CREATING
+      type: COMMENT_CREATING,
+      storyId: storyId
     })
 
     api.post(`changelogs/${changelogId}/stories/${storyId}/comments`, {body: comment}).

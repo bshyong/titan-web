@@ -98,6 +98,10 @@ export default class CommentForm extends React.Component {
   }
 
   _handleOnPublish() {
+    if (!NewCommentsStore.isValid(this.props.id || this.props.storyId)) {
+      return
+    }
+
     if (this.props.id) {
       CommentFormActions.update(
         this.props.changelogId,
