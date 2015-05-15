@@ -38,7 +38,7 @@ class StoryFormStore extends Store {
   }
 
   isValid() {
-    return this.title.length > 0
+    return this.title && this.title.length > 0
   }
 
 }
