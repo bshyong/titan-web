@@ -1,4 +1,5 @@
 import React from 'react'
+<<<<<<< HEAD
 import Avatar from './ui/avatar.jsx'
 import Icon from './ui/icon.js.jsx'
 import List from './ui/list.jsx'
@@ -8,57 +9,43 @@ import NotificationActions from '../actions/notification_actions'
 import StoryStore from '../stores/story_store'
 import StoryActions from '../actions/story_actions'
 import ChangelogStore from '../stores/changelog_store'
+import LoadingBar from '../ui/loading_bar.jsx'
+import {Link} from 'react-router'
 
 export default class NotificationsList extends React.Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      notifications: [],
-      stories: []
+      notifications: []
     }
     this.getStateFromStores = this._getStateFromStores.bind(this)
-    this.fetchStoriesForNotifications = this._fetchStoriesForNotifications.bind(this)
   }
 
   componentDidMount() {
-    NotificationsStore.addChangeListener(this.fetchStoriesForNotifications)
-    StoryStore.addChangeListener(this.getStateFromStores)
+    NotificationsStore.addChangeListener(this.getStateFromStores)
     NotificationActions.fetchAll()
-    // StoryActions.fetchAll(ChangelogStore.slug)
   }
 
   componentWillUnmount() {
-    NotificationsStore.removeChangeListener(this.fetchStoriesForNotifications)
-    StoryStore.removeChangeListener(this.getStateFromStores)
+    NotificationsStore.removeChangeListener(this.getStateFromStores)
   }
 
   render() {
     const stories = this.state.notifications
       .sort((a,b) => a.read_at < b.read_at)
       .map((n) => {
-        const story = StoryStore.get(n.story_id)
-        if (story) {
-          return (
-            <List.Item key={n.story_id}>
-              <div className="flex flex-center px2 py1">
-                <div className="flex-none mr2">
-                  <Avatar user={story.user} size={24} />
-                </div>
-                <div className="flex-auto">
-                  <p className="h5 m0 gray">{story.user.username} wrote a new story</p>
-                  <a href="#">{story.title}</a>
-                </div>
-              </div>
-            </List.Item>
-          )
-        }
+        return (
+          <Notification notification={n} key={n.story_id}/>
+        )
       })
 
     return (
-      <List type="small">
-        {stories}
-      </List>
+      <div style={{minWidth: 320}}>
+        <ol className="list list-reset mb0 list--small">
+          {stories}
+        </ol>
+      </div>
     )
   }
 
@@ -79,22 +66,43 @@ export default class NotificationsList extends React.Component {
     })
   }
 
-  _fetchStoriesForNotifications() {
-    const notifications = NotificationsStore.all()
-
-    notifications.map((n) => {
-      if(!StoryStore.get(n.story_id)){
-        StoryActions.fetch(ChangelogStore.slug, n.story_id)
-      }
-    })
-    this.getStateFromStores()
-  }
-
   _getStateFromStores() {
     this.setState({
-      notifications: NotificationsStore.all(),
-      stories: StoryStore.all().toJS()
+      notifications: NotificationsStore.notifications
     })
   }
 
+}
+
+class Notification extends React.Component {
+  render() {
+    const { notification } = this.props
+    if (notification) {
+      return (
+        <li className="list-item">
+          <div>
+            <Link className="flex flex-center px2 py1" to="story" params={{changelogId: ChangelogStore.slug, storyId: notification.story_id}}>
+            <div className="flex-none mr1">
+              <Avatar user={notification.actor} size={24} />
+            </div>
+            <div className="flex-auto">
+              <p className="h5 m0 gray">{notification.description}</p>
+              <div className="h5">{notification.title}</div>
+            </div>
+          </Link>
+          </div>
+        </li>
+      )
+    } else {
+      return (
+        <li className="list-item">
+          <LoadingBar loading={true} />
+        </li>
+      )
+    }
+  }
+}
+
+Notification.proptypes = {
+  notification: React.PropTypes.object.isRequired
 }

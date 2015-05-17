@@ -1,3 +1,4 @@
+import { NOTIFICATIONS_FETCHED } from 'constants'
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
 import {List} from 'immutable'
@@ -5,11 +6,11 @@ import {List} from 'immutable'
 class NotificationsStore extends Store {
   constructor() {
     super()
-    this.readReceipts = List([])
+    this._notifications = List([])
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
-        case 'READ_RECEIPTS_FETCHED':
-          this.readReceipts = List(action.readReceipts)
+        case NOTIFICATIONS_FETCHED:
+          this._notifications = List(action.notifications)
           this.emitChange()
           break;
         default:
@@ -18,8 +19,8 @@ class NotificationsStore extends Store {
     })
   }
 
-  all() {
-    return this.readReceipts.toJS()
+  get notifications() {
+    return this._notifications
   }
 }
 
