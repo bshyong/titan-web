@@ -2,7 +2,7 @@ import {
   COMMENT_CREATING,
   COMMENT_FORM_CHANGE,
   COMMENT_PUBLISHED
-} from 'constants'
+} from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
 import {Map} from 'immutable'

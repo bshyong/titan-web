@@ -18,8 +18,13 @@ export default keyMirror({
 
   COMMENTS_FETCHED: null,
 
+
   EMOJI_FETCHED: null,
   EMOJI_SELECTED: null,
+
+  HIGHLIGHTS_FETCHED: null,
+  HIGHLIGHT_IGNORED: null,
+  HIGHLIGHT_USED: null,
 
   RESOURCE_FOUND: null,
   RESOURCE_NOT_FOUND: null,
@@ -35,6 +40,8 @@ export default keyMirror({
   STORY_EDITING: null,
   STORY_UNHEARTED: null,
   STORY_UPDATED: null,
+
+  STORY_FORM_CHANGE: null,
 
   USER_FETCHED: null,
   USER_SIGNIN: null,

@@ -1,8 +1,8 @@
 import React from 'react'
-import Button from 'components/ui/button.js.jsx'
-import SessionActions from 'actions/session_actions'
-import SessionStore from 'stores/session_store'
-import FollowActions from 'actions/follow_actions'
+import Button from './ui/button.js.jsx'
+import SessionActions from '../actions/session_actions'
+import SessionStore from '../stores/session_store'
+import FollowActions from '../actions/follow_actions'
 
 export default class FollowButton extends React.Component {
   constructor(props) {

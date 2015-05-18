@@ -1,9 +1,9 @@
 import {
   STORY_FETCHED
-} from 'constants'
+} from '../constants'
 
 import Dispatcher from '../lib/dispatcher'
-import readraptor from 'lib/readraptor'
+import readraptor from '../lib/readraptor'
 import Store from '../lib/store'
 
 class StoryReadersStore extends Store {

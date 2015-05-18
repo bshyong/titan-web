@@ -1,10 +1,10 @@
 // It might appear that this component is a noop. However, I think it
 // makes sense to move the actual dates and items in here as
-// sub-components. The abstraction still makes sense even though the
+// sub-.. The abstraction still makes sense even though the
 // styling is non-existant (ATM). ~ @chrislloyd
 
 import React from 'react'
-import moment from 'config/moment'
+import moment from '../../config/moment'
 import classnames from 'classnames'
 import {Link, Route} from 'react-router'
 

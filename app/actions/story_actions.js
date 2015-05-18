@@ -9,12 +9,12 @@ import {
   STORY_HEARTED,
   STORY_PUBLISHED,
   STORY_UNHEARTED
-} from 'constants'
+} from '../constants'
 
-import api from 'lib/api'
-import Dispatcher from 'lib/dispatcher'
-import RouterContainer from 'lib/router_container'
-import SessionStore from 'stores/session_store'
+import api from '../lib/api'
+import Dispatcher from '../lib/dispatcher'
+import RouterContainer from '../lib/router_container'
+import SessionStore from '../stores/session_store'
 import { List } from 'immutable'
 
 export default {
@@ -51,7 +51,7 @@ export default {
       type: STORY_EDITING
     })
 
-    api.post(`changelogs/${changelogId}/stories/${storyId}`, data).
+    api.put(`changelogs/${changelogId}/stories/${storyId}`, data).
       then(resp => {
         Dispatcher.dispatch({
           type: 'STORY_UPDATED',

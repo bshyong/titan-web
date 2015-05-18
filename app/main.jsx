@@ -1,10 +1,10 @@
 import Routes from './routes/index.js.jsx'
 import Router from 'react-router'
 import React from 'react'
-import RouterContainer from 'lib/router_container'
-import SessionActions from 'actions/session_actions'
+import RouterContainer from './lib/router_container'
+import SessionActions from './actions/session_actions'
 
-import 'images/favicon.ico'
+import './images/favicon.ico'
 
 let jwt = localStorage.getItem('jwt')
 if (jwt) {

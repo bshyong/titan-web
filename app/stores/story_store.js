@@ -6,7 +6,7 @@ import {
   STORY_HEARTED,
   STORY_UNHEARTED,
   STORY_PUBLISHED
-} from 'constants'
+} from '../constants'
 import { Map } from 'immutable'
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'

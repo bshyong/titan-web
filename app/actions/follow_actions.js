@@ -1,9 +1,9 @@
 import {
   CHANGELOG_FOLLOWED,
   CHANGELOG_UNFOLLOWED
-} from 'constants'
-import Dispatcher from 'lib/dispatcher'
-import api from 'lib/api'
+} from '../constants'
+import Dispatcher from '../lib/dispatcher'
+import api from '../lib/api'
 
 export default {
   follow(changelog_id) {

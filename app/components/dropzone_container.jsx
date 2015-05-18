@@ -1,9 +1,9 @@
-import AttachmentActions from 'actions/attachment_actions'
-import AttachmentStore from 'stores/attachment_store'
-import Dropzone from 'config/dropzone'
-import Icon from 'components/ui/icon.js.jsx'
+import AttachmentActions from '../actions/attachment_actions'
+import AttachmentStore from '../stores/attachment_store'
+import Dropzone from '../config/dropzone'
+import Icon from './ui/icon.js.jsx'
 import React from 'react'
-import UploadingAttachmentsStore from 'stores/uploading_attachment_store'
+import UploadingAttachmentStore from '../stores/uploading_attachment_store'
 
 export default class DropzoneContainer extends React.Component {
   constructor(props) {
@@ -23,7 +23,7 @@ export default class DropzoneContainer extends React.Component {
     })
 
     AttachmentStore.addChangeListener(this.getAttachments)
-    UploadingAttachmentsStore.addChangeListener(this.getUploadingAttachments)
+    UploadingAttachmentStore.addChangeListener(this.getUploadingAttachments)
   }
 
   componentDidUpdate() {
@@ -34,7 +34,7 @@ export default class DropzoneContainer extends React.Component {
     this.dropzone = null
 
     AttachmentStore.removeChangeListener(this.getAttachments)
-    UploadingAttachmentsStore.removeChangeListener(this.getUploadingAttachments)
+    UploadingAttachmentStore.removeChangeListener(this.getUploadingAttachments)
   }
 
   render() {
@@ -71,7 +71,7 @@ export default class DropzoneContainer extends React.Component {
 
   _getUploadingAttachments() {
     let id = this.props.id
-    let attachments = UploadingAttachmentsStore.getAttachments(id)
+    let attachments = UploadingAttachmentStore.getAttachments(id)
 
     if (attachments.size) {
       this.props.onUploading(attachments)

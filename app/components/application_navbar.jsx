@@ -1,19 +1,19 @@
 import {Link} from 'react-router'
-import Avatar from 'components/ui/avatar.jsx'
-import ChangelogStore from 'stores/changelog_store.js'
-import Icon from 'components/ui/icon.js.jsx'
-import List from 'components/ui/list.jsx'
-import Navbar from 'components/ui/navbar.jsx'
-import Popover from 'components/ui/popover.jsx'
+import Avatar from './ui/avatar.jsx'
+import ChangelogStore from '../stores/changelog_store.js'
+import Icon from './ui/icon.js.jsx'
+import List from './ui/list.jsx'
+import Navbar from './ui/navbar.jsx'
+import Popover from './ui/popover.jsx'
 import React from 'react'
-import RouterContainer from 'lib/router_container'
-import SessionActions from 'actions/session_actions'
-import SessionStore from 'stores/session_store'
+import RouterContainer from '../lib/router_container'
+import SessionActions from '../actions/session_actions'
+import SessionStore from '../stores/session_store'
 
 
 // Logo versions:
 
-import LogoSrc from 'images/logo.svg'
+import LogoSrc from '../images/logo.svg'
 
 export default class ApplicatioNavbar extends React.Component {
   constructor() {

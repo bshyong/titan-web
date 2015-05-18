@@ -1,10 +1,11 @@
 import React from 'react'
-import Icon from 'components/ui/icon.js.jsx'
-import MarkdownArea from 'components/ui/markdown_area.jsx'
-import SessionStore from 'stores/session_store'
-import EmojiStore from 'stores/emoji_store'
-import EmojiActions from 'actions/emoji_actions.js'
+import EmojiStore from '../../stores/emoji_store'
+import EmojiActions from '../../actions/emoji_actions.js'
 import {List, Set} from 'immutable'
+import Icon from './icon.js.jsx'
+import MarkdownArea from './markdown_area.jsx'
+import SessionStore from '../../stores/session_store'
+
 
 export default class EmojiPicker extends React.Component {
   constructor(props) {

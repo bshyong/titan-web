@@ -2,7 +2,7 @@ import {
   CHANGELOG_FETCHED,
   CHANGELOG_FOLLOWED,
   CHANGELOG_UNFOLLOWED
-} from 'constants'
+} from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
 

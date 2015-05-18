@@ -1,12 +1,12 @@
 import React from 'react'
 import {Link} from 'react-router'
 import {List, Set} from 'immutable'
-import Button from 'components/ui/button.js.jsx'
-import Avatar from 'components/ui/avatar.jsx'
-import ProfileStore from 'stores/profile_store.js'
-import ProfileActions from 'actions/profile_actions.js'
-import ApplicationNavbar from 'components/application_navbar.jsx'
-import BlurbBox from 'components/ui/blurb_box.jsx'
+import Button from './ui/button.js.jsx'
+import Avatar from './ui/avatar.jsx'
+import ProfileStore from '../stores/profile_store.js'
+import ProfileActions from '../actions/profile_actions.js'
+import ApplicationNavbar from './application_navbar.jsx'
+import BlurbBox from './ui/blurb_box.jsx'
 
 import EmojiPicker from 'components/ui/emoji_picker.jsx'
 

@@ -1,9 +1,13 @@
-import { CHANGELOG_FETCHED, RESOURCE_NOT_FOUND, RESOURCE_FOUND } from 'constants'
+import {
+  CHANGELOG_FETCHED,
+  RESOURCE_NOT_FOUND,
+  RESOURCE_FOUND
+} from '../constants'
 
 import Dispatcher from '../lib/dispatcher'
-import api from 'lib/api'
-import RouterContainer from 'lib/router_container'
-import SessionStore from 'stores/session_store'
+import api from '../lib/api'
+import RouterContainer from '../lib/router_container'
+import SessionStore from '../stores/session_store'
 
 export default {
   select(changelog_id) {

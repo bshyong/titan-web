@@ -1,16 +1,16 @@
-import { ATTACHMENT_UPLOADING } from 'constants.js'
-import Dispatcher from 'lib/dispatcher'
+import { ATTACHMENT_UPLOADING } from '../constants'
+import Dispatcher from '../lib/dispatcher'
 import { List, Map } from 'immutable'
-import Store from 'lib/store'
+import Store from '../lib/store'
 
-class UploadingAttachmentsStore extends Store {
+class UploadingAttachmentStore extends Store {
   constructor() {
     super()
 
     this.attachments = Map()
 
     this.dispatchToken = Dispatcher.register((action) => {
-      switch (action.actionType) {
+      switch (action.type) {
         case ATTACHMENT_UPLOADING:
           let { commentId, attachment } = action
           this.attachments = this.attachments.set(
@@ -35,4 +35,4 @@ class UploadingAttachmentsStore extends Store {
   }
 }
 
-module.exports = new UploadingAttachmentsStore()
+module.exports = new UploadingAttachmentStore()

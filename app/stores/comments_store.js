@@ -3,7 +3,7 @@ import {
   COMMENTS_FETCHED,
   COMMENT_PUBLISHED,
   COMMENT_UPDATED
-} from 'constants'
+} from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
 import {List} from 'immutable'

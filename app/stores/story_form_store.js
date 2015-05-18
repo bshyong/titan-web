@@ -1,3 +1,8 @@
+import {
+  STORY_FORM_CHANGE,
+  STORY_PUBLISHED,
+  HIGHLIGHT_USED
+} from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import { List } from 'immutable'
 import Store from '../lib/store'
@@ -12,7 +17,7 @@ class StoryFormStore extends Store {
 
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
-        case 'STORY_FORM_CHANGE':
+        case STORY_FORM_CHANGE:
           this.title = action.fields.title
           this.body = action.fields.body
           this.contributors = action.fields.contributors
@@ -20,13 +25,13 @@ class StoryFormStore extends Store {
           this.emitChange()
           break;
 
-        case 'STORY_PUBLISHED':
+        case STORY_PUBLISHED:
           this.text = ''
           this.body = ''
           this.emitChange()
           break;
 
-        case 'HIGHLIGHT_USED':
+        case HIGHLIGHT_USED:
           this.body = action.highlight.content
           this.contributors = List(action.highlight.mentioned_users).map(u => `@${u.username}`).join(', ')
           this.emitChange()

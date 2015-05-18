@@ -1,4 +1,7 @@
-import { RESOURCE_NOT_FOUND, RESOURCE_FOUND } from 'constants'
+import {
+  RESOURCE_NOT_FOUND,
+  RESOURCE_FOUND
+} from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
 

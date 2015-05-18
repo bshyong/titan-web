@@ -1,9 +1,9 @@
-import { USER_SIGNIN, USER_SIGNOUT } from 'constants'
-import auth from 'lib/auth'
+import { USER_SIGNIN, USER_SIGNOUT } from '../constants'
+import auth from '../lib/auth'
 import Dispatcher from '../lib/dispatcher'
 import jwt_decode from 'jwt-decode'
 import 'isomorphic-fetch'
-import RouterContainer from 'lib/router_container'
+import RouterContainer from '../lib/router_container'
 
 export default {
   signin() {
