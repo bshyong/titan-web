@@ -43,9 +43,12 @@ export default class StoryPage extends React.Component {
       return <div />
     }
 
-    if (story.body.length > 0) {
-      body = <Markdown markdown={story.parsed_body || story.body} />
+    if (story.body) {
+      if (story.body.length > 0) {
+        body = <Markdown markdown={story.parsed_body || story.body} />
+      }
     }
+
 
     return (
       <div className="flex flex-column" style={{minHeight: 'calc(100vh - 3.5rem)'}}>
