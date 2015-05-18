@@ -157,7 +157,6 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
 
   _handlePublish(e) {
     e.preventDefault()
-    console.log("PUBLSHNG", this.state.emoji_id)
     StoriesActionCreator.publish(ChangelogStore.slug, {
       title: this.state.title,
       body:  this.state.body,
@@ -169,7 +168,6 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
 
   getStateFromStores() {
     const { storyId, changelogId } = Router.get().getCurrentParams()
-    console.log("UPDATGN NEW STORY FORM STATE")
     return {
       storyId:      storyId,
       changelogId:  changelogId,
