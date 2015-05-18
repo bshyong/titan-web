@@ -42,7 +42,8 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
 
   static get defaultProps() {
     return {
-      changelogId: RouterContainer.get().getCurrentParams().changelogId
+      changelogId: RouterContainer.get().getCurrentParams().changelogId,
+      isPublic: true
     }
   }
 
@@ -152,6 +153,8 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
   }
 
   _handleTogglePrivacy() {
+    console.log(this.state.isPublic)
+    console.log(StoryFormStore.isPublic)
     this.updateForm('isPublic', !this.state.isPublic)
   }
 
