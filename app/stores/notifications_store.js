@@ -1,4 +1,4 @@
-import { NOTIFICATIONS_FETCHED, NOTIFICATIONS_FETCHING } from 'constants'
+import { NOTIFICATIONS_FETCHED, NOTIFICATIONS_FETCHING } from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
 import {List} from 'immutable'
