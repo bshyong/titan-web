@@ -15,7 +15,7 @@ import SessionStore from '../stores/session_store'
 
 import LogoSrc from '../images/logo.svg'
 
-export default class ApplicatioNavbar extends React.Component {
+export default class ApplicationNavbar extends React.Component {
   constructor() {
     super()
     this.state = this.getStateFromStores()
