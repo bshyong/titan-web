@@ -15,10 +15,10 @@ import ScrollPaginator from './ui/scroll_paginator.jsx'
 import shallowEqual from 'react-pure-render/shallowEqual'
 import Stack from './ui/stack.jsx'
 import StoryStore from '../stores/story_store'
-import StoryActions from 'actions/story_actions'
+import StoryActions from '../actions/story_actions'
 import Table from './ui/table.js.jsx'
 
-import MetaBannerUrl from 'images/meta-banner.jpg'
+import MetaBannerUrl from '../images/meta-banner.jpg'
 
 export default class Changelog extends React.Component {
   static willTransitionTo(transition, params, query) {

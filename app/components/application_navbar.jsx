@@ -13,7 +13,7 @@ import SessionStore from '../stores/session_store'
 
 // Logo versions:
 
-import LogoSrc from 'images/logo.svg'
+import LogoSrc from '../images/logo.svg'
 
 export default class ApplicatioNavbar extends React.Component {
   constructor() {
