@@ -150,7 +150,6 @@ export default class ProfilePage extends React.Component {
       return (
         <div>
           <ApplicationNavbar />
-          <EmojiPicker />
           <div className="flex flex-column" style={{minHeight: 'calc(100vh - 3.5rem)'}}>
 
             <div className="clearfix mx-auto">
