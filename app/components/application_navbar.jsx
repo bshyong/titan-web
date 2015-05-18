@@ -17,13 +17,13 @@ import LogoSrc from '../images/logo.svg'
 
 @connectToStores(ChangelogStore, SessionStore)
 export default class ApplicationNavbar extends React.Component {
+
   static getPropsFromStores() {
     return {
       user: SessionStore.user,
       changelog: ChangelogStore.changelog
     }
   }
-
 
   render() {
     return <Navbar title="Changelog"
@@ -68,7 +68,11 @@ export default class ApplicationNavbar extends React.Component {
     }
 
     const changelogId = RouterContainer.get().getCurrentParams().changelogId
-    const bell = <div className="mr1"><Icon icon="bell silver" />N</div>
+    const notificationCount = this.state.unreadNotificationsCount
+    const bell = <div className="mr1">
+                   <Icon icon={notificationCount > 0 ? 'bell orange' : 'bell silver'} />
+                    {notificationCount || 0}
+                  </div>
 
     return (
       <div className="flex" style={{paddingTop: 4}}>
