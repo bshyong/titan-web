@@ -53,7 +53,7 @@ What went wrong? Jest mocked `MyStore`, so while you can call `foo()`, its inter
 
 ![](http://img.pandawhale.com/83932-effy-stonem-nothing-gif-wniH.gif)
 
-If you want to test a method on `MyStore`, you need to tell Jest not to mock it:x:
+If you want to test a method on `MyStore`, you need to tell Jest not to mock it:
 
 ```javascript
 // my_store-test.js
