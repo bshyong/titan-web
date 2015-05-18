@@ -160,7 +160,6 @@ export default class ProfilePage extends React.Component {
                 <Avatar user={this.state.user} size={128} />
               </div>
             </div>
-            <br />
             <div className="clearfix mx-auto">
               <div className="block">
                 <div className="gray-2 center">
@@ -168,8 +167,6 @@ export default class ProfilePage extends React.Component {
                 </div>
               </div>
             </div>
-
-            <br />
 
             <div className="clearfix mxn2">
               <div className="col col-4 px2">
