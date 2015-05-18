@@ -112,7 +112,9 @@ describe('AttachmentStore', () => {
 })
 ```
 
-This `describe` block will contain all of our tests. At the top, we declare the variables that we want to be available in the top level of this closure &mdash; they include the constants that `AttachmentStore` uses, `AttachmentStore` itself, a `callback`, and a (mocked) `Dispatcher`. We want to assign a fresh instance of the value for each of these variables every time a test runs, so we perform the assignment inside a `beforeEach` call. Note that you _must_ assign `Dispatcher` before assigning your store to its variable. This order guarantees that `Dispatcher.register.mock.calls[0][0]` references the callback that your store passed in its call to `Dispatcher.register`. If that's kind of confusing, read [this](https://facebook.github.io/react/blog/2014/09/24/testing-flux-applications.html#testing-stores).
+This `describe` block will contain all of our tests. At the top, we declare the variables that we want to be available in the top level of this closure &mdash; they include the constants that `AttachmentStore` uses, `AttachmentStore` itself, a `callback`, and a (mocked) `Dispatcher`.
+
+We want to assign a fresh instance of the value for each of these variables every time a test runs, so we perform the assignment inside a `beforeEach` call. Note that you _must_ assign `Dispatcher` before assigning your store to its variable. This order guarantees that `Dispatcher.register.mock.calls[0][0]` references the callback that your store passed in its call to `Dispatcher.register`. If that's kind of confusing, read [this](https://facebook.github.io/react/blog/2014/09/24/testing-flux-applications.html#testing-stores).
 
 ![](http://media4.giphy.com/media/FRNQuq6FtiQHC/200.gif)
 
