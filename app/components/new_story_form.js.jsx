@@ -42,7 +42,8 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
 
   static get defaultProps() {
     return {
-      changelogId: RouterContainer.get().getCurrentParams().changelogId
+      changelogId: RouterContainer.get().getCurrentParams().changelogId,
+      isPublic: true
     }
   }
 
