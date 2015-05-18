@@ -77,7 +77,7 @@ That was pretty easy, right?
 
 Now that you've got a handle on the basics, let's write a real store test together. The test covered here will have been written by the time you read this tutorial &mdash; it might even have changed &mdash; but you'll follow generally the same pattern when you write your tests.
 
-Let's first create the file:x:
+Let's first create the file:
 
 ```shell
 [user]$ touch app/stores/__tests__/attachment_store-test.js
