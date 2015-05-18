@@ -49,7 +49,6 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
 
   componentDidMount() {
     StoryFormStore.addChangeListener(this.onStoreChange)
-    StoryFormActions.change({})
     EmojiStore.addChangeListener(this.onStoreChange)
   }
 
@@ -72,7 +71,13 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
   }
 
   render() {
-    const {title, body, isPublic, storyId, contributors} = this.state
+    const {
+      title,
+      body,
+      isPublic,
+      storyId,
+      contributors
+    } = this.state
 
     return (
       <div className="flex flex-column">

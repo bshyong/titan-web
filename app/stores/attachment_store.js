@@ -1,4 +1,7 @@
-import { ATTACHMENT_FAILED, ATTACHMENT_UPLOADED } from '../constants'
+import {
+  ATTACHMENT_FAILED,
+  ATTACHMENT_UPLOADED
+} from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import { Map } from 'immutable'
 import Store from '../lib/store'
