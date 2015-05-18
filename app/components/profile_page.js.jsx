@@ -8,7 +8,7 @@ import ProfileActions from '../actions/profile_actions.js'
 import ApplicationNavbar from './application_navbar.jsx'
 import BlurbBox from './ui/blurb_box.jsx'
 
-import EmojiPicker from 'components/ui/emoji_picker.jsx'
+import EmojiPicker from './ui/emoji_picker.jsx'
 
 export default class ProfilePage extends React.Component {
   static willTransitionTo(transition, params, query) {

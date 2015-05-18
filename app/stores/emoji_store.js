@@ -1,6 +1,10 @@
-import { EMOJI_FETCHED, EMOJI_SELECTED } from 'constants'
-import Dispatcher from 'lib/dispatcher'
-import Store from 'lib/store'
+import {
+  EMOJI_FETCHED,
+  EMOJI_SELECTED
+} from '../constants'
+
+import Dispatcher from '../lib/dispatcher'
+import Store from '../lib/store'
 
 class EmojiStore extends Store {
   constructor() {

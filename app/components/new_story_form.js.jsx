@@ -15,8 +15,8 @@ import StoryActions from '../actions/story_actions'
 import StoryStore from '../stores/story_store'
 import MarkdownArea from './ui/markdown_area.jsx'
 import React from 'react'
-import EmojiPicker from 'components/ui/emoji_picker.jsx'
-import EmojiStore from 'stores/emoji_store'
+import EmojiPicker from './ui/emoji_picker.jsx'
+import EmojiStore from '../stores/emoji_store'
 
 export default AuthenticatedMixin(class NewStoryForm extends React.Component {
 

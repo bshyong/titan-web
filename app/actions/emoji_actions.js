@@ -1,6 +1,10 @@
-import { EMOJI_FETCHED, EMOJI_SELECTED } from 'constants'
+import {
+  EMOJI_FETCHED,
+  EMOJI_SELECTED
+} from '../constants'
+
 import Dispatcher from '../lib/dispatcher'
-import api from 'lib/api'
+import api from '../lib/api'
 
 export default {
 
