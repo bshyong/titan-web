@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "start": "node index.js",
-    "test": "jest",
+    "test": "BABEL_JEST_STAGE=0 jest",
     "postinstall": "npm run dist",
     "local": "NODE_ENV=production webpack --config webpack.local.js --optimize-minimize",
     "dist": "NODE_ENV=production webpack --optimize-minimize --progress --profile --colors",
@@ -50,14 +50,16 @@
     "whatwg-fetch": "^0.8.1"
   },
   "devDependencies": {
-    "jest-cli": "^0.4.0",
-    "webpack-dev-server": "~1.8"
+    "jest-cli": "^0.4.5",
+    "webpack-dev-server": "~1.8",
+    "babel-jest": "*"
   },
 
   "jest": {
-    "collectCoverage": true,
+    "collectCoverage": false,
+    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
     "testPathDirs": [
-      "<rootDir>/src"
+      "<rootDir>/app"
     ],
     "unmockedModulePathPatterns": [
       "<rootDir>/node_modules"

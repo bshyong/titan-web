@@ -1,10 +1,10 @@
-import AuthenticatedMixin from 'components/mixins/authenticated_mixin.jsx'
-import StoryForm from 'components/new_story_form.js.jsx'
-import StoryFormActions from 'actions/story_form_actions'
-import StoryFormStore from 'stores/story_form_store'
-import StoryActions from 'actions/story_actions'
-import StoryStore from 'stores/story_store'
-import Router from 'lib/router_container'
+import AuthenticatedMixin from './mixins/authenticated_mixin.jsx'
+import StoryForm from './new_story_form.js.jsx'
+import StoryFormActions from '../actions/story_form_actions'
+import StoryFormStore from '../stores/story_form_store'
+import StoryActions from '../actions/story_actions'
+import StoryStore from '../stores/story_store'
+import Router from '../lib/router_container'
 import React from 'react'
 
 export default AuthenticatedMixin(class EditStoryForm extends React.Component {

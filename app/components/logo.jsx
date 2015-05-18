@@ -1,5 +1,5 @@
 import React from 'react'
-import MetaLogoSrc from 'images/meta-logo.svg'
+import MetaLogoSrc from '../images/meta-logo.svg'
 
 export default class Logo extends React.Component {
   render() {

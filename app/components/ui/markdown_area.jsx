@@ -1,4 +1,4 @@
-import DropzoneContainer from 'components/dropzone_container.jsx'
+import DropzoneContainer from '../dropzone_container.jsx'
 import React from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
 import {List} from 'immutable'

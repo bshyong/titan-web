@@ -4,9 +4,9 @@ import {
   COMMENT_PUBLISHED,
   COMMENT_UPDATED,
   COMMENT_UPDATING
-} from 'constants'
+} from '../constants'
 import Dispatcher from '../lib/dispatcher'
-import api from 'lib/api'
+import api from '../lib/api'
 
 export default {
   change(storyId, comment) {

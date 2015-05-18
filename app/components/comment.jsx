@@ -1,13 +1,13 @@
-import Avatar from 'components/ui/avatar.jsx'
-import CommentForm from 'components/comment_form.jsx'
-import CommentsStore from 'stores/comments_store'
-import DiscussionActions from 'actions/discussion_actions'
-import Icon from 'components/ui/icon.js.jsx'
-import Markdown from 'components/ui/markdown.jsx'
+import Avatar from './ui/avatar.jsx'
+import CommentForm from './comment_form.jsx'
+import CommentsStore from '../stores/comments_store'
+import DiscussionActions from '../actions/discussion_actions'
+import Icon from './ui/icon.js.jsx'
+import Markdown from './ui/markdown.jsx'
 import React from 'react'
-import RouterContainer from 'lib/router_container'
-import SessionStore from 'stores/session_store'
-import moment from 'config/moment'
+import RouterContainer from '../lib/router_container'
+import SessionStore from '../stores/session_store'
+import moment from '../config/moment'
 
 export default class Comment extends React.Component {
 

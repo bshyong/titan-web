@@ -1,6 +1,6 @@
 import React from 'react'
 import twemoji from 'twemoji'
-import StoryActions from 'actions/story_actions'
+import StoryActions from '../../actions/story_actions'
 import classnames from 'classnames'
 
 const EmojiMappings = {

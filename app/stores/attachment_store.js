@@ -1,7 +1,7 @@
 import { ATTACHMENT_FAILED, ATTACHMENT_UPLOADED } from '../constants'
-import Dispatcher from 'lib/dispatcher'
+import Dispatcher from '../lib/dispatcher'
 import { Map } from 'immutable'
-import Store from 'lib/store'
+import Store from '../lib/store'
 
 class AttachmentsStore extends Store {
   constructor() {
@@ -11,7 +11,7 @@ class AttachmentsStore extends Store {
     this.errors = Map();
 
     this.dispatchToken = Dispatcher.register((action) => {
-      switch (action.actionType) {
+      switch (action.type) {
         case ATTACHMENT_UPLOADED:
           this.attachments = this.attachments.set(
             action.commentId,

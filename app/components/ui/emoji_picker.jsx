@@ -1,7 +1,7 @@
 import React from 'react'
-import Icon from 'components/ui/icon.js.jsx'
-import MarkdownArea from 'components/ui/markdown_area.jsx'
-import SessionStore from 'stores/session_store'
+import Icon from './icon.js.jsx'
+import MarkdownArea from './markdown_area.jsx'
+import SessionStore from '../stores/session_store'
 
 export default class BlurbBox extends React.Component {
   constructor(props) {

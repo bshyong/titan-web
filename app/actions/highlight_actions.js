@@ -1,8 +1,8 @@
 import {List} from 'immutable'
 import Dispatcher from '../lib/dispatcher'
-import api from 'lib/api'
-import SessionStore from 'stores/session_store'
-import RouterContainer from 'lib/router_container'
+import api from '../lib/api'
+import SessionStore from '../stores/session_store'
+import RouterContainer from '../lib/router_container'
 
 export default {
 

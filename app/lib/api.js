@@ -1,8 +1,8 @@
-import { RESOURCE_NOT_FOUND, RESOURCE_FOUND } from 'constants'
+import { RESOURCE_NOT_FOUND, RESOURCE_FOUND } from '../constants'
 
-import Dispatcher from 'lib/dispatcher'
+import Dispatcher from '../lib/dispatcher'
 import 'isomorphic-fetch'
-import SessionStore from 'stores/session_store'
+import SessionStore from '../stores/session_store'
 
 module.exports = {
   get(url) {

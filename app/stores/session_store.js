@@ -1,7 +1,7 @@
-import { USER_SIGNIN, USER_SIGNOUT } from 'constants'
-import Dispatcher from 'lib/dispatcher'
+import { USER_SIGNIN, USER_SIGNOUT } from '../constants'
+import Dispatcher from '../lib/dispatcher'
 import jwt_decode from 'jwt-decode'
-import Store from 'lib/store'
+import Store from '../lib/store'
 
 class SessionStore extends Store {
   constructor() {
