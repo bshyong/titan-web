@@ -18,6 +18,9 @@ export default keyMirror({
 
   COMMENTS_FETCHED: null,
 
+  EMOJI_FETCHED: null,
+  EMOJI_SELECTED: null,
+
   RESOURCE_FOUND: null,
   RESOURCE_NOT_FOUND: null,
 
