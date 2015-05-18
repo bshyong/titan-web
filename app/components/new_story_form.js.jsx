@@ -15,6 +15,8 @@ import StoryActions from '../actions/story_actions'
 import StoryStore from '../stores/story_store'
 import MarkdownArea from './ui/markdown_area.jsx'
 import React from 'react'
+import EmojiPicker from 'components/ui/emoji_picker.jsx'
+import EmojiStore from 'stores/emoji_store'
 
 export default AuthenticatedMixin(class NewStoryForm extends React.Component {
 
@@ -47,10 +49,12 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
   componentDidMount() {
     StoryFormStore.addChangeListener(this.onStoreChange)
     StoryFormActions.change({})
+    EmojiStore.addChangeListener(this.onStoreChange)
   }
 
   componentWillUnmount() {
     StoryFormStore.removeChangeListener(this.onStoreChange)
+    EmojiStore.addChangeListener(this.onStoreChange)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -99,6 +103,12 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
             ref="contributors" />
         </div>
 
+        <div className="clearfix">
+          <div className="left">
+            <EmojiPicker />
+          </div>
+        </div>
+        <br />
         <div className="clearfix border-top">
           <div className="left">
 
@@ -117,6 +127,7 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
               {storyId ? 'Update' : 'Publish'}
             </Button>
           </div>
+
         </div>
 
         <div className="mt2">
@@ -146,25 +157,25 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
 
   _handlePublish(e) {
     e.preventDefault()
-
     StoriesActionCreator.publish(ChangelogStore.slug, {
       title: this.state.title,
       body:  this.state.body,
       contributors: this.state.contributors,
-      team_member_only: !this.state.isPublic
+      team_member_only: !this.state.isPublic,
+      emoji_id: this.state.emoji_id
     })
   }
 
   getStateFromStores() {
     const { storyId, changelogId } = Router.get().getCurrentParams()
-
     return {
       storyId:      storyId,
       changelogId:  changelogId,
       title:        StoryFormStore.title,
       body:         StoryFormStore.body,
       contributors: StoryFormStore.contributors,
-      isPublic:     StoryFormStore.isPublic
+      isPublic:     StoryFormStore.isPublic,
+      emoji_id:     EmojiStore.selectedEmoji
     }
   }
 

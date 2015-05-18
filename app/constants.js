@@ -18,6 +18,10 @@ export default keyMirror({
 
   COMMENTS_FETCHED: null,
 
+
+  EMOJI_FETCHED: null,
+  EMOJI_SELECTED: null,
+
   HIGHLIGHTS_FETCHED: null,
   HIGHLIGHT_IGNORED: null,
   HIGHLIGHT_USED: null,

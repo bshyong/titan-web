@@ -8,6 +8,8 @@ import ProfileActions from '../actions/profile_actions.js'
 import ApplicationNavbar from './application_navbar.jsx'
 import BlurbBox from './ui/blurb_box.jsx'
 
+import EmojiPicker from 'components/ui/emoji_picker.jsx'
+
 export default class ProfilePage extends React.Component {
   static willTransitionTo(transition, params, query) {
     ProfileActions.fetch(params.username)
@@ -140,6 +142,7 @@ export default class ProfilePage extends React.Component {
       )
     }
     else {
+
       var blurb = ""
       if (user.blurb != null) {
         blurb = user.blurb
@@ -147,6 +150,7 @@ export default class ProfilePage extends React.Component {
       return (
         <div>
           <ApplicationNavbar />
+          <EmojiPicker />
           <div className="flex flex-column" style={{minHeight: 'calc(100vh - 3.5rem)'}}>
 
             <div className="clearfix mx-auto">
