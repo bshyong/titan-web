@@ -63,6 +63,6 @@ export default class BlurbBox extends React.Component {
 }
 
 BlurbBox.propTypes = {
-  text: React.PropTypes.object.string,
-  owner: React.PropTypes.object.string
+  text: React.PropTypes.string,
+  owner: React.PropTypes.string
 }

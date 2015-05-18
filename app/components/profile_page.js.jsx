@@ -41,12 +41,14 @@ export default class ProfilePage extends React.Component {
   }
 
   render_score_pair(emoji, score) {
-    return (
-      <span className="px1">
-        {emoji}
-        {score}
-      </span>
-    )
+    if (score > 0) {
+      return (
+        <span className="px1">
+          {emoji}
+          {score}
+        </span>
+      )
+    }
   }
 
   render_emoji_scores() {
@@ -150,11 +152,13 @@ export default class ProfilePage extends React.Component {
       return (
         <div>
           <ApplicationNavbar />
-          <div className="flex flex-column" style={{minHeight: 'calc(100vh - 3.5rem)'}}>
+          <div className="container">
 
-            <div className="clearfix mx-auto">
+            <div className="center">
               <h1>{this.state.user.username}</h1>
-              <Avatar user={this.state.user} size={128} />
+              <div style={{width: 128}} className="mx-auto">
+                <Avatar user={this.state.user} size={128} />
+              </div>
             </div>
             <br />
             <div className="clearfix mx-auto">
@@ -167,7 +171,7 @@ export default class ProfilePage extends React.Component {
 
             <br />
 
-            <div className="clearfix mx-auto">
+            <div className="clearfix mxn2">
               <div className="col col-4 px2">
                 {this.render_emoji_scores()}
               </div>
@@ -186,9 +190,4 @@ export default class ProfilePage extends React.Component {
       )
     }
   }
-
-}
-
-ProfilePage.propTypes = {
-  user: React.PropTypes.object.isRequired
 }
