@@ -36,12 +36,13 @@ export default class BlurbBox extends React.Component {
   render() {
     var authed = SessionStore.user.username == this.props.owner
     var blurbEditButton = authed ? <Icon icon='edit' fw={true} /> : ""
+    var saveEditButton = <Icon icon='save' fw={true} />
     if(this.state.show) {
       return (
         <div>
           {this.renderTextBox()}
           <div onClick={this.changeShow}>
-            {blurbEditButton}
+            {saveEditButton}
           </div>
         </div>
       )
@@ -62,6 +63,6 @@ export default class BlurbBox extends React.Component {
 }
 
 BlurbBox.propTypes = {
-  text: React.PropTypes.object.string,
-  owner: React.PropTypes.object.string
+  text: React.PropTypes.string,
+  owner: React.PropTypes.string
 }
