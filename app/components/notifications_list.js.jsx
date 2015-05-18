@@ -1,5 +1,4 @@
 import React from 'react'
-<<<<<<< HEAD
 import Avatar from './ui/avatar.jsx'
 import Icon from './ui/icon.js.jsx'
 import List from './ui/list.jsx'
@@ -19,16 +18,16 @@ export default class NotificationsList extends React.Component {
     super(props)
     this.state = {
       notifications: NotificationsStore.notifications,
-      fetching: NotificationsStore.fetching
+      fetching: NotificationsStore.fetching,
+      unreadCount: NotificationsStore.unreadCount
     }
     this.getStateFromStores = this._getStateFromStores.bind(this)
+    this.markAllAsRead = this._markAllAsRead.bind(this)
   }
 
   componentDidMount() {
     NotificationsStore.addChangeListener(this.getStateFromStores)
-    if (NotificationsStore.notifications.count() == 0) {
-      NotificationActions.fetchAll()
-    }
+    NotificationActions.fetchAll()
   }
 
   componentWillUnmount() {
@@ -37,11 +36,6 @@ export default class NotificationsList extends React.Component {
 
   renderStories() {
     const stories = this.state.notifications
-      .sort((b,a) => {
-        if (a.read_at == null) return 1
-        if (b.read_at == null) return 0
-        return a.read_at < b.read_at
-      })
       .map((n) => {
         return (
           <Notification notification={n} key={n.story_id}/>
@@ -56,7 +50,7 @@ export default class NotificationsList extends React.Component {
       }
   }
 
-  render() {
+  renderList() {
     if (this.state.fetching) {
       return (
         <div style={{minWidth: 320}}>
@@ -66,34 +60,61 @@ export default class NotificationsList extends React.Component {
       )
     } else {
       return (
-        <div style={{minWidth: 320, maxHeight: 400, overflowY: 'scroll', zIndex: 999}}>
-          {this.renderStories()}
+        <div>
+          <div style={{minWidth: 320, maxHeight: 400, overflowY: 'scroll', zIndex: 999}}>
+            {this.renderStories()}
+          </div>
+          <div onClick={this.markAllAsRead} className="gray h5 center px2 py1 mt1 border-top">
+            <a className="gray pointer">Mark all as read</a>
+          </div>
         </div>
       )
     }
   }
 
-  markAllAsRead() {
-    // actions.markAllAsRead()
+  render() {
+    const unreadCount = this.state.unreadCount
+    const bell = <div className="mr1">
+                   <Icon icon={unreadCount > 0 ? 'bell orange' : 'bell silver'} />
+                    <span className={unreadCount > 0 ? 'black bold' : 'silver'}>{unreadCount || 0}</span>
+                  </div>
+    return (
+      <Popover trigger={bell}>
+        {this.renderList()}
+      </Popover>
+    )
+  }
+
+  _markAllAsRead() {
+    NotificationActions.markAsRead(this.state.notifications)
     this.optimisticallyMarkAllAsRead()
   }
 
   optimisticallyMarkAllAsRead() {
     let notifications = this.state.notifications
 
-    for(let index in notifications) {
-      notifications[index].read_at = moment().unix()
+    for(let index of notifications.keySeq()) {
+      notifications.get(index).read_at = moment().unix()
     }
 
     this.setState({
-      notifications: notifications
+      notifications: notifications,
+      unreadCount: 0
     })
   }
 
   _getStateFromStores() {
+    const notifications = NotificationsStore.notifications
+      .sort((b,a) => {
+        if (a.read_at == null) return 1
+        if (b.read_at == null) return 0
+        return a.read_at < b.read_at
+      })
+
     this.setState({
-      notifications: NotificationsStore.notifications,
-      fetching: NotificationsStore.fetching
+      notifications: notifications,
+      fetching: NotificationsStore.fetching,
+      unreadCount: NotificationsStore.unreadCount
     })
   }
 
