@@ -47,7 +47,7 @@ export default class Emoji extends React.Component {
     const {story: {labels}} = this.props
     var char = ""
     if (!this.props.story.emoji) {
-      const label = labels[0] || 'default'
+      const label = (labels && labels[0]) || 'default'
       char = EmojiMappings[label.toLowerCase()] || '👍'
     }
     else {
