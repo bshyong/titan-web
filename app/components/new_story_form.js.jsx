@@ -49,13 +49,12 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
 
   componentDidMount() {
     StoryFormStore.addChangeListener(this.onStoreChange)
-    StoryFormActions.change({})
     EmojiStore.addChangeListener(this.onStoreChange)
   }
 
   componentWillUnmount() {
     StoryFormStore.removeChangeListener(this.onStoreChange)
-    EmojiStore.addChangeListener(this.onStoreChange)
+    EmojiStore.removeChangeListener(this.onStoreChange)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -72,7 +71,13 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
   }
 
   render() {
-    const {title, body, isPublic, storyId, contributors} = this.state
+    const {
+      title,
+      body,
+      isPublic,
+      storyId,
+      contributors
+    } = this.state
 
     return (
       <div className="flex flex-column">

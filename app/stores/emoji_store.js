@@ -1,6 +1,7 @@
 import {
   EMOJI_FETCHED,
-  EMOJI_SELECTED
+  EMOJI_SELECTED,
+  STORY_PUBLISHED
 } from '../constants'
 
 import Dispatcher from '../lib/dispatcher'
@@ -20,6 +21,9 @@ class EmojiStore extends Store {
         case EMOJI_SELECTED:
           this._selectedEmoji = action.selectedEmoji
           this.emitChange()
+          break
+        case STORY_PUBLISHED:
+          this._selectedEmoji = null
           break
       }
     })

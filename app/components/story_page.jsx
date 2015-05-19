@@ -85,7 +85,7 @@ export default class StoryPage extends React.Component {
                       <span className="silver"><Icon icon="eye" /></span> {this.state.totalReads}
                     </li>
                     <li className="px1">
-                      <span className="silver"><Icon icon="comment" /></span> {story.comments_count}
+                      <span className="silver"><Icon icon="comment" /></span> {story.live_comments_count}
                     </li>
                     {this.renderEditLink()}
                   </ul>

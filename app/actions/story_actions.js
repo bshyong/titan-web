@@ -8,7 +8,8 @@ import {
   STORY_FETCHED,
   STORY_HEARTED,
   STORY_PUBLISHED,
-  STORY_UNHEARTED
+  STORY_UNHEARTED,
+  STORY_UPDATED
 } from '../constants'
 
 import api from '../lib/api'
@@ -50,10 +51,10 @@ export default {
       type: STORY_EDITING
     })
 
-    api.put(`changelogs/${changelogId}/stories/${storyId}`, data).
+    api.post(`changelogs/${changelogId}/stories/${storyId}`, data).
       then(resp => {
         Dispatcher.dispatch({
-          type: 'STORY_UPDATED',
+          type: STORY_UPDATED,
           story: resp
         })
 
@@ -89,7 +90,7 @@ export default {
     api.post(`changelogs/${changelog_id}/stories`, data).
       then(resp => {
         Dispatcher.dispatch({
-          type: 'STORY_PUBLISHED',
+          type: STORY_PUBLISHED,
           story: combineAuthorAndContributors(resp)
         })
 

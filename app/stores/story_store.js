@@ -67,6 +67,12 @@ class StoryStore extends Store {
     return this.stories.get(storyId)
   }
 
+  getCommentsCount(storyId) {
+    let story = this.stories.get(storyId)
+
+    return story && story.live_comments_count
+  }
+
   all() {
     return this.stories.toList()
   }
