@@ -74,17 +74,9 @@ export default class Changelog extends React.Component {
     }
   }
 
-  renderShowMore() {
-    return (
-      <span>
-        Show All
-      </span>
-    )
-  }
-
   render() {
     const { changelogId } = this.props
-    var stories = this.state.stories
+    const stories = this.state.stories
                     .sortBy(story => story.created_at)
                     .reverse()
                     .groupBy(story => moment(story.created_at).startOf(this.state.timeLength))
