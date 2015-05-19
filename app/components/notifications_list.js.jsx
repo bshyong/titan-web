@@ -3,6 +3,7 @@ import Avatar from './ui/avatar.jsx'
 import Icon from './ui/icon.js.jsx'
 import Popover from './ui/popover.jsx'
 import LoadingBar from './ui/loading_bar.jsx'
+import ScrollPaginator from './ui/scroll_paginator.jsx'
 import moment from '../config/moment'
 import NotificationsStore from '../stores/notifications_store'
 import NotificationActions from '../actions/notification_actions'
@@ -18,20 +19,29 @@ export default class NotificationsList extends React.Component {
     super(props)
     this.state = {
       notifications: NotificationsStore.notifications,
-      fetching: NotificationsStore.fetching,
-      unreadCount: NotificationsStore.unreadCount
+      fetching: NotificationsStore.fetching
     }
+
     this.getStateFromStores = this._getStateFromStores.bind(this)
     this.markAllAsRead = this._markAllAsRead.bind(this)
+    this.setScrollPaginatorRefs = this._setScrollPaginatorRefs.bind(this)
   }
 
   componentDidMount() {
     NotificationsStore.addChangeListener(this.getStateFromStores)
-    NotificationActions.fetchAll()
+    setTimeout(() => {NotificationActions.fetchAll()})
+    this.setScrollPaginatorRefs()
   }
 
   componentWillUnmount() {
     NotificationsStore.removeChangeListener(this.getStateFromStores)
+  }
+
+  _setScrollPaginatorRefs() {
+    this.scrollPaginatorRefs = {
+      element: React.findDOMNode(this.refs.notifications),
+      container: React.findDOMNode(this.refs.notificationsContainer)
+    }
   }
 
   renderStories() {
@@ -50,38 +60,42 @@ export default class NotificationsList extends React.Component {
       }
   }
 
-  renderList() {
+  renderBottomBar() {
     if (this.state.fetching) {
       return (
-        <div style={{minWidth: 320}}>
+        <div className="border-top py1">
           <div className="gray h5 center">Loading..</div>
           <LoadingBar loading={true} />
         </div>
       )
     } else {
       return (
-        <div>
-          <div style={{minWidth: 320, maxHeight: 400, overflowY: 'scroll', zIndex: 999}}>
-            {this.renderStories()}
-          </div>
-          <div onClick={this.markAllAsRead} className="gray h5 center px2 py1 mt1 border-top">
-            <a className="gray pointer">Mark all as read</a>
-          </div>
+        <div onClick={this.markAllAsRead} className="gray h5 center px2 py1 mt1 border-top">
+          <a className="gray pointer">Mark all as read</a>
         </div>
       )
     }
   }
 
   render() {
-    const unreadCount = this.state.unreadCount
-    const bell = <div className="mr1">
-                   <Icon icon={unreadCount > 0 ? 'bell orange' : 'bell silver'} />
-                    <span className={unreadCount > 0 ? 'black bold' : 'silver'}>{unreadCount || 0}</span>
-                  </div>
+    let paginator = null
+    if (this.scrollPaginatorRefs) {
+      paginator = <ScrollPaginator
+                    element={this.scrollPaginatorRefs.element}
+                    container={this.scrollPaginatorRefs.container}
+                    page={this.state.page}
+                    onScrollBottom={() => NotificationActions.fetchAll(this.state.page + 1)}
+                  />
+    }
+
     return (
-      <Popover trigger={bell}>
-        {this.renderList()}
-      </Popover>
+      <div ref="notificationsContainer">
+        {this.state.moreAvailable ? paginator : null}
+        <div ref="notifications" style={{minWidth: 320, maxHeight: 400, overflowY: 'scroll', zIndex: 999}}>
+          {this.renderStories()}
+        </div>
+        {this.renderBottomBar()}
+      </div>
     )
   }
 
@@ -98,26 +112,20 @@ export default class NotificationsList extends React.Component {
     }
 
     this.setState({
-      notifications: notifications,
-      unreadCount: 0
+      notifications: notifications
     })
   }
 
   _getStateFromStores() {
     const notifications = NotificationsStore.notifications
-      .sort((b,a) => {
-        if (a.read_at == null) return 1
-        if (b.read_at == null) return 0
-        return a.read_at < b.read_at
-      })
 
     this.setState({
       notifications: notifications,
       fetching: NotificationsStore.fetching,
-      unreadCount: NotificationsStore.unreadCount
+      page: NotificationsStore.page,
+      moreAvailable: NotificationsStore.moreAvailable,
     })
   }
-
 }
 
 class Notification extends React.Component {

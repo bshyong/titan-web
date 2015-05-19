@@ -4,6 +4,7 @@ export default class ScrollPaginator extends React.Component {
   constructor() {
     super()
     this.onScroll = this.onScroll.bind(this)
+    this.timeout = null
   }
 
   componentDidMount() {
@@ -21,23 +22,38 @@ export default class ScrollPaginator extends React.Component {
   }
 
   listen() {
-    window.addEventListener('scroll', this.onScroll)
+    if (__DEV__ && !this.props.element) {
+      console.warn(`No 'element' prop provided! Scroll paginator will be bound to window.`)
+    }
+    (this.props.element || window).addEventListener('scroll', this.onScroll)
   }
 
   unlisten() {
-    window.removeEventListener('scroll', this.onScroll)
+    (this.props.element || window).removeEventListener('scroll', this.onScroll)
+  }
+
+  debounce(func) {
+    return () => {
+      let context = this
+      let later = () => {
+        this.timeout = null
+        func.apply(context)
+      }
+      clearTimeout(this.timeout)
+      this.timeout = setTimeout(later, 200)
+    }
   }
 
   onScroll() {
     if (this.atBottom()) {
-      this.props.onScrollBottom()
+      this.debounce(this.props.onScrollBottom)()
       this.unlisten()
     }
   }
 
   atBottom() {
-    var body = document.body,
-        html = document.documentElement
+    var body = this.props.element || document.body
+    var html = this.props.container || document.documentElement
 
     var height = Math.max( body.scrollHeight, body.offsetHeight,
                            html.clientHeight, html.scrollHeight, html.offsetHeight )
@@ -55,5 +71,7 @@ export default class ScrollPaginator extends React.Component {
 
 ScrollPaginator.propTypes = {
   onScrollBottom: React.PropTypes.func.isRequired,
-  page: React.PropTypes.number.isRequired
+  page: React.PropTypes.number.isRequired,
+  element: React.PropTypes.node,
+  container: React.PropTypes.node
 }

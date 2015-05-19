@@ -11,6 +11,8 @@ import RouterContainer from '../lib/router_container'
 import SessionActions from '../actions/session_actions'
 import SessionStore from '../stores/session_store'
 import NotificationsList from './notifications_list.js.jsx'
+import NotificationsStore from '../stores/notifications_store'
+import NotificationActions from '../actions/notification_actions'
 
 // Logo versions:
 import LogoSrc from '../images/logo.svg'
