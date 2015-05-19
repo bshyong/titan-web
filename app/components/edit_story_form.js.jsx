@@ -1,4 +1,5 @@
 import AuthenticatedMixin from './mixins/authenticated_mixin.jsx'
+import EmojiStore from '../stores/emoji_store'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
 import StoryForm from './new_story_form.js.jsx'
@@ -44,7 +45,8 @@ export default AuthenticatedMixin(class EditStoryForm extends React.Component {
       title: StoryFormStore.title,
       body:  StoryFormStore.body,
       contributors: StoryFormStore.contributors,
-      team_member_only: !StoryFormStore.isPublic
+      team_member_only: !StoryFormStore.isPublic,
+      emoji_id: EmojiStore.selectedEmoji
     })
   }
 })
