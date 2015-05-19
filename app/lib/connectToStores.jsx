@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function connectToStores(stores) {
+export default function connectToStores(...stores) {
   return function(Component) {
     return class StoreConnection extends React.Component {
       constructor(props) {

@@ -20,7 +20,7 @@ import React from 'react'
 import EmojiPicker from './ui/emoji_picker.jsx'
 import EmojiStore from '../stores/emoji_store'
 
-@connectToStores([EmojiStore, StoryFormStore])
+@connectToStores(EmojiStore, StoryFormStore)
 export default AuthenticatedMixin(class NewStoryForm extends React.Component {
   static get defaultProps() {
     return {

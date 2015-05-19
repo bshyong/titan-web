@@ -1,6 +1,7 @@
 import {Link} from 'react-router'
 import Avatar from './ui/avatar.jsx'
 import ChangelogStore from '../stores/changelog_store.js'
+import connectToStores from '../lib/connectToStores.jsx'
 import Icon from './ui/icon.js.jsx'
 import List from './ui/list.jsx'
 import Navbar from './ui/navbar.jsx'
@@ -15,21 +16,15 @@ import SessionStore from '../stores/session_store'
 
 import LogoSrc from '../images/logo.svg'
 
+@connectToStores(ChangelogStore, SessionStore)
 export default class ApplicationNavbar extends React.Component {
-  constructor() {
-    super()
-    this.state = this.getStateFromStores()
-    this.onStoreChange = this._onStoreChange.bind(this)
+  static getPropsFromStores() {
+    return {
+      user: SessionStore.user,
+      changelog: ChangelogStore.changelog
+    }
   }
 
-  componentDidMount() {
-    ChangelogStore.addChangeListener(this.onStoreChange)
-    SessionStore.addChangeListener(this.onStoreChange)
-  }
-
-  componentWillUnmount() {
-    SessionStore.removeChangeListener(this.onStoreChange)
-  }
 
   render() {
     return <Navbar title="Changelog"
@@ -47,8 +42,8 @@ export default class ApplicationNavbar extends React.Component {
   }
 
   render_new_story(changelogId) {
-    if(this.state.changelog) {
-      if (this.state.changelog.user_is_team_member) {
+    if(this.props.changelog) {
+      if (this.props.changelog.user_is_team_member) {
         return (
           <div>
             <List.Item>
@@ -64,7 +59,7 @@ export default class ApplicationNavbar extends React.Component {
   }
 
   right() {
-    const { user } = this.state
+    const { user } = this.props
 
     if (!user) {
       return <a className="pointer" onClick={SessionActions.signin}>Sign in</a>
@@ -90,18 +85,7 @@ export default class ApplicationNavbar extends React.Component {
     )
   }
 
-  _onStoreChange() {
-    this.setState(this.getStateFromStores())
-  }
-
   _handleSignout() {
     SessionActions.signout()
-  }
-
-  getStateFromStores() {
-    return {
-      user: SessionStore.user,
-      changelog: ChangelogStore.changelog
-    }
   }
 }
