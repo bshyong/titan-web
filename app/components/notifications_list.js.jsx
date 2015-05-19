@@ -19,7 +19,8 @@ export default class NotificationsList extends React.Component {
     super(props)
     this.state = {
       notifications: NotificationsStore.notifications,
-      fetching: NotificationsStore.fetching
+      fetching: NotificationsStore.fetching,
+      page: 1
     }
 
     this.getStateFromStores = this._getStateFromStores.bind(this)
@@ -29,7 +30,10 @@ export default class NotificationsList extends React.Component {
 
   componentDidMount() {
     NotificationsStore.addChangeListener(this.getStateFromStores)
-    setTimeout(() => {NotificationActions.fetchAll()})
+    if (this.state.notifications.size == 0) {
+      setTimeout(() => {NotificationActions.fetchAll()})
+    }
+
     this.setScrollPaginatorRefs()
   }
 

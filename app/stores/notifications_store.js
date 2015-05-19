@@ -30,7 +30,7 @@ class NotificationsStore extends Store {
           this._notifications = this._notifications
                                     .mapEntries(([k,v]) => {
                                       if (readNotificationIds.contains(v.story_id)) {
-                                        v.read_at = Date.now()
+                                        v.read_at = new Date().toISOString()
                                       }
                                       return [k, v]
                                     })

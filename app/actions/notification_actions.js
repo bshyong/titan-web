@@ -10,7 +10,6 @@ export default {
     })
 
     api.get(`user/activity?page=${page}&per=${per}`).then(resp => {
-      console.log('fetched', resp.notifications.length, page, per)
       Dispatcher.dispatch({
         type: NOTIFICATIONS_FETCHED,
         notifications: resp.notifications,
