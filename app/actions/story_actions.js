@@ -51,7 +51,7 @@ export default {
       type: STORY_EDITING
     })
 
-    api.post(`changelogs/${changelogId}/stories/${storyId}`, data).
+    api.put(`changelogs/${changelogId}/stories/${storyId}`, data).
       then(resp => {
         Dispatcher.dispatch({
           type: STORY_UPDATED,
@@ -59,7 +59,8 @@ export default {
         })
 
         RouterContainer.get().transitionTo('changelog', {
-          changelogId: changelogId
+          changelogId: changelogId,
+          storyId: storyId
         })
       })
   },

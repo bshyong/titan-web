@@ -32,7 +32,10 @@ export default class Stack extends React.Component {
 }
 
 Stack.propTypes = {
-  items: React.PropTypes.arrayOf(React.PropTypes.element).isRequired,
+  items: React.PropTypes.oneOfType([
+    React.PropTypes.arrayOf(React.PropTypes.element),
+    React.PropTypes.object,
+  ]).isRequired,
   align: React.PropTypes.oneOf(['left', 'right'])
 }
 

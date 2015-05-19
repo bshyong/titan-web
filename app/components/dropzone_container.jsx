@@ -39,10 +39,10 @@ export default class DropzoneContainer extends React.Component {
 
   render() {
     return (
-      <div ref="dropzone" className="relative clearfix">
+      <div ref="dropzone" className="flex">
         {this.props.children}
-        <div className="absolute right-0 top-0 mr1 mt1 h3 pointer gray" ref="clickable">
-          <Icon icon="camera" />
+        <div className="flex-none p1 h3 pointer gray" ref="clickable">
+          <Icon icon="camera" fw={true} />
         </div>
       </div>
     )

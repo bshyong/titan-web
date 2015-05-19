@@ -70,12 +70,7 @@ module.exports = function makeConfig(options) {
     module: {
       loaders: [
         {
-          test:    /\.jsx$/,
-          loaders: ['babel', 'jsx'],
-          exclude: /node_modules/
-        },
-        {
-          test:    /\.js$/,
+          test:    /\.jsx?$/,
           loaders: ['babel'],
           exclude: /node_modules/
         },
