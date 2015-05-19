@@ -3,6 +3,7 @@ import {List, Map} from 'immutable'
 import AuthenticatedMixin from './mixins/authenticated_mixin.jsx'
 import Button from './ui/button.js.jsx'
 import ChangelogStore from '../stores/changelog_store'
+import connectToStores from '../lib/connectToStores.jsx'
 import HighlightsActionCreator from '../actions/highlight_actions'
 import HighlightsStore from '../stores/highlights_store'
 import Icon from './ui/icon.js.jsx'
@@ -19,29 +20,8 @@ import React from 'react'
 import EmojiPicker from './ui/emoji_picker.jsx'
 import EmojiStore from '../stores/emoji_store'
 
+@connectToStores([EmojiStore, StoryFormStore])
 export default AuthenticatedMixin(class NewStoryForm extends React.Component {
-  shouldComponentUpdate = shouldPureComponentUpdate;
-
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      title: this.props.title,
-      body: this.props.body,
-      isPublic: this.props.isPublic,
-      storyId: this.props.id,
-      contributors: (this.props.contributors || []).map(c => `@${c.username}`).join(', ')
-    }
-
-    this.handleBodyChanged = this._handleBodyChanged.bind(this)
-    this.handleContributorsChanged = this._handleContributorsChanged.bind(this)
-    this.handleTitleChanged = this._handleTitleChanged.bind(this)
-    this.handlePublish = this._handlePublish.bind(this)
-    this.onStoreChange = this._onStoreChange.bind(this)
-    this.handleTogglePrivacy = this._handleTogglePrivacy.bind(this)
-    this.updateForm = this._updateForm.bind(this)
-  }
-
   static get defaultProps() {
     return {
       changelogId: RouterContainer.get().getCurrentParams().changelogId,
@@ -49,27 +29,17 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
     }
   }
 
-  componentDidMount() {
-    StoryFormStore.addChangeListener(this.onStoreChange)
-    EmojiStore.addChangeListener(this.onStoreChange)
-  }
-
-  componentWillUnmount() {
-    StoryFormStore.removeChangeListener(this.onStoreChange)
-    EmojiStore.removeChangeListener(this.onStoreChange)
-  }
-
-  componentWillReceiveProps(nextProps) {
-    let contributors = nextProps.contributors
-
-    if (Array.isArray(contributors)) {
-      contributors = contributors.map(c => `@${c.username}`).join(', ')
+  static getPropsFromStores() {
+    const { storyId, changelogId } = Router.get().getCurrentParams()
+    return {
+      storyId:      storyId,
+      changelogId:  changelogId,
+      title:        StoryFormStore.title,
+      body:         StoryFormStore.body,
+      contributors: StoryFormStore.contributors,
+      isPublic:     StoryFormStore.isPublic,
+      emoji_id:     EmojiStore.selectedEmoji
     }
-
-    this.setState({
-      ...nextProps,
-      contributors: contributors
-    })
   }
 
   render() {
@@ -79,7 +49,7 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
       isPublic,
       storyId,
       contributors
-    } = this.state
+    } = this.props
 
     return (
       <div className="flex flex-column">
@@ -89,7 +59,7 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
             className="field-light full-width block mb0"
             placeholder="What changed?"
             value={title}
-            onChange={this.handleTitleChanged}
+            onChange={this.handleChanged('title').bind(this)}
             ref="title" />
         </div>
 
@@ -99,7 +69,7 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
             placeholder="What did you do?"
             ref="body"
             value={body}
-            onChange={this.handleBodyChanged} />
+            onChange={this.handleChanged('body').bind(this)} />
         </div>
 
         <div className="mb2">
@@ -107,7 +77,7 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
             className="field-light full-width block mb0"
             placeholder="@mention any contributors who helped"
             value={contributors}
-            onChange={this.handleContributorsChanged}
+            onChange={this.handleChanged('contributors').bind(this)}
             ref="contributors" />
         </div>
 
@@ -121,7 +91,7 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
           <div className="left">
 
             <div className="clearfix">
-              <a className="block left p1 black pointer" onClick={this.handleTogglePrivacy} onTouchStart={this.handleTogglePrivacy}>
+              <a className="block left p1 black pointer" onClick={this.handleTogglePrivacy.bind(this)} onTouchStart={this.handleTogglePrivacy.bind(this)}>
                 <Icon icon={isPublic ? 'globe' : 'lock'} fw={true} /> {isPublic ? 'Public' : 'Private'}
               </a>
             </div>
@@ -131,7 +101,7 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
           <div className="right">
             <Button style="transparent"
               color={StoryFormStore.isValid() ? 'green' : 'gray' }
-              action={this.props.onPublish || this.handlePublish}>
+              action={this.props.onPublish || this.handlePublish.bind(this)}>
               {storyId ? 'Update' : 'Publish'}
             </Button>
           </div>
@@ -147,51 +117,26 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
     )
   }
 
-  _handleBodyChanged(e) {
-    this.updateForm('body', e.target.value)
+  handleChanged(field) {
+    return (e) => this.updateForm(field, e.target.value)
   }
 
-  _handleContributorsChanged(e) {
-    this.updateForm('contributors', e.target.value)
+  handleTogglePrivacy(e) {
+    this.updateForm('isPublic', !this.props.isPublic)
   }
 
-  _handleTitleChanged(e) {
-    this.updateForm('title', e.target.value)
-  }
-
-  _handleTogglePrivacy(e) {
-    this.updateForm('isPublic', !this.state.isPublic)
-  }
-
-  _handlePublish(e) {
+  handlePublish(e) {
     e.preventDefault()
     StoriesActionCreator.publish(ChangelogStore.slug, {
-      title: this.state.title,
-      body:  this.state.body,
-      contributors: this.state.contributors,
-      team_member_only: !this.state.isPublic,
-      emoji_id: this.state.emoji_id
+      title: this.props.title,
+      body:  this.props.body,
+      contributors: this.props.contributors,
+      team_member_only: !this.props.isPublic,
+      emoji_id: this.props.emoji_id
     })
   }
 
-  getStateFromStores() {
-    const { storyId, changelogId } = Router.get().getCurrentParams()
-    return {
-      storyId:      storyId,
-      changelogId:  changelogId,
-      title:        StoryFormStore.title,
-      body:         StoryFormStore.body,
-      contributors: StoryFormStore.contributors,
-      isPublic:     StoryFormStore.isPublic,
-      emoji_id:     EmojiStore.selectedEmoji
-    }
-  }
-
-  _onStoreChange() {
-    this.setState(this.getStateFromStores())
-  }
-
-  _updateForm(field, value) {
-    StoryFormActions.change(Map(this.getStateFromStores()).set(field, value).toJS())
+  updateForm(field, value) {
+    StoryFormActions.change(Map(this.props).set(field, value).toJS())
   }
 })
