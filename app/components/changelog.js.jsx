@@ -80,7 +80,7 @@ export default class Changelog extends React.Component {
                     <div className="px1 no-underline">
                       <span className=" silver"><Icon icon="comment" /></span>
                       {' '}
-                      {story.comments_count}
+                      {story.live_comments_count}
                     </div>
                   </div>
                 </div>

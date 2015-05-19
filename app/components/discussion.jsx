@@ -6,6 +6,7 @@ import pluralize from '../lib/pluralize'
 import React from 'react'
 import DiscussionActions from '../actions/discussion_actions'
 import CommentsStore from '../stores/comments_store'
+import StoryStore from '../stores/story_store'
 import Table from './ui/table.js.jsx'
 import {List} from 'immutable'
 
@@ -28,11 +29,10 @@ export default class Discussion extends React.Component {
   }
 
   render() {
-    const comments = List(this.state.comments).sortBy(comment => comment.created_at)
     return (
       <div style={{marginBottom: '20rem'}}>
         <Table>
-          <Table.Separator label={pluralize(comments.count(), 'Comment', 'Comments')} />
+          <Table.Separator label={pluralize(StoryStore.getCommentsCount(this.props.storyId), 'Comment', 'Comments')} />
           {this.renderComments()}
         </Table>
 
