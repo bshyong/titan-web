@@ -17,12 +17,12 @@ Great!
 
 ### Writing a Fake Store Test
 
-Here's what you need to know for testing stores:
-
-1. [Jest](http://facebook.github.io/jest/) mocks everything by default &mdash; and I mean _everything_.
+Always remember, [Jest](http://facebook.github.io/jest/) mocks everything by default &mdash; and I mean _everything_.
 
 ```javascript
 // my_store.js
+
+import Store from '../lib/store'
 
 class MyStore extends Store {
   // ... omitting boilerplate
@@ -163,8 +163,295 @@ And that's that.
 
 ### Writing a Fake Component Test
 
-TODO
+Now let's test some interactions. We'll fake it first to get the hang of things.
+
+![](http://38.media.tumblr.com/tumblr_m7zp7cmMnY1qlvwnco1_400.gif)
+
+Let's say we have a component:
+
+```javascript
+// my_component.jsx
+
+import React from 'react'
+
+export default MyComponent extends React.Component {
+  constructor() {
+    super()
+
+    this.state = {
+      count: 0
+    }
+  }
+
+  incrementCount(e) {
+    this.setState({
+      count: this.state.count + 1
+    })
+  }
+
+  render() {
+    return (
+      <div>
+        {this.state.count}
+        <button onClick={this.incrementCount.bind(this)}>Click me</button>
+      </div>
+    )
+  }
+}
+```
+
+It's a pretty basic component &mdash; you can click a button, and there's a counter that shows how many times the button has been clicked. Hook it up to the [blockchain](https://blockchain.info/) and you could probably get VC funding.
+
+![](http://media2.giphy.com/media/5xtDarJ7d5HXTRULbSo/200.gif)
+
+But it's a well known fact that VCs don't fund untested React components. Trust me.
+
+![](http://media3.giphy.com/media/10YRbZ33HcLZbW/200.gif)
+
+So let's test it:
+
+```javascript
+// __tests__/my_component-test.js
+
+'use strict'
+
+jest.dontMock('../my_component.jsx')
+
+describe('MyComponent', () => {
+  let React, MyComponent, TestUtils;
+
+  beforeEach(() => {
+    React = require('react/addons')
+    MyComponent = require('../my_component.jsx')
+    TestUtils = React.addons.TestUtils
+  })
+
+  it('increments the count when the button is clicked', () => {
+    let myComponent = TestUtils.renderIntoDocument(<MyComponent />)
+    let button = TestUtils.findRenderedDOMComponentWithTag(
+      myComponent, 'button'
+    )
+
+    expect(myComponent.state.count).toEqual(0)
+
+    // note the capital 'S' in 'simulate'
+    TestUtils.Simulate.click(button)
+
+    expect(myComponent.state.count).toEqual(1)
+  })
+})
+```
+
+A couple of things to note:
+
+1. We tell Jest not to mock `MyComponent` &mdash; you remember that from above, right?
+2. We reinitialize React and MyComponent before every test. This ensures that we're testing a blank slate and aren't depending on any state that might be left over from a previous test.
+3. `TestUtils`'s API includes a bunch of long, difficult-to-remember-but-very-descriptive methods like `findRenderedDOMComponentWithTag`. I suspect it was written by someone who spent too long hacking Java.
+
+![](http://i.imgur.com/5nfca5U.gif)
+
+4. Also note that you can check the state of an instance of `MyComponent` directly. Don't update it &mdash; obviously &mdash; but do make sure it has the values it should have based on the interaction at that point.
+
+And now you've got a passing test!
+
+![](http://media3.giphy.com/media/r040VQS7kEtRm/200.gif)
 
 ### Writing a Real Component Test
 
-TODO
+Now that you've seen how to write a component test in the abstract, let's make it concrete by testing `FollowButton.`
+
+We start by scaffolding the test:
+
+```javascript
+// app/components/__tests__/follow_button-test.js
+
+'use strict'
+
+jest.dontMock('../follow_button.jsx')
+
+describe('FollowButton', () => {
+  let React, FollowButton, TestUtils;
+
+  beforeEach(() => {
+    React = require('react/addons')
+    FollowButton = require('../follow_button.jsx')
+    TestUtils = React.addons.TestUtils
+  })
+})
+```
+
+Take a deep breath. It's about to get awesome.
+
+![](http://i.giphy.com/nkus6a648V1SM.gif)
+
+Inside the `'FollowButton'` `describe` block, add another `describe`:
+
+```javascript
+// app/components/__tests__/follow_button-test.js
+
+describe('handleClick()', () => {
+  let SessionActions
+
+  beforeEach(() => {
+    SessionActions = require('../../actions/session_actions')
+  })
+
+  describe('not signed in', () => {
+    it('calls SessionActions.signin()', () => {
+      let followButton = TestUtils.renderIntoDocument(
+        <FollowButton changelogId="changelog" toggled={true} />
+      )
+
+      let button = TestUtils.findRenderedDOMComponentWithTag(
+        followButton,
+        'button'
+      )
+
+      TestUtils.Simulate.click(button)
+
+      expect(SessionActions.signin).toBeCalled()
+    })
+  })
+})
+```
+
+We're first going to test that the user is sent to the sign in page if they aren't signed in when clicking the `FollowButton`. Remember that Jest mocks everything for us, so `SessionActions.signin()` is already mocked (and spied on) for us.
+
+We render an instance of `FollowButton` using `TestUtils.renderIntoDocument`. Jest has mounted a [jsdom](https://github.com/tmpvar/jsdom) DOM for us, and `TestUtils` knows to render into that.
+
+Next, we find the actual button that we'll be clicking:
+
+```javascript
+let button = TestUtils.findRenderedDOMComponentWithTag(
+  followButton,
+  'button'
+)
+```
+
+And we click it:
+
+```javascript
+TestUtils.Simulate.click(button)
+```
+
+And then we check our expectation:
+
+```javascript
+expect(SessionActions.signin).toBeCalled()
+```
+
+![](https://media1.giphy.com/media/12jnTh8Dp0cFJS/200.gif)
+
+All right, that was simple enough. But how do we test what happens when we're signed in?
+
+Let's add another describe block below `describe('not signed in', () => { ... })`:
+
+```javascript
+// app/components/__tests__/follow_button-test.js
+
+describe('signed in', () => {
+  let FollowActions, SessionStore
+
+  beforeEach(() => {
+    FollowActions = require('../../actions/follow_actions')
+    SessionStore = require('../../stores/session_store')
+
+    SessionStore.isSignedIn.mockImpl(() => {
+      return true
+    })
+  })
+})
+```
+
+We can see in `FollowButton` that `handleClick()` is checking `SessionStore.isSignedIn()` &mdash; we can override this method easily since Jest has already mocked it for us. We add this override in a `beforeEach`, along with `FollowActions`, which we'll be spying on to make sure that the right methods are called. (Remember, Jest adds the spies automatically unless we tell it not to. You'll agree that this is awesome.)
+
+In `FollowButton`, there are two branches of an `if` block checking `this.props.toggled`:
+
+```javascript
+// app/components/follow_button.jsx
+
+if (this.props.toggled) {
+  FollowActions.unfollow(this.props.changelogId)
+} else {
+  FollowActions.follow(this.props.changelogId)
+}
+```
+
+So we'll need two tests:
+
+```javascript
+// app/components/__tests__/follow_button-test.js
+
+it('calls FollowActions.unfollow() if toggled', () => {
+  let followButton = TestUtils.renderIntoDocument(
+    <FollowButton changelogId="changelog" toggled={true} />
+  )
+
+  let button = TestUtils.findRenderedDOMComponentWithTag(
+    followButton,
+    'button'
+  )
+
+  TestUtils.Simulate.click(button)
+
+  expect(FollowActions.unfollow).toBeCalledWith('changelog')
+})
+
+it('calls FollowActions.follow() if untoggled', () => {
+  let followButton = TestUtils.renderIntoDocument(
+    <FollowButton changelogId="changelog" toggled={false} />
+  )
+
+  let button = TestUtils.findRenderedDOMComponentWithTag(
+    followButton,
+    'button'
+  )
+
+  TestUtils.Simulate.click(button)
+
+  expect(FollowActions.follow).toBeCalledWith('changelog')
+})
+```
+
+These tests pass &mdash; nice!
+
+![](http://img4.wikia.nocookie.net/__cb20131201013520/the-house-of-anubis/images/0/00/Youre_awesome_gif.gif)
+
+But there's a bit of duplication that we should refactor out: notice how the only difference between the two tests when initializing a `button` to click is whether or not `FollowButton.props.toggled` is `true` or `false`. Let's move that initialization to a function at the top of this describe block:
+
+```javascript
+// app/components/__tests__/follow_button-test.js
+
+const makeButton = (toggled) => {
+  let followButton = TestUtils.renderIntoDocument(
+    <FollowButton changelogId="changelog" toggled={toggled} />
+  )
+
+  return TestUtils.findRenderedDOMComponentWithTag(
+    followButton,
+    'button'
+  )
+}
+```
+
+Now we can rewrite our tests to look like:
+
+```javascript
+it('calls FollowActions.unfollow() if toggled', () => {
+  TestUtils.Simulate.click(makeButton(true))
+
+  expect(FollowActions.unfollow).toBeCalledWith('changelog')
+})
+
+it('calls FollowActions.follow() if untoggled', () => {
+  TestUtils.Simulate.click(makeButton(false))
+
+  expect(FollowActions.follow).toBeCalledWith('changelog')
+})
+```
+
+Beautiful!
+
+![](http://img.pandawhale.com/post-56469-iimgurcom-t72I.gif)
+
+Action tests coming soon.

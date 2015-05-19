@@ -12,6 +12,7 @@ export default class FollowButton extends React.Component {
 
   render() {
     const { toggled } = this.props
+
     return (
       <Button color="white" style="outline" block={true} action={this.handleClick}>
         {toggled ? 'Following' : 'Follow Changelog'}
