@@ -1,7 +1,7 @@
 import {List} from 'immutable'
 import Avatar from './ui/avatar.jsx'
 import HighlightsStore from '../stores/highlights_store'
-import HighlightsActionCreator from '../actions/highlight_actions'
+import HighlightActions from '../actions/highlight_actions'
 import Icon from './ui/icon.js.jsx'
 import moment from '../config/moment'
 import React from 'react'
@@ -72,14 +72,14 @@ export default class Highlight extends React.Component {
 
   _handleUse(e) {
     e.preventDefault()
-    HighlightsActionCreator.use(
+    HighlightActions.use(
       this.props.highlight
     )
   }
 
   _handleIgnore(e) {
     e.preventDefault()
-    HighlightsActionCreator.ignore(
+    HighlightActions.ignore(
       this.props.highlight
     )
   }

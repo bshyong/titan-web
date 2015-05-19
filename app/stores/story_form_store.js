@@ -26,9 +26,9 @@ class StoryFormStore extends Store {
           break;
 
         case STORY_PUBLISHED:
-          this.text = ''
+          this.title = ''
           this.body = ''
-          this.emitChange()
+          this.contributors = ''
           break;
 
         case HIGHLIGHT_USED:

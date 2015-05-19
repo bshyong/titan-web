@@ -1,3 +1,8 @@
+import {
+  HIGHLIGHTS_FETCHED,
+  HIGHLIGHT_IGNORED,
+  HIGHLIGHT_USED
+} from '../constants'
 import {List} from 'immutable'
 import Dispatcher from '../lib/dispatcher'
 import api from '../lib/api'
@@ -11,7 +16,7 @@ export default {
       var highlights = List(resp)
 
       Dispatcher.dispatch({
-        type: 'HIGHLIGHTS_FETCHED',
+        type: HIGHLIGHTS_FETCHED,
         highlights: highlights,
         page: page,
         moreAvailable: highlights.size == per
@@ -21,7 +26,7 @@ export default {
 
   ignore(highlight) {
     Dispatcher.dispatch({
-      type: 'HIGHLIGHT_IGNORED',
+      type: HIGHLIGHT_IGNORED,
       highlight: highlight
     })
 
@@ -30,7 +35,7 @@ export default {
 
   use(highlight) {
     Dispatcher.dispatch({
-      type: 'HIGHLIGHT_USED',
+      type: HIGHLIGHT_USED,
       highlight: highlight
     })
     api.post(`${highlight.url}/used`)

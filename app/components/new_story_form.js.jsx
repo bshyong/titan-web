@@ -54,7 +54,7 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
 
   componentWillUnmount() {
     StoryFormStore.removeChangeListener(this.onStoreChange)
-    EmojiStore.addChangeListener(this.onStoreChange)
+    EmojiStore.removeChangeListener(this.onStoreChange)
   }
 
   componentWillReceiveProps(nextProps) {
