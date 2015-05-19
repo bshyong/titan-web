@@ -9,32 +9,39 @@ export default class TimePicker extends React.Component {
     this.renderTime = this.renderTime.bind(this)
   }
 
-  changeTimeLength(unit) {
-    console.log(unit)
-    ChangelogActions.changeTimeLength(unit)
-    this.setState({timeLength: unit})
+  changeTimeLength(e) {
+    var timeChange = e.target.textContent
+    ChangelogActions.changeTimeLength(timeChange)
+    this.setState({timeLength: timeChange})
   }
 
   renderTime(unit) {
-
     if(this.state.timeLength == unit)
     {
       return (
-        <span className="px2 field-light">{unit}</span>
+        <span className="px2 border field-light">{unit}</span>
       )
     }
     else
     {
       var a = unit
       return (
-        <span className="px2" onClick={this.changeTimeLength.bind(this, a)} key={a} >{unit}</span>
+        <span className="px2 border" onClick={this.changeTimeLength.bind(this)}>{unit}</span>
       )
     }
   }
 
+  renderTimeWarp() {
+    return (
+      <div>
+        <input type="range" name="points" min="0" max="2" onChange={this.changeTimeLength.bind(this)} />
+      </div>
+    )
+  }
+
   render() {
     return (
-      <span>
+      <span className='border'>
         {this.renderTime("day")}
         {this.renderTime("week")}
         {this.renderTime("month")}

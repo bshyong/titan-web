@@ -36,6 +36,7 @@ export default class Changelog extends React.Component {
     this.stores = [ChangelogStore, StoryStore]
     this.state = this.getStateFromStores()
     this.handleStoresChanged = this.handleStoresChanged.bind(this)
+    this.renderShowMore = this.renderShowMore.bind(this)
   }
 
   getStateFromStores() {
@@ -49,6 +50,38 @@ export default class Changelog extends React.Component {
     }
   }
 
+  parseCalendarDate(key) {
+    var timeLength = this.state.timeLength
+    if (timeLength=="day")
+    {
+      return (
+        key.calendar()
+      )
+    }
+    if (timeLength=="week") {
+      var start_date = moment(key)
+      var end_date = moment(key).add(1, 'weeks')
+      return (
+        start_date.format('MMMM D, YYYY').concat(" - ").concat(end_date.format('MMMM D, YYYY'))
+      )
+    }
+    if (timeLength=="month") {
+      var start_date = moment(key)
+      var end_date = moment(key).add(1, 'months')
+      return (
+        start_date.format('MMMM D, YYYY').concat(" - ").concat(end_date.format('MMMM D, YYYY'))
+      )
+    }
+  }
+
+  renderShowMore() {
+    return (
+      <span>
+        Show All
+      </span>
+    )
+  }
+
   render() {
     const { changelogId } = this.props
     var stories = this.state.stories
@@ -59,11 +92,11 @@ export default class Changelog extends React.Component {
 
     const a = stories.reduce((reduction, value, key, iter) => {
       let a = reduction.push(
-        <Table.Separator label={key.calendar()} key={key.toISOString()} />
+        <Table.Separator label={this.parseCalendarDate(key)} key={key.toISOString()} />
       )
+
       if (this.state.timeLength != "day")
         {value = value.slice(0,5)}
-      console.log(value)
 
       let b = a.push(
         value.sortBy(story => -story.hearts_count).map(story => {
@@ -72,6 +105,8 @@ export default class Changelog extends React.Component {
                    hearted={story.viewer_has_hearted}
                    onClick={() => StoryActions.clickHeart(story)} />
           )
+
+
           return (
             <Table.Cell key={story.id} image={emoji} to="story" params={{changelogId, storyId: story.id}}>
               <div className="flex">
@@ -95,6 +130,7 @@ export default class Changelog extends React.Component {
             </Table.Cell>
           )
         })
+
       )
       return b
     }, List())
