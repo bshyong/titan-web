@@ -52,7 +52,7 @@ export default {
       type: STORY_EDITING
     })
 
-    api.put(`changelogs/${changelogId}/stories/${storyId}`, data).
+    api.post(`changelogs/${changelogId}/stories/${storyId}`, data).
       then(resp => {
         Dispatcher.dispatch({
           type: STORY_UPDATED,
