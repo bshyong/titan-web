@@ -17,12 +17,13 @@ import Stack from './ui/stack.jsx'
 import StoryStore from '../stores/story_store'
 import StoryActions from '../actions/story_actions'
 import Table from './ui/table.js.jsx'
+import TimePicker from './ui/time_picker.jsx'
 
 import MetaBannerUrl from '../images/meta-banner.jpg'
 
 export default class Changelog extends React.Component {
   static willTransitionTo(transition, params, query) {
-    StoryActions.fetchAll(params.changelogId)
+    StoryActions.fetchAll(params.changelogId, ChangelogStore.timeLength)
   }
   static get defaultProps() {
     return {
@@ -43,21 +44,27 @@ export default class Changelog extends React.Component {
       stories: StoryStore.all(),
       moreAvailable: StoryStore.moreAvailable,
       loading: StoryStore.loading,
-      following: ChangelogStore.following
+      following: ChangelogStore.following,
+      timeLength: ChangelogStore.timeLength
     }
   }
 
   render() {
     const { changelogId } = this.props
-    const stories = this.state.stories
+    var stories = this.state.stories
                     .sortBy(story => story.created_at)
                     .reverse()
-                    .groupBy(story => moment(story.created_at).startOf('day'))
+                    .groupBy(story => moment(story.created_at).startOf(this.state.timeLength))
+
 
     const a = stories.reduce((reduction, value, key, iter) => {
       let a = reduction.push(
         <Table.Separator label={key.calendar()} key={key.toISOString()} />
       )
+      if (this.state.timeLength != "day")
+        {value = value.slice(0,5)}
+      console.log(value)
+
       let b = a.push(
         value.sortBy(story => -story.hearts_count).map(story => {
           const emoji = (
@@ -116,6 +123,7 @@ export default class Changelog extends React.Component {
       </Jumbotron>
 
       <div className="container">
+        <TimePicker />
         <Table>{a}</Table>
         <LoadingBar loading={this.state.loading} />
       </div>

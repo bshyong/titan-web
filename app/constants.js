@@ -7,6 +7,7 @@ export default keyMirror({
 
   CHANGELOG_FETCHED: null,
   CHANGELOG_FOLLOWED: null,
+  CHANGELOG_TIME_CHANGED: null,
   CHANGELOG_UNFOLLOWED: null,
 
   COMMENT_CREATING: null,
