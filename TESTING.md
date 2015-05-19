@@ -204,7 +204,7 @@ It's a pretty basic component &mdash; you can click a button, and there's a coun
 
 ![](http://media2.giphy.com/media/5xtDarJ7d5HXTRULbSo/200.gif)
 
-But it's a well known fact that VCs don't fund untested React components. Trust me.
+But it's a well known fact that VCs don't fund untested React components.
 
 ![](http://media3.giphy.com/media/10YRbZ33HcLZbW/200.gif)
 
