@@ -37,7 +37,9 @@ let store = new MyStore()
 store.foo() // -> 'foo'
 
 export default store
+```
 
+```javascript
 // my_store-test.js
 describe('MyStore', () => {
   it('mocks f*cking everything', () => {
@@ -139,9 +141,9 @@ describe('getAttachment()', () => {
 })
 ```
 
-Notice that we're using `callback` directly &mdash; by using the mocked `register` callback, we can bypass the action creator (and test it separately). We simply pass `callback` an object containing all of the properties that an action might contain so that a store has the expected state.
+Notice that we're using `callback` directly &mdash; by using the mocked `register` callback, we can bypass the action creator (and test it separately). We simply pass `callback` an object containing all of the properties that an action contains so that the store has the expected state.
 
-Then, in the `it` block, we call the method we're testing (in this case, `getAttachemnt()`) with any necessary parameters (`commentId`). We know that `AttachmentStore.getAttachment()` returns an object, so we simply make sure that its properties match the properties that we passed in `callback`.
+Then, in the `it` block, we call the method we're testing (in this case, `getAttachment()`) with any necessary parameters (`commentId`). We know that `AttachmentStore.getAttachment()` returns an object, so we simply make sure that its properties match the properties that we passed in `callback`.
 
 ```shell
 [user]$ jest app/stores/__tests__/attachment_store-test.js
