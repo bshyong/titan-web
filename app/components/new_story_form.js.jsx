@@ -8,6 +8,7 @@ import HighlightsStore from '../stores/highlights_store'
 import Icon from './ui/icon.js.jsx'
 import Router from '../lib/router_container'
 import RouterContainer from '../lib/router_container'
+import shouldPureComponentUpdate from 'react-pure-render/function';
 import StoriesActionCreator from '../actions/story_actions'
 import StoryFormActions from '../actions/story_form_actions'
 import StoryFormStore from '../stores/story_form_store'
@@ -19,6 +20,7 @@ import EmojiPicker from './ui/emoji_picker.jsx'
 import EmojiStore from '../stores/emoji_store'
 
 export default AuthenticatedMixin(class NewStoryForm extends React.Component {
+  shouldComponentUpdate = shouldPureComponentUpdate;
 
   constructor(props) {
     super(props)
@@ -119,7 +121,7 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
           <div className="left">
 
             <div className="clearfix">
-              <a className="block left p1 black" onClick={this.handleTogglePrivacy} onTouchStart={this.handleTogglePrivacy}>
+              <a className="block left p1 black pointer" onClick={this.handleTogglePrivacy} onTouchStart={this.handleTogglePrivacy}>
                 <Icon icon={isPublic ? 'globe' : 'lock'} fw={true} /> {isPublic ? 'Public' : 'Private'}
               </a>
             </div>
@@ -157,7 +159,7 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
     this.updateForm('title', e.target.value)
   }
 
-  _handleTogglePrivacy() {
+  _handleTogglePrivacy(e) {
     this.updateForm('isPublic', !this.state.isPublic)
   }
 
