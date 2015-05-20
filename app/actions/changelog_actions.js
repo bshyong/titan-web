@@ -1,5 +1,6 @@
 import {
   CHANGELOG_FETCHED,
+  CHANGELOG_SHOW_ALL,
   CHANGELOG_TIME_CHANGED,
   RESOURCE_NOT_FOUND,
   RESOURCE_FOUND
@@ -26,5 +27,13 @@ export default {
       type: CHANGELOG_TIME_CHANGED,
       timeLength: timeLength
     })
+  },
+
+  changeTimeShown(timeShown) {
+    Dispatcher.dispatch({
+      type: CHANGELOG_SHOW_ALL,
+      timeShown: timeShown
+    })
   }
+
 }

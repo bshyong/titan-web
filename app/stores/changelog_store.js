@@ -2,7 +2,8 @@ import {
   CHANGELOG_FETCHED,
   CHANGELOG_FOLLOWED,
   CHANGELOG_TIME_CHANGED,
-  CHANGELOG_UNFOLLOWED
+  CHANGELOG_UNFOLLOWED,
+  CHANGELOG_SHOW_ALL
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
@@ -12,6 +13,7 @@ class ChangelogStore extends Store {
     super()
     this._changelog = null
     this._timeLength = 'day'
+    this._timeShown = null
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
         case CHANGELOG_FETCHED:
@@ -26,6 +28,9 @@ class ChangelogStore extends Store {
         case CHANGELOG_TIME_CHANGED:
           this._timeLength = action.timeLength
           break
+        case CHANGELOG_SHOW_ALL:
+          this._timeShown = action.timeShown
+          break
         default:
           return
       }
@@ -35,6 +40,10 @@ class ChangelogStore extends Store {
 
   get changelog() {
     return this._changelog
+  }
+
+  get timeShown() {
+    return this._timeShown
   }
 
   get following() {

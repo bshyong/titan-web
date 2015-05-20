@@ -2,6 +2,7 @@ import {List, Set} from 'immutable'
 import { RouteHandler, Link } from 'react-router'
 import Avatar from './ui/avatar.jsx'
 import ChangelogStore from '../stores/changelog_store'
+import ChangelogActions from '../actions/changelog_actions'
 import Emoji from './ui/emoji.jsx'
 import FollowButton from './follow_button.jsx'
 import Icon from './ui/icon.js.jsx'
@@ -36,6 +37,7 @@ export default class Changelog extends React.Component {
     this.stores = [ChangelogStore, StoryStore]
     this.state = this.getStateFromStores()
     this.handleStoresChanged = this.handleStoresChanged.bind(this)
+    this.expandDate = this.expandDate.bind(this)
   }
 
   getStateFromStores() {
@@ -45,7 +47,8 @@ export default class Changelog extends React.Component {
       moreAvailable: StoryStore.moreAvailable,
       loading: StoryStore.loading,
       following: ChangelogStore.following,
-      timeLength: ChangelogStore.timeLength
+      timeLength: ChangelogStore.timeLength,
+      timeShown: ChangelogStore.timeShown
     }
   }
 
@@ -92,10 +95,37 @@ export default class Changelog extends React.Component {
     return stories
   }
 
-  renderShowAll() {
-    return (
-      "Show All"
-    )
+  expandDate(d) {
+    return function(e) {
+      ChangelogActions.changeTimeShown(d)
+    }
+  }
+
+  renderShowAll(date) {
+    if (this.state.timeShown) {
+      if (date.format() == this.state.timeShown.format())
+      {
+        return (
+          <span className="pointer" onClick={this.expandDate(null)}>
+            <a>Hide</a>
+          </span>
+        )
+      }
+      else {
+        return (
+          <span className="pointer" onClick={this.expandDate(date)}>
+            <a>Show All</a>
+          </span>
+        )
+      }
+    }
+    else {
+      return (
+        <span className="pointer" onClick={this.expandDate(date)}>
+          <a>Show All</a>
+        </span>
+      )
+    }
   }
 
   render() {
@@ -108,8 +138,15 @@ export default class Changelog extends React.Component {
         <Table.Separator label={this.parseCalendarDate(key)} key={key.toISOString()} />
       )
 
-      if (this.state.timeLength != "day")
-        {value = value.slice(0,5)}
+      var showButton = value.length >5
+      if (this.state.timeShown) {
+        if (key.format() != this.state.timeShown.format())
+          {value = value.slice(0,5)}
+      }
+      else {
+        value = value.slice(0,5)
+      }
+
 
       let b = a.push(
         value.sortBy(story => -story.hearts_count).map(story => {
@@ -118,7 +155,6 @@ export default class Changelog extends React.Component {
                    hearted={story.viewer_has_hearted}
                    onClick={() => StoryActions.clickHeart(story)} />
           )
-
 
           return (
             <Table.Cell key={story.id} image={emoji} to="story" params={{changelogId, storyId: story.id}}>
@@ -144,7 +180,13 @@ export default class Changelog extends React.Component {
           )
         })
       )
-      return b
+      if (showButton) {
+        return b.concat(this.renderShowAll(key))
+      }
+      else {
+        return b
+      }
+
     }, List())
 
     return <div>
