@@ -160,7 +160,7 @@ export default class ProfilePage extends React.Component {
                 <Avatar user={this.state.user} size={128} />
               </div>
             </div>
-            <div className="clearfix mx-auto">
+            <div className="clearfix mx-auto py2">
               <div className="block">
                 <div className="gray-2 center">
                   <BlurbBox text={this.state.user.blurb} owner={this.state.user.username} />

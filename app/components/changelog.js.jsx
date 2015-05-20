@@ -17,12 +17,13 @@ import Stack from './ui/stack.jsx'
 import StoryStore from '../stores/story_store'
 import StoryActions from '../actions/story_actions'
 import Table from './ui/table.js.jsx'
+import TimePicker from './ui/time_picker.jsx'
 
 import MetaBannerUrl from '../images/meta-banner.jpg'
 
 export default class Changelog extends React.Component {
   static willTransitionTo(transition, params, query) {
-    StoryActions.fetchAll(params.changelogId)
+    StoryActions.fetchAll(params.changelogId, ChangelogStore.timeLength)
   }
   static get defaultProps() {
     return {
@@ -43,7 +44,32 @@ export default class Changelog extends React.Component {
       stories: StoryStore.all(),
       moreAvailable: StoryStore.moreAvailable,
       loading: StoryStore.loading,
-      following: ChangelogStore.following
+      following: ChangelogStore.following,
+      timeLength: ChangelogStore.timeLength
+    }
+  }
+
+  parseCalendarDate(key) {
+    var timeLength = this.state.timeLength
+    if (timeLength=="day")
+    {
+      return (
+        key.calendar()
+      )
+    }
+    if (timeLength=="week") {
+      var start_date = moment(key)
+      var end_date = moment(key).add(1, 'weeks')
+      return (
+        start_date.format('MMMM D, YYYY').concat(" - ").concat(end_date.format('MMMM D, YYYY'))
+      )
+    }
+    if (timeLength=="month") {
+      var start_date = moment(key)
+      var end_date = moment(key).add(1, 'months')
+      return (
+        start_date.format('MMMM D, YYYY').concat(" - ").concat(end_date.format('MMMM D, YYYY'))
+      )
     }
   }
 
@@ -52,12 +78,17 @@ export default class Changelog extends React.Component {
     const stories = this.state.stories
                     .sortBy(story => story.created_at)
                     .reverse()
-                    .groupBy(story => moment(story.created_at).startOf('day'))
+                    .groupBy(story => moment(story.created_at).startOf(this.state.timeLength))
+
 
     const a = stories.reduce((reduction, value, key, iter) => {
       let a = reduction.push(
-        <Table.Separator label={key.calendar()} key={key.toISOString()} />
+        <Table.Separator label={this.parseCalendarDate(key)} key={key.toISOString()} />
       )
+
+      if (this.state.timeLength != "day")
+        {value = value.slice(0,5)}
+
       let b = a.push(
         value.sortBy(story => -story.hearts_count).map(story => {
           const emoji = (
@@ -65,6 +96,8 @@ export default class Changelog extends React.Component {
                    hearted={story.viewer_has_hearted}
                    onClick={() => StoryActions.clickHeart(story)} />
           )
+
+
           return (
             <Table.Cell key={story.id} image={emoji} to="story" params={{changelogId, storyId: story.id}}>
               <div className="flex">
@@ -88,6 +121,7 @@ export default class Changelog extends React.Component {
             </Table.Cell>
           )
         })
+
       )
       return b
     }, List())
@@ -116,6 +150,7 @@ export default class Changelog extends React.Component {
       </Jumbotron>
 
       <div className="container">
+        <TimePicker />
         <Table>{a}</Table>
         <LoadingBar loading={this.state.loading} />
       </div>

@@ -1,5 +1,6 @@
 import {
   CHANGELOG_FETCHED,
+  CHANGELOG_TIME_CHANGED,
   RESOURCE_NOT_FOUND,
   RESOURCE_FOUND
 } from '../constants'
@@ -18,5 +19,12 @@ export default {
           changelog: resp
         })
       })
+  },
+
+  changeTimeLength(timeLength) {
+    Dispatcher.dispatch({
+      type: CHANGELOG_TIME_CHANGED,
+      timeLength: timeLength
+    })
   }
 }
