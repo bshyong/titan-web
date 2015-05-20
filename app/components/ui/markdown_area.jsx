@@ -20,9 +20,24 @@ export default class MarkdownArea extends React.Component {
     this.handleKeyDown = this._handleKeyDown.bind(this)
     this.onUploaded = this._onUploaded.bind(this)
     this.onUploading = this._onUploading.bind(this)
+    this.toggleFocus = this._toggleFocus.bind(this)
   }
 
   render() {
+    let style = {
+      div: {
+        ...this.props.style,
+        backgroundColor: 'white'
+      },
+      textarea: {
+        width: '91%',
+        resize: 'none',
+        outline: 'none',
+        border: 'none',
+        borderRadius: 3
+      }
+    }
+
     if (this.state.focused) {
       style.div.borderColor = '#00A3B9'
       style.div.boxShadow = '0 0 2px #00A3B9'
@@ -33,11 +48,15 @@ export default class MarkdownArea extends React.Component {
       <DropzoneContainer id={this.props.id}
         onUploaded={this.onUploaded}
         onUploading={this.onUploading}>
-        <TextareaAutosize
-          {...this.props}
-          className="block field-light bg-white border-silver mb0 py0 full-width"
-          onBlur={this.toggleFocus}
-          onKeyDown={this.props.onCmdEnter ? this.handleKeyDown : null} />
+        <div className="field-light border-silver mb0 py0 full-width relative"
+            style={style.div}>
+          <TextareaAutosize
+            {...this.props}
+            style={style.textarea}
+            onBlur={this.toggleFocus}
+            onFocus={this.toggleFocus}
+            onKeyDown={this.props.onCmdEnter ? this.handleKeyDown : null} />
+        </div>
       </DropzoneContainer>
     )
   }
@@ -77,6 +96,12 @@ export default class MarkdownArea extends React.Component {
 
       this.props.onChange(simulatedEvent)
     }, 0)
+  }
+
+  _toggleFocus(e) {
+    this.setState({
+      focused: !this.state.focused
+    })
   }
 }
 

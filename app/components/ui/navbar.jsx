@@ -19,7 +19,7 @@ export default class Navbar extends React.Component {
         {left}
       </div>
       <div className="flex-auto"></div>
-      <div className="flex-none p2 z4">
+      <div className="flex-none px2 py1 z4">
         {right}
       </div>
     </div>
