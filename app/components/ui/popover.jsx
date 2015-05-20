@@ -44,7 +44,7 @@ export default class Popover extends React.Component {
 
     return (
       <div className="popover-content absolute right-0" key="popover-content">
-        <div className="mt1 bg-white rounded shadow relative">
+        <div className="mt1 bg-white rounded shadow relative overflow-hidden">
           { content }
         </div>
         <div className="popover-content-arrow" />
