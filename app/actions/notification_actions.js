@@ -14,7 +14,8 @@ export default {
         type: NOTIFICATIONS_FETCHED,
         notifications: resp.notifications,
         page: page,
-        moreAvailable: (per * page) < resp.meta.total
+        moreAvailable: (per * page) < resp.meta.total,
+        totalUnread: resp.meta.unread
       })
     })
   },

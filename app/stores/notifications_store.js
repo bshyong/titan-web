@@ -10,6 +10,7 @@ class NotificationsStore extends Store {
     this._fetching = false
     this._page = 1
     this._moreAvailable = true
+    this._unreadCount = 0
 
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
@@ -23,6 +24,7 @@ class NotificationsStore extends Store {
           this._notifications = this._notifications.merge(newNotifications)
           this._page = action.page
           this._moreAvailable = action.moreAvailable
+          this._unreadCount = action.totalUnread
           this.emitChange()
           break;
         case NOTIFICATIONS_READ:
@@ -34,6 +36,7 @@ class NotificationsStore extends Store {
                                       }
                                       return [k, v]
                                     })
+          this._unreadCount = this._notifications.filter(n => n.read_at == null).size
           this.emitChange()
           break;
         default:
@@ -61,7 +64,7 @@ class NotificationsStore extends Store {
   }
 
   get unreadCount() {
-    return this._notifications.filter(n => n.read_at == null).size
+    return this._unreadCount
   }
 }
 
