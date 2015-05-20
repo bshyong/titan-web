@@ -23,7 +23,7 @@ export default class ScrollPaginator extends React.Component {
 
   listen() {
     if (__DEV__ && !this.props.element) {
-      console.warn(`No 'element' prop provided! Scroll paginator will be bound to window.`)
+      console.log(`No 'element' prop provided! Scroll paginator will be bound to window.`)
     }
     (this.props.element || window).addEventListener('scroll', this.onScroll)
   }

@@ -17,14 +17,19 @@ import NotificationActions from '../actions/notification_actions'
 // Logo versions:
 import LogoSrc from '../images/logo.svg'
 
-@connectToStores(ChangelogStore, SessionStore)
+@connectToStores(ChangelogStore, SessionStore, NotificationsStore)
 export default class ApplicationNavbar extends React.Component {
 
   static getPropsFromStores() {
     return {
       user: SessionStore.user,
-      changelog: ChangelogStore.changelog
+      changelog: ChangelogStore.changelog,
+      unreadCount: NotificationsStore.unreadCount
     }
+  }
+
+  componentDidMount() {
+    setTimeout(() => {NotificationActions.fetchAll()})
   }
 
   render() {
@@ -70,7 +75,7 @@ export default class ApplicationNavbar extends React.Component {
     }
 
     const changelogId = RouterContainer.get().getCurrentParams().changelogId
-    const notificationCount = this.state.unreadNotificationsCount
+    const unreadCount = this.props.unreadCount
     const bell = <div className="mr1">
                    <Icon icon={notificationCount > 0 ? 'bell orange' : 'bell silver'} />
                     {notificationCount || 0}
