@@ -36,7 +36,6 @@ export default class Changelog extends React.Component {
     this.stores = [ChangelogStore, StoryStore]
     this.state = this.getStateFromStores()
     this.handleStoresChanged = this.handleStoresChanged.bind(this)
-    this.renderShowMore = this.renderShowMore.bind(this)
   }
 
   getStateFromStores() {
