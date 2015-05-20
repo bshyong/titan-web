@@ -63,20 +63,20 @@ export default class NotificationsList extends React.Component {
   }
 
   renderBottomBar() {
-    if (this.state.fetching) {
-      return (
-        <div className="border-top py1">
-          <div className="gray h5 center">Loading..</div>
-          <LoadingBar loading={true} />
-        </div>
-      )
-    } else {
-      return (
-        <a className="block gray h5 center px2 py1 border-top border-silver pointer" onClick={this.markAllAsRead}>
-          Mark all as read
-        </a>
-      )
-    }
+    const content = this.state.fetching ? (
+      <div className="gray h5 center border-top border-silver py1 px2">Loading..</div>
+    ) : (
+      <a className="block gray h5 center px2 py1 border-top border-silver pointer" onClick={this.markAllAsRead}>
+        Mark all as read
+      </a>
+    )
+
+    return (
+      <div>
+        {content}
+        <LoadingBar loading={this.state.fetching} />
+      </div>
+    )
   }
 
   render() {
@@ -160,7 +160,7 @@ class Notification extends React.Component {
       actor: classnames('flex-none mr1', {
         muted: read_at
       }),
-      
+
       title: classnames({
         'orange': !read_at,
         'gray': read_at
