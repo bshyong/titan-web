@@ -33,7 +33,7 @@ export default (
         <Route handler={HighlightPicker} path="highlights/?:filter?" name="highlights" />
       </Route>
 
-      <Route handler={StoryPage} path=":storyId" name="story" />
+      <Route handler={StoryPage} path=":year/:month/:day/:storyId" name="story" />
     </Route>
 
     <Redirect from="/" to="changelog" params={{changelogId: 'assembly'}} />
