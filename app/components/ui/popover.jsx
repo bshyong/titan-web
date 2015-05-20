@@ -22,32 +22,32 @@ export default class Popover extends React.Component {
   }
 
   render() {
-    const { trigger } = this.props
+    const { children } = this.props
     return (
       <div className="relative">
         <div className="pointer" onClick={this.handleToggle}>
-          {trigger}
+          {children}
         </div>
-        <CSSTransitionGroup transitionName="popover-menu">
-          {this.menu()}
+        <CSSTransitionGroup transitionName="popover-content">
+          {this.content()}
         </CSSTransitionGroup>
       </div>
     )
   }
 
-  menu() {
-    const { children } = this.props
+  content() {
+    const { content } = this.props
 
     if(!this.state.open) {
       return
     }
 
     return (
-      <div className="popover-menu absolute right-0" key="popover-menu">
+      <div className="popover-content absolute right-0" key="popover-content">
         <div className="py1 mt1 bg-white rounded shadow relative">
-          { children }
+          { content }
         </div>
-        <div className="popover-menu-arrow" />
+        <div className="popover-content-arrow" />
       </div>
     )
   }
@@ -91,5 +91,5 @@ export default class Popover extends React.Component {
 }
 
 Popover.propTypes = {
-  trigger: React.PropTypes.node.isRequired
+  content: React.PropTypes.node.isRequired
 }

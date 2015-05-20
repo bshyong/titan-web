@@ -76,28 +76,33 @@ export default class ApplicationNavbar extends React.Component {
 
     const changelogId = RouterContainer.get().getCurrentParams().changelogId
     const unreadCount = this.props.unreadCount
-    const bell = <div className="mr1">
-                   <Icon icon={unreadCount > 0 ? 'bell orange' : 'bell silver'} />
-                    {unreadCount || 0}
-                  </div>
+
+    const userMenu = (
+      <div>
+        <List>
+          {this.render_new_story(changelogId)}
+        </List>
+        <List type="small">
+          <List.Item>
+            <a href="https://assembly.com/about">About</a>
+          </List.Item>
+          <List.Item>
+            <a href="#" onClick={this._handleSignout}>Sign out</a>
+          </List.Item>
+        </List>
+      </div>
+    )
 
     return (
       <div className="flex flex-center" style={{paddingTop: 4}}>
-        <Popover trigger={bell}>
-          <NotificationsList />
+        <Popover content={<NotificationsList />}>
+          <div className="mr1">
+            <Icon icon={unreadCount > 0 ? 'bell orange' : 'bell silver'} />
+            {unreadCount || 0}
+          </div>
         </Popover>
-        <Popover trigger={<Avatar user={user} size={32} />}>
-          <List>
-            {this.render_new_story(changelogId)}
-          </List>
-          <List type="small">
-            <List.Item>
-              <a href="https://assembly.com/about">About</a>
-            </List.Item>
-            <List.Item>
-              <a href="#" onClick={this._handleSignout}>Sign out</a>
-            </List.Item>
-          </List>
+        <Popover content={userMenu}>
+          <Avatar user={user} size={32} />
         </Popover>
       </div>
     )

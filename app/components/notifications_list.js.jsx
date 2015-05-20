@@ -1,7 +1,6 @@
 import React from 'react'
 import Avatar from './ui/avatar.jsx'
 import Icon from './ui/icon.js.jsx'
-import Popover from './ui/popover.jsx'
 import LoadingBar from './ui/loading_bar.jsx'
 import ScrollPaginator from './ui/scroll_paginator.jsx'
 import moment from '../config/moment'
