@@ -1,6 +1,7 @@
 import {
   STORY_FETCHED,
   STORY_FORM_CHANGE,
+  STORY_FORM_CLEAR,
   STORY_PUBLISHED,
   HIGHLIGHT_USED
 } from '../constants'
@@ -11,10 +12,7 @@ import Store from '../lib/store'
 class StoryFormStore extends Store {
   constructor() {
     super()
-    this.title = ''
-    this.body  = ''
-    this.contributors = ''
-    this.isPublic = true
+    this.init()
 
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
@@ -32,11 +30,12 @@ class StoryFormStore extends Store {
           this.isPublic = action.fields.isPublic
           break
 
+        case STORY_FORM_CLEAR:
+          this.init()
+          break
+
         case STORY_PUBLISHED:
-          this.title = ''
-          this.body = ''
-          this.contributors = ''
-          this.isPublic = true
+          this.init()
           break
 
         case HIGHLIGHT_USED:
@@ -49,6 +48,13 @@ class StoryFormStore extends Store {
       }
       this.emitChange()
     })
+  }
+
+  init() {
+    this.title = ''
+    this.body  = ''
+    this.contributors = ''
+    this.isPublic = true
   }
 
   isValid() {

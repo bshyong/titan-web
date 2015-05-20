@@ -12,6 +12,7 @@ import {
   STORY_UPDATED
 } from '../constants'
 
+import addParams from '../lib/addUrlParamsToStory'
 import api from '../lib/api'
 import Dispatcher from '../lib/dispatcher'
 import RouterContainer from '../lib/router_container'
@@ -55,16 +56,14 @@ export default {
 
     api.put(`changelogs/${changelogId}/stories/${storyId}`, data).
       then(resp => {
+        let story = addParams(changelogId, combineAuthorAndContributors(resp))
         Dispatcher.dispatch({
           type: STORY_UPDATED,
-          story: resp,
+          story: story,
           changelogId: changelogId,
         })
 
-        RouterContainer.get().transitionTo('changelog', {
-          changelogId: changelogId,
-          storyId: storyId
-        })
+        RouterContainer.get().transitionTo('story', story.urlParams)
       })
   },
 
@@ -93,15 +92,14 @@ export default {
 
     api.post(`changelogs/${changelogId}/stories`, data).
       then(resp => {
+        let story = addParams(changelogId, combineAuthorAndContributors(resp))
         Dispatcher.dispatch({
           type: STORY_PUBLISHED,
-          story: combineAuthorAndContributors(resp),
+          story: story,
           changelogId: changelogId
         })
 
-        RouterContainer.get().transitionTo('changelog', {
-          changelogId: changelogId
-        })
+        RouterContainer.get().transitionTo('story', story.urlParams)
         analytics.track('Wrote Story', {
           storyLength: data.body.length
         })

@@ -11,7 +11,8 @@ import ScrollPaginator from './ui/scroll_paginator.jsx'
 import SessionStore from '../stores/session_store'
 import shallowEqual from 'react-pure-render/shallowEqual'
 
-export default AuthenticatedMixin(class HighlightPicker extends React.Component {
+@AuthenticatedMixin()
+export default class HighlightPicker extends React.Component {
 
   constructor(props) {
     super(props)
@@ -103,4 +104,4 @@ export default AuthenticatedMixin(class HighlightPicker extends React.Component 
   handleStoresChanged() {
     this.setState(this.getStateFromStores(this.props));
   }
-})
+}

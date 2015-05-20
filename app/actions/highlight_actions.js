@@ -38,9 +38,10 @@ export default {
       type: HIGHLIGHT_USED,
       highlight: highlight
     })
+    
     api.post(`${highlight.url}/used`)
 
-    RouterContainer.get().transitionTo('new', {changelogId: 'assembly'})
+    RouterContainer.get().transitionTo('new', {changelogId: 'assembly'}, {highlight: highlight.id})
   }
 
 }

@@ -11,14 +11,14 @@ import React from 'react'
 import SigninSSO from '../components/signin_sso.js.jsx'
 import StoryComposer from '../components/story_composer.js.jsx'
 import EditStoryForm from '../components/edit_story_form.js.jsx'
-import NewStoryForm from '../components/new_story_form.js.jsx'
+import NewStoryPage from '../pages/NewStoryPage.jsx'
 import HighlightPicker from '../components/highlight_picker.js.jsx'
 import ChangelogLayout from '../components/changelog_layout.js.jsx'
 import StoryPage from '../components/story_page.jsx'
 import ProfilePage from '../components/profile_page.js.jsx'
 
 export default (
-  <Route handler={App}  name="root" path="/">
+  <Route handler={App} name="root" path="/">
     <Route handler={SigninSSO} path='/signin/sso' name="sso" />
 
     <Route handler={ProfilePage} name="profile" path="/users/:username" />
@@ -29,7 +29,7 @@ export default (
       <Route handler={EditStoryForm} path=":storyId/edit" name="edit" />
 
       <Route handler={StoryComposer} path="new">
-        <DefaultRoute handler={NewStoryForm} name="new" />
+        <DefaultRoute handler={NewStoryPage} name="new" />
         <Route handler={HighlightPicker} path="highlights/?:filter?" name="highlights" />
       </Route>
 

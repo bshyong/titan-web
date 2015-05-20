@@ -20,8 +20,9 @@ import React from 'react'
 import EmojiPicker from './ui/emoji_picker.jsx'
 import EmojiStore from '../stores/emoji_store'
 
+@AuthenticatedMixin()
 @connectToStores(EmojiStore, StoryFormStore)
-export default AuthenticatedMixin(class NewStoryForm extends React.Component {
+export default class NewStoryForm extends React.Component {
   static get defaultProps() {
     return {
       changelogId: RouterContainer.get().getCurrentParams().changelogId,
@@ -101,7 +102,7 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
           <div className="right">
             <Button style="transparent"
               color={StoryFormStore.isValid() ? 'green' : 'gray' }
-              action={this.props.onPublish || this.handlePublish.bind(this)}>
+              action={this.props.onPublish}>
               {storyId ? 'Update' : 'Publish'}
             </Button>
           </div>
@@ -125,18 +126,7 @@ export default AuthenticatedMixin(class NewStoryForm extends React.Component {
     this.updateForm('isPublic', !this.props.isPublic)
   }
 
-  handlePublish(e) {
-    e.preventDefault()
-    StoriesActionCreator.publish(ChangelogStore.slug, {
-      title: this.props.title,
-      body:  this.props.body,
-      contributors: this.props.contributors,
-      team_member_only: !this.props.isPublic,
-      emoji_id: this.props.emoji_id
-    })
-  }
-
   updateForm(field, value) {
     StoryFormActions.change(Map(this.props).set(field, value).toJS())
   }
-})
+}

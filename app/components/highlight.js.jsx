@@ -67,21 +67,17 @@ export default class Highlight extends React.Component {
       return
     }
 
-    return <div className="mt1"><Stack items={avatars.toJS()} /></div>
+    return <div className="mt1"><Stack items={avatars} /></div>
   }
 
   _handleUse(e) {
     e.preventDefault()
-    HighlightActions.use(
-      this.props.highlight
-    )
+    HighlightActions.use(this.props.highlight)
   }
 
   _handleIgnore(e) {
     e.preventDefault()
-    HighlightActions.ignore(
-      this.props.highlight
-    )
+    HighlightActions.ignore(this.props.highlight)
   }
 
 }

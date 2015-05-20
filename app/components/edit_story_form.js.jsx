@@ -8,7 +8,8 @@ import StoryFormStore from '../stores/story_form_store'
 import StoryActions from '../actions/story_actions'
 import StoryStore from '../stores/story_store'
 
-export default AuthenticatedMixin(class EditStoryForm extends React.Component {
+@AuthenticatedMixin()
+export default class EditStoryForm extends React.Component {
   static get defaultProps() {
     return RouterContainer.get().getCurrentParams()
   }
@@ -49,4 +50,4 @@ export default AuthenticatedMixin(class EditStoryForm extends React.Component {
       emoji_id: EmojiStore.selectedEmoji
     })
   }
-})
+}

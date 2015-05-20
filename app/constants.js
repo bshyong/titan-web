@@ -46,6 +46,7 @@ export default keyMirror({
   STORY_UPDATED: null,
 
   STORY_FORM_CHANGE: null,
+  STORY_FORM_CLEAR: null,
 
   USER_FETCHED: null,
   USER_SIGNIN: null,
