@@ -73,13 +73,26 @@ export default class Changelog extends React.Component {
     }
   }
 
+  sortStories() {
+    if (this.state.timeLength == "day") {
+      var stories = this.state.stories
+                      .sortBy(story => story.created_at)
+                      .reverse()
+                      .groupBy(story => moment(story.created_at).startOf(this.state.timeLength))
+    }
+    else {
+      var stories = this.state.stories
+                      .sortBy(story => story.hearts_count)
+                      .reverse()
+                      .groupBy(story => moment(story.created_at).startOf(this.state.timeLength))
+    }
+    return stories
+  }
+
   render() {
     const { changelogId } = this.props
-    const stories = this.state.stories
-                    .sortBy(story => story.created_at)
-                    .reverse()
-                    .groupBy(story => moment(story.created_at).startOf(this.state.timeLength))
 
+    const stories = this.sortStories()
 
     const a = stories.reduce((reduction, value, key, iter) => {
       let a = reduction.push(
@@ -150,7 +163,7 @@ export default class Changelog extends React.Component {
       </Jumbotron>
 
       <div className="container">
-      
+        <TimePicker />
         <Table>{a}</Table>
         <LoadingBar loading={this.state.loading} />
       </div>
