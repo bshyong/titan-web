@@ -1,43 +1,25 @@
-import React from 'react'
 import {Link} from 'react-router'
 import {List, Set} from 'immutable'
 import Button from './ui/button.js.jsx'
 import Avatar from './ui/avatar.jsx'
-import ProfileStore from '../stores/profile_store.js'
-import ProfileActions from '../actions/profile_actions.js'
 import ApplicationNavbar from './application_navbar.jsx'
 import BlurbBox from './ui/blurb_box.jsx'
-
+import connectToStores from '../lib/connectToStores.jsx'
 import EmojiPicker from './ui/emoji_picker.jsx'
+import ProfileStore from '../stores/profile_store.js'
+import ProfileActions from '../actions/profile_actions.js'
+import React from 'react'
 
+@connectToStores(ProfileStore)
 export default class ProfilePage extends React.Component {
   static willTransitionTo(transition, params, query) {
     ProfileActions.fetch(params.username)
   }
 
-  constructor(props) {
-    super(props)
-    this.state = this.getStateFromStores()
-    this.handleStoresChanged = this.handleStoresChanged.bind(this)
-  }
-
-  getStateFromStores() {
+  static getPropsFromStores() {
     return {
       user: ProfileStore.user
     }
-  }
-
-  handleStoresChanged() {
-    this.setState(this.getStateFromStores());
-  }
-
-  componentDidMount() {
-    ProfileStore.addChangeListener(this.handleStoresChanged)
-
-  }
-
-  componentWillUnmount() {
-    ProfileStore.removeChangeListener(this.handleStoresChanged)
   }
 
   render_score_pair(emoji, score) {
@@ -52,8 +34,8 @@ export default class ProfilePage extends React.Component {
   }
 
   render_emoji_scores() {
-    if (this.state.user) {
-      const emojis = this.state.user.emoji_scores
+    if (this.props.user) {
+      const emojis = this.props.user.emoji_scores
       return (
         <div>
           <h2>Emojishments</h2>
@@ -82,7 +64,7 @@ export default class ProfilePage extends React.Component {
     }
     return (
       <div className="px1 py1">
-        <Link to="story" params={{changelogId: story.changelog_slug, storyId: story.id}}>
+        <Link to="story" params={story.urlParams}>
           {emoj}{n}<span className="px2">{title}</span>
         </Link>
       </div>
@@ -90,8 +72,8 @@ export default class ProfilePage extends React.Component {
   }
 
   render_stories() {
-    if (this.state.user) {
-      const stories = this.state.user.stories_participated
+    if (this.props.user) {
+      const stories = this.props.user.stories_participated
 
       return (
         <div>
@@ -120,8 +102,8 @@ export default class ProfilePage extends React.Component {
   }
 
   renderProducts() {
-    if (this.state.user) {
-      var changelogs = this.state.user.changelogs
+    if (this.props.user) {
+      var changelogs = this.props.user.changelogs
       var participation_emoji = ""
       return (
         <div>
@@ -137,7 +119,7 @@ export default class ProfilePage extends React.Component {
   }
 
   render() {
-    const user = this.state.user
+    const user = this.props.user
     if (!user) {
       return (
         <div />
@@ -155,15 +137,15 @@ export default class ProfilePage extends React.Component {
           <div className="container">
 
             <div className="center">
-              <h1>{this.state.user.username}</h1>
+              <h1>{this.props.user.username}</h1>
               <div style={{width: 128}} className="mx-auto">
-                <Avatar user={this.state.user} size={128} />
+                <Avatar user={this.props.user} size={128} />
               </div>
             </div>
             <div className="clearfix mx-auto py2">
               <div className="block">
                 <div className="gray-2 center">
-                  <BlurbBox text={this.state.user.blurb} owner={this.state.user.username} />
+                  <BlurbBox text={this.props.user.blurb} owner={this.props.user.username} />
                 </div>
               </div>
             </div>

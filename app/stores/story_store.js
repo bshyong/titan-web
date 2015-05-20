@@ -9,6 +9,7 @@ import {
   STORY_PUBLISHED
 } from '../constants'
 import { Map } from 'immutable'
+import addParams from '../lib/addUrlParamsToStory'
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
 
@@ -28,8 +29,8 @@ class StoryStore extends Store {
           break;
 
         case STORY_FETCHED:
-          const { story } = action
-          this.stories = this.stories.set(story.id, story)
+          const { changelogId, story } = action
+          this.stories = this.stories.set(story.slug, addParams(changelogId, story))
           break
 
         case STORY_HEARTED:
@@ -45,7 +46,7 @@ class StoryStore extends Store {
           break
 
         case STORIES_FETCHED:
-          var newStories = action.stories.reduce((m, story) => m.set(story.id, story), Map())
+          var newStories = action.stories.reduce((m, story) => m.set(story.slug, addParams(action.changelogId, story)), Map())
           this.stories = this.stories.merge(newStories)
           this._page = action.page
           this._moreAvailable = action.moreAvailable
@@ -57,7 +58,7 @@ class StoryStore extends Store {
           break;
 
         case STORY_PUBLISHED:
-          this.stories = this.stories.set(action.story.id, action.story)
+          this.stories = this.stories.set(action.story.slug, addParams(action.story))
           break;
 
         default:

@@ -97,9 +97,8 @@ export default class Changelog extends React.Component {
                    onClick={() => StoryActions.clickHeart(story)} />
           )
 
-
           return (
-            <Table.Cell key={story.id} image={emoji} to="story" params={{changelogId, storyId: story.id}}>
+            <Table.Cell key={story.id} image={emoji} to="story" params={story.urlParams}>
               <div className="flex">
                 <div className="flex-auto">
                   {story.team_member_only ? <Icon icon="lock" /> : null} {story.title}
@@ -150,7 +149,7 @@ export default class Changelog extends React.Component {
       </Jumbotron>
 
       <div className="container">
-      
+
         <Table>{a}</Table>
         <LoadingBar loading={this.state.loading} />
       </div>
