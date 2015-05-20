@@ -2,17 +2,7 @@ import React from 'react'
 import twemoji from 'twemoji'
 import StoryActions from '../../actions/story_actions'
 import classnames from 'classnames'
-
-const EmojiMappings = {
-  'discussion': '💬',
-  'improvement': '🔧',
-  'feature': '🚀',
-  'update': '🎉',
-  'bugfix': '🐛',
-  'doc': '📄',
-  'default': '👍',
-  'idea': '💡'
-}
+import emoji from '../../lib/emoji'
 
 export default class Emoji extends React.Component {
 
@@ -48,13 +38,11 @@ export default class Emoji extends React.Component {
     var char = ""
     if (!this.props.story.emoji) {
       const label = (labels && labels[0]) || 'default'
-      char = EmojiMappings[label.toLowerCase()] || '👍'
+      char = emoji[label.toLowerCase()] || '👍'
     }
     else {
       char = this.props.story.emoji.character
     }
-
-
 
     const html = twemoji.parse(
       char,
