@@ -1,3 +1,7 @@
+.button-outline {
+  z-index: 0;
+}
+
 .button-outline,
 .button-outline:focus {
   border-width: 2px;
