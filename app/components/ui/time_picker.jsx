@@ -19,19 +19,14 @@ export default class TimePicker extends React.Component {
   }
 
   renderTime(unit) {
-    if(this.state.timeLength == unit)
-    {
+    if (this.state.timeLength == unit) {
       return (
         <span className="px2 mx2 pointer border orange" style={{borderRadius:'2rem',lineHeight:'2rem', borderColor: 'orange', borderWidth: '2px'}}>{unit}</span>
       )
     }
-    else
-    {
-      var a = unit
+    else {
       return (
-        <span>{"     "}
-          <span className="px2 mx2 pointer gray border" style={{borderRadius:'2rem',lineHeight:'2rem'}} onClick={this.changeTimeLength.bind(this)}>{unit}</span>
-        </span>
+        <span className="px2 mx2 pointer gray border" style={{borderRadius:'2rem',lineHeight:'2rem'}} onClick={this.changeTimeLength.bind(this)}>{unit}</span>
       )
     }
   }
@@ -46,7 +41,7 @@ export default class TimePicker extends React.Component {
 
   render() {
     return (
-      <span>
+      <span className="right">
         {this.renderTime("day")}
         {this.renderTime("week")}
         {this.renderTime("month")}
