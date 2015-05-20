@@ -5,7 +5,7 @@ export default class Jewel extends React.Component {
   render() {
     const { count, icon } = this.props
 
-    const cn = classnames('center border h6 bold circle relative', {
+    const cn = classnames('center border border-silver h6 bold circle relative', {
       'orange border-orange': count > 0,
       'silver': count == 0
     })

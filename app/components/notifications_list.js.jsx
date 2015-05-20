@@ -160,14 +160,10 @@ class Notification extends React.Component {
       actor: classnames('flex-none mr1', {
         muted: read_at
       }),
-
-      description: classnames('flex', {
-        'gray': !read_at,
-        'silver': read_at
-      }),
-
+      
       title: classnames({
-        'silver': read_at
+        'orange': !read_at,
+        'gray': read_at
       })
     }
 
@@ -176,8 +172,8 @@ class Notification extends React.Component {
         <div className={cns.actor}>
           <Avatar user={actor} size={24} />
         </div>
-        <div className="flex-auto h5">
-          <div className={cns.description}>
+        <div className="flex-auto h5 gray">
+          <div className="flex">
             <div className="flex-auto">{description}</div>
             <div className="">
               {moment(updated_at).fromNow(true)}
