@@ -38,6 +38,7 @@ export default class Changelog extends React.Component {
     this.state = this.getStateFromStores()
     this.handleStoresChanged = this.handleStoresChanged.bind(this)
     this.expandDate = this.expandDate.bind(this)
+    this.storyValuesLogic = this.storyValuesLogic.bind(this)
   }
 
   getStateFromStores() {
@@ -77,20 +78,15 @@ export default class Changelog extends React.Component {
   }
 
   sortStories() {
-    if (this.state.timeLength == "day") {
-      var stories = this.state.stories
-                      .sortBy(story => story.created_at)
-                      .reverse()
-                      .groupBy(story => moment(story.created_at).startOf(this.state.timeLength))
-    }
-    else {
-      var stories = this.state.stories
-                      .sortBy(story => story.created_at)
-                      .reverse()
-                      .groupBy(story => moment(story.created_at).startOf(this.state.timeLength))
-                      .mapEntries((k,v) => {
-                        return [k[0],k[1].sortBy(story => story.hearts_count).reverse()]
-                      })
+    var stories = this.state.stories
+                    .sortBy(story => story.created_at)
+                    .reverse()
+                    .groupBy(story => moment(story.created_at).startOf(this.state.timeLength))
+
+    if (this.state.timeLength != "day") {
+      stories = stories.mapEntries((k,v) => {
+        return [k[0],k[1].sortBy(story => story.hearts_count).reverse()]
+      })
     }
     return stories
   }
@@ -130,23 +126,43 @@ export default class Changelog extends React.Component {
 
   render() {
     const { changelogId } = this.props
+    var storyTable = this.constructTable(changelogId)
 
+    return <div>
+      {this.state.moreAvailable ?
+        <ScrollPaginator page={this.state.page}
+          onScrollBottom={() => StoryActions.fetchAll(this.props.changelogId, this.state.page + 1)} /> : null}
+
+      {this.renderJumbotron(changelogId)}
+
+      <div className="container">
+        <TimePicker />
+        <Table>{storyTable}</Table>
+        <LoadingBar loading={this.state.loading} />
+      </div>
+    </div>
+  }
+
+  storyValuesLogic(key, value) {
+    if (this.state.timeShown) {
+      if (key.format() != this.state.timeShown.format())
+        {value = value.slice(0,5)}
+    }
+    else {
+      value = value.slice(0,5)
+    }
+    return value
+  }
+
+  constructTable(changelogId) {
     const stories = this.sortStories()
-
     const a = stories.reduce((reduction, value, key, iter) => {
       let a = reduction.push(
         <Table.Separator label={this.parseCalendarDate(key)} key={key.toISOString()} />
       )
 
-      var showButton = value.length >5
-      if (this.state.timeShown) {
-        if (key.format() != this.state.timeShown.format())
-          {value = value.slice(0,5)}
-      }
-      else {
-        value = value.slice(0,5)
-      }
-
+      var showButton = value.count() >5
+      value = this.storyValuesLogic(key, value)
 
       let b = a.push(
         value.sortBy(story => -story.hearts_count).map(story => {
@@ -186,38 +202,27 @@ export default class Changelog extends React.Component {
       else {
         return b
       }
-
     }, List())
+    return a
+  }
 
-    return <div>
-      {this.state.moreAvailable ?
-        <ScrollPaginator page={this.state.page}
-          onScrollBottom={() => StoryActions.fetchAll(this.props.changelogId, this.state.page + 1)} /> : null}
-
+  renderJumbotron(changelogId) {
+    return (
       <Jumbotron bgColor="blue" bgImageUrl={MetaBannerUrl}>
         <div className="sm-flex flex-center">
           <div className="flex-none mb2 sm-mb0">
             <div className="mx-auto" style={{width: '4rem'}}><Logo size="4rem"/></div>
           </div>
-
           <Link className="block flex-auto mb2 md-mb0 sm-px3 center sm-left-align white" to="changelog" params={{changelogId}}>
             <h2 className="mt0 mb0">Meta</h2>
             <div>Building Assembly on Assembly.</div>
-
           </Link>
-
           <div className="flex-none sm-ml2">
             <FollowButton changelogId={this.props.changelogId} toggled={this.state.following}/>
           </div>
         </div>
       </Jumbotron>
-
-      <div className="container">
-        <TimePicker />
-        <Table>{a}</Table>
-        <LoadingBar loading={this.state.loading} />
-      </div>
-    </div>
+    )
   }
 
   // Stores mixin
