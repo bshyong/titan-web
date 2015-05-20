@@ -29,6 +29,7 @@ export default {
         var stories = List(resp).map(combineAuthorAndContributors)
         Dispatcher.dispatch({
           type: STORIES_FETCHED,
+          changelogId: changelogId,
           stories: stories,
           page: page,
           moreAvailable: stories.size == per
@@ -41,7 +42,8 @@ export default {
       then(resp => {
         Dispatcher.dispatch({
           type: STORY_FETCHED,
-          story: combineAuthorAndContributors(resp)
+          story: combineAuthorAndContributors(resp),
+          changelogId: changelogId
         })
       })
   },
@@ -55,7 +57,8 @@ export default {
       then(resp => {
         Dispatcher.dispatch({
           type: STORY_UPDATED,
-          story: resp
+          story: resp,
+          changelogId: changelogId,
         })
 
         RouterContainer.get().transitionTo('changelog', {
@@ -68,9 +71,9 @@ export default {
   clickHeart(story) {
     if (SessionStore.isSignedIn()) {
       if (!story.viewer_has_hearted) {
-        this.heart(story.id)
+        this.heart(story.slug)
       } else {
-        this.unheart(story.id)
+        this.unheart(story.slug)
       }
     }
   },
@@ -83,20 +86,21 @@ export default {
     })
   },
 
-  publish(changelog_id, data) {
+  publish(changelogId, data) {
     Dispatcher.dispatch({
       type: STORY_CREATING
     })
 
-    api.post(`changelogs/${changelog_id}/stories`, data).
+    api.post(`changelogs/${changelogId}/stories`, data).
       then(resp => {
         Dispatcher.dispatch({
           type: STORY_PUBLISHED,
-          story: combineAuthorAndContributors(resp)
+          story: combineAuthorAndContributors(resp),
+          changelogId: changelogId
         })
 
         RouterContainer.get().transitionTo('changelog', {
-          changelogId: changelog_id
+          changelogId: changelogId
         })
         analytics.track('Wrote Story', {
           storyLength: data.body.length

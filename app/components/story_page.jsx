@@ -113,7 +113,7 @@ export default class StoryPage extends React.Component {
         <div className="flex-auto" style={{background: '#FAF9F8'}}>
           <div className="container">
             <div className="sm-col-8 mx-auto">
-              <Discussion storyId={this.props.story.id} changelogId={this.props.changelogId} />
+              <Discussion storyId={this.props.story.slug} changelogId={this.props.changelogId} />
             </div>
           </div>
         </div>

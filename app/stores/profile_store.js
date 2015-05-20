@@ -1,4 +1,5 @@
 import { USER_FETCHED } from '../constants'
+import addParams from '../lib/addUrlParamsToStory'
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
 
@@ -11,6 +12,7 @@ class ProfileStore extends Store {
       switch (action.type) {
         case USER_FETCHED:
           this._user = action.user
+          action.user.stories_participated.forEach(s => addParams(s.changelog_slug, s))
           this.emitChange()
           break
       }
