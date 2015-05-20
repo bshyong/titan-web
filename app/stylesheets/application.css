@@ -1,10 +1,10 @@
 @import 'basscss';
 
 /* Base */
+@import 'base/colors';
 @import 'base/typography';
 
 /* Utilities */
-@import 'utilities/color';
 @import 'utilities/pill';
 @import 'utilities/pointer';
 @import 'utilities/shadow';
