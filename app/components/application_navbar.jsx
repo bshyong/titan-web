@@ -101,7 +101,7 @@ export default class ApplicationNavbar extends React.Component {
     }
 
     return (
-      <div className="flex">
+      <div className="flex px1">
         <Popover content={<NotificationsList />}>
           <div className="px1" style={paddingStyle}>
             <Jewel icon={<Icon icon="bell" />} count={unreadCount} />
