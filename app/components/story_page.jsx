@@ -24,6 +24,7 @@ import ChangelogStore from '../stores/changelog_store'
 export default class StoryPage extends React.Component {
   static willTransitionTo(transition, params, query) {
     StoryActions.fetch(params.changelogId, params.storyId)
+
   }
 
   static getPropsFromStores() {
@@ -55,7 +56,7 @@ export default class StoryPage extends React.Component {
     return (
       <div className="flex flex-column" style={{minHeight: 'calc(100vh - 3.5rem)'}}>
 
-        <Link className="p2" to="changelog" params={{changelogId}}>
+        <Link className="p2 gray orange-hover" to="changelog" params={{changelogId}}>
           <Icon icon="angle-left" /> Meta
         </Link>
 

@@ -26,6 +26,10 @@ export default keyMirror({
   HIGHLIGHT_IGNORED: null,
   HIGHLIGHT_USED: null,
 
+  NOTIFICATIONS_FETCHED: null,
+  NOTIFICATIONS_FETCHING: null,
+  NOTIFICATIONS_READ: null,
+
   RESOURCE_FOUND: null,
   RESOURCE_NOT_FOUND: null,
 

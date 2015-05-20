@@ -1,10 +1,10 @@
 @import 'basscss';
 
 /* Base */
+@import 'base/colors';
 @import 'base/typography';
 
 /* Utilities */
-@import 'utilities/color';
 @import 'utilities/pill';
 @import 'utilities/pointer';
 @import 'utilities/shadow';
@@ -40,6 +40,7 @@
 
   --link-color: var(--orange);
   --link-text-decoration: none;
+  --link-hover-text-decoration: none;
 
   --h1: 2.25rem;
 

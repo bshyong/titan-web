@@ -9,7 +9,8 @@ export default class Popover extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      open: false
+      open: false,
+      togglerWidth: 32
     }
     this.handleToggle = this._handleToggle.bind(this)
     this.handleDocumentClick = this._handleDocumentClick.bind(this)
@@ -17,37 +18,44 @@ export default class Popover extends React.Component {
     this.setOpenState = this._setOpenState.bind(this)
   }
 
+  componentDidMount() {
+    this.setState({
+      toggleWidth: this.refs.toggler.getDOMNode().offsetWidth
+    })
+  }
+
   componentWillUnmount() {
     this.unbindDocumentHandlers()
   }
 
   render() {
-    const { trigger } = this.props
+    const { children } = this.props
     return (
       <div className="relative">
-        <div className="pointer" onClick={this.handleToggle}>
-          {trigger}
+        <div className="pointer" onClick={this.handleToggle} ref="toggler">
+          {children}
         </div>
-        <CSSTransitionGroup transitionName="popover-menu">
-          {this.menu()}
+        <CSSTransitionGroup transitionName="popover-content">
+          {this.content()}
         </CSSTransitionGroup>
       </div>
     )
   }
 
-  menu() {
-    const { children } = this.props
+  content() {
+    const { content } = this.props
+    const { togglerWidth } = this.state
 
     if(!this.state.open) {
       return
     }
 
     return (
-      <div className="popover-menu absolute right-0" key="popover-menu">
-        <div className="py1 mt1 bg-white rounded shadow relative">
-          { children }
+      <div className="popover-content absolute right-0" key="popover-content">
+        <div className="mt1 bg-white rounded shadow relative overflow-hidden">
+          { content }
         </div>
-        <div className="popover-menu-arrow" />
+        <div className="popover-content-arrow" style={{right: (togglerWidth / 2)}} />
       </div>
     )
   }
@@ -91,5 +99,5 @@ export default class Popover extends React.Component {
 }
 
 Popover.propTypes = {
-  trigger: React.PropTypes.node.isRequired
+  content: React.PropTypes.node.isRequired
 }
