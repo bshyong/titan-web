@@ -1,8 +1,8 @@
 import React from 'react'
-import GifActions from 'actions/gif_actions'
-import GifStore from 'stores/gif_store'
-import Button from 'components/ui/button.js.jsx'
-import Icon from 'components/ui/icon.js.jsx'
+import GifActions from '../actions/gif_actions'
+import GifStore from '../stores/gif_store'
+import Button from './ui/button.js.jsx'
+import Icon from './ui/icon.js.jsx'
 
 export default class GifPicker extends React.Component {
   constructor(props) {
@@ -12,6 +12,8 @@ export default class GifPicker extends React.Component {
       currentGifIndex: 0,
       gifs: []
     }
+
+    this.timeout = null
 
     this.onStoreChange = this._onStoreChange.bind(this)
     this.handleOnChange = this._handleOnChange.bind(this)
@@ -85,6 +87,17 @@ export default class GifPicker extends React.Component {
     }
   }
 
+  debounce(func, context, args) {
+    return () => {
+      let later = () => {
+        this.timeout = null
+        func.apply(context, args)
+      }
+      clearTimeout(this.timeout)
+      this.timeout = setTimeout(later, 200)
+    }
+  }
+
   _clickPrev() {
     const totalLength = this.state.gifs.length
     const nextIndex = (this.state.currentGifIndex == 0 ? totalLength : this.state.currentGifIndex) - 1
@@ -107,9 +120,10 @@ export default class GifPicker extends React.Component {
     GifActions.changeSearchTerm(
       React.findDOMNode(this.refs.gifSearch).value
     )
-    GifActions.fetchGifs(
-      React.findDOMNode(this.refs.gifSearch).value
-    )
+    const string = React.findDOMNode(this.refs.gifSearch).value
+    this.debounce(
+      GifActions.fetchGifs, GifActions, [string]
+    )()
   }
 
   _onStoreChange() {
