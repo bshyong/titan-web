@@ -77,12 +77,12 @@ export default class ApplicationNavbar extends React.Component {
     const changelogId = RouterContainer.get().getCurrentParams().changelogId
     const unreadCount = this.props.unreadCount
     const bell = <div className="mr1">
-                   <Icon icon={notificationCount > 0 ? 'bell orange' : 'bell silver'} />
-                    {notificationCount || 0}
+                   <Icon icon={unreadCount > 0 ? 'bell orange' : 'bell silver'} />
+                    {unreadCount || 0}
                   </div>
 
     return (
-      <div className="flex" style={{paddingTop: 4}}>
+      <div className="flex flex-center" style={{paddingTop: 4}}>
         <Popover trigger={bell}>
           <NotificationsList />
         </Popover>
