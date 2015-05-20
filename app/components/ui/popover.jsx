@@ -9,12 +9,19 @@ export default class Popover extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      open: false
+      open: false,
+      togglerWidth: 32
     }
     this.handleToggle = this._handleToggle.bind(this)
     this.handleDocumentClick = this._handleDocumentClick.bind(this)
     this.handleDocumentKeyup = this._handleDocumentKeyup.bind(this)
     this.setOpenState = this._setOpenState.bind(this)
+  }
+
+  componentDidMount() {
+    this.setState({
+      toggleWidth: this.refs.toggler.getDOMNode().offsetWidth
+    })
   }
 
   componentWillUnmount() {
@@ -25,7 +32,7 @@ export default class Popover extends React.Component {
     const { children } = this.props
     return (
       <div className="relative">
-        <div className="pointer" onClick={this.handleToggle}>
+        <div className="pointer" onClick={this.handleToggle} ref="toggler">
           {children}
         </div>
         <CSSTransitionGroup transitionName="popover-content">
@@ -37,6 +44,7 @@ export default class Popover extends React.Component {
 
   content() {
     const { content } = this.props
+    const { togglerWidth } = this.state
 
     if(!this.state.open) {
       return
@@ -47,7 +55,7 @@ export default class Popover extends React.Component {
         <div className="mt1 bg-white rounded shadow relative overflow-hidden">
           { content }
         </div>
-        <div className="popover-content-arrow" />
+        <div className="popover-content-arrow" style={{right: (togglerWidth / 2)}} />
       </div>
     )
   }
