@@ -72,6 +72,6 @@ export default class ScrollPaginator extends React.Component {
 ScrollPaginator.propTypes = {
   onScrollBottom: React.PropTypes.func.isRequired,
   page: React.PropTypes.number.isRequired,
-  element: React.PropTypes.node,
-  container: React.PropTypes.node
+  element: React.PropTypes.object,
+  container: React.PropTypes.object
 }

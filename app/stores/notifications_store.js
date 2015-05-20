@@ -57,11 +57,7 @@ class NotificationsStore extends Store {
   get notifications() {
     return this._notifications
              .toList()
-             .sort((b,a) => {
-                if (a.read_at == null) return 1
-                if (b.read_at == null) return 0
-                return a.read_at < b.read_at
-              })
+             .sortBy(n => - (new Date(n.updated_at)))
   }
 
   get unreadCount() {

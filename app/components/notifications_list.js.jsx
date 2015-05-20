@@ -30,9 +30,7 @@ export default class NotificationsList extends React.Component {
 
   componentDidMount() {
     NotificationsStore.addChangeListener(this.getStateFromStores)
-    if (this.state.notifications.size == 0) {
-      setTimeout(() => {NotificationActions.fetchAll()})
-    }
+    setTimeout(() => {NotificationActions.fetchAll()})
 
     this.setScrollPaginatorRefs()
   }
@@ -150,7 +148,12 @@ class Notification extends React.Component {
             <Avatar user={notification.actor} size={24} />
           </div>
           <div className="flex-auto">
-            <p className="h5 m0 gray">{notification.description}</p>
+            <div className="flex m0">
+              <div className="flex-auto h5 gray">{notification.description}</div>
+              <div className="flex-none gray h6">
+                {moment(notification.updated_at).fromNow(true)}
+              </div>
+            </div>
             <div className="h5 orange">{title}</div>
           </div>
         </Link>
