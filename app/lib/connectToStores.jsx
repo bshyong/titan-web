@@ -3,9 +3,14 @@ import React from 'react'
 export default function connectToStores(...stores) {
   return function(Component) {
     return class StoreConnection extends React.Component {
+      static willTransitionTo(transition, params, query) {
+        Component.willTransitionTo &&
+          Component.willTransitionTo(transition, params, query)
+      }
+
       constructor(props) {
         super(props)
-        this.state = Component.getPropsFromStores()
+        this.state = Component.getPropsFromStores(props)
         this.handleStoresChanged = this.handleStoresChanged.bind(this)
       }
 
@@ -26,7 +31,12 @@ export default function connectToStores(...stores) {
       }
 
       handleStoresChanged() {
-        this.setState(Component.getPropsFromStores())
+        this.setState(Component.getPropsFromStores(this.props))
+      }
+
+      // for testing
+      static get Component() {
+        return Component
       }
     }
   }

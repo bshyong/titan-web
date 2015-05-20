@@ -1,5 +1,6 @@
 import {List} from 'immutable'
 import Avatar from './ui/avatar.jsx'
+import connectToStores from '../lib/connectToStores.jsx'
 import Label from './ui/label.jsx'
 import Icon from './ui/icon.js.jsx'
 import Markdown from './ui/markdown.jsx'
@@ -19,23 +20,24 @@ import Discussion from './discussion.jsx'
 import shallowEqual from 'react-pure-render/shallowEqual'
 import ChangelogStore from '../stores/changelog_store'
 
+@connectToStores(StoryStore, StoryReadersStore, ChangelogStore)
 export default class StoryPage extends React.Component {
   static willTransitionTo(transition, params, query) {
     StoryActions.fetch(params.changelogId, params.storyId)
   }
 
-  constructor(props) {
-    super(props)
-    this.stores = [StoryStore, StoryReadersStore, ChangelogStore]
-
-    this.state = this.getStateFromStores()
-
-    this.handleStoresChanged = this.handleStoresChanged.bind(this)
-    this.renderEditLink = this.renderEditLink.bind(this)
+  static getPropsFromStores() {
+    const storyId = Router.get().getCurrentParams().storyId
+    return {
+      story: StoryStore.get(storyId),
+      totalReads: StoryReadersStore.totalReads,
+      uniqueReads: StoryReadersStore.uniqueReads,
+      changelog: ChangelogStore.changelog
+    }
   }
 
   render() {
-    const {story} = this.state
+    const {story} = this.props
     const changelogId = Router.get().getCurrentParams().changelogId
     let body
 
@@ -82,7 +84,7 @@ export default class StoryPage extends React.Component {
                 <div className="flex-none">
                   <ul className="list-reset mb0 mxn1 h5 flex">
                     <li className="px1">
-                      <span className="silver"><Icon icon="eye" /></span> {this.state.totalReads}
+                      <span className="silver"><Icon icon="eye" /></span> {this.props.totalReads}
                     </li>
                     <li className="px1">
                       <span className="silver"><Icon icon="comment" /></span> {story.live_comments_count}
@@ -111,7 +113,7 @@ export default class StoryPage extends React.Component {
         <div className="flex-auto" style={{background: '#FAF9F8'}}>
           <div className="container">
             <div className="sm-col-8 mx-auto">
-              <Discussion storyId={this.state.story.id} changelogId={this.props.changelogId} />
+              <Discussion storyId={this.props.story.id} changelogId={this.props.changelogId} />
             </div>
           </div>
         </div>
@@ -120,41 +122,14 @@ export default class StoryPage extends React.Component {
   }
 
   renderEditLink() {
-    if (this.state.changelog.user_is_team_member) {
+    if (this.props.changelog.user_is_team_member) {
       return (
         <li className="px1">
-          <Link to="edit" params={{changelogId: ChangelogStore.slug, storyId: this.state.story.id}}>
+          <Link to="edit" params={{changelogId: ChangelogStore.slug, storyId: this.props.story.id}}>
             <span className="gray"><Icon icon="pencil" /> Edit</span>
           </Link>
         </li>
       )
     }
-  }
-
-  getStateFromStores() {
-    const storyId = Router.get().getCurrentParams().storyId
-    return {
-      story: StoryStore.get(storyId),
-      totalReads: StoryReadersStore.totalReads,
-      uniqueReads: StoryReadersStore.uniqueReads,
-      changelog: ChangelogStore.changelog
-    }
-  }
-
-  // Stores mixin
-  componentWillMount() {
-    this.stores.forEach(store =>
-      store.addChangeListener(this.handleStoresChanged)
-    );
-  }
-
-  componentWillUnmount() {
-    this.stores.forEach(store =>
-      store.removeChangeListener(this.handleStoresChanged)
-    );
-  }
-
-  handleStoresChanged() {
-    this.setState(this.getStateFromStores(this.props));
   }
 }

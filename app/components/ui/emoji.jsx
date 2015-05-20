@@ -10,6 +10,13 @@ export default class Emoji extends React.Component {
     super(props)
   }
 
+  static parse(char) {
+    return twemoji.parse(
+      char,
+      icon => `https://twemoji.maxcdn.com/svg/${icon}.svg`
+    )
+  }
+
   render() {
     const {
       story: { hearts_count },
@@ -44,11 +51,8 @@ export default class Emoji extends React.Component {
       char = this.props.story.emoji.character
     }
 
-    const html = twemoji.parse(
-      char,
-      icon => `https://twemoji.maxcdn.com/svg/${icon}.svg`
-    )
-    return <div dangerouslySetInnerHTML={{__html: html}} />
+
+    return <div dangerouslySetInnerHTML={{__html: Emoji.parse(char)}} />
   }
 }
 

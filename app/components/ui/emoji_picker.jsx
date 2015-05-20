@@ -1,4 +1,5 @@
 import React from 'react'
+import Emoji from './emoji.jsx'
 import EmojiStore from '../../stores/emoji_store'
 import EmojiActions from '../../actions/emoji_actions.js'
 import {List, Set} from 'immutable'
@@ -39,14 +40,16 @@ export default class EmojiPicker extends React.Component {
     if (emoji.id == this.state.selectedEmoji) {
       return (
         <span className="px1 field-light" onClick={this.selectEmoji.bind(this, a)} key={a}>
-          {emoji.character}
+          <span className="inline-block " style={{width: 18}}
+            dangerouslySetInnerHTML={{__html: Emoji.parse(emoji.character)}} />
         </span>
       )
     }
     else {
       return (
         <span className="px1" onClick={this.selectEmoji.bind(this, a)} key={a}>
-          {emoji.character}
+          <span className="inline-block " style={{width: 18}}
+            dangerouslySetInnerHTML={{__html: Emoji.parse(emoji.character)}} />
         </span>
       )
     }
