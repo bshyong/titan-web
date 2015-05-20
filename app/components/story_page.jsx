@@ -24,6 +24,7 @@ import ChangelogStore from '../stores/changelog_store'
 export default class StoryPage extends React.Component {
   static willTransitionTo(transition, params, query) {
     StoryActions.fetch(params.changelogId, params.storyId)
+    
   }
 
   static getPropsFromStores() {

@@ -10,6 +10,7 @@ import NotificationActions from '../actions/notification_actions'
 import StoryStore from '../stores/story_store'
 import StoryActions from '../actions/story_actions'
 import ChangelogStore from '../stores/changelog_store'
+import RouterContainer from '../lib/router_container'
 import {Link} from 'react-router'
 import classnames from 'classnames'
 
@@ -131,6 +132,12 @@ export default class NotificationsList extends React.Component {
 }
 
 class Notification extends React.Component {
+
+  handleOnClick(notification) {
+    RouterContainer.get().transitionTo('story', {changelogId: ChangelogStore.slug, storyId: notification.story_id})
+    NotificationActions.markAsRead([notification])
+  }
+
   render() {
     const { notification } = this.props
 
@@ -138,12 +145,12 @@ class Notification extends React.Component {
       const title = notification.title.length > 35 ? `${notification.title.substr(0,33)}...` : notification.title
 
       const linkClasses = classnames({
-        'block flex flex-center px2 py1' : true,
+        'block flex flex-center px2 py1 pointer' : true,
         'muted' : notification.read_at
       })
 
       return (
-        <Link className={linkClasses} to="story" params={{changelogId: ChangelogStore.slug, storyId: notification.story_id}}>
+        <a className={linkClasses} onClick={this.handleOnClick.bind(this, notification)}>
           <div className="flex-none mr1">
             <Avatar user={notification.actor} size={24} />
           </div>
@@ -156,7 +163,7 @@ class Notification extends React.Component {
             </div>
             <div className="h5 orange">{title}</div>
           </div>
-        </Link>
+        </a>
       )
     } else {
       return
