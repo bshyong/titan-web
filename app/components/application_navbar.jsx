@@ -74,7 +74,9 @@ export default class ApplicationNavbar extends React.Component {
 
     if (!user) {
       return (
-        <a className="pointer" onClick={SessionActions.signin}>Sign in</a>
+        <div className="p2">
+          <a className="pointer" onClick={SessionActions.signin}>Sign in</a>
+        </div>
       )
     }
 
