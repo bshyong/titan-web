@@ -30,7 +30,9 @@ export default class ApplicationNavbar extends React.Component {
   }
 
   componentDidMount() {
-    setTimeout(() => {NotificationActions.fetchAll()})
+    if (this.props.user) {
+      setTimeout(() => {NotificationActions.fetchAll()})
+    }
   }
 
   render() {
