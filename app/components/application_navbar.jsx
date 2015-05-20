@@ -48,6 +48,9 @@ export default class ApplicationNavbar extends React.Component {
               <Link to="new" params={{changelogId}}>
                 <Icon icon="pencil" fw={true} /> New story
               </Link>
+              <Link to="highlights" params={{changelogId}}>
+                <Icon icon="magic" fw={true} /> Highlights
+              </Link>
             </List.Item>
             <hr className="mt1 border-top mb1" />
           </div>
