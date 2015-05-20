@@ -1,4 +1,5 @@
 import {
+  COMMENT_CREATING,
   STORY_CREATING,
   STORIES_FETCHED,
   STORIES_FETCHING,
@@ -21,45 +22,48 @@ class StoryStore extends Store {
 
     this.dispatchToken = Dispatcher.register(action => {
       switch (action.type) {
+        case COMMENT_CREATING:
+          var story = this.stories.get(action.storyId)
+          story.live_comments_count += 1
+          break;
+
         case STORY_FETCHED:
           const { story } = action
           this.stories = this.stories.set(story.id, story)
-          this.emitChange()
           break
+
         case STORY_HEARTED:
           const { storyId } = action
           this.get(storyId).viewer_has_hearted = true
           this.get(storyId).hearts_count += 1
-          this.emitChange()
           break
+
         case STORY_UNHEARTED:
           const { storyId } = action
           this.get(storyId).viewer_has_hearted = false
           this.get(storyId).hearts_count -= 1
-          this.emitChange()
           break
 
-        case STORY_CREATING:
-          break;
         case STORIES_FETCHED:
           var newStories = action.stories.reduce((m, story) => m.set(story.id, story), Map())
           this.stories = this.stories.merge(newStories)
           this._page = action.page
           this._moreAvailable = action.moreAvailable
           this._loading = false
-          this.emitChange()
           break;
+
         case STORIES_FETCHING:
           this._loading = true
-          this.emitChange()
           break;
+
         case STORY_PUBLISHED:
           this.stories = this.stories.set(action.story.id, action.story)
-          this.emitChange()
           break;
+
         default:
-          break;
+          return
       }
+      this.emitChange()
     })
   }
 

@@ -34,7 +34,7 @@ class CommentsStore extends Store {
   }
 
   all() {
-    return this.comments.toJS()
+    return this.comments.sortBy(c => c.created_at)
   }
 }
 

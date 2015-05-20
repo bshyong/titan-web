@@ -1,6 +1,7 @@
 import Avatar from './ui/avatar.jsx'
 import Comment from './comment.jsx'
 import CommentForm from './comment_form.jsx'
+import connectToStores from '../lib/connectToStores.jsx'
 import MarkdownArea from './ui/markdown_area.jsx'
 import pluralize from '../lib/pluralize'
 import React from 'react'
@@ -10,29 +11,24 @@ import StoryStore from '../stores/story_store'
 import Table from './ui/table.js.jsx'
 import {List} from 'immutable'
 
+@connectToStores(CommentsStore, StoryStore)
 export default class Discussion extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      comments: []
+  static getPropsFromStores(props) {
+    return {
+      comments: CommentsStore.all(),
+      commentsCount: StoryStore.getCommentsCount(props.storyId)
     }
-    this.onStoreChange = this._onStoreChange.bind(this)
   }
 
   componentDidMount() {
-    CommentsStore.addChangeListener(this.onStoreChange)
     DiscussionActions.fetchAll(this.props.changelogId, this.props.storyId)
-  }
-
-  componentWillUnmount() {
-    CommentsStore.removeChangeListener(this.onStoreChange)
   }
 
   render() {
     return (
       <div style={{marginBottom: '20rem'}}>
         <Table>
-          <Table.Separator label={pluralize(StoryStore.getCommentsCount(this.props.storyId), 'Comment', 'Comments')} />
+          <Table.Separator label={pluralize(this.props.commentsCount, 'Comment', 'Comments')} />
           {this.renderComments()}
         </Table>
 
@@ -44,39 +40,26 @@ export default class Discussion extends React.Component {
   }
 
   renderComments() {
-    const comments = List(this.state.comments).sortBy(comment => comment.created_at)
-    return (
-      comments.map(
-        comment => {
-          const renderedComment = <Comment comment={comment}
-              storyId={this.props.storyId}
-              changelogId={this.props.changelogId} />
-          if (comment.deleted_at) {
-            return (
-              <Table.DisabledCell key={comment.id} image={<Avatar user={comment.user} size={24} />}>
-                {renderedComment}
-              </Table.DisabledCell>
-            )
-          } else {
-            return (
-              <Table.Cell key={comment.id} image={<Avatar user={comment.user} size={24} />}>
-                {renderedComment}
-              </Table.Cell>
-            )
-          }
-        }
-      )
-    )
-  }
+    return this.props.comments.map(comment => {
+      const renderedComment = <Comment comment={comment}
+          storyId={this.props.storyId}
+          changelogId={this.props.changelogId} />
 
-  _onStoreChange() {
-    this.setState({
-      comments: CommentsStore.all().sort(function(a,b){
-        return a.created_at < b.created_at
-      })
+      if (comment.deleted_at) {
+        return (
+          <Table.DisabledCell key={comment.id} image={<Avatar user={comment.user} size={24} />}>
+            {renderedComment}
+          </Table.DisabledCell>
+        )
+      } else {
+        return (
+          <Table.Cell key={comment.id} image={<Avatar user={comment.user} size={24} />}>
+            {renderedComment}
+          </Table.Cell>
+        )
+      }
     })
   }
-
 }
 
 Discussion.propTypes = {
