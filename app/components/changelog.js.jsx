@@ -150,7 +150,7 @@ export default class Changelog extends React.Component {
       </Jumbotron>
 
       <div className="container">
-        <TimePicker />
+      
         <Table>{a}</Table>
         <LoadingBar loading={this.state.loading} />
       </div>
