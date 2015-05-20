@@ -50,7 +50,7 @@ export default class NotificationsList extends React.Component {
     const stories = this.state.notifications
       .map((n) => {
         return (
-          <Notification notification={n} key={n.story_id}/>
+          <Notification notification={n} key={n.story_id} />
         )
       })
       if (stories.count() > 0) {
@@ -72,9 +72,9 @@ export default class NotificationsList extends React.Component {
       )
     } else {
       return (
-        <div onClick={this.markAllAsRead} className="gray h5 center px2 py1 mt1 border-top">
-          <a className="gray pointer">Mark all as read</a>
-        </div>
+        <a className="block gray h5 center px2 py1 border-top border-silver pointer" onClick={this.markAllAsRead}>
+          Mark all as read
+        </a>
       )
     }
   }
@@ -132,42 +132,72 @@ export default class NotificationsList extends React.Component {
 
 class Notification extends React.Component {
 
-  handleOnClick(notification) {
-    RouterContainer.get().transitionTo('story', {changelogId: ChangelogStore.slug, storyId: notification.story_id})
-    NotificationActions.markAsRead([notification])
+  constructor(props) {
+    super(props)
+    this.handleOnClick = this._handleOnClick.bind(this)
   }
 
   render() {
-    const { notification } = this.props
-
-    if (notification) {
-      const title = notification.title.length > 35 ? `${notification.title.substr(0,33)}...` : notification.title
-
-      const linkClasses = classnames({
-        'block flex flex-center px2 py1 pointer' : true,
-        'muted' : notification.read_at
-      })
-
-      return (
-        <a className={linkClasses} onClick={this.handleOnClick.bind(this, notification)}>
-          <div className="flex-none mr1">
-            <Avatar user={notification.actor} size={24} />
-          </div>
-          <div className="flex-auto">
-            <div className="flex m0">
-              <div className="flex-auto h5 gray">{notification.description}</div>
-              <div className="flex-none gray h6">
-                {moment(notification.updated_at).fromNow(true)}
-              </div>
-            </div>
-            <div className="h5 orange">{title}</div>
-          </div>
-        </a>
-      )
-    } else {
+    if (!this.props.notification) {
       return
     }
+
+    const {
+      notification: {
+        actor,
+        description,
+        read_at,
+        title,
+        updated_at,
+      }
+    } = this.props
+
+    const cns = {
+      notification: classnames('block flex p2 pointer', {
+        'bg-smoke': read_at
+      }),
+
+      actor: classnames('flex-none mr1', {
+        muted: read_at
+      }),
+
+      description: classnames('flex', {
+        'gray': !read_at,
+        'silver': read_at
+      }),
+
+      title: classnames({
+        'silver': read_at
+      })
+    }
+
+    return (
+      <a className={cns.notification} onClick={this.handleOnClick}>
+        <div className={cns.actor}>
+          <Avatar user={actor} size={24} />
+        </div>
+        <div className="flex-auto h5">
+          <div className={cns.description}>
+            <div className="flex-auto">{description}</div>
+            <div className="">
+              {moment(updated_at).fromNow(true)}
+            </div>
+          </div>
+          <div className={cns.title}>{title}</div>
+        </div>
+      </a>
+    )
   }
+
+  _handleOnClick(e) {
+    const { notification } = this.props
+    NotificationActions.markAsRead([notification])
+    RouterContainer.get().transitionTo('story', {
+      changelogId: ChangelogStore.slug,
+      storyId: notification.story_id
+    })
+  }
+
 }
 
 Notification.proptypes = {

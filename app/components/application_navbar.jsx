@@ -3,16 +3,17 @@ import Avatar from './ui/avatar.jsx'
 import ChangelogStore from '../stores/changelog_store.js'
 import connectToStores from '../lib/connectToStores.jsx'
 import Icon from './ui/icon.js.jsx'
+import Jewel from './ui/jewel.jsx'
 import List from './ui/list.jsx'
 import Navbar from './ui/navbar.jsx'
+import NotificationActions from '../actions/notification_actions'
+import NotificationsList from './notifications_list.js.jsx'
+import NotificationsStore from '../stores/notifications_store'
 import Popover from './ui/popover.jsx'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
 import SessionActions from '../actions/session_actions'
 import SessionStore from '../stores/session_store'
-import NotificationsList from './notifications_list.js.jsx'
-import NotificationsStore from '../stores/notifications_store'
-import NotificationActions from '../actions/notification_actions'
 
 // Logo versions:
 import LogoSrc from '../images/logo.svg'
@@ -48,22 +49,21 @@ export default class ApplicationNavbar extends React.Component {
   }
 
   render_new_story(changelogId) {
-    if(this.props.changelog) {
-      if (this.props.changelog.user_is_team_member) {
-        return (
-          <div>
-            <List.Item>
-              <Link to="new" params={{changelogId}}>
-                <Icon icon="pencil" fw={true} /> New story
-              </Link>
-              <Link to="highlights" params={{changelogId}}>
-                <Icon icon="magic" fw={true} /> Highlights
-              </Link>
-            </List.Item>
-            <hr className="mt1 border-top mb1" />
-          </div>
-        )
-      }
+    const { changelog } = this.props
+    if (changelog && changelog.user_is_team_member) {
+      return (
+        <div>
+          <List.Item>
+            <Link to="new" params={{changelogId}}>
+              <Icon icon="pencil" fw={true} /> New story
+            </Link>
+            <Link to="highlights" params={{changelogId}}>
+              <Icon icon="magic" fw={true} /> Highlights
+            </Link>
+          </List.Item>
+          <hr className="mt1 border-top mb1" />
+        </div>
+      )
     }
   }
 
@@ -71,14 +71,16 @@ export default class ApplicationNavbar extends React.Component {
     const { user } = this.props
 
     if (!user) {
-      return <a className="pointer" onClick={SessionActions.signin}>Sign in</a>
+      return (
+        <a className="pointer" onClick={SessionActions.signin}>Sign in</a>
+      )
     }
 
     const changelogId = RouterContainer.get().getCurrentParams().changelogId
     const unreadCount = this.props.unreadCount
 
     const userMenu = (
-      <div>
+      <div className="py1">
         <List>
           {this.render_new_story(changelogId)}
         </List>
@@ -93,16 +95,22 @@ export default class ApplicationNavbar extends React.Component {
       </div>
     )
 
+    const paddingStyle = {
+      paddingTop: '.75rem',
+      paddingBottom: '.75rem'
+    }
+
     return (
-      <div className="flex flex-center" style={{paddingTop: 4}}>
+      <div className="flex">
         <Popover content={<NotificationsList />}>
-          <div className="mr1">
-            <Icon icon={unreadCount > 0 ? 'bell orange' : 'bell silver'} />
-            {unreadCount || 0}
+          <div className="px1" style={paddingStyle}>
+            <Jewel icon={<Icon icon="bell" />} count={unreadCount} />
           </div>
         </Popover>
         <Popover content={userMenu}>
-          <Avatar user={user} size={32} />
+          <div className="px1" style={paddingStyle}>
+            <Avatar user={user} size={32} />
+          </div>
         </Popover>
       </div>
     )

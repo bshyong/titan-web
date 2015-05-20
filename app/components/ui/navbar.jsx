@@ -12,14 +12,14 @@ export default class Navbar extends React.Component {
   render() {
     const {title, left, right} = this.props
     return <div className="navbar flex relative full-width z1">
-      <div className="absolute left-0 right-0 p2 center bold z0">
+      <div className="absolute left-0 right-0 p2 center bold" style={{zIndex: -1}}>
         {title}
       </div>
-      <div className="flex-none p2 z4">
+      <div className="flex-none p2">
         {left}
       </div>
       <div className="flex-auto"></div>
-      <div className="flex-none px2 py1 z4">
+      <div className="flex-none">
         {right}
       </div>
     </div>
