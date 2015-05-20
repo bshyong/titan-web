@@ -71,9 +71,9 @@ export default {
   clickHeart(story) {
     if (SessionStore.isSignedIn()) {
       if (!story.viewer_has_hearted) {
-        this.heart(story.id)
+        this.heart(story.slug)
       } else {
-        this.unheart(story.id)
+        this.unheart(story.slug)
       }
     }
   },

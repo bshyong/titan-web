@@ -58,7 +58,7 @@ class StoryStore extends Store {
           break;
 
         case STORY_PUBLISHED:
-          this.stories = this.stories.set(action.story.slug, addParams(action.story))
+          this.stories = this.stories.set(action.story.slug, addParams(action.changelogId, action.story))
           break;
 
         default:
