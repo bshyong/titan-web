@@ -21,7 +21,6 @@
 @import 'components/navbar';
 @import 'components/popover';
 @import 'components/stack';
-@import 'components/story';
 @import 'components/table';
 
 :root {
