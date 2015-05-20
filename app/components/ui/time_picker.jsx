@@ -1,5 +1,7 @@
 import React from 'react'
 import ChangelogActions from '../../actions/changelog_actions'
+import StoryActions from '../../actions/story_actions'
+import ChangelogStore from '../../stores/changelog_store.js'
 
 export default class TimePicker extends React.Component {
 
@@ -12,6 +14,7 @@ export default class TimePicker extends React.Component {
   changeTimeLength(e) {
     var timeChange = e.target.textContent
     ChangelogActions.changeTimeLength(timeChange)
+    StoryActions.fetchAll(ChangelogStore.changelog.slug, timeChange)
     this.setState({timeLength: timeChange})
   }
 
