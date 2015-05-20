@@ -82,11 +82,20 @@ export default class Changelog extends React.Component {
     }
     else {
       var stories = this.state.stories
-                      .sortBy(story => story.hearts_count)
+                      .sortBy(story => story.created_at)
                       .reverse()
                       .groupBy(story => moment(story.created_at).startOf(this.state.timeLength))
+                      .mapEntries((k,v) => {
+                        return [k[0],k[1].sortBy(story => story.hearts_count).reverse()]
+                      })
     }
     return stories
+  }
+
+  renderShowAll() {
+    return (
+      "Show All"
+    )
   }
 
   render() {
@@ -134,7 +143,6 @@ export default class Changelog extends React.Component {
             </Table.Cell>
           )
         })
-
       )
       return b
     }, List())
