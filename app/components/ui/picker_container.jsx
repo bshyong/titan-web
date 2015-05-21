@@ -19,7 +19,7 @@ export default class PickerContainer extends React.Component {
     super(props)
 
     this.state = {
-      height: 0
+      height: props.maxHeight
     }
   }
 
@@ -27,17 +27,16 @@ export default class PickerContainer extends React.Component {
     this.setHeight()
   }
 
-  componentDidUpdate() {
+  componentWillReceiveProps() {
     this.setHeight()
   }
 
   render() {
     const { maxHeight, position, shown } = this.props
     let style = {
-      height: this.state.height,
       maxHeight: maxHeight,
       overflow: 'hidden',
-      overflowY: 'scroll'
+      overflowY: 'auto'
     }
 
     style[position] = -this.state.height
@@ -77,8 +76,7 @@ export default class PickerContainer extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return !shallowEqual(nextProps, this.props) ||
-      !shallowEqual(nextState, this.state)
+    return !shallowEqual(nextProps, this.props) || !shallowEqual(nextState, this.state)
   }
 }
 
