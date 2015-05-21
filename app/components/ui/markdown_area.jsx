@@ -1,7 +1,11 @@
 import DropzoneContainer from '../dropzone_container.jsx'
 import React from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
+import UserPicker from './user_picker.jsx'
+import UserPickerActions from '../../actions/user_picker_actions'
 import {List} from 'immutable'
+
+const MENTION_REGEX = /(^|\s)@(\w+)$/
 
 const noop = (msg) => {
   return () => {
@@ -20,6 +24,7 @@ export default class MarkdownArea extends React.Component {
     this.handleKeyDown = this._handleKeyDown.bind(this)
     this.onUploaded = this._onUploaded.bind(this)
     this.onUploading = this._onUploading.bind(this)
+    this.onUserSelected = this._onUserSelected.bind(this)
     this.toggleFocus = this._toggleFocus.bind(this)
   }
 
@@ -48,6 +53,7 @@ export default class MarkdownArea extends React.Component {
       <DropzoneContainer id={this.props.id}
         onUploaded={this.onUploaded}
         onUploading={this.onUploading}>
+        {this.renderUserPicker()}
         <div className="field-light border-silver mb0 py0 full-width relative"
             style={style.div}>
           <TextareaAutosize
@@ -59,6 +65,14 @@ export default class MarkdownArea extends React.Component {
         </div>
       </DropzoneContainer>
     )
+  }
+
+  renderUserPicker() {
+    const match = (this.props.value || '').match(MENTION_REGEX)
+    if (match) {
+      UserPickerActions.fetchUsers(match[2])
+      return <UserPicker onUserSelected={this.onUserSelected} />
+    }
   }
 
   _handleKeyDown(e) {
@@ -91,6 +105,19 @@ export default class MarkdownArea extends React.Component {
       let simulatedEvent = {
         target: {
           value: value + attachmentText
+        }
+      }
+
+      this.props.onChange(simulatedEvent)
+    }, 0)
+  }
+
+  _onUserSelected(user) {
+    setTimeout(() => {
+      let value = this.props.value || ''
+      let simulatedEvent = {
+        target: {
+          value: value.replace(MENTION_REGEX, `@${user.username} `)
         }
       }
 
