@@ -11,7 +11,6 @@ import LoadingBar from './ui/loading_bar.jsx'
 import Logo from './logo.jsx'
 import moment from '../config/moment'
 import React from 'react'
-import RouterContainer from '../lib/router_container'
 import ScrollPaginator from './ui/scroll_paginator.jsx'
 import shallowEqual from 'react-pure-render/shallowEqual'
 import Stack from './ui/stack.jsx'
@@ -23,14 +22,6 @@ import TimePicker from './ui/time_picker.jsx'
 import MetaBannerUrl from '../images/meta-banner.jpg'
 
 export default class Changelog extends React.Component {
-  static willTransitionTo(transition, params, query) {
-    StoryActions.fetchAll(params.changelogId, ChangelogStore.timeLength)
-  }
-  static get defaultProps() {
-    return {
-      changelogId: RouterContainer.get().getCurrentParams().changelogId
-    }
-  }
 
   constructor(props) {
     super(props)
@@ -106,9 +97,13 @@ export default class Changelog extends React.Component {
 
     if (this.state.timeLength != "day") {
       stories = stories.mapEntries((k,v) => {
-        return [k[0],k[1].sortBy(story => story.hearts_count).reverse()]
+        return [
+          k[0],
+          k[1].sortBy(story => story.hearts_count).reverse()
+        ]
       })
     }
+
     return stories
   }
 
