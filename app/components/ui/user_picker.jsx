@@ -33,6 +33,7 @@ export default class UserPicker extends React.Component {
     super(props)
 
     this.handleKeyDown = this._handleKeyDown.bind(this)
+    this.handleUserSelected = this._handleUserSelected.bind(this)
   }
 
   componentDidMount() {
@@ -55,12 +56,12 @@ export default class UserPicker extends React.Component {
 
   renderUsers() {
     return this.props.users.map((u, i) => {
-      const classes = classnames('px2', {
+      const classes = classnames('px2', 'pointer', {
         'bg-silver': i === this.props.highlightIndex
       })
 
       return (
-        <div className={classes} key={`${u.id}-${i}`}>
+        <div className={classes} key={`${u.id}-${i}`} onClick={this.handleUserSelected.bind(this, u)}>
           <Table.Cell image={<Avatar user={u} size={24} />}>
             {u.username}
           </Table.Cell>
@@ -89,6 +90,14 @@ export default class UserPicker extends React.Component {
           break
       }
     }
+  }
+
+  _handleUserSelected(u, e) {
+    e.preventDefault()
+
+    this.props.onUserSelected(u)
+
+    UserPickerActions.setHighlightIndex(0)
   }
 }
 

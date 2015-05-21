@@ -3,6 +3,8 @@ import React from 'react'
 import shallowEqual from 'react-pure-render/shallowEqual'
 import Table from './table.jsx'
 
+const UPDATE_COUNT = 10
+
 export default class PickerContainer extends React.Component {
   static getOffsetTop(element) {
     let y = 0
@@ -21,14 +23,27 @@ export default class PickerContainer extends React.Component {
     this.state = {
       height: props.maxHeight
     }
+
+    this.updateCount = 0
   }
 
   componentDidMount() {
-    this.setHeight()
+    this.setState({
+      height: this.calculateHeight()
+    })
   }
 
-  componentWillReceiveProps() {
-    this.setHeight()
+  componentDidUpdate() {
+    if (this.updateCount > UPDATE_COUNT) {
+      this.updateCount = 0
+      return
+    }
+
+    this.updateCount++
+
+    this.setState({
+      height: this.calculateHeight()
+    })
   }
 
   render() {
@@ -60,7 +75,7 @@ export default class PickerContainer extends React.Component {
     )
   }
 
-  setHeight() {
+  calculateHeight() {
     let node = React.findDOMNode(this.refs.container)
     let height = node.offsetHeight
     let fromTop = PickerContainer.getOffsetTop(node)
@@ -70,9 +85,7 @@ export default class PickerContainer extends React.Component {
       fromTop = PickerContainer.getOffsetTop()
     }
 
-    this.setState({
-      height: height
-    })
+    return height
   }
 
   shouldComponentUpdate(nextProps, nextState) {
