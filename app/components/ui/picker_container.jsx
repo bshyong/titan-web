@@ -3,7 +3,7 @@ import React from 'react'
 import shallowEqual from 'react-pure-render/shallowEqual'
 import Table from './table.jsx'
 
-const UPDATE_COUNT = 10
+const UPDATE_COUNT = 15
 
 export default class PickerContainer extends React.Component {
   static getOffsetTop(element) {

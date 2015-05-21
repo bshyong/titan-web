@@ -117,7 +117,7 @@ export default class MarkdownArea extends React.Component {
       let value = this.props.value || ''
       let simulatedEvent = {
         target: {
-          value: value.replace(MENTION_REGEX, `@${user.username} `)
+          value: value.replace(MENTION_REGEX, ` @${user.username} `)
         }
       }
 
