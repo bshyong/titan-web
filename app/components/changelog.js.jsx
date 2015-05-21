@@ -18,84 +18,80 @@ import StoryStore from '../stores/story_store'
 import StoryActions from '../actions/story_actions'
 import Table from './ui/table.js.jsx'
 import TimePicker from './ui/time_picker.jsx'
+import connectToStores from '../lib/connectToStores.jsx'
 
 import MetaBannerUrl from '../images/meta-banner.jpg'
 
+@connectToStores(ChangelogStore, StoryStore)
 export default class Changelog extends React.Component {
 
   constructor(props) {
     super(props)
-    this.stores = [ChangelogStore, StoryStore]
-    this.state = this.getStateFromStores()
-    this.handleStoresChanged = this.handleStoresChanged.bind(this)
     this.expandDate = this.expandDate.bind(this)
     this.storyValuesLogic = this.storyValuesLogic.bind(this)
   }
 
-  getStateFromStores() {
+  static getPropsFromStores(props) {
     return {
+      following: ChangelogStore.following,
+      loading: StoryStore.loading,
+      moreAvailable: StoryStore.moreAvailable,
       page: StoryStore.page,
       stories: StoryStore.all(),
-      moreAvailable: StoryStore.moreAvailable,
-      loading: StoryStore.loading,
-      following: ChangelogStore.following,
       timeLength: ChangelogStore.timeLength,
-      timeShown: ChangelogStore.timeShown
+      timeShown: ChangelogStore.timeShown,
     }
   }
 
   render() {
-    const { changelogId } = this.props
+    const { changelogId, page, moreAvailable, loading } = this.props
     var storyTable = this.constructTable(changelogId)
 
     return <div>
-      {this.state.moreAvailable ?
-        <ScrollPaginator page={this.state.page}
-          onScrollBottom={() => StoryActions.fetchAll(this.props.changelogId, this.state.page + 1)} /> : null}
+      {moreAvailable ?
+        <ScrollPaginator page={page}
+          onScrollBottom={() => StoryActions.fetchAll(changelogId, page + 1)} /> : null}
 
-      {this.renderJumbotron(changelogId)}
+      {this.renderJumbotron()}
 
       <div className="container">
         <div className="mt2">
           <TimePicker />
         </div>
         {storyTable}
-        <LoadingBar loading={this.state.loading} />
+        <LoadingBar loading={loading} />
       </div>
     </div>
   }
 
   parseCalendarDate(key) {
-    var timeLength = this.state.timeLength
-    if (timeLength=="day")
-    {
-      return (
-        key.calendar()
-      )
+    const { timeLength } = this.props
+
+    if (timeLength === "day") {
+      return key.calendar()
     }
-    if (timeLength=="week") {
+
+    if (timeLength === "week") {
       var start_date = moment(key)
       var end_date = moment(key).add(1, 'weeks')
-      return (
-        start_date.format('MMMM D, YYYY').concat(" - ").concat(end_date.format('MMMM D, YYYY'))
-      )
+      return start_date.format('MMMM D, YYYY').concat(" - ").concat(end_date.format('MMMM D, YYYY'))
     }
-    if (timeLength=="month") {
+
+    if (timeLength === "month") {
       var start_date = moment(key)
       var end_date = moment(key).add(1, 'months')
-      return (
-        start_date.format('MMMM D, YYYY').concat(" - ").concat(end_date.format('MMMM D, YYYY'))
-      )
+      return start_date.format('MMMM D, YYYY').concat(" - ").concat(end_date.format('MMMM D, YYYY'))
     }
   }
 
   sortStories() {
-    var stories = this.state.stories
+    const { timeLength } = this.props
+    var stories = this.props.stories
                     .sortBy(story => story.created_at)
                     .reverse()
-                    .groupBy(story => moment(story.created_at).startOf(this.state.timeLength))
+                    .groupBy(story => moment(story.created_at).startOf(timeLength))
 
-    if (this.state.timeLength != "day") {
+    if (timeLength != "day") {
       stories = stories.mapEntries((k,v) => {
         return [
           k[0],
@@ -114,14 +110,16 @@ export default class Changelog extends React.Component {
   }
 
   renderShowAll(date) {
-    var newDate = date
-    var buttonText = "Show All"
-    if (this.state.timeShown) {
-      if (date.format() == this.state.timeShown.format()) {
+    const { timeShown } = this.props
+    let newDate = date
+    let buttonText = "Show All"
+    if (timeShown) {
+      if (date.format() === timeShown.format()) {
         newDate = null
         buttonText = "Hide"
       }
     }
+
     return (
       <a className="block py2 h5 pointer" onClick={this.expandDate(newDate)}>
         {buttonText}
@@ -130,12 +128,12 @@ export default class Changelog extends React.Component {
   }
 
   storyValuesLogic(key, value) {
-    if (this.state.timeShown) {
-      if (this.state.timeShown.format() != "day" && (key.format() != this.state.timeShown.format()))
+    const { timeShown, timeLength } = this.props
+    if (timeShown) {
+      if (timeShown.format() !== "day" && (key.format() !== timeShown.format()))
         {value = value.slice(0,5)}
-    }
-    else {
-      if (this.state.timeLength != "day") {
+    } else {
+      if (timeLength !== "day") {
         value = value.slice(0,5)
       }
     }
@@ -143,12 +141,13 @@ export default class Changelog extends React.Component {
   }
 
   constructTable(changelogId) {
+    const { timeShown, timeLength } = this.props
     const stories = this.sortStories()
     const a = stories.reduce((reduction, value, key, iter) => {
       let a = reduction.push(
         <Table.Separator label={this.parseCalendarDate(key)} key={key.toISOString()} />
       )
-      var showButton = value.count() > 5 && this.state.timeLength != "day"
+      var showButton = value.count() > 5 && timeLength !== "day"
 
       value = this.storyValuesLogic(key, value)
 
@@ -194,7 +193,8 @@ export default class Changelog extends React.Component {
     return <Table>{a}</Table>
   }
 
-  renderJumbotron(changelogId) {
+  renderJumbotron() {
+    const { changelogId, following } = this.props
     return (
       <Jumbotron bgColor="blue" bgImageUrl={MetaBannerUrl}>
         <div className="sm-flex flex-center">
@@ -206,27 +206,10 @@ export default class Changelog extends React.Component {
             <div>Building Assembly on Assembly.</div>
           </Link>
           <div className="flex-none sm-ml2">
-            <FollowButton changelogId={this.props.changelogId} toggled={this.state.following}/>
+            <FollowButton changelogId={changelogId} toggled={following}/>
           </div>
         </div>
       </Jumbotron>
     )
-  }
-
-  // Stores mixin
-  componentWillMount() {
-    this.stores.forEach(store =>
-      store.addChangeListener(this.handleStoresChanged)
-    );
-  }
-
-  componentWillUnmount() {
-    this.stores.forEach(store =>
-      store.removeChangeListener(this.handleStoresChanged)
-    );
-  }
-
-  handleStoresChanged() {
-    this.setState(this.getStateFromStores(this.props));
   }
 }
