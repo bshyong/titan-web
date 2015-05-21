@@ -2,6 +2,7 @@ import {List, Set} from 'immutable'
 import { RouteHandler, Link } from 'react-router'
 import Avatar from './ui/avatar.jsx'
 import ChangelogStore from '../stores/changelog_store'
+import ChangelogActions from '../actions/changelog_actions'
 import Emoji from './ui/emoji.jsx'
 import FollowButton from './follow_button.jsx'
 import Icon from './ui/icon.js.jsx'
@@ -36,6 +37,8 @@ export default class Changelog extends React.Component {
     this.stores = [ChangelogStore, StoryStore]
     this.state = this.getStateFromStores()
     this.handleStoresChanged = this.handleStoresChanged.bind(this)
+    this.expandDate = this.expandDate.bind(this)
+    this.storyValuesLogic = this.storyValuesLogic.bind(this)
   }
 
   getStateFromStores() {
@@ -45,8 +48,30 @@ export default class Changelog extends React.Component {
       moreAvailable: StoryStore.moreAvailable,
       loading: StoryStore.loading,
       following: ChangelogStore.following,
-      timeLength: ChangelogStore.timeLength
+      timeLength: ChangelogStore.timeLength,
+      timeShown: ChangelogStore.timeShown
     }
+  }
+
+  render() {
+    const { changelogId } = this.props
+    var storyTable = this.constructTable(changelogId)
+
+    return <div>
+      {this.state.moreAvailable ?
+        <ScrollPaginator page={this.state.page}
+          onScrollBottom={() => StoryActions.fetchAll(this.props.changelogId, this.state.page + 1)} /> : null}
+
+      {this.renderJumbotron(changelogId)}
+
+      <div className="container">
+        <div className="mt2">
+          <TimePicker />
+        </div>
+        {storyTable}
+        <LoadingBar loading={this.state.loading} />
+      </div>
+    </div>
   }
 
   parseCalendarDate(key) {
@@ -73,21 +98,64 @@ export default class Changelog extends React.Component {
     }
   }
 
-  render() {
-    const { changelogId } = this.props
-    const stories = this.state.stories
+  sortStories() {
+    var stories = this.state.stories
                     .sortBy(story => story.created_at)
                     .reverse()
                     .groupBy(story => moment(story.created_at).startOf(this.state.timeLength))
 
+    if (this.state.timeLength != "day") {
+      stories = stories.mapEntries((k,v) => {
+        return [k[0],k[1].sortBy(story => story.hearts_count).reverse()]
+      })
+    }
+    return stories
+  }
 
+  expandDate(d) {
+    return function(e) {
+      ChangelogActions.changeTimeShown(d)
+    }
+  }
+
+  renderShowAll(date) {
+    var newDate = date
+    var buttonText = "Show All"
+    if (this.state.timeShown) {
+      if (date.format() == this.state.timeShown.format()) {
+        newDate = null
+        buttonText = "Hide"
+      }
+    }
+    return (
+      <a className="block py2 h5 pointer" onClick={this.expandDate(newDate)}>
+        {buttonText}
+      </a>
+    )
+  }
+
+  storyValuesLogic(key, value) {
+    if (this.state.timeShown) {
+      if (this.state.timeShown.format() != "day" && (key.format() != this.state.timeShown.format()))
+        {value = value.slice(0,5)}
+    }
+    else {
+      if (this.state.timeLength != "day") {
+        value = value.slice(0,5)
+      }
+    }
+    return value
+  }
+
+  constructTable(changelogId) {
+    const stories = this.sortStories()
     const a = stories.reduce((reduction, value, key, iter) => {
       let a = reduction.push(
         <Table.Separator label={this.parseCalendarDate(key)} key={key.toISOString()} />
       )
+      var showButton = value.count() > 5 && this.state.timeLength != "day"
 
-      if (this.state.timeLength != "day")
-        {value = value.slice(0,5)}
+      value = this.storyValuesLogic(key, value)
 
       let b = a.push(
         value.sortBy(story => -story.hearts_count).map(story => {
@@ -120,40 +188,34 @@ export default class Changelog extends React.Component {
             </Table.Cell>
           )
         })
-
       )
-      return b
+      if (showButton) {
+        return b.concat(this.renderShowAll(key))
+      } else {
+        return b
+      }
     }, List())
 
-    return <div>
-      {this.state.moreAvailable ?
-        <ScrollPaginator page={this.state.page}
-          onScrollBottom={() => StoryActions.fetchAll(this.props.changelogId, this.state.page + 1)} /> : null}
+    return <Table>{a}</Table>
+  }
 
+  renderJumbotron(changelogId) {
+    return (
       <Jumbotron bgColor="blue" bgImageUrl={MetaBannerUrl}>
         <div className="sm-flex flex-center">
           <div className="flex-none mb2 sm-mb0">
             <div className="mx-auto" style={{width: '4rem'}}><Logo size="4rem"/></div>
           </div>
-
           <Link className="block flex-auto mb2 md-mb0 sm-px3 center sm-left-align white" to="changelog" params={{changelogId}}>
             <h2 className="mt0 mb0">Meta</h2>
             <div>Building Assembly on Assembly.</div>
-
           </Link>
-
           <div className="flex-none sm-ml2">
             <FollowButton changelogId={this.props.changelogId} toggled={this.state.following}/>
           </div>
         </div>
       </Jumbotron>
-
-      <div className="container">
-
-        <Table>{a}</Table>
-        <LoadingBar loading={this.state.loading} />
-      </div>
-    </div>
+    )
   }
 
   // Stores mixin
