@@ -19,15 +19,13 @@ import StoryActions from '../actions/story_actions'
 import Table from './ui/table.js.jsx'
 import TimePicker from './ui/time_picker.jsx'
 import connectToStores from '../lib/connectToStores.jsx'
-
-import MetaBannerUrl from '../images/meta-banner.jpg'
+import ChangelogHeader from './ChangelogHeader.jsx'
 
 @connectToStores(ChangelogStore, StoryStore)
 export default class Changelog extends React.Component {
 
   static getPropsFromStores(props) {
     return {
-      following: ChangelogStore.following,
       loading: StoryStore.loading,
       moreAvailable: StoryStore.moreAvailable,
       page: StoryStore.page,
@@ -45,8 +43,6 @@ export default class Changelog extends React.Component {
       {moreAvailable ?
         <ScrollPaginator page={page}
           onScrollBottom={() => StoryActions.fetchAll(changelogId, page + 1)} /> : null}
-
-      {this.renderJumbotron()}
 
       <div className="container">
         <div className="mt2">
@@ -187,23 +183,4 @@ export default class Changelog extends React.Component {
     return <Table>{a}</Table>
   }
 
-  renderJumbotron() {
-    const { changelogId, following } = this.props
-    return (
-      <Jumbotron bgColor="blue" bgImageUrl={MetaBannerUrl}>
-        <div className="sm-flex flex-center">
-          <div className="flex-none mb2 sm-mb0">
-            <div className="mx-auto" style={{width: '4rem'}}><Logo size="4rem"/></div>
-          </div>
-          <Link className="block flex-auto mb2 md-mb0 sm-px3 center sm-left-align white" to="changelog" params={{changelogId}}>
-            <h2 className="mt0 mb0">Meta</h2>
-            <div>Building Assembly on Assembly.</div>
-          </Link>
-          <div className="flex-none sm-ml2">
-            <FollowButton changelogId={changelogId} toggled={following}/>
-          </div>
-        </div>
-      </Jumbotron>
-    )
-  }
 }

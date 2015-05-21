@@ -3,6 +3,7 @@ import React from 'react'
 import RouterContainer from '../lib/router_container'
 import StoryActions from '../actions/story_actions'
 import Changelog from '../components/changelog.js.jsx'
+import ChangelogHeader from '../components/ChangelogHeader.jsx'
 
 export default class ChangelogPage extends React.Component {
   static willTransitionTo(transition, params, query) {
@@ -16,6 +17,10 @@ export default class ChangelogPage extends React.Component {
   }
 
   render() {
-    return <Changelog changelogId={this.props.changelogId} />
+    const { changelogId } = this.props
+    return <div>
+      <ChangelogHeader changelogId={changelogId} />
+      <Changelog changelogId={changelogId} />
+    </div>
   }
 }
