@@ -2,6 +2,7 @@ import React from 'react'
 import ChangelogActions from '../../actions/changelog_actions'
 import StoryActions from '../../actions/story_actions'
 import ChangelogStore from '../../stores/changelog_store.js'
+import classnames from 'classnames'
 
 export default class TimePicker extends React.Component {
 
@@ -19,33 +20,34 @@ export default class TimePicker extends React.Component {
   }
 
   renderTime(unit) {
+    const cn = classnames('px2 mr2 pointer border pill', {
+      'orange border-orange': this.state.timeLength === unit,
+      'gray': this.state.timeLength !== unit
+    })
+
     if (this.state.timeLength == unit) {
       return (
-        <span className="px2 mx2 pointer border orange" style={{borderRadius:'2rem',lineHeight:'2rem', borderColor: 'orange', borderWidth: '2px'}}>{unit}</span>
+        <div className="px2 mr2 pointer border orange border-orange pill" style={{borderWidth: 2}}>{unit}</div>
       )
-    }
-    else {
+    } else {
       return (
-        <span className="px2 mx2 pointer gray border" style={{borderRadius:'2rem',lineHeight:'2rem'}} onClick={this.changeTimeLength.bind(this)}>{unit}</span>
+        <div className="px2 mr2 pointer gray border pill" onClick={this.changeTimeLength.bind(this)}>{unit}</div>
       )
     }
-  }
-
-  renderTimeWarp() {
-    return (
-      <div>
-        <input type="range" name="points" min="0" max="2" onChange={this.changeTimeLength.bind(this)} />
-      </div>
-    )
   }
 
   render() {
     return (
-      <span className="right">
-        {this.renderTime("day")}
-        {this.renderTime("week")}
-        {this.renderTime("month")}
-      </span>
+      <div className="flex">
+        <div className="flex-auto" />
+        <div className="flex-none">
+          <div className="flex mxn2">
+            {this.renderTime("day")}
+            {this.renderTime("week")}
+            {this.renderTime("month")}
+          </div>
+        </div>
+      </div>
     )
   }
 }

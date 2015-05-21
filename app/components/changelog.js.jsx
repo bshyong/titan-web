@@ -53,6 +53,27 @@ export default class Changelog extends React.Component {
     }
   }
 
+  render() {
+    const { changelogId } = this.props
+    var storyTable = this.constructTable(changelogId)
+
+    return <div>
+      {this.state.moreAvailable ?
+        <ScrollPaginator page={this.state.page}
+          onScrollBottom={() => StoryActions.fetchAll(this.props.changelogId, this.state.page + 1)} /> : null}
+
+      {this.renderJumbotron(changelogId)}
+
+      <div className="container">
+        <div className="mt2">
+          <TimePicker />
+        </div>
+        {storyTable}
+        <LoadingBar loading={this.state.loading} />
+      </div>
+    </div>
+  }
+
   parseCalendarDate(key) {
     var timeLength = this.state.timeLength
     if (timeLength=="day")
@@ -98,59 +119,27 @@ export default class Changelog extends React.Component {
   }
 
   renderShowAll(date) {
+    var newDate = date
+    var buttonText = "Show All"
     if (this.state.timeShown) {
-      if (date.format() == this.state.timeShown.format())
-      {
-        return (
-          <span className="pointer" onClick={this.expandDate(null)}>
-            <a>Hide</a>
-          </span>
-        )
-      }
-      else {
-        return (
-          <span className="pointer" onClick={this.expandDate(date)}>
-            <a>Show All</a>
-          </span>
-        )
+      if (date.format() == this.state.timeShown.format()) {
+        newDate = null
+        buttonText = "Hide"
       }
     }
-    else {
-      return (
-        <span className="pointer" onClick={this.expandDate(date)}>
-          <a>Show All</a>
-        </span>
-      )
-    }
-  }
-
-  render() {
-    const { changelogId } = this.props
-    var storyTable = this.constructTable(changelogId)
-
-    return <div>
-      {this.state.moreAvailable ?
-        <ScrollPaginator page={this.state.page}
-          onScrollBottom={() => StoryActions.fetchAll(this.props.changelogId, this.state.page + 1)} /> : null}
-
-      {this.renderJumbotron(changelogId)}
-
-      <div className="container">
-        <TimePicker />
-        <Table>{storyTable}</Table>
-        <LoadingBar loading={this.state.loading} />
-      </div>
-    </div>
+    return (
+      <a className="block py2 h5 pointer" onClick={this.expandDate(newDate)}>
+        {buttonText}
+      </a>
+    )
   }
 
   storyValuesLogic(key, value) {
     if (this.state.timeShown) {
-      if (key.format() != this.state.timeShown.format())
+      if (this.state.timeShown.format() != "day" && (key.format() != this.state.timeShown.format()))
         {value = value.slice(0,5)}
     }
-    else {
-      value = value.slice(0,5)
-    }
+
     return value
   }
 
@@ -160,8 +149,8 @@ export default class Changelog extends React.Component {
       let a = reduction.push(
         <Table.Separator label={this.parseCalendarDate(key)} key={key.toISOString()} />
       )
+      var showButton = value.count() > 5 && (this.state.timeShown)
 
-      var showButton = value.count() >5
       value = this.storyValuesLogic(key, value)
 
       let b = a.push(
@@ -198,12 +187,12 @@ export default class Changelog extends React.Component {
       )
       if (showButton) {
         return b.concat(this.renderShowAll(key))
-      }
-      else {
+      } else {
         return b
       }
     }, List())
-    return a
+
+    return <Table>{a}</Table>
   }
 
   renderJumbotron(changelogId) {
