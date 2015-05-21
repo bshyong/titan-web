@@ -25,12 +25,6 @@ import MetaBannerUrl from '../images/meta-banner.jpg'
 @connectToStores(ChangelogStore, StoryStore)
 export default class Changelog extends React.Component {
 
-  constructor(props) {
-    super(props)
-    this.expandDate = this.expandDate.bind(this)
-    this.storyValuesLogic = this.storyValuesLogic.bind(this)
-  }
-
   static getPropsFromStores(props) {
     return {
       following: ChangelogStore.following,
