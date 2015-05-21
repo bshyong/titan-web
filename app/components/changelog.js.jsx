@@ -139,7 +139,11 @@ export default class Changelog extends React.Component {
       if (this.state.timeShown.format() != "day" && (key.format() != this.state.timeShown.format()))
         {value = value.slice(0,5)}
     }
-
+    else {
+      if (this.state.timeLength != "day") {
+        value = value.slice(0,5)
+      }
+    }
     return value
   }
 
@@ -149,7 +153,7 @@ export default class Changelog extends React.Component {
       let a = reduction.push(
         <Table.Separator label={this.parseCalendarDate(key)} key={key.toISOString()} />
       )
-      var showButton = value.count() > 5 && (this.state.timeShown)
+      var showButton = value.count() > 5 && this.state.timeLength != "day"
 
       value = this.storyValuesLogic(key, value)
 
