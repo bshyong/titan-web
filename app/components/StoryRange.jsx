@@ -4,6 +4,7 @@ import Icon from './ui/icon.js.jsx'
 import Stack from './ui/stack.jsx'
 import Avatar from './ui/avatar.jsx'
 import Emoji from './ui/emoji.jsx'
+import Table from './ui/table.jsx'
 import StoryActions from '../actions/story_actions'
 import moment from 'moment'
 
@@ -96,7 +97,6 @@ export default class StoryRange extends React.Component {
       </Table.Cell>
     )
   }
-
 }
 
 StoryRange.propTypes = {
