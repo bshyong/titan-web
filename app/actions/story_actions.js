@@ -21,11 +21,11 @@ import { List } from 'immutable'
 
 export default {
 
-  fetchAll(changelogId, timeLength, page=1, per=25) {
+  fetchAll(changelogId, timeInterval, page=1, per=25) {
     Dispatcher.dispatch({
       type: STORIES_FETCHING
     })
-    api.get(`changelogs/${changelogId}/stories?page=${page}&per=${per}&time_length=${timeLength}`).
+    api.get(`changelogs/${changelogId}/stories?page=${page}&per=${per}&time_length=${timeInterval}`).
       then(resp => {
         var stories = List(resp).map(combineAuthorAndContributors)
         Dispatcher.dispatch({

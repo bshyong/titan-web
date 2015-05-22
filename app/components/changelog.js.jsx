@@ -27,7 +27,7 @@ export default class Changelog extends React.Component {
       moreAvailable: StoryStore.moreAvailable,
       page: StoryStore.page,
       stories: StoryStore.all(),
-      timeLength: ChangelogStore.timeLength,
+      timeInterval: ChangelogStore.timeInterval,
       timeShown: ChangelogStore.timeShown,
     }
   }
@@ -60,33 +60,28 @@ export default class Changelog extends React.Component {
   }
 
   parseCalendarDate(key) {
-    const { timeLength } = this.props
-
-    if (timeLength === "day") {
+    const { timeInterval } = this.props
+    if (timeInterval === "day") {
       return key.calendar()
     }
-
-    if (timeLength === "week") {
-      var start_date = moment(key)
+    var start_date = moment(key)
+    if (timeInterval === "week") {
       var end_date = moment(key).add(1, 'weeks')
-      return start_date.format('MMMM D, YYYY').concat(" - ").concat(end_date.format('MMMM D, YYYY'))
     }
-
-    if (timeLength === "month") {
-      var start_date = moment(key)
+    if (timeInterval === "month") {
       var end_date = moment(key).add(1, 'months')
-      return start_date.format('MMMM D, YYYY').concat(" - ").concat(end_date.format('MMMM D, YYYY'))
     }
+    return start_date.format('MMMM D, YYYY').concat(" - ").concat(end_date.format('MMMM D, YYYY'))
   }
 
   sortStories() {
-    const { timeLength } = this.props
+    const { timeInterval } = this.props
     var stories = this.props.stories
                     .sortBy(story => story.created_at)
                     .reverse()
-                    .groupBy(story => moment(story.created_at).startOf(timeLength))
+                    .groupBy(story => moment(story.created_at).startOf(timeInterval))
 
-    if (timeLength != "day") {
+    if (timeInterval != "day") {
       stories = stories.mapEntries((k,v) => {
         return [
           k[0],
@@ -122,12 +117,12 @@ export default class Changelog extends React.Component {
   }
 
   storyValuesLogic(key, value) {
-    const { timeShown, timeLength } = this.props
+    const { timeShown, timeInterval } = this.props
     if (timeShown) {
       if (timeShown.format() !== "day" && (key.format() !== timeShown.format()))
         {value = value.slice(0,5)}
     } else {
-      if (timeLength !== "day") {
+      if (timeInterval !== "day") {
         value = value.slice(0,5)
       }
     }
@@ -135,14 +130,14 @@ export default class Changelog extends React.Component {
   }
 
   renderTable() {
-    const { changelogId, timeShown, timeLength } = this.props
+    const { changelogId, timeShown, timeInterval } = this.props
     const groupedStories = this.sortStories()
 
     const a = groupedStories.map((stories, date) => {
       return (
         <div>
           <Table.Separator label={this.parseCalendarDate(date)} key={date.toISOString()} />
-          <StoryRange date={date} stories={stories.sortBy(story => -story.hearts_count)} storyCount={stories.count()} timeLength={timeLength} />
+          <StoryRange date={date} stories={stories.sortBy(story => -story.hearts_count)} storyCount={stories.count()} timeInterval={timeInterval} />
         </div>
       )
     })

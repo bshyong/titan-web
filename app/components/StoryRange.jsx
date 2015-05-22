@@ -28,8 +28,8 @@ export default class StoryRange extends React.Component {
   }
 
   truncatedStories() {
-    const { timeLength, stories } = this.props
-    if (!this.state.expanded && timeLength != "day") {
+    const { timeInterval, stories } = this.props
+    if (!this.state.expanded && timeInterval != "day") {
       return stories.slice(0,5)
     } else {
       return stories
@@ -37,9 +37,9 @@ export default class StoryRange extends React.Component {
   }
 
   renderShowAll() {
-    const { date, stories, storyCount, timeLength } = this.props
+    const { date, stories, storyCount, timeInterval } = this.props
 
-    if (stories.count() < 5 || timeLength==="day") {
+    if (stories.count() < 5 || timeInterval ==="day") {
       return
     }
 
@@ -55,16 +55,16 @@ export default class StoryRange extends React.Component {
   }
 
   parseCalendarDate() {
-    const { date, timeLength } = this.props
+    const { date, timeInterval } = this.props
     const start_date = moment(date)
 
-    if (timeLength === "day") {
+    if (timeInterval === "day") {
       return date.calendar()
     }
-    if (timeLength === "week") {
+    if (timeInterval === "week") {
       var end_date = moment(date).add(1, 'weeks')
     }
-    if (timeLength === "month") {
+    if (timeInterval === "month") {
       var end_date = moment(date).add(1, 'months')
     }
     return start_date.format('MMMM D, YYYY').concat(" - ").concat(end_date.format('MMMM D, YYYY'))
@@ -106,5 +106,5 @@ StoryRange.propTypes = {
   date: React.PropTypes.object.isRequired,
   stories: React.PropTypes.array.isRequired,
   storyCount: React.PropTypes.number.isRequired,
-  timeLength: React.PropTypes.string.isRequired
+  timeInterval: React.PropTypes.string.isRequired
 }
