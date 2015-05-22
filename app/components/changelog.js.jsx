@@ -126,42 +126,14 @@ export default class Changelog extends React.Component {
     const { changelogId, timeShown, timeLength } = this.props
     const groupedStories = this.sortStories()
 
-    let table = []
-    // const a = groupedStories.reduce((reduction, stories, date, iter) => {
-    //   console.log(reduction)
-    //   if (reduction) {
-    //     let a = reduction.push(
-    //       <Table.Separator label={this.parseCalendarDate(date)} key={date.toISOString()} />
-    //     )
-    //
-    //     // var showButton = stories.count() > 5 && timeLength !== "day"
-    //     //
-    //     // stories = this.storyValuesLogic(date, stories)
-    //     //
-    //     // // stories
-    //     // let b = a.push(
-    //     //
-    //     // )
-
-    //     return <StoryRange date={date} stories={stories.sortBy(story => -story.hearts_count)} storyCount={stories.count()} />
-    //   }
-    //
-    // }, List())
-
-
     const a = groupedStories.map((stories, date) => {
-      console.log(date.calendar())
-
       return (
         <div>
           <Table.Separator label={this.parseCalendarDate(date)} key={date.toISOString()} />
           <StoryRange date={date} stories={stories.sortBy(story => -story.hearts_count)} storyCount={stories.count()} timeLength={timeLength} />
         </div>
       )
-
     })
-
     return a
   }
-
 }
