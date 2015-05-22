@@ -1,7 +1,7 @@
 import { RESOURCE_NOT_FOUND, RESOURCE_FOUND } from '../constants'
-import Dispatcher from '../lib/dispatcher'
-import api from '../lib/api'
 import 'isomorphic-fetch'
+import api from '../lib/api'
+import Dispatcher from '../lib/dispatcher'
 
 export default {
 
@@ -13,7 +13,13 @@ export default {
         .then(resp => {
           Dispatcher.dispatch({
             type: 'GIFS_FETCHED',
-            gifs: resp.data.map(g => {return {...g.images.fixed_height, embed_url: g.embed_url}})
+            gifs: resp.data.map(g => {
+              return {
+                ...g.images.fixed_height,
+                embed_url: g.embed_url,
+                id: g.id}
+              }
+            )
           })
         })
   },

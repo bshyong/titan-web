@@ -1,8 +1,8 @@
-import React from 'react'
+import Button from './ui/button.js.jsx'
 import GifActions from '../actions/gif_actions'
 import GifStore from '../stores/gif_store'
-import Button from './ui/button.js.jsx'
 import Icon from './ui/icon.js.jsx'
+import React from 'react'
 
 export default class GifPicker extends React.Component {
   constructor(props) {
@@ -23,6 +23,7 @@ export default class GifPicker extends React.Component {
 
   componentDidMount() {
     GifStore.addChangeListener(this.onStoreChange)
+    this.gifResults = React.findDOMNode(this.refs.gifResults)
   }
 
   componentWillUnmount() {
@@ -31,35 +32,72 @@ export default class GifPicker extends React.Component {
 
   render() {
     return (
-      <div>
-        <form className="mb2 flex">
+      <div className="border border-black">
+        <div className="center" ref="gifResults" style={{maxHeight: 400, overflowY: 'scroll'}}>
+          {this.renderGifs()}
+        </div>
+        <form className="flex">
           <input type="text"
             className="field-light flex-grow"
             placeholder="gif search"
             value={this.state.searchTerm}
             onChange={this.handleOnChange}
             ref="gifSearch" />
-          <Button className="flex-shrink">Search</Button>
+          <Button className="flex-shrink">
+            <Icon icon="search" />
+          </Button>
         </form>
-        {this.renderButtons()}
-        <div className="center">
-          {this.renderGif()}
-        </div>
       </div>
     )
   }
 
-  renderGif() {
-    const gif = this.state.gifs[this.state.currentGifIndex]
+  renderGifs() {
+    const gifs = this.state.gifs
+
+    let gifRows = []
+
+    for (let indexValue of gifs.entries()) {
+      const index = indexValue[0]
+      if (index % 2 == 0) {
+        const gifRowItems = gifs.slice(index, index+2).map(g => this.renderGif(g))
+        gifRows.push(
+          <div className="clearfix m0 p0" key={`gifRow_${index}`}>
+            {gifRowItems}
+          </div>
+        )
+      }
+    }
+
+    return (
+      <div>
+        {gifRows}
+      </div>
+    )
+  }
+
+  // should be a row of gifs
+  renderGif(gif) {
+    const maxHeight = 200
+    const halfContainerWidth = this.gifResults.offsetWidth / 2
+    const gifWidth = parseInt(gif.width)
+    const xTranslation = (gifWidth - (halfContainerWidth) / gifWidth / 2 * 100
+    const gifStyle = {
+      transform: `translate(-${xTranslation}%, 0)`,
+      width: gifWidth <= (halfContainerWidth ? '100%' : 'auto',
+      height: gifWidth <= (halfContainerWidth ? 'auto%' : '100%',
+    }
+
     if (gif) {
       return (
-        <iframe
-          src={`${gif.embed_url}?html5=true`}
-          height={`${gif.height}px`}
-          frameBorder="0"
-          webkitAllowFullScreen
-          mozallowfullscreen
-          allowFullScreen />
+        <div className="col col-6 center m0 p0" style={{overflow: 'hidden'}} key={gif.id}>
+          <div style={{overflow: 'hidden', maxHeight: maxHeight}}>
+            <video autoPlay loop style={gifStyle}>
+              <source src={gif.mp4} type="video/mp4" />
+              <source src={gif.webp} type="image/webp" />
+              <img src={gif.url} />
+            </video>
+          </div>
+        </div>
       )
     } else {
       return
