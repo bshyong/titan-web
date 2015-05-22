@@ -1,4 +1,9 @@
-import { RESOURCE_NOT_FOUND, RESOURCE_FOUND } from '../constants'
+import { RESOURCE_NOT_FOUND,
+         RESOURCE_FOUND,
+         GIFS_FETCHING,
+         GIFS_FETCHED,
+         GIF_FORM_CHANGED,
+         GIF_REACTION_FETCHED } from '../constants'
 import 'isomorphic-fetch'
 import api from '../lib/api'
 import Dispatcher from '../lib/dispatcher'
@@ -7,12 +12,12 @@ export default {
 
   fetchGifs(string) {
     Dispatcher.dispatch({
-      type: 'GIFS_FETCHING'
+      type: GIFS_FETCHING
     })
     this.get(`http://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&q=${encodeURIComponent(string)}`)
         .then(resp => {
           Dispatcher.dispatch({
-            type: 'GIFS_FETCHED',
+            type: GIFS_FETCHED,
             gifs: resp.data.map(g => {
               return {
                 ...g.images.fixed_height,
@@ -24,9 +29,27 @@ export default {
         })
   },
 
+  fetchImagesForReactions(reactions) {
+    new Promise(
+      (resolve, reject) => {
+        for (let reaction of reactions) {
+          this.get(`http://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&q=${encodeURIComponent(reaction)}`)
+              .then(resp => {
+                Dispatcher.dispatch({
+                  type: GIF_REACTION_FETCHED,
+                  reactionName: reaction,
+                  imageUrl: resp.data[0].images.fixed_height_still.url
+                })
+              })
+        }
+        resolve()
+      }
+    )
+  },
+
   changeSearchTerm(string) {
     Dispatcher.dispatch({
-      type: 'GIF_FORM_CHANGED',
+      type: GIF_FORM_CHANGED,
       searchTerm: string
     })
   },

@@ -2,28 +2,42 @@ import Button from './ui/button.js.jsx'
 import GifActions from '../actions/gif_actions'
 import GifStore from '../stores/gif_store'
 import Icon from './ui/icon.js.jsx'
+import LoadingBar from './ui/loading_bar.jsx'
 import React from 'react'
+import { reactionStrings } from '../config/gifpicker'
 
 export default class GifPicker extends React.Component {
+
   constructor(props) {
     super(props)
     this.state = {
       searchTerm: GifStore.currentSearchTerm(),
+      reactionImages: GifStore.reactionImages,
       currentGifIndex: 0,
+      fetching: GifStore.fetching,
       gifs: []
     }
 
     this.timeout = null
+    this.reactionStrings = this.randomReactionStrings()
 
     this.onStoreChange = this._onStoreChange.bind(this)
     this.handleOnChange = this._handleOnChange.bind(this)
-    this.clickPrev = this._clickPrev.bind(this)
-    this.clickNext = this._clickNext.bind(this)
+  }
+
+  randomReactionStrings() {
+    return Object.keys(reactionStrings).reduce((memo, curr) => {
+      const stringsForReaction = reactionStrings[curr]
+      return memo.concat(
+        stringsForReaction[Math.floor(Math.random() * stringsForReaction.length)]
+      )
+    }, [])
   }
 
   componentDidMount() {
     GifStore.addChangeListener(this.onStoreChange)
     this.gifResults = React.findDOMNode(this.refs.gifResults)
+    GifActions.fetchImagesForReactions(this.reactionStrings)
   }
 
   componentWillUnmount() {
@@ -31,22 +45,62 @@ export default class GifPicker extends React.Component {
   }
 
   render() {
+    const { fetching, searchTerm } = this.state
+
     return (
-      <div className="border border-black">
+      <div>
         <div className="center" ref="gifResults" style={{maxHeight: 400, overflowY: 'scroll'}}>
-          {this.renderGifs()}
+          {this.renderPicker()}
+          <LoadingBar loading={fetching && searchTerm !== null} />
         </div>
         <form className="flex">
           <input type="text"
             className="field-light flex-grow"
             placeholder="gif search"
-            value={this.state.searchTerm}
+            value={searchTerm}
             onChange={this.handleOnChange}
             ref="gifSearch" />
           <Button className="flex-shrink">
             <Icon icon="search" />
           </Button>
         </form>
+      </div>
+    )
+  }
+
+  renderPicker() {
+    if (this.state.searchTerm) {
+      return this.renderGifs()
+    } else {
+      return this.renderReactionPicker()
+    }
+  }
+
+  renderReactionPicker() {
+    const reactions = this.reactionStrings.reduce((memo, curr) => {
+      const imageUrl = this.state.reactionImages[curr]
+      const styles = {
+        backgroundImage: `url(${imageUrl})`,
+        minHeight: 120,
+      }
+      return memo.concat(
+        <div className="col col-3 bg-cover bg-center relative pointer border border-white"
+             key={curr}
+             style={styles}
+             onClick={this._handleOnReactionClick.bind(this, curr)}>
+          <div className="flex flex-center center" style={{minHeight: 120}}>
+            <div className="z1 bg-black muted" style={{position: 'absolute', width: '100%', height: '100%'}} />
+            <div className="z3 mx-auto bold white">
+              {curr}
+            </div>
+          </div>
+        </div>
+      )
+    }, [])
+
+    return (
+      <div className="clearfix m0 p0">
+        {reactions}
       </div>
     )
   }
@@ -90,7 +144,7 @@ export default class GifPicker extends React.Component {
 
     if (gif) {
       return (
-        <div className="col col-6 center m0 p0" style={{overflow: 'hidden'}} key={gif.id}>
+        <div className="col col-6 center m0 p0 border border-white" style={{overflow: 'hidden'}} key={gif.id}>
           <div style={{overflow: 'hidden', maxHeight: maxHeight}}>
             <video autoPlay loop style={gifStyle}>
               <source src={gif.mp4} type="video/mp4" />
@@ -100,29 +154,6 @@ export default class GifPicker extends React.Component {
           </div>
         </div>
       )
-    } else {
-      return
-    }
-  }
-
-  renderButtons() {
-    if (this.state.gifs && this.state.gifs.length > 0) {
-      return (
-        <div className="center flex">
-          <div className="flex-grow" />
-          <ul className="list-reset mb0 mxn1 h5 flex">
-            <li className="px1 blue" onClick={this.clickPrev}>
-              <Icon icon="chevron-left" /> Prev
-            </li>
-            <li className="px1 blue" onClick={this.clickNext}>
-              <Icon icon="chevron-right" /> Next
-            </li>
-          </ul>
-          <div className="flex-grow" />
-        </div>
-      )
-    } else {
-      return
     }
   }
 
@@ -137,29 +168,15 @@ export default class GifPicker extends React.Component {
     }
   }
 
-  _clickPrev() {
-    const totalLength = this.state.gifs.length
-    const nextIndex = (this.state.currentGifIndex == 0 ? totalLength : this.state.currentGifIndex) - 1
-
-    this.setState({
-      currentGifIndex: nextIndex
-    })
-  }
-
-  _clickNext() {
-    const totalLength = this.state.gifs.length
-    const nextIndex = (this.state.currentGifIndex == totalLength - 1 ? 0 : this.state.currentGifIndex + 1)
-
-    this.setState({
-      currentGifIndex: nextIndex
-    })
+  _handleOnReactionClick(reaction) {
+    React.findDOMNode(this.refs.gifSearch).value = reaction
+    this._handleOnChange()
   }
 
   _handleOnChange() {
-    GifActions.changeSearchTerm(
-      React.findDOMNode(this.refs.gifSearch).value
-    )
     const string = React.findDOMNode(this.refs.gifSearch).value
+    GifActions.changeSearchTerm(string)
+
     this.debounce(
       GifActions.fetchGifs, GifActions, [string]
     )()
@@ -167,8 +184,10 @@ export default class GifPicker extends React.Component {
 
   _onStoreChange() {
     this.setState({
+      fetching: GifStore.fetching,
       gifs: GifStore.getAll(),
-      searchTerm: GifStore.currentSearchTerm()
+      reactionImages: GifStore.reactionImages,
+      searchTerm: GifStore.currentSearchTerm(),
     })
   }
 
