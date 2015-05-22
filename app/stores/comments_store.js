@@ -13,13 +13,16 @@ class CommentsStore extends Store {
   constructor() {
     super()
     this.comments = List([])
+    this._loading = false
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
         case COMMENTS_FETCHING:
+          this._loading = true
           this.comments = List([])
           this.emitChange()
           break;
         case COMMENTS_FETCHED:
+          this._loading = false
           this.comments = List(action.comments)
           this.emitChange()
           break;
@@ -36,6 +39,10 @@ class CommentsStore extends Store {
           break;
       }
     })
+  }
+
+  get loading() {
+    return this._loading
   }
 
   all() {
