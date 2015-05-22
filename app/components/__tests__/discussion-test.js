@@ -1,5 +1,7 @@
 'use strict'
 
+import { List } from 'immutable'
+
 jest.dontMock('../discussion.jsx')
 jest.dontMock('../../lib/pluralize')
 
@@ -14,7 +16,7 @@ describe('Discussion', () => {
 
   it('has comments count', () => {
     var discussion = TestUtils.renderIntoDocument(
-      <Discussion comments={[]} commentsCount={0} />
+      <Discussion comments={List()} commentsCount={0} />
     )
 
     var text = TestUtils.findRenderedDOMComponentWithTag(

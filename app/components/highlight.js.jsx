@@ -28,7 +28,7 @@ export default class Highlight extends React.Component {
     const sourceIcon = Sources[this.props.highlight.source] || 'quote-left'
 
     var formatted_content = content.substring(0, 300)
-    if (content.length>300) {
+    if (content.length > 300) {
       formatted_content = formatted_content + "..."
     }
 
