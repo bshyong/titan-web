@@ -18,7 +18,7 @@ class StoryReadersStore extends Store {
           this.emitChange()
 
           if (action.story) {
-            readraptor.getArticle(action.story.id, a => {
+            readraptor.getArticle(action.story.gid, a => {
               this.article = a
               this.emitChange()
             })
