@@ -42,6 +42,7 @@ export default class Changelog extends React.Component {
 
       <TimePicker />
       {this.renderTable()}
+
       <LoadingBar loading={loading} />
     </div>
   }
@@ -81,7 +82,6 @@ export default class Changelog extends React.Component {
         ]
       })
     }
-
     return stories
   }
 
@@ -125,22 +125,41 @@ export default class Changelog extends React.Component {
   renderTable() {
     const { changelogId, timeShown, timeLength } = this.props
     const groupedStories = this.sortStories()
-    const a = groupedStories.reduce((reduction, stories, date, iter) => {
-      let a = reduction.push(
-        <Table.Separator label={this.parseCalendarDate(date)} key={date.toISOString()} />
+
+    let table = []
+    // const a = groupedStories.reduce((reduction, stories, date, iter) => {
+    //   console.log(reduction)
+    //   if (reduction) {
+    //     let a = reduction.push(
+    //       <Table.Separator label={this.parseCalendarDate(date)} key={date.toISOString()} />
+    //     )
+    //
+    //     // var showButton = stories.count() > 5 && timeLength !== "day"
+    //     //
+    //     // stories = this.storyValuesLogic(date, stories)
+    //     //
+    //     // // stories
+    //     // let b = a.push(
+    //     //
+    //     // )
+
+    //     return <StoryRange date={date} stories={stories.sortBy(story => -story.hearts_count)} storyCount={stories.count()} />
+    //   }
+    //
+    // }, List())
+
+
+    const a = groupedStories.map((stories, date) => {
+      console.log(date.calendar())
+
+      return (
+        <div>
+          <Table.Separator label={this.parseCalendarDate(date)} key={date.toISOString()} />
+          <StoryRange date={date} stories={stories.sortBy(story => -story.hearts_count)} storyCount={stories.count()} timeLength={timeLength} />
+        </div>
       )
-      var showButton = stories.count() > 5 && timeLength !== "day"
 
-      stories = this.storyValuesLogic(date, stories)
-
-      // stories
-      let b = a.push(
-
-      )
-
-      return <StoryRange date={date} stories={stories.sortBy(story => -story.hearts_count)} storyCount={stories.count()} />
-
-    }, List())
+    })
 
     return a
   }
