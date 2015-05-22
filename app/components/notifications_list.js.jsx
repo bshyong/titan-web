@@ -11,6 +11,7 @@ import StoryActions from '../actions/story_actions'
 import ChangelogStore from '../stores/changelog_store'
 import RouterContainer from '../lib/router_container'
 import {Link} from 'react-router'
+import addParams from '../lib/addUrlParamsToStory'
 import classnames from 'classnames'
 
 export default class NotificationsList extends React.Component {
@@ -187,11 +188,14 @@ class Notification extends React.Component {
 
   _handleOnClick(e) {
     const { notification } = this.props
-    NotificationActions.markAsRead([notification])
-    RouterContainer.get().transitionTo('story', {
-      changelogId: ChangelogStore.slug,
-      storyId: notification.story_id
+
+    const { urlParams } = addParams(ChangelogStore.slug, {
+      slug: notification.story_slug,
+      created_at : notification.created_at
     })
+
+    NotificationActions.markAsRead([notification])
+    RouterContainer.get().transitionTo('story', urlParams)
   }
 
 }
