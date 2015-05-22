@@ -16,7 +16,7 @@ export default class SegmentedControl extends React.Component {
 class SegmentedControlItem extends React.Component {
   render() {
     const { active, children } = this.props
-    const cn = classnames('px2 py1 center flex-auto pointer rounded bold', {
+    const cn = classnames('px2 h5 py1 center flex-auto pointer rounded bold', {
       'gray': !active,
       'bg-white orange': active
     })
