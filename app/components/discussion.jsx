@@ -5,7 +5,6 @@ import connectToStores from '../lib/connectToStores.jsx'
 import MarkdownArea from './ui/markdown_area.jsx'
 import pluralize from '../lib/pluralize'
 import React from 'react'
-import DiscussionActions from '../actions/discussion_actions'
 import CommentsStore from '../stores/comments_store'
 import StoryStore from '../stores/story_store'
 import Table from './ui/table.js.jsx'
@@ -18,10 +17,6 @@ export default class Discussion extends React.Component {
       comments: CommentsStore.all(),
       commentsCount: StoryStore.getCommentsCount(props.storyId)
     }
-  }
-
-  componentDidMount() {
-    DiscussionActions.fetchAll(this.props.changelogId, this.props.storyId)
   }
 
   render() {

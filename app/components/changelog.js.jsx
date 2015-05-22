@@ -35,15 +35,27 @@ export default class Changelog extends React.Component {
   render() {
     const { changelogId, page, moreAvailable, loading } = this.props
 
-    return <div className="container mt2">
+    return <div>
       {moreAvailable ?
         <ScrollPaginator page={page}
           onScrollBottom={() => StoryActions.fetchAll(changelogId, page + 1)} /> : null}
 
-      <TimePicker />
-      {this.renderTable()}
+      <div className="bg-smoke">
+        <div className="container">
+          <div className="sm-flex">
+            <div className="flex-auto" />
+            <div className="flex-none">
+              <TimePicker />
+            </div>
 
-      <LoadingBar loading={loading} />
+          </div>
+
+        </div>
+      </div>
+      <div className="container">
+        {this.renderTable()}
+        <LoadingBar loading={loading} />
+      </div>
     </div>
   }
 
