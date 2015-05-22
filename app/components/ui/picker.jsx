@@ -5,7 +5,7 @@ import Table from './table.jsx'
 
 const UPDATE_COUNT = 15
 
-export default class PickerContainer extends React.Component {
+export default class Picker extends React.Component {
   static getOffsetTop(element) {
     let y = 0
 
@@ -78,11 +78,11 @@ export default class PickerContainer extends React.Component {
   calculateHeight() {
     let node = React.findDOMNode(this.refs.container)
     let height = node.offsetHeight
-    let fromTop = PickerContainer.getOffsetTop(node)
+    let fromTop = Picker.getOffsetTop(node)
 
     while (fromTop < 0) {
       height = height + fromTop
-      fromTop = PickerContainer.getOffsetTop()
+      fromTop = Picker.getOffsetTop()
     }
 
     return height
@@ -93,12 +93,12 @@ export default class PickerContainer extends React.Component {
   }
 }
 
-PickerContainer.defaultProps = {
+Picker.defaultProps = {
   maxHeight: 300,
   shown: false
 }
 
-PickerContainer.propTypes = {
+Picker.propTypes = {
   maxHeight: React.PropTypes.number,
   position: React.PropTypes.oneOf(['top', 'bottom']),
   shown: React.PropTypes.bool

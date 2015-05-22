@@ -56,5 +56,6 @@ export default keyMirror({
   USER_UPDATED: null,
 
   USER_PICKER_SET_HIGHLIGHT_INDEX: null,
+  USER_PICKER_USERS_CLEARED: null,
   USER_PICKER_USERS_FETCHED: null
 })

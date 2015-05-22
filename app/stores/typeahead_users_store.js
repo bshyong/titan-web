@@ -1,5 +1,6 @@
 import {
   USER_PICKER_SET_HIGHLIGHT_INDEX,
+  USER_PICKER_USERS_CLEARED,
   USER_PICKER_USERS_FETCHED
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
@@ -29,8 +30,13 @@ class TypeaheadUsersStore extends Store {
 
           this._highlightIndex = index
           break
+        case USER_PICKER_USERS_CLEARED:
+          this._users = List()
+          this._highlightIndex = 0
+          break
         case USER_PICKER_USERS_FETCHED:
           this._users = List(action.users)
+          this._highlightIndex = 0
           break
         default:
           return

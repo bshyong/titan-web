@@ -37,12 +37,13 @@ class TableCell extends React.Component {
   }
 
   cell() {
-    const { children, to } = this.props
+    const { active, children, to } = this.props
     const cn = classnames(
       "table-cell-content",
       "flex-auto p2 md-px0 border-bottom black gray-visited",
       {
-        "orange-hover": this.props.to
+        "border-blue": active,
+        "orange-hover": to
       }
     )
 
@@ -59,6 +60,7 @@ class TableCell extends React.Component {
 }
 
 TableCell.propTypes = {
+  active: React.PropTypes.bool,
   image: React.PropTypes.node,
   to: React.PropTypes.oneOfType([React.PropTypes.string, Route])
 }
