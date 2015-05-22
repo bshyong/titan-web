@@ -9,14 +9,12 @@ export default {
     })
 
     api.get(`user/activity?page=${page}&per=${per}`).then(resp => {
-      let total = resp.meta ? resp.meta.total : 0
-      let unread = resp.meta ? resp.meta.unread : true
       Dispatcher.dispatch({
         type: NOTIFICATIONS_FETCHED,
         notifications: resp.notifications,
         page: page,
-        moreAvailable: (per * page) < total,
-        totalUnread: unread
+        moreAvailable: (per * page) < resp.meta.total,
+        totalUnread: resp.meta.unread
       })
     })
   },
