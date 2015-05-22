@@ -104,7 +104,7 @@ export default class StoryRange extends React.Component {
 
 StoryRange.propTypes = {
   date: React.PropTypes.object.isRequired,
-  stories: React.PropTypes.array.isRequired,
+  stories: React.PropTypes.object.isRequired,
   storyCount: React.PropTypes.number.isRequired,
   timeInterval: React.PropTypes.string.isRequired
 }
