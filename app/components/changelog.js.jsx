@@ -39,9 +39,20 @@ export default class Changelog extends React.Component {
         <ScrollPaginator page={page}
           onScrollBottom={() => StoryActions.fetchAll(changelogId, page + 1)} /> : null}
 
-      <TimePicker />
-      {this.renderTable()}
-      <LoadingBar loading={loading} />
+      <div className="bg-smoke">
+        <div className="container">
+          <div className="sm-flex">
+            <div className="flex-auto" />
+            <div className="flex-none">
+              <TimePicker />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="container">
+        {storyTable}
+        <LoadingBar loading={loading} />
+      </div>
     </div>
   }
 
