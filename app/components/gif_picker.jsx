@@ -80,11 +80,12 @@ export default class GifPicker extends React.Component {
     const maxHeight = 200
     const halfContainerWidth = this.gifResults.offsetWidth / 2
     const gifWidth = parseInt(gif.width)
-    const xTranslation = (gifWidth - (halfContainerWidth) / gifWidth / 2 * 100
+    const smallGif = gifWidth <= halfContainerWidth
+    const xTranslation = smallGif ? 0 : Math.abs((gifWidth - halfContainerWidth) / gifWidth / 2 * 100)
     const gifStyle = {
       transform: `translate(-${xTranslation}%, 0)`,
-      width: gifWidth <= (halfContainerWidth ? '100%' : 'auto',
-      height: gifWidth <= (halfContainerWidth ? 'auto%' : '100%',
+      width: smallGif ? '100%' : 'auto',
+      height: smallGif ? 'auto' : '100%',
     }
 
     if (gif) {
