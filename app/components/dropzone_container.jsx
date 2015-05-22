@@ -5,7 +5,10 @@ import Icon from './ui/icon.js.jsx'
 import React from 'react'
 import UploadingAttachmentStore from '../stores/uploading_attachment_store'
 
-import UploadSrc from '../images/image-upload-icon.svg'
+let UploadSrc = ''
+if (typeof __TEST__ === 'undefined') {
+  UploadSrc = require('../images/image-upload-icon.svg')
+}
 
 export default class DropzoneContainer extends React.Component {
   constructor(props) {
