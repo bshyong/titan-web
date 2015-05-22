@@ -23,7 +23,7 @@ class ReadRaptor {
   }
 
   baseUrl() {
-    return 'https://readraptor.com'
+    return RR_URL
   }
 }
 
