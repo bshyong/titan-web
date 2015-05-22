@@ -19,6 +19,7 @@ export default keyMirror({
   COMMENT_UPDATING: null,
 
   COMMENTS_FETCHED: null,
+  COMMENTS_FETCHING: null,
 
   EMOJI_FETCHED: null,
   EMOJI_SELECTED: null,

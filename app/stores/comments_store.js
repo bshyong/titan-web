@@ -1,6 +1,7 @@
 import {
   COMMENT_DELETED,
   COMMENTS_FETCHED,
+  COMMENTS_FETCHING,
   COMMENT_PUBLISHED,
   COMMENT_UPDATED
 } from '../constants'
@@ -14,6 +15,10 @@ class CommentsStore extends Store {
     this.comments = List([])
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
+        case COMMENTS_FETCHING:
+          this.comments = List([])
+          this.emitChange()
+          break;
         case COMMENTS_FETCHED:
           this.comments = List(action.comments)
           this.emitChange()
