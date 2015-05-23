@@ -7,7 +7,7 @@ import ChangelogHeader from '../components/ChangelogHeader.jsx'
 
 export default class ChangelogPage extends React.Component {
   static willTransitionTo(transition, params, query) {
-    StoryActions.fetchAll(params.changelogId, ChangelogStore.timeLength)
+    StoryActions.fetchAll(params.changelogId, ChangelogStore.timeInterval)
   }
 
   static get defaultProps() {

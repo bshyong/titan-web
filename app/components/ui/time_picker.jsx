@@ -9,25 +9,25 @@ export default class TimePicker extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {timeLength: "day"}
+    this.state = {timeInterval: "day"}
     this.renderTime = this.renderTime.bind(this)
   }
 
-  changeTimeLength(timeChange) {
+  changeTimeInterval(timeChange) {
     return function(e) {
-      ChangelogActions.changeTimeLength(timeChange)
+      ChangelogActions.changeTimeInterval(timeChange)
       StoryActions.fetchAll(ChangelogStore.changelog.slug, timeChange)
-      this.setState({timeLength: timeChange})
+      this.setState({timeInterval: timeChange})
     }
   }
 
   renderTime(unit, label) {
     const cn = classnames('px2 mr2 pointer border pill', {
-      'orange border-orange': this.state.timeLength === unit,
-      'gray': this.state.timeLength !== unit
+      'orange border-orange': this.state.timeInterval === unit,
+      'gray': this.state.timeInterval !== unit
     })
     return (
-      <SegmentedControl.Item active={this.state.timeLength === unit} onClick={this.changeTimeLength(unit).bind(this)}>
+      <SegmentedControl.Item active={this.state.timeInterval === unit} onClick={this.changeTimeInterval(unit).bind(this)}>
         {label}
       </SegmentedControl.Item>
     )

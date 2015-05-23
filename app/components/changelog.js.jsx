@@ -4,22 +4,19 @@ import Avatar from './ui/avatar.jsx'
 import ChangelogStore from '../stores/changelog_store'
 import ChangelogActions from '../actions/changelog_actions'
 import Emoji from './ui/emoji.jsx'
-import FollowButton from './follow_button.jsx'
 import Icon from './ui/icon.js.jsx'
-import Jumbotron from './ui/jumbotron.jsx'
 import LoadingBar from './ui/loading_bar.jsx'
-import Logo from './logo.jsx'
 import moment from '../config/moment'
 import React from 'react'
 import ScrollPaginator from './ui/scroll_paginator.jsx'
 import shallowEqual from 'react-pure-render/shallowEqual'
 import Stack from './ui/stack.jsx'
+import StoryRange from './StoryRange.jsx'
 import StoryStore from '../stores/story_store'
 import StoryActions from '../actions/story_actions'
 import Table from './ui/table.jsx'
 import TimePicker from './ui/time_picker.jsx'
 import connectToStores from '../lib/connectToStores.jsx'
-import ChangelogHeader from './ChangelogHeader.jsx'
 
 @connectToStores(ChangelogStore, StoryStore)
 export default class Changelog extends React.Component {
@@ -30,14 +27,13 @@ export default class Changelog extends React.Component {
       moreAvailable: StoryStore.moreAvailable,
       page: StoryStore.page,
       stories: StoryStore.all(),
-      timeLength: ChangelogStore.timeLength,
+      timeInterval: ChangelogStore.timeInterval,
       timeShown: ChangelogStore.timeShown,
     }
   }
 
   render() {
     const { changelogId, page, moreAvailable, loading } = this.props
-    var storyTable = this.constructTable(changelogId)
 
     return <div>
       {moreAvailable ?
@@ -57,40 +53,35 @@ export default class Changelog extends React.Component {
         </div>
       </div>
       <div className="container">
-        {storyTable}
+        {this.renderTable()}
         <LoadingBar loading={loading} />
       </div>
     </div>
   }
 
   parseCalendarDate(key) {
-    const { timeLength } = this.props
-
-    if (timeLength === "day") {
+    const { timeInterval } = this.props
+    if (timeInterval === "day") {
       return key.calendar()
     }
-
-    if (timeLength === "week") {
-      var start_date = moment(key)
+    var start_date = moment(key)
+    if (timeInterval === "week") {
       var end_date = moment(key).add(1, 'weeks')
-      return start_date.format('MMMM D, YYYY').concat(" - ").concat(end_date.format('MMMM D, YYYY'))
     }
-
-    if (timeLength === "month") {
-      var start_date = moment(key)
+    if (timeInterval === "month") {
       var end_date = moment(key).add(1, 'months')
-      return start_date.format('MMMM D, YYYY').concat(" - ").concat(end_date.format('MMMM D, YYYY'))
     }
+    return start_date.format('MMMM D, YYYY').concat(" - ").concat(end_date.format('MMMM D, YYYY'))
   }
 
   sortStories() {
-    const { timeLength } = this.props
+    const { timeInterval } = this.props
     var stories = this.props.stories
                     .sortBy(story => story.created_at)
                     .reverse()
-                    .groupBy(story => moment(story.created_at).startOf(timeLength))
+                    .groupBy(story => moment(story.created_at).startOf(timeInterval))
 
-    if (timeLength != "day") {
+    if (timeInterval != "day") {
       stories = stories.mapEntries((k,v) => {
         return [
           k[0],
@@ -98,7 +89,6 @@ export default class Changelog extends React.Component {
         ]
       })
     }
-
     return stories
   }
 
@@ -127,69 +117,30 @@ export default class Changelog extends React.Component {
   }
 
   storyValuesLogic(key, value) {
-    const { timeShown, timeLength } = this.props
+    const { timeShown, timeInterval } = this.props
     if (timeShown) {
       if (timeShown.format() !== "day" && (key.format() !== timeShown.format()))
         {value = value.slice(0,5)}
     } else {
-      if (timeLength !== "day") {
+      if (timeInterval !== "day") {
         value = value.slice(0,5)
       }
     }
     return value
   }
 
-  constructTable(changelogId) {
-    const { timeShown, timeLength } = this.props
-    const stories = this.sortStories()
-    const a = stories.reduce((reduction, value, key, iter) => {
-      let a = reduction.push(
-        <Table.Separator label={this.parseCalendarDate(key)} key={key.toISOString()} />
+  renderTable() {
+    const { changelogId, timeShown, timeInterval } = this.props
+    const groupedStories = this.sortStories()
+
+    const a = groupedStories.map((stories, date) => {
+      return (
+        <div>
+          <Table.Separator label={this.parseCalendarDate(date)} key={date.toISOString()} />
+          <StoryRange date={date} stories={stories.sortBy(story => -story.hearts_count)} storyCount={stories.count()} timeInterval={timeInterval} />
+        </div>
       )
-      var showButton = value.count() > 5 && timeLength !== "day"
-
-      value = this.storyValuesLogic(key, value)
-
-      let b = a.push(
-        value.sortBy(story => -story.hearts_count).map(story => {
-          const emoji = (
-            <Emoji story={story} size="sm"
-                   hearted={story.viewer_has_hearted}
-                   onClick={() => StoryActions.clickHeart(story)} />
-          )
-
-          return (
-            <Table.Cell key={story.id} image={emoji} to="story" params={story.urlParams}>
-              <div className="flex">
-                <div className="flex-auto">
-                  {story.team_member_only ? <Icon icon="lock" /> : null} {story.title}
-                </div>
-                <div className="flex-none sm-show ml2">
-                  <Stack items={story.allContributors.map(user => <Avatar user={user} size={24} />)} align="right" />
-                </div>
-
-                <div className="flex-none ml2">
-                  <div className="h5 gray  mxn1 flex">
-                    <div className="px1 no-underline">
-                      <span className=" silver"><Icon icon="comment" /></span>
-                      {' '}
-                      {story.live_comments_count}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Table.Cell>
-          )
-        })
-      )
-      if (showButton) {
-        return b.concat(this.renderShowAll(key))
-      } else {
-        return b
-      }
-    }, List())
-
-    return <Table>{a}</Table>
+    })
+    return a
   }
-
 }
