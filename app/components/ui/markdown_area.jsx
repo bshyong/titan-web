@@ -2,7 +2,6 @@ import debounce from '../../lib/debounce'
 import DropzoneContainer from '../dropzone_container.jsx'
 import { getOffsetTop } from './picker.jsx'
 import React from 'react'
-import shouldPureComponentUpdate from 'react-pure-render/function'
 import TextareaAutosize from 'react-textarea-autosize'
 import UserPicker from '../user_picker.jsx'
 import UserPickerActions from '../../actions/user_picker_actions'
@@ -19,8 +18,6 @@ const noop = (msg) => {
 }
 
 export default class MarkdownArea extends React.Component {
-  shouldComponentUpdate = shouldPureComponentUpdate
-
   constructor(props) {
     super(props)
 
@@ -31,6 +28,7 @@ export default class MarkdownArea extends React.Component {
     this.onUploading = this._onUploading.bind(this)
     this.onUserSelected = this._onUserSelected.bind(this)
     this.toggleFocus = this._toggleFocus.bind(this)
+    this.updateSelectionStart = this._updateSelectionStart.bind(this)
   }
 
   componentDidMount() {
@@ -71,7 +69,7 @@ export default class MarkdownArea extends React.Component {
             style={style.textarea}
             onBlur={this.toggleFocus}
             onFocus={this.toggleFocus}
-            onKeyDown={this.props.onCmdEnter ? this.handleKeyDown : null} />
+            onKeyDown={this.props.onCmdEnter ? this.handleKeyDown : this.updateSelectionStart} />
         </div>
       </DropzoneContainer>
     )
@@ -89,10 +87,7 @@ export default class MarkdownArea extends React.Component {
   }
 
   _handleKeyDown(e) {
-    // Keep track of the cursor location (without triggering a render)
-    // so that the user picker can match usernames in the middle of the
-    // text
-    this.selectionStart = e.target.selectionStart + 1
+    this.updateSelectionStart(e)
 
     if (e.metaKey && e.keyCode == 13) {
       this.props.onCmdEnter()
@@ -134,13 +129,18 @@ export default class MarkdownArea extends React.Component {
     setTimeout(() => {
       const value = this.props.value
       const beginning = (value || '').substr(0, this.selectionStart).trim()
-      const end = value.substr(this.selectionStart)
       const newBeginning = beginning.replace(
         MENTION_REGEX,
         (match, space, username, offset, string) => {
           return `${space}@${user.username} `
         }
       )
+
+      let end = value.substr(this.selectionStart)
+
+      if (end === beginning) {
+        end = ''
+      }
 
       const simulatedEvent = {
         target: {
@@ -163,6 +163,13 @@ export default class MarkdownArea extends React.Component {
     this.setState({
       focused: !this.state.focused
     })
+  }
+
+  _updateSelectionStart(e) {
+    // Keep track of the cursor location (without triggering a render)
+    // so that the user picker can match usernames in the middle of the
+    // text
+    this.selectionStart = e.target.selectionStart + 1
   }
 }
 

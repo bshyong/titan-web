@@ -84,12 +84,12 @@ export default class UserPicker extends React.Component {
   shouldComponentUpdate(nextProps) {
     const { highlightIndex, query, users } = this.props
 
-    if (nextProps.query !== query || nextProps.users.size !== users.size) {
-      UserPickerActions.fetchUsers(this.props.query)
+    if (nextProps.query !== query) {
+      UserPickerActions.fetchUsers(nextProps.query)
       return true
     }
 
-    if (nextProps.highlightIndex !== highlightIndex) {
+    if (nextProps.users.size !== users.size || nextProps.highlightIndex !== highlightIndex) {
       return true
     }
 
