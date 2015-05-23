@@ -1,3 +1,4 @@
+import debounce from '../../lib/debounce'
 import React from 'react'
 
 export default class ScrollPaginator extends React.Component {
@@ -32,21 +33,9 @@ export default class ScrollPaginator extends React.Component {
     (this.props.element || window).removeEventListener('scroll', this.onScroll)
   }
 
-  debounce(func) {
-    return () => {
-      let context = this
-      let later = () => {
-        this.timeout = null
-        func.apply(context)
-      }
-      clearTimeout(this.timeout)
-      this.timeout = setTimeout(later, 200)
-    }
-  }
-
   onScroll() {
     if (this.atBottom()) {
-      this.debounce(this.props.onScrollBottom)()
+      debounce(this.props.onScrollBottom, this)()
       this.unlisten()
     }
   }
