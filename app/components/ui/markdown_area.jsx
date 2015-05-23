@@ -2,6 +2,7 @@ import debounce from '../../lib/debounce'
 import DropzoneContainer from '../dropzone_container.jsx'
 import { getOffsetTop } from './picker.jsx'
 import React from 'react'
+import shouldPureComponentUpdate from 'react-pure-render/function'
 import TextareaAutosize from 'react-textarea-autosize'
 import UserPicker from '../user_picker.jsx'
 import UserPickerActions from '../../actions/user_picker_actions'
@@ -18,6 +19,8 @@ const noop = (msg) => {
 }
 
 export default class MarkdownArea extends React.Component {
+  shouldComponentUpdate = shouldPureComponentUpdate
+
   constructor(props) {
     super(props)
 
@@ -79,8 +82,8 @@ export default class MarkdownArea extends React.Component {
     const match = MENTION_REGEX.exec(value.substr(0, this.selectionStart))
 
     if (match) {
-      UserPickerActions.fetchUsers(match[2])
-      return <UserPicker onUserSelected={this.onUserSelected}
+      return <UserPicker query={match[2]}
+          onUserSelected={this.onUserSelected}
           maxHeight={Math.min(this.maxHeight, 400)} />
     }
   }

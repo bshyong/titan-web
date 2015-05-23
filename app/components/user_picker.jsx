@@ -43,6 +43,7 @@ export default class UserPicker extends React.Component {
 
   componentDidMount() {
     document.addEventListener('keydown', this.handleKeyDown)
+    UserPickerActions.fetchUsers(this.props.query)
   }
 
   componentWillUnmount() {
@@ -78,6 +79,21 @@ export default class UserPicker extends React.Component {
         </div>
       )
     })
+  }
+
+  shouldComponentUpdate(nextProps) {
+    const { highlightIndex, query, users } = this.props
+
+    if (nextProps.query !== query || nextProps.users.size !== users.size) {
+      UserPickerActions.fetchUsers(this.props.query)
+      return true
+    }
+
+    if (nextProps.highlightIndex !== highlightIndex) {
+      return true
+    }
+
+    return false
   }
 
   _handleKeyDown(e) {
@@ -150,6 +166,7 @@ UserPicker.defaultProps = {
   highlightIndex: 0,
   maxHeight: 300,
   position: "top",
+  query: '',
   users: List()
 }
 
@@ -158,5 +175,6 @@ UserPicker.propTypes = {
   maxHeight: React.PropTypes.number,
   onUserSelected: React.PropTypes.func.isRequired,
   position: React.PropTypes.oneOf(['top', 'bottom']),
+  query: React.PropTypes.string,
   users: React.PropTypes.instanceOf(List)
 }

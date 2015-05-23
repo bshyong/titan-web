@@ -9,7 +9,7 @@ import HighlightsStore from '../stores/highlights_store'
 import Icon from './ui/icon.js.jsx'
 import Router from '../lib/router_container'
 import RouterContainer from '../lib/router_container'
-import shouldPureComponentUpdate from 'react-pure-render/function';
+import shouldPureComponentUpdate from 'react-pure-render/function'
 import StoriesActionCreator from '../actions/story_actions'
 import StoryFormActions from '../actions/story_form_actions'
 import StoryFormStore from '../stores/story_form_store'
@@ -23,6 +23,8 @@ import EmojiStore from '../stores/emoji_store'
 @AuthenticatedMixin()
 @connectToStores(EmojiStore, StoryFormStore)
 export default class NewStoryForm extends React.Component {
+  shouldComponentUpdate = shouldPureComponentUpdate
+
   static get defaultProps() {
     return {
       changelogId: RouterContainer.get().getCurrentParams().changelogId,
