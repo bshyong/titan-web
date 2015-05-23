@@ -5,7 +5,7 @@ import HighlightActions from '../actions/highlight_actions'
 import Icon from './ui/icon.js.jsx'
 import moment from '../config/moment'
 import React from 'react'
-import Stack from './ui/stack.jsx'
+import Stack from './ui/Stack.jsx'
 
 const Sources = {
   'slack': 'slack',

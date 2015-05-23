@@ -5,14 +5,9 @@ import {List} from 'immutable'
 export default class Stack extends React.Component {
   render() {
     const {items, align} = this.props
-    const renderedItems = List(items).map((item, i) => {
-      const zIndex = i
-      return (
-        <div className="stack-item" style={{zIndex: zIndex}} key={i}>
-          {item}
-        </div>
-      )
-    })
+    const renderedItems = List(items).map((item, i) =>
+      <div className="stack-item" key={i}>{item}</div>
+    )
 
     const cn = classnames('stack', 'flex', {
       'stack--left': align === 'left',
