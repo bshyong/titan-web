@@ -22,6 +22,7 @@ import pluralize from '../lib/pluralize'
 import shallowEqual from 'react-pure-render/shallowEqual'
 import {Link} from 'react-router'
 import {List} from 'immutable'
+import GifPicker from './gif_picker.jsx'
 
 @connectToStores(StoryStore, StoryReadersStore, ChangelogStore)
 export default class StoryPage extends React.Component {
@@ -123,6 +124,7 @@ export default class StoryPage extends React.Component {
         <div className="flex-auto" style={{background: '#FAF9F8'}}>
           <div className="container">
             <div className="sm-col-8 mx-auto">
+              <GifPicker />
               <Discussion storyId={this.props.story.slug} changelogId={this.props.changelogId} />
             </div>
           </div>

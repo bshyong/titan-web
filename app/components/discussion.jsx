@@ -51,7 +51,6 @@ export default class Discussion extends React.Component {
         <div className="p2 md-px0">
           <CommentForm storyId={this.props.storyId} changelogId={this.props.changelogId}/>
         </div>
-        <GifPicker />
       </div>
     )
   }
