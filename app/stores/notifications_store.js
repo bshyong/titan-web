@@ -55,7 +55,7 @@ class NotificationsStore extends Store {
   }
 
   get acknowledgedAt() {
-    return Number(window.localStorage.getItem(ackKey))
+    return acknowledgedAt()
   }
 
   get moreAvailable() {
@@ -78,9 +78,22 @@ class NotificationsStore extends Store {
 
   get unreadCount() {
     return this._notifications.
-      filter(a => moment(a.updated_at).unix() > this.acknowledgedAt).
+      filter(updatedAfterAck).
+      filter(unread).
       count()
   }
+}
+
+function acknowledgedAt() {
+  return Number(window.localStorage.getItem(ackKey))
+}
+
+function unread(n) {
+  return !n.read_at || moment(n.read_at).unix() < moment(n.updated_at).unix()
+}
+
+function updatedAfterAck(n) {
+  return moment(n.updated_at).unix() > acknowledgedAt()
 }
 
 export default new NotificationsStore()
