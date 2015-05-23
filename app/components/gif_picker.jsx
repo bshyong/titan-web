@@ -20,7 +20,6 @@ export default class GifPicker extends React.Component {
 
     this.timeout = null
     this.reactionStrings = this.randomReactionStrings()
-
     this.onStoreChange = this._onStoreChange.bind(this)
     this.handleOnChange = this._handleOnChange.bind(this)
   }
@@ -144,7 +143,10 @@ export default class GifPicker extends React.Component {
 
     if (gif) {
       return (
-        <div className="col col-6 center m0 p0 border border-white" style={{overflow: 'hidden'}} key={gif.id}>
+        <div className="col col-6 center m0 p0 border border-white pointer"
+             style={{overflow: 'hidden'}}
+             key={gif.id}
+             onClick={this.props.onGifSelect.bind(this, gif)}>
           <div style={{overflow: 'hidden', maxHeight: maxHeight}}>
             <video autoPlay loop style={gifStyle}>
               <source src={gif.mp4} type="video/mp4" />
@@ -190,5 +192,8 @@ export default class GifPicker extends React.Component {
       searchTerm: GifStore.currentSearchTerm(),
     })
   }
+}
 
+GifPicker.propTypes = {
+  onGifSelect: React.PropTypes.func.isRequired,
 }
