@@ -17,7 +17,7 @@ export default class Stack extends React.Component {
     return (
       <div className="flex">
         <div className="flex-shrink">
-          <div className={cn} style={{}}>
+          <div className={cn}>
             {renderedItems}
           </div>
         </div>
