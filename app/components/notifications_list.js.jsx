@@ -30,6 +30,7 @@ export default class NotificationsList extends React.Component {
   }
 
   componentDidMount() {
+    NotificationActions.acknowledge()
     NotificationsStore.addChangeListener(this.getStateFromStores)
     setTimeout(() => {NotificationActions.fetchAll()})
 

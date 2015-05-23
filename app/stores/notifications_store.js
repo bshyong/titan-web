@@ -1,7 +1,15 @@
-import { NOTIFICATIONS_FETCHED, NOTIFICATIONS_FETCHING, NOTIFICATIONS_READ } from '../constants'
+import {
+  NOTIFICATIONS_ACKD,
+  NOTIFICATIONS_FETCHED,
+  NOTIFICATIONS_FETCHING,
+  NOTIFICATIONS_READ
+} from '../constants'
 import Dispatcher from '../lib/dispatcher'
+import moment from 'moment'
 import Store from '../lib/store'
 import {Map, List} from 'immutable'
+
+let ackKey = '_asm_activities_ack'
 
 class NotificationsStore extends Store {
   constructor() {
@@ -10,23 +18,25 @@ class NotificationsStore extends Store {
     this._fetching = false
     this._page = 1
     this._moreAvailable = true
-    this._unreadCount = 0
 
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
+        case NOTIFICATIONS_ACKD:
+          window.localStorage.setItem(ackKey, moment().unix())
+          break
+
         case NOTIFICATIONS_FETCHING:
           this._fetching = true
-          this.emitChange()
-          break;
+          break
+
         case NOTIFICATIONS_FETCHED:
           this._fetching = false
           let newNotifications = action.notifications.reduce((m, a) => m.set(a.story_id, a), Map())
           this._notifications = this._notifications.merge(newNotifications)
           this._page = action.page
           this._moreAvailable = action.moreAvailable
-          this._unreadCount = action.totalUnread
-          this.emitChange()
-          break;
+          break
+
         case NOTIFICATIONS_READ:
           let readNotificationIds = action.readNotifications.reduce((m, a) => m.push(a.story_id), List([]))
           this._notifications = this._notifications
@@ -36,13 +46,16 @@ class NotificationsStore extends Store {
                                       }
                                       return [k, v]
                                     })
-          this._unreadCount = this._notifications.filter(n => n.read_at == null).size
-          this.emitChange()
           break;
         default:
-          break;
+          return
       }
+      this.emitChange()
     })
+  }
+
+  get acknowledgedAt() {
+    return Number(window.localStorage.getItem(ackKey))
   }
 
   get moreAvailable() {
@@ -64,7 +77,9 @@ class NotificationsStore extends Store {
   }
 
   get unreadCount() {
-    return this._unreadCount
+    return this._notifications.
+      filter(a => moment(a.updated_at).unix() > this.acknowledgedAt).
+      count()
   }
 }
 
