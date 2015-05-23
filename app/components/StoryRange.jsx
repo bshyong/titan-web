@@ -1,5 +1,5 @@
 import React from 'react'
-import Table from './ui/table.js.jsx'
+import Table from './ui/table.jsx'
 import Icon from './ui/icon.js.jsx'
 import Stack from './ui/stack.jsx'
 import Avatar from './ui/avatar.jsx'
