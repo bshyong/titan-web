@@ -1,10 +1,14 @@
 import {
-  STORY_FETCHED
+  STORY_FETCHED,
+  USER_SIGNIN,
 } from '../constants'
 
 import Dispatcher from '../lib/dispatcher'
-import readraptor from '../lib/readraptor'
+import NotificationActions from '../actions/notification_actions'
+import Readraptor from '../lib/readraptor'
 import Store from '../lib/store'
+
+let rr
 
 class StoryReadersStore extends Store {
   constructor() {
@@ -18,13 +22,26 @@ class StoryReadersStore extends Store {
           this.emitChange()
 
           if (action.story) {
-            readraptor.getArticle(action.story.gid, a => {
+            Readraptor.getArticle(action.story.gid, a => {
               this.article = a
               this.emitChange()
             })
           }
+          break
 
-          break;
+        case USER_SIGNIN:
+          if (window["WebSocket"]) {
+            rr = new Readraptor(action.user.readraptor_key)
+            rr.subscribe(action.user.id).onArticle(receiveArticle)
+          } else {
+            console && console.log && console.log("websocket not supported :(")
+            setInterval(NotificationActions.fetchAll, 30*1000)
+          }
+
+          setTimeout(NotificationActions.fetchAll, 0)
+
+          this.emitChange()
+          break
       }
     })
   }
@@ -42,7 +59,10 @@ class StoryReadersStore extends Store {
     }
     return this.article.unique_read_count
   }
+}
 
+function receiveArticle(a) {
+  NotificationActions.fetchAll()
 }
 
 export default new StoryReadersStore()

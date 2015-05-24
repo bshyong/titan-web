@@ -29,12 +29,6 @@ export default class ApplicationNavbar extends React.Component {
     }
   }
 
-  componentDidMount() {
-    if (this.props.user) {
-      setTimeout(() => {NotificationActions.fetchAll()})
-    }
-  }
-
   render() {
     return <Navbar title="Changelog"
                    left={this.left()}
