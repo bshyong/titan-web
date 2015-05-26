@@ -113,6 +113,8 @@ export default class MarkdownArea extends React.Component {
       return (
         <GifPicker onGifSelect={this.onGifSelected.bind(this)}/>
       )
+    } else {
+      return
     }
   }
 
