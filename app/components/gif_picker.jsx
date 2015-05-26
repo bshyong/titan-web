@@ -89,7 +89,7 @@ export default class GifPicker extends React.Component {
              onClick={this._handleOnReactionClick.bind(this, curr)}>
           <div className="flex flex-center center" style={{minHeight: 120}}>
             <div className="z1 bg-black muted" style={{position: 'absolute', width: '100%', height: '100%'}} />
-            <div className="z3 mx-auto bold white">
+            <div className="z3 mx-auto px2 bg-black bold white">
               {curr}
             </div>
           </div>
