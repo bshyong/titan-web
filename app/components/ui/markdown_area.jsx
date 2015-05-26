@@ -45,15 +45,8 @@ export default class MarkdownArea extends React.Component {
         width: '91%',
         resize: 'none',
         outline: 'none',
-        border: 'none',
-        borderRadius: 3
+        border: 'none'
       }
-    }
-
-    if (this.state.focused) {
-      style.div.borderColor = '#00A3B9'
-      style.div.boxShadow = '0 0 2px #00A3B9'
-      style.div.outline = 'none'
     }
 
     return (
@@ -61,7 +54,7 @@ export default class MarkdownArea extends React.Component {
         onUploaded={this.onUploaded}
         onUploading={this.onUploading}>
         {this.renderUserPicker()}
-        <div className="field-light border-silver mb0 py0 full-width relative"
+        <div className="mb0 py0 full-width relative"
             style={style.div}>
           <TextareaAutosize
             {...this.props}

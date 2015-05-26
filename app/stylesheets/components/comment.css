@@ -1,3 +1,11 @@
 .dz-preview {
   display: none;
 }
+
+.border-none {
+  border: none;
+}
+
+.outline-none {
+  outline: none;
+}
