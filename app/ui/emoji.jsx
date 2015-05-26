@@ -1,8 +1,8 @@
 import React from 'react'
 import twemoji from 'twemoji'
-import StoryActions from '../../actions/story_actions'
+import StoryActions from '../actions/story_actions'
 import classnames from 'classnames'
-import emoji from '../../lib/emoji'
+import emoji from '../lib/emoji'
 
 export default class Emoji extends React.Component {
 

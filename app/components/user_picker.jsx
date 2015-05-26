@@ -1,10 +1,10 @@
-import Avatar from './ui/avatar.jsx'
+import Avatar from '../ui/Avatar.jsx'
 import classnames from 'classnames'
 import connectToStores from '../lib/connectToStores.jsx'
 import { List } from 'immutable'
-import Picker from './ui/picker.jsx'
+import Picker from '../ui/picker.jsx'
 import React from 'react'
-import Table from './ui/table.jsx'
+import Table from '../ui/table.jsx'
 import TypeaheadUsersStore from '../stores/typeahead_users_store'
 import UserPickerActions from '../actions/user_picker_actions'
 

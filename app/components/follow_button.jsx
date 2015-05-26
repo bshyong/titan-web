@@ -1,5 +1,5 @@
 import React from 'react'
-import Button from './ui/button.js.jsx'
+import Button from '../ui/Button.jsx'
 import SessionActions from '../actions/session_actions'
 import SessionStore from '../stores/session_store'
 import FollowActions from '../actions/follow_actions'
