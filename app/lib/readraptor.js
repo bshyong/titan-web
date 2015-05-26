@@ -1,11 +1,25 @@
 // This should be extracted into readraptor itself
 
-class ReadRaptor {
-  getArticle(articleId, callback) {
+let RR_HOST = `${RR_URL}`.replace(/(https?:\/\/)?/,'')
+
+export default class Readraptor {
+  constructor(publicKey) {
+    this.conn = new WebSocket(`ws://${RR_HOST}/ws/${publicKey}`);
+
+    this.openConn = new Promise(resolve => {
+      this.conn.onopen = () => resolve(this.conn)
+    })
+  }
+
+  subscribe(distinctId) {
+    return new Channel(this.openConn, distinctId)
+  }
+
+  static getArticle(articleId, callback) {
     this.get(`/articles/${articleId}`, callback)
   }
 
-  get(url, callback) {
+  static get(url, callback) {
     var request = new XMLHttpRequest()
     var rUrl = this.baseUrl() + url
     request.open('GET', rUrl, true)
@@ -22,9 +36,34 @@ class ReadRaptor {
     request.send()
   }
 
-  baseUrl() {
-    return 'https://readraptor.com'
+  static baseUrl() {
+    return RR_URL
   }
 }
 
-export default new ReadRaptor()
+
+class Channel {
+  constructor(openConn, distinctId) {
+    this.openConn = openConn
+    this.distinctId = distinctId
+
+    this.openConn.then(conn => {
+      conn.onmessage = this.onMessage.bind(this)
+
+      conn.send(JSON.stringify({'subscribe': distinctId}))
+    })
+  }
+
+  onMessage(message) {
+    if (message.data) {
+      let payload = JSON.parse(message.data)
+      if (payload.article) {
+        this.onArticleCallback && this.onArticleCallback(payload)
+      }
+    }
+  }
+
+  onArticle(callback) {
+    this.onArticleCallback = callback
+  }
+}

@@ -12,7 +12,7 @@ class ChangelogStore extends Store {
   constructor() {
     super()
     this._changelog = null
-    this._timeLength = 'day'
+    this._timeInterval = 'day'
     this._timeShown = null
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
@@ -26,7 +26,7 @@ class ChangelogStore extends Store {
           this._changelog.viewer_is_follower = false
           break
         case CHANGELOG_TIME_CHANGED:
-          this._timeLength = action.timeLength
+          this._timeInterval = action.timeInterval
           break
         case CHANGELOG_SHOW_ALL:
           this._timeShown = action.timeShown
@@ -50,8 +50,8 @@ class ChangelogStore extends Store {
     return this._changelog.viewer_is_follower
   }
 
-  get timeLength() {
-    return this._timeLength
+  get timeInterval() {
+    return this._timeInterval
   }
 
   get slug() {

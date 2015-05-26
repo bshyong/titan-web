@@ -58,6 +58,7 @@
   "jest": {
     "collectCoverage": false,
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
+    "setupEnvScriptFile": "<rootDir>/jest_env.js",
     "testPathDirs": [
       "<rootDir>/app"
     ],

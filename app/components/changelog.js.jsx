@@ -10,10 +10,11 @@ import moment from '../config/moment'
 import React from 'react'
 import ScrollPaginator from './ui/scroll_paginator.jsx'
 import shallowEqual from 'react-pure-render/shallowEqual'
-import Stack from './ui/stack.jsx'
-import StoryStore from '../stores/story_store'
+import Stack from './ui/Stack.jsx'
 import StoryActions from '../actions/story_actions'
-import Table from './ui/table.js.jsx'
+import StoryRange from './StoryRange.jsx'
+import StoryStore from '../stores/story_store'
+import Table from './ui/table.jsx'
 import TimePicker from './ui/time_picker.jsx'
 import connectToStores from '../lib/connectToStores.jsx'
 
@@ -26,7 +27,7 @@ export default class Changelog extends React.Component {
       moreAvailable: StoryStore.moreAvailable,
       page: StoryStore.page,
       stories: StoryStore.all(),
-      timeLength: ChangelogStore.timeLength,
+      timeInterval: ChangelogStore.timeInterval,
       timeShown: ChangelogStore.timeShown,
     }
   }
@@ -34,7 +35,7 @@ export default class Changelog extends React.Component {
   render() {
     const { changelogId, page, moreAvailable, loading } = this.props
 
-    return <div className="container mt2">
+    return <div>
       {moreAvailable ?
         <ScrollPaginator page={page}
           onScrollBottom={() => StoryActions.fetchAll(changelogId, page + 1)} /> : null}
@@ -50,40 +51,35 @@ export default class Changelog extends React.Component {
         </div>
       </div>
       <div className="container">
-        {storyTable}
+        {this.renderTable()}
         <LoadingBar loading={loading} />
       </div>
     </div>
   }
 
   parseCalendarDate(key) {
-    const { timeLength } = this.props
-
-    if (timeLength === "day") {
+    const { timeInterval } = this.props
+    if (timeInterval === "day") {
       return key.calendar()
     }
-
-    if (timeLength === "week") {
-      var start_date = moment(key)
+    var start_date = moment(key)
+    if (timeInterval === "week") {
       var end_date = moment(key).add(1, 'weeks')
-      return start_date.format('MMMM D, YYYY').concat(" - ").concat(end_date.format('MMMM D, YYYY'))
     }
-
-    if (timeLength === "month") {
-      var start_date = moment(key)
+    if (timeInterval === "month") {
       var end_date = moment(key).add(1, 'months')
-      return start_date.format('MMMM D, YYYY').concat(" - ").concat(end_date.format('MMMM D, YYYY'))
     }
+    return start_date.format('MMMM D, YYYY').concat(" - ").concat(end_date.format('MMMM D, YYYY'))
   }
 
   sortStories() {
-    const { timeLength } = this.props
+    const { timeInterval } = this.props
     var stories = this.props.stories
                     .sortBy(story => story.created_at)
                     .reverse()
-                    .groupBy(story => moment(story.created_at).startOf(timeLength))
+                    .groupBy(story => moment(story.created_at).startOf(timeInterval))
 
-    if (timeLength != "day") {
+    if (timeInterval != "day") {
       stories = stories.mapEntries((k,v) => {
         return [
           k[0],
@@ -91,7 +87,6 @@ export default class Changelog extends React.Component {
         ]
       })
     }
-
     return stories
   }
 
@@ -120,12 +115,12 @@ export default class Changelog extends React.Component {
   }
 
   storyValuesLogic(key, value) {
-    const { timeShown, timeLength } = this.props
+    const { timeShown, timeInterval } = this.props
     if (timeShown) {
       if (timeShown.format() !== "day" && (key.format() !== timeShown.format()))
         {value = value.slice(0,5)}
     } else {
-      if (timeLength !== "day") {
+      if (timeInterval !== "day") {
         value = value.slice(0,5)
       }
     }
@@ -133,26 +128,17 @@ export default class Changelog extends React.Component {
   }
 
   renderTable() {
-    const { changelogId, timeShown, timeLength } = this.props
+    const { changelogId, timeShown, timeInterval } = this.props
     const groupedStories = this.sortStories()
-    const a = groupedStories.reduce((reduction, stories, date, iter) => {
-      let a = reduction.push(
-        <Table.Separator label={this.parseCalendarDate(date)} key={date.toISOString()} />
+
+    const a = groupedStories.map((stories, date) => {
+      return (
+        <div>
+          <Table.Separator label={this.parseCalendarDate(date)} key={date.toISOString()} />
+          <StoryRange date={date} stories={stories.sortBy(story => -story.hearts_count)} storyCount={stories.count()} timeInterval={timeInterval} />
+        </div>
       )
-      var showButton = stories.count() > 5 && timeLength !== "day"
-
-      stories = this.storyValuesLogic(date, stories)
-
-      // stories
-      let b = a.push(
-
-      )
-
-      return <StoryRange date={date} stories={stories.sortBy(story => -story.hearts_count)} storyCount={stories.count()} />
-
-    }, List())
-
+    })
     return a
   }
-
 }

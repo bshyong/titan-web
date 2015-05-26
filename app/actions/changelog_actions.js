@@ -22,10 +22,10 @@ export default {
       })
   },
 
-  changeTimeLength(timeLength) {
+  changeTimeInterval(timeInterval) {
     Dispatcher.dispatch({
       type: CHANGELOG_TIME_CHANGED,
-      timeLength: timeLength
+      timeInterval: timeInterval
     })
   },
 

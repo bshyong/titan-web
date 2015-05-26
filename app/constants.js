@@ -19,6 +19,7 @@ export default keyMirror({
   COMMENT_UPDATING: null,
 
   COMMENTS_FETCHED: null,
+  COMMENTS_FETCHING: null,
 
   EMOJI_FETCHED: null,
   EMOJI_SELECTED: null,
@@ -27,6 +28,7 @@ export default keyMirror({
   HIGHLIGHT_IGNORED: null,
   HIGHLIGHT_USED: null,
 
+  NOTIFICATIONS_ACKD: null,
   NOTIFICATIONS_FETCHED: null,
   NOTIFICATIONS_FETCHING: null,
   NOTIFICATIONS_READ: null,
@@ -52,5 +54,9 @@ export default keyMirror({
   USER_FETCHED: null,
   USER_SIGNIN: null,
   USER_SIGNOUT: null,
-  USER_UPDATED: null
+  USER_UPDATED: null,
+
+  USER_PICKER_SET_HIGHLIGHT_INDEX: null,
+  USER_PICKER_USERS_CLEARED: null,
+  USER_PICKER_USERS_FETCHED: null
 })

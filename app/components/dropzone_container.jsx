@@ -5,6 +5,11 @@ import Icon from './ui/icon.js.jsx'
 import React from 'react'
 import UploadingAttachmentStore from '../stores/uploading_attachment_store'
 
+let UploadSrc = ''
+if (typeof __TEST__ === 'undefined') {
+  UploadSrc = require('../images/image-upload-icon.svg')
+}
+
 export default class DropzoneContainer extends React.Component {
   constructor(props) {
     super(props)
@@ -42,7 +47,7 @@ export default class DropzoneContainer extends React.Component {
       <div ref="dropzone" className="relative clearfix">
         {this.props.children}
         <div className="absolute right-0 top-0 mr1 mt1 h3 pointer gray" ref="clickable">
-          <Icon icon="camera" />
+          <img src={UploadSrc} style={{height: '1.5rem'}} />
         </div>
       </div>
     )

@@ -5,7 +5,7 @@ import HighlightActions from '../actions/highlight_actions'
 import Icon from './ui/icon.js.jsx'
 import moment from '../config/moment'
 import React from 'react'
-import Stack from './ui/stack.jsx'
+import Stack from './ui/Stack.jsx'
 
 const Sources = {
   'slack': 'slack',
@@ -28,7 +28,7 @@ export default class Highlight extends React.Component {
     const sourceIcon = Sources[this.props.highlight.source] || 'quote-left'
 
     var formatted_content = content.substring(0, 300)
-    if (content.length>300) {
+    if (content.length > 300) {
       formatted_content = formatted_content + "..."
     }
 

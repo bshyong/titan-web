@@ -1,30 +1,31 @@
-import {List} from 'immutable'
 import Avatar from './ui/avatar.jsx'
-import connectToStores from '../lib/connectToStores.jsx'
-import Label from './ui/label.jsx'
+import ChangelogStore from '../stores/changelog_store'
+import Discussion from './discussion.jsx'
+import DiscussionActions from '../actions/discussion_actions'
+import Emoji from './ui/emoji.jsx'
 import Icon from './ui/icon.js.jsx'
+import Label from './ui/label.jsx'
+import LoadingBar from './ui/loading_bar.jsx'
 import Markdown from './ui/markdown.jsx'
-import moment from '../config/moment'
 import React from 'react'
 import Router from '../lib/router_container'
 import SessionStore from '../stores/session_store'
-import Stack from './ui/stack.jsx'
+import Stack from './ui/Stack.jsx'
 import StoryActions from '../actions/story_actions'
-import StoryStore from '../stores/story_store'
 import StoryReadersStore from '../stores/story_readers_store'
-import LoadingBar from './ui/loading_bar.jsx'
+import StoryStore from '../stores/story_store'
+import connectToStores from '../lib/connectToStores.jsx'
+import moment from '../config/moment'
 import pluralize from '../lib/pluralize'
-import Emoji from './ui/emoji.jsx'
-import {Link} from 'react-router'
-import Discussion from './discussion.jsx'
 import shallowEqual from 'react-pure-render/shallowEqual'
-import ChangelogStore from '../stores/changelog_store'
+import {Link} from 'react-router'
+import {List} from 'immutable'
 
 @connectToStores(StoryStore, StoryReadersStore, ChangelogStore)
 export default class StoryPage extends React.Component {
   static willTransitionTo(transition, params, query) {
     StoryActions.fetch(params.changelogId, params.storyId)
-
+    DiscussionActions.fetchAll(params.changelogId, params.storyId)
   }
 
   static getPropsFromStores() {

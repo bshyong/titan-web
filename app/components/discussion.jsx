@@ -1,14 +1,14 @@
 import Avatar from './ui/avatar.jsx'
 import Comment from './comment.jsx'
 import CommentForm from './comment_form.jsx'
-import connectToStores from '../lib/connectToStores.jsx'
-import MarkdownArea from './ui/markdown_area.jsx'
-import pluralize from '../lib/pluralize'
-import React from 'react'
-import DiscussionActions from '../actions/discussion_actions'
 import CommentsStore from '../stores/comments_store'
+import LoadingBar from './ui/loading_bar.jsx'
+import MarkdownArea from './ui/markdown_area.jsx'
+import React from 'react'
 import StoryStore from '../stores/story_store'
-import Table from './ui/table.js.jsx'
+import Table from './ui/table.jsx'
+import connectToStores from '../lib/connectToStores.jsx'
+import pluralize from '../lib/pluralize'
 import {List} from 'immutable'
 
 @connectToStores(CommentsStore, StoryStore)
@@ -16,12 +16,9 @@ export default class Discussion extends React.Component {
   static getPropsFromStores(props) {
     return {
       comments: CommentsStore.all(),
-      commentsCount: StoryStore.getCommentsCount(props.storyId)
+      commentsCount: StoryStore.getCommentsCount(props.storyId),
+      loading: CommentsStore.loading,
     }
-  }
-
-  componentDidMount() {
-    DiscussionActions.fetchAll(this.props.changelogId, this.props.storyId)
   }
 
   render() {
@@ -29,6 +26,7 @@ export default class Discussion extends React.Component {
       <div style={{marginBottom: '20rem'}}>
         <Table>
           <Table.Separator label={pluralize(this.props.commentsCount, 'Comment', 'Comments')} />
+          <LoadingBar loading={this.props.loading} />
           {this.renderComments()}
         </Table>
 

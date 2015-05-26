@@ -1,7 +1,7 @@
 import React from 'react'
 import Table from './ui/table.jsx'
 import Icon from './ui/icon.js.jsx'
-import Stack from './ui/stack.jsx'
+import Stack from './ui/Stack.jsx'
 import Avatar from './ui/avatar.jsx'
 import Emoji from './ui/emoji.jsx'
 import StoryActions from '../actions/story_actions'
@@ -18,20 +18,28 @@ export default class StoryRange extends React.Component {
 
   render() {
     const { date, stories } = this.props
-
+    let limitedStories = this.truncatedStories()
     return (
       <Table>
-        <Table.Separator label={this.parseCalendarDate()} key={date.toISOString()} />
-        {stories.map(this.renderStoryTableCell)}
+        {limitedStories.map(this.renderStoryTableCell)}
         {this.renderShowAll()}
       </Table>
     )
   }
 
-  renderShowAll() {
-    const { date, stories, storyCount } = this.props
+  truncatedStories() {
+    const { timeInterval, stories } = this.props
+    if (!this.state.expanded && timeInterval != "day") {
+      return stories.slice(0,5)
+    } else {
+      return stories
+    }
+  }
 
-    if (stories.count() >= storyCount) {
+  renderShowAll() {
+    const { date, stories, storyCount, timeInterval } = this.props
+
+    if (stories.count() < 5 || timeInterval ==="day") {
       return
     }
 
@@ -47,23 +55,19 @@ export default class StoryRange extends React.Component {
   }
 
   parseCalendarDate() {
-    const { date, timeLength } = this.props
+    const { date, timeInterval } = this.props
+    const start_date = moment(date)
 
-    if (timeLength === "day") {
+    if (timeInterval === "day") {
       return date.calendar()
     }
-
-    if (timeLength === "week") {
-      var start_date = moment(date)
+    if (timeInterval === "week") {
       var end_date = moment(date).add(1, 'weeks')
-      return start_date.format('MMMM D, YYYY').concat(" - ").concat(end_date.format('MMMM D, YYYY'))
     }
-
-    if (timeLength === "month") {
-      var start_date = moment(date)
+    if (timeInterval === "month") {
       var end_date = moment(date).add(1, 'months')
-      return start_date.format('MMMM D, YYYY').concat(" - ").concat(end_date.format('MMMM D, YYYY'))
     }
+    return start_date.format('MMMM D, YYYY').concat(" - ").concat(end_date.format('MMMM D, YYYY'))
   }
 
   renderStoryTableCell(story) {
@@ -96,13 +100,11 @@ export default class StoryRange extends React.Component {
       </Table.Cell>
     )
   }
-
 }
 
 StoryRange.propTypes = {
-  date: React.PropTypes.shape({
-    toISOString: React.PropTypes.func.isRequired
-  }).isRequired,
-  stories: React.PropTypes.array.isRequired,
+  date: React.PropTypes.object.isRequired,
+  stories: React.PropTypes.object.isRequired,
   storyCount: React.PropTypes.number.isRequired,
+  timeInterval: React.PropTypes.string.isRequired
 }
