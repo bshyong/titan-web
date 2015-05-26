@@ -7,6 +7,11 @@ import Picker from './ui/picker.jsx'
 import React from 'react'
 import { reactionStrings } from '../config/gifpicker'
 
+let giphyAttribution = ''
+if (typeof __TEST__ === 'undefined') {
+  giphyAttribution = require('../images/giphy.png')
+}
+
 export default class GifPicker extends React.Component {
 
   constructor(props) {
@@ -42,6 +47,9 @@ export default class GifPicker extends React.Component {
 
   componentWillUnmount() {
     GifStore.removeChangeListener(this.onStoreChange)
+    const string = React.findDOMNode(this.refs.gifSearch).value = null
+    GifActions.changeSearchTerm(string)
+    GifStore.clearStore()
   }
 
   render() {
@@ -60,9 +68,11 @@ export default class GifPicker extends React.Component {
             value={searchTerm}
             onChange={this.handleOnChange}
             ref="gifSearch" />
-          <Button className="flex-shrink">
-            <Icon icon="search" />
-          </Button>
+            <div className="flex-none m0 flex flex-center" style={{maxHeight: 36}}>
+              <div style={{height: 30}}>
+                <img src={giphyAttribution} style={{height: '100%'}} />
+              </div>
+            </div>
         </form>
       </Picker>
     )
@@ -122,11 +132,31 @@ export default class GifPicker extends React.Component {
       }
     }
 
-    return (
-      <div>
-        {gifRows}
-      </div>
-    )
+    if (this.state.fetching) {
+      return (
+        <div className="flex flex-center h5 gray p2 center" style={{maxHeight: 50}}>
+          <div className="mx-auto">
+            Loading...
+          </div>
+        </div>
+      )
+    }
+
+    if (gifRows.length > 0) {
+      return (
+        <div>
+          {gifRows}
+        </div>
+      )
+    } else {
+      return (
+        <div className="flex flex-center h5 gray p2 center" style={{maxHeight: 50}}>
+          <div className="mx-auto">
+            No gifs found; try another search term?
+          </div>
+        </div>
+      )
+    }
   }
 
   handleGifSelect(gif) {

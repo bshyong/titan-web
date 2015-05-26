@@ -46,8 +46,12 @@ class GifStore extends Store {
     return this._fetching
   }
 
+  clearStore() {
+    this.gifs = List([])
+  }
+
   getAll() {
-    return this.gifs.toJS()
+    return this.gifs.slice(0,20).toJS()
   }
 
   currentSearchTerm() {

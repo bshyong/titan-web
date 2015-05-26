@@ -14,7 +14,7 @@ export default {
     Dispatcher.dispatch({
       type: GIFS_FETCHING
     })
-    this.get(`http://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&q=${encodeURIComponent(string)}`)
+    this.get(`http://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&limit=100&q=${encodeURIComponent(string)}`)
         .then(resp => {
           Dispatcher.dispatch({
             type: GIFS_FETCHED,
