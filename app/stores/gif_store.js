@@ -1,7 +1,8 @@
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
-import {List, Map} from 'immutable'
+import shuffle from '../lib/shuffle'
 import { GIFS_FETCHING, GIFS_FETCHED, GIF_FORM_CHANGED, GIF_REACTION_FETCHED } from '../constants'
+import {List, Map} from 'immutable'
 
 class GifStore extends Store {
   constructor() {
@@ -15,11 +16,12 @@ class GifStore extends Store {
       switch (action.type) {
         case GIFS_FETCHING:
           this._fetching = true
+          this.gifs = List([])
           this.emitChange()
           break;
         case GIFS_FETCHED:
           this._fetching = false
-          this.gifs = List(action.gifs)
+          this.gifs = List(shuffle(action.gifs))
           this.emitChange()
           break;
         case GIF_FORM_CHANGED:

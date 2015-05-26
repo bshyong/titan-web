@@ -168,7 +168,7 @@ export default class GifPicker extends React.Component {
             <video  loop style={gifStyle} ref={gif.id}>
               <source src={gif.mp4} type="video/mp4" />
               <source src={gif.webp} type="image/webp" />
-              <img src={gif.url} />
+              <img src={gif.still_url} />
             </video>
           </div>
         </div>
