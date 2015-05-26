@@ -12,7 +12,7 @@ class ChangelogStore extends Store {
   constructor() {
     super()
     this._changelog = null
-    this._timeInterval = 'day'
+    this._timeInterval = 'week'
     this._timeShown = null
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
