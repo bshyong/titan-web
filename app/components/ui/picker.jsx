@@ -56,26 +56,24 @@ export default class Picker extends React.Component {
 
     style[position] = -this.state.height
 
-    const classes = classnames(
-      'absolute',
-      'bg-white',
-      'full-width',
-      {
-        border: shown,
-        'border-silver': shown
-      }
-    )
+    const classes = classnames('absolute bg-white full-width shadow', {
+      border: shown,
+      'border-silver': shown,
+      z4: position === 'bottom'
+    })
 
     return (
-      <div className="absolute bg-white full-width shadow rounded"
-          ref="container"
-          style={style}>
+      <div className={classes} ref="container" style={style}>
         {this.props.children}
       </div>
     )
   }
 
   calculateHeight() {
+    if (this.props.position === 'bottom') {
+      return
+    }
+
     let node = React.findDOMNode(this.refs.container)
     let height = node.offsetHeight
     let fromTop = Picker.getOffsetTop(node)

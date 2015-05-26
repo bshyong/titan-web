@@ -1,6 +1,7 @@
 import {Link} from 'react-router'
 import {List, Map} from 'immutable'
 import AuthenticatedMixin from './mixins/authenticated_mixin.jsx'
+import AutocompleteUserInput from './autocomplete_user_input.jsx'
 import Button from './ui/button.js.jsx'
 import ChangelogStore from '../stores/changelog_store'
 import connectToStores from '../lib/connectToStores.jsx'
@@ -19,8 +20,6 @@ import StoryActions from '../actions/story_actions'
 import StoryFormActions from '../actions/story_form_actions'
 import StoryFormStore from '../stores/story_form_store'
 import StoryStore from '../stores/story_store'
-
-const MENTION_REGEX = /(^|\s)@(\w*)(?!\s)$/
 
 @AuthenticatedMixin()
 @connectToStores(EmojiStore, StoryFormStore)
@@ -78,12 +77,12 @@ export default class NewStoryForm extends React.Component {
             placeholder="Why? How?"
             ref="body"
             value={body}
-            onChange={this.handleChanged('body').bind(this)} />
+            onChange={this.handleChanged('body').bind(this)}
+            border={false} />
         </div>
 
         <div className="mb2">
-          <input type="text"
-            className="full-width block mb0 border-none outline-none"
+          <AutocompleteUserInput
             placeholder="Who? (@mention collaborators)"
             value={contributors}
             onChange={this.handleChanged('contributors').bind(this)}
