@@ -12,7 +12,8 @@ class ChangelogStore extends Store {
   constructor() {
     super()
     this._changelog = null
-    this._timeInterval = 'week'
+    let localTimeInterval = localStorage.getItem('preferredTimeInterval')
+    this._timeInterval = localTimeInterval==null ? 'week' : localTimeInterval
     this._timeShown = null
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
