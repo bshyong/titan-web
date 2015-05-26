@@ -13,17 +13,17 @@ import EditStoryForm from '../components/edit_story_form.js.jsx'
 import HomePage from '../pages/HomePage.jsx'
 import NewStoryPage from '../pages/NewStoryPage.jsx'
 import ChangelogPage from '../pages/ChangelogPage.jsx'
+import UserPage from '../pages/UserPage.jsx'
 import HighlightPicker from '../components/highlight_picker.js.jsx'
 import ChangelogLayout from '../components/changelog_layout.js.jsx'
 import SingleDateChangelogPage from '../pages/SingleDateChangelogPage.jsx'
 import StoryPage from '../components/story_page.jsx'
-import ProfilePage from '../components/profile_page.js.jsx'
 
 export default (
   <Route name="root" path="/">
-    <Route handler={SigninSSO} path='/signin/sso' name="sso" />
+    <Route handler={SigninSSO} path="/signin/sso" name="sso" />
 
-    <Route handler={ProfilePage} name="profile" path="/users/:username" />
+    <Route handler={UserPage} path="/users/:userId" name="user" />
 
     <Route handler={ChangelogLayout} path="/:changelogId">
       <DefaultRoute handler={ChangelogPage} name="changelog" />

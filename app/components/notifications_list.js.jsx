@@ -12,14 +12,18 @@ import ScrollPaginator from '../ui/ScrollPaginator.jsx'
 import SessionStore from '../stores/session_store'
 import StoryActions from '../actions/story_actions'
 import StoryStore from '../stores/story_store'
-
-import addParams from '../lib/addUrlParamsToStory'
 import classnames from 'classnames'
 import connectToStores from '../lib/connectToStores.jsx'
 import moment from '../config/moment'
+import paramsFor from '../lib/paramsFor'
 import pluralize from '../lib/pluralize'
 import {Link} from 'react-router'
 import {List} from 'immutable'
+
+function addParams(changelogId, story) {
+  story.urlParams = paramsFor.story({id: changelogId}, story)
+  return story
+}
 
 @connectToStores(NotificationsStore)
 export default class NotificationsList extends React.Component {

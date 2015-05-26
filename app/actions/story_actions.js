@@ -17,10 +17,10 @@ import {
   STORY_UPDATED,
 } from '../constants'
 
+import paramsFor from '../lib/paramsFor'
 import Dispatcher from '../lib/dispatcher'
 import RouterContainer from '../lib/router_container'
 import SessionStore from '../stores/session_store'
-import addParams from '../lib/addUrlParamsToStory'
 import api from '../lib/api'
 import segment from '../lib/segment'
 import { List } from 'immutable'
@@ -88,7 +88,7 @@ export default {
 
     api.put(`changelogs/${changelogId}/stories/${storyId}`, data).
       then(resp => {
-        let story = addParams(changelogId, combineAuthorAndContributors(resp))
+        let story = addParams(changelogId, )
         Dispatcher.dispatch({
           type: STORY_UPDATED,
           story: story,
@@ -165,6 +165,11 @@ export default {
       storyId: storyId
     })
   },
+}
+
+function addParams(changelogId, story) {
+  story.urlParams = paramsFor.story({id: changelogId}, story)
+  return story
 }
 
 function combineAuthorAndContributors(story) {

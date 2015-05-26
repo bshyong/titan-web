@@ -6,6 +6,7 @@ import Icon from '../ui/Icon.jsx'
 import React from 'react'
 import Stack from '../ui/Stack.jsx'
 import StoryActions from '../actions/story_actions'
+import StoryTableCell from './StoryTableCell.jsx'
 import Table from '../ui/Table.jsx'
 import UpvoteToggler from './UpvoteToggler.jsx'
 import moment from 'moment'
@@ -24,7 +25,7 @@ export default class StoryRange extends React.Component {
     let limitedStories = this.truncatedStories()
     return (
       <Table>
-        {limitedStories.map(this.renderStoryTableCell)}
+        {limitedStories.map(story => <StoryTableCell story={story} />)}
         {this.renderShowAll()}
       </Table>
     )
@@ -74,39 +75,6 @@ export default class StoryRange extends React.Component {
       var end_date = moment(date).add(1, 'months')
     }
     return start_date.format('MMMM D, YYYY').concat(" - ").concat(end_date.format('MMMM D, YYYY'))
-  }
-
-  renderStoryTableCell(story) {
-    const emoji = (
-      <UpvoteToggler story={story} size="sm"
-             hearted={story.viewer_has_hearted} />
-    )
-
-    return (
-      <Table.Cell key={story.id} image={emoji} to="story" params={story.urlParams}>
-        <div className="flex">
-          <div className="flex-none mr2">
-            <Badge badge={story.emoji} size="1.5rem" />
-          </div>
-          <div className="flex-auto">
-            {story.team_member_only ? <Icon icon="lock" /> : null} {story.title}
-          </div>
-          <div className="flex-none sm-show ml2">
-            <Stack items={story.allContributors.map(user => <Avatar user={user} size={24} />)} align="right" />
-          </div>
-
-          <div className="flex-none ml2">
-            <div className="h5 gray  mxn1 flex">
-              <div className="px1 no-underline">
-                <span className=" silver"><Icon icon="comment" /></span>
-                {' '}
-                {story.live_comments_count}
-              </div>
-            </div>
-          </div>
-        </div>
-      </Table.Cell>
-    )
   }
 }
 
