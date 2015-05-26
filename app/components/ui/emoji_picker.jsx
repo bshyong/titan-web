@@ -39,7 +39,7 @@ export default class EmojiPicker extends React.Component {
     var a = emoji.id
     if (emoji.id == this.state.selectedEmoji) {
       return (
-        <span className="px1 field-light" onClick={this.selectEmoji.bind(this, a)} key={a}>
+        <span className="px1" onClick={this.selectEmoji.bind(this, a)} key={a}>
           <span className="inline-block " style={{width: 18}}
             dangerouslySetInnerHTML={{__html: Emoji.parse(emoji.character)}} />
         </span>
@@ -59,7 +59,7 @@ export default class EmojiPicker extends React.Component {
     if (this.state.emojis) {
       var emojis = List(this.state.emojis)
       return (
-          <span className="border p1">
+          <span>
             {emojis.map((emoj) => {
               return (this.renderEmoji(emoj))
             })}

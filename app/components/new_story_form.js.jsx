@@ -4,21 +4,23 @@ import AuthenticatedMixin from './mixins/authenticated_mixin.jsx'
 import Button from './ui/button.js.jsx'
 import ChangelogStore from '../stores/changelog_store'
 import connectToStores from '../lib/connectToStores.jsx'
+import EmojiPicker from './ui/emoji_picker.jsx'
+import EmojiStore from '../stores/emoji_store'
 import HighlightsActionCreator from '../actions/highlight_actions'
 import HighlightsStore from '../stores/highlights_store'
 import Icon from './ui/icon.js.jsx'
+import MarkdownArea from './ui/markdown_area.jsx'
+import React from 'react'
 import Router from '../lib/router_container'
 import RouterContainer from '../lib/router_container'
 import shouldPureComponentUpdate from 'react-pure-render/function'
 import StoriesActionCreator from '../actions/story_actions'
+import StoryActions from '../actions/story_actions'
 import StoryFormActions from '../actions/story_form_actions'
 import StoryFormStore from '../stores/story_form_store'
-import StoryActions from '../actions/story_actions'
 import StoryStore from '../stores/story_store'
-import MarkdownArea from './ui/markdown_area.jsx'
-import React from 'react'
-import EmojiPicker from './ui/emoji_picker.jsx'
-import EmojiStore from '../stores/emoji_store'
+
+const MENTION_REGEX = /(^|\s)@(\w*)(?!\s)$/
 
 @AuthenticatedMixin()
 @connectToStores(EmojiStore, StoryFormStore)
@@ -59,17 +61,21 @@ export default class NewStoryForm extends React.Component {
 
         <div className="mb2">
           <input type="text"
-            className="field-light full-width block mb0"
-            placeholder="What changed?"
+            className="full-width block mb0 border-none outline-none"
+            placeholder="What?"
             value={title}
             onChange={this.handleChanged('title').bind(this)}
-            ref="title" />
-        </div>
+            ref="title"
+            style={{
+              fontSize: '2rem',
+              height: '100%',
+            }} />
 
-        <div className="mb2">
+          <hr className="mt0 mb0" />
+
           <MarkdownArea
             id={storyId || "new_story"}
-            placeholder="What did you do?"
+            placeholder="Why? How?"
             ref="body"
             value={body}
             onChange={this.handleChanged('body').bind(this)} />
@@ -77,19 +83,19 @@ export default class NewStoryForm extends React.Component {
 
         <div className="mb2">
           <input type="text"
-            className="field-light full-width block mb0"
-            placeholder="@mention any contributors who helped"
+            className="full-width block mb0 border-none outline-none"
+            placeholder="Who? (@mention collaborators)"
             value={contributors}
             onChange={this.handleChanged('contributors').bind(this)}
             ref="contributors" />
         </div>
 
-        <div className="clearfix">
+        <div className="clearfix mb1">
           <div className="left">
             <EmojiPicker />
           </div>
         </div>
-        <br />
+
         <div className="clearfix border-top">
           <div className="left">
 
@@ -105,7 +111,7 @@ export default class NewStoryForm extends React.Component {
             <Button style="transparent"
               color={StoryFormStore.isValid() ? 'green' : 'gray' }
               action={this.props.onPublish}>
-              {storyId ? 'Update' : 'Publish'}
+              {storyId ? 'Update' : 'Post'}
             </Button>
           </div>
 
