@@ -47,9 +47,7 @@ export default class Changelog extends React.Component {
             <div className="flex-none">
               <TimePicker />
             </div>
-
           </div>
-
         </div>
       </div>
       <div className="container">
