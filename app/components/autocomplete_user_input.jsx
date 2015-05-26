@@ -1,16 +1,20 @@
+import MENTION_REGEX from '../lib/mention_regex'
 import noop from '../lib/noop'
 import React from 'react'
 import UserPicker from './user_picker.jsx'
 import UserPickerActions from '../actions/user_picker_actions'
 
-const MENTION_REGEX = /(^|\s)@(\w*)(?!\s)$/
-
 export default class AutocompleteUserInput extends React.Component {
   constructor(props) {
     super(props)
 
+    this.state = {
+      focused: false
+    }
+
     this.handleKeyDown = this._handleKeyDown.bind(this)
     this.onUserSelected = this._onUserSelected.bind(this)
+    this.toggleFocus = this._toggleFocus.bind(this)
   }
 
   render() {
@@ -28,13 +32,20 @@ export default class AutocompleteUserInput extends React.Component {
           className={className}
           placeholder={placeholder}
           value={value}
+          onBlur={this.toggleFocus}
           onChange={onChange}
-          onKeyDown={this.handleKeyDown} />
+          onFocus={this.toggleFocus}
+          onKeyDown={this.handleKeyDown}
+          ref="input" />
       </div>
     )
   }
 
   renderUserPicker() {
+    if (!this.state.focused) {
+      return
+    }
+
     const value = this.props.value || ''
     const match = MENTION_REGEX.exec(value.substr(0, this.selectionStart))
 
@@ -82,9 +93,15 @@ export default class AutocompleteUserInput extends React.Component {
 
       // Put the cursor where the user expects it to be,
       // not necessarily at the end of the input
-      React.findDOMNode(this.refs.textarea).
+      React.findDOMNode(this.refs.input).
         setSelectionRange(start, start)
     }, 0)
+  }
+
+  _toggleFocus() {
+    this.setState({
+      focused: !this.state.focused
+    })
   }
 }
 

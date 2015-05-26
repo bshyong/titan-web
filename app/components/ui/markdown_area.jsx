@@ -2,6 +2,7 @@ import classnames from 'classnames'
 import debounce from '../../lib/debounce'
 import DropzoneContainer from '../dropzone_container.jsx'
 import { getOffsetTop } from './picker.jsx'
+import MENTION_REGEX from '../../lib/mention_regex'
 import noop from '../../lib/noop'
 import React from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
@@ -9,13 +10,13 @@ import UserPicker from '../user_picker.jsx'
 import UserPickerActions from '../../actions/user_picker_actions'
 import {List} from 'immutable'
 
-const MENTION_REGEX = /(^|\s)@(\w*)(?!\s)$/
-
 export default class MarkdownArea extends React.Component {
   constructor(props) {
     super(props)
 
-    this.state = { focused: false }
+    this.state = {
+      focused: false
+    }
 
     this.handleKeyDown = this._handleKeyDown.bind(this)
     this.onUploaded = this._onUploaded.bind(this)

@@ -14,6 +14,7 @@ import MarkdownArea from './ui/markdown_area.jsx'
 import React from 'react'
 import Router from '../lib/router_container'
 import RouterContainer from '../lib/router_container'
+import SessionStore from '../stores/session_store'
 import shouldPureComponentUpdate from 'react-pure-render/function'
 import StoriesActionCreator from '../actions/story_actions'
 import StoryActions from '../actions/story_actions'
@@ -83,7 +84,7 @@ export default class NewStoryForm extends React.Component {
 
         <div className="mb2">
           <AutocompleteUserInput
-            placeholder="Who? (@mention collaborators)"
+            placeholder="Who? (@mention contributors)"
             value={contributors}
             onChange={this.handleChanged('contributors').bind(this)}
             ref="contributors" />
@@ -134,6 +135,22 @@ export default class NewStoryForm extends React.Component {
   }
 
   updateForm(field, value) {
-    StoryFormActions.change(Map(this.props).set(field, value).toJS())
+    if (field === 'body') {
+      let contributorsString = `@${SessionStore.user.username}, `
+      let MENTION_REGEX = /(^|\s)@(\w*)/gi
+      let contributors = value.match(MENTION_REGEX)
+      if (contributors) {
+        contributorsString += contributors.join(', ') + ', '
+      }
+
+      StoryFormActions.change(
+        Map(this.props).
+        set(field, value).
+        set('contributors', contributorsString).
+        toJS()
+      )
+    } else {
+      StoryFormActions.change(Map(this.props).set(field, value).toJS())
+    }
   }
 }
