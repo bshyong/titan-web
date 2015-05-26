@@ -135,7 +135,7 @@ export default class Changelog extends React.Component {
       return (
         <div>
           <Table.Separator label={this.parseCalendarDate(date)} key={date.toISOString()} />
-          <StoryRange date={date} stories={stories.sortBy(story => -story.hearts_count)} storyCount={stories.count()} timeInterval={timeInterval} />
+          <StoryRange date={date} stories={stories.sortBy(story => -story.hearts_count)} storyCount={stories.count()} timeInterval={timeInterval} truncatable={true} />
         </div>
       )
     })

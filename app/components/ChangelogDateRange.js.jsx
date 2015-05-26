@@ -1,21 +1,27 @@
+import connectToStores from '../lib/connectToStores.jsx'
 import moment from 'moment'
 import React from 'react'
 import StoryRange from './StoryRange.jsx'
 import Table from './ui/table.jsx'
+import StoryActions from '../actions/story_actions'
+import StoryStore from '../stores/story_store'
 
-
+@connectToStores(StoryStore)
 export default class ChangelogDateRange extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {date: moment(this.props.date, "MM DD YYYY")}
+  static getPropsFromStores(props) {
+     let end_date = props.start_date.add(1, props.timeInterval)
+     let start_date = props.start_date
+    return {
+      stories: StoryStore.all_within_dates(start_date, end_date)
+    }
   }
 
   render() {
-    const { date, stories } = this.props
+    const { start_date, stories, timeInterval } = this.props
     return (
-      <div>
-        <Table.Separator label={this.parseCalendarDate(date)} key={date.toISOString()} />
-        <StoryRange date={date} stories={stories.sortBy(story => -story.hearts_count)} storyCount={stories.count()} timeInterval={timeInterval} />
+      <div className="container">
+        <Table.Separator label={this.parseCalendarDate(this.props.start_date)} key={this.props.start_date.toISOString()} />
+        <StoryRange date={start_date} stories={stories.sortBy(story => -story.hearts_count)} storyCount={stories.count()} timeInterval={timeInterval} truncatable={false}/>
       </div>
     )
   }
@@ -39,7 +45,6 @@ export default class ChangelogDateRange extends React.Component {
 
 ChangelogDateRange.propTypes = {
   changelogId: React.PropTypes.string.isRequired,
-  date: React.PropTypes.string.isRequierd,
-  stories: React.PropTypes.object.isRequired,
+  start_date: React.PropTypes.object.isRequired,
   timeInterval: React.PropTypes.string.isRequired
 }

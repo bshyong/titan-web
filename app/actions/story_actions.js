@@ -42,16 +42,15 @@ export default {
     Dispatcher.dispatch({
       type: STORIES_FETCHING
     })
+    console.log(`changelogs/${changelogId}/stories/date/${dateString}/${timeInterval}`)
     api.get(`changelogs/${changelogId}/stories/date/${dateString}/${timeInterval}`).
       then(resp => {
         var stories = List(resp).map(combineAuthorAndContributors)
         Dispatcher.dispatch({
           type: STORIES_FETCHED,
-          changelogId: changelogId,
-          stories: stories,
-          page: page,
-          moreAvailable: stories.size == per
+          stories: resp
         })
+        console.log("response", resp)
       })
   },
 

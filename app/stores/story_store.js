@@ -82,6 +82,10 @@ class StoryStore extends Store {
     return this.stories.toList()
   }
 
+  all_within_dates(start_date, end_date) {
+    return this.stories.toList()
+  }
+
   get loading() {
     return this._loading
   }

@@ -29,7 +29,7 @@ export default class StoryRange extends React.Component {
 
   truncatedStories() {
     const { timeInterval, stories } = this.props
-    if (!this.state.expanded && timeInterval != "day") {
+    if (!this.state.expanded && timeInterval != "day" && this.props.truncatable) {
       return stories.slice(0,5)
     } else {
       return stories
@@ -39,7 +39,7 @@ export default class StoryRange extends React.Component {
   renderShowAll() {
     const { date, stories, storyCount, timeInterval } = this.props
 
-    if (stories.count() < 5 || timeInterval ==="day") {
+    if (stories.count() < 5 || timeInterval ==="day" || !this.props.truncatable) {
       return
     }
 
@@ -106,5 +106,6 @@ StoryRange.propTypes = {
   date: React.PropTypes.object.isRequired,
   stories: React.PropTypes.object.isRequired,
   storyCount: React.PropTypes.number.isRequired,
-  timeInterval: React.PropTypes.string.isRequired
+  timeInterval: React.PropTypes.string.isRequired,
+  truncatable: React.PropTypes.bool.isRequired
 }

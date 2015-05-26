@@ -27,7 +27,7 @@ export default (
 
     <Route handler={ChangelogLayout} path="/:changelogId">
       <DefaultRoute handler={ChangelogPage} name="changelog" />
-      <Route handler={SingleDateChangelogPage} path="date/:date/:time_interval" name="changelog_date" />
+      <Route handler={SingleDateChangelogPage} path="date/:date/:timeInterval" name="changelog_date" />
       <Route handler={EditStoryForm} path=":storyId/edit" name="edit" />
 
       <Route handler={StoryComposer} path="new">
