@@ -8,7 +8,16 @@ import React from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
 import UserPicker from '../components/user_picker.jsx'
 import UserPickerActions from '../actions/user_picker_actions'
+import GifPicker from '../components/gif_picker.jsx'
 import {List} from 'immutable'
+
+let UploadSrc = ''
+let GifPickerTrigger = ''
+
+if (typeof __TEST__ === 'undefined') {
+  UploadSrc = require('../../images/image-upload-icon.svg')
+  GifPickerTrigger = require('../../images/magic-icon.svg')
+}
 
 export default class MarkdownArea extends React.Component {
   constructor(props) {
@@ -22,12 +31,14 @@ export default class MarkdownArea extends React.Component {
     this.onUploaded = this._onUploaded.bind(this)
     this.onUploading = this._onUploading.bind(this)
     this.onUserSelected = this._onUserSelected.bind(this)
+    this.onGifSelected = this._onGifSelected.bind(this)
     this.toggleFocus = this._toggleFocus.bind(this)
     this.updateSelectionStart = this._updateSelectionStart.bind(this)
   }
 
   componentDidMount() {
     this.height = getOffsetTop(React.findDOMNode(this))
+    this.dropzoneClickable = React.findDOMNode(this.refs.clickable)
   }
 
   componentWillUpdate() {
@@ -44,7 +55,7 @@ export default class MarkdownArea extends React.Component {
       },
       textarea: {
         ...this.props.style,
-        width: '91%',
+        width: '98%',
         resize: 'none',
         outline: 'none',
         border: 'none',
@@ -58,26 +69,51 @@ export default class MarkdownArea extends React.Component {
       style.div.outline = 'none'
     }
 
-    const classes = classnames("mb0 py0 full-width relative", {
+    const classes = classnames("mb0 py0 full-width relative flex", {
       "field-light border-silver": border
     })
 
     return (
       <DropzoneContainer id={this.props.id}
         onUploaded={this.onUploaded}
-        onUploading={this.onUploading}>
+        onUploading={this.onUploading}
+        clickable={this.dropzoneClickable}>
         {this.renderUserPicker()}
-        <div className={classes} style={style.div}>
-          <TextareaAutosize
-            {...this.props}
-            ref="textarea"
-            style={style.textarea}
-            onBlur={this.toggleFocus}
-            onFocus={this.toggleFocus}
-            onKeyDown={this.props.onCmdEnter ? this.handleKeyDown : this.updateSelectionStart} />
+        {this.renderGifPicker()}
+        <div className={classes}
+            style={style.div}>
+            <div className="flex-grow">
+              <TextareaAutosize
+                {...this.props}
+                ref="textarea"
+                style={style.textarea}
+                onBlur={this.toggleFocus}
+                onFocus={this.toggleFocus}
+                onKeyDown={this.props.onCmdEnter ? this.handleKeyDown : this.updateSelectionStart} />
+            </div>
+            <div className="flex-none mr1 mt1 h3 pointer gray" onClick={this.toggleGifPicker.bind(this)}>
+              <img src={GifPickerTrigger} style={{height: '1.5rem'}} />
+            </div>
+            <div className="flex-none mr1 mt1 h3 pointer gray" ref="clickable">
+              <img src={UploadSrc} style={{height: '1.5rem'}} />
+            </div>
         </div>
       </DropzoneContainer>
     )
+  }
+
+  toggleGifPicker() {
+    this.setState({
+      gifPickerOpen: !this.state.gifPickerOpen
+    })
+  }
+
+  renderGifPicker() {
+    if (this.state.gifPickerOpen) {
+      return (
+        <GifPicker onGifSelect={this.onGifSelected.bind(this)}/>
+      )
+    }
   }
 
   renderUserPicker() {
@@ -130,10 +166,41 @@ export default class MarkdownArea extends React.Component {
     }, 0)
   }
 
+  _onGifSelected(gif) {
+    setTimeout(() => {
+      const value = this.props.value || ''
+      const beginning = value.substr(0, this.selectionStart).trim()
+      const newBeginning = `${beginning} ![gif](${gif.url})`
+
+      let end = value.substr(this.selectionStart)
+
+      if (end === beginning) {
+        end = ''
+      }
+
+      const simulatedEvent = {
+        target: {
+          value: newBeginning + end
+        }
+      }
+
+      const start = this.selectionStart = newBeginning.length
+
+      this.props.onChange(simulatedEvent)
+
+      // Put the cursor where the user expects it to be,
+      // not necessarily at the end of the input
+      React.findDOMNode(this.refs.textarea).
+        setSelectionRange(start, start)
+
+      this.toggleGifPicker()
+    }, 0)
+  }
+
   _onUserSelected(user) {
     setTimeout(() => {
-      const value = this.props.value
-      const beginning = (value || '').substr(0, this.selectionStart).trim()
+      const value = this.props.value || ''
+      const beginning = value.substr(0, this.selectionStart).trim()
       const newBeginning = beginning.replace(
         MENTION_REGEX,
         (match, space, username, offset, string) => {

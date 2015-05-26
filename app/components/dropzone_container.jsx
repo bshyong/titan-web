@@ -20,18 +20,16 @@ export default class DropzoneContainer extends React.Component {
   }
 
   componentDidMount() {
-    this.dropzone = new Dropzone(React.findDOMNode(this.refs.dropzone), {
-      accept: AttachmentActions.uploadAttachment(this.props.id),
-      clickable: React.findDOMNode(this.refs.clickable),
-      sending: this.onSending,
-      url: `https://s3.amazonaws.com/titan-api`
-    })
+    this.attachDropzone()
 
     AttachmentStore.addChangeListener(this.getAttachments)
     UploadingAttachmentStore.addChangeListener(this.getUploadingAttachments)
   }
 
   componentDidUpdate() {
+    if (!this.dropzone) {
+      this.attachDropzone()
+    }
     this.dropzone.options.accept = AttachmentActions.uploadAttachment(this.props.id)
   }
 
@@ -42,13 +40,21 @@ export default class DropzoneContainer extends React.Component {
     UploadingAttachmentStore.removeChangeListener(this.getUploadingAttachments)
   }
 
+  attachDropzone() {
+    if (this.props.clickable) {
+      this.dropzone = new Dropzone(React.findDOMNode(this.refs.dropzone), {
+        accept: AttachmentActions.uploadAttachment(this.props.id),
+        clickable: this.props.clickable,
+        sending: this.onSending,
+        url: `https://s3.amazonaws.com/titan-api`
+      })
+    }
+  }
+
   render() {
     return (
       <div ref="dropzone" className="relative clearfix">
         {this.props.children}
-        <div className="absolute right-0 top-0 mr1 mt1 h3 pointer gray" ref="clickable">
-          <img src={UploadSrc} style={{height: '1.5rem'}} />
-        </div>
       </div>
     )
   }

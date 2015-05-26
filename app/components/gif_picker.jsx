@@ -3,6 +3,7 @@ import GifActions from '../actions/gif_actions'
 import GifStore from '../stores/gif_store'
 import Icon from './ui/icon.js.jsx'
 import LoadingBar from './ui/loading_bar.jsx'
+import Picker from './ui/picker.jsx'
 import React from 'react'
 import { reactionStrings } from '../config/gifpicker'
 
@@ -47,8 +48,8 @@ export default class GifPicker extends React.Component {
     const { fetching, searchTerm } = this.state
 
     return (
-      <div>
-        <div className="center" ref="gifResults" style={{maxHeight: 400, overflowY: 'scroll'}}>
+      <Picker position="top" maxHeight={400}>
+        <div className="center" ref="gifResults" style={{maxHeight: 350, overflowY: 'scroll'}}>
           {this.renderPicker()}
           <LoadingBar loading={fetching && searchTerm !== null} />
         </div>
@@ -63,7 +64,7 @@ export default class GifPicker extends React.Component {
             <Icon icon="search" />
           </Button>
         </form>
-      </div>
+      </Picker>
     )
   }
 
@@ -128,6 +129,12 @@ export default class GifPicker extends React.Component {
     )
   }
 
+  handleGifSelect(gif) {
+    React.findDOMNode(this.refs.gifSearch).value = ''
+    this.handleOnChange()
+    this.props.onGifSelect(gif)
+  }
+
   handleOnMouseEnter(gif) {
     React.findDOMNode(this.refs[gif.id]).play()
   }
@@ -156,7 +163,7 @@ export default class GifPicker extends React.Component {
              key={gif.id}
              onMouseEnter={this.handleOnMouseEnter.bind(this, gif)}
              onMouseLeave={this.handleOnMouseLeave.bind(this, gif)}
-             onClick={this.props.onGifSelect.bind(this, gif)}>
+             onClick={this.handleGifSelect.bind(this, gif)}>
           <div style={{overflow: 'hidden', maxHeight: maxHeight}}>
             <video  loop style={gifStyle} ref={gif.id}>
               <source src={gif.mp4} type="video/mp4" />
@@ -188,10 +195,11 @@ export default class GifPicker extends React.Component {
   _handleOnChange() {
     const string = React.findDOMNode(this.refs.gifSearch).value
     GifActions.changeSearchTerm(string)
-
-    this.debounce(
-      GifActions.fetchGifs, GifActions, [string]
-    )()
+    if (string && (string.length > 0)) {
+      this.debounce(
+        GifActions.fetchGifs, GifActions, [string]
+      )()
+    }
   }
 
   _onStoreChange() {

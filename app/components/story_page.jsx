@@ -124,7 +124,6 @@ export default class StoryPage extends React.Component {
         <div className="flex-auto" style={{background: '#FAF9F8'}}>
           <div className="container">
             <div className="sm-col-8 mx-auto">
-              <GifPicker onGifSelect={(g) => {console.log('selected', g)}}/>
               <Discussion storyId={this.props.story.slug} changelogId={this.props.changelogId} />
             </div>
           </div>
