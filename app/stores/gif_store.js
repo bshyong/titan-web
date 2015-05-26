@@ -39,7 +39,7 @@ class GifStore extends Store {
   }
 
   get reactionImages() {
-    return this._reactionImages.toJS()
+    return this._reactionImages
   }
 
   get fetching() {

@@ -88,7 +88,7 @@ export default class GifPicker extends React.Component {
 
   renderReactionPicker() {
     const reactions = this.reactionStrings.reduce((memo, curr) => {
-      const imageUrl = this.state.reactionImages[curr]
+      const imageUrl = this.state.reactionImages.get(curr)
       const styles = {
         backgroundImage: `url(${imageUrl})`,
         minHeight: 120,
