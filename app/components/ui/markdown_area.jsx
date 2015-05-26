@@ -25,6 +25,10 @@ export default class MarkdownArea extends React.Component {
     this.updateSelectionStart = this._updateSelectionStart.bind(this)
   }
 
+  componentDidMount() {
+    this.height = getOffsetTop(React.findDOMNode(this)) - 55
+  }
+
   render() {
     const { border } = this.props
 
@@ -77,8 +81,7 @@ export default class MarkdownArea extends React.Component {
     if (match) {
       return <UserPicker query={match[2]}
           onUserSelected={this.onUserSelected}
-          maxHeight={170}
-          position="bottom" />
+          maxHeight={Math.min(this.height, 170)} />
     }
   }
 

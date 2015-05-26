@@ -70,12 +70,13 @@ export default class Picker extends React.Component {
   }
 
   calculateHeight() {
-    if (this.props.position === 'bottom') {
-      return
-    }
-
     let node = React.findDOMNode(this.refs.container)
     let height = node.offsetHeight
+
+    if (this.props.position === 'bottom') {
+      return height
+    }
+
     let fromTop = Picker.getOffsetTop(node)
 
     while (fromTop < 0) {
