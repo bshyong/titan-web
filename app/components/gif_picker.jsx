@@ -128,6 +128,14 @@ export default class GifPicker extends React.Component {
     )
   }
 
+  handleOnMouseEnter(gif) {
+    React.findDOMNode(this.refs[gif.id]).play()
+  }
+
+  handleOnMouseLeave(gif) {
+    React.findDOMNode(this.refs[gif.id]).pause()
+  }
+
   // should be a row of gifs
   renderGif(gif) {
     const maxHeight = 200
@@ -146,9 +154,11 @@ export default class GifPicker extends React.Component {
         <div className="col col-6 center m0 p0 border border-white pointer"
              style={{overflow: 'hidden'}}
              key={gif.id}
+             onMouseEnter={this.handleOnMouseEnter.bind(this, gif)}
+             onMouseLeave={this.handleOnMouseLeave.bind(this, gif)}
              onClick={this.props.onGifSelect.bind(this, gif)}>
           <div style={{overflow: 'hidden', maxHeight: maxHeight}}>
-            <video autoPlay loop style={gifStyle}>
+            <video  loop style={gifStyle} ref={gif.id}>
               <source src={gif.mp4} type="video/mp4" />
               <source src={gif.webp} type="image/webp" />
               <img src={gif.url} />
