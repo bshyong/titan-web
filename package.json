@@ -15,7 +15,7 @@
   "dependencies": {
     "babel-core": "^5.2.15",
     "babel-loader": "^5.0.0",
-    "basscss": "~6.1.5",
+    "basscss": "~6.1.6",
     "classnames": "~1.2",
     "compression": "^1.4.3",
     "compression-webpack-plugin": "^0.2.0",
