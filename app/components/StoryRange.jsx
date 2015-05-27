@@ -1,10 +1,12 @@
-import React from 'react'
-import Table from './ui/table.jsx'
-import Icon from './ui/icon.js.jsx'
-import Stack from './ui/Stack.jsx'
+import { Link } from 'react-router'
 import Avatar from './ui/avatar.jsx'
+import ChangelogStore from '../stores/changelog_store'
 import Emoji from './ui/emoji.jsx'
+import Icon from './ui/icon.js.jsx'
+import React from 'react'
+import Stack from './ui/Stack.jsx'
 import StoryActions from '../actions/story_actions'
+import Table from './ui/table.jsx'
 import moment from 'moment'
 
 export default class StoryRange extends React.Component {
@@ -42,11 +44,14 @@ export default class StoryRange extends React.Component {
     if (stories.count() < 5 || timeInterval ==="day" || !this.props.truncatable) {
       return
     }
-
+    let changelogId = ChangelogStore.changelog.slug
+    let formatted_date = date.format('MM-DD-YYYY')
     return (
-      <a className="block py2 h5 pointer" onClick={this.handleToggleExpanded.bind(this)}>
-        {this.state.expanded ? 'Hide' : 'Show All'}
-      </a>
+      <div className="block py2 h5 pointer">
+        <Link to="changelog_date" params={{changelogId: changelogId, date: formatted_date, timeInterval: timeInterval}} className="black">
+          See All
+        </Link>
+      </div>
     )
   }
 

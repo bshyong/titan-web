@@ -96,24 +96,6 @@ export default class Changelog extends React.Component {
     }
   }
 
-  renderShowAll(date) {
-    const { timeShown } = this.props
-    let newDate = date
-    let buttonText = "Show All"
-    if (timeShown) {
-      if (date.format() === timeShown.format()) {
-        newDate = null
-        buttonText = "Hide"
-      }
-    }
-
-    return (
-      <a className="block py2 h5 pointer" onClick={this.expandDate(newDate)}>
-        {buttonText}
-      </a>
-    )
-  }
-
   storyValuesLogic(key, value) {
     const { timeShown, timeInterval } = this.props
     if (timeShown) {
