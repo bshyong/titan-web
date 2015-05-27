@@ -9,6 +9,7 @@ import {
   STORY_PUBLISHED
 } from '../constants'
 import { Map } from 'immutable'
+import moment from 'moment'
 import addParams from '../lib/addUrlParamsToStory'
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
@@ -80,6 +81,14 @@ class StoryStore extends Store {
 
   all() {
     return this.stories.toList()
+  }
+
+  allWithinDates(start_date, timeInterval) {
+    let end_date = moment(start_date).add(1, timeInterval.concat('s'))
+    return this.stories.toList().filter(story => {
+      let d = moment(story.created_at)
+      return d > start_date && d < end_date
+    })
   }
 
   get loading() {

@@ -3,9 +3,11 @@ import React from 'react'
 export default class Badge extends React.Component {
   render() {
     const { badge, size } = this.props
-    const hex = badge.unicode.replace('U+', '').toLowerCase()
-    const src = `https://twemoji.maxcdn.com/svg/${hex}.svg`
-    return <img className="block" src={src} alt={badge.name} style={{height: size}} />
+    if (badge != null) {
+      const hex = badge.unicode.replace('U+', '').toLowerCase()
+      const src = `https://twemoji.maxcdn.com/svg/${hex}.svg`
+      return <img className="block" src={src} alt={badge.name} style={{height: size}} />
+    } else return null
   }
 }
 

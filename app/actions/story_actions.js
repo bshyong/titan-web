@@ -38,6 +38,21 @@ export default {
       })
   },
 
+  fetchSpecificDate(changelogId, dateString, timeInterval) {
+    Dispatcher.dispatch({
+      type: STORIES_FETCHING
+    })
+    api.get(`changelogs/${changelogId}/stories?date=${dateString}&time_length=${timeInterval}`).
+      then(resp => {
+        var stories = List(resp).map(combineAuthorAndContributors)
+        Dispatcher.dispatch({
+          type: STORIES_FETCHED,
+          changelogId: changelogId,
+          stories: resp
+        })
+      })
+  },
+
   fetch(changelogId, storyId) {
     api.get(`changelogs/${changelogId}/stories/${storyId}`).
       then(resp => {

@@ -15,6 +15,7 @@ import NewStoryPage from '../pages/NewStoryPage.jsx'
 import ChangelogPage from '../pages/ChangelogPage.jsx'
 import HighlightPicker from '../components/highlight_picker.js.jsx'
 import ChangelogLayout from '../components/changelog_layout.js.jsx'
+import SingleDateChangelogPage from '../pages/SingleDateChangelogPage.jsx'
 import StoryPage from '../components/story_page.jsx'
 import ProfilePage from '../components/profile_page.js.jsx'
 
@@ -26,7 +27,6 @@ export default (
 
     <Route handler={ChangelogLayout} path="/:changelogId">
       <DefaultRoute handler={ChangelogPage} name="changelog" />
-
       <Route handler={EditStoryForm} path=":storyId/edit" name="edit" />
 
       <Route handler={StoryComposer} path="new">
@@ -35,6 +35,7 @@ export default (
       </Route>
 
       <Route handler={StoryPage} path=":year/:month/:day/:storyId" name="story" />
+      <Route handler={SingleDateChangelogPage} path="date/:date/:timeInterval" name="changelog_date" />
     </Route>
 
     <Redirect from="/" to="changelog" params={{changelogId: 'assembly'}} />

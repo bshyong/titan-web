@@ -58,15 +58,17 @@ export default class Changelog extends React.Component {
 
   parseCalendarDate(key) {
     const { timeInterval } = this.props
+
+    if (timeInterval === "month") {
+      return moment(key).format('MMMM YYYY')
+    }
+
     if (timeInterval === "day") {
       return key.calendar()
     }
     var start_date = moment(key)
     if (timeInterval === "week") {
       var end_date = moment(key).add(1, 'weeks')
-    }
-    if (timeInterval === "month") {
-      var end_date = moment(key).add(1, 'months')
     }
     return start_date.format('MMMM D, YYYY').concat(" - ").concat(end_date.format('MMMM D, YYYY'))
   }
@@ -95,24 +97,6 @@ export default class Changelog extends React.Component {
     }
   }
 
-  renderShowAll(date) {
-    const { timeShown } = this.props
-    let newDate = date
-    let buttonText = "Show All"
-    if (timeShown) {
-      if (date.format() === timeShown.format()) {
-        newDate = null
-        buttonText = "Hide"
-      }
-    }
-
-    return (
-      <a className="block py2 h5 pointer" onClick={this.expandDate(newDate)}>
-        {buttonText}
-      </a>
-    )
-  }
-
   storyValuesLogic(key, value) {
     const { timeShown, timeInterval } = this.props
     if (timeShown) {
@@ -129,14 +113,20 @@ export default class Changelog extends React.Component {
   renderTable() {
     const { changelogId, timeShown, timeInterval } = this.props
     const groupedStories = this.sortStories()
+
+
     return groupedStories.map((stories, date) => {
+      let formatted_date = date.format('MM-DD-YYYY')
       return (
         <div key={date.toISOString()}>
-          <Table.Separator label={this.parseCalendarDate(date)} />
+          <Link to="changelog_date" params={{changelogId: changelogId, date: formatted_date, timeInterval: timeInterval}} className="black">
+            <Table.Separator label={this.parseCalendarDate(date)} />
+          </Link>
           <StoryRange date={date}
               stories={stories.sortBy(story => -story.hearts_count)}
               storyCount={stories.count()}
-              timeInterval={timeInterval} />
+              timeInterval={timeInterval}
+              truncatable={true} />
         </div>
       )
     }).toList()

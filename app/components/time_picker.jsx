@@ -9,7 +9,6 @@ export default class TimePicker extends React.Component {
 
   constructor(props) {
     super(props)
-
     this.state = {timeInterval: this.initTimeInterval() }
     this.renderTime = this.renderTime.bind(this)
   }

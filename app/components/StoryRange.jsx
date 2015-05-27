@@ -1,5 +1,7 @@
+import { Link } from 'react-router'
 import Avatar from '../ui/Avatar.jsx'
 import Badge from './Badge.jsx'
+import ChangelogStore from '../stores/changelog_store'
 import Icon from '../ui/Icon.jsx'
 import React from 'react'
 import Stack from '../ui/Stack.jsx'
@@ -30,7 +32,7 @@ export default class StoryRange extends React.Component {
 
   truncatedStories() {
     const { timeInterval, stories } = this.props
-    if (!this.state.expanded && timeInterval != "day") {
+    if (!this.state.expanded && timeInterval != "day" && this.props.truncatable) {
       return stories.slice(0,5)
     } else {
       return stories
@@ -40,14 +42,17 @@ export default class StoryRange extends React.Component {
   renderShowAll() {
     const { date, stories, storyCount, timeInterval } = this.props
 
-    if (stories.count() < 5 || timeInterval ==="day") {
+    if (stories.count() < 5 || timeInterval ==="day" || !this.props.truncatable) {
       return
     }
-
+    let changelogId = ChangelogStore.changelog.slug
+    let formatted_date = date.format('MM-DD-YYYY')
     return (
-      <a className="block py2 h5 pointer" onClick={this.handleToggleExpanded.bind(this)}>
-        {this.state.expanded ? 'Hide' : 'Show All'}
-      </a>
+      <div className="block py2 h5 pointer">
+        <Link to="changelog_date" params={{changelogId: changelogId, date: formatted_date, timeInterval: timeInterval}} className="black">
+          See All
+        </Link>
+      </div>
     )
   }
 
@@ -109,5 +114,6 @@ StoryRange.propTypes = {
   date: React.PropTypes.object.isRequired,
   stories: React.PropTypes.object.isRequired,
   storyCount: React.PropTypes.number.isRequired,
-  timeInterval: React.PropTypes.string.isRequired
+  timeInterval: React.PropTypes.string.isRequired,
+  truncatable: React.PropTypes.bool.isRequired
 }
