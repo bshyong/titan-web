@@ -46,7 +46,7 @@ export default class DropzoneContainer extends React.Component {
     return (
       <div ref="dropzone" className="relative clearfix">
         {this.props.children}
-        <div className="absolute right-0 top-0 mr1 h3 pointer gray" ref="clickable">
+        <div className="absolute right-0 top-0 mr1 mt1 h3 pointer gray" ref="clickable">
           <img src={UploadSrc} style={{height: '1.5rem'}} />
         </div>
       </div>
