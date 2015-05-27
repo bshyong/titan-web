@@ -39,6 +39,7 @@ export default class MarkdownArea extends React.Component {
         backgroundColor: 'white'
       },
       textarea: {
+        ...this.props.style,
         width: '91%',
         resize: 'none',
         outline: 'none',

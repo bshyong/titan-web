@@ -29,6 +29,7 @@ export default class AutocompleteUserInput extends React.Component {
       <div className="relative">
         {this.renderUserPicker()}
         <input type="text"
+          {...this.props}
           className={className}
           placeholder={placeholder}
           value={value}

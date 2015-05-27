@@ -39,7 +39,7 @@ export default class EmojiPicker extends React.Component {
     var a = emoji.id
     if (emoji.id == this.state.selectedEmoji) {
       return (
-        <span className="px1" onClick={this.selectEmoji.bind(this, a)} key={a}>
+        <span className="p1 bg-silver" onClick={this.selectEmoji.bind(this, a)} key={a}>
           <span className="inline-block " style={{width: 18}}
             dangerouslySetInnerHTML={{__html: Emoji.parse(emoji.character)}} />
         </span>
