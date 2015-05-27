@@ -1,7 +1,7 @@
 import classnames from 'classnames'
 import debounce from '../lib/debounce'
 import DropzoneContainer from '../components/dropzone_container.jsx'
-import { getOffsetTop } from './picker.jsx'
+import { getOffsetTop } from './Picker.jsx'
 import MENTION_REGEX from '../lib/mention_regex'
 import noop from '../lib/noop'
 import React from 'react'
