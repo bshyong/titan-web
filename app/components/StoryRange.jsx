@@ -1,5 +1,7 @@
+import { Link } from 'react-router'
 import Avatar from '../ui/Avatar.jsx'
 import Badge from './Badge.jsx'
+import ChangelogStore from '../stores/changelog_store'
 import Icon from '../ui/Icon.jsx'
 import React from 'react'
 import Stack from '../ui/Stack.jsx'
