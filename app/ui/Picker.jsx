@@ -2,6 +2,7 @@ import classnames from 'classnames'
 import React from 'react'
 import shallowEqual from 'react-pure-render/shallowEqual'
 import Table from './Table.jsx'
+import onMobile from '../../lib/on_mobile'
 
 export default class Picker extends React.Component {
   static getOffsetTop(element) {
@@ -9,7 +10,31 @@ export default class Picker extends React.Component {
     return top < 0 ? 0 : top
   }
 
+  renderForMobile() {
+    const classes = classnames('absolute bg-white full-width z8')
+    const style = {
+      overflow: 'hidden',
+      overflowY: 'auto',
+      height: '100vh',
+      width: '100vw',
+      top: window.pageYOffset,
+      left: 0,
+      zIndex: 999,
+    }
+
+    return (
+      <div className={classes} style={style} ref="container">
+        {this.props.children}
+      </div>
+    )
+  }
+
   render() {
+    // guard for mobile
+    if (this.onMobile) {
+      return this.renderForMobile()
+    }
+
     const { maxHeight, position, shown } = this.props
     let style = {
       maxHeight: maxHeight,

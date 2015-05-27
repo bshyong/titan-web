@@ -2,6 +2,7 @@ import AttachmentActions from '../actions/attachment_actions'
 import AttachmentStore from '../stores/attachment_store'
 import Dropzone from '../config/dropzone'
 import Icon from '../ui/Icon.jsx'
+import onMobile from '../lib/on_mobile'
 import React from 'react'
 import UploadingAttachmentStore from '../stores/uploading_attachment_store'
 
@@ -53,7 +54,7 @@ export default class DropzoneContainer extends React.Component {
 
   render() {
     return (
-      <div ref="dropzone" className="relative clearfix">
+      <div ref="dropzone" className={`${onMobile() ? '' : 'relative'} clearfix`}>
         {this.props.children}
       </div>
     )

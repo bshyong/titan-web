@@ -111,7 +111,7 @@ export default class MarkdownArea extends React.Component {
   renderGifPicker() {
     if (this.state.gifPickerOpen) {
       return (
-        <GifPicker onGifSelect={this.onGifSelected.bind(this)}/>
+        <GifPicker onGifSelect={this.onGifSelected.bind(this)} onPickerCancel={this.toggleGifPicker.bind(this)} />
       )
     } else {
       return

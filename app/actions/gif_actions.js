@@ -23,7 +23,7 @@ export default {
                 ...g.images.fixed_height_small,
                 url: g.images.fixed_height.url,
                 small_url: g.images.fixed_height_small.url,
-                still_url: g.images.fixed_height_still.url,
+                still_url: g.images.fixed_height_small_still.url,
                 embed_url: g.embed_url,
                 id: g.id}
               }

@@ -3,6 +3,7 @@ import GifActions from '../actions/gif_actions'
 import GifStore from '../stores/gif_store'
 import Icon from './ui/icon.js.jsx'
 import LoadingBar from './ui/loading_bar.jsx'
+import onMobile from '../lib/on_mobile'
 import Picker from './ui/picker.jsx'
 import React from 'react'
 import { reactionStrings } from '../config/gifpicker'
@@ -24,6 +25,8 @@ export default class GifPicker extends React.Component {
       gifs: []
     }
 
+    this.onMobile = onMobile()
+
     this.timeout = null
     this.reactionStrings = this.randomReactionStrings()
     this.onStoreChange = this._onStoreChange.bind(this)
@@ -43,6 +46,7 @@ export default class GifPicker extends React.Component {
     GifStore.addChangeListener(this.onStoreChange)
     this.gifResults = React.findDOMNode(this.refs.gifResults)
     GifActions.fetchImagesForReactions(this.reactionStrings)
+    React.findDOMNode(this.refs.gifSearch).focus()
   }
 
   componentWillUnmount() {
@@ -52,28 +56,45 @@ export default class GifPicker extends React.Component {
     GifStore.clearStore()
   }
 
+  renderCancelBar() {
+    return(
+      <div className="p1 right-align h5 bg-white orange flex" style={{height: 24, position: 'sticky', top: 0}}>
+        <div className="flex-grow" />
+          <div className="flex-none pointer" onClick={this.props.onPickerCancel}>Cancel</div>
+      </div>
+    )
+  }
+
   render() {
     const { fetching, searchTerm } = this.state
 
+    let style = {
+      overflowY: 'scroll',
+      maxHeight: this.onMobile ? 'calc(97vh - 60px)' : 300
+    }
+
     return (
-      <Picker position="top" maxHeight={400}>
-        <div className="center" ref="gifResults" style={{maxHeight: 350, overflowY: 'scroll'}}>
-          {this.renderPicker()}
-          <LoadingBar loading={fetching && searchTerm !== null} />
-        </div>
-        <form className="flex">
-          <input type="text"
-            className="field-light flex-grow"
-            placeholder="gif search"
-            value={searchTerm}
-            onChange={this.handleOnChange}
-            ref="gifSearch" />
-            <div className="flex-none m0 flex flex-center" style={{maxHeight: 36}}>
-              <div style={{height: 30}}>
-                <img src={giphyAttribution} style={{height: '100%'}} />
+      <Picker position="bottom" maxHeight={400}>
+        <div style={{height: '100%', overflow: 'hidden'}}>
+          {this.renderCancelBar()}
+          <div className="center" ref="gifResults" style={style}>
+            {this.renderPicker()}
+            <LoadingBar loading={fetching && searchTerm !== null} />
+          </div>
+          <form className="flex" style={{height: 36}}>
+            <input type="text"
+              className="field-light flex-grow"
+              placeholder="gif search"
+              value={searchTerm}
+              onChange={this.handleOnChange}
+              ref="gifSearch" />
+              <div className="flex-none m0 flex flex-center" style={{maxHeight: 36}}>
+                <div style={{height: 30}}>
+                  <img src={giphyAttribution} style={{height: '100%'}} />
+                </div>
               </div>
-            </div>
-        </form>
+          </form>
+        </div>
       </Picker>
     )
   }
@@ -101,7 +122,7 @@ export default class GifPicker extends React.Component {
              onClick={this._handleOnReactionClick.bind(this, curr)}>
           <div className="flex flex-center center" style={{minHeight: 120}}>
             <div className="z1 bg-black muted" style={{position: 'absolute', width: '100%', height: '100%'}} />
-            <div className="z3 mx-auto px2 bg-black bold white">
+            <div className="z3 mx-auto px1 h5 bg-black bold white" style={{wordWrap: 'break-word'}}>
               {curr}
             </div>
           </div>
@@ -192,15 +213,9 @@ export default class GifPicker extends React.Component {
         <div className="col col-6 center m0 p0 border border-white pointer"
              style={{overflow: 'hidden', cursor: 'pointer'}}
              key={gif.id}
-             onMouseEnter={this.handleOnMouseEnter.bind(this, gif)}
-             onMouseLeave={this.handleOnMouseLeave.bind(this, gif)}
              onClick={this.handleGifSelect.bind(this, gif)}>
           <div style={{overflow: 'hidden', maxHeight: maxHeight}}>
-            <video  loop style={gifStyle} ref={gif.id} poster={gif.small_url}>
-              <source src={gif.mp4} type="video/mp4" />
-              <source src={gif.webp} type="image/webp" />
-              <img src={gif.still_url} />
-            </video>
+            <img src={gif.small_url} style={gifStyle} />
           </div>
         </div>
       )
@@ -243,4 +258,5 @@ export default class GifPicker extends React.Component {
 
 GifPicker.propTypes = {
   onGifSelect: React.PropTypes.func.isRequired,
+  onPickerCancel: React.PropTypes.func.isRequired,
 }
