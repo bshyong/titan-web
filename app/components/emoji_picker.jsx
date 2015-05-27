@@ -24,15 +24,10 @@ export default class EmojiPicker extends React.Component {
       selectedEmoji: EmojiStore.selectedEmoji
     }
 
-    this.getStateFromStore = this.getStateFromStore.bind(this)
     this.handleChange = this._handleChange.bind(this)
     this.onStoreChange = this.onStoreChange.bind(this)
-    this.selectEmoji = this.selectEmoji.bind(this)
+    this.selectEmoji = this._selectEmoji.bind(this)
     this.toggleFocus = this._toggleFocus.bind(this)
-  }
-
-  selectEmoji(emoji_id) {
-    EmojiActions.selectEmoji(emoji_id)
   }
 
   componentDidMount() {
@@ -45,24 +40,19 @@ export default class EmojiPicker extends React.Component {
   }
 
   onStoreChange() {
-    this.setState(this.getStateFromStore())
+    this.setState({
+      selectedEmoji: EmojiStore.selectedEmoji
+    })
   }
 
   renderEmoji(emoji) {
-    let a = emoji
-
-    if (emoji == this.state.selectedEmoji) {
-      return (
-        <div className="p1 bg-silver" onClick={this.selectEmoji.bind(this, a)} key={a}>
-          <div className="inline-block " style={{width: 18}}
-            dangerouslySetInnerHTML={{__html: Emoji.parse(emojis[emoji])}} />
-        </div>
-      )
-    }
+    const classes = classnames('px1 pointer', {
+      'mt0 bg-smoke rounded border border-silver': emoji === this.state.selectedEmoji
+    })
 
     return (
-      <div className="px1" onClick={this.selectEmoji.bind(this, a)} key={a}>
-        <div className="inline-block " style={{width: 18}}
+      <div className={classes} onClick={this.selectEmoji.bind(this, emoji)} key={emoji}>
+        <div className="inline-block " style={{width: 18, paddingTop: 8}}
           dangerouslySetInnerHTML={{__html: Emoji.parse(emojis[emoji])}} />
       </div>
     )
@@ -70,8 +60,8 @@ export default class EmojiPicker extends React.Component {
 
   renderEmojis() {
     if (this.state.emojis) {
-      let classes = classnames('left mt1 transition-stagger overflow-hidden', {
-        'transition-stagger--focused': this.state.focused
+      let classes = classnames('left ml1 transition-stagger overflow-hidden', {
+        'transition-stagger--focused': this.state.focused || this.state.selectedEmoji
       })
       return (
         <div className={classes} style={{ height: 40 }}>
@@ -95,25 +85,39 @@ export default class EmojiPicker extends React.Component {
     )
   }
 
-  getStateFromStore() {
-    return {
-      selectedEmoji: EmojiStore.selectedEmoji
+  _handleChange(e) {
+    const { value } = e.target;
+    const emojis = emojiKeys.filter(e => e.indexOf(value) > -1)
+
+    this.setState({
+      emojis: emojis,
+      label: value,
+    })
+
+    if (emojis.count() === 1) {
+      EmojiActions.selectEmoji(emojis.first())
+    } else {
+      EmojiActions.selectEmoji()
     }
   }
 
-  _handleChange(e) {
-    const { value } = e.target;
+  _selectEmoji(emoji, e) {
+    e.stopPropagation()
+
+    EmojiActions.selectEmoji(emoji)
 
     this.setState({
-      emojis: emojiKeys.filter(e => e.indexOf(value) > -1),
-      label: value
+      emojis: emojiKeys.filter(e => e.indexOf(emoji) > -1),
+      label: emoji
     })
   }
 
   _toggleFocus(e) {
-    this.setState({
-      focused: !this.state.focused
-    })
+    setTimeout(() => {
+      this.setState({
+        focused: !this.state.focused
+      })
+    }, 100)
   }
 
 }
