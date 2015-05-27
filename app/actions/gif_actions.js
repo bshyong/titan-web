@@ -21,6 +21,7 @@ export default {
             gifs: resp.data.map(g => {
               return {
                 ...g.images.fixed_height_small,
+                url: g.images.fixed_height.url,
                 still_url: g.images.fixed_height_still.url,
                 embed_url: g.embed_url,
                 id: g.id}
