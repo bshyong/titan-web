@@ -2,7 +2,7 @@ import connectToStores from '../lib/connectToStores.jsx'
 import moment from 'moment'
 import React from 'react'
 import StoryRange from './StoryRange.jsx'
-import Table from './ui/table.jsx'
+import Table from '../ui/Table.jsx'
 import StoryActions from '../actions/story_actions'
 import StoryStore from '../stores/story_store'
 

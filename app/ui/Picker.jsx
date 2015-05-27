@@ -1,7 +1,7 @@
 import classnames from 'classnames'
 import React from 'react'
 import shallowEqual from 'react-pure-render/shallowEqual'
-import Table from './table.jsx'
+import Table from './Table.jsx'
 
 const UPDATE_COUNT = 15
 
@@ -56,20 +56,14 @@ export default class Picker extends React.Component {
 
     style[position] = -this.state.height
 
-    const classes = classnames(
-      'absolute',
-      'bg-white',
-      'full-width',
-      {
-        border: shown,
-        'border-silver': shown
-      }
-    )
+    const classes = classnames('absolute bg-white full-width shadow', {
+      border: shown,
+      'border-silver': shown,
+      z4: position === 'bottom'
+    })
 
     return (
-      <div className="absolute bg-white full-width shadow rounded"
-          ref="container"
-          style={style}>
+      <div className={classes} ref="container" style={style}>
         {this.props.children}
       </div>
     )
@@ -78,6 +72,11 @@ export default class Picker extends React.Component {
   calculateHeight() {
     let node = React.findDOMNode(this.refs.container)
     let height = node.offsetHeight
+
+    if (this.props.position === 'bottom') {
+      return height
+    }
+
     let fromTop = Picker.getOffsetTop(node)
 
     while (fromTop < 0) {

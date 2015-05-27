@@ -1,11 +1,11 @@
 import React from 'react'
-import Emoji from './emoji.jsx'
-import EmojiStore from '../../stores/emoji_store'
-import EmojiActions from '../../actions/emoji_actions.js'
+import Emoji from '../ui/Emoji.jsx'
+import EmojiStore from '../stores/emoji_store'
+import EmojiActions from '../actions/emoji_actions.js'
 import {List, Set} from 'immutable'
-import Icon from './icon.js.jsx'
-import MarkdownArea from './markdown_area.jsx'
-import SessionStore from '../../stores/session_store'
+import Icon from '../ui/Icon.jsx'
+import MarkdownArea from '../ui/markdown_area.jsx'
+import SessionStore from '../stores/session_store'
 
 
 export default class EmojiPicker extends React.Component {
@@ -39,7 +39,7 @@ export default class EmojiPicker extends React.Component {
     var a = emoji.id
     if (emoji.id == this.state.selectedEmoji) {
       return (
-        <span className="px1" onClick={this.selectEmoji.bind(this, a)} key={a}>
+        <span className="p1 bg-silver" onClick={this.selectEmoji.bind(this, a)} key={a}>
           <span className="inline-block " style={{width: 18}}
             dangerouslySetInnerHTML={{__html: Emoji.parse(emoji.character)}} />
         </span>

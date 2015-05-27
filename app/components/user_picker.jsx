@@ -1,10 +1,10 @@
-import Avatar from './ui/avatar.jsx'
+import Avatar from '../ui/Avatar.jsx'
 import classnames from 'classnames'
 import connectToStores from '../lib/connectToStores.jsx'
 import { List } from 'immutable'
-import Picker from './ui/picker.jsx'
+import Picker from '../ui/Picker.jsx'
 import React from 'react'
-import Table from './ui/table.jsx'
+import Table from '../ui/Table.jsx'
 import TypeaheadUsersStore from '../stores/typeahead_users_store'
 import UserPickerActions from '../actions/user_picker_actions'
 
@@ -103,18 +103,25 @@ export default class UserPicker extends React.Component {
       e.preventDefault()
       e.stopPropagation()
 
+      const {
+        highlightIndex,
+        onUserSelected,
+        users
+      } = this.props
+      const { picker } = this.refs
+
       switch (keyCode) {
         case DOWN_KEY:
-          UserPickerActions.setHighlightIndex(this.props.highlightIndex + 1)
-          this.scroll('down', this.refs.picker)
+          UserPickerActions.setHighlightIndex(highlightIndex + 1)
+          this.scroll('down', picker)
           break;
         case UP_KEY:
-          UserPickerActions.setHighlightIndex(this.props.highlightIndex - 1)
-          this.scroll('up', this.refs.picker)
+          UserPickerActions.setHighlightIndex(highlightIndex - 1)
+          this.scroll('up', picker)
           break;
         case ENTER_KEY:
         case TAB_KEY:
-          this.props.onUserSelected(this.props.users.get(this.props.highlightIndex))
+          this.handleUserSelected.bind(this)(users.get(highlightIndex), e)
           UserPickerActions.clearUsers()
           break
         case ESC_KEY:
@@ -127,7 +134,9 @@ export default class UserPicker extends React.Component {
   _handleUserSelected(u, e) {
     e.preventDefault()
 
-    this.props.onUserSelected(u)
+    if (u) {
+      this.props.onUserSelected(u)
+    }
 
     UserPickerActions.clearUsers()
   }

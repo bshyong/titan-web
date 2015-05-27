@@ -1,21 +1,20 @@
 import {List, Set} from 'immutable'
 import { RouteHandler, Link } from 'react-router'
-import Avatar from './ui/avatar.jsx'
+import Avatar from '../ui/Avatar.jsx'
 import ChangelogStore from '../stores/changelog_store'
 import ChangelogActions from '../actions/changelog_actions'
-import Emoji from './ui/emoji.jsx'
-import Icon from './ui/icon.js.jsx'
-import LoadingBar from './ui/loading_bar.jsx'
+import Icon from '../ui/Icon.jsx'
+import LoadingBar from '../ui/LoadingBar.jsx'
 import moment from '../config/moment'
 import React from 'react'
-import ScrollPaginator from './ui/scroll_paginator.jsx'
+import ScrollPaginator from '../ui/ScrollPaginator.jsx'
 import shallowEqual from 'react-pure-render/shallowEqual'
-import Stack from './ui/Stack.jsx'
+import Stack from '../ui/Stack.jsx'
 import StoryActions from '../actions/story_actions'
 import StoryRange from './StoryRange.jsx'
 import StoryStore from '../stores/story_store'
-import Table from './ui/table.jsx'
-import TimePicker from './ui/time_picker.jsx'
+import Table from '../ui/Table.jsx'
+import TimePicker from './time_picker.jsx'
 import connectToStores from '../lib/connectToStores.jsx'
 
 @connectToStores(ChangelogStore, StoryStore)
@@ -76,7 +75,7 @@ export default class Changelog extends React.Component {
 
   sortStories() {
     const { timeInterval } = this.props
-    var stories = this.props.stories
+    let stories = this.props.stories
                     .sortBy(story => story.created_at)
                     .reverse()
                     .groupBy(story => moment(story.created_at).startOf(timeInterval))
@@ -85,7 +84,7 @@ export default class Changelog extends React.Component {
       stories = stories.mapEntries((k,v) => {
         return [
           k[0],
-          k[1].sortBy(story => story.hearts_count).reverse()
+          k[1].sortBy(story => -story.hearts_count)
         ]
       })
     }
@@ -115,17 +114,20 @@ export default class Changelog extends React.Component {
     const { changelogId, timeShown, timeInterval } = this.props
     const groupedStories = this.sortStories()
 
-    const a = groupedStories.map((stories, date) => {
+
+    return groupedStories.map((stories, date) => {
       let formatted_date = date.format('MM-DD-YYYY')
       return (
-        <div>
+        <div key={date.toISOString()}>
           <Link to="changelog_date" params={{changelogId: changelogId, date: formatted_date, timeInterval: timeInterval}} className="black">
-            <Table.Separator label={this.parseCalendarDate(date)} key={date.toISOString()} />
+            <Table.Separator label={this.parseCalendarDate(date)} />
           </Link>
-          <StoryRange date={date} stories={stories.sortBy(story => -story.hearts_count)} storyCount={stories.count()} timeInterval={timeInterval} truncatable={true} />
+          <StoryRange date={date}
+              stories={stories.sortBy(story => -story.hearts_count)}
+              storyCount={stories.count()}
+              timeInterval={timeInterval} />
         </div>
       )
-    })
-    return a
+    }).toList()
   }
 }

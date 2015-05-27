@@ -1,4 +1,4 @@
-import debounce from '../../lib/debounce'
+import debounce from '../lib/debounce'
 import React from 'react'
 
 export default class ScrollPaginator extends React.Component {

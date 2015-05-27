@@ -1,0 +1,40 @@
+.upvote-toggler > .upvote-toggler-icon {
+  transition: transform var(--time-1);
+  will-change: transform;
+}
+
+/* sm */
+
+.upvote-toggler--sm {
+  width: 1.5rem;
+}
+
+.upvote-toggler--sm > .upvote-toggler-icon {
+  height: .5rem;
+  margin-bottom: .25rem;
+}
+
+.upvote-toggler--sm > .upvote-toggler-count {
+  font-size: var(--h6);
+  line-height: .75rem;
+}
+
+/* lg */
+
+.upvote-toggler--lg {
+  width: var(--h1);
+}
+
+.upvote-toggler--lg > .upvote-toggler-icon {
+  width: 1rem;
+}
+
+.upvote-toggler--lg > .upvote-toggler-count {
+  font-size: var(--h3);
+}
+
+/* --- */
+
+.upvote-toggler--unhearted:hover > .upvote-toggler-icon {
+  transform: scale(1.5);
+}

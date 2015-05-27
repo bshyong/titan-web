@@ -1,3 +1,5 @@
+require('babel/polyfill')
+
 import Routes from './routes/index.js.jsx'
 import Router from 'react-router'
 import React from 'react'

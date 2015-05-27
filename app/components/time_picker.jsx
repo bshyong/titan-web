@@ -1,9 +1,9 @@
 import React from 'react'
-import ChangelogActions from '../../actions/changelog_actions'
-import StoryActions from '../../actions/story_actions'
-import ChangelogStore from '../../stores/changelog_store.js'
+import ChangelogActions from '../actions/changelog_actions'
+import StoryActions from '../actions/story_actions'
+import ChangelogStore from '../stores/changelog_store.js'
 import classnames from 'classnames'
-import SegmentedControl from './SegmentedControl.jsx'
+import SegmentedControl from '../ui/SegmentedControl.jsx'
 
 export default class TimePicker extends React.Component {
 

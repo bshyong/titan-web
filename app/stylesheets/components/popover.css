@@ -1,5 +1,16 @@
 .popover-content {
   will-animate: transform;
+  position: fixed;
+  top: 48px;
+  bottom: 48px;
+}
+
+@media (--breakpoint-sm) {
+  .popover-content {
+    position: absolute;
+    top: auto;
+    bottom: auto;
+  }
 }
 
 .popover-content-arrow {

@@ -1,9 +1,9 @@
 import NotFound from '../not_found.js.jsx'
 import React from 'react'
+import RouterContainer from '../../lib/router_container'
 import RoutesStore from '../../stores/routes_store'
 import SessionStore from '../../stores/session_store'
 import SessionActions from '../../actions/session_actions'
-
 
 export default function Authenticated() {
   return (Component) => {

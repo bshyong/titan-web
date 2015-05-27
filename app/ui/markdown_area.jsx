@@ -1,27 +1,22 @@
-import debounce from '../../lib/debounce'
-import DropzoneContainer from '../dropzone_container.jsx'
-import { getOffsetTop } from './picker.jsx'
+import classnames from 'classnames'
+import debounce from '../lib/debounce'
+import DropzoneContainer from '../components/dropzone_container.jsx'
+import { getOffsetTop } from './Picker.jsx'
+import MENTION_REGEX from '../lib/mention_regex'
+import noop from '../lib/noop'
 import React from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
-import UserPicker from '../user_picker.jsx'
-import UserPickerActions from '../../actions/user_picker_actions'
+import UserPicker from '../components/user_picker.jsx'
+import UserPickerActions from '../actions/user_picker_actions'
 import {List} from 'immutable'
-
-const MENTION_REGEX = /(^|\s)@(\w*)(?!\s)$/
-
-const noop = (msg) => {
-  return () => {
-    if (__DEV__) {
-      console.warn(msg)
-    }
-  }
-}
 
 export default class MarkdownArea extends React.Component {
   constructor(props) {
     super(props)
 
-    this.state = { focused: false }
+    this.state = {
+      focused: false
+    }
 
     this.handleKeyDown = this._handleKeyDown.bind(this)
     this.onUploaded = this._onUploaded.bind(this)
@@ -32,30 +27,43 @@ export default class MarkdownArea extends React.Component {
   }
 
   componentDidMount() {
-    this.maxHeight = getOffsetTop(React.findDOMNode(this)) - 60
+    this.height = getOffsetTop(React.findDOMNode(this)) - 55
   }
 
   render() {
+    const { border } = this.props
+
     let style = {
       div: {
         ...this.props.style,
         backgroundColor: 'white'
       },
       textarea: {
+        ...this.props.style,
         width: '91%',
         resize: 'none',
         outline: 'none',
-        border: 'none'
+        border: 'none',
+        borderRadius: 3
       }
     }
+
+    if (border && this.state.focused) {
+      style.div.borderColor = '#00A3B9'
+      style.div.boxShadow = '0 0 2px #00A3B9'
+      style.div.outline = 'none'
+    }
+
+    const classes = classnames("mb0 py0 full-width relative", {
+      "field-light border-silver": border
+    })
 
     return (
       <DropzoneContainer id={this.props.id}
         onUploaded={this.onUploaded}
         onUploading={this.onUploading}>
         {this.renderUserPicker()}
-        <div className="mb0 py0 full-width relative"
-            style={style.div}>
+        <div className={classes} style={style.div}>
           <TextareaAutosize
             {...this.props}
             ref="textarea"
@@ -75,7 +83,7 @@ export default class MarkdownArea extends React.Component {
     if (match) {
       return <UserPicker query={match[2]}
           onUserSelected={this.onUserSelected}
-          maxHeight={Math.min(this.maxHeight, 400)} />
+          maxHeight={Math.min(this.height, 170)} />
     }
   }
 
@@ -167,11 +175,13 @@ export default class MarkdownArea extends React.Component {
 }
 
 MarkdownArea.defaultProps = {
+  border: true,
   id: 'new_comment',
   onChange: noop('No `onChange` handler was provided to MarkdownArea'),
 }
 
 MarkdownArea.propTypes = {
+  border: React.PropTypes.bool,
   id: React.PropTypes.string,
   onCmdEnter: React.PropTypes.func,
   onChange: React.PropTypes.func,
