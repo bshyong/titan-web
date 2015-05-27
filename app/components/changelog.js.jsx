@@ -74,13 +74,13 @@ export default class Changelog extends React.Component {
 
   sortStories() {
     const { timeInterval } = this.props
-    const stories = this.props.stories
-                    .sortBy(story => -story.created_at)
+    let stories = this.props.stories
+                    .sortBy(story => story.created_at)
                     .reverse()
                     .groupBy(story => moment(story.created_at).startOf(timeInterval))
 
     if (timeInterval != "day") {
-      return stories.mapEntries((k,v) => {
+      stories = stories.mapEntries((k,v) => {
         return [
           k[0],
           k[1].sortBy(story => story.hearts_count).reverse()
@@ -130,7 +130,7 @@ export default class Changelog extends React.Component {
   renderTable() {
     const { changelogId, timeShown, timeInterval } = this.props
     const groupedStories = this.sortStories()
-
+    console.log(groupedStories.toJS())
     return groupedStories.map((stories, date) => {
       return (
         <div key={date.toISOString()}>
