@@ -5,6 +5,7 @@
 @import 'base/typography';
 
 /* Utilities */
+@import 'utilities/hr';
 @import 'utilities/pill';
 @import 'utilities/pointer';
 @import 'utilities/shadow';

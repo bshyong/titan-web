@@ -88,8 +88,7 @@ export default class NewStoryForm extends React.Component {
 
               <hr className="mt2 mb2" />
 
-              <MarkdownArea
-                id={storyId || "new_story"}
+              <MarkdownArea id={storyId || "new_story"}
                 placeholder="Describe your story (optional)"
                 ref="body"
                 value={body}
