@@ -1,4 +1,6 @@
 import React from 'react'
+import SessionActions from '../actions/session_actions'
+import SessionStore from '../stores/session_store'
 import StoryActions from '../actions/story_actions'
 import classnames from 'classnames'
 
@@ -46,6 +48,13 @@ export default class UpvoteToggler extends React.Component {
 
   _handleClick(e) {
     const { story } = this.props
+    if (!SessionStore.isSignedIn()) {
+      // FIXME (@chrislloyd): this probably isn't cool (calling an
+      // action from an action) but it was a quick fix.
+      SessionActions.signin()
+      return
+    }
+
     StoryActions.clickHeart(story)
   }
 
