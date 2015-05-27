@@ -125,7 +125,9 @@ export default class Changelog extends React.Component {
           <StoryRange date={date}
               stories={stories.sortBy(story => -story.hearts_count)}
               storyCount={stories.count()}
-              timeInterval={timeInterval} />
+              timeInterval={timeInterval}
+              truncatable={true}
+              />
         </div>
       )
     }).toList()

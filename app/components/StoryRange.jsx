@@ -79,7 +79,7 @@ export default class StoryRange extends React.Component {
       <UpvoteToggler story={story} size="sm"
              hearted={story.viewer_has_hearted} />
     )
-  
+
     return (
       <Table.Cell key={story.id} image={emoji} to="story" params={story.urlParams}>
         <div className="flex">
