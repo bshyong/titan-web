@@ -1,71 +1,68 @@
 import {List, Set} from 'immutable'
 import classnames from 'classnames'
+import connectToStores from '../lib/connectToStores.jsx'
 import Emoji from '../ui/Emoji.jsx'
 import EmojiActions from '../actions/emoji_actions.js'
-import emojis from '../lib/emojis'
 import EmojiStore from '../stores/emoji_store'
 import Icon from '../ui/Icon.jsx'
 import MarkdownArea from '../ui/markdown_area.jsx'
 import React from 'react'
 import SessionStore from '../stores/session_store'
+import shouldPureComponentUpdate from 'react-pure-render/function'
 
-const emojiKeys = List(Object.keys(emojis))
-
-const ReactCSSTransitionGroup = React.addons.CSSTransitionGroup
-
+@connectToStores(EmojiStore)
 export default class EmojiPicker extends React.Component {
+  shouldComponentUpdate = shouldPureComponentUpdate
+
+  static getPropsFromStores(props) {
+    return {
+      emojis: EmojiStore.emojis,
+      selectedEmoji: EmojiStore.selectedEmoji,
+      selectedEmojiName: EmojiStore.selectedEmojiName
+    }
+  }
+
   constructor(props) {
     super(props)
 
     this.state = {
-      emojis: emojiKeys,
-      focused: false,
-      label: '',
-      selectedEmoji: EmojiStore.selectedEmoji
+      focused: false
     }
 
     this.handleChange = this._handleChange.bind(this)
-    this.onStoreChange = this.onStoreChange.bind(this)
     this.selectEmoji = this._selectEmoji.bind(this)
     this.toggleFocus = this._toggleFocus.bind(this)
   }
 
   componentDidMount() {
-    EmojiStore.addChangeListener(this.onStoreChange)
-    EmojiActions.fetch()
-  }
-
-  componentWillUnmount() {
-    EmojiStore.removeChangeListener(this.onStoreChange)
-  }
-
-  onStoreChange() {
-    this.setState({
-      selectedEmoji: EmojiStore.selectedEmoji
-    })
+    const { selectedEmojiName } = this.props
+    selectedEmojiName ?
+      EmojiActions.search(this.props.selectedEmojiName) :
+      EmojiActions.fetch()
   }
 
   renderEmoji(emoji) {
     const classes = classnames('px1 pointer', {
-      'mt0 bg-smoke rounded border border-silver': emoji === this.state.selectedEmoji
+      'mt0 bg-smoke rounded border border-silver': emoji.id === this.props.selectedEmoji
     })
 
     return (
-      <div className={classes} onClick={this.selectEmoji.bind(this, emoji)} key={emoji}>
-        <div className="inline-block " style={{width: 18, paddingTop: 8}}
-          dangerouslySetInnerHTML={{__html: Emoji.parse(emojis[emoji])}} />
+      <div className={classes} onClick={this.selectEmoji.bind(this, emoji)} key={emoji.id}>
+        <div className="inline-block"
+          style={{width: 18, paddingTop: 8}}
+          dangerouslySetInnerHTML={{__html: Emoji.parse(emoji.character)}} />
       </div>
     )
   }
 
   renderEmojis() {
-    if (this.state.emojis) {
+    if (this.props.emojis) {
       let classes = classnames('left ml1 transition-stagger overflow-hidden', {
-        'transition-stagger--focused': this.state.focused || this.state.selectedEmoji
+        'transition-stagger--focused': this.state.focused || this.props.selectedEmoji
       })
       return (
         <div className={classes} style={{ height: 40 }}>
-          {List(this.state.emojis).take(8).map(this.renderEmoji.bind(this))}
+          {this.props.emojis.take(8).map(this.renderEmoji.bind(this))}
         </div>
       )
     }
@@ -78,7 +75,7 @@ export default class EmojiPicker extends React.Component {
           placeholder="Badge"
           onBlur={this.toggleFocus}
           onFocus={this.toggleFocus}
-          value={this.state.label}
+          value={this.props.selectedEmojiName}
           onChange={this.handleChange} />
         {this.renderEmojis()}
       </div>
@@ -86,30 +83,14 @@ export default class EmojiPicker extends React.Component {
   }
 
   _handleChange(e) {
-    const { value } = e.target;
-    const emojis = emojiKeys.filter(e => e.indexOf(value) > -1)
-
-    this.setState({
-      emojis: emojis,
-      label: value,
-    })
-
-    if (emojiKeys.contains(value)) {
-      EmojiActions.selectEmoji(value)
-    } else {
-      EmojiActions.selectEmoji()
-    }
+    const { value } = e.target
+    EmojiActions.search(value)
   }
 
   _selectEmoji(emoji, e) {
     e.stopPropagation()
 
     EmojiActions.selectEmoji(emoji)
-
-    this.setState({
-      emojis: emojiKeys.filter(e => e.indexOf(emoji) > -1),
-      label: emoji
-    })
   }
 
   _toggleFocus(e) {
@@ -119,5 +100,18 @@ export default class EmojiPicker extends React.Component {
       })
     }, 100)
   }
+}
 
+EmojiPicker.defaultProps = {
+  emojis: List()
+}
+
+EmojiPicker.propTypes = {
+  emojis: React.PropTypes.shape({
+    take: React.PropTypes.func.isRequired,
+    map: React.PropTypes.func.isRequired
+  }).isRequired,
+
+  selectedEmoji: React.PropTypes.string,
+  selectedEmojiName: React.PropTypes.string
 }

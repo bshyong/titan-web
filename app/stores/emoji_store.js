@@ -6,20 +6,30 @@ import {
 
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
+import { List } from 'immutable'
 
 class EmojiStore extends Store {
   constructor() {
     super()
     this._emojis = null
+    this._selectedEmoji = null
+    this._selectedEmojiName = null
 
     this.dispatchToken = Dispatcher.register(action => {
       switch (action.type) {
         case EMOJI_FETCHED:
-          this._emojis = action.emojis
+          this._emojis = List(action.emojis)
           this.emitChange()
           break
         case EMOJI_SELECTED:
-          this._selectedEmoji = action.selectedEmoji
+          const { selectedEmoji: { id, name } } = action
+          this._selectedEmoji = id
+          this._selectedEmojiName = name
+
+          if (id) {
+            this._emojis = List([action.selectedEmoji])
+          }
+
           this.emitChange()
           break
         case STORY_PUBLISHED:
@@ -35,6 +45,10 @@ class EmojiStore extends Store {
 
   get selectedEmoji() {
     return this._selectedEmoji
+  }
+
+  get selectedEmojiName() {
+    return this._selectedEmojiName
   }
 
 }
