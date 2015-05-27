@@ -1,18 +1,21 @@
-import React from 'react'
+import {Link} from 'react-router'
+import {List} from 'immutable'
+import addParams from '../lib/addUrlParamsToStory'
 import Avatar from './ui/avatar.jsx'
+import ChangelogStore from '../stores/changelog_store'
+import classnames from 'classnames'
 import Icon from './ui/icon.js.jsx'
 import LoadingBar from './ui/loading_bar.jsx'
-import ScrollPaginator from './ui/scroll_paginator.jsx'
 import moment from '../config/moment'
-import NotificationsStore from '../stores/notifications_store'
 import NotificationActions from '../actions/notification_actions'
-import StoryStore from '../stores/story_store'
-import StoryActions from '../actions/story_actions'
-import ChangelogStore from '../stores/changelog_store'
+import NotificationsStore from '../stores/notifications_store'
+import pluralize from '../lib/pluralize'
+import React from 'react'
 import RouterContainer from '../lib/router_container'
-import {Link} from 'react-router'
-import addParams from '../lib/addUrlParamsToStory'
-import classnames from 'classnames'
+import ScrollEater from './ui/ScrollEater.jsx'
+import ScrollPaginator from './ui/scroll_paginator.jsx'
+import StoryActions from '../actions/story_actions'
+import StoryStore from '../stores/story_store'
 
 export default class NotificationsList extends React.Component {
 
@@ -33,6 +36,7 @@ export default class NotificationsList extends React.Component {
     NotificationActions.acknowledge()
     NotificationsStore.addChangeListener(this.getStateFromStores)
     this.setScrollPaginatorRefs()
+    window.spr = this.scrollPaginatorRefs
   }
 
   componentWillUnmount() {
@@ -86,36 +90,24 @@ export default class NotificationsList extends React.Component {
                     element={this.scrollPaginatorRefs.element}
                     container={this.scrollPaginatorRefs.container}
                     page={this.state.page}
-                    onScrollBottom={() => NotificationActions.fetchAll(this.state.page + 1)}
-                  />
+                    onScrollBottom={() => NotificationActions.fetchAll(this.state.page + 1)} />
     }
 
     return (
-      <div ref="notificationsContainer">
-        {this.state.moreAvailable ? paginator : null}
-        <div ref="notifications" style={{minWidth: 320, maxHeight: 400, overflowY: 'scroll', zIndex: 999}}>
-          {this.renderStories()}
+      <ScrollEater element={this.scrollPaginatorRefs ? this.scrollPaginatorRefs.element : null}>
+        <div ref="notificationsContainer">
+          {this.state.moreAvailable ? paginator : null}
+          <div ref="notifications" style={{minWidth: 320, maxHeight: 400, overflowY: 'scroll', zIndex: 999}}>
+            {this.renderStories()}
+          </div>
+          {this.renderBottomBar()}
         </div>
-        {this.renderBottomBar()}
-      </div>
+      </ScrollEater>
     )
   }
 
   _markAllAsRead() {
     NotificationActions.markAsRead(this.state.notifications)
-    this.optimisticallyMarkAllAsRead()
-  }
-
-  optimisticallyMarkAllAsRead() {
-    let notifications = this.state.notifications
-
-    for(let index of notifications.keySeq()) {
-      notifications.get(index).read_at = moment().unix()
-    }
-
-    this.setState({
-      notifications: notifications
-    })
   }
 
   _getStateFromStores() {
@@ -130,13 +122,8 @@ export default class NotificationsList extends React.Component {
   }
 }
 
+
 class Notification extends React.Component {
-
-  constructor(props) {
-    super(props)
-    this.handleOnClick = this._handleOnClick.bind(this)
-  }
-
   render() {
     if (!this.props.notification) {
       return
@@ -145,47 +132,72 @@ class Notification extends React.Component {
     const {
       notification: {
         actor,
-        description,
+        new_commenters,
         read_at,
         title,
         updated_at,
       }
     } = this.props
 
+    var isRead = moment(read_at).unix() > moment(updated_at).unix()
+    let face = new_commenters[0] || actor
+
     const cns = {
       notification: classnames('block flex p2 pointer', {
-        'bg-smoke': read_at
+        'bg-smoke': isRead
       }),
 
       actor: classnames('flex-none mr1', {
-        muted: read_at
+        muted: isRead
       }),
 
       title: classnames({
-        'orange': !read_at,
-        'gray': read_at
+        'orange': !isRead,
+        'gray': isRead
       })
     }
 
     return (
-      <a className={cns.notification} onClick={this.handleOnClick}>
+      <a className={cns.notification} onClick={this.handleOnClick.bind(this)}>
         <div className={cns.actor}>
-          <Avatar user={actor} size={24} />
+          <Avatar user={face} size={24} />
         </div>
         <div className="flex-auto h5 gray">
-          <div className="flex">
-            <div className="flex-auto">{description}</div>
-            <div className="">
-              {moment(updated_at).fromNow(true)}
-            </div>
+          <div className="flex-auto">
+            {this.renderDescription()}
+            <span className={cns.title}>{' ' + title}</span>
           </div>
-          <div className={cns.title}>{title}</div>
+        </div>
+        <div className="flex-none h5 gray ml1">
+          {moment(updated_at).fromNow(true)}
         </div>
       </a>
     )
   }
 
-  _handleOnClick(e) {
+  renderDescription() {
+    const {
+      notification: {
+        description,
+        new_commenters,
+        title,
+      }
+    } = this.props
+
+    if (new_commenters.length == 0) {
+      return description
+    }
+
+    let usernames = List(new_commenters).map(u => `@${u.username}`).take(2)
+
+    if (new_commenters.length <= 2) {
+      return `${usernames.join(' and ')} commented on`
+    }
+
+    return `${usernames.join(', ')} and ${pluralize(new_commenters.length - 2, 'other', 'others')} commented on`
+  }
+
+  handleOnClick(e) {
     const { notification } = this.props
 
     const { urlParams } = addParams(ChangelogStore.slug, {
