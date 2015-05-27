@@ -196,7 +196,7 @@ export default class GifPicker extends React.Component {
              onMouseLeave={this.handleOnMouseLeave.bind(this, gif)}
              onClick={this.handleGifSelect.bind(this, gif)}>
           <div style={{overflow: 'hidden', maxHeight: maxHeight}}>
-            <video  loop style={gifStyle} ref={gif.id}>
+            <video  loop style={gifStyle} ref={gif.id} poster={gif.small_url}>
               <source src={gif.mp4} type="video/mp4" />
               <source src={gif.webp} type="image/webp" />
               <img src={gif.still_url} />
