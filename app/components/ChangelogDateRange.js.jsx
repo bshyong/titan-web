@@ -28,15 +28,17 @@ export default class ChangelogDateRange extends React.Component {
 
   parseCalendarDate(key) {
     const { timeInterval } = this.props
+
+    if (timeInterval === "month") {
+      return moment(key).format('MMMM YYYY')
+    }
+
     if (timeInterval === "day") {
       return key.calendar()
     }
     var start_date = moment(key)
     if (timeInterval === "week") {
       var end_date = moment(key).add(1, 'weeks')
-    }
-    if (timeInterval === "month") {
-      var end_date = moment(key).add(1, 'months')
     }
     return start_date.format('MMMM D, YYYY').concat(" - ").concat(end_date.format('MMMM D, YYYY'))
   }
