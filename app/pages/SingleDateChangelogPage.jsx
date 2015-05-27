@@ -9,10 +9,7 @@ import StoryStore from '../stores/story_store'
 
 export default class SingleDateChangelogPage extends React.Component {
   static willTransitionTo(transition, params, query) {
-    //StoryActions.fetchSpecificDate(params.changelogId, params.date, ChangelogStore.timeInterval)
-    console.log('changelogid', params.changelogId)
-    console.log('timeinterval', ChangelogStore.timeInterval)
-    StoryActions.fetchAll(params.changelogId, ChangelogStore.timeInterval)
+    StoryActions.fetchSpecificDate(params.changelogId, params.date, ChangelogStore.timeInterval)
   }
 
   static get defaultProps() {

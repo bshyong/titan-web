@@ -81,7 +81,6 @@ export default class StoryRange extends React.Component {
              hearted={story.viewer_has_hearted}
              onClick={() => StoryActions.clickHeart(story)} />
     )
-
     return (
       <Table.Cell key={story.id} image={emoji} to="story" params={story.urlParams}>
         <div className="flex">
