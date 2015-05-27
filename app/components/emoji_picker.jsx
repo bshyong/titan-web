@@ -75,7 +75,7 @@ export default class EmojiPicker extends React.Component {
     return (
       <div>
         <input className="p1 field-light left border-silver"
-          placeholder="Label"
+          placeholder="Badge"
           onBlur={this.toggleFocus}
           onFocus={this.toggleFocus}
           value={this.state.label}
@@ -94,8 +94,8 @@ export default class EmojiPicker extends React.Component {
       label: value,
     })
 
-    if (emojis.count() === 1) {
-      EmojiActions.selectEmoji(emojis.first())
+    if (emojiKeys.contains(value)) {
+      EmojiActions.selectEmoji(value)
     } else {
       EmojiActions.selectEmoji()
     }
