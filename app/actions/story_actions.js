@@ -50,7 +50,6 @@ export default {
           type: STORIES_FETCHED,
           stories: resp
         })
-        console.log("response", resp)
       })
   },
 

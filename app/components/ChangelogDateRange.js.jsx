@@ -9,8 +9,8 @@ import StoryStore from '../stores/story_store'
 @connectToStores(StoryStore)
 export default class ChangelogDateRange extends React.Component {
   static getPropsFromStores(props) {
-     let end_date = props.start_date.add(1, props.timeInterval)
-     let start_date = props.start_date
+    let end_date = moment(props.start_date).add(1, props.timeInterval.concat("s"))
+    let start_date = moment(props.start_date)
     return {
       stories: StoryStore.all_within_dates(start_date, end_date)
     }
