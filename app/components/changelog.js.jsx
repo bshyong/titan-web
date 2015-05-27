@@ -13,7 +13,7 @@ import Stack from '../ui/Stack.jsx'
 import StoryActions from '../actions/story_actions'
 import StoryRange from './StoryRange.jsx'
 import StoryStore from '../stores/story_store'
-import Table from '../ui/table.jsx'
+import Table from '../ui/Table.jsx'
 import TimePicker from './time_picker.jsx'
 import connectToStores from '../lib/connectToStores.jsx'
 

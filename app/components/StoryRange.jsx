@@ -4,7 +4,7 @@ import Icon from '../ui/Icon.jsx'
 import React from 'react'
 import Stack from '../ui/Stack.jsx'
 import StoryActions from '../actions/story_actions'
-import Table from '../ui/table.jsx'
+import Table from '../ui/Table.jsx'
 import UpvoteToggler from './UpvoteToggler.jsx'
 import moment from 'moment'
 
