@@ -84,7 +84,8 @@ export default class EmojiPicker extends React.Component {
 
   _handleChange(e) {
     const { value } = e.target
-    EmojiActions.search(value)
+
+    EmojiActions.search(value.replace(/[^A-Za-z0-9_\-]/g, ''))
   }
 
   _selectEmoji(emoji, e) {

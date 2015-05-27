@@ -33,7 +33,9 @@ class EmojiStore extends Store {
           this.emitChange()
           break
         case STORY_PUBLISHED:
+          this._emojis = null
           this._selectedEmoji = null
+          this._selectedEmojiName = null
           break
       }
     })
