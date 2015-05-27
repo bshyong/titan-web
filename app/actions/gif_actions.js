@@ -20,7 +20,7 @@ export default {
             type: GIFS_FETCHED,
             gifs: resp.data.map(g => {
               return {
-                ...g.images.fixed_height,
+                ...g.images.fixed_height_small,
                 still_url: g.images.fixed_height_still.url,
                 embed_url: g.embed_url,
                 id: g.id}
@@ -34,11 +34,10 @@ export default {
     reactions.forEach((reaction, i) => {
       this.get(`http://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&q=${encodeURIComponent(reaction)}`)
           .then(resp => {
-            console.log('fetched', reaction)
             Dispatcher.dispatch({
               type: GIF_REACTION_FETCHED,
               reactionName: reaction,
-              imageUrl: resp.data[0].images.fixed_height_still.url
+              imageUrl: resp.data[0].images.fixed_height_small_still.url
             })
           })
     })
