@@ -4,6 +4,7 @@ import addParams from '../lib/addUrlParamsToStory'
 import Avatar from './ui/avatar.jsx'
 import ChangelogStore from '../stores/changelog_store'
 import classnames from 'classnames'
+import connectToStores from '../lib/connectToStores.jsx'
 import Icon from './ui/icon.js.jsx'
 import LoadingBar from './ui/loading_bar.jsx'
 import moment from '../config/moment'
@@ -17,30 +18,26 @@ import ScrollPaginator from './ui/scroll_paginator.jsx'
 import StoryActions from '../actions/story_actions'
 import StoryStore from '../stores/story_store'
 
+@connectToStores(NotificationsStore)
 export default class NotificationsList extends React.Component {
+  static getPropsFromStores(props) {
+    return {
+      notifications: NotificationsStore.notifications,
+      fetching: NotificationsStore.fetching,
+      page: NotificationsStore.page,
+      moreAvailable: NotificationsStore.moreAvailable,
+    }
+  }
 
   constructor(props) {
     super(props)
-    this.state = {
-      notifications: NotificationsStore.notifications,
-      fetching: NotificationsStore.fetching,
-      page: 1
-    }
-
-    this.getStateFromStores = this._getStateFromStores.bind(this)
     this.markAllAsRead = this._markAllAsRead.bind(this)
     this.setScrollPaginatorRefs = this._setScrollPaginatorRefs.bind(this)
   }
 
   componentDidMount() {
     NotificationActions.acknowledge()
-    NotificationsStore.addChangeListener(this.getStateFromStores)
     this.setScrollPaginatorRefs()
-    window.spr = this.scrollPaginatorRefs
-  }
-
-  componentWillUnmount() {
-    NotificationsStore.removeChangeListener(this.getStateFromStores)
   }
 
   _setScrollPaginatorRefs() {
@@ -51,7 +48,7 @@ export default class NotificationsList extends React.Component {
   }
 
   renderStories() {
-    const stories = this.state.notifications
+    const stories = this.props.notifications
       .map((n) => {
         return (
           <Notification notification={n} key={n.story_id} />
@@ -67,7 +64,7 @@ export default class NotificationsList extends React.Component {
   }
 
   renderBottomBar() {
-    const content = this.state.fetching ? (
+    const content = this.props.fetching ? (
       <div className="gray h5 center border-top border-silver py1 px2">Loading..</div>
     ) : (
       <a className="block gray h5 center px2 py1 border-top border-silver pointer" onClick={this.markAllAsRead}>
@@ -78,7 +75,7 @@ export default class NotificationsList extends React.Component {
     return (
       <div>
         {content}
-        <LoadingBar loading={this.state.fetching} />
+        <LoadingBar loading={this.props.fetching} />
       </div>
     )
   }
@@ -89,14 +86,14 @@ export default class NotificationsList extends React.Component {
       paginator = <ScrollPaginator
                     element={this.scrollPaginatorRefs.element}
                     container={this.scrollPaginatorRefs.container}
-                    page={this.state.page}
-                    onScrollBottom={() => NotificationActions.fetchAll(this.state.page + 1)} />
+                    page={this.props.page}
+                    onScrollBottom={() => NotificationActions.fetchAll(this.props.page + 1)} />
     }
 
     return (
       <ScrollEater element={this.scrollPaginatorRefs ? this.scrollPaginatorRefs.element : null}>
         <div ref="notificationsContainer">
-          {this.state.moreAvailable ? paginator : null}
+          {this.props.moreAvailable ? paginator : null}
           <div ref="notifications" style={{minWidth: 320, maxHeight: 400, overflowY: 'scroll', zIndex: 999}}>
             {this.renderStories()}
           </div>
@@ -107,18 +104,7 @@ export default class NotificationsList extends React.Component {
   }
 
   _markAllAsRead() {
-    NotificationActions.markAsRead(this.state.notifications)
-  }
-
-  _getStateFromStores() {
-    const notifications = NotificationsStore.notifications
-
-    this.setState({
-      notifications: notifications,
-      fetching: NotificationsStore.fetching,
-      page: NotificationsStore.page,
-      moreAvailable: NotificationsStore.moreAvailable,
-    })
+    NotificationActions.markAsRead(this.props.notifications)
   }
 }
 
