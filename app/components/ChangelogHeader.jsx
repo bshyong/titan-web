@@ -1,6 +1,6 @@
 import { Link } from 'react-router'
 import FollowButton from './follow_button.jsx'
-import Jumbotron from './ui/jumbotron.jsx'
+import Jumbotron from '../ui/Jumbotron.jsx'
 import Logo from './logo.jsx'
 import React from 'react'
 import connectToStores from '../lib/connectToStores.jsx'

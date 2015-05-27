@@ -1,8 +1,8 @@
 import React from 'react'
 import twemoji from 'twemoji'
-import StoryActions from '../../actions/story_actions'
+import StoryActions from '../actions/story_actions'
 import classnames from 'classnames'
-import emoji from '../../lib/emoji'
+import emoji from '../lib/emoji'
 
 export default class Emoji extends React.Component {
 
@@ -46,8 +46,7 @@ export default class Emoji extends React.Component {
     if (!this.props.story.emoji) {
       const label = (labels && labels[0]) || 'default'
       char = emoji[label.toLowerCase()] || '👍'
-    }
-    else {
+    } else {
       char = this.props.story.emoji.character
     }
 

@@ -1,7 +1,7 @@
 import classnames from 'classnames'
 import React from 'react'
 import shallowEqual from 'react-pure-render/shallowEqual'
-import Table from './table.jsx'
+import Table from './Table.jsx'
 
 const UPDATE_COUNT = 15
 

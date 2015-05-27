@@ -1,11 +1,11 @@
 import {List} from 'immutable'
-import Avatar from './ui/avatar.jsx'
+import Avatar from '../ui/Avatar.jsx'
 import HighlightsStore from '../stores/highlights_store'
 import HighlightActions from '../actions/highlight_actions'
-import Icon from './ui/icon.js.jsx'
+import Icon from '../ui/Icon.jsx'
 import moment from '../config/moment'
 import React from 'react'
-import Stack from './ui/Stack.jsx'
+import Stack from '../ui/Stack.jsx'
 
 const Sources = {
   'slack': 'slack',

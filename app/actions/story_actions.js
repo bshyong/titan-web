@@ -68,12 +68,10 @@ export default {
   },
 
   clickHeart(story) {
-    if (SessionStore.isSignedIn()) {
-      if (!story.viewer_has_hearted) {
-        this.heart(story.slug)
-      } else {
-        this.unheart(story.slug)
-      }
+    if (!story.viewer_has_hearted) {
+      this.heart(story.slug)
+    } else {
+      this.unheart(story.slug)
     }
   },
 

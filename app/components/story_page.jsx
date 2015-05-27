@@ -1,19 +1,20 @@
-import Avatar from './ui/avatar.jsx'
+import Avatar from '../ui/Avatar.jsx'
+import Badge from './Badge.jsx'
 import ChangelogStore from '../stores/changelog_store'
 import Discussion from './discussion.jsx'
 import DiscussionActions from '../actions/discussion_actions'
-import Emoji from './ui/emoji.jsx'
-import Icon from './ui/icon.js.jsx'
-import Label from './ui/label.jsx'
-import LoadingBar from './ui/loading_bar.jsx'
-import Markdown from './ui/markdown.jsx'
+import Icon from '../ui/Icon.jsx'
+import Label from '../ui/Label.jsx'
+import LoadingBar from '../ui/LoadingBar.jsx'
+import Markdown from '../ui/Markdown.jsx'
 import React from 'react'
 import Router from '../lib/router_container'
 import SessionStore from '../stores/session_store'
-import Stack from './ui/Stack.jsx'
+import Stack from '../ui/Stack.jsx'
 import StoryActions from '../actions/story_actions'
 import StoryReadersStore from '../stores/story_readers_store'
 import StoryStore from '../stores/story_store'
+import UpvoteToggler from './UpvoteToggler.jsx'
 import connectToStores from '../lib/connectToStores.jsx'
 import moment from '../config/moment'
 import pluralize from '../lib/pluralize'
@@ -66,6 +67,10 @@ export default class StoryPage extends React.Component {
             <div className="sm-col-8">
 
               <div className="mb2 sm-mb3">
+                <div className="mb2">
+                  <Badge badge={story.emoji} size="2rem" />
+                </div>
+
                 <h1 className="mt0 mb2">
                   {story.team_member_only ? <Icon icon="lock" /> : null}
                   {' '}
@@ -101,10 +106,9 @@ export default class StoryPage extends React.Component {
             <div className="flex-first sm-col-2">
 
               <div className="flex flex-column flex-center px2 center">
-                <Emoji story={story}
+                <UpvoteToggler story={story}
                        size="lg"
-                       hearted={story.viewer_has_hearted}
-                       onClick={() => StoryActions.clickHeart(story)} />
+                       hearted={story.viewer_has_hearted} />
               </div>
 
             </div>

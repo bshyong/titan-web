@@ -1,10 +1,11 @@
+import Avatar from '../ui/Avatar.jsx'
+import Badge from './Badge.jsx'
+import Icon from '../ui/Icon.jsx'
 import React from 'react'
-import Table from './ui/table.jsx'
-import Icon from './ui/icon.js.jsx'
-import Stack from './ui/Stack.jsx'
-import Avatar from './ui/avatar.jsx'
-import Emoji from './ui/emoji.jsx'
+import Stack from '../ui/Stack.jsx'
 import StoryActions from '../actions/story_actions'
+import Table from '../ui/Table.jsx'
+import UpvoteToggler from './UpvoteToggler.jsx'
 import moment from 'moment'
 
 export default class StoryRange extends React.Component {
@@ -72,14 +73,16 @@ export default class StoryRange extends React.Component {
 
   renderStoryTableCell(story) {
     const emoji = (
-      <Emoji story={story} size="sm"
-             hearted={story.viewer_has_hearted}
-             onClick={() => StoryActions.clickHeart(story)} />
+      <UpvoteToggler story={story} size="sm"
+             hearted={story.viewer_has_hearted} />
     )
 
     return (
       <Table.Cell key={story.id} image={emoji} to="story" params={story.urlParams}>
         <div className="flex">
+          <div className="flex-none mr2">
+            <Badge badge={story.emoji} size="1.5rem" />
+          </div>
           <div className="flex-auto">
             {story.team_member_only ? <Icon icon="lock" /> : null} {story.title}
           </div>

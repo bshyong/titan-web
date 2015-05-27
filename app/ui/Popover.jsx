@@ -1,5 +1,5 @@
 import React from 'react/addons'
-import Icon from './icon.js.jsx'
+import Icon from './Icon.jsx'
 const {addons: {CSSTransitionGroup}} = React
 
 const EscKeyCode = 27
