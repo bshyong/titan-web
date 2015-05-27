@@ -114,9 +114,12 @@ export default class Changelog extends React.Component {
     const groupedStories = this.sortStories()
 
     const a = groupedStories.map((stories, date) => {
+      let formatted_date = date.format('MM-DD-YYYY')
       return (
         <div>
-          <Table.Separator label={this.parseCalendarDate(date)} key={date.toISOString()} />
+          <Link to="changelog_date" params={{changelogId: changelogId, date: formatted_date, timeInterval: timeInterval}} className="black">
+            <Table.Separator label={this.parseCalendarDate(date)} key={date.toISOString()} />
+          </Link>
           <StoryRange date={date} stories={stories.sortBy(story => -story.hearts_count)} storyCount={stories.count()} timeInterval={timeInterval} truncatable={true} />
         </div>
       )

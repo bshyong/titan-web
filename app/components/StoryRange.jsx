@@ -41,7 +41,7 @@ export default class StoryRange extends React.Component {
   renderShowAll() {
     const { date, stories, storyCount, timeInterval } = this.props
 
-    if (stories.count() < 5 || !this.props.truncatable) {
+    if (stories.count() < 5 || timeInterval ==="day" || !this.props.truncatable) {
       return
     }
     let changelogId = ChangelogStore.changelog.slug
