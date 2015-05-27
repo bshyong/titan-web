@@ -74,13 +74,13 @@ export default class Changelog extends React.Component {
 
   sortStories() {
     const { timeInterval } = this.props
-    var stories = this.props.stories
-                    .sortBy(story => story.created_at)
+    const stories = this.props.stories
+                    .sortBy(story => -story.created_at)
                     .reverse()
                     .groupBy(story => moment(story.created_at).startOf(timeInterval))
 
     if (timeInterval != "day") {
-      stories = stories.mapEntries((k,v) => {
+      return stories.mapEntries((k,v) => {
         return [
           k[0],
           k[1].sortBy(story => story.hearts_count).reverse()
@@ -131,14 +131,16 @@ export default class Changelog extends React.Component {
     const { changelogId, timeShown, timeInterval } = this.props
     const groupedStories = this.sortStories()
 
-    const a = groupedStories.map((stories, date) => {
+    return groupedStories.map((stories, date) => {
       return (
-        <div>
-          <Table.Separator label={this.parseCalendarDate(date)} key={date.toISOString()} />
-          <StoryRange date={date} stories={stories.sortBy(story => -story.hearts_count)} storyCount={stories.count()} timeInterval={timeInterval} />
+        <div key={date.toISOString()}>
+          <Table.Separator label={this.parseCalendarDate(date)} />
+          <StoryRange date={date}
+              stories={stories.sortBy(story => -story.hearts_count)}
+              storyCount={stories.count()}
+              timeInterval={timeInterval} />
         </div>
       )
-    })
-    return a
+    }).toList()
   }
 }
