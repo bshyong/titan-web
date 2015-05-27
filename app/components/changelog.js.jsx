@@ -76,7 +76,6 @@ export default class Changelog extends React.Component {
     const { timeInterval } = this.props
     const stories = this.props.stories
                     .sortBy(story => -story.created_at)
-                    .reverse()
                     .groupBy(story => moment(story.created_at).startOf(timeInterval))
 
     if (timeInterval != "day") {
