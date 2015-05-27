@@ -42,8 +42,7 @@ export default {
     Dispatcher.dispatch({
       type: STORIES_FETCHING
     })
-    console.log(`changelogs/${changelogId}/stories/date/${dateString}/${timeInterval}`)
-    api.get(`changelogs/${changelogId}/stories/date/${dateString}/${timeInterval}`).
+    api.get(`changelogs/${changelogId}/stories?date=${dateString}&timeInterval=${timeInterval}`).
       then(resp => {
         var stories = List(resp).map(combineAuthorAndContributors)
         Dispatcher.dispatch({
