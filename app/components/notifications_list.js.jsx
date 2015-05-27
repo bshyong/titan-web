@@ -94,7 +94,7 @@ export default class NotificationsList extends React.Component {
       <ScrollEater element={this.scrollPaginatorRefs ? this.scrollPaginatorRefs.element : null}>
         <div ref="notificationsContainer">
           {this.props.moreAvailable ? paginator : null}
-          <div ref="notifications" style={{minWidth: 320, maxHeight: 400, overflowY: 'scroll', zIndex: 999}}>
+          <div ref="notifications" style={{minWidth: 360, maxHeight: 400, overflowY: 'scroll', zIndex: 999}}>
             {this.renderStories()}
           </div>
           {this.renderBottomBar()}
