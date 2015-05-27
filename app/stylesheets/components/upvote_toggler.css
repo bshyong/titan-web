@@ -36,5 +36,5 @@
 /* --- */
 
 .upvote-toggler--unhearted:hover > .upvote-toggler-icon {
-  transform: scale(150%, 150%), translate(0, -0.25rem);
+  transform: scale(1.5);
 }
