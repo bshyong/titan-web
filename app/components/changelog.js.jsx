@@ -130,7 +130,6 @@ export default class Changelog extends React.Component {
   renderTable() {
     const { changelogId, timeShown, timeInterval } = this.props
     const groupedStories = this.sortStories()
-    console.log(groupedStories.toJS())
     return groupedStories.map((stories, date) => {
       return (
         <div key={date.toISOString()}>
