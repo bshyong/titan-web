@@ -83,7 +83,7 @@ export default class Changelog extends React.Component {
       stories = stories.mapEntries((k,v) => {
         return [
           k[0],
-          k[1].sortBy(story => story.hearts_count).reverse()
+          k[1].sortBy(story => -story.hearts_count)
         ]
       })
     }
