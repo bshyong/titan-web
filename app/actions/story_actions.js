@@ -17,6 +17,7 @@ import api from '../lib/api'
 import Dispatcher from '../lib/dispatcher'
 import RouterContainer from '../lib/router_container'
 import SessionStore from '../stores/session_store'
+import SessionActions from './session_actions'
 import { List } from 'immutable'
 
 export default {
@@ -68,12 +69,17 @@ export default {
   },
 
   clickHeart(story) {
-    if (SessionStore.isSignedIn()) {
-      if (!story.viewer_has_hearted) {
-        this.heart(story.slug)
-      } else {
-        this.unheart(story.slug)
-      }
+    if (!SessionStore.isSignedIn()) {
+      // FIXME (@chrislloyd): this probably isn't cool (calling an
+      // action from an action) but it was a quick fix.
+      SessionActions.signin()
+      return
+    }
+
+    if (!story.viewer_has_hearted) {
+      this.heart(story.slug)
+    } else {
+      this.unheart(story.slug)
     }
   },
 
