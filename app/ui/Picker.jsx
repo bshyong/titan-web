@@ -2,7 +2,7 @@ import classnames from 'classnames'
 import React from 'react'
 import shallowEqual from 'react-pure-render/shallowEqual'
 import Table from './Table.jsx'
-import onMobile from '../../lib/on_mobile'
+import onMobile from '../lib/on_mobile'
 
 export default class Picker extends React.Component {
   static getOffsetTop(element) {
@@ -31,7 +31,7 @@ export default class Picker extends React.Component {
 
   render() {
     // guard for mobile
-    if (this.onMobile) {
+    if (this.onMobile && this.props.fullscreen) {
       return this.renderForMobile()
     }
 
@@ -64,11 +64,13 @@ export default class Picker extends React.Component {
 
 Picker.defaultProps = {
   maxHeight: 300,
-  shown: false
+  shown: false,
+  fullscreen: false,
 }
 
 Picker.propTypes = {
   maxHeight: React.PropTypes.number,
   position: React.PropTypes.oneOf(['top', 'bottom']),
-  shown: React.PropTypes.bool
+  shown: React.PropTypes.bool,
+  fullscreen: React.PropTypes.bool,
 }

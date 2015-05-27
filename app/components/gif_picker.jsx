@@ -1,10 +1,10 @@
-import Button from './ui/button.js.jsx'
+import Button from '../ui/Button.jsx'
 import GifActions from '../actions/gif_actions'
 import GifStore from '../stores/gif_store'
-import Icon from './ui/icon.js.jsx'
-import LoadingBar from './ui/loading_bar.jsx'
+import Icon from '../ui/Icon.jsx'
+import LoadingBar from '../ui/LoadingBar.jsx'
 import onMobile from '../lib/on_mobile'
-import Picker from './ui/picker.jsx'
+import Picker from '../ui/Picker.jsx'
 import React from 'react'
 import { reactionStrings } from '../config/gifpicker'
 
@@ -74,7 +74,7 @@ export default class GifPicker extends React.Component {
     }
 
     return (
-      <Picker position="bottom" maxHeight={400}>
+      <Picker position="bottom" maxHeight={400} fullscreen={onMobile()}>
         <div style={{height: '100%', overflow: 'hidden'}}>
           {this.renderCancelBar()}
           <div className="center" ref="gifResults" style={style}>

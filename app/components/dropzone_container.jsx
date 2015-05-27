@@ -54,7 +54,7 @@ export default class DropzoneContainer extends React.Component {
 
   render() {
     return (
-      <div ref="dropzone" className={`${onMobile() ? '' : 'relative'} clearfix`}>
+      <div ref="dropzone" className="relative clearfix">
         {this.props.children}
       </div>
     )

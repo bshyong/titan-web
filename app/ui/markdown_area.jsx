@@ -9,14 +9,15 @@ import TextareaAutosize from 'react-textarea-autosize'
 import UserPicker from '../components/user_picker.jsx'
 import UserPickerActions from '../actions/user_picker_actions'
 import GifPicker from '../components/gif_picker.jsx'
+import onMobile from '../lib/on_mobile'
 import {List} from 'immutable'
 
 let UploadSrc = ''
 let GifPickerTrigger = ''
 
 if (typeof __TEST__ === 'undefined') {
-  UploadSrc = require('../../images/image-upload-icon.svg')
-  GifPickerTrigger = require('../../images/magic-icon.svg')
+  UploadSrc = require('../images/image-upload-icon.svg')
+  GifPickerTrigger = require('../images/magic-icon.svg')
 }
 
 export default class MarkdownArea extends React.Component {
@@ -74,31 +75,35 @@ export default class MarkdownArea extends React.Component {
     })
 
     return (
-      <DropzoneContainer id={this.props.id}
-        onUploaded={this.onUploaded}
-        onUploading={this.onUploading}
-        clickable={this.dropzoneClickable}>
-        {this.renderUserPicker()}
-        {this.renderGifPicker()}
-        <div className={classes}
-            style={style.div}>
-            <div className="flex-grow">
-              <TextareaAutosize
-                {...this.props}
-                ref="textarea"
-                style={style.textarea}
-                onBlur={this.toggleFocus}
-                onFocus={this.toggleFocus}
-                onKeyDown={this.props.onCmdEnter ? this.handleKeyDown : this.updateSelectionStart} />
-            </div>
-            <div className="flex-none mr1 mt1 h3 pointer gray" onClick={this.toggleGifPicker.bind(this)}>
-              <img src={GifPickerTrigger} style={{height: '1.5rem'}} />
-            </div>
-            <div className="flex-none mr1 mt1 h3 pointer gray" ref="clickable">
-              <img src={UploadSrc} style={{height: '1.5rem'}} />
-            </div>
-        </div>
-      </DropzoneContainer>
+      <div>
+        {!onMobile() ? null : this.renderGifPicker()}
+        <DropzoneContainer id={this.props.id}
+          onUploaded={this.onUploaded}
+          onUploading={this.onUploading}
+          clickable={this.dropzoneClickable}>
+          {onMobile() ? null : this.renderGifPicker()}
+          {this.renderUserPicker()}
+          <div className={classes}
+              style={style.div}>
+              <div className="flex-grow">
+                <TextareaAutosize
+                  {...this.props}
+                  ref="textarea"
+                  style={style.textarea}
+                  onBlur={this.toggleFocus}
+                  onFocus={this.toggleFocus}
+                  onKeyDown={this.props.onCmdEnter ? this.handleKeyDown : this.updateSelectionStart} />
+              </div>
+              <div className="flex-none mr1 mt1 h3 pointer gray" onClick={this.toggleGifPicker.bind(this)}>
+                <img src={GifPickerTrigger} style={{height: '1.5rem'}} />
+              </div>
+              <div className="flex-none mr1 mt1 h3 pointer gray" ref="clickable">
+                <img src={UploadSrc} style={{height: '1.5rem'}} />
+              </div>
+          </div>
+        </DropzoneContainer>
+      </div>
+
     )
   }
 
