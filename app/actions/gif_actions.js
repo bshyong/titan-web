@@ -31,21 +31,17 @@ export default {
   },
 
   fetchImagesForReactions(reactions) {
-    new Promise(
-      (resolve, reject) => {
-        for (let reaction of reactions) {
-          this.get(`http://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&q=${encodeURIComponent(reaction)}`)
-              .then(resp => {
-                Dispatcher.dispatch({
-                  type: GIF_REACTION_FETCHED,
-                  reactionName: reaction,
-                  imageUrl: resp.data[0].images.fixed_height_still.url
-                })
-              })
-        }
-        resolve()
-      }
-    )
+    reactions.forEach((reaction, i) => {
+      this.get(`http://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&q=${encodeURIComponent(reaction)}`)
+          .then(resp => {
+            console.log('fetched', reaction)
+            Dispatcher.dispatch({
+              type: GIF_REACTION_FETCHED,
+              reactionName: reaction,
+              imageUrl: resp.data[0].images.fixed_height_still.url
+            })
+          })
+    })
   },
 
   changeSearchTerm(string) {

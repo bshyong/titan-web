@@ -17,7 +17,7 @@ export default class GifPicker extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      searchTerm: GifStore.currentSearchTerm(),
+      searchTerm: GifStore.searchTerm,
       reactionImages: GifStore.reactionImages,
       currentGifIndex: 0,
       fetching: GifStore.fetching,
@@ -92,6 +92,7 @@ export default class GifPicker extends React.Component {
       const styles = {
         backgroundImage: `url(${imageUrl})`,
         minHeight: 120,
+        cursor: 'pointer'
       }
       return memo.concat(
         <div className="col col-3 bg-cover bg-center relative pointer border border-white"
@@ -189,7 +190,7 @@ export default class GifPicker extends React.Component {
     if (gif) {
       return (
         <div className="col col-6 center m0 p0 border border-white pointer"
-             style={{overflow: 'hidden'}}
+             style={{overflow: 'hidden', cursor: 'pointer'}}
              key={gif.id}
              onMouseEnter={this.handleOnMouseEnter.bind(this, gif)}
              onMouseLeave={this.handleOnMouseLeave.bind(this, gif)}
@@ -222,14 +223,12 @@ export default class GifPicker extends React.Component {
     this._handleOnChange()
   }
 
-  _handleOnChange() {
+  _handleOnChange(e) {
     const string = React.findDOMNode(this.refs.gifSearch).value
     GifActions.changeSearchTerm(string)
-    if (string && (string.length > 0)) {
-      this.debounce(
-        GifActions.fetchGifs, GifActions, [string]
-      )()
-    }
+    this.debounce(
+      GifActions.fetchGifs, GifActions, [string]
+    )()
   }
 
   _onStoreChange() {
@@ -237,7 +236,7 @@ export default class GifPicker extends React.Component {
       fetching: GifStore.fetching,
       gifs: GifStore.getAll(),
       reactionImages: GifStore.reactionImages,
-      searchTerm: GifStore.currentSearchTerm(),
+      searchTerm: GifStore.searchTerm,
     })
   }
 }

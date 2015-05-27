@@ -9,7 +9,7 @@ class GifStore extends Store {
     super()
     this.gifs = List([])
     this._reactionImages = Map()
-    this.searchTerm = null
+    this._searchTerm = null
     this._fetching = false
 
     this.dispatchToken = Dispatcher.register((action) => {
@@ -25,7 +25,7 @@ class GifStore extends Store {
           this.emitChange()
           break;
         case GIF_FORM_CHANGED:
-          this.searchTerm = action.searchTerm
+          this._searchTerm = action.searchTerm
           this.emitChange()
           break;
         case GIF_REACTION_FETCHED:
@@ -38,12 +38,16 @@ class GifStore extends Store {
     })
   }
 
+  get fetching() {
+    return this._fetching
+  }
+
   get reactionImages() {
     return this._reactionImages
   }
 
-  get fetching() {
-    return this._fetching
+  get searchTerm() {
+    return this._searchTerm
   }
 
   clearStore() {
@@ -53,11 +57,6 @@ class GifStore extends Store {
   getAll() {
     return this.gifs.slice(0,20).toJS()
   }
-
-  currentSearchTerm() {
-    return this.searchTerm
-  }
-
 
 }
 
