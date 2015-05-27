@@ -1,0 +1,17 @@
+.transition-stagger > div {
+  float: left;
+  transform: translateY(100px);
+  transition: var(--time-1) transform ease-in-out;
+}
+
+.transition-stagger--focused > div {
+  transform: translateY(0px);
+}
+
+.transition-stagger :nth-child(2) { transition-delay: 30ms; }
+.transition-stagger :nth-child(3) { transition-delay: calc(2 * 30ms); }
+.transition-stagger :nth-child(4) { transition-delay: calc(3 * 30ms); }
+.transition-stagger :nth-child(5) { transition-delay: calc(4 * 30ms); }
+.transition-stagger :nth-child(6) { transition-delay: calc(5 * 30ms); }
+.transition-stagger :nth-child(7) { transition-delay: calc(6 * 30ms); }
+.transition-stagger :nth-child(8) { transition-delay: calc(7 * 30ms); }

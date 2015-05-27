@@ -60,14 +60,7 @@ export default class NewStoryForm extends React.Component {
       <div className="clearfix mt2">
         <div className="sm-col-8 col-10 mx-auto">
           <div className="flex flex-column">
-            <div className="clearfix">
-              <div className="left">
-                <input className="p1 field-light border-silver" placeholder="Label" />
-              </div>
-              <div className="right mt1" style={{ height: 40 }}>
-                <EmojiPicker />
-              </div>
-            </div>
+            <EmojiPicker />
 
             <div>
               <hr className="mt2 mb2" />
