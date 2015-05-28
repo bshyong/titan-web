@@ -2,7 +2,7 @@ import AuthenticatedMixin from './mixins/authenticated_mixin.jsx'
 import AutocompleteUserInput from './autocomplete_user_input.jsx'
 import Button from '../ui/Button.jsx'
 import ChangelogStore from '../stores/changelog_store'
-import EmojiPicker from './emoji_picker.jsx'
+import EmojiPicker from './EmojiPicker.jsx'
 import EmojiStore from '../stores/emoji_store'
 import HighlightsActionCreator from '../actions/highlight_actions'
 import HighlightsStore from '../stores/highlights_store'
@@ -60,14 +60,7 @@ export default class NewStoryForm extends React.Component {
       <div className="clearfix mt2">
         <div className="sm-col-8 col-10 mx-auto">
           <div className="flex flex-column">
-            <div className="clearfix">
-              <div className="left">
-                <input className="p1 field-light border-silver" placeholder="Label" />
-              </div>
-              <div className="right mt1" style={{ height: 40 }}>
-                <EmojiPicker />
-              </div>
-            </div>
+            <EmojiPicker />
 
             <div>
               <hr className="mt2 mb2" />
