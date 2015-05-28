@@ -1,7 +1,8 @@
 import Avatar from '../ui/Avatar.jsx'
 import ChangelogStore from '../stores/changelog_store'
-import Icon from '../ui/Icon.jsx'
-import LoadingBar from '../ui/LoadingBar.jsx'
+import DOMActions from '../actions/DOMActions'
+import Icon from './ui/icon.js.jsx'
+import LoadingBar from './ui/loading_bar.jsx'
 import NotificationActions from '../actions/notification_actions'
 import NotificationsStore from '../stores/notifications_store'
 import React from 'react'
@@ -10,6 +11,7 @@ import ScrollEater from './ui/ScrollEater.jsx'
 import ScrollPaginator from '../ui/ScrollPaginator.jsx'
 import StoryActions from '../actions/story_actions'
 import StoryStore from '../stores/story_store'
+
 import addParams from '../lib/addUrlParamsToStory'
 import classnames from 'classnames'
 import connectToStores from '../lib/connectToStores.jsx'
@@ -48,24 +50,22 @@ export default class NotificationsList extends React.Component {
   }
 
   renderStories() {
-    const stories = this.props.notifications
-      .map((n) => {
-        return (
-          <Notification notification={n} key={n.story_id} />
-        )
-      })
-      if (stories.count() > 0) {
-        return stories
-      } else {
-        return (
-          <div className="gray h5 center p2">No notifications</div>
-        )
-      }
+    const stories = this.props.notifications.map((n) => {
+      return (
+        <Notification notification={n} key={n.story_id} />
+      )
+    })
+
+    if (stories.count() > 0) {
+      return stories
+    }
+
+    return <div className="gray h5 center p2">No notifications</div>
   }
 
   renderBottomBar() {
     const content = this.props.fetching ? (
-      <div className="gray h5 center border-top border-silver py1 px2">Loading..</div>
+      <div className="gray h5 center border-top border-silver py1 px2">Loading...</div>
     ) : (
       <a className="block gray h5 center px2 py1 border-top border-silver pointer" onClick={this.markAllAsRead}>
         Mark all as read
@@ -193,6 +193,7 @@ class Notification extends React.Component {
 
     NotificationActions.markAsRead([notification])
     RouterContainer.get().transitionTo('story', urlParams)
+    DOMActions.click()
   }
 
 }
