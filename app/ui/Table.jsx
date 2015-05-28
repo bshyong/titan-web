@@ -40,7 +40,7 @@ class TableCell extends React.Component {
     const { active, children, to } = this.props
     const cn = classnames(
       "table-cell-content",
-      "flex-auto p2 md-px0 border-bottom black gray-visited",
+      "full-width p2 md-px0 border-bottom black gray-visited",
       {
         "border-blue": active,
         "orange-hover": to
