@@ -4,6 +4,7 @@ import CommentFormActions from '../actions/comment_form_actions'
 import MarkdownArea from '../ui/markdown_area.jsx'
 import NewCommentsStore from '../stores/new_comments_store'
 import React from 'react'
+import SessionActions from '../actions/session_actions'
 import SessionStore from '../stores/session_store'
 
 export default class CommentForm extends React.Component {
@@ -71,7 +72,13 @@ export default class CommentForm extends React.Component {
 
   render() {
     if (!this.state.isSignedIn) {
-      return <div />
+      return (
+        <div className="pointer">
+          <a onClick={SessionActions.signin} >
+            Sign in to comment
+          </a>
+        </div>
+      )
     }
 
     const { user } = this.state
