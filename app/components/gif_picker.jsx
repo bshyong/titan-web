@@ -207,18 +207,50 @@ export default class GifPicker extends React.Component {
       width: wideGif ? 'auto' : '100%',
       height: wideGif ? maxHeight : 'auto',
     }
+    const gifContainerStyles = {
+      outer: {
+        overflow: 'hidden',
+        cursor: 'pointer',
+      },
+      inner: {
+        overflow: 'hidden',
+        maxHeight: maxHeight,
+      }
+    }
 
+    const gifContainerClasses = "col col-6 center m0 p0 border border-white pointer"
+
+    // TODO: refactor this out as a Gif UI component
     if (gif) {
-      return (
-        <div className="col col-6 center m0 p0 border border-white pointer"
-             style={{overflow: 'hidden', cursor: 'pointer'}}
-             key={gif.id}
-             onClick={this.handleGifSelect.bind(this, gif)}>
-          <div style={{overflow: 'hidden', maxHeight: maxHeight}}>
-            <img src={gif.small_url} style={gifStyle} />
+      if (this.onMobile) {
+        return (
+          <div className={gifContainerClasses}
+               style={gifContainerStyles.outer}
+               key={gif.id}
+               onClick={this.handleGifSelect.bind(this, gif)}>
+            <div style={gifContainerStyles.inner}>
+              <img src={gif.small_url} style={gifStyle} />
+            </div>
           </div>
-        </div>
-      )
+        )
+      } else {
+        return (
+          <div className={gifContainerClasses}
+               style={gifContainerStyles.outer}
+               key={gif.id}
+               onMouseEnter={this.handleOnMouseEnter.bind(this, gif)}
+               onMouseLeave={this.handleOnMouseLeave.bind(this, gif)}
+               onClick={this.handleGifSelect.bind(this, gif)}>
+            <div style={gifContainerStyles.inner}>
+              <video loop style={gifStyle} ref={gif.id} poster={gif.still_url}>
+                <source src={gif.mp4} type="video/mp4" />
+                <source src={gif.webp} type="image/webp" />
+                <img src={gif.still_url} />
+              </video>
+            </div>
+          </div>  
+        )
+      }
     }
   }
 
