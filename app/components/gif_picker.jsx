@@ -5,6 +5,7 @@ import Icon from '../ui/Icon.jsx'
 import LoadingBar from '../ui/LoadingBar.jsx'
 import onMobile from '../lib/on_mobile'
 import Picker from '../ui/Picker.jsx'
+import Gif from '../ui/Gif.jsx'
 import React from 'react'
 import { reactionStrings } from '../config/gifpicker'
 
@@ -74,7 +75,7 @@ export default class GifPicker extends React.Component {
     }
 
     return (
-      <Picker position="bottom" maxHeight={400} fullscreen={onMobile()}>
+      <Picker position="bottom" maxHeight={400} fullscreen={this.onMobile}>
         <div style={{height: '100%', overflow: 'hidden'}}>
           {this.renderCancelBar()}
           <div className="center" ref="gifResults" style={style}>
@@ -187,14 +188,6 @@ export default class GifPicker extends React.Component {
     this.props.onGifSelect(gif)
   }
 
-  handleOnMouseEnter(gif) {
-    React.findDOMNode(this.refs[gif.id]).play()
-  }
-
-  handleOnMouseLeave(gif) {
-    React.findDOMNode(this.refs[gif.id]).pause()
-  }
-
   // should be a row of gifs
   renderGif(gif) {
     const maxHeight = 150
@@ -220,38 +213,25 @@ export default class GifPicker extends React.Component {
 
     const gifContainerClasses = "col col-6 center m0 p0 border border-white pointer"
 
-    // TODO: refactor this out as a Gif UI component
-    if (gif) {
-      if (this.onMobile) {
-        return (
-          <div className={gifContainerClasses}
-               style={gifContainerStyles.outer}
-               key={gif.id}
-               onClick={this.handleGifSelect.bind(this, gif)}>
-            <div style={gifContainerStyles.inner}>
-              <img src={gif.small_url} style={gifStyle} />
-            </div>
-          </div>
-        )
-      } else {
-        return (
-          <div className={gifContainerClasses}
-               style={gifContainerStyles.outer}
-               key={gif.id}
-               onMouseEnter={this.handleOnMouseEnter.bind(this, gif)}
-               onMouseLeave={this.handleOnMouseLeave.bind(this, gif)}
-               onClick={this.handleGifSelect.bind(this, gif)}>
-            <div style={gifContainerStyles.inner}>
-              <video loop style={gifStyle} ref={gif.id} poster={gif.still_url}>
-                <source src={gif.mp4} type="video/mp4" />
-                <source src={gif.webp} type="image/webp" />
-                <img src={gif.still_url} />
-              </video>
-            </div>
-          </div>  
-        )
-      }
+    const propsForGifComponent = {
+      poster_url: gif.still_url,
+      video_urls: {
+        mp4: gif.mp4,
+        webp: gif.webp,
+      },
+      url: gif.small_url
     }
+
+    return (
+      <div className={gifContainerClasses}
+           style={gifContainerStyles.outer}
+           key={gif.id}
+           onClick={this.handleGifSelect.bind(this, gif)}>
+        <div style={gifContainerStyles.inner}>
+          <Gif gif={propsForGifComponent} style={gifStyle} video={!this.onMobile} />
+        </div>
+      </div>
+    )
   }
 
   debounce(func, context, args) {
