@@ -3,6 +3,8 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var path = require('path')
 var webpack = require('webpack')
 
+require('dotenv').load()
+
 module.exports = function makeConfig(options) {
   var publicPath = options.devServer ?
     '/' :

@@ -6,7 +6,7 @@
     "test": "BABEL_JEST_STAGE=0 jest",
     "postinstall": "npm run dist",
     "local": "NODE_ENV=production webpack --config webpack.local.js --optimize-minimize",
-    "dist": "NODE_ENV=production webpack --optimize-minimize --progress --profile --colors",
+    "dist": "NODE_ENV=production webpack --optimize-minimize --progress --profile --colors --bail",
     "dev": "NODE_ENV=development node dev-server.js"
   },
   "engines": {
@@ -24,6 +24,7 @@
     "connect-gzip-static": "^1.0.0",
     "css-loader": "chrislloyd/css-loader",
     "cssnext-loader": "^1.0.1",
+    "dotenv": "^1.1.0",
     "dropzone": "^4.0.1",
     "emoji-named-characters": "^1.0.2",
     "es6-promise": "^2.1.1",
