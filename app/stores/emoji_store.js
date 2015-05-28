@@ -1,6 +1,7 @@
 import {
   EMOJI_FETCHED,
   EMOJI_SELECTED,
+  STORY_FETCHED,
   STORY_PUBLISHED
 } from '../constants'
 
@@ -19,7 +20,12 @@ class EmojiStore extends Store {
       switch (action.type) {
         case EMOJI_FETCHED:
           this._emojis = List(action.emojis)
-          this.emitChange()
+          break
+        case STORY_FETCHED:
+          const { story: { emoji } } = action
+          this._emojis = List([emoji])
+          this._selectedEmoji = emoji.id
+          this._selectedEmojiName = emoji.name
           break
         case EMOJI_SELECTED:
           const { selectedEmoji: { id, name } } = action
@@ -29,15 +35,17 @@ class EmojiStore extends Store {
           if (id) {
             this._emojis = List([action.selectedEmoji])
           }
-
-          this.emitChange()
           break
         case STORY_PUBLISHED:
           this._emojis = null
           this._selectedEmoji = null
           this._selectedEmojiName = null
-          break
+          return
+        default:
+          return
       }
+
+      this.emitChange()
     })
   }
 
