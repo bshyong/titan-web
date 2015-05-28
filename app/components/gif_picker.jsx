@@ -6,6 +6,7 @@ import LoadingBar from '../ui/LoadingBar.jsx'
 import onMobile from '../lib/on_mobile'
 import Picker from '../ui/Picker.jsx'
 import Gif from '../ui/Gif.jsx'
+import ScrollEater from '../ui/ScrollEater.jsx'
 import React from 'react'
 import { reactionStrings } from '../config/gifpicker'
 
@@ -78,10 +79,12 @@ export default class GifPicker extends React.Component {
       <Picker position="bottom" maxHeight={400} fullscreen={this.onMobile}>
         <div style={{height: '100%', overflow: 'hidden'}}>
           {this.renderCancelBar()}
-          <div className="center" ref="gifResults" style={style}>
-            {this.renderPicker()}
-            <LoadingBar loading={fetching && searchTerm !== null} />
-          </div>
+          <ScrollEater>
+            <div className="center" ref="gifResults" style={style}>
+              {this.renderPicker()}
+              <LoadingBar loading={fetching && searchTerm !== null} />
+            </div>
+          </ScrollEater>
           <form className="flex" style={{height: 36}}>
             <input type="text"
               className="field-light flex-grow"
