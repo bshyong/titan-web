@@ -1,6 +1,6 @@
 import React from 'react/addons'
 import Icon from './Icon.jsx'
-const {addons: {CSSTransitionGroup}} = React
+import TimeoutTransitionGroup from './TimeoutTransitionGroup.jsx'
 
 const EscKeyCode = 27
 
@@ -35,9 +35,9 @@ export default class Popover extends React.Component {
         <div className="pointer" onClick={this.handleToggle} ref="toggler">
           {children}
         </div>
-        <CSSTransitionGroup transitionName="popover-content">
+        <TimeoutTransitionGroup enterTimeout={300} leaveTimeout={300} transitionName="popover-content">
           {this.content()}
-        </CSSTransitionGroup>
+        </TimeoutTransitionGroup>
       </div>
     )
   }
@@ -46,14 +46,14 @@ export default class Popover extends React.Component {
     const { content } = this.props
     const { togglerWidth } = this.state
 
-    if(!this.state.open) {
+    if (!this.state.open) {
       return
     }
 
     return (
       <div className="popover-content right-0" key="popover-content">
         <div className="mt1 bg-white rounded shadow relative overflow-hidden">
-          { content }
+          {content}
         </div>
         <div className="popover-content-arrow" style={{right: (togglerWidth / 2)}} />
       </div>
