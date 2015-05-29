@@ -34,5 +34,5 @@ export default class LoadingBar extends React.Component {
 }
 
 LoadingBar.propTypes = {
-  loading: React.PropTypes.bool.isRequired
+  loading: React.PropTypes.bool
 }

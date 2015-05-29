@@ -6,6 +6,10 @@ So you want to write a test?
 
 Great!
 
+NOTE: We've switched out [Jest](http://facebook.github.io/jest/) for [Jasmine](http://jasmine.github.io/). Jest actually depends on Jasmine 1.3, so much of the API will look the same. The big changes are that everything isn't automatically mocked (which means you're in charge of setting up and tearing down your mocks and spies), and `toBeCalled{With}` is now `toHaveBeenCalled{With}`.
+
+This would usually mean that you'd want to have an `afterEach` for every `beforeEach` call, but there's a bit of magic in `tests.webpack.js` that resets a module's state on every `require`. If you find yourself writing an `afterEach`, first make sure that your tests are set up correctly.
+
 1. [Stores](#stores)
     1. [Writing a Fake Store Test](#writing-a-fake-store-test) - The basics
     2. [Writing a Real Store Test](#writing-a-real-store-test) - The good stuff
@@ -17,56 +21,55 @@ Great!
 
 ### Writing a Fake Store Test
 
-Always remember, [Jest](http://facebook.github.io/jest/) mocks everything by default &mdash; and I mean _everything_.
+~~Always remember, [Jest](http://facebook.github.io/jest/) mocks everything by default &mdash; and I mean _everything_.~~
+
+We aren't using Jest anymore; mock when you need to.
 
 ```javascript
-// my_store.js
+// app/stores/my_store.js
 
+import { FOO } from '../constants'
+import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
 
 class MyStore extends Store {
-  // ... omitting boilerplate
+  this._foo = null
 
-  foo() {
-    return 'foo'
+  this.dispatchToken = Dispatcher.register((action) => {
+    switch (action.type) {
+      case FOO:
+        this._foo = action.foo
+        this.emitChange()
+        break
+    }
+  })
+
+  get foo() {
+    return this._foo
   }
 }
 
-let store = new MyStore()
-
-store.foo() // -> 'foo'
-
-export default store
+export default new MyStore()
 ```
 
 ```javascript
-// my_store-test.js
+// app/stores/__tests__/my_store-test.js
 describe('MyStore', () => {
-  it('mocks f*cking everything', () => {
-    let store = require('../my_store')
-
-    // this test fails
-    expect(store.foo()).toEqual('foo')
+  let Dispatcher, MyStore
+  beforeEach(() => {
+    Dispatcher = require('../../lib/dispatcher')
+    MyStore = require('../my_store')
   })
-})
-```
 
-What went wrong? Jest mocked `MyStore`, so while you can call `foo()`, its internals are mocked and return nothing.
+  it('foo returns the current foo', () => {
+    expect(MyStore.foo).toBeNull()
 
-![](http://img.pandawhale.com/83932-effy-stonem-nothing-gif-wniH.gif)
+    Dispatcher.dispatch({
+      type: 'FOO',
+      foo: 'bar'
+    })
 
-If you want to test a method on `MyStore`, you need to tell Jest not to mock it:
-
-```javascript
-// my_store-test.js
-jest.dontMock('../my_store')
-
-describe('MyStore', () => {
-  it('mocks f*cking everything', () => {
-    let store = require('../my_store')
-
-    // now the test passes
-    expect(store.foo()).toEqual('foo')
+    expect(MyStore.foo).toEqual('bar')
   })
 })
 ```
@@ -87,36 +90,24 @@ Let's first create the file:
 
 And add the basics to the top of the file
 
-```javascript
-// app/stores/__tests__/attachment_store-test.js
-'use strict'
-
-jest.dontMock('../attachment_store')
-```
-
-We add a `'use strict'` declaration so that we can use `let` effectively inside the test, and we tell Jest not to mock the store that we're targeting.
-
-![](http://38.media.tumblr.com/111d9fc01bc2fa0122fdfbd2f75655fc/tumblr_inline_mp08yvEzE21qz4rgp.gif)
-
 Next, let's start defining our tests:
 
 ```javascript
 describe('AttachmentStore', () => {
-  let ATTACHMENT_FAILED, ATTACHMENT_UPLOADED, AttachmentStore, callback, Dispatcher
+  let ATTACHMENT_FAILED, ATTACHMENT_UPLOADED, AttachmentStore, Dispatcher
 
   beforeEach(() => {
     ATTACHMENT_FAILED = require('../../constants').ATTACHMENT_FAILED
     ATTACHMENT_UPLOADED = require('../../constants').ATTACHMENT_UPLOADED
     Dispatcher = require('../../lib/dispatcher')
     AttachmentStore = require('../attachment_store')
-    callback = Dispatcher.register.mock.calls[0][0]
   })
 })
 ```
 
-This `describe` block will contain all of our tests. At the top, we declare the variables that we want to be available in the top level of this closure &mdash; they include the constants that `AttachmentStore` uses, `AttachmentStore` itself, a `callback`, and a (mocked) `Dispatcher`.
+This `describe` block will contain all of our tests. At the top, we declare the variables that we want to be available in the top level of this closure &mdash; they include the constants that `AttachmentStore` uses, `AttachmentStore` itself, and the `Dispatcher`.
 
-We want to assign a fresh instance of the value for each of these variables every time a test runs, so we perform the assignment inside a `beforeEach` call. Note that you _must_ assign `Dispatcher` before assigning your store to its variable. This order guarantees that `Dispatcher.register.mock.calls[0][0]` references the callback that your store passed in its call to `Dispatcher.register`. If that's kind of confusing, read [this](https://facebook.github.io/react/blog/2014/09/24/testing-flux-applications.html#testing-stores).
+We want to assign a fresh instance of the value for each of these variables every time a test runs, so we perform the assignment inside a `beforeEach` call.
 
 ![](http://media4.giphy.com/media/FRNQuq6FtiQHC/200.gif)
 
@@ -125,7 +116,7 @@ Inside of the block `describe`-ing `AttachmentStore`, add another `describe` blo
 ```javascript
 describe('getAttachment()', () => {
   beforeEach(() => {
-    callback({
+    Dispatcher.dispatch({
       type: ATTACHMENT_UPLOADED,
       commentId: 1,
       attachment: { url: '/test.jpg', name: 'test.jpg' }
@@ -141,12 +132,12 @@ describe('getAttachment()', () => {
 })
 ```
 
-Notice that we're using `callback` directly &mdash; by using the mocked `register` callback, we can bypass the action creator (and test it separately). We simply pass `callback` an object containing all of the properties that an action contains so that the store has the expected state.
+Notice that we're using `Dispatcher.dispatch` directly &mdash; by using the mocked `register` callback, we can bypass the action creator (and test it separately). We simply pass `Dispatcher.dispatch` an object containing all of the properties that an action contains so that the store has the expected state.
 
-Then, in the `it` block, we call the method we're testing (in this case, `getAttachment()`) with any necessary parameters (`commentId`). We know that `AttachmentStore.getAttachment()` returns an object, so we simply make sure that its properties match the properties that we passed in `callback`.
+Then, in the `it` block, we call the method we're testing (in this case, `getAttachment()`) with any necessary parameters (`commentId`). We know that `AttachmentStore.getAttachment()` returns an object, so we simply make sure that its properties match the properties that we passed in `Dispatcher.dispatch`.
 
 ```shell
-[user]$ jest app/stores/__tests__/attachment_store-test.js
+[user]$ npm test app/stores/__tests__/attachment_store-test.js
 Using Jest CLI v0.4.5
 Waiting on 1 test...
  PASS  app/stores/__tests__/attachment_store-test.js (1.534s)
@@ -213,10 +204,6 @@ So let's test it:
 ```javascript
 // __tests__/my_component-test.js
 
-'use strict'
-
-jest.dontMock('../my_component.jsx')
-
 describe('MyComponent', () => {
   let React, MyComponent, TestUtils;
 
@@ -244,13 +231,12 @@ describe('MyComponent', () => {
 
 A couple of things to note:
 
-1. We tell Jest not to mock `MyComponent` &mdash; you remember that from above, right?
-2. We reinitialize React and MyComponent before every test. This ensures that we're testing a blank slate and aren't depending on any state that might be left over from a previous test.
-3. `TestUtils`'s API includes a bunch of long, difficult-to-remember-but-very-descriptive methods like `findRenderedDOMComponentWithTag`. I suspect it was written by someone who spent too long hacking Java.
+1. We reinitialize React and MyComponent before every test. This ensures that we're testing a blank slate and aren't depending on any state that might be left over from a previous test.
+2. `TestUtils`'s API includes a bunch of long, difficult-to-remember-but-very-descriptive methods like `findRenderedDOMComponentWithTag`. I suspect it was written by someone who spent too long hacking Java.
 
 ![](http://i.imgur.com/5nfca5U.gif)
 
-4. Also note that you can check the state of an instance of `MyComponent` directly. Don't update it &mdash; obviously &mdash; but do make sure it has the values it should have based on the interaction at that point.
+3. Also note that you can check the state of an instance of `MyComponent` directly. Don't update it &mdash; obviously &mdash; but do make sure it has the values it should have based on the interaction at that point.
 
 And now you've got a passing test!
 
@@ -264,10 +250,6 @@ We start by scaffolding the test:
 
 ```javascript
 // app/components/__tests__/follow_button-test.js
-
-'use strict'
-
-jest.dontMock('../follow_button.jsx')
 
 describe('FollowButton', () => {
   let React, FollowButton, TestUtils;
@@ -298,6 +280,8 @@ describe('handleClick()', () => {
 
   describe('not signed in', () => {
     it('calls SessionActions.signin()', () => {
+      spyOn(SessionActions, 'signin')
+
       let followButton = TestUtils.renderIntoDocument(
         <FollowButton changelogId="changelog" toggled={true} />
       )
@@ -309,15 +293,21 @@ describe('handleClick()', () => {
 
       TestUtils.Simulate.click(button)
 
-      expect(SessionActions.signin).toBeCalled()
+      expect(SessionActions.signin).toHaveBeenCalled()
     })
   })
 })
 ```
 
-We're first going to test that the user is sent to the sign in page if they aren't signed in when clicking the `FollowButton`. Remember that Jest mocks everything for us, so `SessionActions.signin()` is already mocked (and spied on) for us.
+We're first going to test that the user is sent to the sign in page if they aren't signed in when clicking the `FollowButton`.
 
-We render an instance of `FollowButton` using `TestUtils.renderIntoDocument`. Jest has mounted a [jsdom](https://github.com/tmpvar/jsdom) DOM for us, and `TestUtils` knows to render into that.
+We render an instance of `FollowButton` using `TestUtils.renderIntoDocument`. Karma has launched the test in a browser, and `TestUtils` knows to render into its DOM.
+
+But what's that `spyOn` thing?
+
+![](http://i.giphy.com/KYlTGWshxs9fG.gif)
+
+`spyOn` is injected globally by Jasmine, our testing framework. Use it to set up your spies (and mocks using, e.g., `spyOn(thing, 'foo').and.callFake(() => { return true })`). For this test, we just want to replace the default `SessionActions.signin` method with a spy so that we can verify it's been called.
 
 Next, we find the actual button that we'll be clicking:
 
@@ -337,7 +327,7 @@ TestUtils.Simulate.click(button)
 And then we check our expectation:
 
 ```javascript
-expect(SessionActions.signin).toBeCalled()
+expect(SessionActions.signin).toHaveBeenCalled()
 ```
 
 ![](https://media1.giphy.com/media/12jnTh8Dp0cFJS/200.gif)
@@ -356,14 +346,14 @@ describe('signed in', () => {
     FollowActions = require('../../actions/follow_actions')
     SessionStore = require('../../stores/session_store')
 
-    SessionStore.isSignedIn.mockImpl(() => {
+    spyOn(SessionStore, 'isSignedIn').and.callFake(() => {
       return true
     })
   })
 })
 ```
 
-We can see in `FollowButton` that `handleClick()` is checking `SessionStore.isSignedIn()` &mdash; we can override this method easily since Jest has already mocked it for us. We add this override in a `beforeEach`, along with `FollowActions`, which we'll be spying on to make sure that the right methods are called. (Remember, Jest adds the spies automatically unless we tell it not to. You'll agree that this is awesome.)
+We can see in `FollowButton` that `handleClick()` is checking `SessionStore.isSignedIn()` &mdash; we can override this method easily since Jest has already mocked it for us. We add this override in a `beforeEach`, along with `FollowActions`, which we'll be spying on to make sure that the right methods are called.
 
 In `FollowButton`, there are two branches of an `if` block checking `this.props.toggled`:
 
@@ -383,6 +373,8 @@ So we'll need two tests:
 // app/components/__tests__/follow_button-test.js
 
 it('calls FollowActions.unfollow() if toggled', () => {
+  spyOn(FollowActions, 'unfollow')
+
   let followButton = TestUtils.renderIntoDocument(
     <FollowButton changelogId="changelog" toggled={true} />
   )
@@ -394,10 +386,12 @@ it('calls FollowActions.unfollow() if toggled', () => {
 
   TestUtils.Simulate.click(button)
 
-  expect(FollowActions.unfollow).toBeCalledWith('changelog')
+  expect(FollowActions.unfollow).toHaveBeenCalledWith('changelog')
 })
 
 it('calls FollowActions.follow() if untoggled', () => {
+  spyOn(FollowActions, 'follow')
+
   let followButton = TestUtils.renderIntoDocument(
     <FollowButton changelogId="changelog" toggled={false} />
   )
@@ -409,7 +403,7 @@ it('calls FollowActions.follow() if untoggled', () => {
 
   TestUtils.Simulate.click(button)
 
-  expect(FollowActions.follow).toBeCalledWith('changelog')
+  expect(FollowActions.follow).toHaveBeenCalledWith('changelog')
 })
 ```
 
@@ -438,12 +432,16 @@ Now we can rewrite our tests to look like:
 
 ```javascript
 it('calls FollowActions.unfollow() if toggled', () => {
+  spyOn(FollowActions, 'unfollow')
+
   TestUtils.Simulate.click(makeButton(true))
 
   expect(FollowActions.unfollow).toBeCalledWith('changelog')
 })
 
 it('calls FollowActions.follow() if untoggled', () => {
+  spyOn(FollowActions, 'follow')
+
   TestUtils.Simulate.click(makeButton(false))
 
   expect(FollowActions.follow).toBeCalledWith('changelog')
