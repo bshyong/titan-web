@@ -137,18 +137,16 @@ Notice that we're using `Dispatcher.dispatch` directly &mdash; by using the mock
 Then, in the `it` block, we call the method we're testing (in this case, `getAttachment()`) with any necessary parameters (`commentId`). We know that `AttachmentStore.getAttachment()` returns an object, so we simply make sure that its properties match the properties that we passed in `Dispatcher.dispatch`.
 
 ```shell
-[user]$ npm test app/stores/__tests__/attachment_store-test.js
-Using Jest CLI v0.4.5
-Waiting on 1 test...
- PASS  app/stores/__tests__/attachment_store-test.js (1.534s)
-1 test passed (1 total)
-Run time: 1.787s
+[user]$ npm test
+.
+Chrome 43.0.2357 (Mac OS X 10.10.3): Executed 1 of 1 SUCCESS (0.009 secs / 0.425 secs)
 ```
 
 And that's that.
 
 ![](https://33.media.tumblr.com/c315040dde64b326195f9d61f191f6bb/tumblr_ml9zcsHuyz1qh9nffo1_500.gif)
 
+If you want to run only one test suite (one `describe` block), simply go to the test file and change the `describe` of your choice to `fdescribe`. Similarly, to run a single test, chang its `it` to `fit`. 
 
 ## Components
 
