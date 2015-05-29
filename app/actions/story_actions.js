@@ -8,7 +8,9 @@ import {
   STORY_FETCHED,
   STORY_HEARTED,
   STORY_PUBLISHED,
+  STORY_SUBSCRIBED,
   STORY_UNHEARTED,
+  STORY_UNSUBSCRIBED,
   STORY_UPDATED
 } from '../constants'
 
@@ -27,7 +29,7 @@ export default {
     })
     api.get(`changelogs/${changelogId}/stories?page=${page}&per=${per}&time_length=${timeInterval}`).
       then(resp => {
-        var stories = List(resp).map(combineAuthorAndContributors)
+        let stories = List(resp).map(combineAuthorAndContributors)
         Dispatcher.dispatch({
           type: STORIES_FETCHED,
           changelogId: changelogId,
@@ -44,7 +46,7 @@ export default {
     })
     api.get(`changelogs/${changelogId}/stories?date=${dateString}&time_length=${timeInterval}`).
       then(resp => {
-        var stories = List(resp).map(combineAuthorAndContributors)
+        let stories = List(resp).map(combineAuthorAndContributors)
         Dispatcher.dispatch({
           type: STORIES_FETCHED,
           changelogId: changelogId,
@@ -119,13 +121,29 @@ export default {
       })
   },
 
+  subscribe(storyId) {
+    api.put(`user/subscriptions/stories/${storyId}`)
+    Dispatcher.dispatch({
+      type: STORY_SUBSCRIBED,
+      storyId: storyId
+    })
+  },
+
   unheart(storyId) {
     api.delete(`user/hearts/stories/${storyId}`)
     Dispatcher.dispatch({
       type: STORY_UNHEARTED,
       storyId: storyId
     })
-  }
+  },
+
+  unsubscribe(storyId) {
+    api.delete(`user/subscriptions/stories/${storyId}`)
+    Dispatcher.dispatch({
+      type: STORY_UNSUBSCRIBED,
+      storyId: storyId
+    })
+  },
 }
 
 function combineAuthorAndContributors(story) {

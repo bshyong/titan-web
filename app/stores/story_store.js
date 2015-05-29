@@ -6,7 +6,9 @@ import {
   STORY_FETCHED,
   STORY_HEARTED,
   STORY_UNHEARTED,
-  STORY_PUBLISHED
+  STORY_PUBLISHED,
+  STORY_SUBSCRIBED,
+  STORY_UNSUBSCRIBED,
 } from '../constants'
 import { Map } from 'immutable'
 import moment from 'moment'
@@ -38,6 +40,16 @@ class StoryStore extends Store {
           const { storyId } = action
           this.get(storyId).viewer_has_hearted = true
           this.get(storyId).hearts_count += 1
+          break
+
+        case STORY_SUBSCRIBED:
+          const { storyId } = action
+          this.get(storyId).viewer_has_subscribed = true
+          break
+
+        case STORY_UNSUBSCRIBED:
+          const { storyId } = action
+          this.get(storyId).viewer_has_subscribed = false
           break
 
         case STORY_UNHEARTED:

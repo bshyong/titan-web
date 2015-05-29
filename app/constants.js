@@ -45,7 +45,9 @@ export default keyMirror({
   STORY_HEARTED: null,
   STORY_PUBLISHED: null,
   STORY_EDITING: null,
+  STORY_SUBSCRIBED: null,
   STORY_UNHEARTED: null,
+  STORY_UNSUBSCRIBED: null,
   STORY_UPDATED: null,
 
   STORY_FORM_CHANGE: null,

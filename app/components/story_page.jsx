@@ -14,6 +14,7 @@ import Stack from '../ui/Stack.jsx'
 import StoryActions from '../actions/story_actions'
 import StoryReadersStore from '../stores/story_readers_store'
 import StoryStore from '../stores/story_store'
+import SubscribeStoryButton from './subscribe_story_button.jsx'
 import UpvoteToggler from './UpvoteToggler.jsx'
 import connectToStores from '../lib/connectToStores.jsx'
 import moment from '../config/moment'
@@ -35,7 +36,7 @@ export default class StoryPage extends React.Component {
       story: StoryStore.get(storyId),
       totalReads: StoryReadersStore.totalReads,
       uniqueReads: StoryReadersStore.uniqueReads,
-      changelog: ChangelogStore.changelog
+      changelog: ChangelogStore.changelog,
     }
   }
 
@@ -97,22 +98,19 @@ export default class StoryPage extends React.Component {
                       <span className="silver"><Icon icon="comment" /></span> {story.live_comments_count}
                     </li>
                     {this.renderEditLink()}
+                    {this.renderSubscribeLink()}
                   </ul>
                 </div>
               </div>
             </div>
 
-
             <div className="flex-first sm-col-2">
-
               <div className="flex flex-column flex-center px2 center">
                 <UpvoteToggler story={story}
                        size="lg"
                        hearted={story.viewer_has_hearted} />
               </div>
-
             </div>
-
           </div>
         </div>
 
@@ -137,5 +135,13 @@ export default class StoryPage extends React.Component {
         </li>
       )
     }
+  }
+
+  renderSubscribeLink() {
+    return (
+      <li className="px1">
+        <SubscribeStoryButton story={this.props.story} />
+      </li>
+    )
   }
 }
