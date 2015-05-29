@@ -8,6 +8,7 @@ import {
 import Dispatcher from '../lib/dispatcher'
 import { List } from 'immutable'
 import Store from '../lib/store'
+const EMOJI_REGEX = /\ud83c[\udf00-\udfff]|\ud83d[\udc00-\uddfe\ude00-\ude4e\ude80-\udefe]/g
 
 class StoryFormStore extends Store {
   constructor() {
@@ -50,6 +51,10 @@ class StoryFormStore extends Store {
     })
   }
 
+  titleHasEmoji() {
+    return this.title.match(EMOJI_REGEX)
+  }
+
   init() {
     this.title = ''
     this.body  = ''
@@ -58,7 +63,8 @@ class StoryFormStore extends Store {
   }
 
   isValid() {
-    return this.title && this.title.length > 0
+    const title = this.title.replace(EMOJI_REGEX, '').replace(/ /g, '')
+    return title && title.length > 0
   }
 }
 
