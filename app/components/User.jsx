@@ -1,17 +1,19 @@
+import ApplicationNavbar from './application_navbar.jsx'
+import Avatar from '../ui/Avatar.jsx'
+import Badge from './Badge.jsx'
+import BlurbBox from './blurb_box.jsx'
+import Button from '../ui/Button.jsx'
+import EmojiPicker from './EmojiPicker.jsx'
+import ProfileActions from '../actions/profile_actions.js'
+import ProfileStore from '../stores/profile_store.js'
+import React from 'react'
+import StoryCell from './Story/StoryCell.jsx'
+import Table from '../ui/Table.jsx'
+import UpvoteToggler from './UpvoteToggler.jsx'
+import connectToStores from '../lib/connectToStores.jsx'
+import paramsFor from '../lib/paramsFor'
 import {Link} from 'react-router'
 import {List, Map, Set} from 'immutable'
-import Button from './ui/button.js.jsx'
-import Avatar from './ui/avatar.jsx'
-import ApplicationNavbar from './application_navbar.jsx'
-import BlurbBox from './ui/blurb_box.jsx'
-import connectToStores from '../lib/connectToStores.jsx'
-import EmojiPicker from './ui/emoji_picker.jsx'
-import ProfileStore from '../stores/profile_store.js'
-import ProfileActions from '../actions/profile_actions.js'
-import React from 'react'
-
-import Table from './ui/table.jsx'
-import StoryTableCell from './StoryTableCell.jsx'
 
 @connectToStores(ProfileStore)
 export default class ProfilePage extends React.Component {
@@ -31,7 +33,6 @@ export default class ProfilePage extends React.Component {
 
     return (
       <div>
-
         <div className="flex flex-column flex-center p3 bg-white">
           <div className="mb2">
             <Avatar user={user} size={16 * 8} />
@@ -40,74 +41,59 @@ export default class ProfilePage extends React.Component {
             <h3 className="mt0 mb0">{user.username}</h3>
             <p className="gray mb0">{user.blurb}</p>
           </div>
-
-          <div className="flex flex-center">
-            <div className="mx-auto">
-
-              {this.renderProfileBadges()}
-
-            </div>
-          </div>
         </div>
 
-        <div className="bg-smoke p3 center">
+        <div className="container">
           {this.renderBadges()}
         </div>
 
-
         <div className="container">
-          <h2>Recent stories</h2>
-          <Table>
-            {this.renderStories()}
-          </Table>
-        </div>
-
-      </div>
-    )
-  }
-
-  renderProfileBadges() {
-    return (
-      <div className="flex flex-justify bg-white border pill px2">
-        <div className="flex-auto center px2 py1">
-          👍
-        </div>
-        <div className="flex-auto center px2 py1 border-left">
-          🍰
-        </div>
-        <div className="flex-auto center px2 py1 border-left">
-          ⛺️
+          {this.renderStories()}
         </div>
       </div>
     )
   }
 
   renderBadges() {
-    const emojis = this.props.user.emoji_scores
+    const stickerSheet = List(this.props.user.sticker_sheet).sortBy(s => -s.count)
+
+    let stickerCount = 0
+    stickerSheet.forEach(s => stickerCount += s.count)
+
     return (
-      <div className="clearfix mxn2">
-        {Map(emojis).map((count, emoji) =>
-          <div className="col col-6 sm-col-1 px2 mb2">
-            <div className="border border-white rounded p1 center">
-              <div>{emoji}</div>
-              {count}
-            </div>
-          </div>
-        )}
-      </div>
+      <Table>
+        <Table.Separator label={`Stickers (${stickerCount})`} />
+        <div className="flex flex-wrap">
+          {stickerSheet.map(s => {
+            const {sticker, count} = s
+            return (
+              <div className="p2 center" key={sticker.id}>
+                <div className="mb1">
+                  <Badge badge={sticker} size="3rem" />
+                </div>
+                {count}
+              </div>
+            )
+          })}
+        </div>
+      </Table>
     )
   }
 
   renderStories() {
-    const stories = this.props.user.stories_participated
+    const stories = this.props.user.stories
     return (
       <Table>
-        <Table.Separator label="Recent stories" />
+        <Table.Separator label="Recent changes" />
         {
           List(stories)
-            .sortBy(story => story.hearts_count)
+            .sortBy(story => story.created_at)
             .reverse()
-            .map(story => <StoryTableCell story={story} />)
+            .map(story => (
+              <Table.Cell key={story.id} image={<UpvoteToggler story={story} hearted={story.viewer_has_hearted} />} to="story" params={paramsFor.story({id: story.changelog}, story)}>
+                <StoryCell story={story} />
+              </Table.Cell>
+            ))
         }
       </Table>
     )

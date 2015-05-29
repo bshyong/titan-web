@@ -1,4 +1,3 @@
-import { Link } from 'react-router'
 import Avatar from '../ui/Avatar.jsx'
 import Badge from './Badge.jsx'
 import ChangelogStore from '../stores/changelog_store'
@@ -6,10 +5,12 @@ import Icon from '../ui/Icon.jsx'
 import React from 'react'
 import Stack from '../ui/Stack.jsx'
 import StoryActions from '../actions/story_actions'
-import StoryTableCell from './StoryTableCell.jsx'
+import StoryCell from './Story/StoryCell.jsx'
 import Table from '../ui/Table.jsx'
 import UpvoteToggler from './UpvoteToggler.jsx'
 import moment from 'moment'
+import paramsFor from '../lib/paramsFor'
+import { Link } from 'react-router'
 
 export default class StoryRange extends React.Component {
 
@@ -25,7 +26,11 @@ export default class StoryRange extends React.Component {
     let limitedStories = this.truncatedStories()
     return (
       <Table>
-        {limitedStories.map(story => <StoryTableCell story={story} />)}
+        {limitedStories.map(story => (
+          <Table.Cell key={story.id} image={<UpvoteToggler story={story} hearted={story.viewer_has_hearted} />} to="story" params={paramsFor.story({id: 'assembly'}, story)}>
+            <StoryCell story={story} />
+          </Table.Cell>
+        ))}
         {this.renderShowAll()}
       </Table>
     )

@@ -16,9 +16,7 @@ class ProfileStore extends Store {
     this.dispatchToken = Dispatcher.register(action => {
       switch (action.type) {
         case USER_FETCHED:
-          console.log('action', action)
           this._user = action.user
-          // action.user.stories_participated.forEach(s => addParams(s.changelog_slug, s))
           this.emitChange()
           break
       }
@@ -26,7 +24,6 @@ class ProfileStore extends Store {
   }
 
   get user() {
-    console.log('getting user')
     return this._user
   }
 }
