@@ -9,6 +9,7 @@ import React from 'react'
 import RouterContainer from '../lib/router_container'
 import ScrollEater from '../ui/ScrollEater.jsx'
 import ScrollPaginator from '../ui/ScrollPaginator.jsx'
+import SessionStore from '../stores/session_store'
 import StoryActions from '../actions/story_actions'
 import StoryStore from '../stores/story_store'
 
@@ -50,7 +51,9 @@ export default class NotificationsList extends React.Component {
   }
 
   renderStories() {
-    const stories = this.props.notifications.map((n) => {
+    const stories = this.props.notifications.filterNot((n) => {
+      return n.actor.id === SessionStore.user.id && n.new_commenters.length === 0
+    }).map((n) => {
       return (
         <Notification notification={n} key={n.story_id} />
       )
