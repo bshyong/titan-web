@@ -146,26 +146,32 @@ export default class UserPicker extends React.Component {
     const scrollHeight = pickerNode.scrollHeight
 
     if (scrollHeight > ref.props.maxHeight) {
-      const inc = scrollHeight / this.props.users.count()
+      const { users, maxHeight } = this.props
+      const inc = scrollHeight / users.count()
 
       if (direction === 'down') {
-        this.scrollDown(pickerNode, inc, scrollHeight)
+        this.currentScroll = (this.currentScroll || 0) +
+          this.scrollDown(pickerNode, inc, scrollHeight)
+
+        if (this.currentScroll > maxHeight) {
+          this.currentScroll = pickerNode.scrollTop = pickerNode.scrollTop + inc
+        }
       } else if (direction === 'up') {
-        this.scrollUp(pickerNode, inc, scrollHeight)
+        // FIXME!
       }
     }
   }
 
   _scrollDown(node, inc, scrollHeight) {
     const scrollTop = node.scrollTop
-    node.scrollTop = scrollTop + inc > scrollHeight ?
+    return scrollTop + inc > scrollHeight ?
       scrollHeight :
       scrollTop + inc
   }
 
   _scrollUp(node, inc, scrollHeight) {
     const scrollTop = node.scrollTop
-    node.scrollTop = scrollTop - inc < 0 ?
+    return scrollTop - inc < 0 ?
       0 :
       scrollTop - inc
   }
