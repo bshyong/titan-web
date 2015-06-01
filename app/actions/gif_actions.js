@@ -5,8 +5,8 @@ import { RESOURCE_NOT_FOUND,
          GIF_FORM_CHANGED,
          GIF_REACTION_FETCHED } from '../constants'
 import 'isomorphic-fetch'
-import api from '../lib/api'
 import Dispatcher from '../lib/dispatcher'
+import api from '../lib/api'
 import {apiKey} from '../config/gifpicker'
 
 export default {
