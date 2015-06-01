@@ -8,6 +8,7 @@ import Picker from '../ui/Picker.jsx'
 import React from 'react'
 import ScrollEater from '../ui/ScrollEater.jsx'
 import onMobile from '../lib/on_mobile'
+import debounce from '../lib/debounce'
 import { reactionStrings } from '../config/gifpicker'
 
 let giphyAttribution = ''
@@ -236,17 +237,6 @@ export default class GifPicker extends React.Component {
     )
   }
 
-  debounce(func, context, args) {
-    return () => {
-      let later = () => {
-        this.timeout = null
-        func.apply(context, args)
-      }
-      clearTimeout(this.timeout)
-      this.timeout = setTimeout(later, 200)
-    }
-  }
-
   _handleOnReactionClick(reaction) {
     React.findDOMNode(this.refs.gifSearch).value = reaction
     this._handleOnChange()
@@ -255,7 +245,7 @@ export default class GifPicker extends React.Component {
   _handleOnChange(e) {
     const string = React.findDOMNode(this.refs.gifSearch).value
     GifActions.changeSearchTerm(string)
-    this.debounce(
+    debounce(
       GifActions.fetchGifs, GifActions, [string]
     )()
   }
