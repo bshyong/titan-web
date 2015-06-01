@@ -21,11 +21,26 @@ export default class Gif extends React.Component {
         onMouseEnter={this.handleOnMouseEnter.bind(this)}
         onMouseLeave={this.handleOnMouseLeave.bind(this)}
         poster={gif.poster_url}>
-        {gif.video_urls.mp4 ? <source src={gif.video_urls.mp4} type="video/mp4" /> : null}
-        {gif.video_urls.webp ? <source src={gif.video_urls.webp} type="image/webp" /> : null}
+        {this.renderSource(gif.video_urls.mp4)}
+        {this.renderSource(gif.video_urls.webp)}
         {this.renderGif()}
       </video>
     )
+  }
+
+  renderSource(url) {
+    let type
+    switch (url.match(/\.\w{3,4}/gi).pop()) {
+      case ".mp4":
+        type = "video/mp4"
+        break;
+      case ".webp":
+        type = "image/webp"
+        break;
+      default:
+        break;
+    }
+    return type ? <source src={url} type={type} /> : null
   }
 
   renderGif() {
