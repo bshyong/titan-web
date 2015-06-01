@@ -66,11 +66,15 @@ export default class UserPicker extends React.Component {
       const classes = classnames('pointer', 'px2', {
         'bg-blue': i === highlightIndex
       })
-
+      const selectUser = this.handleUserSelected.bind(this, u)
+      const setHighlightIndex = UserPickerActions.setHighlightIndex.
+        bind(UserPickerActions, i)
       return (
         <div className={classes}
             key={`${u.id}-${i}`}
-            onClick={this.handleUserSelected.bind(this, u)}>
+            onClick={selectUser}
+            onTouchStart={selectUser}
+            onMouseEnter={setHighlightIndex}>
           <Table.Cell image={<Avatar user={u} size={24} />} active={i === highlightIndex}>
             <span className={i === highlightIndex ? 'white' : ''}>
               {u.username}
