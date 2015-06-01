@@ -10,6 +10,7 @@ import Table from '../ui/Table.jsx'
 import connectToStores from '../lib/connectToStores.jsx'
 import pluralize from '../lib/pluralize'
 import {List} from 'immutable'
+import SubscribeStoryButton from '../components/subscribe_story_button.jsx'
 
 @connectToStores(CommentsStore, StoryStore)
 export default class Discussion extends React.Component {
@@ -18,6 +19,7 @@ export default class Discussion extends React.Component {
       comments: CommentsStore.all(),
       commentsCount: StoryStore.getCommentsCount(props.storyId),
       loading: CommentsStore.loading,
+      story: StoryStore.get(props.storyId)
     }
   }
 
@@ -25,7 +27,14 @@ export default class Discussion extends React.Component {
     return (
       <div style={{marginBottom: '20rem'}}>
         <Table>
-          <Table.Separator label={pluralize(this.props.commentsCount, 'Comment', 'Comments')} />
+          <div className="flex">
+            <div className="flex-auto">
+              <Table.Separator label={pluralize(this.props.commentsCount, 'Comment', 'Comments')} />
+            </div>
+            <div className="flex-none">
+              {this.renderSubscribeLink()}
+            </div>
+          </div>
           <LoadingBar loading={this.props.loading} />
           {this.renderComments()}
         </Table>
@@ -33,6 +42,14 @@ export default class Discussion extends React.Component {
         <div className="p2 md-px0">
           <CommentForm storyId={this.props.storyId} changelogId={this.props.changelogId}/>
         </div>
+      </div>
+    )
+  }
+
+  renderSubscribeLink() {
+    return (
+      <div className="h5 p2 md-px0 mt2 mb0 gray border-bottom">
+        <SubscribeStoryButton story={this.props.story} />
       </div>
     )
   }

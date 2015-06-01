@@ -16,7 +16,7 @@ export default class SubscribeStoryButton extends React.Component {
       <span
         onClick={this.handleClick.bind(this)}
         className="gray pointer">
-          <Icon icon="newspaper" /> {story.viewer_has_subscribed ? 'Unsubscribe' : 'Subscribe'}
+          <Icon icon="newspaper" /> {story.viewer_has_subscribed ? 'Unsubscribe from' : 'Subscribe to'} notifications
       </span>
     )
   }

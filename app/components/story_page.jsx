@@ -98,7 +98,6 @@ export default class StoryPage extends React.Component {
                       <span className="silver"><Icon icon="comment" /></span> {story.live_comments_count}
                     </li>
                     {this.renderEditLink()}
-                    {this.renderSubscribeLink()}
                   </ul>
                 </div>
               </div>
@@ -135,13 +134,5 @@ export default class StoryPage extends React.Component {
         </li>
       )
     }
-  }
-
-  renderSubscribeLink() {
-    return (
-      <li className="px1">
-        <SubscribeStoryButton story={this.props.story} />
-      </li>
-    )
   }
 }
