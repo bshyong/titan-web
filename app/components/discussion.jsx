@@ -32,7 +32,7 @@ export default class Discussion extends React.Component {
               <Table.Separator label={pluralize(this.props.commentsCount, 'Comment', 'Comments')} />
             </div>
             <div className="flex-none">
-              {this.renderSubscribeLink()}
+              {this.props.story ? this.renderSubscribeLink() : null}
             </div>
           </div>
           <LoadingBar loading={this.props.loading} />

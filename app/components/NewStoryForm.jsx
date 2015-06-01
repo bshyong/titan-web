@@ -110,7 +110,8 @@ export default class NewStoryForm extends React.Component {
                     <a href="javascript:void(0)"
                        onClick={this.handleTogglePrivacy.bind(this)}
                        onTouchStart={this.handleTogglePrivacy.bind(this)}
-                       className="ml1">
+                       className="ml1"
+                       ref="isPublic">
                       Change
                     </a>
                   </span>
