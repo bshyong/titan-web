@@ -1,11 +1,14 @@
 import Avatar from '../ui/Avatar.jsx'
 import Button from '../ui/Button.jsx'
+import Comment from '../components/comment.jsx'
 import CommentFormActions from '../actions/comment_form_actions'
+import Markdown from '../ui/Markdown.jsx'
 import MarkdownArea from '../ui/markdown_area.jsx'
 import NewCommentsStore from '../stores/new_comments_store'
 import React from 'react'
 import SessionActions from '../actions/session_actions'
 import SessionStore from '../stores/session_store'
+import Table from '../ui/Table.jsx'
 
 export default class CommentForm extends React.Component {
   constructor(props) {
@@ -53,6 +56,23 @@ export default class CommentForm extends React.Component {
     )
   }
 
+  renderOptimisticComment() {
+    const comment = {
+      body: this.state.comment,
+      user: this.state.user,
+    }
+    return (
+      <Table.Cell image={<Avatar user={comment.user} size={24} />}>
+        <div className="flex-auto h5 muted">
+          <div className="flex">
+            <div className="flex-auto bold">{comment.user.username}</div>
+          </div>
+          <Markdown markdown={comment.body} />
+        </div>
+      </Table.Cell>
+    )
+  }
+
   renderTextArea() {
     return (
       <MarkdownArea
@@ -83,15 +103,19 @@ export default class CommentForm extends React.Component {
 
     const { user } = this.state
 
-    return (
-      <div className="flex">
-        {this.renderAvatar()}
-        <div className="flex-auto">
-          {this.renderTextArea()}
-          {this.renderButton()}
+    if (this.state.isSaving) {
+      return this.renderOptimisticComment()
+    } else {
+      return (
+        <div className="flex">
+          {this.renderAvatar()}
+          <div className="flex-auto">
+            {this.renderTextArea()}
+            {this.renderButton()}
+          </div>
         </div>
-      </div>
-    )
+      )
+    }
   }
 
   renderAvatar() {
@@ -134,6 +158,7 @@ export default class CommentForm extends React.Component {
 
   _onStoreChange() {
     this.setState({
+      isSaving: NewCommentsStore.isSaving(this.props.id || this.props.storyId),
       comment: NewCommentsStore.get(this.props.id || this.props.storyId) || ''
     })
   }
