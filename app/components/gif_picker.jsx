@@ -203,18 +203,6 @@ export default class GifPicker extends React.Component {
       width: wideGif ? 'auto' : '100%',
       height: wideGif ? maxHeight : 'auto',
     }
-    const gifContainerStyles = {
-      outer: {
-        overflow: 'hidden',
-        cursor: 'pointer',
-      },
-      inner: {
-        overflow: 'hidden',
-        maxHeight: maxHeight,
-      }
-    }
-
-    const gifContainerClasses = "col col-6 center m0 p0 border border-white pointer"
 
     const propsForGifComponent = {
       poster_url: gif.still_url,
@@ -226,11 +214,10 @@ export default class GifPicker extends React.Component {
     }
 
     return (
-      <div className={gifContainerClasses}
-           style={gifContainerStyles.outer}
+      <div className="col col-6 center m0 p0 border border-white pointer overflow-hidden pointer"
            key={gif.id}
            onClick={this.handleGifSelect.bind(this, gif)}>
-        <div style={gifContainerStyles.inner}>
+        <div className="overflow-hidden" style={{maxHeight: maxHeight}}>
           <Gif gif={propsForGifComponent} style={gifStyle} video={!this.onMobile} />
         </div>
       </div>
