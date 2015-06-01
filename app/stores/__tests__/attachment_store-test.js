@@ -1,21 +1,16 @@
-'use strict';
-
-jest.dontMock('../attachment_store')
-
 describe('AttachmentStore', () => {
-  let ATTACHMENT_FAILED, ATTACHMENT_UPLOADED, AttachmentStore, callback, Dispatcher;
+  let ATTACHMENT_FAILED, ATTACHMENT_UPLOADED, AttachmentStore, Dispatcher;
 
   beforeEach(() => {
     ATTACHMENT_FAILED = require('../../constants').ATTACHMENT_FAILED
     ATTACHMENT_UPLOADED = require('../../constants').ATTACHMENT_UPLOADED
     Dispatcher = require('../../lib/dispatcher')
     AttachmentStore = require('../attachment_store')
-    callback = Dispatcher.register.mock.calls[0][0]
   })
 
   describe('getAttachment()', () => {
     beforeEach(() => {
-      callback({
+      Dispatcher.dispatch({
         type: ATTACHMENT_UPLOADED,
         commentId: 1,
         attachment: { url: '/test.jpg', name: 'test.jpg' }

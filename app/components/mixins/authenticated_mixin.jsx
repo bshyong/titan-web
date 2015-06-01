@@ -56,6 +56,10 @@ export default function Authenticated() {
           this.setState(this.getStateFromStores())
         }
       }
+
+      static get Component() {
+        return Component
+      }
     }
   }
 }

@@ -111,7 +111,8 @@ AutocompleteUserInput.defaultProps = {
 }
 
 AutocompleteUserInput.propTypes = {
+  className: React.PropTypes.string,
   onChange: React.PropTypes.func.isRequired,
-  placeholder: React.PropTypes.string.isRequired,
-  value: React.PropTypes.string.isRequired
+  placeholder: React.PropTypes.string,
+  value: React.PropTypes.string
 }

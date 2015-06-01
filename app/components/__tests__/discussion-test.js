@@ -1,9 +1,4 @@
-'use strict'
-
 import { List } from 'immutable'
-
-jest.dontMock('../discussion.jsx')
-jest.dontMock('../../lib/pluralize')
 
 describe('Discussion', () => {
   var React, Discussion, TestUtils
@@ -23,5 +18,4 @@ describe('Discussion', () => {
       discussion, 'h5');
     expect(text.getDOMNode().textContent).toEqual('0 Comments');
   })
-
 })

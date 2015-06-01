@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "start": "node index.js",
-    "test": "BABEL_JEST_STAGE=0 jest",
+    "test": "BABEL_JEST_STAGE=0 karma start --colors",
     "postinstall": "npm run dist",
     "local": "NODE_ENV=production webpack --config webpack.local.js --optimize-minimize",
     "dist": "NODE_ENV=production webpack --optimize-minimize --progress --profile --colors --bail",
@@ -54,19 +54,15 @@
     "whatwg-fetch": "^0.8.1"
   },
   "devDependencies": {
-    "jest-cli": "^0.4.5",
-    "webpack-dev-server": "~1.8",
-    "babel-jest": "*"
-  },
-  "jest": {
-    "collectCoverage": false,
-    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
-    "setupEnvScriptFile": "<rootDir>/jest_env.js",
-    "testPathDirs": [
-      "<rootDir>/app"
-    ],
-    "unmockedModulePathPatterns": [
-      "<rootDir>/node_modules"
-    ]
+    "jasmine": "^2.3.1",
+    "jasmine-ajax": "^3.1.1",
+    "jasmine-core": "^2.3.4",
+    "karma": "^0.12.33",
+    "karma-chrome-launcher": "^0.1.12",
+    "karma-cli": "0.0.4",
+    "karma-jasmine": "^0.3.5",
+    "karma-sourcemap-loader": "^0.3.4",
+    "karma-webpack": "^1.5.1",
+    "webpack-dev-server": "~1.8"
   }
 }

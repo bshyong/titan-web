@@ -8,10 +8,10 @@ import Store from '../lib/store'
 
 class AttachmentsStore extends Store {
   constructor() {
-    super();
+    super()
 
-    this.attachments = Map();
-    this.errors = Map();
+    this.attachments = Map()
+    this.errors = Map()
 
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
@@ -20,28 +20,28 @@ class AttachmentsStore extends Store {
             action.commentId,
             action.attachment
           )
-          break;
+          break
         case ATTACHMENT_FAILED:
           this.errors = this.errors.set(
             action.commentId,
             action.error
           )
-          break;
+          break
         default:
-          return;
+          return
       }
 
-      this.emitChange();
-    });
+      this.emitChange()
+    })
   }
 
   getAttachment(commentId) {
-    return this.attachments.get(commentId);
+    return this.attachments.get(commentId)
   }
 
   getError(commentId) {
-    return this.errors.get(commentId);
+    return this.errors.get(commentId)
   }
-};
+}
 
-module.exports = new AttachmentsStore();
+export default new AttachmentsStore()

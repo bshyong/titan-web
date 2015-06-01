@@ -1,7 +1,3 @@
-'use strict'
-
-jest.dontMock('../follow_button.jsx')
-
 describe('FollowButton', () => {
   let React, FollowButton, TestUtils
 
@@ -20,6 +16,8 @@ describe('FollowButton', () => {
 
     describe('not signed in', () => {
       it('calls SessionActions.signin()', () => {
+        spyOn(SessionActions, 'signin')
+
         let followButton = TestUtils.renderIntoDocument(
           <FollowButton changelogId="changelog" toggled={true} />
         )
@@ -31,7 +29,7 @@ describe('FollowButton', () => {
 
         TestUtils.Simulate.click(button)
 
-        expect(SessionActions.signin).toBeCalled()
+        expect(SessionActions.signin).toHaveBeenCalled()
       })
     })
 
@@ -53,21 +51,25 @@ describe('FollowButton', () => {
         FollowActions = require('../../actions/follow_actions')
         SessionStore = require('../../stores/session_store')
 
-        SessionStore.isSignedIn.mockImpl(() => {
+        spyOn(SessionStore, 'isSignedIn').and.callFake(() => {
           return true
         })
       })
 
       it('calls FollowActions.unfollow() if toggled', () => {
+        spyOn(FollowActions, 'unfollow')
+
         TestUtils.Simulate.click(makeButton(true))
 
-        expect(FollowActions.unfollow).toBeCalledWith('changelog')
+        expect(FollowActions.unfollow).toHaveBeenCalledWith('changelog')
       })
 
       it('calls FollowActions.follow() if untoggled', () => {
+        spyOn(FollowActions, 'follow')
+
         TestUtils.Simulate.click(makeButton(false))
 
-        expect(FollowActions.follow).toBeCalledWith('changelog')
+        expect(FollowActions.follow).toHaveBeenCalledWith('changelog')
       })
     })
   })
