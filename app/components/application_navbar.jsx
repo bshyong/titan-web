@@ -44,6 +44,16 @@ export default class ApplicationNavbar extends React.Component {
     )
   }
 
+  renderHighlightsLink(changelogId) {
+    if (changelogId === 'assembly') {
+      return (
+        <Link to="highlights" params={{changelogId}}>
+          <Icon icon="magic" fw={true} /> Highlights
+        </Link>
+      )
+    }
+  }
+
   render_new_story(changelogId) {
     const { changelog } = this.props
     if (changelog && changelog.user_is_team_member) {
@@ -53,9 +63,7 @@ export default class ApplicationNavbar extends React.Component {
             <Link to="new" params={{changelogId}}>
               <Icon icon="pencil" fw={true} /> New story
             </Link>
-            <Link to="highlights" params={{changelogId}}>
-              <Icon icon="magic" fw={true} /> Highlights
-            </Link>
+            {this.renderHighlightsLink(changelogId)}
           </List.Item>
           <hr className="mt1 border-top mb1" />
         </div>
