@@ -14,12 +14,12 @@ let ackKey = '_asm_activities_ack'
 class NotificationsStore extends Store {
   constructor() {
     super()
-    this._notifications = Map()
+    this._notifications = List()
     this._fetching = false
     this._page = 1
     this._moreAvailable = true
 
-    this.dispatchToken = Dispatcher.register((action) => {
+    this.dispatchToken = Dispatcher.register(action => {
       switch (action.type) {
         case NOTIFICATIONS_ACKD:
           window.localStorage.setItem(ackKey, moment().unix())
@@ -31,21 +31,18 @@ class NotificationsStore extends Store {
 
         case NOTIFICATIONS_FETCHED:
           this._fetching = false
-          let newNotifications = action.notifications.reduce((m, a) => m.set(a.story_id, a), Map())
-          this._notifications = this._notifications.merge(newNotifications)
+          if (action.page === 1) {
+            this._notifications = action.notifications
+          } else {
+            this._notifications = this._notifications.concat(action.notifications)
+          }
           this._page = action.page
           this._moreAvailable = action.moreAvailable
           break
 
         case NOTIFICATIONS_READ:
-          let readNotificationIds = action.readNotifications.reduce((m, a) => m.push(a.story_id), List([]))
-          this._notifications = this._notifications
-                                    .mapEntries(([k,v]) => {
-                                      if (readNotificationIds.contains(v.story_id)) {
-                                        v.read_at = new Date().toISOString()
-                                      }
-                                      return [k, v]
-                                    })
+          let at = new Date().toISOString()
+          this._notifications.forEach(n => { n.read_at = at })
           break;
         default:
           return
@@ -72,8 +69,6 @@ class NotificationsStore extends Store {
 
   get notifications() {
     return this._notifications
-             .toList()
-             .sortBy(n => - (new Date(n.updated_at)))
   }
 
   get unreadCount() {

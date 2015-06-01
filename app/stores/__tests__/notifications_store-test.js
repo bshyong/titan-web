@@ -25,14 +25,6 @@ describe('NotificationsStore', () => {
         ]
       })
     })
-
-    it('gets the notifications sorted by updated_at', () => {
-      let notifications = NotificationsStore.notifications
-
-      expect(notifications.size).toEqual(3)
-      expect(notifications.get(0).story_id).toEqual('newest')
-      expect(notifications.get(2).story_id).toEqual('oldest')
-    })
   })
 
 })

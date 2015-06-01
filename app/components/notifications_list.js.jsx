@@ -50,20 +50,12 @@ export default class NotificationsList extends React.Component {
     }
   }
 
-  renderStories() {
-    const stories = this.props.notifications.filterNot((n) => {
-      return n.actor.id === SessionStore.user.id && n.new_commenters.length === 0
-    }).map((n) => {
-      return (
-        <Notification notification={n} key={n.story_id} />
-      )
-    })
-
-    if (stories.count() > 0) {
-      return stories
+  renderNotifications() {
+    if (this.props.notifications.count() == 0) {
+      return <div className="gray h5 center p2">No notifications</div>
     }
 
-    return <div className="gray h5 center p2">No notifications</div>
+    return this.props.notifications.map(n => <Notification notification={n} key={n.id} />)
   }
 
   renderBottomBar() {
@@ -98,7 +90,7 @@ export default class NotificationsList extends React.Component {
         <div ref="notificationsContainer">
           {this.props.moreAvailable ? paginator : null}
           <div ref="notifications" style={{minWidth: 360, maxHeight: 400, overflowY: 'scroll', zIndex: 999}}>
-            {this.renderStories()}
+            {this.renderNotifications()}
           </div>
           {this.renderBottomBar()}
         </div>
@@ -120,16 +112,16 @@ class Notification extends React.Component {
 
     const {
       notification: {
-        actor,
-        new_commenters,
+        actors,
         read_at,
+        story,
         title,
         updated_at,
       }
     } = this.props
 
     var isRead = moment(read_at).unix() > moment(updated_at).unix()
-    let face = new_commenters[0] || actor
+    let face = actors[0].user
 
     const cns = {
       notification: classnames('block flex p2 pointer', {
@@ -146,8 +138,10 @@ class Notification extends React.Component {
       })
     }
 
+    const { urlParams } = addParams(story.changelog_slug, story)
+
     return (
-      <a className={cns.notification} onClick={this.handleOnClick.bind(this)}>
+      <Link className={cns.notification} to="story" params={urlParams} onClick={this.handleOnClick.bind(this)}>
         <div className={cns.actor}>
           <Avatar user={face} size={24} />
         </div>
@@ -160,43 +154,30 @@ class Notification extends React.Component {
         <div className="flex-none h5 gray ml1">
           {moment(updated_at).fromNow(true)}
         </div>
-      </a>
+      </Link>
     )
   }
 
   renderDescription() {
     const {
       notification: {
-        description,
-        new_commenters,
+        actors,
         title,
       }
     } = this.props
 
-    if (new_commenters.length == 0) {
-      return description
-    }
+    let usernames = List(actors).map(a => `@${a.user.username}`).take(2)
 
-    let usernames = List(new_commenters).map(u => `@${u.username}`).take(2)
-
-    if (new_commenters.length <= 2) {
+    if (actors.length <= 2) {
       return `${usernames.join(' and ')} commented on`
     }
 
-    return `${usernames.join(', ')} and ${pluralize(new_commenters.length - 2, 'other', 'others')} commented on`
+    return `${usernames.join(', ')} and ${pluralize(actors.length - 2, 'other', 'others')} commented on`
   }
 
-  handleOnClick(e) {
-    const { notification } = this.props
-
-    const { urlParams } = addParams(ChangelogStore.slug, {
-      slug: notification.story_slug,
-      created_at : notification.created_at
-    })
-
-    NotificationActions.markAsRead([notification])
-    RouterContainer.get().transitionTo('story', urlParams)
-    DOMActions.click()
+  handleOnClick() {
+    NotificationActions.markAsRead([this.props.notification])
+    DOMActions.click() // dismisses the popup on click
   }
 
 }
