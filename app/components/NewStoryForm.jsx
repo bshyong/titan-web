@@ -9,7 +9,6 @@ import HighlightsStore from '../stores/highlights_store'
 import Icon from '../ui/Icon.jsx'
 import MarkdownArea from '../ui/markdown_area.jsx'
 import React from 'react'
-import Router from '../lib/router_container'
 import RouterContainer from '../lib/router_container'
 import SessionStore from '../stores/session_store'
 import StoriesActionCreator from '../actions/story_actions'
@@ -62,8 +61,8 @@ export default class NewStoryForm extends React.Component {
           <div className="flex flex-column">
             <EmojiPicker />
 
-            <div>
-              <hr className="mt2 mb2" />
+            <div className="mt1 mb2 border-bottom border-silver red h5">
+              {StoryFormStore.titleHasEmoji() ? "Pick a badge above! Emojis in the title will be stripped out" : "\u00a0"}
             </div>
 
             <div className="mb2">
@@ -78,7 +77,6 @@ export default class NewStoryForm extends React.Component {
                   height: '100%',
                   padding: 0
                 }} />
-
               <hr className="mt2 mb2" />
 
               <MarkdownArea id={storyId || "new_story"}
@@ -103,7 +101,6 @@ export default class NewStoryForm extends React.Component {
                 onChange={this.handleChanged('contributors').bind(this)}
                 ref="contributors" />
             </div>
-
             <div className="clearfix border-top py3" style={{ borderColor: '#aaa' }}>
               <div className="left">
                 <div className="clearfix">
@@ -113,19 +110,15 @@ export default class NewStoryForm extends React.Component {
                     <a href="javascript:void(0)"
                        onClick={this.handleTogglePrivacy.bind(this)}
                        onTouchStart={this.handleTogglePrivacy.bind(this)}
-                       className="ml1"
-                       ref="isPublic">
+                       className="ml1">
                       Change
                     </a>
                   </span>
                 </div>
-
               </div>
-
               <div className="right">
                 {this.renderPostButton()}
               </div>
-
             </div>
           </div>
         </div>
@@ -179,14 +172,4 @@ export default class NewStoryForm extends React.Component {
       StoryFormActions.change(Map(this.props).set(field, value).toJS())
     }
   }
-}
-
-NewStoryForm.propTypes = {
-  storyId: React.PropTypes.string,
-  changelogId: React.PropTypes.string,
-  title: React.PropTypes.string,
-  body: React.PropTypes.string,
-  contributors: React.PropTypes.string,
-  isPublic: React.PropTypes.bool,
-  emoji_id: React.PropTypes.string
 }

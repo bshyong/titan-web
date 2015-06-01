@@ -3,7 +3,7 @@ import EmojiStore from '../stores/emoji_store'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
 import StoryActions from '../actions/story_actions'
-import StoryForm from '../components/new_story_form.js.jsx'
+import StoryForm from '../components/NewStoryForm.jsx'
 import StoryFormActions from '../actions/story_form_actions'
 import StoryFormStore from '../stores/story_form_store'
 
