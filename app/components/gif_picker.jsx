@@ -62,7 +62,7 @@ export default class GifPicker extends React.Component {
     return(
       <div className="p1 right-align h5 bg-white orange flex" style={{height: 24, position: 'sticky', top: 0}}>
         <div className="flex-grow" />
-          <div className="flex-none pointer" onClick={this.props.onPickerCancel}>Cancel</div>
+        <div className="flex-none pointer" onClick={this.props.onPickerCancel}>Cancel</div>
       </div>
     )
   }
@@ -142,21 +142,6 @@ export default class GifPicker extends React.Component {
   }
 
   renderGifs() {
-    const gifs = this.state.gifs
-
-    let gifRows = []
-
-    for (let indexValue of gifs.entries()) {
-      const index = indexValue[0]
-      if (index % 2 == 0) {
-        const gifRowItems = gifs.slice(index, index+2).map(g => this.renderGif(g))
-        gifRows.push(
-          <div className="clearfix m0 p0" key={`gifRow_${index}`}>
-            {gifRowItems}
-          </div>
-        )
-      }
-    }
 
     if (this.state.fetching) {
       return (
@@ -167,6 +152,20 @@ export default class GifPicker extends React.Component {
         </div>
       )
     }
+
+    const gifs = this.state.gifs
+
+    let gifRows = gifs.reduce((memo, curr, index, array) => {
+      if (index % 2 == 0) {
+        const gifRowItems = gifs.slice(index, index+2).map(g => this.renderGif(g))
+        memo.push(
+          <div className="clearfix m0 p0" key={`gifRow_${index}`}>
+            {gifRowItems}
+          </div>
+        )
+      }
+      return memo
+    }, [])
 
     if (gifRows.length > 0) {
       return (
