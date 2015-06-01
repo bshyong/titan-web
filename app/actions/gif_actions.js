@@ -7,7 +7,7 @@ import { RESOURCE_NOT_FOUND,
 import 'isomorphic-fetch'
 import Dispatcher from '../lib/dispatcher'
 import api from '../lib/api'
-import {apiKey} from '../config/gifpicker'
+import {apiUrl} from '../config/gifpicker'
 
 export default {
 
@@ -15,7 +15,7 @@ export default {
     Dispatcher.dispatch({
       type: GIFS_FETCHING
     })
-    this.get(`http://api.giphy.com/v1/gifs/search?api_key=${apiKey}&limit=100&q=${encodeURIComponent(string)}`)
+    this.get(`${apiUrl}?api_key=${GIPHY_API_KEY}&limit=100&q=${encodeURIComponent(string)}`)
         .then(resp => {
           Dispatcher.dispatch({
             type: GIFS_FETCHED,
@@ -35,7 +35,7 @@ export default {
 
   fetchImagesForReactions(reactions) {
     reactions.forEach((reaction, i) => {
-      this.get(`http://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${encodeURIComponent(reaction)}`)
+      this.get(`${apiUrl}?api_key=${GIPHY_API_KEY}&q=${encodeURIComponent(reaction)}`)
           .then(resp => {
             Dispatcher.dispatch({
               type: GIF_REACTION_FETCHED,
