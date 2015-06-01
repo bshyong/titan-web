@@ -12,5 +12,6 @@ module.exports = {
     noo: [
       'facepalm', 'what', 'oops', 'eyeroll', 'confused', 'sad'
     ]
-  }
+  },
+  apiKey: 'l41lNiPjTBuQtqclW'
 }
