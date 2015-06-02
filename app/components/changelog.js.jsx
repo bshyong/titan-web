@@ -37,7 +37,7 @@ export default class Changelog extends React.Component {
     return <div>
       {moreAvailable ?
         <ScrollPaginator page={page}
-          onScrollBottom={() => StoryActions.fetchAll(changelogId, page + 1)} /> : null}
+          onScrollBottom={() => StoryActions.fetchAll(changelogId, this.props.timeInterval, page + 1, 25)} /> : null}
 
       <div className="bg-smoke">
         <div className="container">
