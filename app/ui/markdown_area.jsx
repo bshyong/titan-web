@@ -27,7 +27,11 @@ export default class MarkdownArea extends React.Component {
   }
 
   componentDidMount() {
-    this.height = getOffsetTop(React.findDOMNode(this)) - 55
+    this.height = getOffsetTop(React.findDOMNode(this))
+  }
+
+  componentWillUpdate() {
+    this.height = getOffsetTop(React.findDOMNode(this))
   }
 
   render() {

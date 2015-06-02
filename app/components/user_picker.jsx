@@ -36,9 +36,6 @@ export default class UserPicker extends React.Component {
 
     this.handleKeyDown = this._handleKeyDown.bind(this)
     this.handleUserSelected = this._handleUserSelected.bind(this)
-    this.scroll = this._scroll.bind(this)
-    this.scrollDown = this._scrollDown.bind(this)
-    this.scrollUp = this._scrollUp.bind(this)
   }
 
   componentDidMount() {
@@ -46,13 +43,39 @@ export default class UserPicker extends React.Component {
     UserPickerActions.fetchUsers(this.props.query)
   }
 
+  componentDidUpdate() {
+    const { highlightIndex, maxHeight, users } = this.props
+    const picker = React.findDOMNode(this.refs.picker)
+    const scrollHeight = picker.scrollHeight
+    const currentTop = picker.scrollTop
+    const currentBottom = currentTop + maxHeight
+    const cellHeight = scrollHeight / users.count()
+    const currentLocation = cellHeight * highlightIndex
+
+    this.cellHeight = cellHeight
+
+    if (currentLocation >= currentBottom - cellHeight) {
+      picker.scrollTop = currentLocation + cellHeight - maxHeight
+    } else if (currentLocation < currentTop) {
+      picker.scrollTop = currentLocation
+    }
+  }
+
   componentWillUnmount() {
     document.removeEventListener('keydown', this.handleKeyDown)
   }
 
   render() {
+    const { maxHeight, users } = this.props
+    const userCount = users.count()
+    const userHeight = this.cellHeight ? userCount * this.cellHeight : maxHeight
+    const height = Math.min(maxHeight, userHeight)
+
     return (
-      <Picker {...this.props} shown={this.props.users.count > 0} ref="picker">
+      <Picker {...this.props}
+        maxHeight={height}
+        shown={userCount > 0}
+        ref="picker">
         <Table>
           {this.renderUsers()}
         </Table>
@@ -117,11 +140,9 @@ export default class UserPicker extends React.Component {
       switch (keyCode) {
         case DOWN_KEY:
           UserPickerActions.setHighlightIndex(highlightIndex + 1)
-          this.scroll('down', picker)
           break;
         case UP_KEY:
           UserPickerActions.setHighlightIndex(highlightIndex - 1)
-          this.scroll('up', picker)
           break;
         case ENTER_KEY:
         case TAB_KEY:
@@ -143,35 +164,6 @@ export default class UserPicker extends React.Component {
     }
 
     UserPickerActions.clearUsers()
-  }
-
-  _scroll(direction, ref) {
-    const pickerNode = React.findDOMNode(ref)
-    const scrollHeight = pickerNode.scrollHeight
-
-    if (scrollHeight > ref.props.maxHeight) {
-      const inc = scrollHeight / this.props.users.count()
-
-      if (direction === 'down') {
-        this.scrollDown(pickerNode, inc, scrollHeight)
-      } else if (direction === 'up') {
-        this.scrollUp(pickerNode, inc, scrollHeight)
-      }
-    }
-  }
-
-  _scrollDown(node, inc, scrollHeight) {
-    const scrollTop = node.scrollTop
-    node.scrollTop = scrollTop + inc > scrollHeight ?
-      scrollHeight :
-      scrollTop + inc
-  }
-
-  _scrollUp(node, inc, scrollHeight) {
-    const scrollTop = node.scrollTop
-    node.scrollTop = scrollTop - inc < 0 ?
-      0 :
-      scrollTop - inc
   }
 }
 
