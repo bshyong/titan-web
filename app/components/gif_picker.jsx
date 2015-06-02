@@ -12,10 +12,9 @@ import debounce from '../lib/debounce'
 import onMobile from '../lib/on_mobile'
 import { reactionStrings } from '../config/gifpicker'
 
-let giphyAttribution = ''
-if (typeof __TEST__ === 'undefined') {
-  giphyAttribution = require('../images/giphy.png')
-}
+let giphyAttribution = require('../images/giphy.png')
+let giphyAttributionHoriz = require('../images/giphy-h.png')
+
 
 export default class GifPicker extends React.Component {
 
@@ -75,18 +74,72 @@ export default class GifPicker extends React.Component {
     }
   }
 
-  renderCancelBar() {
-    return(
-      <div className="p1 right-align h5 bg-white orange flex" style={{height: 24, position: 'sticky', top: 0}}>
-        <div className="flex-grow" />
-        <div className="flex-none pointer" onClick={this.props.onPickerCancel}>Cancel</div>
+  render() {
+    const { pickerHeight } = this.state
+
+    return (
+      <Picker position="top" maxHeight={Math.min(400, pickerHeight)} fullscreen={this.onMobile}>
+        <div style={{height: '100%', overflow: 'hidden'}} ref="picker">
+          {this.onMobile ? this.renderForMobile() : this.renderForDesktop()}
+        </div>
+      </Picker>
+    )
+  }
+
+  renderForMobile() {
+    const { searchTerm } = this.state
+    return (
+      <div>
+        <div className="p1 right-align h5 bg-white orange flex" style={{height: 36, position: 'sticky', top: 0}}>
+          <div className="flex-grow">
+            <form style={{height: 36}}>
+              <input type="text"
+                className="field-light flex-grow"
+                placeholder="gif search"
+                value={searchTerm}
+                style={{width: '100%'}}
+                onChange={this.handleOnChange}
+                ref="gifSearch" />
+            </form>
+          </div>
+          <div className="flex-none pointer ml1 flex flex-center" onClick={this.props.onPickerCancel}>Cancel</div>
+        </div>
+        {this.renderContentContainer()}
+        <div className="flex flex-center muted">
+          <img className="mx-auto p1" src={giphyAttributionHoriz} style={{maxHeight: 24}} />
+        </div>
       </div>
     )
   }
 
-  render() {
-    const { fetching, searchTerm } = this.state
+  renderForDesktop() {
+    const { searchTerm } = this.state
+    return (
+      <div>
+        <div className="p1 right-align h5 bg-white orange flex" style={{height: 24, position: 'sticky', top: 0}}>
+          <div className="flex-grow" />
+          <div className="flex-none pointer" onClick={this.props.onPickerCancel}>Cancel</div>
+        </div>
+        {this.renderContentContainer()}
+        <form className="flex" style={{height: 36}}>
+          <input type="text"
+            className="field-light flex-grow"
+            placeholder="gif search"
+            value={searchTerm}
+            onChange={this.handleOnChange}
+            ref="gifSearch" />
+            <div className="flex-none m0 flex flex-center" style={{maxHeight: 36}}>
+              <div style={{height: 30}}>
+                <img src={giphyAttribution} style={{height: '100%'}} />
+              </div>
+            </div>
+        </form>
+      </div>
+    )
+  }
 
+  renderContentContainer() {
+    const { fetching, searchTerm } = this.state
     const style = {
       overflowY: 'scroll',
       maxHeight: this.onMobile ? 'calc(97vh - 60px)' : 300
@@ -99,31 +152,13 @@ export default class GifPicker extends React.Component {
                     onScrollBottom={() => GifActions.getFromStore(this.state.page + 1)} />
 
     return (
-      <Picker position="top" maxHeight={Math.min(400, this.state.pickerHeight)} fullscreen={this.onMobile}>
-        <div style={{height: '100%', overflow: 'hidden'}} ref="picker">
-          {this.renderCancelBar()}
-          <ScrollEater>
-            <div className="center" ref="gifResults" style={style}>
-              {this.state.moreAvailable ? paginator : null}
-              {this.renderPicker()}
-              <LoadingBar loading={fetching && searchTerm !== null} />
-            </div>
-          </ScrollEater>
-          <form className="flex" style={{height: 36}}>
-            <input type="text"
-              className="field-light flex-grow"
-              placeholder="gif search"
-              value={searchTerm}
-              onChange={this.handleOnChange}
-              ref="gifSearch" />
-              <div className="flex-none m0 flex flex-center" style={{maxHeight: 36}}>
-                <div style={{height: 30}}>
-                  <img src={giphyAttribution} style={{height: '100%'}} />
-                </div>
-              </div>
-          </form>
+      <ScrollEater>
+        <div className="center" ref="gifResults" style={style}>
+          {this.state.moreAvailable ? paginator : null}
+          {this.renderPicker()}
+          <LoadingBar loading={fetching && searchTerm !== null} />
         </div>
-      </Picker>
+      </ScrollEater>
     )
   }
 

@@ -75,7 +75,7 @@ export default class MarkdownArea extends React.Component {
 
     return (
       <div>
-        {!onMobile() ? null : this.renderGifPicker()}
+        {onMobile() ? this.renderGifPicker() : null}
         <DropzoneContainer id={this.props.id}
           onUploaded={this.onUploaded}
           onUploading={this.onUploading}
