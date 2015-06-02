@@ -15,6 +15,7 @@ import moment from 'moment'
 import addParams from '../lib/addUrlParamsToStory'
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
+import ChangelogStore from './changelog_store.js'
 
 class StoryStore extends Store {
   constructor() {
@@ -59,6 +60,9 @@ class StoryStore extends Store {
           break
 
         case STORIES_FETCHED:
+          if (action.page == 1) {
+            this.stories = Map()
+          }
           var newStories = action.stories.reduce((m, story) => m.set(story.slug, addParams(action.changelogId, story)), Map())
           this.stories = this.stories.merge(newStories)
           this._page = action.page
