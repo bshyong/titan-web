@@ -231,7 +231,9 @@ export default class GifPicker extends React.Component {
            key={gif.id}
            onClick={this.handleGifSelect.bind(this, gif)}>
         <div className="overflow-hidden" style={{maxHeight: maxHeight}}>
-          <Gif gif={propsForGifComponent} style={gifStyle} video={!this.onMobile} />
+          <div style={gifStyle}>
+            <Gif gif={propsForGifComponent} video={!this.onMobile} />
+          </div>
         </div>
       </div>
     )

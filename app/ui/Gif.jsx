@@ -2,13 +2,16 @@ import React from 'react'
 
 export default class Gif extends React.Component {
   render() {
-    return this.props.video ? this.renderVideo() : this.renderGif()
+    return (
+      <div style={{width: '100%', height: '100%'}}>
+        {this.props.video ? this.renderVideo() : this.renderGif()}
+      </div>
+    )
   }
 
   renderVideo() {
     const {
       gif,
-      style,
       autoPlay,
     } = this.props
 
@@ -17,7 +20,7 @@ export default class Gif extends React.Component {
         loop
         autoPlay={autoPlay}
         ref='gif'
-        style={style}
+        style={{minWidth: '100%', minHeight: '100%'}}
         onMouseEnter={this.handleOnMouseEnter.bind(this)}
         onMouseLeave={this.handleOnMouseLeave.bind(this)}
         poster={gif.poster_url}>
@@ -49,9 +52,8 @@ export default class Gif extends React.Component {
   renderGif() {
     const {
       gif,
-      style,
     } = this.props
-    return <img src={gif.url} style={style} />
+    return <img src={gif.url} style={{minWidth: '100%', minHeight: '100%'}} />
   }
 
   handleOnMouseEnter() {
@@ -61,7 +63,6 @@ export default class Gif extends React.Component {
   handleOnMouseLeave() {
     React.findDOMNode(this.refs.gif).pause()
   }
-
 }
 
 Gif.propTypes = {
@@ -74,7 +75,6 @@ Gif.propTypes = {
       }),
       url: React.PropTypes.string.isRequired
     }).isRequired,
-  style: React.PropTypes.object,
   video: React.PropTypes.bool,
 }
 
