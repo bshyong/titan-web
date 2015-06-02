@@ -27,7 +27,7 @@ export default class Changelog extends React.Component {
       page: StoryStore.page,
       stories: StoryStore.all(),
       timeInterval: ChangelogStore.timeInterval,
-      timeShown: ChangelogStore.timeShown,
+      timeShown: ChangelogStore.timeShown
     }
   }
 
