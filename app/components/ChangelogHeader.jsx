@@ -18,7 +18,6 @@ export default class ChangelogHeader extends React.Component {
 
   render() {
     const { changelogId, following, changelog } = this.props
-    console.log(changelog)
     return (
       <Jumbotron bgColor="blue" bgImageUrl={changelog.banner_url}>
         <div className="sm-flex flex-center">
