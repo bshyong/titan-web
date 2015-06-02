@@ -18,9 +18,6 @@ class ChangelogStore extends Store {
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
         case CHANGELOG_FETCHED:
-          if (this._changelog != action.changelog) {
-            StoryStore.clearAll()
-          }
           this._changelog = action.changelog
           break;
         case CHANGELOG_FOLLOWED:
