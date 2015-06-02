@@ -18,6 +18,7 @@ export default class ChangelogPage extends React.Component {
 
   render() {
     const { changelogId } = this.props
+    console.log(ChangelogStore.changelog)
     return <div>
       <ChangelogHeader changelogId={changelogId} />
       <Changelog changelogId={changelogId} />
