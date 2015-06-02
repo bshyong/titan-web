@@ -1,5 +1,4 @@
 import {
-  CHANGELOG_FETCHED,
   COMMENT_CREATING,
   STORY_CREATING,
   STORIES_FETCHED,
@@ -28,10 +27,6 @@ class StoryStore extends Store {
     this.dispatchToken = Dispatcher.register(action => {
       console.log(action.type)
       switch (action.type) {
-        case CHANGELOG_FETCHED:
-          this.stories = Map()
-          break;
-
         case COMMENT_CREATING:
           var story = this.stories.get(action.storyId)
           story.live_comments_count += 1
@@ -98,7 +93,6 @@ class StoryStore extends Store {
   }
 
   clearAll() {
-    console.log("CLEAR ALL")
     this.stories = Map()
   }
 
