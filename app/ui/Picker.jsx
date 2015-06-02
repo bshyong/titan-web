@@ -3,47 +3,10 @@ import React from 'react'
 import shallowEqual from 'react-pure-render/shallowEqual'
 import Table from './Table.jsx'
 
-const UPDATE_COUNT = 15
-
 export default class Picker extends React.Component {
   static getOffsetTop(element) {
-    let y = 0
-
-    while (element) {
-      y += (element.offsetTop - element.scrollTop + element.clientTop)
-      element = element.offsetParent
-    }
-
-    return y
-  }
-
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      height: props.maxHeight
-    }
-
-    this.updateCount = 0
-  }
-
-  componentDidMount() {
-    this.setState({
-      height: this.calculateHeight()
-    })
-  }
-
-  componentDidUpdate() {
-    if (this.updateCount > UPDATE_COUNT) {
-      this.updateCount = 0
-      return
-    }
-
-    this.updateCount++
-
-    this.setState({
-      height: this.calculateHeight()
-    })
+    const top = element && element.getBoundingClientRect().top
+    return top < 0 ? 0 : top
   }
 
   render() {
@@ -54,7 +17,7 @@ export default class Picker extends React.Component {
       overflowY: 'auto'
     }
 
-    style[position] = -this.state.height
+    style[position] = -maxHeight
 
     const classes = classnames('absolute bg-white full-width shadow', {
       border: shown,
@@ -67,24 +30,6 @@ export default class Picker extends React.Component {
         {this.props.children}
       </div>
     )
-  }
-
-  calculateHeight() {
-    let node = React.findDOMNode(this.refs.container)
-    let height = node.offsetHeight
-
-    if (this.props.position === 'bottom') {
-      return height
-    }
-
-    let fromTop = Picker.getOffsetTop(node)
-
-    while (fromTop < 0) {
-      height = height + fromTop
-      fromTop = Picker.getOffsetTop()
-    }
-
-    return height
   }
 
   shouldComponentUpdate(nextProps, nextState) {
