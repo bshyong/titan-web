@@ -60,7 +60,7 @@ export default class StoryPage extends React.Component {
       <div className="flex flex-column" style={{minHeight: 'calc(100vh - 3.5rem)'}}>
 
         <Link className="p2 gray orange-hover" to="changelog" params={{changelogId}}>
-          <Icon icon="angle-left" /> Meta
+          <Icon icon="angle-left" /> {changelogId.charAt(0).toUpperCase() + changelogId.slice(1) }
         </Link>
 
         <div className="p2 sm-px0 sm-py3 md-py4">

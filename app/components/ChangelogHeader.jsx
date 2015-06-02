@@ -6,29 +6,28 @@ import React from 'react'
 import connectToStores from '../lib/connectToStores.jsx'
 import ChangelogStore from '../stores/changelog_store'
 
-import MetaBannerUrl from '../images/meta-banner.jpg'
-
 @connectToStores(ChangelogStore)
 export default class ChangelogHeader extends React.Component {
 
   static getPropsFromStores(props) {
     return {
       following: ChangelogStore.following,
+      changelog: ChangelogStore.changelog
     }
   }
 
   render() {
-    const { changelogId, following } = this.props
-
+    const { changelogId, following, changelog } = this.props
+    console.log(changelog)
     return (
-      <Jumbotron bgColor="blue" bgImageUrl={MetaBannerUrl}>
+      <Jumbotron bgColor="blue" bgImageUrl={changelog.banner_url}>
         <div className="sm-flex flex-center">
           <div className="flex-none mb2 sm-mb0">
-            <div className="mx-auto" style={{width: '4rem'}}><Logo size="4rem"/></div>
+            <div className="mx-auto" style={{width: '4rem'}}><Logo src={changelog.logo_url} size="4rem"/></div>
           </div>
           <Link className="block flex-auto mb2 md-mb0 sm-px3 center sm-left-align white" to="changelog" params={{changelogId}}>
-            <h2 className="mt0 mb0">Assembly</h2>
-            <div>Building Assembly on Assembly.</div>
+            <h2 className="mt0 mb0">{changelog.name}</h2>
+            <div>{changelog.tagline}</div>
           </Link>
           <div className="flex-none sm-ml2">
             <FollowButton changelogId={changelogId} toggled={following}/>
