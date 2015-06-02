@@ -7,7 +7,6 @@ import {
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
-import StoryStore from './story_store.js'
 
 class ChangelogStore extends Store {
   constructor() {
