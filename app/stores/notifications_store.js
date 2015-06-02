@@ -36,19 +36,23 @@ class NotificationsStore extends Store {
           } else {
             this._notifications = this._notifications.concat(action.notifications)
           }
+
           this._page = action.page
           this._moreAvailable = action.moreAvailable
           break
 
         case NOTIFICATIONS_READ:
           let at = new Date().toISOString()
-          this._notifications.forEach(n => { n.read_at = at })
+          let readIds = List(action.readNotifications).map(n => n.id)
+          this._notifications.
+            filter(n => readIds.contains(n.id)).
+            forEach(n => { n.read_at = at })
           break;
         default:
           return
       }
       this.emitChange()
-    })
+    }.bind(this))
   }
 
   get acknowledgedAt() {

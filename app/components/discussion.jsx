@@ -23,6 +23,14 @@ export default class Discussion extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this.scrollToComment()
+  }
+
+  componentDidUpdate() {
+    this.scrollToComment()
+  }
+
   render() {
     return (
       <div style={{marginBottom: '20rem'}}>
@@ -55,6 +63,7 @@ export default class Discussion extends React.Component {
   }
 
   renderComments() {
+    let selected = window.location.hash.substr(1)
     return this.props.comments.map(comment => {
       const renderedComment = <Comment comment={comment}
           storyId={this.props.storyId}
@@ -62,18 +71,28 @@ export default class Discussion extends React.Component {
 
       if (comment.deleted_at) {
         return (
-          <Table.DisabledCell key={comment.id} image={<Avatar user={comment.user} size={24} />}>
+          <Table.DisabledCell id={comment.id} key={comment.id} selected={comment.id === selected}
+              image={<Avatar user={comment.user} size={24} />}>
             {renderedComment}
           </Table.DisabledCell>
         )
       } else {
         return (
-          <Table.Cell key={comment.id} image={<Avatar user={comment.user} size={24} />}>
+          <Table.Cell id={comment.id} key={comment.id} selected={comment.id === selected}
+              image={<Avatar user={comment.user} size={24} />}>
             {renderedComment}
           </Table.Cell>
         )
       }
     })
+  }
+
+  scrollToComment() {
+    let el = document.getElementById(window.location.hash.substr(1))
+
+    if (el) {
+      el.scrollIntoView({behavior: "smooth"})
+    }
   }
 }
 

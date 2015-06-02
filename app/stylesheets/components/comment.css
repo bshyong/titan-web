@@ -9,3 +9,7 @@
 .outline-none {
   outline: none;
 }
+
+.border-top-orange {
+  border-top: solid 2px var(--orange);
+}
