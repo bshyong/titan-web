@@ -16,8 +16,11 @@ export default class Table extends React.Component {
 
 class TableCell extends React.Component {
   render() {
+    const cn = classnames("flex", {
+      "border-top-orange": this.props.selected
+    })
     return (
-      <div className="flex">
+      <div className={cn} id={this.props.id}>
         {this.image()}
         {this.cell()}
       </div>
@@ -61,6 +64,7 @@ class TableCell extends React.Component {
 
 TableCell.propTypes = {
   active: React.PropTypes.bool,
+  id: React.PropTypes.string,
   image: React.PropTypes.node,
   to: React.PropTypes.oneOfType([React.PropTypes.string, Route])
 }
@@ -68,7 +72,7 @@ TableCell.propTypes = {
 class TableDisabledCell extends TableCell {
   render() {
     return (
-      <div className="flex muted">
+      <div className="flex muted" id={this.props.id}>
         {this.image()}
         {this.cell()}
       </div>
@@ -77,6 +81,7 @@ class TableDisabledCell extends TableCell {
 }
 
 TableDisabledCell.propTypes = {
+  id: React.PropTypes.string,
   image: React.PropTypes.node
 }
 

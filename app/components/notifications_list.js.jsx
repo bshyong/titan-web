@@ -113,6 +113,7 @@ class Notification extends React.Component {
     const {
       notification: {
         actors,
+        initial_comment_id,
         read_at,
         story,
         title,
@@ -120,7 +121,7 @@ class Notification extends React.Component {
       }
     } = this.props
 
-    var isRead = moment(read_at).unix() > moment(updated_at).unix()
+    var isRead = moment(read_at || 0).unix() > moment(updated_at).unix()
     let face = actors[0].user
 
     const cns = {
@@ -139,9 +140,12 @@ class Notification extends React.Component {
     }
 
     const { urlParams } = addParams(story.changelog_slug, story)
+    if (initial_comment_id) {
+      urlParams.commentId = initial_comment_id
+    }
 
     return (
-      <Link className={cns.notification} to="story" params={urlParams} onClick={this.handleOnClick.bind(this)}>
+      <Link className={cns.notification} to="storyWithComment" params={urlParams} onClick={this.handleOnClick.bind(this)}>
         <div className={cns.actor}>
           <Avatar user={face} size={24} />
         </div>

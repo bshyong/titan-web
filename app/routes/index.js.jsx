@@ -4,7 +4,6 @@ import {
   Route,
   DefaultRoute
 } from 'react-router'
-import App from '../components/app.js.jsx'
 import Changelog from '../components/changelog.js.jsx'
 import NotFound from '../components/not_found.js.jsx'
 import React from 'react'
@@ -20,7 +19,7 @@ import StoryPage from '../components/story_page.jsx'
 import ProfilePage from '../components/profile_page.js.jsx'
 
 export default (
-  <Route handler={App} name="root" path="/">
+  <Route name="root" path="/">
     <Route handler={SigninSSO} path='/signin/sso' name="sso" />
 
     <Route handler={ProfilePage} name="profile" path="/users/:username" />
@@ -35,6 +34,7 @@ export default (
       </Route>
 
       <Route handler={StoryPage} path=":year/:month/:day/:storyId" name="story" />
+      <Route handler={StoryPage} path=":year/:month/:day/:storyId#:commentId" name="storyWithComment" />
       <Route handler={SingleDateChangelogPage} path="date/:date/:timeInterval" name="changelog_date" />
     </Route>
 
