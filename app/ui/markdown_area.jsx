@@ -45,6 +45,12 @@ export default class MarkdownArea extends React.Component {
     this.height = getOffsetTop(React.findDOMNode(this))
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value && MENTION_REGEX.exec(nextProps.value.substr(0, this.selectionStart))) {
+      this.closeGifPicker()
+    }
+  }
+
   render() {
     const { border } = this.props
 
@@ -96,17 +102,22 @@ export default class MarkdownArea extends React.Component {
               <div className="flex-none mr1 mt1 h3 pointer gray" onClick={this.toggleGifPicker.bind(this)}>
                 <img src={GifPickerTrigger} style={{height: '1.5rem'}} />
               </div>
-              <div className="flex-none mr1 mt1 h3 pointer gray" ref="clickable">
+              <div className="flex-none mr1 mt1 h3 pointer gray" ref="clickable" onClick={this.closeGifPicker.bind(this)}>
                 <img src={UploadSrc} style={{height: '1.5rem'}} />
               </div>
           </div>
         </DropzoneContainer>
       </div>
-
     )
   }
 
-  toggleGifPicker() {
+  closeGifPicker() {
+    this.setState({
+      gifPickerOpen: false,
+    })
+  }
+
+  toggleGifPicker(state) {
     this.setState({
       gifPickerOpen: !this.state.gifPickerOpen
     })
