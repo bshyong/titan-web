@@ -2,7 +2,6 @@ import classnames from 'classnames'
 import React from 'react'
 import shallowEqual from 'react-pure-render/shallowEqual'
 import Table from './Table.jsx'
-import onMobile from '../lib/on_mobile'
 
 export default class Picker extends React.Component {
   static getOffsetTop(element) {
@@ -10,7 +9,7 @@ export default class Picker extends React.Component {
     return top < 0 ? 0 : top
   }
 
-  renderForMobile() {
+  renderForFullscreen() {
     const classes = classnames('absolute bg-white full-width z8')
     const style = {
       overflow: 'hidden',
@@ -30,9 +29,9 @@ export default class Picker extends React.Component {
   }
 
   render() {
-    // guard for mobile
-    if (this.onMobile && this.props.fullscreen) {
-      return this.renderForMobile()
+    // guard for fullscreen
+    if (this.props.fullscreen) {
+      return this.renderForFullscreen()
     }
 
     const { maxHeight, position, shown } = this.props

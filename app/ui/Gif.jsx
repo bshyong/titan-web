@@ -29,8 +29,11 @@ export default class Gif extends React.Component {
   }
 
   renderSource(url) {
+    const match = url.match(/\.\w{3,4}/gi)
+    if (!match) { return }
+
     let type
-    switch (url.match(/\.\w{3,4}/gi).pop()) {
+    switch (match.pop()) {
       case ".mp4":
         type = "video/mp4"
         break;

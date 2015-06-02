@@ -50,6 +50,9 @@ export default class GifPicker extends React.Component {
     this.gifResults = React.findDOMNode(this.refs.gifResults)
     GifActions.fetchImagesForReactions(this.reactionStrings)
     React.findDOMNode(this.refs.gifSearch).focus()
+    this.setState({
+      pickerHeight: React.findDOMNode(this.refs.picker).clientHeight
+    })
   }
 
   componentWillUnmount() {
@@ -57,6 +60,16 @@ export default class GifPicker extends React.Component {
     const string = React.findDOMNode(this.refs.gifSearch).value = null
     GifActions.changeSearchTerm(string)
     GifStore.clearStore()
+  }
+
+  componentDidUpdate() {
+    const newHeight = React.findDOMNode(this.refs.picker).clientHeight
+
+    if (this.state.pickerHeight != newHeight) {
+      this.setState({
+        pickerHeight: newHeight
+      })
+    }
   }
 
   renderCancelBar() {
@@ -77,8 +90,8 @@ export default class GifPicker extends React.Component {
     }
 
     return (
-      <Picker position="bottom" maxHeight={400} fullscreen={this.onMobile}>
-        <div style={{height: '100%', overflow: 'hidden'}}>
+      <Picker position="top" maxHeight={Math.min(400, this.state.pickerHeight)} fullscreen={this.onMobile}>
+        <div style={{height: '100%', overflow: 'hidden'}} ref="picker">
           {this.renderCancelBar()}
           <ScrollEater>
             <div className="center" ref="gifResults" style={style}>
