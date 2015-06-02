@@ -25,7 +25,6 @@ class StoryStore extends Store {
     this._loading = false
 
     this.dispatchToken = Dispatcher.register(action => {
-      console.log(action.type)
       switch (action.type) {
         case COMMENT_CREATING:
           var story = this.stories.get(action.storyId)
