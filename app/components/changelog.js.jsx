@@ -80,7 +80,7 @@ export default class Changelog extends React.Component {
                     .reverse()
                     .groupBy(story => moment(story.created_at).startOf(timeInterval))
 
-    if (timeInterval != "day") {
+    if (timeInterval !== "day") {
       stories = stories.mapEntries((k,v) => {
         return [
           k[0],
@@ -113,8 +113,6 @@ export default class Changelog extends React.Component {
   renderTable() {
     const { changelogId, timeShown, timeInterval } = this.props
     const groupedStories = this.sortStories()
-
-
     return groupedStories.map((stories, date) => {
       let formatted_date = date.format('MM-DD-YYYY')
       return (

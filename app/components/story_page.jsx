@@ -40,6 +40,12 @@ export default class StoryPage extends React.Component {
     }
   }
 
+  constructor(props) {
+    super(props)
+
+    this.deleteStory = this._deleteStory.bind(this)
+  }
+
   render() {
     const { story, changelog } = this.props
     const changelogId = Router.get().getCurrentParams().changelogId
@@ -98,6 +104,7 @@ export default class StoryPage extends React.Component {
                       <span className="silver"><Icon icon="comment" /></span> {story.live_comments_count}
                     </li>
                     {this.renderEditLink()}
+                    {this.renderDeleteLink()}
                   </ul>
                 </div>
               </div>
@@ -124,6 +131,16 @@ export default class StoryPage extends React.Component {
     )
   }
 
+  renderDeleteLink() {
+    if (this.props.changelog.viewer_can_edit) {
+      return (
+        <li className="px1">
+          <span className="gray pointer" onClick={this.deleteStory}><Icon icon="trash" /> Delete</span>
+        </li>
+      )
+    }
+  }
+
   renderEditLink() {
     if (this.props.changelog.user_is_team_member) {
       return (
@@ -134,5 +151,10 @@ export default class StoryPage extends React.Component {
         </li>
       )
     }
+  }
+
+  _deleteStory() {
+    const { changelogId, story: { slug } } = this.props
+    StoryActions.delete(changelogId, slug)
   }
 }

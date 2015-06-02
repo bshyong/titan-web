@@ -40,6 +40,7 @@ export default keyMirror({
   STORIES_FETCHING: null,
 
   STORY_CREATING: null,
+  STORY_DELETED: null,
   STORY_FETCH: null,
   STORY_FETCHED: null,
   STORY_HEARTED: null,

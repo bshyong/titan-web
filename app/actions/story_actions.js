@@ -4,6 +4,7 @@ import {
   STORIES_FETCHED,
   STORIES_FETCHING,
   STORY_CREATING,
+  STORY_DELETED,
   STORY_EDITING,
   STORY_FETCHED,
   STORY_HEARTED,
@@ -35,7 +36,7 @@ export default {
           changelogId: changelogId,
           stories: stories,
           page: page,
-          moreAvailable: stories.size == per
+          moreAvailable: stories.size === per
         })
       })
   },
@@ -64,6 +65,17 @@ export default {
           changelogId: changelogId
         })
       })
+  },
+
+  delete(changelogId, storyId) {
+    Dispatcher.dispatch({
+      type: STORY_DELETED,
+      storyId: storyId
+    })
+
+    api.delete(`changelogs/${changelogId}/stories/${storyId}`).then(resp => {
+      RouterContainer.get().transitionTo("changelog", {changelogId: changelogId})
+    })
   },
 
   edit(changelogId, storyId, data) {

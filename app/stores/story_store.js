@@ -1,6 +1,7 @@
 import {
   COMMENT_CREATING,
   STORY_CREATING,
+  STORY_DELETED,
   STORIES_FETCHED,
   STORIES_FETCHING,
   STORY_FETCHED,
@@ -30,6 +31,10 @@ class StoryStore extends Store {
         case COMMENT_CREATING:
           var story = this.stories.get(action.storyId)
           story.live_comments_count += 1
+          break;
+
+        case STORY_DELETED:
+          this.stories = this.stories.delete(action.storyId)
           break;
 
         case STORY_FETCHED:
@@ -63,8 +68,10 @@ class StoryStore extends Store {
           if (action.page == 1) {
             this.stories = Map()
           }
-          var newStories = action.stories.reduce((m, story) => m.set(story.slug, addParams(action.changelogId, story)), Map())
-          this.stories = this.stories.merge(newStories)
+
+          this.stories = this.stories.merge(action.stories.reduce((m, story) => {
+            return m.set(story.slug, addParams(action.changelogId, story))
+          }, Map()))
           this._page = action.page
           this._moreAvailable = action.moreAvailable
           this._loading = false
@@ -82,7 +89,7 @@ class StoryStore extends Store {
           return
       }
       this.emitChange()
-    })
+    }.bind(this))
   }
 
   get(storyId) {
