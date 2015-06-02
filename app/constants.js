@@ -26,6 +26,7 @@ export default keyMirror({
 
   GIFS_FETCHING: null,
   GIFS_FETCHED: null,
+  GIFS_FETCHED_FROM_STORE: null,
   GIF_FORM_CHANGED: null,
   GIF_REACTION_FETCHED: null,
 

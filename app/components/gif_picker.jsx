@@ -7,8 +7,9 @@ import LoadingBar from '../ui/LoadingBar.jsx'
 import Picker from '../ui/Picker.jsx'
 import React from 'react'
 import ScrollEater from '../ui/ScrollEater.jsx'
-import onMobile from '../lib/on_mobile'
+import ScrollPaginator from '../ui/ScrollPaginator.jsx'
 import debounce from '../lib/debounce'
+import onMobile from '../lib/on_mobile'
 import { reactionStrings } from '../config/gifpicker'
 
 let giphyAttribution = ''
@@ -21,11 +22,12 @@ export default class GifPicker extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      searchTerm: GifStore.searchTerm,
-      reactionImages: GifStore.reactionImages,
       currentGifIndex: 0,
       fetching: GifStore.fetching,
-      gifs: []
+      gifs: [],
+      page: 1,
+      reactionImages: GifStore.reactionImages,
+      searchTerm: GifStore.searchTerm,
     }
 
     this.onMobile = onMobile()
@@ -48,10 +50,11 @@ export default class GifPicker extends React.Component {
   componentDidMount() {
     GifStore.addChangeListener(this.onStoreChange)
     this.gifResults = React.findDOMNode(this.refs.gifResults)
+    this.picker = React.findDOMNode(this.refs.picker)
     GifActions.fetchImagesForReactions(this.reactionStrings)
     React.findDOMNode(this.refs.gifSearch).focus()
     this.setState({
-      pickerHeight: React.findDOMNode(this.refs.picker).clientHeight
+      pickerHeight: this.picker.clientHeight
     })
   }
 
@@ -63,7 +66,7 @@ export default class GifPicker extends React.Component {
   }
 
   componentDidUpdate() {
-    const newHeight = React.findDOMNode(this.refs.picker).clientHeight
+    const newHeight = this.picker.clientHeight
 
     if (this.state.pickerHeight != newHeight) {
       this.setState({
@@ -84,10 +87,16 @@ export default class GifPicker extends React.Component {
   render() {
     const { fetching, searchTerm } = this.state
 
-    let style = {
+    const style = {
       overflowY: 'scroll',
       maxHeight: this.onMobile ? 'calc(97vh - 60px)' : 300
     }
+
+    const paginator = <ScrollPaginator
+                    element={this.gifResults}
+                    container={this.picker}
+                    page={this.state.page}
+                    onScrollBottom={() => GifActions.getFromStore(this.state.page + 1)} />
 
     return (
       <Picker position="top" maxHeight={Math.min(400, this.state.pickerHeight)} fullscreen={this.onMobile}>
@@ -95,6 +104,7 @@ export default class GifPicker extends React.Component {
           {this.renderCancelBar()}
           <ScrollEater>
             <div className="center" ref="gifResults" style={style}>
+              {this.state.moreAvailable ? paginator : null}
               {this.renderPicker()}
               <LoadingBar loading={fetching && searchTerm !== null} />
             </div>
@@ -256,6 +266,8 @@ export default class GifPicker extends React.Component {
     this.setState({
       fetching: GifStore.fetching,
       gifs: GifStore.getAll(),
+      moreAvailable: GifStore.moreAvailable,
+      page: GifStore.page,
       reactionImages: GifStore.reactionImages,
       searchTerm: GifStore.searchTerm,
     })

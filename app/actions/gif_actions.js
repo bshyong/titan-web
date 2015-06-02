@@ -2,6 +2,7 @@ import { RESOURCE_NOT_FOUND,
          RESOURCE_FOUND,
          GIFS_FETCHING,
          GIFS_FETCHED,
+         GIFS_FETCHED_FROM_STORE,
          GIF_FORM_CHANGED,
          GIF_REACTION_FETCHED } from '../constants'
 import 'isomorphic-fetch'
@@ -43,6 +44,13 @@ export default {
               imageUrl: resp.data[0].images.fixed_height_small_still.url
             })
           })
+    })
+  },
+
+  getFromStore(page=1) {
+    Dispatcher.dispatch({
+      page: page,
+      type: GIFS_FETCHED_FROM_STORE,
     })
   },
 
