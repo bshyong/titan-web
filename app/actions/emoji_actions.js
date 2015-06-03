@@ -23,7 +23,7 @@ export default {
       selectedEmoji: { name: s, id: null }
     })
 
-    api.get(`emojis/search?s=${s}`).then(resp => {
+    api.get(`emojis/search?s=${s.replace(':', '', 'g')}`).then(resp => {
       Dispatcher.dispatch({
         type: EMOJI_FETCHED,
         emojis: resp

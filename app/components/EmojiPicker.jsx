@@ -84,13 +84,17 @@ export default class EmojiPicker extends React.Component {
   _handleChange(e) {
     const { value } = e.target
 
-    EmojiActions.search(value.replace(/[^A-Za-z0-9_\-]/g, ''))
+    EmojiActions.search(value.replace(/[^A-Za-z0-9_\-:]/g, ''))
   }
 
   _selectEmoji(emoji, e) {
     e.stopPropagation()
 
-    EmojiActions.selectEmoji(emoji)
+    let emojiCopy = Object.assign({}, emoji)
+
+    emojiCopy.name = `:${emoji.name}:`
+
+    EmojiActions.selectEmoji(emojiCopy)
   }
 
   _toggleFocus(e) {
