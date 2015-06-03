@@ -1,17 +1,17 @@
 import {Link} from 'react-router'
 import {List, Map, Set} from 'immutable'
-import Badge from './Badge.jsx'
-import Button from '../ui/Button.jsx'
-import connectToStores from '../lib/connectToStores.jsx'
-import Logo from './logo.jsx'
-import paramsFor from '../lib/paramsFor'
-import ProfileActions from '../actions/profile_actions.js'
-import ProfileStore from '../stores/profile_store.js'
+import Badge from '../Badge.jsx'
+import Button from '../../ui/Button.jsx'
+import connectToStores from '../../lib/connectToStores.jsx'
+import Logo from '../logo.jsx'
+import paramsFor from '../../lib/paramsFor'
+import pluralize from '../../lib/pluralize'
+import ProfileActions from '../../actions/profile_actions.js'
+import ProfileStore from '../../stores/profile_store.js'
 import React from 'react'
-import StoryCell from './Story/StoryCell.jsx'
-import Table from '../ui/Table.jsx'
-import UserCell from './User/UserCell.jsx'
-import pluralize from '../lib/pluralize'
+import StoryCell from '../Story/StoryCell.jsx'
+import Table from '../../ui/Table.jsx'
+import UserCell from '../User/UserCell.jsx'
 
 @connectToStores(ProfileStore)
 export default class ProfilePage extends React.Component {
@@ -40,26 +40,23 @@ export default class ProfilePage extends React.Component {
       return reduction + value.count
     }, 0)
 
-    console.log(upvoteCount)
-
     return (
       <div>
         <UserCell user={user} />
 
-        <hr className="mt0 mb0" />
+        <hr className="mt0 mb0 border-silver" />
 
         <div className="container">
-          <div className="py4">
-            <h2 className="mt0 mb0">
-              Working on <strong>{pluralize(this.props.changelogs.length, 'changelog', 'changelogs')}</strong>,
-              earned <strong>{pluralize(upvoteCount, 'upvote', 'upvotes')}</strong>,
+          <div className="px2 md-px0 py4">
+            <p className="h3 mt0 mb0 center">
+              Earned <strong>{pluralize(upvoteCount, 'upvote', 'upvotes')}</strong>,
               contributed to <strong>{pluralize(this.props.stories.length, 'post', 'posts')}</strong>,
-              and following <strong>{pluralize(this.props.following.length, 'changelog', 'changelogs')}</strong> changelogs.
-            </h2>
+              and following <strong>{pluralize(this.props.following.length, 'changelog', 'changelogs')}</strong>.
+            </p>
           </div>
           {this.renderSection('Upvotes earned', this.renderUpvotes)}
-          {this.renderSection('Recent contributions', this.renderStories)}
-          {this.renderSection('Changelogs', this.renderChangelogs)}
+          {this.renderSection('Recent posts', this.renderStories)}
+          {this.renderSection('Following', this.renderFollowingChangelogs)}
         </div>
       </div>
     )
@@ -67,8 +64,8 @@ export default class ProfilePage extends React.Component {
 
   renderSection(title, body) {
     return (
-      <div className="mb3">
-        <h4 className="py1 border-bottom">{title}</h4>
+      <div className="mb4">
+        <h4 className="px2 md-px0 py1 caps gray h5 mt0 mb0 border-bottom">{title}</h4>
         {body.bind(this)()}
       </div>
     )
@@ -79,8 +76,8 @@ export default class ProfilePage extends React.Component {
     const stickerSheet = List(upvotes).sortBy(s => -s.count)
 
     return (
-      <div className="border-bottom">
-        <div className="flex flex-wrap mxn2">
+      <div className="">
+        <div className="flex flex-wrap">
           {stickerSheet.map(s => {
             const {emoji, count} = s
             return (
@@ -88,7 +85,7 @@ export default class ProfilePage extends React.Component {
                 <div className="mb1">
                   <Badge badge={emoji} size="2rem" />
                 </div>
-                <div className="h5 gray">{count}</div>
+                <div className="h5">{count}</div>
               </div>
             )
           })}
@@ -105,17 +102,16 @@ export default class ProfilePage extends React.Component {
           List(stories)
             .sortBy(story => story.created_at)
             .reverse()
-            .take(5)
             .map(story => (
               <Table.Cell key={story.id} to="story" params={paramsFor.story(story.changelog, story)}>
                 <div className="flex">
-                  <div className="mr2">
+                  <div className="flex-none">
                     <Badge badge={story.emoji} size="1.5rem" />
                   </div>
-                  <div className="flex-auto">
+                  <div className="flex-auto px2">
                     {story.title}
                   </div>
-                  <div className="gray">
+                  <div className="flex-none gray h5">
                     {story.changelog.name}
                   </div>
                 </div>
@@ -129,14 +125,14 @@ export default class ProfilePage extends React.Component {
 
   renderChangelogs() {
     return (
-      <div className="flex">
-        <div className="half-width">
-          <h5 className="mt1 mb0 gray">Working on</h5>
+      <div className="sm-flex p2">
+        <div className="half-width px2 md-px0">
+          <h5 className="mt1 mb2 gray">Working on</h5>
           {this.renderWorkingOnChangelogs()}
         </div>
 
-        <div className="half-width">
-          <h5 className="mt1 mb0 gray">Following</h5>
+        <div className="half-width px2 md-px0">
+          <h5 className="mt1 mb2 gray">Following</h5>
           {this.renderFollowingChangelogs()}
         </div>
       </div>
@@ -148,7 +144,7 @@ export default class ProfilePage extends React.Component {
     return (
       <div className="flex flex-wrap mxn1">
         {changelogs.map(changelog =>
-          <div className="p1" key={changelog.id}>
+          <div className="ml1 mb1" key={changelog.id}>
             <Link to="changelog" params={{changelogId: changelog.slug}}>
               <Logo changelog={changelog} size="2rem" />
             </Link>
@@ -161,9 +157,9 @@ export default class ProfilePage extends React.Component {
   renderFollowingChangelogs() {
     const { following: changelogs } = this.props
     return (
-      <div className="flex flex-wrap mxn1">
+      <div className="flex flex-wrap p1 py2">
         {changelogs.map(changelog =>
-          <div className="p1" key={changelog.id}>
+          <div className="ml1 mb1" key={changelog.id}>
             <Link to="changelog" params={{changelogId: changelog.slug}}>
               <Logo changelog={changelog} size="2rem" />
             </Link>

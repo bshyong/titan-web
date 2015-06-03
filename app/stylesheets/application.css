@@ -22,7 +22,6 @@
 @import 'components/navbar';
 @import 'components/popover';
 @import 'components/stack';
-@import 'components/table';
 @import 'components/upvote_toggler';
 
 :root {

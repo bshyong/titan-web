@@ -35,7 +35,7 @@ class TableCell extends React.Component {
     }
 
     return (
-      <div className="table-cell-image flex-none py2 mr2 ml2 md-ml0">{image}</div>
+      <div className="table-cell-image flex-none p2 sm-show">{image}</div>
     )
   }
 
@@ -43,10 +43,9 @@ class TableCell extends React.Component {
     const { active, children, to } = this.props
     const cn = classnames(
       "table-cell-content",
-      "full-width p2 md-px0 border-bottom black gray-visited",
+      "full-width p2 black gray-visited bg-smoke-hover",
       {
-        "border-blue": active,
-        "orange-hover": to
+        "border-blue": active
       }
     )
 
@@ -69,26 +68,10 @@ TableCell.propTypes = {
   to: React.PropTypes.oneOfType([React.PropTypes.string, Route])
 }
 
-class TableDisabledCell extends TableCell {
-  render() {
-    return (
-      <div className="flex muted" id={this.props.id}>
-        {this.image()}
-        {this.cell()}
-      </div>
-    )
-  }
-}
-
-TableDisabledCell.propTypes = {
-  id: React.PropTypes.string,
-  image: React.PropTypes.node
-}
-
 class TableSeparator extends React.Component {
   render() {
     const { label } = this.props
-    return <h5 className="p2 md-px0 mt2 mb0 gray caps border-bottom">{label}</h5>
+    return <h5 className="px2 md-px0 py1 mt2 mb0 gray caps border-bottom">{label}</h5>
   }
 }
 
@@ -97,5 +80,4 @@ TableSeparator.propTypes = {
 }
 
 Table.Cell = TableCell
-Table.DisabledCell = TableDisabledCell
 Table.Separator = TableSeparator

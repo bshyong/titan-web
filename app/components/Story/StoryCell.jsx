@@ -20,7 +20,7 @@ export default class StoryCell extends React.Component {
         </div>
         {this.renderContributors()}
 
-        <div className="flex-none ml2">
+        <div className="flex-none sm-show ml2">
           <div className="h5 gray  mxn1 flex">
             <div className="px1 no-underline">
               <span className=" silver"><Icon icon="comment" /></span>
