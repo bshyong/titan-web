@@ -7,6 +7,7 @@ import {
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import api from '../lib/api'
+import segment from '../lib/segment'
 
 export default {
   change(storyId, comment) {
@@ -31,8 +32,9 @@ export default {
           storyId: storyId
         })
 
-        analytics.track('Wrote Comment', {
-          commentLength: resp.body.length
+        segment.track('Wrote Comment', {
+          commentLength: resp.body.length,
+          storyId: storyId
         })
       })
   },
@@ -52,7 +54,7 @@ export default {
         storyId: storyId
       })
 
-      analytics.track('Updated Comment', {
+      segment.track('Updated Comment', {
         commentLength: comment.length
       })
     })
