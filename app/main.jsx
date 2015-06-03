@@ -39,7 +39,7 @@ RouterContainer.set(router)
 
 router.run((Handler, state) => {
   React.render(<Handler />, document.body)
-  segment.track('Page view', {
+  segment.track('Viewed page', {
     path: state.path,
     routeName: state.routes[state.routes.length-1].name
   })
