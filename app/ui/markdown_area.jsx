@@ -8,6 +8,7 @@ import UploadSrc from '../images/image-upload-icon.svg'
 import UserPicker from '../components/user_picker.jsx'
 import UserPickerActions from '../actions/user_picker_actions'
 import classnames from 'classnames'
+import getCaretCoordinates from 'textarea-caret-position'
 import noop from '../lib/noop'
 import onMobile from '../lib/on_mobile'
 import { getOffsetTop } from './Picker.jsx'
@@ -21,6 +22,7 @@ export default class MarkdownArea extends React.Component {
       focused: false
     }
 
+    this.handleChange = this._handleChange.bind(this)
     this.handleKeyDown = this._handleKeyDown.bind(this)
     this.onUploaded = this._onUploaded.bind(this)
     this.onUploading = this._onUploading.bind(this)
@@ -42,7 +44,8 @@ export default class MarkdownArea extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.value && MENTION_REGEX.exec(nextProps.value.substr(0, this.selectionStart))) {
+    if (nextProps.value &&
+        MENTION_REGEX.exec(nextProps.value.substr(0, this.selectionStart))) {
       this.closeGifPicker()
     }
   }
@@ -92,6 +95,7 @@ export default class MarkdownArea extends React.Component {
                   ref="textarea"
                   style={style.textarea}
                   onBlur={this.toggleFocus}
+                  onChange={this.handleChange}
                   onFocus={this.toggleFocus}
                   onKeyDown={this.props.onCmdEnter ? this.handleKeyDown : this.updateSelectionStart} />
               </div>
@@ -136,8 +140,14 @@ export default class MarkdownArea extends React.Component {
     if (match) {
       return <UserPicker query={match[2]}
           onUserSelected={this.onUserSelected}
-          maxHeight={Math.min((this.height === 0 ? 170 : this.height), 170)} />
+          maxHeight={Math.min((this.height === 0 ? 170 : this.height), 170)}
+          offset={this.offset} />
     }
+  }
+
+  _handleChange(e) {
+    this.offset = getCaretCoordinates(e.target, e.target.selectionEnd).top
+    this.props.onChange && this.props.onChange(e)
   }
 
   _handleKeyDown(e) {

@@ -116,7 +116,8 @@ export default class UserPicker extends React.Component {
       return true
     }
 
-    if (nextProps.users.size !== users.size || nextProps.highlightIndex !== highlightIndex) {
+    if (nextProps.users.size !== users.size ||
+        nextProps.highlightIndex !== highlightIndex) {
       return true
     }
 
@@ -169,6 +170,7 @@ export default class UserPicker extends React.Component {
 
 UserPicker.defaultProps = {
   highlightIndex: 0,
+  offset: 0,
   maxHeight: 300,
   position: "top",
   query: '',
@@ -178,6 +180,7 @@ UserPicker.defaultProps = {
 UserPicker.propTypes = {
   highlightIndex: React.PropTypes.number,
   maxHeight: React.PropTypes.number,
+  offset: React.PropTypes.number,
   onUserSelected: React.PropTypes.func.isRequired,
   position: React.PropTypes.oneOf(['top', 'bottom']),
   query: React.PropTypes.string,
