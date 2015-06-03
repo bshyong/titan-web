@@ -6,6 +6,7 @@ import StoryActions from '../actions/story_actions'
 import StoryForm from '../components/NewStoryForm.jsx'
 import StoryFormActions from '../actions/story_form_actions'
 import StoryFormStore from '../stores/story_form_store'
+import segment from '../lib/segment'
 
 @AuthenticatedMixin()
 export default class NewStoryPage extends React.Component {
@@ -15,6 +16,9 @@ export default class NewStoryPage extends React.Component {
     } else {
       StoryFormActions.clearAll()
     }
+    segment.track('Page view', {
+      type: 'New Story',
+    })
   }
 
   static get defaultProps() {

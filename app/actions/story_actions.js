@@ -15,11 +15,12 @@ import {
   STORY_UPDATED
 } from '../constants'
 
-import addParams from '../lib/addUrlParamsToStory'
-import api from '../lib/api'
 import Dispatcher from '../lib/dispatcher'
 import RouterContainer from '../lib/router_container'
 import SessionStore from '../stores/session_store'
+import addParams from '../lib/addUrlParamsToStory'
+import api from '../lib/api'
+import segment from '../lib/segment'
 import { List } from 'immutable'
 
 export default {
@@ -105,7 +106,11 @@ export default {
   },
 
   heart(storyId) {
-    api.put(`user/hearts/stories/${storyId}`)
+    api.put(`user/hearts/stories/${storyId}`).then(resp => {
+      segment.track('Upvoted Story', {
+        storyId: storyId
+      })
+    })
     Dispatcher.dispatch({
       type: STORY_HEARTED,
       storyId: storyId
@@ -127,7 +132,7 @@ export default {
         })
 
         RouterContainer.get().transitionTo('story', story.urlParams)
-        analytics.track('Wrote Story', {
+        segment.track('Wrote Story', {
           storyLength: data.body.length
         })
       })
