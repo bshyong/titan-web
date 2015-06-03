@@ -80,6 +80,7 @@ export default class NewStoryForm extends React.Component {
 
               <MarkdownArea id={storyId || "new_story"}
                 placeholder="Describe your story (optional)"
+                gifPickerPosition="bottom"
                 ref="body"
                 value={body}
                 onChange={this.handleChanged('body').bind(this)}

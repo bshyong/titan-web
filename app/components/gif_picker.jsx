@@ -77,9 +77,8 @@ export default class GifPicker extends React.Component {
 
   render() {
     const { pickerHeight } = this.state
-
     return (
-      <Picker position="top" maxHeight={Math.min(400, pickerHeight)} fullscreen={this.onMobile}>
+      <Picker position={this.props.position} maxHeight={Math.min(400, pickerHeight)} fullscreen={this.onMobile}>
         <div style={{height: '100%', overflow: 'hidden'}} ref="picker">
           {this.onMobile ? this.renderForMobile() : this.renderForDesktop()}
         </div>
@@ -304,4 +303,9 @@ export default class GifPicker extends React.Component {
 GifPicker.propTypes = {
   onGifSelect: React.PropTypes.func.isRequired,
   onPickerCancel: React.PropTypes.func.isRequired,
+  position: React.PropTypes.oneOf(['top', 'bottom']),
+}
+
+GifPicker.defaultProps = {
+  position: 'top'
 }
