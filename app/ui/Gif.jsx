@@ -53,7 +53,7 @@ export default class Gif extends React.Component {
     const {
       gif,
     } = this.props
-    return <img src={gif.url} style={{minWidth: '100%', minHeight: '100%'}} />
+    return <img src={gif.poster_url} style={{minWidth: '100%', minHeight: '100%'}} />
   }
 
   handleOnMouseEnter() {
