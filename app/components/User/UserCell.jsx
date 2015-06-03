@@ -7,13 +7,13 @@ export default class UserCell extends React.Component {
     const { user } = this.props
 
     return (
-      <div className="flex flex-column flex-center p3 bg-white">
+      <div className="flex flex-column flex-center p4 bg-white">
         <div className="mb2">
-          <Avatar user={user} size={16 * 8} />
+          <Avatar user={user} size={16 * 10} />
         </div>
-        <div className="center mb2">
-          <h3 className="mt0 mb0">{user.username}</h3>
-          <p className="gray mb0">{user.blurb}</p>
+        <div className="center">
+          <h2 className="mt0 mb1 bold">{user.username}</h2>
+          <p className="mb0">{user.blurb}</p>
         </div>
       </div>
     )

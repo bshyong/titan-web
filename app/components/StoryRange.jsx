@@ -27,7 +27,7 @@ export default class StoryRange extends React.Component {
     return (
       <Table>
         {limitedStories.map(story => (
-          <Table.Cell key={story.id} image={<UpvoteToggler story={story} hearted={story.viewer_has_hearted} />} to="story" params={paramsFor.story({id: 'assembly'}, story)}>
+          <Table.Cell key={story.id} image={<UpvoteToggler story={story} hearted={story.viewer_has_hearted} />} to="story" params={paramsFor.story({slug: 'assembly'}, story)}>
             <StoryCell story={story} />
           </Table.Cell>
         ))}

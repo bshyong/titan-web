@@ -34,13 +34,6 @@ export default class StoryCell extends React.Component {
   }
 
   renderContributors() {
-    // let allContributors = List(this.props.story.contributors)
-    // if (!story.allContributors.find(c => story.user.id == c.id)) {
-    //     story.allContributors = story.allContributors.concat(story.user)
-    //   }
-    //   return story
-    // }
-
     const { story, story: { contributors } } = this.props
 
     let allContributors = List(contributors)
