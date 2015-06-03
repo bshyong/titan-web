@@ -63,8 +63,9 @@ describe('NewStoryForm', () => {
           form.refs.body.refs.textarea,
           'textarea'
         )
-
-        TestUtils.Simulate.change(body, { target: { value: 'a' } })
+        let updatedBody = body.getDOMNode()
+        updatedBody.value = 'a'
+        TestUtils.Simulate.change(body, { target: updatedBody })
 
         expect(form.updateForm).toHaveBeenCalledWith('body', 'a')
       })
