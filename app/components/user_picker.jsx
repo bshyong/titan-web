@@ -43,8 +43,8 @@ export default class UserPicker extends React.Component {
     UserPickerActions.fetchUsers(this.props.query)
   }
 
-  componentDidUpdate() {
-    const { highlightIndex, maxHeight, users } = this.props
+  componentWillUpdate(nextProps) {
+    const { highlightIndex, maxHeight, users } = nextProps
     const picker = React.findDOMNode(this.refs.picker)
     const scrollHeight = picker.scrollHeight
     const currentTop = picker.scrollTop

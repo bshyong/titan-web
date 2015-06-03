@@ -1,23 +1,17 @@
-import classnames from 'classnames'
 import DropzoneContainer from '../components/dropzone_container.jsx'
-import { getOffsetTop } from './Picker.jsx'
+import GifPicker from '../components/gif_picker.jsx'
+import GifPickerTrigger from '../images/magic-icon.svg'
 import MENTION_REGEX from '../lib/mention_regex'
-import noop from '../lib/noop'
 import React from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
+import UploadSrc from '../images/image-upload-icon.svg'
 import UserPicker from '../components/user_picker.jsx'
 import UserPickerActions from '../actions/user_picker_actions'
-import GifPicker from '../components/gif_picker.jsx'
+import classnames from 'classnames'
+import noop from '../lib/noop'
 import onMobile from '../lib/on_mobile'
-import {List} from 'immutable'
-
-let UploadSrc = ''
-let GifPickerTrigger = ''
-
-if (typeof __TEST__ === 'undefined') {
-  UploadSrc = require('../images/image-upload-icon.svg')
-  GifPickerTrigger = require('../images/magic-icon.svg')
-}
+import { getOffsetTop } from './Picker.jsx'
+import { List } from 'immutable'
 
 export default class MarkdownArea extends React.Component {
   constructor(props) {
@@ -37,12 +31,14 @@ export default class MarkdownArea extends React.Component {
   }
 
   componentDidMount() {
-    this.height = getOffsetTop(React.findDOMNode(this))
+    const offsetTop = getOffsetTop(React.findDOMNode(this))
+    this.height = offsetTop < 0 ? 0 : offsetTop
     this.dropzoneClickable = React.findDOMNode(this.refs.clickable)
   }
 
   componentWillUpdate() {
-    this.height = getOffsetTop(React.findDOMNode(this))
+    const offsetTop = getOffsetTop(React.findDOMNode(this))
+    this.height = offsetTop < 0 ? 0 : offsetTop
   }
 
   componentWillReceiveProps(nextProps) {
@@ -126,7 +122,9 @@ export default class MarkdownArea extends React.Component {
   renderGifPicker() {
     if (this.state.gifPickerOpen) {
       return (
-        <GifPicker onGifSelect={this.onGifSelected.bind(this)} onPickerCancel={this.toggleGifPicker.bind(this)} />
+        <GifPicker
+          onGifSelect={this.onGifSelected.bind(this)}
+          onPickerCancel={this.toggleGifPicker.bind(this)} />
       )
     }
   }
@@ -138,7 +136,7 @@ export default class MarkdownArea extends React.Component {
     if (match) {
       return <UserPicker query={match[2]}
           onUserSelected={this.onUserSelected}
-          maxHeight={Math.min(this.height, 170)} />
+          maxHeight={Math.min((this.height === 0 ? 170 : this.height), 170)} />
     }
   }
 

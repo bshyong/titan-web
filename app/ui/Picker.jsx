@@ -5,8 +5,7 @@ import Table from './Table.jsx'
 
 export default class Picker extends React.Component {
   static getOffsetTop(element) {
-    const top = element && element.getBoundingClientRect().top
-    return top < 0 ? 0 : top
+    return (element && element.getBoundingClientRect().top) || 0
   }
 
   renderForFullscreen() {
