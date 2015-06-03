@@ -26,7 +26,7 @@ export default class Gif extends React.Component {
         poster={gif.poster_url}>
         {this.renderSource(gif.video_urls.mp4)}
         {this.renderSource(gif.video_urls.webp)}
-        {this.renderGif()}
+        <img src={gif.poster_url} />
       </video>
     )
   }
@@ -53,7 +53,7 @@ export default class Gif extends React.Component {
     const {
       gif,
     } = this.props
-    return <img src={gif.poster_url} style={{minWidth: '100%', minHeight: '100%'}} />
+    return <img src={gif.small_url} style={{minWidth: '100%', minHeight: '100%'}} />
   }
 
   handleOnMouseEnter() {
