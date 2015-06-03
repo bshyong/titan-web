@@ -9,7 +9,31 @@ export default class Picker extends React.Component {
     return top < 0 ? 0 : top
   }
 
+  renderForFullscreen() {
+    const classes = classnames('absolute bg-white full-width z8')
+    const style = {
+      overflow: 'hidden',
+      overflowY: 'auto',
+      height: '100vh',
+      width: '100vw',
+      top: window.pageYOffset,
+      left: 0,
+      zIndex: 999,
+    }
+
+    return (
+      <div className={classes} style={style} ref="container">
+        {this.props.children}
+      </div>
+    )
+  }
+
   render() {
+    // guard for fullscreen
+    if (this.props.fullscreen) {
+      return this.renderForFullscreen()
+    }
+
     const { maxHeight, position, shown } = this.props
     let style = {
       maxHeight: maxHeight,
@@ -39,11 +63,13 @@ export default class Picker extends React.Component {
 
 Picker.defaultProps = {
   maxHeight: 300,
-  shown: false
+  shown: false,
+  fullscreen: false,
 }
 
 Picker.propTypes = {
   maxHeight: React.PropTypes.number,
   position: React.PropTypes.oneOf(['top', 'bottom']),
-  shown: React.PropTypes.bool
+  shown: React.PropTypes.bool,
+  fullscreen: React.PropTypes.bool,
 }

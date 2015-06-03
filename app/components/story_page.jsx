@@ -22,6 +22,7 @@ import pluralize from '../lib/pluralize'
 import shallowEqual from 'react-pure-render/shallowEqual'
 import {Link} from 'react-router'
 import {List} from 'immutable'
+import GifPicker from './gif_picker.jsx'
 
 @connectToStores(StoryStore, StoryReadersStore, ChangelogStore)
 export default class StoryPage extends React.Component {
@@ -61,10 +62,8 @@ export default class StoryPage extends React.Component {
       }
     }
 
-
     return (
       <div className="flex flex-column" style={{minHeight: 'calc(100vh - 3.5rem)'}}>
-
         <Link className="p2 gray orange-hover" to="changelog" params={{changelogId}}>
           <Icon icon="angle-left" /> { changelog.name }
         </Link>

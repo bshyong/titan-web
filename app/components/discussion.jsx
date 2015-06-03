@@ -2,15 +2,16 @@ import Avatar from '../ui/Avatar.jsx'
 import Comment from './comment.jsx'
 import CommentForm from './comment_form.jsx'
 import CommentsStore from '../stores/comments_store'
+import GifPicker from './gif_picker.jsx'
 import LoadingBar from '../ui/LoadingBar.jsx'
 import MarkdownArea from '../ui/markdown_area.jsx'
 import React from 'react'
 import StoryStore from '../stores/story_store'
+import SubscribeStoryButton from './subscribe_story_button.jsx'
 import Table from '../ui/Table.jsx'
 import connectToStores from '../lib/connectToStores.jsx'
 import pluralize from '../lib/pluralize'
 import {List} from 'immutable'
-import SubscribeStoryButton from '../components/subscribe_story_button.jsx'
 
 @connectToStores(CommentsStore, StoryStore)
 export default class Discussion extends React.Component {

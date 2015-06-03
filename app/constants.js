@@ -24,6 +24,12 @@ export default keyMirror({
   EMOJI_FETCHED: null,
   EMOJI_SELECTED: null,
 
+  GIFS_FETCHING: null,
+  GIFS_FETCHED: null,
+  GIFS_FETCHED_FROM_STORE: null,
+  GIF_FORM_CHANGED: null,
+  GIF_REACTION_FETCHED: null,
+
   HIGHLIGHTS_FETCHED: null,
   HIGHLIGHT_IGNORED: null,
   HIGHLIGHT_USED: null,

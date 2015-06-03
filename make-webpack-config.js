@@ -46,7 +46,8 @@ module.exports = function makeConfig(options) {
         APP_ENV: JSON.stringify(process.env.APP_ENV),
         API_URL: JSON.stringify(process.env.API_URL),
         RR_URL: JSON.stringify(process.env.RR_URL || 'https://readraptor.com'),
-        __DEV__: options.devServer ? true : false
+        __DEV__: options.devServer ? true : false,
+        GIPHY_API_KEY: JSON.stringify(process.env.GIPHY_API_KEY)
       }),
       function() {
         this.plugin('done', function(stats) {
