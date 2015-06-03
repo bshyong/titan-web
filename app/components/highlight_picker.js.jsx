@@ -10,7 +10,6 @@ import RouterContainer from '../lib/router_container'
 import ScrollPaginator from '../ui/ScrollPaginator.jsx'
 import SessionStore from '../stores/session_store'
 import shallowEqual from 'react-pure-render/shallowEqual'
-import segment from '../lib/segment'
 
 @AuthenticatedMixin()
 export default class HighlightPicker extends React.Component {
@@ -81,12 +80,6 @@ export default class HighlightPicker extends React.Component {
         {highlights}
       </div>
     )
-  }
-
-  componentDidMount() {
-    segment.track('Page view', {
-      type: 'Highlights',
-    })
   }
 
   // Stores mixin

@@ -7,6 +7,7 @@ import React from 'react'
 import RouterContainer from './lib/router_container'
 import SessionActions from './actions/session_actions'
 import url from 'url'
+import segment from './lib/segment'
 
 import './images/favicon.ico'
 import 'isomorphic-fetch'
@@ -36,6 +37,10 @@ var router = Router.create({
 })
 RouterContainer.set(router)
 
-router.run((Handler) => {
+router.run((Handler, state) => {
   React.render(<Handler />, document.body)
+  segment.track('Page view', {
+    path: state.path,
+    routeName: state.routes[state.routes.length-1].name
+  })
 })

@@ -23,16 +23,12 @@ import shallowEqual from 'react-pure-render/shallowEqual'
 import {Link} from 'react-router'
 import {List} from 'immutable'
 import GifPicker from './gif_picker.jsx'
-import segment from '../lib/segment'
 
 @connectToStores(StoryStore, StoryReadersStore, ChangelogStore)
 export default class StoryPage extends React.Component {
   static willTransitionTo(transition, params, query) {
     StoryActions.fetch(params.changelogId, params.storyId)
     DiscussionActions.fetchAll(params.changelogId, params.storyId)
-    segment.track('Page view', {
-      type: 'Story page'
-    })
   }
 
   static getPropsFromStores() {
