@@ -47,10 +47,9 @@ export default class Picker extends React.Component {
 
     style[position] = -maxHeight + (offset ? offset - 6 : 0)
 
-    const classes = classnames('absolute bg-white full-width shadow', {
+    const classes = classnames('absolute bg-white full-width shadow z4', {
       border: shown,
-      'border-silver': shown,
-      z4: true || position === 'bottom'
+      'border-silver': shown
     })
 
     return (
