@@ -171,12 +171,32 @@ class Notification extends React.Component {
     } = this.props
 
     let usernames = List(actors).map(a => `@${a.user.username}`).take(2)
+    const notificationVerb = this.renderNotificationVerb()
 
     if (actors.length <= 2) {
-      return `${usernames.join(' and ')} commented on`
+      return `${usernames.join(' and ')} ${notificationVerb}`
     }
 
-    return `${usernames.join(', ')} and ${pluralize(actors.length - 2, 'other', 'others')} commented on`
+    return `${usernames.join(', ')} and ${pluralize(actors.length - 2, 'other', 'others')} ${notificationVerb}`
+  }
+
+  renderNotificationVerb() {
+    const {
+      notification: {
+        category,
+      }
+    } = this.props
+
+    switch (category) {
+      case 'comment':
+        return 'commented on'
+        break;
+      case 'comment_mention':
+        return 'mentioned you in'
+        break;
+      default:
+        break;
+    }
   }
 
   handleOnClick() {
