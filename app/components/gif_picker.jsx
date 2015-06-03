@@ -11,6 +11,7 @@ import ScrollPaginator from '../ui/ScrollPaginator.jsx'
 import debounce from '../lib/debounce'
 import onMobile from '../lib/on_mobile'
 import { reactionStrings } from '../config/gifpicker'
+import Clipper from '../ui/Clipper.jsx'
 
 let giphyAttribution = require('../images/giphy.png')
 let giphyAttributionHoriz = require('../images/giphy-h.png')
@@ -249,18 +250,9 @@ export default class GifPicker extends React.Component {
     this.props.onGifSelect(gif)
   }
 
-  // should be a row of gifs
   renderGif(gif) {
     const maxHeight = 150
     const halfContainerWidth = this.gifResults.offsetWidth / 2
-    const gifWidth = parseInt(gif.width) * maxHeight / parseFloat(gif.height)
-    const wideGif = gifWidth > halfContainerWidth
-    const xTranslation = wideGif ? Math.abs((gifWidth - halfContainerWidth) / gifWidth  / 2 * 100.0) : 0
-    const gifStyle = {
-      transform: `translate(-${xTranslation}%, 0)`,
-      width: wideGif ? 'auto' : '100%',
-      height: wideGif ? maxHeight : 'auto',
-    }
 
     const propsForGifComponent = {
       poster_url: gif.still_url,
@@ -275,11 +267,11 @@ export default class GifPicker extends React.Component {
       <div className="col col-6 center m0 p0 border border-white pointer overflow-hidden pointer"
            key={gif.id}
            onClick={this.handleGifSelect.bind(this, gif)}>
-        <div className="overflow-hidden" style={{maxHeight: maxHeight}}>
-          <div style={gifStyle}>
-            <Gif gif={propsForGifComponent} video={!this.onMobile} />
-          </div>
-        </div>
+        <Clipper
+          image={{width: parseFloat(gif.width), height: parseFloat(gif.height)}}
+          bounds={{width: halfContainerWidth, height: maxHeight}} >
+          <Gif gif={propsForGifComponent} video={!this.onMobile} />
+        </Clipper>
       </div>
     )
   }
