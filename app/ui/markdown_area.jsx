@@ -214,8 +214,8 @@ export default class MarkdownArea extends React.Component {
 
   _onUserSelected(user) {
     setTimeout(() => {
-      const value = this.props.value || ''
-      const beginning = value.substr(0, this.selectionStart).trim()
+      const value = this.props.value
+      const beginning = value.substr(0, this.selectionStart - 1).trim()
       const newBeginning = beginning.replace(
         MENTION_REGEX,
         (match, space, username, offset, string) => {
