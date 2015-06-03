@@ -19,8 +19,5 @@ export default {
   track(eventName, properties={}) {
     properties.signedIn = !!this.identifyUser()
     analytics.track(eventName, properties)
-    if (__DEV__) {
-      console.log('tracked', eventName, properties)
-    }
   },
 }
