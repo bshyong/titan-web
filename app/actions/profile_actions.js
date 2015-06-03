@@ -1,13 +1,14 @@
+import { PROFILE_FETCHED } from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import api from '../lib/api'
 
 export default {
 
   fetch(userId) {
-    api.get(`users/${userId}/profile`).then(resp => {
+    api.get(`users/${userId}/profile`).then(profile => {
       Dispatcher.dispatch({
-        type: 'USER_FETCHED',
-        user: resp
+        type: PROFILE_FETCHED,
+        profile: profile
       })
     })
   },
