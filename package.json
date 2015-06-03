@@ -46,7 +46,7 @@
     "react": "~0.13",
     "react-pure-render": "^1.0.1",
     "react-router": "~0.13",
-    "react-textarea-autosize": "^1.1.0",
+    "react-textarea-autosize": "^2.2.3",
     "react-tools": "~0.12",
     "style-loader": "~0.8",
     "textarea-caret-position": "component/textarea-caret-position#3.0.0",
