@@ -36,7 +36,7 @@ export default class Discussion extends React.Component {
     return (
       <div>
         <div className="flex py1 border-bottom gray h5 px2 sm-px0">
-          <div className="flex-auto">
+          <div className="flex-auto ref-comments-count">
             {pluralize(this.props.commentsCount, 'Comment', 'Comments')}
           </div>
           <div className="flex-none">

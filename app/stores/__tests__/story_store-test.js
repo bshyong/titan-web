@@ -1,7 +1,6 @@
 // app/stores/__tests__/story_store-test.js
 
 import constants from '../../constants'
-import addParams from '../../lib/addUrlParamsToStory'
 
 describe('StoryStore', () => {
   let Dispatcher, StoryStore, STORY_DELETED, STORIES_FETCHED

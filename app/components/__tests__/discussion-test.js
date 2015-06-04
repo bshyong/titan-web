@@ -11,11 +11,11 @@ describe('Discussion', () => {
 
   it('has comments count', () => {
     var discussion = TestUtils.renderIntoDocument(
-      <Discussion comments={List()} commentsCount={0} />
+      <Discussion story={{}} comments={List()} commentsCount={0} />
     )
 
-    var text = TestUtils.findRenderedDOMComponentWithTag(
-      discussion, 'h5');
+    var text = TestUtils.findRenderedDOMComponentWithClass(
+      discussion, 'ref-comments-count');
     expect(text.getDOMNode().textContent).toEqual('0 Comments');
   })
 })
