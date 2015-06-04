@@ -1,9 +1,11 @@
 import {List, Set} from 'immutable'
 import classnames from 'classnames'
 import connectToStores from '../lib/connectToStores.jsx'
+import emojiDict from '../lib/emoji'
 import Emoji from '../ui/Emoji.jsx'
 import EmojiActions from '../actions/emoji_actions.js'
 import EmojiStore from '../stores/emoji_store'
+import EMOJI_REGEX from '../lib/emoji_regex'
 import Icon from '../ui/Icon.jsx'
 import React from 'react'
 import SessionStore from '../stores/session_store'
@@ -100,6 +102,9 @@ export default class EmojiPicker extends React.Component {
 
   _handleChange(e) {
     const { value } = e.target
+    if (EMOJI_REGEX.test(value)) {
+      return EmojiActions.find(value)
+    }
 
     EmojiActions.search(value.replace(/[^A-Za-z0-9_\-:]/g, ''))
   }

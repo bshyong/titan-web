@@ -36,5 +36,19 @@ export default {
       type: EMOJI_SELECTED,
       selectedEmoji: emoji
     })
+  },
+
+  find(character) {
+    Dispatcher.dispatch({
+      type: EMOJI_SELECTED,
+      selectedEmoji: { name: character, id: null }
+    })
+
+    api.get(`emojis/find?emoji=${character}`).then(resp => {
+      Dispatcher.dispatch({
+        type: EMOJI_SELECTED,
+        selectedEmoji: { name: character, character: character, id: resp.id }
+      })
+    })
   }
 }

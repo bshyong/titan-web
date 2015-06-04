@@ -6,9 +6,9 @@ import {
   HIGHLIGHT_USED
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
+import EMOJI_REGEX from '../lib/emoji_regex'
 import { List } from 'immutable'
 import Store from '../lib/store'
-const EMOJI_REGEX = /\ud83c[\udf00-\udfff]|\ud83d[\udc00-\uddfe\ude00-\ude4e\ude80-\udefe]/g
 
 class StoryFormStore extends Store {
   constructor() {
