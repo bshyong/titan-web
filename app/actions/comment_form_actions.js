@@ -3,7 +3,8 @@ import {
   COMMENT_CREATING,
   COMMENT_PUBLISHED,
   COMMENT_UPDATED,
-  COMMENT_UPDATING
+  COMMENT_UPDATING,
+  ANALYTICS_COMMENT_CREATED,
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import api from '../lib/api'
@@ -32,8 +33,8 @@ export default {
           storyId: storyId
         })
 
-        segment.track('Wrote Comment', {
-          commentLength: resp.body.length,
+        segment.track(ANALYTICS_COMMENT_CREATED, {
+          length: resp.body.length,
           storyId: storyId
         })
       })
@@ -52,10 +53,6 @@ export default {
         type: COMMENT_UPDATED,
         comments: resp,
         storyId: storyId
-      })
-
-      segment.track('Updated Comment', {
-        commentLength: comment.length
       })
     })
   }

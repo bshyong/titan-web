@@ -8,7 +8,7 @@ import RouterContainer from './lib/router_container'
 import SessionActions from './actions/session_actions'
 import url from 'url'
 import segment from './lib/segment'
-
+import { ANALYTICS_ENGAGED } from './constants'
 import './images/favicon.ico'
 import 'isomorphic-fetch'
 
@@ -39,7 +39,8 @@ RouterContainer.set(router)
 
 router.run((Handler, state) => {
   React.render(<Handler />, document.body)
-  segment.track('Viewed page', {
+  segment.track(ANALYTICS_ENGAGED, {
+    type: 'page_view',
     path: state.path,
     routeName: state.routes[state.routes.length-1].name
   })

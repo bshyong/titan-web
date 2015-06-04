@@ -1,6 +1,8 @@
 import {
-  RESOURCE_NOT_FOUND,
+  ANALYTICS_POST_CREATED,
+  ANALYTICS_UPVOTE,
   RESOURCE_FOUND,
+  RESOURCE_NOT_FOUND,
   STORIES_FETCHED,
   STORIES_FETCHING,
   STORY_CREATING,
@@ -12,7 +14,7 @@ import {
   STORY_SUBSCRIBED,
   STORY_UNHEARTED,
   STORY_UNSUBSCRIBED,
-  STORY_UPDATED
+  STORY_UPDATED,
 } from '../constants'
 
 import Dispatcher from '../lib/dispatcher'
@@ -107,8 +109,9 @@ export default {
 
   heart(storyId) {
     api.put(`user/hearts/stories/${storyId}`).then(resp => {
-      segment.track('Upvoted Story', {
-        storyId: storyId
+      segment.track(ANALYTICS_UPVOTE, {
+        type: 'post',
+        id: storyId
       })
     })
     Dispatcher.dispatch({
@@ -131,10 +134,11 @@ export default {
           changelogId: changelogId
         })
 
-        RouterContainer.get().transitionTo('story', story.urlParams)
-        segment.track('Wrote Story', {
-          storyLength: data.body.length
+        segment.track(ANALYTICS_POST_CREATED, {
+          length: data.body.length
         })
+
+        RouterContainer.get().transitionTo('story', story.urlParams)
       })
   },
 
