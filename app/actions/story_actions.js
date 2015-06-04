@@ -167,8 +167,8 @@ export default {
   },
 }
 
-function addParams(changelogId, story) {
-  story.urlParams = paramsFor.story({id: changelogId}, story)
+function addParams(changelogSlug, story) {
+  story.urlParams = paramsFor.story({slug: changelogSlug}, story)
   return story
 }
 

@@ -4,6 +4,7 @@ import {
   Route,
   DefaultRoute
 } from 'react-router'
+import AppPage from '../pages/AppPage.jsx'
 import Changelog from '../components/changelog.js.jsx'
 import NotFound from '../components/not_found.js.jsx'
 import React from 'react'
@@ -20,7 +21,7 @@ import SingleDateChangelogPage from '../pages/SingleDateChangelogPage.jsx'
 import StoryPage from '../components/story_page.jsx'
 
 export default (
-  <Route name="root" path="/">
+  <Route handler={AppPage} name="root" path="/">
     <Route handler={SigninSSO} path="/signin/sso" name="sso" />
 
     <Route handler={UserPage} path="/users/:userId" name="user" />

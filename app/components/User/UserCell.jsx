@@ -15,12 +15,10 @@ export default class UserCell extends React.Component {
     const { user } = this.props
 
     return (
-      <div
-        className="flex flex-column flex-center p3 md-p4 bg-white"
-        onMouseEnter={this.handleToggleFlair}
-        onMouseLeave={this.handleToggleFlair}
-        >
-        <div className="mb2">
+      <div className="flex flex-column flex-center p3 md-p4 bg-white">
+        <div className="mb2"
+             onMouseEnter={this.handleToggleFlair}
+             onMouseLeave={this.handleToggleFlair}>
           <Avatar user={user} size={16 * 10} flaired={this.state.flaired} />
         </div>
         <div className="center">

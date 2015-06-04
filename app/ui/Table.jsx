@@ -16,11 +16,8 @@ export default class Table extends React.Component {
 
 class TableCell extends React.Component {
   render() {
-    const cn = classnames("flex", {
-      "border-top-orange": this.props.selected
-    })
     return (
-      <div className={cn} id={this.props.id}>
+      <div className="flex" id={this.props.id}>
         {this.image()}
         {this.cell()}
       </div>
@@ -43,9 +40,10 @@ class TableCell extends React.Component {
     const { active, children, to } = this.props
     const cn = classnames(
       "table-cell-content",
-      "full-width p2 black gray-visited bg-smoke-hover",
+      "full-width p2 black gray-visited",
       {
-        "border-blue": active
+        "border-blue": active,
+        "bg-smoke-hover": to
       }
     )
 

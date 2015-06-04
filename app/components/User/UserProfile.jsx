@@ -161,7 +161,7 @@ export default class ProfilePage extends React.Component {
         {changelogs.map(changelog =>
           <div className="ml1 mb1" key={changelog.id}>
             <Link to="changelog" params={{changelogId: changelog.slug}}>
-              <Logo changelog={changelog} size="2rem" />
+              <Logo src={changelog.logo_url} size="2rem" />
             </Link>
           </div>
         )}

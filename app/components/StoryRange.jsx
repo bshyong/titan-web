@@ -54,11 +54,12 @@ export default class StoryRange extends React.Component {
     let changelogId = ChangelogStore.changelog.slug
     let formatted_date = date.format('MM-DD-YYYY')
     return (
-      <div className="block py2 h5 pointer">
-        <Link to="changelog_date" params={{changelogId: changelogId, date: formatted_date, timeInterval: timeInterval}} className="black">
-          See All
-        </Link>
-      </div>
+      <Link
+        className="block p2 h5 pointer right-align orange"
+        to="changelog_date"
+        params={{changelogId: changelogId, date: formatted_date, timeInterval: timeInterval}}>
+        See all
+      </Link>
     )
   }
 
