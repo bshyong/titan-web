@@ -94,7 +94,7 @@ export default class Comment extends React.Component {
         <div className="flex">
           <div className="flex-auto gray">Deleted</div>
           <div className="flex-none gray">
-            {moment(created_at).fromNow(true)}
+            {moment(created_at).fromNow()}
           </div>
         </div>
       </div>

@@ -34,6 +34,7 @@ export default class NotificationsList extends React.Component {
 
   constructor(props) {
     super(props)
+    moment.locale('en-short')
     this.markAllAsRead = this._markAllAsRead.bind(this)
     this.setScrollPaginatorRefs = this._setScrollPaginatorRefs.bind(this)
   }
