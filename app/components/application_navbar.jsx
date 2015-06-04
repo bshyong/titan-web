@@ -37,7 +37,7 @@ export default class ApplicationNavbar extends React.Component {
 
   left() {
     return (
-      <Link to="root" className="flex">
+      <Link to="changelog" params={{changelogId: 'assembly'}} className="flex">
         <img className="flex-none mr2" src={LogoSrc} style={{height: '1.5rem'}} />
         <div className="black sm-show">Assembly</div>
       </Link>
