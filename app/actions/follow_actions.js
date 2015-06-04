@@ -1,6 +1,7 @@
 import {
   CHANGELOG_FOLLOWED,
-  CHANGELOG_UNFOLLOWED
+  CHANGELOG_UNFOLLOWED,
+  ANALYTICS_FOLLOWED,
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import api from '../lib/api'
@@ -11,8 +12,9 @@ export default {
       type: CHANGELOG_FOLLOWED
     })
 
-    analytics.track('Followed Changelog', {
-      changelog: changelog_id
+    analytics.track(ANALYTICS_FOLLOWED, {
+      type: 'changelog',
+      id: changelog_id
     })
 
     api.post(`changelogs/${changelog_id}/follow`)
@@ -21,10 +23,6 @@ export default {
   unfollow(changelog_id) {
     Dispatcher.dispatch({
       type: CHANGELOG_UNFOLLOWED
-    })
-
-    analytics.track('Unfollowed Changelog', {
-      changelog: changelog_id
     })
 
     api.post(`changelogs/${changelog_id}/unfollow`)
