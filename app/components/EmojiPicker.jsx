@@ -36,7 +36,7 @@ export default class EmojiPicker extends React.Component {
   componentDidMount() {
     const { selectedEmojiName } = this.props
     selectedEmojiName ?
-      EmojiActions.search(this.props.selectedEmojiName) :
+      EmojiActions.search(selectedEmojiName) :
       EmojiActions.fetch()
   }
 
@@ -55,28 +55,45 @@ export default class EmojiPicker extends React.Component {
   }
 
   renderEmojis() {
-    if (this.props.emojis) {
-      let classes = classnames('left ml1 transition-stagger overflow-hidden', {
-        'transition-stagger--focused': this.state.focused || this.props.selectedEmoji
+    const { emojis, selectedEmoji } = this.props
+    if (emojis && emojis.size > 0) {
+      let classes = classnames('ml1 transition-stagger overflow-hidden', {
+        'transition-stagger--focused': this.state.focused || selectedEmoji
       })
       return (
         <div className={classes} style={{ height: 40 }}>
-          {this.props.emojis.take(8).map(this.renderEmoji.bind(this))}
+          {emojis.take(8).map(this.renderEmoji.bind(this))}
         </div>
       )
     }
   }
 
+  renderInspirationLink() {
+    const style = {
+      fontSize: 12,
+    }
+    return (
+      <div style={style} className="mt1">
+        <a href="http://www.emoji-cheat-sheet.com/" target="_blank">
+          Need a ✋?
+        </a>
+      </div>
+    )
+  }
+
   render() {
     return (
       <div>
-        <input className="p1 field-light left border-silver"
-          placeholder="Badge"
-          onBlur={this.toggleFocus}
-          onFocus={this.toggleFocus}
-          value={this.props.selectedEmojiName}
-          onChange={this.handleChange} />
-        {this.renderEmojis()}
+        <div className="flex">
+          <input className="p1 field-light border-silver"
+            placeholder="Badge"
+            onBlur={this.toggleFocus}
+            onFocus={this.toggleFocus}
+            value={this.props.selectedEmojiName}
+            onChange={this.handleChange} />
+          {this.renderEmojis()}
+        </div>
+        {this.renderInspirationLink()}
       </div>
     )
   }
