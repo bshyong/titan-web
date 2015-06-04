@@ -141,7 +141,8 @@ export default class NewStoryForm extends React.Component {
     return (
       <Button style="outline"
         block={true}
-        color={valid ? "orange" : "gray"}
+        color={"orange"}
+        disabled={!valid}
         action={valid ? this.props.onPublish : null}>
         Post
       </Button>

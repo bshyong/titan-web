@@ -14,7 +14,7 @@ export default class Button extends React.Component {
 
     const cn = classnames(
       {
-        'block full-width':       block,
+        'block full-width':    block,
         'button--disabled':    disabled,
         'button':              style === 'solid',
         'button-outline':      style === 'outline',
