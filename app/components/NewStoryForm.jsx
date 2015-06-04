@@ -74,6 +74,7 @@ export default class NewStoryForm extends React.Component {
                 ref="title"
                 style={{
                   fontSize: '2rem',
+                  height: 43,
                   padding: 0
                 }} />
               <hr className="mt2 mb2" />
