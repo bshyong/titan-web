@@ -13,6 +13,7 @@ export default keyMirror({
 
   COMMENT_CREATING: null,
   COMMENT_DELETED: null,
+  COMMENT_EDITING_TOGGLED: null,
   COMMENT_FORM_CHANGE: null,
   COMMENT_PUBLISHED: null,
   COMMENT_UPDATED: null,

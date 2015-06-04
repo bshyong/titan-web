@@ -89,9 +89,20 @@ export default class Discussion extends React.Component {
   }
 
   scrollToComment() {
-    let el = document.getElementById(window.location.hash.substr(1))
+    let scrollId = window.location.hash.substr(1)
+    if (this.scrollId !== scrollId) {
+      this.scrollId = scrollId
+      this.scrolled = false
+    }
+
+    if (this.scrolled) {
+      return
+    }
+
+    let el = document.getElementById(this.scrollId)
 
     if (el) {
+      this.scrolled = true
       el.scrollIntoView({behavior: "smooth"})
     }
   }

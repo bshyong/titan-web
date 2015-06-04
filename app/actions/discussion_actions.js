@@ -1,5 +1,6 @@
 import {
   COMMENT_DELETED,
+  COMMENT_EDITING_TOGGLED,
   COMMENTS_FETCHED,
   COMMENTS_FETCHING,
 } from '../constants'
@@ -26,6 +27,13 @@ export default {
         type: COMMENT_DELETED,
         comments: resp
       })
+    })
+  },
+
+  toggleEditComment(comment) {
+    Dispatcher.dispatch({
+      type: COMMENT_EDITING_TOGGLED,
+      comment: comment
     })
   }
 

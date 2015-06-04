@@ -1,6 +1,7 @@
 import Avatar from '../ui/Avatar.jsx'
 import CommentForm from './comment_form.jsx'
 import CommentsStore from '../stores/comments_store'
+import connectToStores from '../lib/connectToStores.jsx'
 import DiscussionActions from '../actions/discussion_actions'
 import Icon from '../ui/Icon.jsx'
 import Markdown from '../ui/Markdown.jsx'
@@ -11,28 +12,12 @@ import classnames from 'classnames'
 import moment from '../config/moment'
 import onMobile from '../lib/on_mobile'
 
+@connectToStores(CommentsStore)
 export default class Comment extends React.Component {
-
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      editing: false
+  static getPropsFromStores(props) {
+    return {
+      editing: CommentsStore.editingCommentId === props.comment.id
     }
-
-    this.handleCommentsChanged = this._handleCommentsChanged.bind(this)
-    this.handleDelete = this._handleDelete.bind(this)
-    this.toggleEditing = this._toggleEditing.bind(this)
-  }
-
-  componentDidMount() {
-    CommentsStore.addChangeListener(this.handleCommentsChanged)
-  }
-
-  componentWillUnmount() {
-    CommentsStore.removeChangeListener(this.handleCommentsChanged)
-    // prevent calls to setState while component is unmounting
-    this.unmounting = true
   }
 
   render() {
@@ -69,7 +54,7 @@ export default class Comment extends React.Component {
   }
 
   renderBody() {
-    if (this.state.editing) {
+    if (this.props.editing) {
       return (
         <div className="mt1">
           <CommentForm {...this.props.comment}
@@ -106,7 +91,7 @@ export default class Comment extends React.Component {
         SessionStore.user.id === this.props.comment.user.id) {
       return (
         <div className="flex-none gray ml1 pointer">
-          <span onClick={this.handleDelete}>
+          <span onClick={this.handleDelete.bind(this)}>
             <Icon icon='trash' />
           </span>
         </div>
@@ -119,7 +104,7 @@ export default class Comment extends React.Component {
         SessionStore.user.id === this.props.comment.user.id) {
       return (
         <div className="flex-none gray ml1 mr1 pointer">
-          <span onClick={this.toggleEditing}>
+          <span onClick={this.handleClick.bind(this)}>
             <Icon icon="pencil" />
           </span>
         </div>
@@ -127,24 +112,14 @@ export default class Comment extends React.Component {
     }
   }
 
-  _handleCommentsChanged() {
-    if (!this.unmounting) {
-      this.setState({
-        editing: false
-      })
-    }
+  handleClick() {
+    DiscussionActions.toggleEditComment(this.props.comment)
   }
 
-  _handleDelete() {
+  handleDelete() {
     const { changelogId, storyId } = RouterContainer.get().getCurrentParams()
     if (window.confirm('Are you sure you want to delete this comment?')) {
       DiscussionActions.deleteComment(changelogId, storyId, this.props.comment.id)
     }
-  }
-
-  _toggleEditing(e) {
-    this.setState({
-      editing: !this.state.editing
-    })
   }
 }
