@@ -93,6 +93,7 @@ export default class MarkdownArea extends React.Component {
                 <TextareaAutosize
                   {...this.props}
                   ref="textarea"
+                  className="block"
                   style={style.textarea}
                   onBlur={this.toggleFocus}
                   onChange={this.handleChange}
