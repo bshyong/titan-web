@@ -10,6 +10,7 @@ import React from 'react'
 import SigninSSO from '../components/signin_sso.js.jsx'
 import StoryComposer from '../components/story_composer.js.jsx'
 import EditStoryForm from '../components/edit_story_form.js.jsx'
+import HomePage from '../pages/HomePage.jsx'
 import NewStoryPage from '../pages/NewStoryPage.jsx'
 import ChangelogPage from '../pages/ChangelogPage.jsx'
 import HighlightPicker from '../components/highlight_picker.js.jsx'
@@ -38,8 +39,7 @@ export default (
       <Route handler={SingleDateChangelogPage} path="date/:date/:timeInterval" name="changelog_date" />
     </Route>
 
-    <Redirect from="/" to="changelog" params={{changelogId: 'assembly'}} />
-
+    <DefaultRoute handler={HomePage} name="home" />
     <NotFoundRoute handler={NotFound} name="not_found" />
   </Route>
 )

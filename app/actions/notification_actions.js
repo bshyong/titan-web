@@ -21,7 +21,10 @@ export default {
     })
 
     api.get(`user/activity?page=${page}&per=${per}`).then(resp => {
-      let activities = List(resp.notifications || resp)
+      let activities = []
+      if (resp) {
+        activities = List(resp.notifications || resp)
+      }
       Dispatcher.dispatch({
         type: NOTIFICATIONS_FETCHED,
         notifications: activities,

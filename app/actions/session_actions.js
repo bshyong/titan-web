@@ -9,7 +9,8 @@ export default {
     fetch(`${API_URL}/sessions/new?return_url=${encodeURIComponent(window.location.pathname)}`, {
       method: 'GET'
     }).then(resp => resp.json()).
-       then(json => window.location = json.url)  },
+       then(json => window.location = json.url)
+  },
 
   signinFromSSO(payload, sig) {
     var data = new FormData()
