@@ -137,14 +137,15 @@ export default class NewStoryForm extends React.Component {
 
   renderPostButton() {
     const valid = StoryFormStore.isValid()
+    const { onPublish, storyId } = this.props
 
     return (
       <Button style="outline"
         block={true}
         color={"orange"}
         disabled={!valid}
-        action={valid ? this.props.onPublish : null}>
-        Post
+        action={valid ? onPublish : null}>
+        {storyId ? 'Update' : 'Post'}
       </Button>
     )
   }
