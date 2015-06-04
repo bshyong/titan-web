@@ -5,6 +5,7 @@ import {
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import api from '../lib/api'
+import segment from '../lib/segment'
 
 export default {
   follow(changelog_id) {
@@ -12,7 +13,7 @@ export default {
       type: CHANGELOG_FOLLOWED
     })
 
-    analytics.track(ANALYTICS_FOLLOWED, {
+    segment.track(ANALYTICS_FOLLOWED, {
       type: 'changelog',
       id: changelog_id
     })
