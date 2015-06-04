@@ -23,7 +23,9 @@ export default {
   },
 
   page(name){
-    analytics.page(name)
+    analytics.page(name, {
+      signedIn: !!this.identifyUser()
+    })
   },
 
   track(eventName, properties={}) {
