@@ -7,7 +7,9 @@ import Markdown from '../ui/Markdown.jsx'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
 import SessionStore from '../stores/session_store'
+import classnames from 'classnames'
 import moment from '../config/moment'
+import onMobile from '../lib/on_mobile'
 
 export default class Comment extends React.Component {
 
@@ -38,15 +40,24 @@ export default class Comment extends React.Component {
       comment: {id, user, body, parsed_body, created_at, deleted_at}
     } = this.props
 
+    const classes = {
+      container: classnames('flex-auto h5', {
+        'visible-hover-wrapper': !onMobile()
+      }),
+      element: classnames('flex-none gray', {
+        'visible-hover': !onMobile()
+      })
+    }
+
     if (deleted_at) {
       return this.renderDeletedComment()
     } else {
       return (
-        <div className="flex-auto h5">
+        <div className={classes.container}>
           <div className="flex">
             <div className="flex-auto bold">{user.username}</div>
-            <div className="flex-none gray">
-              {moment(created_at).fromNow(true)}
+            <div className={classes.element}>
+              {moment(created_at).fromNow(true)} ago
             </div>
             {this.renderEditButton()}
             {this.renderDeleteButton()}

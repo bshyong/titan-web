@@ -11,6 +11,7 @@
 @import 'utilities/transition';
 @import 'utilities/typography';
 @import 'utilities/whitespace';
+@import 'utilities/visible_hover';
 
 /* Components */
 @import 'components/button';
