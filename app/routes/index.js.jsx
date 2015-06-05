@@ -24,7 +24,7 @@ export default (
   <Route handler={AppPage} name="root" path="/">
     <Route handler={SigninSSO} path="/signin/sso" name="sso" />
 
-    <Route handler={UserPage} path="/users/:userId" name="user" />
+    <Route handler={UserPage} path="/users/:userId" name="profile" />
 
     <Route handler={ChangelogLayout} path="/:changelogId">
       <DefaultRoute handler={ChangelogPage} name="changelog" />

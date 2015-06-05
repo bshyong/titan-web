@@ -56,7 +56,7 @@ export default class Comment extends React.Component {
       return <div className="gray">Deleted</div>
     }
 
-    if (this.state.editing) {
+    if (this.props.editing) {
       return (
         <div className="mt1">
           <CommentForm {...this.props.comment}

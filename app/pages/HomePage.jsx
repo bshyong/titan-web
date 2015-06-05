@@ -6,7 +6,7 @@ import SessionStore from '../stores/session_store'
 export default class HomePage extends React.Component {
   static willTransitionTo(transition, params, query) {
     if (SessionStore.user) {
-      transition.redirect("profile", {username: SessionStore.user.username})
+      transition.redirect("profile", {userId: SessionStore.user.username})
     }
   }
 
