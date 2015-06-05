@@ -63,7 +63,7 @@ export default class NewStoryForm extends React.Component {
           <div className="mt1 mb2 border-bottom border-smoke red h5">
             {StoryFormStore.titleHasEmoji() ? "Pick a badge above! Emojis in the title will be stripped out" : "\u00a0"}
           </div>
-          <div className="mb2">
+          <div className="mb2 border-bottom border-smoke">
             <div className="border-bottom border-smoke mb2">
               <input type="text"
                 className="full-width input-invisible border-bottom border-smoke mb2"
@@ -86,9 +86,6 @@ export default class NewStoryForm extends React.Component {
               border={false}
               style={{ padding: 0 }}
               rows={8} />
-          </div>
-          <div>
-            <hr className="mt2 mb2" />
           </div>
 
           <div className="mb2">
