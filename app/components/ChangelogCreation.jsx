@@ -28,15 +28,6 @@ export default class ChangelogCreation extends React.Component {
     }
   }
 
-  static get defaultProps() {
-    return {
-      name: null,
-      tagline: null,
-      logo_url: null,
-      banner_url: null
-    }
-  }
-
   render() {
     return <div>
       <div className="container py2">
