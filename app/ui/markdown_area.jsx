@@ -11,6 +11,7 @@ import classnames from 'classnames'
 import getCaretCoordinates from 'textarea-caret-position'
 import noop from '../lib/noop'
 import onMobile from '../lib/on_mobile'
+import onUserSelected from '../lib/onUserSelected'
 import { getOffsetTop } from './Picker.jsx'
 import { List } from 'immutable'
 
@@ -34,13 +35,13 @@ export default class MarkdownArea extends React.Component {
 
   componentDidMount() {
     const offsetTop = getOffsetTop(React.findDOMNode(this))
-    this.height = offsetTop < 0 ? 0 : offsetTop
+    this.fromTop = getOffsetTop(React.findDOMNode(this))
     this.dropzoneClickable = React.findDOMNode(this.refs.clickable)
   }
 
   componentWillUpdate() {
     const offsetTop = getOffsetTop(React.findDOMNode(this))
-    this.height = offsetTop < 0 ? 0 : offsetTop
+    this.fromTop = getOffsetTop(React.findDOMNode(this))
   }
 
   componentWillReceiveProps(nextProps) {
@@ -136,13 +137,17 @@ export default class MarkdownArea extends React.Component {
   }
 
   renderUserPicker() {
+    if (!this.state.focused) {
+      return
+    }
+
     const value = this.props.value || ''
     const match = MENTION_REGEX.exec(value.substr(0, this.selectionStart))
 
     if (match) {
       return <UserPicker query={match[2]}
           onUserSelected={this.onUserSelected}
-          maxHeight={Math.min((this.height === 0 ? 170 : this.height), 170)}
+          maxHeight={Math.min((this.fromTop === 0 ? 170 : this.fromTop), 170)}
           offset={this.offset} />
     }
   }
@@ -180,7 +185,8 @@ export default class MarkdownArea extends React.Component {
   _onUploading(attachments) {
     setTimeout(() => {
       let value = this.props.value || ''
-      let attachmentText = attachments.map(a => `![Uploading ${a.name}...]()`).join(' ')
+      let attachmentText = attachments.
+        map(a => `![Uploading ${a.name}...]()`).join(' ')
       let simulatedEvent = {
         target: {
           value: value + attachmentText
@@ -224,35 +230,7 @@ export default class MarkdownArea extends React.Component {
 
   _onUserSelected(user) {
     setTimeout(() => {
-      const value = this.props.value
-      const beginning = value.substr(0, this.selectionStart - 1).trim()
-      const newBeginning = beginning.replace(
-        MENTION_REGEX,
-        (match, space, username, offset, string) => {
-          return `${space}@${user.username} `
-        }
-      )
-
-      let end = value.substr(this.selectionStart)
-
-      if (end === beginning) {
-        end = ''
-      }
-
-      const simulatedEvent = {
-        target: {
-          value: newBeginning + end
-        }
-      }
-
-      const start = this.selectionStart = newBeginning.length
-
-      this.props.onChange(simulatedEvent)
-
-      // Put the cursor where the user expects it to be,
-      // not necessarily at the end of the input
-      React.findDOMNode(this.refs.textarea).
-        setSelectionRange(start, start)
+      onUserSelected.call(this, this.refs.textarea, user)
     }, 0)
   }
 

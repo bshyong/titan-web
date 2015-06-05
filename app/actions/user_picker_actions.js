@@ -1,5 +1,6 @@
 import {
   USER_PICKER_SET_HIGHLIGHT_INDEX,
+  USER_PICKER_USER_SELECTED,
   USER_PICKER_USERS_CLEARED,
   USER_PICKER_USERS_FETCHED
 } from '../constants'
@@ -19,6 +20,13 @@ export default {
         type: USER_PICKER_USERS_FETCHED,
         users: users
       })
+    })
+  },
+
+  selectUser(u) {
+    Dispatcher.dispatch({
+      type: USER_PICKER_USER_SELECTED,
+      user: u
     })
   },
 
