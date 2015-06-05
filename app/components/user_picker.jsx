@@ -43,9 +43,14 @@ export default class UserPicker extends React.Component {
     UserPickerActions.fetchUsers(this.props.query)
   }
 
-  componentWillUpdate(nextProps) {
-    const { highlightIndex, maxHeight, users } = nextProps
+  componentDidUpdate(prevProps) {
+    const { highlightIndex, maxHeight, users } = this.props
     const picker = React.findDOMNode(this.refs.picker)
+
+    if (!picker) {
+      return
+    }
+
     const scrollHeight = picker.scrollHeight
     const currentTop = picker.scrollTop
     const currentBottom = currentTop + maxHeight
@@ -68,6 +73,11 @@ export default class UserPicker extends React.Component {
   render() {
     const { maxHeight, users } = this.props
     const userCount = users.count()
+
+    if (userCount === 0) {
+      return null
+    }
+
     const userHeight = this.cellHeight ? userCount * this.cellHeight : maxHeight
     const height = Math.min(maxHeight, userHeight)
 
@@ -162,6 +172,8 @@ export default class UserPicker extends React.Component {
 
     if (u) {
       this.props.onUserSelected(u)
+
+      UserPickerActions.selectUser(u)
     }
 
     UserPickerActions.clearUsers()

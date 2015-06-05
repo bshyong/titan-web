@@ -71,22 +71,6 @@ describe('NewStoryForm', () => {
       })
     })
 
-    describe('.contributors', () => {
-      it('is undefined by default', () => {
-        expect(form.props.contributors).toBeUndefined()
-      })
-
-      it('triggers an update on change', () => {
-        spyOn(form, 'updateForm')
-        TestUtils.Simulate.change(
-          form.refs.contributors.refs.input,
-          { target: { value: 'a' } }
-        )
-
-        expect(form.updateForm).toHaveBeenCalledWith('contributors', 'a')
-      })
-    })
-
     describe('.isPublic', () => {
       it('is true by default', () => {
         expect(form.props.isPublic).toBe(true)

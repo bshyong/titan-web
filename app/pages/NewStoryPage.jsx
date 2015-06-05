@@ -1,4 +1,5 @@
 import AuthenticatedMixin from '../components/mixins/authenticated_mixin.jsx'
+import ContributorsStore from '../stores/ContributorsStore'
 import EmojiStore from '../stores/emoji_store'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
@@ -36,7 +37,7 @@ export default class NewStoryPage extends React.Component {
     StoryActions.publish(this.props.changelogId, {
       title: StoryFormStore.title,
       body:  StoryFormStore.body,
-      contributors: StoryFormStore.contributors,
+      contributors: ContributorsStore.contributorsAsString(),
       team_member_only: !StoryFormStore.isPublic,
       emoji_id: EmojiStore.selectedEmoji
     })

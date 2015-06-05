@@ -1,5 +1,6 @@
 import MENTION_REGEX from '../lib/mention_regex'
 import noop from '../lib/noop'
+import onUserSelected from '../lib/onUserSelected'
 import React from 'react'
 import UserPicker from './user_picker.jsx'
 import UserPickerActions from '../actions/user_picker_actions'
@@ -53,7 +54,6 @@ export default class AutocompleteUserInput extends React.Component {
     if (match) {
       return <UserPicker query={match[2]}
           onUserSelected={this.onUserSelected}
-          position="bottom"
           maxHeight={170} />
     }
   }
@@ -66,43 +66,27 @@ export default class AutocompleteUserInput extends React.Component {
   }
 
   _onUserSelected(user) {
+    let callback = (match, space, username, offset, string) => {
+      return `${space}@${user.username}, `
+    }
     setTimeout(() => {
-      const value = this.props.value
-      const beginning = (value || '').substr(0, this.selectionStart).trim()
-      const newBeginning = beginning.replace(
-        MENTION_REGEX,
-        (match, space, username, offset, string) => {
-          return `${space}@${user.username}, `
-        }
-      )
-
-      let end = value.substr(this.selectionStart)
-
-      if (end === beginning) {
-        end = ''
-      }
-
-      const simulatedEvent = {
-        target: {
-          value: newBeginning + end
-        }
-      }
-
-      const start = this.selectionStart = newBeginning.length
-
-      this.props.onChange(simulatedEvent)
-
-      // Put the cursor where the user expects it to be,
-      // not necessarily at the end of the input
-      React.findDOMNode(this.refs.input).
-        setSelectionRange(start, start)
+      onUserSelected.call(this, this.refs.input, user, callback)
     }, 0)
   }
 
-  _toggleFocus() {
-    this.setState({
-      focused: !this.state.focused
-    })
+  _toggleFocus(e) {
+    e.preventDefault()
+    e.stopPropagation()
+
+    if (!this.state.focused) {
+      this.props.onFocus && this.props.onFocus(e)
+    }
+
+    setTimeout(() => {
+      this.setState({
+        focused: !this.state.focused
+      })
+    }, 100)
   }
 }
 
@@ -113,6 +97,7 @@ AutocompleteUserInput.defaultProps = {
 AutocompleteUserInput.propTypes = {
   className: React.PropTypes.string,
   onChange: React.PropTypes.func.isRequired,
+  onFocus: React.PropTypes.func,
   placeholder: React.PropTypes.string,
   value: React.PropTypes.string
 }

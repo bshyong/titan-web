@@ -2,6 +2,8 @@ import AuthenticatedMixin from './mixins/authenticated_mixin.jsx'
 import AutocompleteUserInput from './autocomplete_user_input.jsx'
 import Button from '../ui/Button.jsx'
 import ChangelogStore from '../stores/changelog_store'
+import ContributorsActions from '../actions/ContributorsActions'
+import ContributorsInput from './ContributorsInput.jsx'
 import EmojiPicker from './EmojiPicker.jsx'
 import EmojiStore from '../stores/emoji_store'
 import HighlightsActionCreator from '../actions/highlight_actions'
@@ -19,7 +21,7 @@ import StoryStore from '../stores/story_store'
 import connectToStores from '../lib/connectToStores.jsx'
 import shouldPureComponentUpdate from 'react-pure-render/function'
 import {Link} from 'react-router'
-import {List, Map} from 'immutable'
+import {List, Map, Set} from 'immutable'
 
 @AuthenticatedMixin()
 @connectToStores(EmojiStore, StoryFormStore)
@@ -40,7 +42,6 @@ export default class NewStoryForm extends React.Component {
       changelogId:  changelogId,
       title:        StoryFormStore.title,
       body:         StoryFormStore.body,
-      contributors: StoryFormStore.contributors,
       isPublic:     StoryFormStore.isPublic,
       emoji_id:     EmojiStore.selectedEmoji
     }
@@ -92,12 +93,7 @@ export default class NewStoryForm extends React.Component {
           </div>
 
           <div className="mb2">
-            <AutocompleteUserInput
-              style={{ padding: 0 }}
-              placeholder="List contributors"
-              value={contributors}
-              onChange={this.handleChanged('contributors').bind(this)}
-              ref="contributors" />
+            <ContributorsInput />
           </div>
           <div className="clearfix border-top py3" style={{ borderColor: '#aaa' }}>
             <div className="left">
@@ -152,24 +148,6 @@ export default class NewStoryForm extends React.Component {
   }
 
   updateForm(field, value) {
-    if (field === 'body') {
-      let MENTION_REGEX = /(?!^|\s)@(\w*)/gi
-      let contributors = List(value.match(MENTION_REGEX))
-
-      if (!contributors.contains(`@${SessionStore.user.username}`)) {
-        contributors = contributors.push(`@${SessionStore.user.username}`)
-      }
-
-      let contributorsString = contributors.toSet().join(', ') + ', '
-
-      StoryFormActions.change(
-        Map(this.props).
-        set(field, value).
-        set('contributors', contributorsString).
-        toJS()
-      )
-    } else {
-      StoryFormActions.change(Map(this.props).set(field, value).toJS())
-    }
+    StoryFormActions.change(Map(this.props).set(field, value).toJS())
   }
 }
