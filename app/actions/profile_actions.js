@@ -23,11 +23,13 @@ export default {
     })
   },
 
-  fetchStories(userId, page=1) {
-    api.get(`users/${userId}/stories?page=${page}`).then(stories => {
+  fetchStories(userId, page=1, per=10) {
+    api.get(`users/${userId}/stories?page=${page}&per=${per}`).then(stories => {
       Dispatcher.dispatch({
         type: PROFILE_STORIES_FETCHED,
         stories: stories,
+        page: page,
+        moreAvailable: stories.length === per
       })
     })
   },

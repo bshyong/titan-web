@@ -13,6 +13,7 @@ import React from 'react'
 import StoryCell from '../Story/StoryCell.jsx'
 import Table from '../../ui/Table.jsx'
 import UserCell from '../User/UserCell.jsx'
+import ClickablePaginator from '../../ui/ClickablePaginator.jsx'
 
 @connectToStores(ProfileStore, ProfileStories)
 export default class ProfilePage extends React.Component {
@@ -97,31 +98,34 @@ export default class ProfilePage extends React.Component {
   }
 
   renderStories() {
-    const { stories } = this.props
-    return (
-      <Table>
-        {
-          List(stories)
-            .sortBy(story => story.created_at)
-            .reverse()
-            .map(story => (
-              <Table.Cell key={story.id} to="story" params={paramsFor.story(story.changelog, story)}>
-                <div className="flex">
-                  <div className="flex-none">
-                    <Badge badge={story.emoji} size="1.5rem" />
-                  </div>
-                  <div className="flex-auto px2">
-                    {story.title}
-                  </div>
-                  <div className="flex-none gray h5">
-                    {story.changelog.name}
-                  </div>
-                </div>
+    const { stories, storyPagination } = this.props
 
-              </Table.Cell>
-            ))
-        }
-      </Table>
+    return (
+      <ClickablePaginator hasMore={storyPagination.moreAvailable} onLoadMore={this.handleLoadMoreStories.bind(this)}>
+        <Table>
+          {
+            List(stories)
+              .sortBy(story => story.created_at)
+              .reverse()
+              .map(story => (
+                <Table.Cell key={story.id} to="story" params={paramsFor.story(story.changelog, story)}>
+                  <div className="flex">
+                    <div className="flex-none">
+                      <Badge badge={story.emoji} size="1.5rem" />
+                    </div>
+                    <div className="flex-auto px2">
+                      {story.title}
+                    </div>
+                    <div className="flex-none gray h5">
+                      {story.changelog.name}
+                    </div>
+                  </div>
+
+                </Table.Cell>
+              ))
+          }
+        </Table>
+      </ClickablePaginator>
     )
   }
 
@@ -171,8 +175,9 @@ export default class ProfilePage extends React.Component {
     )
   }
 
-  handleMoreStoriesClicked() {
-    ProfileActions.fetchStories()
+  handleLoadMoreStories() {
+    const { user, storyPagination } = this.props
+    ProfileActions.fetchStories(user.username, storyPagination.page + 1)
   }
 
 }

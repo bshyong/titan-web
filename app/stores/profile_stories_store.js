@@ -8,12 +8,18 @@ class ProfileStoriesStore extends Store {
   constructor() {
     super()
     this._stories = Map()
+    this._pagination = {
+      moreAvailable: true,
+      page: 1
+    }
 
     this.dispatchToken = Dispatcher.register(action => {
       switch (action.type) {
         case PROFILE_STORIES_FETCHED:
+          this._pagination.moreAvailable = action.moreAvailable
+          this._pagination.page = action.page
           this._stories = this._stories.merge(action.stories.reduce((m, story) => {
-            return m.set(story.slug, addParams(story.changelog.slug, story))
+            return m.set(story.slug, story)
           }, Map()))
           this.emitChange()
           break
@@ -24,11 +30,10 @@ class ProfileStoriesStore extends Store {
   get stories() {
     return this._stories.toList()
   }
+
+  get pagination() {
+    return this._pagination
+  }
 }
 
 export default new ProfileStoriesStore()
-
-function addParams(changelogSlug, story) {
-  story.urlParams = paramsFor.story({slug: changelogSlug}, story)
-  return story
-}
