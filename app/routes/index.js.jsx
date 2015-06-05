@@ -22,10 +22,12 @@ import SingleDateChangelogPage from '../pages/SingleDateChangelogPage.jsx'
 import StoryComposer from '../components/story_composer.js.jsx'
 import StoryPage from '../components/story_page.jsx'
 import UserPage from '../pages/UserPage.jsx'
+import ChangelogCreationPage from '../pages/ChangelogCreationPage.jsx'
 
 export default (
   <Route handler={AppPage} name="root" path="/">
     <Route handler={SigninSSO} path="/signin/sso" name="sso" />
+    <Route handler={ChangelogCreationPage} path="new" name="ChangelogCreation" />
 
     <Route handler={UserPage} path="/users/:userId" name="profile" />
 

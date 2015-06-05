@@ -32,6 +32,18 @@ export default {
       type: CHANGELOG_SHOW_ALL,
       timeShown: timeShown
     })
+  },
+
+  create(name, tagline, slug) {
+    api.post(`changelogs`, {name: name, tagline: tagline, slug: slug}).
+      then(resp => {
+        console.log(resp)
+        Dispatcher.dispatch({
+          type: CHANGELOG_FETCHED,
+          changelog: resp
+        })
+        RouterContainer.get().transitionTo('changelog', {changelogId: resp.slug})
+      })
   }
 
 }
