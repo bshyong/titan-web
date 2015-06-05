@@ -116,7 +116,7 @@ export default class Comment extends React.Component {
     }
 
     return (
-      <div className="px1 pointer" onClick={this.toggleEditing}>
+      <div className="px1 pointer" onClick={this.toggleEditing.bind(this)}>
         <Icon icon="pencil" />
       </div>
     )
@@ -138,7 +138,7 @@ export default class Comment extends React.Component {
     )
   }
 
-  handleClick() {
+  toggleEditing() {
     DiscussionActions.toggleEditComment(this.props.comment)
   }
 
