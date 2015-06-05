@@ -20,8 +20,8 @@ export default class ClickablePaginator extends React.Component {
   renderLoadMoreButton() {
     if (this.props.hasMore) {
       return (
-        <div className="center p2 pointer">
-          <div onClick={this.props.onLoadMore}>Load more</div>
+        <div className="flex flex-center pointer py1 button-transparent orange">
+          <div className="orange mx-auto" onClick={this.props.onLoadMore}>Load more</div>
         </div>
       )
     }
