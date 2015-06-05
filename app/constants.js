@@ -1,6 +1,8 @@
 import keyMirror from 'keymirror'
 
 export default keyMirror({
+  API_ERROR: null,
+
   ATTACHMENT_FAILED: null,
   ATTACHMENT_UPLOADED: null,
   ATTACHMENT_UPLOADING: null,
@@ -51,6 +53,9 @@ export default keyMirror({
   NOTIFICATIONS_READ: null,
 
   PROFILE_FETCHED: null,
+  PROFILE_UPDATED: null,
+  PROFILE_UPDATING: null,
+  PROFILE_UPDATE_FAILED: null,
 
   RESOURCE_FOUND: null,
   RESOURCE_NOT_FOUND: null,

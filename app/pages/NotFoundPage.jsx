@@ -21,7 +21,7 @@ var style = {
   }
 }
 
-export default class NotFound extends React.Component {
+export default class NotFoundPage extends React.Component {
   render() {
     return (
       <div style={style.bg}>

@@ -1,4 +1,8 @@
-import { RESOURCE_NOT_FOUND, RESOURCE_FOUND } from '../constants'
+import {
+  API_ERROR,
+  RESOURCE_NOT_FOUND,
+  RESOURCE_FOUND
+} from '../constants'
 
 import Dispatcher from '../lib/dispatcher'
 import SessionStore from '../stores/session_store'
@@ -40,16 +44,32 @@ module.exports = {
       options.headers['Authorization'] = 'Bearer ' + SessionStore.jwt
     }
 
+    let handleError = function handleError(resp) {
+      if (resp.status == 404) {
+        Dispatcher.dispatch({ type: RESOURCE_NOT_FOUND })
+        throw Error("404")
+      } else if (resp.status == 500) {
+        resp.json().then(json => {
+          Dispatcher.dispatch({
+            type: API_ERROR,
+            error: json
+          })
+        })
+        throw Error("API Error")
+      } else if (resp.status == 400) {
+        return resp.json().then(json => {
+          throw json
+        })
+      }
+      return resp
+    }
+
     return fetch(`${API_URL}/${url}`, options).
+      then(handleError).
       then(resp => resp.json()).
       then(json => {
         Dispatcher.dispatch({ type: RESOURCE_FOUND })
         return json
-      }).
-      catch(err => {
-        if (err.status == 404) {
-          Dispatcher.dispatch({ type: RESOURCE_NOT_FOUND })
-        }
       })
   }
 }

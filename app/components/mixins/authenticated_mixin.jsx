@@ -1,4 +1,3 @@
-import NotFound from '../not_found.js.jsx'
 import React from 'react'
 import RouterContainer from '../../lib/router_container'
 import RoutesStore from '../../stores/routes_store'
@@ -33,10 +32,6 @@ export default function Authenticated() {
       }
 
       render() {
-        if (!this.state.resourceFound) {
-          return <NotFound />
-        }
-
         return <Component {...this.props} {...this.state} />
       }
 
