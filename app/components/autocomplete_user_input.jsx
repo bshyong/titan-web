@@ -78,6 +78,7 @@ export default class AutocompleteUserInput extends React.Component {
     e.preventDefault()
     e.stopPropagation()
 
+    // if we're about to focus and there's an onFocus callback, call it
     if (!this.state.focused) {
       this.props.onFocus && this.props.onFocus(e)
     }

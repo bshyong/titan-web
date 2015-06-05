@@ -1,6 +1,13 @@
 import MENTION_REGEX from '../lib/mention_regex'
 import React from 'react'
 
+// This function is basically meant to be mixed in to a text component
+// that needs to replace an @mention string with a full username.
+// But the thing is, ES6 React classes don't support mixins. So instead,
+// you should `call` this function explicitly and give it your component's
+// context:
+// onUserSelected.call(this, nodeRef, user[, callback])
+
 export default function(nodeRef, user, callback) {
   const value = this.props.value
   const beginning = value.substr(0, this.selectionStart).trim()
