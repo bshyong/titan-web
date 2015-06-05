@@ -33,7 +33,7 @@ export default {
     })
     api.get(`changelogs/${changelogId}/stories?page=${page}&per=${per}&time_length=${timeInterval}`).
       then(resp => {
-        let stories = List(resp).map(combineAuthorAndContributors)
+        let stories = List(resp)
         Dispatcher.dispatch({
           type: STORIES_FETCHED,
           changelogId: changelogId,
@@ -50,7 +50,7 @@ export default {
     })
     api.get(`changelogs/${changelogId}/stories?date=${dateString}&time_length=${timeInterval}`).
       then(resp => {
-        let stories = List(resp).map(combineAuthorAndContributors)
+        let stories = List(resp)
         Dispatcher.dispatch({
           type: STORIES_FETCHED,
           changelogId: changelogId,
@@ -64,7 +64,7 @@ export default {
       then(resp => {
         Dispatcher.dispatch({
           type: STORY_FETCHED,
-          story: combineAuthorAndContributors(resp),
+          story: resp,
           changelogId: changelogId
         })
       })
@@ -127,7 +127,7 @@ export default {
 
     api.post(`changelogs/${changelogId}/stories`, data).
       then(resp => {
-        let story = addParams(changelogId, combineAuthorAndContributors(resp))
+        let story = addParams(changelogId, resp)
         Dispatcher.dispatch({
           type: STORY_PUBLISHED,
           story: story,
@@ -169,13 +169,5 @@ export default {
 
 function addParams(changelogSlug, story) {
   story.urlParams = paramsFor.story({slug: changelogSlug}, story)
-  return story
-}
-
-function combineAuthorAndContributors(story) {
-  story.allContributors = List(story.contributors)
-  if (!story.allContributors.find(c => story.user.id == c.id)) {
-    story.allContributors = story.allContributors.concat(story.user)
-  }
   return story
 }

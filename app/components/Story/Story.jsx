@@ -80,7 +80,7 @@ export default class Story extends React.Component {
               </div>
 
               <div className="mb2 sm-mb3">
-                <Stack items={story.allContributors.map(user => <Avatar user={user} size={32} />).toJS()} />
+                <Stack items={story.contributors.map(user => <Avatar user={user} size={32} />).toJS()} />
               </div>
 
               <div className="flex h5 gray">

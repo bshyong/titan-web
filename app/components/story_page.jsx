@@ -86,7 +86,7 @@ export default class StoryPage extends React.Component {
               </div>
 
               <div className="mb3">
-                <Stack items={story.allContributors.map(user => <Avatar user={user} size={32} />).toJS()} />
+                <Stack items={story.contributors.map(user => <Avatar user={user} size={32} />)} />
               </div>
 
               <div className="flex h5 gray mb3 sm-mb0">

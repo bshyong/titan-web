@@ -36,15 +36,9 @@ export default class StoryCell extends React.Component {
   renderContributors() {
     const { story, story: { contributors } } = this.props
 
-    let allContributors = List(contributors)
-
-    if (!allContributors.find(c => story.user.id == c.id)) {
-      allContributors = allContributors.concat(story.user)
-    }
-
     return (
       <div className="flex-none sm-show ml2">
-        <Stack items={allContributors.map(user => <Avatar user={user} size={24} />)} align="right" />
+        <Stack items={List(contributors).map(user => <Avatar user={user} size={24} />)} align="right" />
       </div>
     )
   }
