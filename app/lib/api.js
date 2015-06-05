@@ -1,7 +1,6 @@
 import {
   API_ERROR,
-  RESOURCE_NOT_FOUND,
-  RESOURCE_FOUND
+  RESOURCE_NOT_FOUND
 } from '../constants'
 
 import Dispatcher from '../lib/dispatcher'
@@ -66,10 +65,6 @@ module.exports = {
 
     return fetch(`${API_URL}/${url}`, options).
       then(handleError).
-      then(resp => resp.json()).
-      then(json => {
-        Dispatcher.dispatch({ type: RESOURCE_FOUND })
-        return json
-      })
+      then(resp => resp.json())
   }
 }

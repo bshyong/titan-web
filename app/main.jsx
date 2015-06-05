@@ -1,16 +1,20 @@
 require('babel/polyfill')
 
+import {
+  ANALYTICS_ENGAGED,
+  ROUTE_TRANSITIONED
+} from './constants'
+import './images/favicon.ico'
 import './stylesheets/application.css'
-import Routes from './routes/index.js.jsx'
-import Router from 'react-router'
+import 'isomorphic-fetch'
+import Dispatcher from './lib/dispatcher'
 import React from 'react'
+import Router from 'react-router'
 import RouterContainer from './lib/router_container'
+import Routes from './routes/index.js.jsx'
+import segment from './lib/segment'
 import SessionActions from './actions/session_actions'
 import url from 'url'
-import segment from './lib/segment'
-import { ANALYTICS_ENGAGED } from './constants'
-import './images/favicon.ico'
-import 'isomorphic-fetch'
 
 let jwt = localStorage.getItem('jwt')
 if (jwt) {
@@ -40,4 +44,5 @@ RouterContainer.set(router)
 router.run((Handler, state) => {
   React.render(<Handler />, document.body)
   segment.page()
+  Dispatcher.dispatch({type: ROUTE_TRANSITIONED})
 })

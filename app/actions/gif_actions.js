@@ -1,5 +1,4 @@
 import { RESOURCE_NOT_FOUND,
-         RESOURCE_FOUND,
          GIFS_FETCHING,
          GIFS_FETCHED,
          GIFS_FETCHED_FROM_STORE,
@@ -72,10 +71,6 @@ export default {
 
     return fetch(`${url}`, options).
       then(resp => resp.json()).
-      then(json => {
-        Dispatcher.dispatch({ type: RESOURCE_FOUND })
-        return json
-      }).
       catch(err => {
         if (err.status == 404) {
           Dispatcher.dispatch({ type: RESOURCE_NOT_FOUND })

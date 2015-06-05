@@ -2,8 +2,6 @@ import {
   CHANGELOG_FETCHED,
   CHANGELOG_SHOW_ALL,
   CHANGELOG_TIME_CHANGED,
-  RESOURCE_NOT_FOUND,
-  RESOURCE_FOUND
 } from '../constants'
 
 import Dispatcher from '../lib/dispatcher'

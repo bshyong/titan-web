@@ -1,7 +1,7 @@
 import {
   API_ERROR,
   RESOURCE_NOT_FOUND,
-  RESOURCE_FOUND
+  ROUTE_TRANSITIONED
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
@@ -20,8 +20,8 @@ class RoutesStore extends Store {
           this.resourceFound = false
           break
 
-        case RESOURCE_FOUND:
-          this.resourceFound = true
+        case ROUTE_TRANSITIONED:
+          this.resourceFound = null
           break
 
         default:
