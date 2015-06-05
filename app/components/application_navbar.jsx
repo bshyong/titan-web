@@ -44,26 +44,28 @@ export default class ApplicationNavbar extends React.Component {
     )
   }
 
-  renderHighlightsLink(changelogId) {
-    if (changelogId === 'assembly') {
+  renderHighlightsLink() {
+    const { changelog } = this.props
+
+    if (changelog.slug === 'assembly') {
       return (
-        <Link to="highlights" params={{changelogId}}>
+        <Link to="highlights" params={{changelogId: changelog.slug}}>
           <Icon icon="magic" fw={true} /> Highlights
         </Link>
       )
     }
   }
 
-  render_new_story(changelogId) {
+  render_new_story() {
     const { changelog } = this.props
     if (changelog && changelog.user_is_team_member) {
       return (
         <div>
           <List.Item>
-            <Link to="new" params={{changelogId}}>
+            <Link to="new" params={{changelogId: changelog.slug}}>
               <Icon icon="pencil" fw={true} /> New story
             </Link>
-            {this.renderHighlightsLink(changelogId)}
+            {this.renderHighlightsLink()}
           </List.Item>
           <hr className="mt1 border-top mb1" />
         </div>
@@ -91,6 +93,9 @@ export default class ApplicationNavbar extends React.Component {
           {this.render_new_story(changelogId)}
         </List>
         <List type="small">
+          <List.Item>
+            <Link to="profile" params={{userId: user.username}}>Profile</Link>
+          </List.Item>
           <List.Item>
             <a href="https://assembly.com/about">About</a>
           </List.Item>
