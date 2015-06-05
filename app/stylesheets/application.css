@@ -16,6 +16,7 @@
 /* Components */
 @import 'components/button';
 @import 'components/comment';
+@import 'components/input';
 @import 'components/list';
 @import 'components/loading_bar';
 @import 'components/markdown';

@@ -1,0 +1,13 @@
+.input-invisible {
+  border: none;
+  outline: none;
+}
+
+@media (--breakpoint-md) {
+  /* Trigger CSS specificity rules to override BassCSS.
+     Hopefully this is a bug that the CSS folks fix sometime soon. */
+  .input-invisible.input-invisible {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}

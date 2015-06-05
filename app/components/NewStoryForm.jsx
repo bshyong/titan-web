@@ -60,22 +60,22 @@ export default class NewStoryForm extends React.Component {
         <div className="flex flex-column">
           <EmojiPicker />
 
-          <div className="mt1 mb2 border-bottom border-silver red h5">
+          <div className="mt1 mb2 border-bottom border-smoke red h5">
             {StoryFormStore.titleHasEmoji() ? "Pick a badge above! Emojis in the title will be stripped out" : "\u00a0"}
           </div>
           <div className="mb2">
-            <input type="text"
-              className="full-width border-none outline-none"
-              placeholder="Write a short header"
-              value={title}
-              onChange={this.handleChanged('title').bind(this)}
-              ref="title"
-              style={{
-                fontSize: '2rem',
-                height: 43,
-                padding: 0
-              }} />
-            <hr className="mt2 mb2" />
+            <div className="border-bottom border-smoke mb2">
+              <input type="text"
+                className="full-width input-invisible border-bottom border-smoke mb2"
+                placeholder="Write a short header"
+                value={title}
+                onChange={this.handleChanged('title').bind(this)}
+                ref="title"
+                style={{
+                  fontSize: '2rem',
+                  height: 'auto'
+                }} />
+            </div>
 
             <MarkdownArea id={storyId || "new_story"}
               placeholder="Describe your story (optional)"
