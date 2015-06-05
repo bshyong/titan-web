@@ -5,21 +5,17 @@ import {
   PROFILE_UPDATED
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
-import paramsFor from '../lib/paramsFor'
 import Store from '../lib/store'
-
-function addParams(changelogSlug, story) {
-  story.urlParams = paramsFor.story({slug: changelogSlug}, story)
-  return story
-}
+import paramsFor from '../lib/paramsFor'
+import { Map } from 'immutable'
 
 class ProfileStore extends Store {
   constructor() {
     super()
     this._profile = {}
+    this._stories = Map()
 
     this.dispatchToken = Dispatcher.register(action => {
-      console.log(action.type, action)
       switch (action.type) {
         case PROFILE_UPDATING:
           this.updateErrors = null
@@ -55,8 +51,8 @@ class ProfileStore extends Store {
     return this._profile.upvotes
   }
 
-  get stories() {
-    return this._profile.stories
+  get changelogs() {
+    return this._profile.changelogs
   }
 
   get following() {
