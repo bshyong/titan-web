@@ -24,10 +24,6 @@ export default {
   },
 
   fetchStories(userId, page=1, per=10) {
-    Dispatcher.dispatch({
-      type: PROFILE_STORIES_FETCHING,
-    })
-
     api.get(`users/${userId}/stories?page=${page}&per=${per}`).then(stories => {
       Dispatcher.dispatch({
         type: PROFILE_STORIES_FETCHED,

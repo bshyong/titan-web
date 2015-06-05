@@ -4,6 +4,16 @@ import React from 'react'
 export default class ClickablePaginator extends React.Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      loading: false,
+    }
+  }
+
+  componentWillReceiveProps() {
+    this.setState({
+      loading: false
+    })
   }
 
   render() {
@@ -12,14 +22,14 @@ export default class ClickablePaginator extends React.Component {
         <div>
           {this.props.children}
         </div>
-        <LoadingBar loading={this.props.loading} />
+        <LoadingBar loading={this.state.loading} />
         {this.renderLoadMoreButton()}
       </div>
     )
   }
 
   renderLoadMoreButton() {
-    if (this.props.loading) {
+    if (this.state.loading) {
       return (
         <div
           className="flex flex-center pointer py1">
@@ -32,16 +42,21 @@ export default class ClickablePaginator extends React.Component {
       return (
         <div
           className="flex flex-center pointer py1 button-transparent orange"
-          onClick={this.props.onLoadMore}>
+          onClick={this.handleOnClick.bind(this)}>
           <div className="orange mx-auto">Load more</div>
         </div>
       )
     }
   }
+
+  handleOnClick() {
+    this.setState({
+      loading: true
+    }, this.props.onLoadMore)
+  }
 }
 
 ClickablePaginator.propTypes = {
-  loading: React.PropTypes.bool.isRequired,
   onLoadMore: React.PropTypes.func.isRequired,
   hasMore: React.PropTypes.bool.isRequired,
 }

@@ -5,7 +5,6 @@ import {
   PROFILE_UPDATED
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
-import paramsFor from '../lib/paramsFor'
 import Store from '../lib/store'
 import paramsFor from '../lib/paramsFor'
 import { Map } from 'immutable'
