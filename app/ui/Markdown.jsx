@@ -3,8 +3,8 @@ import React from 'react'
 
 export default class Markdown extends React.Component {
   render() {
-    const html = marked(this.props.markdown)
-    return <div className="markdown" dangerouslySetInnerHTML={{__html: html}} />
+    return <div className="markdown" 
+        dangerouslySetInnerHTML={{__html: marked(this.props.markdown) }} />
   }
 }
 

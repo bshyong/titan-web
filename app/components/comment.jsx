@@ -21,6 +21,12 @@ export default class Comment extends React.Component {
     }
   }
 
+  constructor(props) {
+    super(props)
+
+    this.handleDelete = this._handleDelete.bind(this)
+  }
+
   render() {
     const {
       comment: {id, user, body, parsed_body, created_at}
@@ -143,7 +149,7 @@ export default class Comment extends React.Component {
     DiscussionActions.toggleEditComment(this.props.comment)
   }
 
-  handleDelete() {
+  _handleDelete() {
     const { changelogId, storyId } = RouterContainer.get().getCurrentParams()
     const { comment } = this.props
     if (window.confirm('Are you sure you want to delete this comment?')) {
