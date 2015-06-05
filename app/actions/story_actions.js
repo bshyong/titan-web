@@ -88,7 +88,7 @@ export default {
 
     api.put(`changelogs/${changelogId}/stories/${storyId}`, data).
       then(resp => {
-        let story = addParams(changelogId, )
+        let story = addParams(changelogId, resp)
         Dispatcher.dispatch({
           type: STORY_UPDATED,
           story: story,
