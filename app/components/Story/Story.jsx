@@ -1,40 +1,34 @@
-import Avatar from '../ui/Avatar.jsx'
-import Badge from './Badge.jsx'
-import ChangelogStore from '../stores/changelog_store'
-import Discussion from './discussion.jsx'
-import DiscussionActions from '../actions/discussion_actions'
-import Icon from '../ui/Icon.jsx'
-import Label from '../ui/Label.jsx'
-import LoadingBar from '../ui/LoadingBar.jsx'
-import Markdown from '../ui/Markdown.jsx'
+import Avatar from '../../ui/Avatar.jsx'
+import Badge from '../Badge.jsx'
+import ChangelogStore from '../../stores/changelog_store'
+import Discussion from '../discussion.jsx'
+import DiscussionActions from '../../actions/discussion_actions'
+import Icon from '../../ui/Icon.jsx'
+import Label from '../../ui/Label.jsx'
+import LoadingBar from '../../ui/LoadingBar.jsx'
+import Markdown from '../../ui/Markdown.jsx'
 import React from 'react'
-import Router from '../lib/router_container'
-import SessionStore from '../stores/session_store'
-import Stack from '../ui/Stack.jsx'
-import StoryActions from '../actions/story_actions'
-import StoryReadersStore from '../stores/story_readers_store'
-import StoryStore from '../stores/story_store'
-import SubscribeStoryButton from './subscribe_story_button.jsx'
-import UpvoteToggler from './UpvoteToggler.jsx'
-import connectToStores from '../lib/connectToStores.jsx'
-import moment from '../config/moment'
-import pluralize from '../lib/pluralize'
+import Router from '../../lib/router_container'
+import SessionStore from '../../stores/session_store'
+import Stack from '../../ui/Stack.jsx'
+import StoryActions from '../../actions/story_actions'
+import StoryReadersStore from '../../stores/story_readers_store'
+import StoryStore from '../../stores/story_store'
+import SubscribeStoryButton from '../subscribe_story_button.jsx'
+import UpvoteToggler from '../UpvoteToggler.jsx'
+import connectToStores from '../../lib/connectToStores.jsx'
+import moment from '../../config/moment'
+import pluralize from '../../lib/pluralize'
 import shallowEqual from 'react-pure-render/shallowEqual'
 import {Link} from 'react-router'
 import {List} from 'immutable'
-import GifPicker from './gif_picker.jsx'
 
 @connectToStores(StoryStore, StoryReadersStore, ChangelogStore)
-export default class StoryPage extends React.Component {
-  static willTransitionTo(transition, params, query) {
-    StoryActions.fetch(params.changelogId, params.storyId)
-    DiscussionActions.fetchAll(params.changelogId, params.storyId)
-  }
+export default class Story extends React.Component {
 
-  static getPropsFromStores() {
-    const storyId = Router.get().getCurrentParams().storyId
+  static getPropsFromStores(props) {
     return {
-      story: StoryStore.get(storyId),
+      story: StoryStore.get(props.storyId),
       totalReads: StoryReadersStore.totalReads,
       uniqueReads: StoryReadersStore.uniqueReads,
       changelog: ChangelogStore.changelog,
@@ -49,7 +43,7 @@ export default class StoryPage extends React.Component {
 
   render() {
     const { story, changelog } = this.props
-    const changelogId = Router.get().getCurrentParams().changelogId
+    const changelogId = changelog.id
     let body
 
     if (!story) {
@@ -64,7 +58,7 @@ export default class StoryPage extends React.Component {
 
     return (
       <div className="flex flex-column" style={{minHeight: 'calc(100vh - 3.5rem)'}}>
-        <Link className="p2 gray orange-hover" to="changelog" params={{changelogId}}>
+        <Link className="p2 gray orange-hover" to="changelog" params={{changelogId: changelog.slug}}>
           <Icon icon="angle-left" /> { changelog.name }
         </Link>
 
@@ -72,7 +66,7 @@ export default class StoryPage extends React.Component {
           <div className="container sm-flex">
             <div className="sm-col-8">
 
-              <div className="mb3">
+              <div className="mb2 sm-mb3">
                 <div className="mb2">
                   <Badge badge={story.emoji} size="2rem" />
                 </div>
@@ -85,11 +79,11 @@ export default class StoryPage extends React.Component {
                 {body}
               </div>
 
-              <div className="mb3">
+              <div className="mb2 sm-mb3">
                 <Stack items={story.allContributors.map(user => <Avatar user={user} size={32} />).toJS()} />
               </div>
 
-              <div className="flex h5 gray mb3 sm-mb0">
+              <div className="flex h5 gray">
                 <div className="flex-auto h5">
                   {moment(story.created_at).format('ll @ LT')} by <span className="bold">@{story.user.username}</span>
                 </div>
@@ -121,7 +115,7 @@ export default class StoryPage extends React.Component {
 
         <div className="flex-auto" style={{background: '#FAF9F8'}}>
           <div className="container">
-            <div className="sm-col-8 mx-auto mt4" style={{marginBottom: '20rem'}}>
+            <div className="sm-col-8 mx-auto">
               <Discussion storyId={this.props.story.slug} changelogId={this.props.changelogId} />
             </div>
           </div>

@@ -1,4 +1,3 @@
-import { Link } from 'react-router'
 import Avatar from '../ui/Avatar.jsx'
 import Badge from './Badge.jsx'
 import ChangelogStore from '../stores/changelog_store'
@@ -6,9 +5,12 @@ import Icon from '../ui/Icon.jsx'
 import React from 'react'
 import Stack from '../ui/Stack.jsx'
 import StoryActions from '../actions/story_actions'
+import StoryCell from './Story/StoryCell.jsx'
 import Table from '../ui/Table.jsx'
 import UpvoteToggler from './UpvoteToggler.jsx'
 import moment from 'moment'
+import paramsFor from '../lib/paramsFor'
+import { Link } from 'react-router'
 
 export default class StoryRange extends React.Component {
 
@@ -24,7 +26,11 @@ export default class StoryRange extends React.Component {
     let limitedStories = this.truncatedStories()
     return (
       <Table>
-        {limitedStories.map(this.renderStoryTableCell)}
+        {limitedStories.map(story => (
+          <Table.Cell key={story.id} image={<UpvoteToggler story={story} hearted={story.viewer_has_hearted} />} to="story" params={paramsFor.story({slug: 'assembly'}, story)}>
+            <StoryCell story={story} />
+          </Table.Cell>
+        ))}
         {this.renderShowAll()}
       </Table>
     )
@@ -48,11 +54,12 @@ export default class StoryRange extends React.Component {
     let changelogId = ChangelogStore.changelog.slug
     let formatted_date = date.format('MM-DD-YYYY')
     return (
-      <div className="block py2 h5 pointer">
-        <Link to="changelog_date" params={{changelogId: changelogId, date: formatted_date, timeInterval: timeInterval}} className="black">
-          See All
-        </Link>
-      </div>
+      <Link
+        className="block p2 h5 pointer right-align orange"
+        to="changelog_date"
+        params={{changelogId: changelogId, date: formatted_date, timeInterval: timeInterval}}>
+        See all
+      </Link>
     )
   }
 
@@ -74,39 +81,6 @@ export default class StoryRange extends React.Component {
       var end_date = moment(date).add(1, 'months')
     }
     return start_date.format('MMMM D, YYYY').concat(" - ").concat(end_date.format('MMMM D, YYYY'))
-  }
-
-  renderStoryTableCell(story) {
-    const emoji = (
-      <UpvoteToggler story={story} size="sm"
-             hearted={story.viewer_has_hearted} />
-    )
-
-    return (
-      <Table.Cell key={story.id} image={emoji} to="story" params={story.urlParams}>
-        <div className="flex">
-          <div className="flex-none mr2">
-            <Badge badge={story.emoji} size="1.5rem" />
-          </div>
-          <div className="flex-auto">
-            {story.team_member_only ? <Icon icon="lock" /> : null} {story.title}
-          </div>
-          <div className="flex-none sm-show ml2">
-            <Stack items={story.allContributors.map(user => <Avatar user={user} size={24} />)} align="right" />
-          </div>
-
-          <div className="flex-none ml2">
-            <div className="h5 gray  mxn1 flex">
-              <div className="px1 no-underline">
-                <span className=" silver"><Icon icon="comment" /></span>
-                {' '}
-                {story.live_comments_count}
-              </div>
-            </div>
-          </div>
-        </div>
-      </Table.Cell>
-    )
   }
 }
 

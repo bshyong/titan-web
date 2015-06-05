@@ -34,19 +34,20 @@ export default class Discussion extends React.Component {
 
   render() {
     return (
-      <div style={{marginBottom: '20rem'}}>
-        <Table>
-          <div className="flex">
-            <div className="flex-auto">
-              <Table.Separator label={pluralize(this.props.commentsCount, 'Comment', 'Comments')} />
-            </div>
-            <div className="flex-none">
-              {this.props.story ? this.renderSubscribeLink() : null}
-            </div>
+      <div>
+        <div className="flex py1 border-bottom gray h5 px2 sm-px0">
+          <div className="flex-auto ref-comments-count">
+            {pluralize(this.props.commentsCount, 'Comment', 'Comments')}
           </div>
-          <LoadingBar loading={this.props.loading} />
+          <div className="flex-none">
+            <SubscribeStoryButton story={this.props.story} />
+          </div>
+        </div>
+
+        <div className="px2 sm-px0">
           {this.renderComments()}
-        </Table>
+        </div>
+        <LoadingBar loading={this.props.loading} />
 
         <div className="p2 md-px0">
           <CommentForm storyId={this.props.storyId} changelogId={this.props.changelogId}/>
@@ -55,37 +56,14 @@ export default class Discussion extends React.Component {
     )
   }
 
-  renderSubscribeLink() {
-    return (
-      <div className="h5 p2 md-px0 mt2 mb0 gray border-bottom">
-        <SubscribeStoryButton story={this.props.story} />
+  renderComments() {
+    return this.props.comments.map(comment =>
+      <div className="py2" key={comment.id}>
+        <Comment comment={comment}
+                 storyId={this.props.storyId}
+                 changelogId={this.props.changelogId} />
       </div>
     )
-  }
-
-  renderComments() {
-    let selected = window.location.hash.substr(1)
-    return this.props.comments.map(comment => {
-      const renderedComment = <Comment comment={comment}
-          storyId={this.props.storyId}
-          changelogId={this.props.changelogId} />
-
-      if (comment.deleted_at) {
-        return (
-          <Table.DisabledCell id={comment.id} key={comment.id} selected={comment.id === selected}
-              image={<Avatar user={comment.user} size={24} />}>
-            {renderedComment}
-          </Table.DisabledCell>
-        )
-      } else {
-        return (
-          <Table.Cell id={comment.id} key={comment.id} selected={comment.id === selected}
-              image={<Avatar user={comment.user} size={24} />}>
-            {renderedComment}
-          </Table.Cell>
-        )
-      }
-    })
   }
 
   scrollToComment() {

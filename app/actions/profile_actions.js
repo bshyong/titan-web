@@ -1,19 +1,22 @@
+import { PROFILE_FETCHED } from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import api from '../lib/api'
 
 export default {
 
-  fetch(username) {
-    api.get(`users/${username}/profile`).then(resp => {
+  fetch(userId) {
+    api.get(`users/${userId}/profile`).then(profile => {
       Dispatcher.dispatch({
-        type: 'USER_FETCHED',
-        user: resp
+        type: PROFILE_FETCHED,
+        profile: profile
       })
     })
   },
 
-  update_blurb(username, blurb) {
-    api.post(`users/${username}/profile`, {username: username, blurb: blurb})
+  updateBlurb(userId, blurb) {
+    api.post(`users/${userId}/profile`, {
+      blurb: blurb
+    })
   }
 
 }

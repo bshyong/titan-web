@@ -8,7 +8,6 @@ import ChangelogStore from '../stores/changelog_store'
 
 @connectToStores(ChangelogStore)
 export default class ChangelogHeader extends React.Component {
-
   static getPropsFromStores(props) {
     return {
       following: ChangelogStore.following,
@@ -35,5 +34,4 @@ export default class ChangelogHeader extends React.Component {
       </Jumbotron>
     )
   }
-
 }

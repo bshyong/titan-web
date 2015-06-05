@@ -4,6 +4,7 @@ import {
   Route,
   DefaultRoute
 } from 'react-router'
+import AppPage from '../pages/AppPage.jsx'
 import Changelog from '../components/changelog.js.jsx'
 import NotFound from '../components/not_found.js.jsx'
 import React from 'react'
@@ -13,17 +14,17 @@ import EditStoryForm from '../components/edit_story_form.js.jsx'
 import HomePage from '../pages/HomePage.jsx'
 import NewStoryPage from '../pages/NewStoryPage.jsx'
 import ChangelogPage from '../pages/ChangelogPage.jsx'
+import UserPage from '../pages/UserPage.jsx'
 import HighlightPicker from '../components/highlight_picker.js.jsx'
 import ChangelogLayout from '../components/changelog_layout.js.jsx'
 import SingleDateChangelogPage from '../pages/SingleDateChangelogPage.jsx'
 import StoryPage from '../components/story_page.jsx'
-import ProfilePage from '../components/profile_page.js.jsx'
 
 export default (
-  <Route name="root" path="/">
-    <Route handler={SigninSSO} path='/signin/sso' name="sso" />
+  <Route handler={AppPage} name="root" path="/">
+    <Route handler={SigninSSO} path="/signin/sso" name="sso" />
 
-    <Route handler={ProfilePage} name="profile" path="/users/:username" />
+    <Route handler={UserPage} path="/users/:userId" name="profile" />
 
     <Route handler={ChangelogLayout} path="/:changelogId">
       <DefaultRoute handler={ChangelogPage} name="changelog" />

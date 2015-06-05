@@ -13,11 +13,11 @@ export default class SubscribeStoryButton extends React.Component {
     const { story } = this.props
 
     return (
-      <span
+      <div
         onClick={this.handleClick.bind(this)}
-        className="gray pointer">
-          <Icon icon="newspaper" /> {story.viewer_has_subscribed ? 'Unsubscribe from' : 'Subscribe to'} notifications
-      </span>
+        className="pointer">
+          <Icon icon="newspaper" /> {story.viewer_has_subscribed ? 'Subscribed to notifications' : 'Subscribe to notifications'}
+      </div>
     )
   }
 

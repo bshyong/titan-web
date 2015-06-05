@@ -48,6 +48,8 @@ export default keyMirror({
   NOTIFICATIONS_FETCHING: null,
   NOTIFICATIONS_READ: null,
 
+  PROFILE_FETCHED: null,
+
   RESOURCE_FOUND: null,
   RESOURCE_NOT_FOUND: null,
 
@@ -69,7 +71,6 @@ export default keyMirror({
   STORY_FORM_CHANGE: null,
   STORY_FORM_CLEAR: null,
 
-  USER_FETCHED: null,
   USER_SIGNIN: null,
   USER_SIGNOUT: null,
   USER_UPDATED: null,

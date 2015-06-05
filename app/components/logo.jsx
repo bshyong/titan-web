@@ -9,7 +9,7 @@ export default class Logo extends React.Component {
       height: size
     }
     return (
-      <img className="block bg-white rounded shadow" src={src} style={style} />
+      <img className="block bg-white rounded" src={src} style={style} />
     )
   }
 }

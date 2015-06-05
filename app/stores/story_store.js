@@ -13,7 +13,7 @@ import {
 } from '../constants'
 import { Map } from 'immutable'
 import moment from 'moment'
-import addParams from '../lib/addUrlParamsToStory'
+import paramsFor from '../lib/paramsFor'
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
 import ChangelogStore from './changelog_store.js'
@@ -128,3 +128,8 @@ class StoryStore extends Store {
 }
 
 export default new StoryStore()
+
+function addParams(changelogSlug, story) {
+  story.urlParams = paramsFor.story({slug: changelogSlug}, story)
+  return story
+}

@@ -1,4 +1,5 @@
 .bg-smoke { background-color: var(--smoke) }
+.bg-smoke-hover:hover { background-color: var(--smoke) }
 
 .gray-visited:visited { color: var(--gray) }
 

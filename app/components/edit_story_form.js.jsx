@@ -1,3 +1,4 @@
+import ApplicationNavbar from './application_navbar.jsx'
 import AuthenticatedMixin from './mixins/authenticated_mixin.jsx'
 import EmojiStore from '../stores/emoji_store'
 import React from 'react'

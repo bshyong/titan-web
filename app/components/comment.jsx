@@ -22,38 +22,40 @@ export default class Comment extends React.Component {
 
   render() {
     const {
-      comment: {id, user, body, parsed_body, created_at, deleted_at}
+      comment: {id, user, body, parsed_body, created_at}
     } = this.props
 
-    const classes = {
-      container: classnames('flex-auto h5', {
-        'visible-hover-wrapper': !onMobile()
-      }),
-      element: classnames('flex-none gray', {
-        'visible-hover': !onMobile()
-      })
-    }
-
-    if (deleted_at) {
-      return this.renderDeletedComment()
-    } else {
-      return (
-        <div className={classes.container}>
-          <div className="flex">
-            <div className="flex-auto bold">{user.username}</div>
-            <div className={classes.element}>
-              {moment(created_at).fromNow(true)} ago
-            </div>
-            {this.renderEditButton()}
-            {this.renderDeleteButton()}
+    return (
+      <div>
+        {this.renderSelectedMarker()}
+        <div className="flex visible-hover-wrapper">
+          <div className="flex-none mr2">
+            <Avatar user={user} size={24} />
           </div>
-          {this.renderBody()}
+
+          <div className="flex-auto h5" id={id}>
+            <div className="flex">
+              <div className="flex-auto bold">{user.username}</div>
+              <div className="flex-none flex gray mxn1 visible-hover">
+                <div className="px1">
+                  {moment(created_at).fromNow(true)}
+                </div>
+                {this.renderEditButton()}
+                {this.renderDeleteButton()}
+              </div>
+            </div>
+            {this.renderBody()}
+          </div>
         </div>
-      )
-    }
+      </div>
+    )
   }
 
   renderBody() {
+    if (this.props.comment.deleted_at) {
+      return <div className="gray">Deleted</div>
+    }
+
     if (this.props.editing) {
       return (
         <div className="mt1">
@@ -87,32 +89,56 @@ export default class Comment extends React.Component {
   }
 
   renderDeleteButton() {
-    if (SessionStore.user &&
-        SessionStore.user.id === this.props.comment.user.id) {
-      return (
-        <div className="flex-none gray ml1 pointer">
-          <span onClick={this.handleDelete.bind(this)}>
-            <Icon icon='trash' />
-          </span>
-        </div>
-      )
+    if (!this.props.comment.id || this.props.comment.deleted_at) {
+      return
     }
+
+    if (!(SessionStore.user &&
+        SessionStore.user.id === this.props.comment.user.id)) {
+      return
+    }
+
+    return (
+      <div className="px1 pointer" onClick={this.handleDelete}>
+        <Icon icon="trash" />
+      </div>
+    )
   }
 
   renderEditButton() {
-    if (SessionStore.user &&
-        SessionStore.user.id === this.props.comment.user.id) {
-      return (
-        <div className="flex-none gray ml1 mr1 pointer">
-          <span onClick={this.handleClick.bind(this)}>
-            <Icon icon="pencil" />
-          </span>
-        </div>
-      )
+    if (!this.props.comment.id || this.props.comment.deleted_at) {
+      return
     }
+
+    if (!(SessionStore.user &&
+        SessionStore.user.id === this.props.comment.user.id)) {
+      return
+    }
+
+    return (
+      <div className="px1 pointer" onClick={this.toggleEditing.bind(this)}>
+        <Icon icon="pencil" />
+      </div>
+    )
   }
 
-  handleClick() {
+  // TODO (@chrislloyd): This needs to be in the discussion component where
+  // instead of taking the anchorId from the hash, it takes it from the stories'
+  // lastCommentReadAt id or timestamp. That data is pending. When that happens
+  // the markup can be a little cleaner.
+  renderSelectedMarker() {
+    const anchorId = window.location.hash.substr(1)
+
+    if (this.props.comment.id !== anchorId) {
+      return
+    }
+
+    return (
+      <div className="border border-orange mb2" style={{marginTop: '-1rem'}}></div>
+    )
+  }
+
+  toggleEditing() {
     DiscussionActions.toggleEditComment(this.props.comment)
   }
 
@@ -122,4 +148,12 @@ export default class Comment extends React.Component {
       DiscussionActions.deleteComment(changelogId, storyId, this.props.comment.id)
     }
   }
+}
+
+Comment.propTypes = {
+  comment: React.PropTypes.shape({
+    user: React.PropTypes.object.isRequired,
+    id: React.PropTypes.string,
+    deleted_at: React.PropTypes.string,
+  }).isRequired
 }

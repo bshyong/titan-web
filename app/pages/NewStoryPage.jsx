@@ -24,7 +24,11 @@ export default class NewStoryPage extends React.Component {
   }
 
   render() {
-    return <StoryForm onPublish={this.handleOnPublish.bind(this)} />
+    return (
+      <div className="container py2">
+        <StoryForm onPublish={this.handleOnPublish.bind(this)} />
+      </div>
+    )
   }
 
   handleOnPublish(e) {

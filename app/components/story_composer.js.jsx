@@ -32,9 +32,7 @@ export default class StoryComposer extends React.Component {
 
   render() {
     return (
-      <div className="container p2">
-        <RouteHandler />
-      </div>
+      <RouteHandler />
     )
   }
 }

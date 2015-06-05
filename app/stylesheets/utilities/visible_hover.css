@@ -1,2 +1,4 @@
-.visible-hover { visibility: hidden }
-.visible-hover-wrapper:hover .visible-hover { visibility: visible }
+@media (--breakpoint-md) {
+  .visible-hover { visibility: hidden }
+  .visible-hover-wrapper:hover .visible-hover { visibility: visible }
+}

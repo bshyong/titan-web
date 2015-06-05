@@ -56,71 +56,67 @@ export default class NewStoryForm extends React.Component {
     } = this.props
 
     return (
-      <div className="clearfix mt2">
-        <div className="sm-col-8 col-10 mx-auto">
-          <div className="flex flex-column">
-            <EmojiPicker />
+      <div className="sm-col-8 mx-auto px2">
+        <div className="flex flex-column">
+          <EmojiPicker />
 
-            <div className="mt1 mb2 border-bottom border-silver red h5">
-              {StoryFormStore.titleHasEmoji() ? "Pick a badge above! Emojis in the title will be stripped out" : "\u00a0"}
-            </div>
+          <div className="mt1 mb2 border-bottom border-silver red h5">
+            {StoryFormStore.titleHasEmoji() ? "Pick a badge above! Emojis in the title will be stripped out" : "\u00a0"}
+          </div>
+          <div className="mb2">
+            <input type="text"
+              className="full-width border-none outline-none"
+              placeholder="Write a short header"
+              value={title}
+              onChange={this.handleChanged('title').bind(this)}
+              ref="title"
+              style={{
+                fontSize: '2rem',
+                height: 43,
+                padding: 0
+              }} />
+            <hr className="mt2 mb2" />
 
-            <div className="mb2">
-              <input type="text"
-                className="full-width border-none outline-none"
-                placeholder="Write a short header"
-                value={title}
-                onChange={this.handleChanged('title').bind(this)}
-                ref="title"
-                style={{
-                  fontSize: '2rem',
-                  height: 43,
-                  padding: 0
-                }} />
-              <hr className="mt2 mb2" />
+            <MarkdownArea id={storyId || "new_story"}
+              placeholder="Describe your story (optional)"
+              gifPickerPosition="bottom"
+              ref="body"
+              value={body}
+              onChange={this.handleChanged('body').bind(this)}
+              border={false}
+              style={{ padding: 0 }}
+              rows={8} />
+          </div>
+          <div>
+            <hr className="mt2 mb2" />
+          </div>
 
-              <MarkdownArea id={storyId || "new_story"}
-                placeholder="Describe your story (optional)"
-                gifPickerPosition="bottom"
-                ref="body"
-                value={body}
-                onChange={this.handleChanged('body').bind(this)}
-                border={false}
-                style={{ padding: 0 }}
-                rows={8} />
-            </div>
-
-            <div>
-              <hr className="mt2 mb2" />
-            </div>
-
-            <div className="mb2">
-              <AutocompleteUserInput
-                style={{ padding: 0 }}
-                placeholder="List contributors"
-                value={contributors}
-                onChange={this.handleChanged('contributors').bind(this)}
-                ref="contributors" />
-            </div>
-            <div className="clearfix border-top py3" style={{ borderColor: '#aaa' }}>
-              <div className="left">
-                <div className="clearfix">
-                  <span className="block left py1 black">
-                    <Icon icon={isPublic ? 'unlock-alt' : 'lock'} fw={true} />
-                    {this.renderPrivacyText(isPublic)}
-                    <a href="javascript:void(0)"
-                       onClick={this.handleTogglePrivacy.bind(this)}
-                       onTouchStart={this.handleTogglePrivacy.bind(this)}
-                       className="ml1"
-                       ref="isPublic">
-                      Change
-                    </a>
-                  </span>
-                </div>
+          <div className="mb2">
+            <AutocompleteUserInput
+              style={{ padding: 0 }}
+              placeholder="List contributors"
+              value={contributors}
+              onChange={this.handleChanged('contributors').bind(this)}
+              ref="contributors" />
+          </div>
+          <div className="clearfix border-top py3" style={{ borderColor: '#aaa' }}>
+            <div className="left">
+              <div className="clearfix">
+                <span className="block left py1 black">
+                  <Icon icon={isPublic ? 'unlock-alt' : 'lock'} fw={true} />
+                  {this.renderPrivacyText(isPublic)}
+                  <a href="javascript:void(0)"
+                     onClick={this.handleTogglePrivacy.bind(this)}
+                     onTouchStart={this.handleTogglePrivacy.bind(this)}
+                     className="ml1"
+                     ref="isPublic">
+                    Change
+                  </a>
+                </span>
               </div>
-              <div className="right">
-                {this.renderPostButton()}
-              </div>
+            </div>
+            <div className="right">
+              {this.renderPostButton()}
             </div>
           </div>
         </div>
