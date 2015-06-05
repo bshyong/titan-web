@@ -26,6 +26,7 @@ export default class ProfilePage extends React.Component {
       user: ProfileStore.user,
       upvotes: ProfileStore.upvotes,
       stories: ProfileStories.stories,
+      storiesLoading: ProfileStories.loading,
       storyPagination: ProfileStories.pagination,
       changelogs: ProfileStore.changelogs,
       following: ProfileStore.following,
@@ -101,7 +102,10 @@ export default class ProfilePage extends React.Component {
     const { stories, storyPagination } = this.props
 
     return (
-      <ClickablePaginator hasMore={storyPagination.moreAvailable} onLoadMore={this.handleLoadMoreStories.bind(this)}>
+      <ClickablePaginator
+        hasMore={storyPagination.moreAvailable}
+        onLoadMore={this.handleLoadMoreStories.bind(this)}
+        loading={this.props.storiesLoading}>
         <Table>
           {
             List(stories)
