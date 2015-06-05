@@ -8,22 +8,24 @@ import paramsFor from '../../lib/paramsFor'
 import pluralize from '../../lib/pluralize'
 import ProfileActions from '../../actions/profile_actions.js'
 import ProfileStore from '../../stores/profile_store.js'
+import ProfileStories from '../../stores/profile_stories_store'
 import React from 'react'
 import StoryCell from '../Story/StoryCell.jsx'
 import Table from '../../ui/Table.jsx'
 import UserCell from '../User/UserCell.jsx'
 
-@connectToStores(ProfileStore)
+@connectToStores(ProfileStore, ProfileStories)
 export default class ProfilePage extends React.Component {
 
   static getPropsFromStores() {
     // The reason these are all split out is that I imagine that they'll
     // eventually come from multiple stores so we can make the requests faster
-    // and do smrt things like pagination. ~@chrislloyd
+    // and do smart things like pagination. ~@chrislloyd
     return {
       user: ProfileStore.user,
       upvotes: ProfileStore.upvotes,
-      stories: ProfileStore.stories,
+      stories: ProfileStories.stories,
+      storyPagination: ProfileStories.pagination,
       changelogs: ProfileStore.changelogs,
       following: ProfileStore.following,
     }
@@ -50,7 +52,7 @@ export default class ProfilePage extends React.Component {
           <div className="px2 md-px0 py4">
             <p className="h3 mt0 mb0 center">
               Earned <strong>{pluralize(upvoteCount, 'upvote', 'upvotes')}</strong>,
-              contributed to <strong>{pluralize(this.props.stories.length, 'post', 'posts')}</strong>,
+              contributed to <strong>{pluralize(this.props.stories.size, 'post', 'posts')}</strong>,
               and following <strong>{pluralize(this.props.following.length, 'changelog', 'changelogs')}</strong>.
             </p>
           </div>
@@ -168,4 +170,9 @@ export default class ProfilePage extends React.Component {
       </div>
     )
   }
+
+  handleMoreStoriesClicked() {
+    ProfileActions.fetchStories()
+  }
+
 }

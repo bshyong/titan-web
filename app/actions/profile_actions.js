@@ -1,8 +1,9 @@
 import {
   PROFILE_FETCHED,
+  PROFILE_STORIES_FETCHED,
   PROFILE_UPDATED,
+  PROFILE_UPDATE_FAILED,
   PROFILE_UPDATING,
-  PROFILE_UPDATE_FAILED
 } from '../constants'
 import api from '../lib/api'
 import Dispatcher from '../lib/dispatcher'
@@ -17,7 +18,16 @@ export default {
     api.get(url).then(profile => {
       Dispatcher.dispatch({
         type: PROFILE_FETCHED,
-        profile: profile
+        profile: profile,
+      })
+    })
+  },
+
+  fetchStories(userId, page=1) {
+    api.get(`users/${userId}/stories?page=${page}`).then(stories => {
+      Dispatcher.dispatch({
+        type: PROFILE_STORIES_FETCHED,
+        stories: stories,
       })
     })
   },

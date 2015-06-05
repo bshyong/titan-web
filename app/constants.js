@@ -56,6 +56,7 @@ export default keyMirror({
   PROFILE_UPDATED: null,
   PROFILE_UPDATING: null,
   PROFILE_UPDATE_FAILED: null,
+  PROFILE_STORIES_FETCHED: null,
 
   RESOURCE_FOUND: null,
   RESOURCE_NOT_FOUND: null,

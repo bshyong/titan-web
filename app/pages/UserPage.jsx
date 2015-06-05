@@ -7,6 +7,7 @@ import React from 'react'
 export default class UserPage extends React.Component {
   static willTransitionTo(transition, params, query) {
     ProfileActions.fetch(params.userId)
+    ProfileActions.fetchStories(params.userId)
   }
 
   static get defaultProps() {
