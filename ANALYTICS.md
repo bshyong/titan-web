@@ -1,5 +1,5 @@
 ### Analytics Events
-** Last updated June 4, 2015 **
+** Last updated June 5, 2015 **
 ```
 ANALYTICS_COMMENT_CREATED: 'Comment Created',
 
@@ -37,9 +37,7 @@ ANALYTICS_COMMENT_CREATED: 'Comment Created',
   ANALYTICS_ENGAGED: 'Engaged',
 
   properties: {
-    type: (page_view),
-    path: (path),
-    routeName: (string)
+    type: (),
   }
 ```
 
