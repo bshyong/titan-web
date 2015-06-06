@@ -22,12 +22,12 @@ export default class StoryRange extends React.Component {
   }
 
   render() {
-    const { date, stories } = this.props
+    const { date, stories, changelogId } = this.props
     let limitedStories = this.truncatedStories()
     return (
       <Table>
         {limitedStories.map(story => (
-          <Table.Cell key={story.id} image={<UpvoteToggler story={story} hearted={story.viewer_has_hearted} />} to="story" params={paramsFor.story({slug: 'assembly'}, story)}>
+          <Table.Cell key={story.id} image={<UpvoteToggler story={story} hearted={story.viewer_has_hearted} />} to="story" params={paramsFor.story({slug: changelogId}, story)}>
             <StoryCell story={story} />
           </Table.Cell>
         ))}

@@ -121,6 +121,7 @@ export default class Changelog extends React.Component {
             <Table.Separator label={this.parseCalendarDate(date)} />
           </Link>
           <StoryRange date={date}
+              changelogId={changelogId}
               stories={stories.sortBy(story => -story.hearts_count)}
               storyCount={stories.count()}
               timeInterval={timeInterval}
