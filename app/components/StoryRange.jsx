@@ -1,6 +1,7 @@
 import Avatar from '../ui/Avatar.jsx'
 import Badge from './Badge.jsx'
 import ChangelogStore from '../stores/changelog_store'
+import ClickablePaginator from '../ui/ClickablePaginator.jsx'
 import Icon from '../ui/Icon.jsx'
 import React from 'react'
 import Stack from '../ui/Stack.jsx'
@@ -16,55 +17,46 @@ export default class StoryRange extends React.Component {
 
   constructor(props) {
     super(props)
+    this.per = 5
     this.state = {
-      expanded: false
+      page: 1,
+      hasMore: this.hasMoreStories()
     }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const newStoryCount = nextProps.stories.size - this.props.stories.size
+    this.setState({
+      hasMore: (newStoryCount === 0 || newStoryCount >= this.per) && this.hasMoreStories()
+    })
   }
 
   render() {
     const { date, stories, changelogId } = this.props
-    let limitedStories = this.truncatedStories()
     return (
       <Table>
-        {limitedStories.map(story => (
-          <Table.Cell key={story.id} image={<UpvoteToggler story={story} hearted={story.viewer_has_hearted} />} to="story" params={paramsFor.story({slug: changelogId}, story)}>
-            <StoryCell story={story} />
-          </Table.Cell>
-        ))}
-        {this.renderShowAll()}
+        <ClickablePaginator onLoadMore={this.handleShowMore.bind(this)} hasMore={this.state.hasMore && this.props.truncatable}>
+          {stories.map(story => (
+            <Table.Cell key={story.id} image={<UpvoteToggler story={story} hearted={story.viewer_has_hearted} />} to="story" params={paramsFor.story({slug: changelogId}, story)}>
+              <StoryCell story={story} />
+            </Table.Cell>
+          ))}
+        </ClickablePaginator>
       </Table>
     )
   }
 
-  truncatedStories() {
-    const { timeInterval, stories } = this.props
-    if (!this.state.expanded && timeInterval != "day" && this.props.truncatable) {
-      return stories.slice(0,5)
-    } else {
-      return stories
-    }
+  handleShowMore() {
+    const { date, timeInterval } = this.props
+    StoryActions.fetchSpecificDate(ChangelogStore.slug, date.format('MM-DD-YYYY'), timeInterval, this.state.page + 1, this.per)
+    this.setState({
+      page: this.state.page + 1
+    })
   }
 
-  renderShowAll() {
-    const { date, stories, storyCount, timeInterval } = this.props
-
-    if (stories.count() < 5 || timeInterval ==="day" || !this.props.truncatable) {
-      return
-    }
-    let changelogId = ChangelogStore.changelog.slug
-    let formatted_date = date.format('MM-DD-YYYY')
-    return (
-      <Link
-        className="block p2 h5 pointer right-align orange"
-        to="changelog_date"
-        params={{changelogId: changelogId, date: formatted_date, timeInterval: timeInterval}}>
-        See all
-      </Link>
-    )
-  }
-
-  handleToggleExpanded(e) {
-    this.setState({expanded: !this.state.expanded})
+  hasMoreStories() {
+    const { stories } = this.props
+    return stories.first() && stories.size < stories.first().group_total
   }
 
   parseCalendarDate() {

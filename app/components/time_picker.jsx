@@ -38,7 +38,6 @@ export default class TimePicker extends React.Component {
       this.setState({timeInterval: timeChange})
 
       localStorage.setItem('preferredTimeInterval', timeChange)
-
     }
   }
 

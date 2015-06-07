@@ -1,14 +1,15 @@
 import {
+  CHANGELOG_TIME_CHANGED,
   COMMENT_CREATING,
-  STORY_CREATING,
-  STORY_DELETED,
   STORIES_FETCHED,
   STORIES_FETCHING,
+  STORY_CREATING,
+  STORY_DELETED,
   STORY_FETCHED,
   STORY_HEARTED,
-  STORY_UNHEARTED,
   STORY_PUBLISHED,
   STORY_SUBSCRIBED,
+  STORY_UNHEARTED,
   STORY_UNSUBSCRIBED,
 } from '../constants'
 import { Map } from 'immutable'
@@ -64,6 +65,10 @@ class StoryStore extends Store {
           this.get(storyId).hearts_count -= 1
           break
 
+        case CHANGELOG_TIME_CHANGED:
+          this.stories = Map()
+          break
+
         case STORIES_FETCHED:
           if (action.page == 1) {
             this.stories = Map()
@@ -72,6 +77,7 @@ class StoryStore extends Store {
           this.stories = this.stories.merge(action.stories.reduce((m, story) => {
             return m.set(story.slug, addParams(action.changelogId, story))
           }, Map()))
+
           this._page = action.page
           this._moreAvailable = action.moreAvailable
           this._loading = false

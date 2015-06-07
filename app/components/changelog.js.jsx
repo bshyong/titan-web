@@ -80,14 +80,6 @@ export default class Changelog extends React.Component {
                     .reverse()
                     .groupBy(story => moment(story.created_at).startOf(timeInterval))
 
-    if (timeInterval !== "day") {
-      stories = stories.mapEntries((k,v) => {
-        return [
-          k[0],
-          k[1].sortBy(story => -story.hearts_count)
-        ]
-      })
-    }
     return stories
   }
 
