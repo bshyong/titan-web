@@ -116,7 +116,7 @@ class StoryStore extends Store {
     let end_date = moment(start_date).add(1, timeInterval.concat('s'))
     return this.stories.toList().filter(story => {
       let d = moment(story.created_at)
-      return d > start_date && d < end_date
+      return d >= start_date && d < end_date
     })
   }
 

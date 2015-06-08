@@ -25,9 +25,9 @@ export default class StoryRange extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const newStoryCount = nextProps.stories.size - this.props.stories.size
+    const { stories } = nextProps
     this.setState({
-      hasMore: (newStoryCount === 0 || newStoryCount >= this.per) && this.hasMoreStories()
+      hasMore: stories.size < stories.minBy(story => story.group_total).group_total
     })
   }
 
@@ -56,7 +56,11 @@ export default class StoryRange extends React.Component {
 
   hasMoreStories() {
     const { stories } = this.props
-    return stories.first() && stories.size < stories.first().group_total
+    if (stories.size) {
+      return stories.size < stories.minBy(story => story.group_total).group_total
+    } else {
+      return false
+    }
   }
 
   parseCalendarDate() {
