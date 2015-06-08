@@ -74,10 +74,8 @@ export default {
       type: STORY_DELETED,
       storyId: storyId
     })
-
-    api.delete(`changelogs/${changelogId}/stories/${storyId}`).then(resp => {
-      RouterContainer.get().transitionTo("changelog", {changelogId: changelogId})
-    })
+    api.delete(`changelogs/${changelogId}/stories/${storyId}`)
+    RouterContainer.get().transitionTo("changelog", {changelogId: changelogId})
   },
 
   edit(changelogId, storyId, data) {

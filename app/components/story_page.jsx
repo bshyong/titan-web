@@ -154,6 +154,8 @@ export default class StoryPage extends React.Component {
 
   _deleteStory() {
     const { changelogId, story: { slug } } = this.props
-    StoryActions.delete(changelogId, slug)
+    if (window.confirm('Are you sure you want to delete this story?')) {
+      StoryActions.delete(changelogId, slug)
+    }
   }
 }
