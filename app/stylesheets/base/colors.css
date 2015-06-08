@@ -1,5 +1,7 @@
 .bg-smoke { background-color: var(--smoke) }
 .bg-smoke-hover:hover { background-color: var(--smoke) }
+.bg-whitesmoke { background-color: var(--whitesmoke) }
+.bg-whitesmoke-hover:hover { background-color: var(--whitesmoke) }
 
 .gray-visited:visited { color: var(--gray) }
 

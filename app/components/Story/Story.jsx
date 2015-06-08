@@ -113,7 +113,7 @@ export default class Story extends React.Component {
           </div>
         </div>
 
-        <div className="flex-auto" style={{background: '#FAF9F8'}}>
+        <div className="flex-auto bg-whitesmoke">
           <div className="container">
             <div className="sm-col-8 mx-auto">
               <Discussion storyId={this.props.story.slug} changelogId={this.props.changelogId} />
