@@ -3,8 +3,7 @@ import {
   CHANGELOG_CREATE_FAILED,
   CHANGELOG_FETCHED,
   CHANGELOG_MEMBERSHIPS_FETCHED,
-  CHANGELOG_SHOW_ALL,
-  CHANGELOG_TIME_CHANGED,
+  CHANGELOG_VIEW_CHANGED,
 } from '../constants'
 import {List} from 'immutable'
 
@@ -45,17 +44,10 @@ export default {
       })
   },
 
-  changeTimeInterval(timeInterval) {
+  changeView(viewName) {
     Dispatcher.dispatch({
-      type: CHANGELOG_TIME_CHANGED,
-      timeInterval: timeInterval
-    })
-  },
-
-  changeTimeShown(timeShown) {
-    Dispatcher.dispatch({
-      type: CHANGELOG_SHOW_ALL,
-      timeShown: timeShown
+      type: CHANGELOG_VIEW_CHANGED,
+      selectedView: viewName
     })
   },
 

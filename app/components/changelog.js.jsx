@@ -14,7 +14,7 @@ import StoryActions from '../actions/story_actions'
 import StoryRange from './StoryRange.jsx'
 import StoryStore from '../stores/story_store'
 import Table from '../ui/Table.jsx'
-import TimePicker from './time_picker.jsx'
+import ViewPicker from './view_picker.jsx'
 import connectToStores from '../lib/connectToStores.jsx'
 
 @connectToStores(ChangelogStore, StoryStore)
@@ -26,7 +26,7 @@ export default class Changelog extends React.Component {
       moreAvailable: StoryStore.moreAvailable,
       page: StoryStore.page,
       stories: StoryStore.all(),
-      timeInterval: ChangelogStore.timeInterval,
+      selectedView: ChangelogStore.selectedView,
       timeShown: ChangelogStore.timeShown
     }
   }
@@ -37,14 +37,14 @@ export default class Changelog extends React.Component {
     return <div>
       {moreAvailable ?
         <ScrollPaginator page={page}
-          onScrollBottom={() => StoryActions.fetchAll(changelogId, this.props.timeInterval, page + 1, 25)} /> : null}
+          onScrollBottom={() => StoryActions.fetchAll(changelogId, this.props.selectedView, page + 1, 25)} /> : null}
 
       <div className="bg-smoke">
         <div className="container">
           <div className="sm-flex">
             <div className="flex-auto" />
             <div className="flex-none">
-              <TimePicker />
+              <ViewPicker />
             </div>
           </div>
         </div>
@@ -57,45 +57,39 @@ export default class Changelog extends React.Component {
   }
 
   parseCalendarDate(key) {
-    const { timeInterval } = this.props
+    const { selectedView } = this.props
 
-    if (timeInterval === "month") {
+    if (selectedView === "month") {
       return moment(key).format('MMMM YYYY')
     }
 
-    if (timeInterval === "day") {
+    if (selectedView === "day") {
       return key.calendar()
     }
     var start_date = moment(key)
-    if (timeInterval === "week") {
+    if (selectedView === "week") {
       var end_date = moment(key).add(1, 'weeks')
     }
     return start_date.format('MMMM D, YYYY').concat(" - ").concat(end_date.format('MMMM D, YYYY'))
   }
 
   sortStories() {
-    const { timeInterval } = this.props
+    const { selectedView } = this.props
     let stories = this.props.stories
                     .sortBy(story => story.created_at)
                     .reverse()
-                    .groupBy(story => moment(story.created_at).startOf(timeInterval))
+                    .groupBy(story => moment(story.created_at).startOf(selectedView))
 
     return stories
   }
 
-  expandDate(d) {
-    return function(e) {
-      ChangelogActions.changeTimeShown(d)
-    }
-  }
-
   storyValuesLogic(key, value) {
-    const { timeShown, timeInterval } = this.props
+    const { timeShown, selectedView } = this.props
     if (timeShown) {
       if (timeShown.format() !== "day" && (key.format() !== timeShown.format()))
         {value = value.slice(0,5)}
     } else {
-      if (timeInterval !== "day") {
+      if (selectedView !== "day") {
         value = value.slice(0,5)
       }
     }
@@ -103,20 +97,20 @@ export default class Changelog extends React.Component {
   }
 
   renderTable() {
-    const { changelogId, timeShown, timeInterval } = this.props
+    const { changelogId, timeShown, selectedView } = this.props
     const groupedStories = this.sortStories()
     return groupedStories.map((stories, date) => {
       let formatted_date = date.format('MM-DD-YYYY')
       return (
         <div key={date.toISOString()}>
-          <Link to="changelog_date" params={{changelogId: changelogId, date: formatted_date, timeInterval: timeInterval}} className="black">
+          <Link to="changelog_date" params={{changelogId: changelogId, date: formatted_date, timeInterval: selectedView}} className="black">
             <Table.Separator label={this.parseCalendarDate(date)} />
           </Link>
           <StoryRange date={date}
               changelogId={changelogId}
               stories={stories.sortBy(story => -story.hearts_count)}
               storyCount={stories.count()}
-              timeInterval={timeInterval}
+              selectedView={selectedView}
               truncatable={true} />
         </div>
       )
