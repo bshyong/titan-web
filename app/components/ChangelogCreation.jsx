@@ -22,8 +22,6 @@ export default class ChangelogCreation extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      logo_url: null,
-      banner_url: null,
       name: null,
       tagline: null,
       slug: null,
@@ -97,7 +95,7 @@ export default class ChangelogCreation extends React.Component {
   }
 
   renderCreateButton() {
-    let valid = this.state.name != null
+    let valid = this.state.name != null && this.state.tagline != null && this.state.slug != null
     let onPublish=this.handlePublish.bind(this)
     let err = this.props.errors
 
