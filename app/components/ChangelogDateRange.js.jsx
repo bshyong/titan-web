@@ -16,11 +16,11 @@ export default class ChangelogDateRange extends React.Component {
   }
 
   render() {
-    const { start_date, stories, timeInterval } = this.props
+    const { start_date, stories, timeInterval, changelogId } = this.props
     return (
       <div className="container">
         <Table.Separator label={this.parseCalendarDate(this.props.start_date)} key={this.props.start_date.toISOString()} />
-        <StoryRange date={start_date} stories={stories.sortBy(story => -story.hearts_count)} storyCount={stories.count()} timeInterval={timeInterval} truncatable={false}/>
+        <StoryRange date={start_date} stories={stories.sortBy(story => -story.hearts_count)} storyCount={stories.count()} timeInterval={timeInterval} truncatable={false} changelogId={changelogId}/>
       </div>
     )
   }
