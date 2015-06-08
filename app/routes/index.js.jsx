@@ -22,6 +22,7 @@ import SingleDateChangelogPage from '../pages/SingleDateChangelogPage.jsx'
 import StoryComposer from '../components/story_composer.js.jsx'
 import StoryPage from '../components/story_page.jsx'
 import UserPage from '../pages/UserPage.jsx'
+import DashboardPage from '../pages/DashboardPage.jsx'
 
 export default (
   <Route handler={AppPage} name="root" path="/">
@@ -33,6 +34,8 @@ export default (
       <Route handler={ChangelogSettings} name="changelog_settings" path=":changelogId" />
       <DefaultRoute handler={ProfileSettings} name="profile_settings" />
     </Route>
+
+    <Route handler={DashboardPage} path="/dashboard" />
 
     <Route handler={ChangelogLayout} path="/:changelogId">
       <DefaultRoute handler={ChangelogPage} name="changelog" />

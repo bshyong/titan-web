@@ -7,6 +7,8 @@ export default keyMirror({
   ATTACHMENT_UPLOADED: null,
   ATTACHMENT_UPLOADING: null,
 
+  CHANGELOGS_ALL_FETCHED: null,
+
   CHANGELOG_FETCHED: null,
   CHANGELOG_FOLLOWED: null,
   CHANGELOG_SHOW_ALL: null,

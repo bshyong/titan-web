@@ -1,4 +1,5 @@
 import {
+  CHANGELOGS_ALL_FETCHED,
   CHANGELOG_FETCHED,
   CHANGELOG_SHOW_ALL,
   CHANGELOG_TIME_CHANGED,
@@ -10,6 +11,17 @@ import RouterContainer from '../lib/router_container'
 import SessionStore from '../stores/session_store'
 
 export default {
+
+  fetchAll() {
+    api.get(`changelogs`).
+      then(resp => {
+        Dispatcher.dispatch({
+          type: CHANGELOGS_ALL_FETCHED,
+          changelogs: resp
+        })
+      })
+  },
+
   select(changelog_id) {
     api.get(`changelogs/${changelog_id}`).
       then(resp => {
