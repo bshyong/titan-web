@@ -1,16 +1,23 @@
 import {
+  PROFILE_CHANGELOGS_FETCHED,
   PROFILE_FETCHED,
+  PROFILE_FETCHING,
   PROFILE_STORIES_FETCHED,
   PROFILE_UPDATED,
   PROFILE_UPDATE_FAILED,
   PROFILE_UPDATING,
 } from '../constants'
+import { List } from 'immutable'
 import api from '../lib/api'
 import Dispatcher from '../lib/dispatcher'
 
 export default {
 
   fetch(userId=null) {
+    Dispatcher.dispatch({
+      type: PROFILE_FETCHING
+    })
+
     let url = `user/profile`
     if (userId) {
       url = `users/${userId}/profile`
@@ -19,6 +26,24 @@ export default {
       Dispatcher.dispatch({
         type: PROFILE_FETCHED,
         profile: profile,
+      })
+    })
+  },
+
+  fetchChangelog(changelogId) {
+    api.get(`users/${userId}/changelogs`, params).then(resp => {
+      Dispatcher.dispatch({
+        type: PROFILE_CHANGELOGS_FETCHED,
+        changelogs: List(resp)
+      })
+    })
+  },
+
+  fetchChangelogs(userId, params) {
+    api.get(`users/${userId}/changelogs`, params).then(resp => {
+      Dispatcher.dispatch({
+        type: PROFILE_CHANGELOGS_FETCHED,
+        changelogs: List(resp)
       })
     })
   },

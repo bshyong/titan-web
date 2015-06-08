@@ -1,9 +1,11 @@
 import {
   CHANGELOG_CREATE_FAILED,
   CHANGELOG_FETCHED,
+  CHANGELOG_MEMBERSHIPS_FETCHED,
   CHANGELOG_SHOW_ALL,
   CHANGELOG_TIME_CHANGED,
 } from '../constants'
+import {List} from 'immutable'
 
 import Dispatcher from '../lib/dispatcher'
 import api from '../lib/api'
@@ -17,6 +19,16 @@ export default {
         Dispatcher.dispatch({
           type: CHANGELOG_FETCHED,
           changelog: resp
+        })
+      })
+  },
+
+  fetchMemberships(changelogId) {
+    api.get(`changelogs/${changelogId}/memberships`).
+      then(resp => {
+        Dispatcher.dispatch({
+          type: CHANGELOG_MEMBERSHIPS_FETCHED,
+          memberships: List(resp)
         })
       })
   },
