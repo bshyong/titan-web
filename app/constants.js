@@ -15,6 +15,7 @@ export default keyMirror({
 
   API_ERROR: null,
 
+  CHANGELOG_CREATE_FAILED: null,
   CHANGELOG_FETCHED: null,
   CHANGELOG_FOLLOWED: null,
   CHANGELOG_SHOW_ALL: null,

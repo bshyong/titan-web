@@ -4,6 +4,7 @@ import Avatar from '../ui/Avatar.jsx'
 import Button from '../ui/Button.jsx'
 import ChangelogActions from '../actions/changelog_actions'
 import ChangelogStore from '../stores/changelog_store'
+import connectToStores from '../lib/connectToStores.jsx'
 import Icon from '../ui/Icon.jsx'
 import LoadingBar from '../ui/LoadingBar.jsx'
 import moment from '../config/moment'
@@ -15,6 +16,7 @@ import Stack from '../ui/Stack.jsx'
 import Table from '../ui/Table.jsx'
 import TextareaAutosize from 'react-textarea-autosize'
 
+@connectToStores(ChangelogStore)
 export default class ChangelogCreation extends React.Component {
 
   constructor(props) {
@@ -24,7 +26,14 @@ export default class ChangelogCreation extends React.Component {
       banner_url: null,
       name: null,
       tagline: null,
-      slug: null
+      slug: null,
+      recently_typed: false
+    }
+  }
+
+  static getPropsFromStores(props) {
+    return {
+      errors: ChangelogStore.errors
     }
   }
 
@@ -90,21 +99,38 @@ export default class ChangelogCreation extends React.Component {
   renderCreateButton() {
     let valid = this.state.name != null
     let onPublish=this.handlePublish.bind(this)
-    return (
+    let err = this.props.errors
+
+    if (!err || this.state.recently_typed) {
+      return (
+        <div className="sm-col-4 mx-auto">
+          <Button style="outline"
+            block={true}
+            color={"orange"}
+            disabled={!valid}
+            action={valid ? onPublish : null}>
+            Create Changelog
+          </Button>
+        </div>
+      )
+    } else if (err['slug']=="has already been taken" && !this.state.recently_typed) {
+      return (
       <div className="sm-col-4 mx-auto">
         <Button style="outline"
           block={true}
           color={"orange"}
-          disabled={!valid}
-          action={valid ? onPublish : null}>
-          Create Changelog
+          disabled={true}>
+          URL is taken
         </Button>
       </div>
-    )
+      )
+    }
+
+
   }
 
   NameChange(e) {
-    this.setState({name: e.target.value})
+    this.setState({name: e.target.value, recently_typed: true})
   }
 
   handleNameChange(e) {
@@ -112,7 +138,7 @@ export default class ChangelogCreation extends React.Component {
   }
 
   TaglineChange(e) {
-    this.setState({tagline: e.target.value})
+    this.setState({tagline: e.target.value, recently_typed: true})
   }
 
   handleTaglineChange(e) {
@@ -124,13 +150,14 @@ export default class ChangelogCreation extends React.Component {
   }
 
   SlugChange(e) {
-    this.setState({slug: e.target.value})
+    this.setState({slug: e.target.value, recently_typed: true})
   }
 
   handlePublish() {
     let name = this.state.name
     let tagline = this.state.tagline
     let slug = this.state.slug
+    this.setState({recently_typed: false})
     ChangelogActions.create(name, tagline, slug)
   }
 }

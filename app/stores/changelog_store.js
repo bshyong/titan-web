@@ -1,4 +1,5 @@
 import {
+  CHANGELOG_CREATE_FAILED,
   CHANGELOG_FETCHED,
   CHANGELOG_FOLLOWED,
   CHANGELOG_TIME_CHANGED,
@@ -14,10 +15,12 @@ class ChangelogStore extends Store {
     this._changelog = null
     this._timeInterval = localStorage.getItem('preferredTimeInterval') || 'week'
     this._timeShown = null
+    this._errors = null
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
         case CHANGELOG_FETCHED:
           this._changelog = action.changelog
+          this._errors = null
           break;
         case CHANGELOG_FOLLOWED:
           this._changelog.viewer_is_follower = true
@@ -31,11 +34,18 @@ class ChangelogStore extends Store {
         case CHANGELOG_SHOW_ALL:
           this._timeShown = action.timeShown
           break
+        case CHANGELOG_CREATE_FAILED:
+          this._errors = action.errors
+          break
         default:
           return
       }
       this.emitChange()
     })
+  }
+
+  get errors() {
+    return this._errors
   }
 
   get changelog() {

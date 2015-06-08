@@ -1,5 +1,6 @@
 import {
   CHANGELOGS_ALL_FETCHED,
+  CHANGELOG_CREATE_FAILED,
   CHANGELOG_FETCHED,
   CHANGELOG_SHOW_ALL,
   CHANGELOG_TIME_CHANGED,
@@ -49,12 +50,16 @@ export default {
   create(name, tagline, slug) {
     api.post(`changelogs`, {name: name, tagline: tagline, slug: slug}).
       then(resp => {
-        console.log(resp)
         Dispatcher.dispatch({
           type: CHANGELOG_FETCHED,
           changelog: resp
         })
         RouterContainer.get().transitionTo('changelog', {changelogId: resp.slug})
+      }).catch(resp => {
+        Dispatcher.dispatch({
+          type: CHANGELOG_CREATE_FAILED,
+          errors: resp
+        })
       })
   }
 
