@@ -1,4 +1,5 @@
 import {
+  CHANGELOG_CREATE_FAILED,
   CHANGELOG_FETCHED,
   CHANGELOG_SHOW_ALL,
   CHANGELOG_TIME_CHANGED,
@@ -32,6 +33,22 @@ export default {
       type: CHANGELOG_SHOW_ALL,
       timeShown: timeShown
     })
+  },
+
+  create(name, tagline, slug) {
+    api.post(`changelogs`, {name: name, tagline: tagline, slug: slug}).
+      then(resp => {
+        Dispatcher.dispatch({
+          type: CHANGELOG_FETCHED,
+          changelog: resp
+        })
+        RouterContainer.get().transitionTo('changelog', {changelogId: resp.slug})
+      }).catch(resp => {
+        Dispatcher.dispatch({
+          type: CHANGELOG_CREATE_FAILED,
+          errors: resp
+        })
+      })
   }
 
 }
