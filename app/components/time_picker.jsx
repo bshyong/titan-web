@@ -32,13 +32,14 @@ export default class TimePicker extends React.Component {
   }
 
   changeTimeInterval(timeChange) {
-    return function(e) {
-      ChangelogActions.changeTimeInterval(timeChange)
-      StoryActions.fetchAll(ChangelogStore.changelog.slug, timeChange)
-      this.setState({timeInterval: timeChange})
+    return () => {
+      if (timeChange !== ChangelogStore.timeInterval) {
+        ChangelogActions.changeTimeInterval(timeChange)
+        StoryActions.fetchAll(ChangelogStore.changelog.slug, timeChange)
+        this.setState({timeInterval: timeChange})
 
-      localStorage.setItem('preferredTimeInterval', timeChange)
-
+        localStorage.setItem('preferredTimeInterval', timeChange)
+      }
     }
   }
 

@@ -7,12 +7,17 @@ export default class LoadingBar extends React.Component {
     this.state = {
       show: false
     }
+    this.timeout = null
   }
 
   componentDidMount() {
-    setTimeout(() => {
+    this.timeout = setTimeout(() => {
       this.setState({show: true})
     }, 600)
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timeout)
   }
 
   render() {
