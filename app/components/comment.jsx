@@ -99,7 +99,7 @@ export default class Comment extends React.Component {
     }
 
     return (
-      <div className="px1 pointer" onClick={this.handleDelete}>
+      <div className="px1 pointer" onClick={this.handleDelete.bind(this)}>
         <Icon icon="trash" />
       </div>
     )
@@ -144,8 +144,9 @@ export default class Comment extends React.Component {
 
   handleDelete() {
     const { changelogId, storyId } = RouterContainer.get().getCurrentParams()
+    const { comment } = this.props
     if (window.confirm('Are you sure you want to delete this comment?')) {
-      DiscussionActions.deleteComment(changelogId, storyId, this.props.comment.id)
+      DiscussionActions.deleteComment(changelogId, storyId, comment.id)
     }
   }
 }
