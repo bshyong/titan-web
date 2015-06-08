@@ -30,7 +30,7 @@ export default {
     Dispatcher.dispatch({
       type: STORIES_FETCHING
     })
-    api.get(`changelogs/${changelogId}/stories?page=${page}&per=${per}&time_length=${timeInterval}`).
+    api.get(`changelogs/${changelogId}/stories?page=${page}&per=${per}&time_interval=${timeInterval}`).
       then(resp => {
         let stories = List(resp)
         Dispatcher.dispatch({
@@ -47,7 +47,7 @@ export default {
     Dispatcher.dispatch({
       type: STORIES_FETCHING
     })
-    api.get(`changelogs/${changelogId}/stories?date=${dateString}&time_length=${timeInterval}&page=${page}&per=${per}`).
+    api.get(`changelogs/${changelogId}/stories?date=${dateString}&time_interval=${timeInterval}&page=${page}&per=${per}`).
       then(resp => {
         let stories = List(resp)
         Dispatcher.dispatch({
