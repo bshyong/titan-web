@@ -48,7 +48,7 @@ export default class ChangelogCreation extends React.Component {
                 className="full-width input-invisible border-bottom border-smoke mb2"
                 placeholder="My Product"
                 value={this.state.name}
-                onChange={this.NameChange().bind(this)}
+                onChange={this.NameChange.bind(this)}
                 ref="name"
                 style={{
                   fontSize: '1.5rem',
@@ -65,7 +65,7 @@ export default class ChangelogCreation extends React.Component {
                   className="input-invisible border-smoke"
                   placeholder="my_changelog"
                   value={this.state.slug}
-                  onChange={this.SlugChange().bind(this)}
+                  onChange={this.SlugChange.bind(this)}
                   ref="tagline"
                   style={{
                     fontSize: '1.5rem'
@@ -79,7 +79,7 @@ export default class ChangelogCreation extends React.Component {
                 className="full-width input-invisible border-bottom border-smoke mb2"
                 placeholder="My Product's Tagline eg. 'Bigger than Big'"
                 value={this.state.tagline}
-                onChange={this.TaglineChange().bind(this)}
+                onChange={this.TaglineChange.bind(this)}
                 ref="tagline"
                 style={{
                   fontSize: '1.5rem',
