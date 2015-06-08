@@ -17,6 +17,10 @@ export default class ProfileSettings extends React.Component {
     }
   }
 
+  static willTransitionTo() {
+    ProfileActions.fetch()
+  }
+
   componentWillReceiveProps(next) {
     if (!this.props.profile && next.profile) {
       this.setState({

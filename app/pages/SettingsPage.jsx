@@ -6,6 +6,7 @@ import DocumentTitle from 'react-document-title'
 import ProfileActions from '../actions/profile_actions.js'
 import ProfileStore from '../stores/profile_store.js'
 import React from 'react'
+import RouterContainer from '../lib/router_container'
 import SessionActions from '../actions/session_actions'
 import SessionStore from '../stores/session_store'
 import {Link, RouteHandler} from 'react-router'
@@ -14,7 +15,7 @@ import {List} from 'immutable'
 @connectToStores(ProfileStore)
 export default class SettingsPage extends React.Component {
   static willTransitionTo(transition, params, query) {
-    ProfileActions.fetch()
+    ProfileActions.fetchChangelogs(SessionStore.user.username)
   }
 
   static getPropsFromStores(props) {
@@ -33,7 +34,8 @@ export default class SettingsPage extends React.Component {
             <div className="sm-col sm-col-3">
               <h4>{this.props.user.username}</h4>
               <div className="bg-white border rounded">
-                <Link to="profile_settings" className="button block">Profile</Link>
+                <Link to="profile_settings" className="button block button-transparent"
+                  activeClassName="bg-blue white">Profile</Link>
               </div>
 
               <h4 className="mt3">Changelogs</h4>
@@ -56,9 +58,9 @@ export default class SettingsPage extends React.Component {
   renderChangelogLinks() {
     return List(this.props.changelogs).sortBy(c => c.name).map((c, i) => {
       let cn = classnames("button block button-transparent", {
-        "border-bottom": i < (this.props.changelogs.length - 1)
+        "border-bottom": i < (this.props.changelogs.size - 1)
       })
-      return <Link to="changelog_settings" params={{changelogId: c.slug}}
+      return <Link to="changelog_settings" activeClassName="bg-blue white" params={{changelogId: c.slug}}
         className={cn}>{c.name}</Link>
     })
   }

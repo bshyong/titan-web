@@ -1,6 +1,8 @@
 import {
   FOLLOWINGS_FETCHED,
+  PROFILE_CHANGELOGS_FETCHED,
   PROFILE_FETCHED,
+  PROFILE_FETCHING,
   PROFILE_UPDATE_FAILED,
   PROFILE_UPDATING,
   PROFILE_UPDATED
@@ -19,6 +21,10 @@ class ProfileStore extends Store {
 
     this.dispatchToken = Dispatcher.register(action => {
       switch (action.type) {
+        case PROFILE_CHANGELOGS_FETCHED:
+          this.changelogs = action.changelogs.sortBy(c => c.name)
+          break
+
         case PROFILE_UPDATING:
           this.updateErrors = null
           this.updateSuccessful = null
@@ -27,6 +33,10 @@ class ProfileStore extends Store {
         case PROFILE_UPDATED:
           this.updateErrors = {}
           this.updateSuccessful = true
+          break
+
+        case PROFILE_FETCHING:
+          this._profile = {}
           break
 
         case PROFILE_FETCHED:
@@ -55,10 +65,6 @@ class ProfileStore extends Store {
 
   get upvotes() {
     return this._profile.upvotes
-  }
-
-  get changelogs() {
-    return this._profile.changelogs
   }
 
   get following() {
