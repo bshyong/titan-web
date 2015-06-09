@@ -1,4 +1,5 @@
 import {
+  FOLLOWINGS_FETCHED,
   CHANGELOGS_ALL_FETCHED,
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
@@ -7,11 +8,15 @@ import Store from '../lib/store'
 class DashboardStore extends Store {
   constructor() {
     super()
-    this.changelogs = []
+    this.featured = []
+    this.following = []
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
         case CHANGELOGS_ALL_FETCHED:
-          this.changelogs = action.changelogs
+          this.featured = action.changelogs
+          break;
+        case FOLLOWINGS_FETCHED:
+          this.following = action.changelogs
           break;
         default:
           return

@@ -5,6 +5,7 @@ export default class Button extends React.Component {
   render() {
     const {
       action,
+      bg,
       block,
       color,
       children,
@@ -18,8 +19,9 @@ export default class Button extends React.Component {
         'button--disabled':    disabled,
         'button':              style === 'solid',
         'button-outline':      style === 'outline',
-        'button-transparent':  style === 'transparent'
+        'button-transparent':  style === 'transparent',
       },
+      (bg ? `bg-${bg}` : null),
       color
     )
 
@@ -33,6 +35,7 @@ export default class Button extends React.Component {
 
 Button.propTypes = {
   action:   React.PropTypes.func,
+  bg:       React.PropTypes.string,
   color:    React.PropTypes.string,
   block:    React.PropTypes.bool.isRequired,
   disabled: React.PropTypes.bool.isRequired,

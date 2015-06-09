@@ -1,4 +1,5 @@
 import {
+  FOLLOWINGS_FETCHED,
   PROFILE_FETCHED,
   PROFILE_UPDATE_FAILED,
   PROFILE_UPDATING,
@@ -13,6 +14,7 @@ class ProfileStore extends Store {
   constructor() {
     super()
     this._profile = {}
+    this._following = []
     this._stories = Map()
 
     this.dispatchToken = Dispatcher.register(action => {
@@ -36,6 +38,10 @@ class ProfileStore extends Store {
           this.updateSuccessful = false
           break
 
+        case FOLLOWINGS_FETCHED:
+          this._following = action.changelogs
+          break;
+
         default:
           return
       }
@@ -56,7 +62,7 @@ class ProfileStore extends Store {
   }
 
   get following() {
-    return this._profile.following
+    return this._following
   }
 }
 
