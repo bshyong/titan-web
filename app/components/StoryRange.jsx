@@ -62,22 +62,6 @@ export default class StoryRange extends React.Component {
       return false
     }
   }
-
-  parseCalendarDate() {
-    const { date, timeInterval } = this.props
-    const start_date = moment(date)
-
-    if (timeInterval === "day") {
-      return date.calendar()
-    }
-    if (timeInterval === "week") {
-      var end_date = moment(date).add(1, 'weeks')
-    }
-    if (timeInterval === "month") {
-      var end_date = moment(date).add(1, 'months')
-    }
-    return start_date.format('MMMM D, YYYY').concat(" - ").concat(end_date.format('MMMM D, YYYY'))
-  }
 }
 
 StoryRange.propTypes = {

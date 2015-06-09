@@ -16,6 +16,7 @@ import StoryStore from '../stores/story_store'
 import Table from '../ui/Table.jsx'
 import ViewPicker from './view_picker.jsx'
 import connectToStores from '../lib/connectToStores.jsx'
+import dateString from '../lib/dateStringForTimeInterval'
 
 @connectToStores(ChangelogStore, StoryStore)
 export default class Changelog extends React.Component {
@@ -55,23 +56,6 @@ export default class Changelog extends React.Component {
     </div>
   }
 
-  parseCalendarDate(key) {
-    const { selectedView } = this.props
-
-    if (selectedView === "month") {
-      return moment(key).format('MMMM YYYY')
-    }
-
-    if (selectedView === "day") {
-      return key.calendar()
-    }
-    var start_date = moment(key)
-    if (selectedView === "week") {
-      var end_date = moment(key).add(1, 'weeks')
-    }
-    return start_date.format('MMMM D, YYYY').concat(" - ").concat(end_date.format('MMMM D, YYYY'))
-  }
-
   sortStories() {
     const { selectedView } = this.props
     let stories = this.props.stories
@@ -90,7 +74,7 @@ export default class Changelog extends React.Component {
       return (
         <div key={date.toISOString()}>
           <Link to="changelog_date" params={{changelogId: changelogId, date: formatted_date, timeInterval: selectedView}} className="black">
-            <Table.Separator label={this.parseCalendarDate(date)} />
+            <Table.Separator label={dateString(date, selectedView)} />
           </Link>
           <StoryRange date={date}
               changelogId={changelogId}
