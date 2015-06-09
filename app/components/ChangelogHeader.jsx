@@ -21,7 +21,7 @@ export default class ChangelogHeader extends React.Component {
       <Jumbotron bgColor="blue" bgImageUrl={changelog.banner_url}>
         <div className="sm-flex flex-center">
           <div className="flex-none mb2 sm-mb0">
-            <div className="mx-auto" style={{width: '4rem'}}><Logo src={changelog.logo_url} size="4rem"/></div>
+            <div className="mx-auto" style={{width: '4rem'}}><Logo changelog={changelog} size="4rem"/></div>
           </div>
           <Link className="block flex-auto mb2 md-mb0 sm-px3 center sm-left-align white" to="changelog" params={{changelogId}}>
             <h2 className="mt0 mb0">{changelog.name}</h2>

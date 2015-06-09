@@ -3,17 +3,24 @@ import MetaLogoSrc from '../images/meta-logo.svg'
 
 export default class Logo extends React.Component {
   render() {
-    const { size, src } = this.props
+    const { changelog: { logo_url: src, name }, size } = this.props
     const style = {
       width: size,
-      height: size
+      height: size,
+      outline: 'none'
     }
     return (
-      <img className="block bg-white rounded" src={src} style={style} />
+      <div className="bg-silver rounded" style={style}>
+        <img className="block rounded" src={src} style={style} alt={name} />
+      </div>
     )
   }
 }
 
 Logo.propTypes = {
-  src: React.PropTypes.string.isRequired
+  changelog: React.PropTypes.shape({
+    name: React.PropTypes.string.isRequired,
+    logo_url: React.PropTypes.string.isRequired
+  }).isRequired,
+  size: React.PropTypes.string.isRequired,
 }

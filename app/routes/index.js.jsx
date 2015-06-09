@@ -9,6 +9,7 @@ import Changelog from '../components/changelog.js.jsx'
 import ChangelogLayout from '../components/changelog_layout.js.jsx'
 import ChangelogPage from '../pages/ChangelogPage.jsx'
 import ChangelogSettings from '../components/settings/ChangelogSettings.jsx'
+import DashboardPage from '../pages/DashboardPage.jsx'
 import EditStoryForm from '../components/edit_story_form.js.jsx'
 import HighlightPicker from '../components/highlight_picker.js.jsx'
 import HomePage from '../pages/HomePage.jsx'
@@ -39,9 +40,10 @@ export default (
       <DefaultRoute handler={ProfileSettings} name="profile_settings" />
     </Route>
 
+    <Route handler={DashboardPage} path="/dashboard" />
+
     <Route handler={ChangelogLayout} path="/:changelogId">
       <DefaultRoute handler={ChangelogPage} name="changelog" />
-      
       <Route handler={EditStoryForm} path=":storyId/edit" name="edit" />
 
       <Route handler={StoryComposer} path="new">

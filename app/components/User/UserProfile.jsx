@@ -147,21 +147,6 @@ export default class ProfilePage extends React.Component {
     )
   }
 
-  renderWorkingOnChangelogs() {
-    const { changelogs } = this.props
-    return (
-      <div className="flex flex-wrap mxn1">
-        {changelogs.map(changelog =>
-          <div className="ml1 mb1" key={changelog.id}>
-            <Link to="changelog" params={{changelogId: changelog.slug}}>
-              <Logo changelog={changelog} size="2rem" />
-            </Link>
-          </div>
-        )}
-      </div>
-    )
-  }
-
   renderFollowingChangelogs() {
     const { following: changelogs } = this.props
     return (
@@ -169,7 +154,7 @@ export default class ProfilePage extends React.Component {
         {changelogs.map(changelog =>
           <div className="ml1 mb1" key={changelog.id}>
             <Link to="changelog" params={{changelogId: changelog.slug}}>
-              <Logo src={changelog.logo_url} size="2rem" />
+              <Logo changelog={changelog} size="2rem" />
             </Link>
           </div>
         )}

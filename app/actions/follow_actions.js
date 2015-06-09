@@ -1,24 +1,35 @@
 import {
+  ANALYTICS_FOLLOWED,
   CHANGELOG_FOLLOWED,
   CHANGELOG_UNFOLLOWED,
-  ANALYTICS_FOLLOWED,
+  FOLLOWINGS_FETCHED,
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import api from '../lib/api'
 import segment from '../lib/segment'
 
 export default {
-  follow(changelog_id) {
+
+  fetchFollowing(userId) {
+    api.get(`users/${userId}/following`).then((changelogs) => {
+      Dispatcher.dispatch({
+        type: FOLLOWINGS_FETCHED,
+        changelogs: changelogs
+      })
+    })
+  },
+
+  follow(changelogId) {
     Dispatcher.dispatch({
       type: CHANGELOG_FOLLOWED
     })
 
     segment.track(ANALYTICS_FOLLOWED, {
       type: 'changelog',
-      id: changelog_id
+      id: changelogId
     })
 
-    api.post(`changelogs/${changelog_id}/follow`)
+    api.post(`changelogs/${changelogId}/follow`)
   },
 
   unfollow(changelog_id) {
