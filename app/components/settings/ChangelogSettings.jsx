@@ -1,5 +1,5 @@
 import authenticated from '../mixins/authenticated_mixin.jsx'
-import UserCell from '../user/UserCell.jsx'
+import UserCell from '../User/UserCell.jsx'
 import ChangelogActions from '../../actions/changelog_actions'
 import ChangelogStore from '../../stores/changelog_store'
 import connectToStores from '../../lib/connectToStores.jsx'
