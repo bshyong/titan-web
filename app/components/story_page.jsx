@@ -86,12 +86,18 @@ export default class StoryPage extends React.Component {
               </div>
 
               <div className="mb3">
-                <Stack items={story.contributors.map(user => <Avatar user={user} size={32} />)} />
+                <Stack items={story.contributors.map(user => {
+                    return (
+                      <Link to="profile" params={{userId: user.username}} className="bold gray">
+                        <Avatar user={user} size={32} />
+                      </Link>
+                    )
+                  })} />
               </div>
 
               <div className="flex h5 gray mb3 sm-mb0">
                 <div className="flex-auto h5">
-                  {moment(story.created_at).format('ll @ LT')} by <span className="bold">@{story.user.username}</span>
+                  {moment(story.created_at).format('ll @ LT')} by <Link to="profile" params={{userId: story.user.username}} className="bold gray">@{story.user.username}</Link>
                 </div>
 
                 <div className="flex-none">
