@@ -6,7 +6,9 @@ import {
   CHANGELOG_TIME_CHANGED,
   CHANGELOG_UNFOLLOWED,
   CHANGELOG_SHOW_ALL,
-  MEMBERSHIP_UPDATING
+  MEMBERSHIP_UPDATING,
+  MEMBERSHIP_UPDATED,
+  MEMBERSHIP_UPDATE_FAILED
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
@@ -38,7 +40,7 @@ class ChangelogStore extends Store {
           break
 
         case CHANGELOG_MEMBERSHIPS_FETCHED:
-          this.memberships = action.memberships.sortBy(m => m.user.username)
+          this.memberships = action.memberships.sortBy(m => m.user.username.toLowerCase())
           break
 
         case CHANGELOG_TIME_CHANGED:
@@ -50,12 +52,20 @@ class ChangelogStore extends Store {
           break
 
         case MEMBERSHIP_UPDATING:
-          let m = (this.memberships || []).find(m => m.user.username == action.userId)
-          if (m) {
-            for (let k of Object.keys(action.change)) {
-              m[k] = action.change[k]
-            }
-          }
+          this.updateErrors = null
+          this.updateSuccessful = null
+          this.memberships = applyChanges(this.memberships, action.userId, action.change)
+          break
+
+        case MEMBERSHIP_UPDATED:
+          this.updateSuccessful = true
+          this.memberships = applyChanges(this.memberships, action.userId, action.membership)
+          break
+
+        case MEMBERSHIP_UPDATE_FAILED:
+          this.memberships = this.memberships.filterNot(m => m.user.username == action.userId)
+          this.updateErrors = action.errors
+          this.updateSuccessful = false
           break
 
         default:
@@ -63,6 +73,10 @@ class ChangelogStore extends Store {
       }
       this.emitChange()
     })
+  }
+
+  get coreMemberships() {
+    return this.memberships && this.memberships.filter(m => m.is_core)
   }
 
   get errors() {
@@ -91,6 +105,19 @@ class ChangelogStore extends Store {
     }
     return null
   }
+}
+
+function applyChanges(memberships, username, change) {
+  memberships = memberships || List()
+  let m = memberships.find(m => m.user.username == username)
+  if (!m) {
+    m = {user: {username: username}}
+    memberships = memberships.push(m)
+  }
+  for (let k of Object.keys(change)) {
+    m[k] = change[k]
+  }
+  return memberships
 }
 
 export default new ChangelogStore()

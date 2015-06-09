@@ -54,6 +54,7 @@ export default keyMirror({
   HIGHLIGHT_IGNORED: null,
   HIGHLIGHT_USED: null,
 
+  MEMBERSHIP_UPDATE_FAILED: null,
   MEMBERSHIP_UPDATED: null,
   MEMBERSHIP_UPDATING: null,
 

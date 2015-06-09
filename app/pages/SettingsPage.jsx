@@ -65,7 +65,7 @@ export default class SettingsPage extends React.Component {
         "border-bottom": i < (this.props.changelogs.size - 1)
       })
       return <Link to="changelog_settings" activeClassName="bg-blue white" params={{changelogId: c.slug}}
-        className={cn}>{c.name}</Link>
+        className={cn} key={c.slug}>{c.name}</Link>
     })
   }
 

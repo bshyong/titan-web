@@ -1,4 +1,5 @@
 import {
+  MEMBERSHIP_UPDATE_FAILED,
   MEMBERSHIP_UPDATED,
   MEMBERSHIP_UPDATING
 } from '../constants'
@@ -15,10 +16,19 @@ export default {
       change: change
     })
 
-    api.put(`/changelogs/${changelogId}/members/${userId}`, change).then(resp => {
+    api.put(`changelogs/${changelogId}/members/${userId}`, change).then(resp => {
       Dispatcher.dispatch({
         type: MEMBERSHIP_UPDATED,
+        changelogId: changelogId,
+        userId: userId,
         membership: resp
+      })
+    }).catch(errors => {
+      Dispatcher.dispatch({
+        type: MEMBERSHIP_UPDATE_FAILED,
+        changelogId: changelogId,
+        userId: userId,
+        errors: errors
       })
     })
   }
