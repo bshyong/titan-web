@@ -53,7 +53,7 @@ export default class ProfilePage extends React.Component {
           <div className="px2 md-px0 py4">
             <p className="h3 mt0 mb0 center">
               Earned <strong>{pluralize(upvoteCount, 'upvote', 'upvotes')}</strong>,
-              contributed to <strong>{pluralize(this.props.stories.size, 'post', 'posts')}</strong>,
+              contributed to <strong>{pluralize(this.props.user.contribution_count, 'post', 'posts')}</strong>,
               and following <strong>{pluralize(this.props.following.length, 'changelog', 'changelogs')}</strong>.
             </p>
           </div>
