@@ -1,9 +1,10 @@
-import React from 'react'
 import ChangelogActions from '../actions/changelog_actions'
-import StoryActions from '../actions/story_actions'
 import ChangelogStore from '../stores/changelog_store.js'
-import classnames from 'classnames'
+import GroupActions from '../actions/group_actions'
+import React from 'react'
 import SegmentedControl from '../ui/SegmentedControl.jsx'
+import StoryActions from '../actions/story_actions'
+import classnames from 'classnames'
 
 export default class ViewPicker extends React.Component {
 
@@ -18,6 +19,7 @@ export default class ViewPicker extends React.Component {
   render() {
     return (
       <SegmentedControl>
+        {this.renderOption("grouped", 'Grouped')}
         {this.renderOption("day", 'Day')}
         {this.renderOption("week", 'Week')}
         {this.renderOption("month", 'Month')}
@@ -29,10 +31,12 @@ export default class ViewPicker extends React.Component {
     return () => {
       if (viewName !== ChangelogStore.selectedView) {
         ChangelogActions.changeView(viewName)
-        StoryActions.fetchAll(ChangelogStore.changelog.slug, viewName)
+        StoryActions.fetchAll(ChangelogStore.slug, viewName)
         this.setState({selectedView: viewName})
-
         localStorage.setItem('defaultView', viewName)
+      }
+      if (viewName === 'grouped') {
+        GroupActions.fetchAll(ChangelogStore.slug)
       }
     }
   }

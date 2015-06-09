@@ -17,8 +17,10 @@ import Table from '../ui/Table.jsx'
 import ViewPicker from './view_picker.jsx'
 import connectToStores from '../lib/connectToStores.jsx'
 import dateString from '../lib/dateStringForTimeInterval'
+import StoryGroup from '../components/StoryGroup.jsx'
+import GroupsStore from '../stores/groups_store'
 
-@connectToStores(ChangelogStore, StoryStore)
+@connectToStores(ChangelogStore, StoryStore, GroupsStore)
 export default class Changelog extends React.Component {
 
   static getPropsFromStores(props) {
@@ -27,7 +29,8 @@ export default class Changelog extends React.Component {
       moreAvailable: StoryStore.moreAvailable,
       page: StoryStore.page,
       stories: StoryStore.all(),
-      selectedView: ChangelogStore.selectedView
+      selectedView: ChangelogStore.selectedView,
+      groups: GroupsStore.groups,
     }
   }
 
@@ -50,10 +53,55 @@ export default class Changelog extends React.Component {
         </div>
       </div>
       <div className="container">
-        {this.renderTable()}
+        {this.renderStories()}
         <LoadingBar loading={loading} />
       </div>
     </div>
+  }
+
+  renderStories() {
+    const { selectedView } = this.props
+    if (selectedView === 'grouped') {
+      return this.renderGroupedStories()
+    } else {
+      return this.renderTable()
+    }
+  }
+
+  renderGroupedStories() {
+    const stories = this.props.stories
+                      .sortBy(s => s, (a, b) => {
+                        if (a.hearts_count === b.hearts_count) {
+                          return moment(a.created_at) < moment(b.created_at) ? 1 : -1
+                        }
+                        return a.hearts_count < b.hearts_count ? 1 : -1
+                      })
+                      .groupBy(s => s.group_id)
+
+    const { changelogId, groups } = this.props
+
+    const groupedStories = groups
+      .sortBy(g => g.created_at)
+      .reverse()
+      .map(g => {
+        let groupStories = stories.get(g.id)
+        if (groupStories) {
+          return (
+            <StoryGroup
+              key={g.id}
+              groupId={g.id}
+              stories={groupStories}
+              changelogId={changelogId}
+              truncatable={true} />
+          )
+        }
+      }).toList()
+
+    return (
+      <div>
+        {groupedStories}
+      </div>
+    )
   }
 
   sortStories() {

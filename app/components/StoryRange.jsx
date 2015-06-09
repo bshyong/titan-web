@@ -27,7 +27,7 @@ export default class StoryRange extends React.Component {
   componentWillReceiveProps(nextProps) {
     const { stories } = nextProps
     this.setState({
-      hasMore: stories.size < stories.minBy(story => story.group_total).group_total
+      hasMore: this.props.truncatable && (stories.size < stories.minBy(story => story.group_total).group_total)
     })
   }
 
@@ -35,7 +35,7 @@ export default class StoryRange extends React.Component {
     const { date, stories, changelogId } = this.props
     return (
       <Table>
-        <ClickablePaginator onLoadMore={this.handleShowMore.bind(this)} hasMore={this.state.hasMore && this.props.truncatable}>
+        <ClickablePaginator onLoadMore={this.handleShowMore.bind(this)} hasMore={this.state.hasMore}>
           {stories.map(story => (
             <Table.Cell key={story.id} image={<UpvoteToggler story={story} hearted={story.viewer_has_hearted} />} to="story" params={paramsFor.story({slug: changelogId}, story)}>
               <StoryCell story={story} />
@@ -55,9 +55,9 @@ export default class StoryRange extends React.Component {
   }
 
   hasMoreStories() {
-    const { stories } = this.props
+    const { stories, truncatable } = this.props
     if (stories.size) {
-      return stories.size < stories.minBy(story => story.group_total).group_total
+      return truncatable && (stories.size < stories.minBy(story => story.group_total).group_total)
     } else {
       return false
     }

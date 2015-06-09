@@ -69,6 +69,18 @@ export default {
       })
   },
 
+  fetchForSpecificGroup(changelogId, groupId, page, per) {
+    api.get(`changelogs/${changelogId}/groups/${groupId}/stories?page=${page}&per=${per}`).
+      then(resp => {
+        let stories = List(resp)
+        Dispatcher.dispatch({
+          type: STORIES_FETCHED,
+          stories: resp,
+          changelogId: changelogId
+        })
+      })
+  },
+
   delete(changelogId, storyId) {
     Dispatcher.dispatch({
       type: STORY_DELETED,

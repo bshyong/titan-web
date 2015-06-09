@@ -1,5 +1,5 @@
 import {
-  CHANGELOG_TIME_CHANGED,
+  CHANGELOG_VIEW_CHANGED,
   COMMENT_CREATING,
   STORIES_FETCHED,
   STORIES_FETCHING,
@@ -65,7 +65,7 @@ class StoryStore extends Store {
           this.get(storyId).hearts_count -= 1
           break
 
-        case CHANGELOG_TIME_CHANGED:
+        case CHANGELOG_VIEW_CHANGED:
           this.stories = Map()
           break
 
