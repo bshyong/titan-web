@@ -9,25 +9,30 @@ const sample = (arr) => {
 }
 
 const Colors = [
-  "rgba(0,   163, 185, 0.6)",
-  "rgba(239, 84,  68,  0.6)",
-  "rgba(147, 189, 22,  0.6)",
-  "rgba(252, 203, 14,  0.6)",
-  "rgba(32,  91,  103, 0.6)",
+  "rgba(0,   163, 185, 0.8)",
+  "rgba(239, 84,  68,  0.8)",
+  "rgba(147, 189, 22,  0.8)",
+  "rgba(252, 203, 14,  0.8)",
+  "rgba(32,  91,  103, 0.8)",
 ]
 
 export default class Divider extends React.Component {
-
   constructor(props) {
     super(props)
     this.state = {width: 0}
   }
 
   componentDidMount() {
-    console.log()
     this.setState({width: React.findDOMNode(this).offsetWidth})
   }
 
+  // This rendering method uses CSS `mix-blend-mode` which is nice, but kind of
+  // hackey. The colors need to be definited with opacity for them to have any
+  // multiplication overlap, so they're a little lighter than I'd like them
+  // to be. If this is going to be refactored it's probably a good idea to use
+  // Canvas' `globalCompositeOperation = "multiply"`. I wasn't 100% sure the
+  // best way of using canvas with React. ~@chrislloyd
+  
   render() {
     const { fill, height } = this.props
 
@@ -53,7 +58,7 @@ export default class Divider extends React.Component {
     }
 
     return (
-      <div className="relative" style={{mixBlendMode: "multiply"}}>
+      <div className="relative" style={{mixBlendMode: "multiply", height: height}}>
         {bars}
       </div>
     )
@@ -64,8 +69,10 @@ export default class Divider extends React.Component {
   }
 }
 
+Divider.propTypes = {
+  height: React.PropTypes.number.isRequired,
+}
+
 Divider.defaultProps = {
-  width: 1800,
-  height: 8,
-  fill: 'currentcolor'
+  height: 6,
 }
