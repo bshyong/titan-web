@@ -12,6 +12,7 @@ import ChangelogSettings from '../components/settings/ChangelogSettings.jsx'
 import EditStoryForm from '../components/edit_story_form.js.jsx'
 import HighlightPicker from '../components/highlight_picker.js.jsx'
 import HomePage from '../pages/HomePage.jsx'
+import NewChangelogPage from '../pages/NewChangelogPage.jsx'
 import NewStoryPage from '../pages/NewStoryPage.jsx'
 import NotFound from '../pages/NotFoundPage.jsx'
 import ProfileSettings from '../components/ProfileSettings.jsx'
@@ -22,13 +23,15 @@ import SingleDateChangelogPage from '../pages/SingleDateChangelogPage.jsx'
 import StoryComposer from '../components/story_composer.js.jsx'
 import StoryPage from '../components/story_page.jsx'
 import UserPage from '../pages/UserPage.jsx'
-import NewChangelogPage from '../pages/NewChangelogPage.jsx'
 
 export default (
   <Route handler={AppPage} name="root" path="/">
-    <Route handler={SigninSSO} path="/signin/sso" name="sso" />
-    <Route handler={NewChangelogPage} path="new" name="NewChangelog" />
+    <DefaultRoute handler={HomePage} name="home" />
+    <NotFoundRoute handler={NotFound} name="not_found" />
 
+    <Route handler={HomePage} path="/home" />
+    <Route handler={NewChangelogPage} path="/new" name="NewChangelog" />
+    <Route handler={SigninSSO} path="/signin/sso" name="sso" />
     <Route handler={UserPage} path="/users/:userId" name="profile" />
 
     <Route handler={SettingsPage} name="settings" path="/settings">
@@ -38,10 +41,12 @@ export default (
 
     <Route handler={ChangelogLayout} path="/:changelogId">
       <DefaultRoute handler={ChangelogPage} name="changelog" />
+      
       <Route handler={EditStoryForm} path=":storyId/edit" name="edit" />
 
       <Route handler={StoryComposer} path="new">
         <DefaultRoute handler={NewStoryPage} name="new" />
+
         <Route handler={HighlightPicker} path="highlights/?:filter?" name="highlights" />
       </Route>
 
@@ -49,8 +54,5 @@ export default (
       <Route handler={StoryPage} path=":year/:month/:day/:storyId#:commentId" name="storyWithComment" />
       <Route handler={SingleDateChangelogPage} path="date/:date/:timeInterval" name="changelog_date" />
     </Route>
-
-    <DefaultRoute handler={HomePage} name="home" />
-    <NotFoundRoute handler={NotFound} name="not_found" />
   </Route>
 )

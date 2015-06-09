@@ -5,10 +5,12 @@ export default class Button extends React.Component {
   render() {
     const {
       action,
+      bg,
       block,
       color,
       children,
       disabled,
+      size,
       style,
     } = this.props
 
@@ -18,8 +20,12 @@ export default class Button extends React.Component {
         'button--disabled':    disabled,
         'button':              style === 'solid',
         'button-outline':      style === 'outline',
-        'button-transparent':  style === 'transparent'
+        'button-transparent':  style === 'transparent',
+        'button-small':        size === 'small',
+        'button-big':          size === 'big',
+        'button-narrow':       size === 'narrow'
       },
+      (bg ? `bg-${bg}` : null),
       color
     )
 
@@ -32,18 +38,27 @@ export default class Button extends React.Component {
 }
 
 Button.propTypes = {
-  action:   React.PropTypes.func,
-  color:    React.PropTypes.string,
-  block:    React.PropTypes.bool.isRequired,
+  action: React.PropTypes.func,
+  bg: React.PropTypes.string,
+  block: React.PropTypes.bool.isRequired,
+  color: React.PropTypes.string.isRequired,
   disabled: React.PropTypes.bool.isRequired,
-  style:    React.PropTypes.oneOf([
+  size: React.PropTypes.oneOf([
+    'small',
+    'default',
+    'big',
+    'narrow'
+  ]).isRequired,
+  style: React.PropTypes.oneOf([
     'solid',
     'outline',
-    'transparent']).isRequired,
+    'transparent'
+  ]).isRequired,
 }
 
 Button.defaultProps = {
-  block:    false,
+  block: false,
   disabled: false,
-  style:    'solid'
+  size: 'default',
+  style: 'solid',
 }

@@ -1,4 +1,5 @@
 import authenticated from '../components/mixins/authenticated_mixin.jsx'
+import ApplicationNavbar from '../components/application_navbar.jsx'
 import Button from '../ui/Button.jsx'
 import classnames from 'classnames'
 import connectToStores from '../lib/connectToStores.jsx'
@@ -28,27 +29,30 @@ export default class SettingsPage extends React.Component {
   render() {
     return (
       <DocumentTitle title="Settings">
-        <div className="container">
-          <div className="clearfix mxn3">
+        <div>
+          <ApplicationNavbar />
+          <div className="container">
+            <div className="clearfix mxn3">
 
-            <div className="sm-col sm-col-3">
-              <h4>{this.props.user.username}</h4>
-              <div className="bg-white border rounded">
-                <Link to="profile_settings" className="button block button-transparent"
-                  activeClassName="bg-blue white">Profile</Link>
+              <div className="sm-col sm-col-3">
+                <h4>{this.props.user.username}</h4>
+                <div className="bg-white border rounded">
+                  <Link to="profile_settings" className="button block button-transparent"
+                    activeClassName="bg-blue white">Profile</Link>
+                </div>
+
+                <h4 className="mt3">Changelogs</h4>
+
+                <div className="bg-white border rounded">
+                  {this.renderChangelogLinks()}
+                </div>
               </div>
 
-              <h4 className="mt3">Changelogs</h4>
-
-              <div className="bg-white border rounded">
-                {this.renderChangelogLinks()}
+              <div className="sm-col sm-col-9 px3">
+                <RouteHandler />
               </div>
-            </div>
 
-            <div className="sm-col sm-col-9 px3">
-              <RouteHandler />
             </div>
-
           </div>
         </div>
       </DocumentTitle>

@@ -1,3 +1,4 @@
+import ApplicationNavbar from '../components/application_navbar.jsx'
 import ProfileStore from '../stores/profile_store.js'
 import RouterContainer from '../lib/router_container'
 import ProfileActions from '../actions/profile_actions.js'
@@ -17,6 +18,9 @@ export default class UserPage extends React.Component {
   }
 
   render() {
-    return <UserProfile />
+    return <div>
+      <ApplicationNavbar />
+      <UserProfile />
+    </div>
   }
 }
