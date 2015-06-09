@@ -152,12 +152,13 @@ class Notification extends React.Component {
     return (
       <Link className={cns.notification} to="storyWithComment" params={urlParams} onClick={this.handleOnClick.bind(this)}>
         <div className={cns.actor}>
-          <Avatar user={face} size={24} />
+          <Avatar user={face} size={32} />
         </div>
         <div className="flex-auto h5 gray">
           <div className="flex-auto">
             {this.renderDescription()}
             <span className={cns.title}>{' ' + title}</span>
+            <span>{' in ' + story.changelog_name}</span>
           </div>
         </div>
         <div className="flex-none h5 gray ml1">
