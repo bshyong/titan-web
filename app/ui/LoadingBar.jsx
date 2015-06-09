@@ -1,5 +1,7 @@
 import React from 'react'
 
+const TimeoutMs = 600
+
 export default class LoadingBar extends React.Component {
 
   constructor(props) {
@@ -11,9 +13,16 @@ export default class LoadingBar extends React.Component {
   }
 
   componentDidMount() {
-    this.timeout = setTimeout(() => {
-      this.setState({show: true})
-    }, 600)
+    if (this.props.loading) {
+      this.setTimeout()
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    clearTimeout(this.timeout)
+    if (nextProps.loading) {
+      this.setTimeout()
+    }
   }
 
   componentWillUnmount() {
@@ -36,6 +45,13 @@ export default class LoadingBar extends React.Component {
       </div>
     )
   }
+
+  setTimeout() {
+    this.timeout = setTimeout(() => {
+      this.setState({show: true})
+    }, TimeoutMs)
+  }
+
 }
 
 LoadingBar.propTypes = {
