@@ -18,7 +18,9 @@ export default class HomePage extends React.Component {
       <div>
         <div className="flex flex-column" style={{minHeight: "100vh"}}>
           <div className="flex-none">
-            <Divider />
+            <div className="full-width overflow-hidden">
+              <Divider />
+            </div>
           </div>
 
           <div className="flex-none p2">
@@ -30,16 +32,19 @@ export default class HomePage extends React.Component {
 
               <div className="flex-auto sm-flex mxn3">
                 <div className="sm-col-6 px3">
-                  <h1 className="mt0 mb3" style={{fontSize: '3rem'}}>Create better, together.</h1>
+                  <h1 className="mt0 mb3" style={{fontSize: '3rem'}}>
+                    Create better, together.
+                  </h1>
                 </div>
                 <div className="sm-col-6 px3">
                   <p className="h3">
-                    Excitement grows when more people know. Assembly lets you invite
-                    others into the creative process and turn observers into
-                    contributors and eager evangelists.
+                    Excitement grows when more people know. Assembly lets you
+                    invite others into the creation process and turn observers
+                    into contributors and eager evangelists.
                   </p>
                   <p className="h3 bold">
-                    Start your public (or private) changelog today &mdash; it's totes free.
+                    Start your public (or private) changelog today &mdash; it's
+                    totally free.
                   </p>
 
                   <div className="mb3">
