@@ -43,7 +43,7 @@ export default class ChangelogSettings extends React.Component {
         <form onSubmit={this.handleAddMember.bind(this)}>
           <input type="text" ref="emailOrUsername"
                  className="field-light full-width"
-                 placeholder="Add core team member by username or email" />
+                 placeholder="Add core team member by username" />
         </form>
         {this.renderStatus()}
 
@@ -69,13 +69,17 @@ export default class ChangelogSettings extends React.Component {
   handleAddMember(e) {
     e.preventDefault()
     let el = React.findDOMNode(this.refs.emailOrUsername)
-
-    MembershipActions.update(
-      this.props.params.changelogId,
-      el.value, {
-        is_core: true
-      }
-    )
+    let text = el.value
+    // if (text.match(/.+@.+/)) {
+    //   MembershipActions.invite(this.props.params.changelogId, text)
+    // } else {
+      MembershipActions.update(
+        this.props.params.changelogId,
+        text, {
+          is_core: true
+        }
+      )
+    // }
 
     el.value = ''
   }
