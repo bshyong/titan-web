@@ -2,6 +2,9 @@ import React from 'react'
 import Button from '../ui/Button.jsx'
 import SessionActions from '../actions/session_actions'
 import SessionStore from '../stores/session_store'
+import LoadingBar from '../ui/LoadingBar.jsx'
+
+import HomePagePreviewSrc from '../images/HomePagePreview.png'
 
 export default class HomePage extends React.Component {
   static willTransitionTo(transition, params, query) {
@@ -12,18 +15,56 @@ export default class HomePage extends React.Component {
 
   render() {
     return (
-      <div className="container py4 px2">
-        <div className="sm-col-8 col-12">
-          <h1>Create better, together</h1>
+      <div>
+        <div className="flex flex-column" style={{minHeight: "100vh"}}>
+          <div className="flex-none">
+            <LoadingBar loading={true} />
+          </div>
 
-          <p>Assembly makes it quick and easy to keep your team and even the world involved in what you&#39;re creating.</p>
+          <div className="flex-none p2">
+            Assembly
+          </div>
 
-          <p>Share what’s happening, invite your followers to help out, and celebrate along the way. You can also make your work public, inviting the community to participate and contribute.</p>
+          <div className="flex-auto flex flex-center">
+            <div className="container p2 overflow-hidden">
 
-          <p>Oh yeah, it&#39;s also completely free so you can give it a go right meow.</p>
+              <div className="flex-auto sm-flex mxn3">
+                <div className="sm-col-6 px3">
+                  <h1 className="mt0 mb0" style={{fontSize: '3rem'}}>Create better, together.</h1>
+                </div>
+                <div className="sm-col-6 px3">
+                  <p className="h3">
+                    Excitement grows when more people know. Assembly lets you invite
+                    others into the creative process and turn observers into
+                    contributors and eager evangelists.
+                  </p>
+                  <p className="h3 bold">
+                    Start your public (or private) changelog today &mdash; it's totes free.
+                  </p>
 
-          <Button action={this.handleSignUp.bind(this)} className="button">Sign Up</Button>
-          <a href="javascript:;" onClick={this.handleSignUp.bind(this)} className="ml2">Sign in with your Assembly account</a>
+                  <div className="mb3">
+                    <Button action={this.handleSignUp.bind(this)} bg="orange" size="big">
+                      Sign up
+                    </Button>
+                  </div>
+
+                  <p className="gray">
+                    <a href="javascript:;" onClick={this.handleSignUp}>
+                      Sign in
+                    </a> with your Assembly account
+                  </p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div className="flex-none">
+            <div className="container px2">
+              <img className="block" src={HomePagePreviewSrc} />
+            </div>
+          </div>
+
         </div>
       </div>
     )

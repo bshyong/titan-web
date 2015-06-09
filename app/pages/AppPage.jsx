@@ -16,16 +16,14 @@ export default class AppPage extends React.Component {
   }
 
   render() {
-    let handler = <RouteHandler />
     if (this.props.apiError) {
-      handler = <ErrorPage error={this.props.apiError} />
-    } else if (this.props.resourceFound === false) {
-      handler = <NotFoundPage />
+      return <ErrorPage error={this.props.apiError} />
     }
 
-    return <div>
-      <ApplicationNavbar />
-      {handler}
-    </div>
+    if (this.props.resourceFound === false) {
+      return <NotFoundPage />
+    }
+
+    return <RouteHandler />
   }
 }
