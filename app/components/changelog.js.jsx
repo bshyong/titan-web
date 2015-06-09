@@ -26,8 +26,7 @@ export default class Changelog extends React.Component {
       moreAvailable: StoryStore.moreAvailable,
       page: StoryStore.page,
       stories: StoryStore.all(),
-      selectedView: ChangelogStore.selectedView,
-      timeShown: ChangelogStore.timeShown
+      selectedView: ChangelogStore.selectedView
     }
   }
 
@@ -83,21 +82,8 @@ export default class Changelog extends React.Component {
     return stories
   }
 
-  storyValuesLogic(key, value) {
-    const { timeShown, selectedView } = this.props
-    if (timeShown) {
-      if (timeShown.format() !== "day" && (key.format() !== timeShown.format()))
-        {value = value.slice(0,5)}
-    } else {
-      if (selectedView !== "day") {
-        value = value.slice(0,5)
-      }
-    }
-    return value
-  }
-
   renderTable() {
-    const { changelogId, timeShown, selectedView } = this.props
+    const { changelogId, selectedView } = this.props
     const groupedStories = this.sortStories()
     return groupedStories.map((stories, date) => {
       let formatted_date = date.format('MM-DD-YYYY')
