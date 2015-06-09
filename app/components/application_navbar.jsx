@@ -97,6 +97,9 @@ export default class ApplicationNavbar extends React.Component {
             <Link to="profile" params={{userId: user.username}}>Profile</Link>
           </List.Item>
           <List.Item>
+            <Link to="settings">Settings</Link>
+          </List.Item>
+          <List.Item>
             <a href="https://assembly.com/about">About</a>
           </List.Item>
           <List.Item>
