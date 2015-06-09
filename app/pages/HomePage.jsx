@@ -2,7 +2,7 @@ import React from 'react'
 import Button from '../ui/Button.jsx'
 import SessionActions from '../actions/session_actions'
 import SessionStore from '../stores/session_store'
-import LoadingBar from '../ui/LoadingBar.jsx'
+import Divider from '../components/Divider.jsx'
 
 import HomePagePreviewSrc from '../images/HomePagePreview.png'
 
@@ -18,7 +18,7 @@ export default class HomePage extends React.Component {
       <div>
         <div className="flex flex-column" style={{minHeight: "100vh"}}>
           <div className="flex-none">
-            <LoadingBar loading={true} />
+            <Divider />
           </div>
 
           <div className="flex-none p2">
@@ -30,7 +30,7 @@ export default class HomePage extends React.Component {
 
               <div className="flex-auto sm-flex mxn3">
                 <div className="sm-col-6 px3">
-                  <h1 className="mt0 mb0" style={{fontSize: '3rem'}}>Create better, together.</h1>
+                  <h1 className="mt0 mb3" style={{fontSize: '3rem'}}>Create better, together.</h1>
                 </div>
                 <div className="sm-col-6 px3">
                   <p className="h3">
