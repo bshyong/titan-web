@@ -9,7 +9,7 @@ import HomePagePreviewSrc from '../images/HomePagePreview.png'
 export default class HomePage extends React.Component {
   static willTransitionTo(transition, params, query) {
     if (SessionStore.user) {
-      transition.redirect("profile", {userId: SessionStore.user.username})
+      transition.redirect("dashboard")
     }
   }
 

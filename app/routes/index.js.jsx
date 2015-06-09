@@ -40,7 +40,7 @@ export default (
       <DefaultRoute handler={ProfileSettings} name="profile_settings" />
     </Route>
 
-    <Route handler={DashboardPage} path="/dashboard" />
+    <Route handler={DashboardPage} path="/dashboard" name="dashboard" />
 
     <Route handler={ChangelogLayout} path="/:changelogId">
       <DefaultRoute handler={ChangelogPage} name="changelog" />
