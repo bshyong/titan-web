@@ -4,6 +4,7 @@ import SessionActions from '../actions/session_actions'
 import SessionStore from '../stores/session_store'
 import Divider from '../components/Divider.jsx'
 
+import HomePageLogoSrc from '../images/HomePageLogo.svg'
 import HomePagePreviewSrc from '../images/HomePagePreview.png'
 
 export default class HomePage extends React.Component {
@@ -24,7 +25,7 @@ export default class HomePage extends React.Component {
           </div>
 
           <div className="flex-none p2">
-            Assembly
+            <img src={HomePageLogoSrc} width="196" height="21" />
           </div>
 
           <div className="flex-auto flex flex-center">
