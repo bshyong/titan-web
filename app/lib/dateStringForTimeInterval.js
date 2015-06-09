@@ -11,6 +11,6 @@ export default (date, interval) => {
       const end_date = moment(date).add(1, 'weeks')
       return `${start_date.format('MMMM D, YYYY')} - ${end_date.format('MMMM D, YYYY')}`
     default:
-      return date
+      return date.format('MMMM D, YYYY')
   }
 }
