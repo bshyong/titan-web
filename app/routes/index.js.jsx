@@ -24,7 +24,6 @@ import SingleDateChangelogPage from '../pages/SingleDateChangelogPage.jsx'
 import StoryComposer from '../components/story_composer.js.jsx'
 import StoryPage from '../components/story_page.jsx'
 import UserPage from '../pages/UserPage.jsx'
-import DashboardPage from '../pages/DashboardPage.jsx'
 
 export default (
   <Route handler={AppPage} name="root" path="/">
@@ -45,7 +44,7 @@ export default (
 
     <Route handler={ChangelogLayout} path="/:changelogId">
       <DefaultRoute handler={ChangelogPage} name="changelog" />
-      
+
       <Route handler={EditStoryForm} path=":storyId/edit" name="edit" />
 
       <Route handler={StoryComposer} path="new">

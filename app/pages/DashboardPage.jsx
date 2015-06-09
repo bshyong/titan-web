@@ -1,5 +1,6 @@
 import React from 'react'
 import AuthenticatedComponent from '../components/mixins/authenticated_mixin.jsx'
+import ApplicationNavbar from '../components/application_navbar.jsx'
 import ChangelogActions from '../actions/changelog_actions'
 import FollowingActions from '../actions/follow_actions'
 import Dashboard from '../components/Dashboard.jsx'
@@ -17,6 +18,7 @@ export default class DashboardPage extends React.Component {
   render() {
     return (
       <div>
+        <ApplicationNavbar />
         <Jumbotron bgColor="white" color="black">
           <p className="center col-8 mx-auto">
             Hey, you found us (it wasn’t a big secret anyway). We’re building a
