@@ -13,16 +13,11 @@ export default class LoadingBar extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.loading) {
-      this.setTimeout()
-    }
+    this.toggleTimeout()
   }
 
-  componentWillReceiveProps(nextProps) {
-    clearTimeout(this.timeout)
-    if (nextProps.loading) {
-      this.setTimeout()
-    }
+  componentDidUpdate() {
+    this.toggleTimeout()
   }
 
   componentWillUnmount() {
@@ -46,10 +41,15 @@ export default class LoadingBar extends React.Component {
     )
   }
 
-  setTimeout() {
-    this.timeout = setTimeout(() => {
-      this.setState({show: true})
-    }, TimeoutMs)
+  toggleTimeout() {
+    if (this.props.loading) {
+      this.timeout = this.timeout || setTimeout(() => {
+        this.setState({show: true})
+        clearTimeout(this.timeout)
+      }, TimeoutMs)
+    } else {
+      clearTimeout(this.timeout)
+    }
   }
 
 }
