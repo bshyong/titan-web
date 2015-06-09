@@ -14,7 +14,7 @@ export default keyMirror({
   ATTACHMENT_UPLOADING: null,
 
   API_ERROR: null,
-  
+
   CHANGELOGS_ALL_FETCHED: null,
 
   CHANGELOG_CREATE_FAILED: null,
