@@ -7,6 +7,7 @@ import Dashboard from '../components/Dashboard.jsx'
 import Jumbotron from '../ui/Jumbotron.jsx'
 import Button from '../ui/Button.jsx'
 import SessionStore from '../stores/session_store'
+import { Link } from 'react-router'
 
 @AuthenticatedComponent()
 export default class DashboardPage extends React.Component {
@@ -28,7 +29,9 @@ export default class DashboardPage extends React.Component {
             feedback</a>, and turn down for what.
           </p>
           <div className="center">
-            <Button bg="green">Create your own changelog</Button>
+            <Link to="newChangelog">
+              <Button bg="green">Create your own changelog</Button>
+            </Link>
           </div>
         </Jumbotron>
 

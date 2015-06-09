@@ -31,7 +31,7 @@ export default (
     <NotFoundRoute handler={NotFound} name="not_found" />
 
     <Route handler={HomePage} path="/home" />
-    <Route handler={NewChangelogPage} path="/new" name="NewChangelog" />
+    <Route handler={NewChangelogPage} path="/new" name="newChangelog" />
     <Route handler={SigninSSO} path="/signin/sso" name="sso" />
     <Route handler={UserPage} path="/users/:userId" name="profile" />
 

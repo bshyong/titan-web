@@ -6,8 +6,6 @@ import ChangelogCard from './Changelog/ChangelogCard.jsx'
 import Button from '../ui/Button.jsx'
 import Jumbotron from '../ui/Jumbotron.jsx'
 
-// --
-
 @connectToStores(DashboardStore)
 export default class Dashboard extends React.Component {
   static getPropsFromStores(prevProps) {
