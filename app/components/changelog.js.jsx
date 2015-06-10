@@ -32,8 +32,7 @@ export default class Changelog extends React.Component {
   }
 
   render() {
-    const { changelogId, page, moreAvailable, loading } = this.props
-
+    const { changelogId, page, moreAvailable, loading, stories } = this.props
     return <div>
       {moreAvailable ?
         <ScrollPaginator page={page}
@@ -50,10 +49,19 @@ export default class Changelog extends React.Component {
         </div>
       </div>
       <div className="container">
-        {this.renderTable()}
+        {stories.size > 0 ? this.renderTable() : this.renderEmptyState()}
         <LoadingBar loading={loading} />
       </div>
     </div>
+  }
+
+  renderEmptyState() {
+    return (
+      <div className="p4 mt2 center gray">
+        <p className="h2">No stories in your changelog</p>
+        <p>A log of the stories you write will show up here</p>
+      </div>
+    )
   }
 
   parseCalendarDate(key) {
