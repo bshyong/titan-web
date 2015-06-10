@@ -107,7 +107,7 @@ export default class ChangelogCreation extends React.Component {
   renderHeader() {
     return (
       <h2 className="py4 mx-auto center" style={{fontSize: '2rem'}}>
-        Start a changelog
+        Start a Changelog
       </h2>
     )
   }
