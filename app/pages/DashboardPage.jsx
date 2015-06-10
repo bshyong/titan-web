@@ -14,6 +14,7 @@ export default class DashboardPage extends React.Component {
   static willTransitionTo(transition, params, query) {
     ChangelogActions.fetchAll()
     FollowingActions.fetchFollowing(SessionStore.user.username)
+    ChangelogActions.clearCurrent()
   }
 
   render() {
