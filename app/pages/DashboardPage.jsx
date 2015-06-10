@@ -31,7 +31,7 @@ export default class DashboardPage extends React.Component {
           </p>
           <div className="center">
             <Link to="newChangelog">
-              <Button bg="green">Create your own changelog</Button>
+              <Button bg="green">Create your own Changelog</Button>
             </Link>
           </div>
         </Jumbotron>
