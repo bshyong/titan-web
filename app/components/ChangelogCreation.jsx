@@ -35,19 +35,6 @@ export default class ChangelogCreation extends React.Component {
     }
   }
 
-  BoxCssErrors() {
-    let err = this.props.errors
-    if (err) {
-      if (err['slug'] == "has already been taken" && !this.state.recently_typed) {
-        return "border-red"
-      } else {
-        return ""
-      }
-    } else {
-      return ""
-    }
-  }
-
   render() {
     return (
       <div className="container">
