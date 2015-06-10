@@ -1,6 +1,6 @@
 import ChangelogActions from '../actions/changelog_actions'
 import ChangelogStore from '../stores/changelog_store.js'
-import GroupActions from '../actions/group_actions'
+import GroupActions from '../actions/GroupActions'
 import React from 'react'
 import SegmentedControl from '../ui/SegmentedControl.jsx'
 import StoryActions from '../actions/story_actions'

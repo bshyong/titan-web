@@ -1,5 +1,6 @@
 import {
   CHANGELOG_GROUPS_FETCHED,
+  GROUP_DONE,
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
@@ -17,6 +18,9 @@ class GroupsStore extends Store {
             return m.set(group.id, group)
           }, Map()))
           break
+        case GROUP_DONE:
+          const {groupId} = action
+          // this._groups.set(groupId, this.get(groupId))
         default:
           return
       }

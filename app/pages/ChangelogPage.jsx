@@ -4,7 +4,7 @@ import RouterContainer from '../lib/router_container'
 import StoryActions from '../actions/story_actions'
 import Changelog from '../components/changelog.js.jsx'
 import ChangelogHeader from '../components/ChangelogHeader.jsx'
-import GroupActions from '../actions/group_actions'
+import GroupActions from '../actions/GroupActions'
 
 export default class ChangelogPage extends React.Component {
   static willTransitionTo(transition, params, query) {

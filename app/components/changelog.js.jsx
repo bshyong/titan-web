@@ -85,16 +85,14 @@ export default class Changelog extends React.Component {
       .reverse()
       .map(g => {
         let groupStories = stories.get(g.id)
-        if (groupStories) {
-          return (
-            <StoryGroup
-              key={g.id}
-              groupId={g.id}
-              stories={groupStories}
-              changelogId={changelogId}
-              truncatable={true} />
-          )
-        }
+        return (
+          <StoryGroup
+            key={g.id}
+            groupId={g.id}
+            stories={groupStories}
+            changelogId={changelogId}
+            truncatable={true} />
+        )
       }).toList()
 
     return (

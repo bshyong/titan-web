@@ -1,17 +1,20 @@
+import { Link } from 'react-router'
+import { List } from 'immutable'
 import Avatar from '../ui/Avatar.jsx'
 import ChangelogStore from '../stores/changelog_store'
 import ClickablePaginator from '../ui/ClickablePaginator.jsx'
+import GroupsStore from '../stores/groups_store'
+import Button from '../ui/Button.jsx'
+import GroupActions from '../actions/GroupActions'
 import Icon from '../ui/Icon.jsx'
+import moment from 'moment'
+import paramsFor from '../lib/paramsFor'
 import React from 'react'
 import Stack from '../ui/Stack.jsx'
 import StoryActions from '../actions/story_actions'
 import StoryCell from './Story/StoryCell.jsx'
 import Table from '../ui/Table.jsx'
 import UpvoteToggler from './UpvoteToggler.jsx'
-import moment from 'moment'
-import paramsFor from '../lib/paramsFor'
-import { Link } from 'react-router'
-import GroupsStore from '../stores/groups_store'
 
 export default class StoryGroup extends React.Component {
 
@@ -37,13 +40,24 @@ export default class StoryGroup extends React.Component {
     if (!group) { return null }
     return (
       <div key={groupId}>
-        <div to="changelog_date" params={{changelogId: changelogId}} className="black">
-          <Table.Separator label={group.title} />
+        <div className="border-bottom flex flex-center">
+          <div className="flex-auto py2">
+            {group.title ? group.title : <span className="gray">Fresh group</span>}
+          </div>
+          <div className="flex-none flex mxn1">
+            <div className="px1">
+              <Button size="small" color="orange" style="transparent" action={function() {}}>Edit</Button>
+            </div>
+            <div className="px1">
+              <Button size="small" bg="gray" action={this.handleCloseGroup.bind(this)}>Publish </Button>
+            </div>
+          </div>
         </div>
+
         <Table>
           <ClickablePaginator onLoadMore={this.handleShowMore.bind(this)} hasMore={this.state.hasMore}>
             {stories.map(story => (
-              <Table.Cell key={story.id} image={<UpvoteToggler story={story} hearted={story.viewer_has_hearted} />} to="story" params={paramsFor.story({slug: changelogId}, story)}>
+              <Table.Cell key={story.id} to="story" params={paramsFor.story({slug: changelogId}, story)}>
                 <StoryCell story={story} />
               </Table.Cell>
             ))}
@@ -51,6 +65,12 @@ export default class StoryGroup extends React.Component {
         </Table>
       </div>
     )
+  }
+
+  handleCloseGroup() {
+    GroupActions.done(this.props.groupId)
+    // if (confirm("Are you sure you want to close this group?")) {
+    // }
   }
 
   handleShowMore() {
@@ -63,11 +83,11 @@ export default class StoryGroup extends React.Component {
 
   hasMoreStories() {
     const { stories, truncatable } = this.props
-    if (stories.size) {
-      return truncatable && (stories.size < stories.filter(s => s.group_total != null).minBy(story => story.group_total).group_total)
-    } else {
+    if (stories.isEmpty()) {
       return false
     }
+
+    return truncatable && (stories.size < stories.filter(s => s.group_total != null).minBy(story => story.group_total).group_total)
   }
 }
 
@@ -80,4 +100,5 @@ StoryGroup.propTypes = {
 
 StoryGroup.defaultProps = {
   truncatable: false,
+  stories: List([]),
 }
