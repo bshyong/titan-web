@@ -6,7 +6,7 @@ import api from '../lib/api'
 
 export default {
 
-  AdminDataFetched() {
+  adminDataFetched() {
     Dispatcher.dispatch({
       type: ADMIN_DATA_FETCHED
     })
