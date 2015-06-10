@@ -11,6 +11,7 @@ import moment from '../config/moment'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
 import ScrollPaginator from '../ui/ScrollPaginator.jsx'
+import SessionStore from '../stores/session_store'
 import shallowEqual from 'react-pure-render/shallowEqual'
 import Stack from '../ui/Stack.jsx'
 import Table from '../ui/Table.jsx'
@@ -31,7 +32,8 @@ export default class ChangelogCreation extends React.Component {
 
   static getPropsFromStores(props) {
     return {
-      errors: ChangelogStore.errors
+      errors: ChangelogStore.errors,
+      user: SessionStore.user
     }
   }
 
@@ -167,7 +169,8 @@ export default class ChangelogCreation extends React.Component {
     let name = this.state.name
     let tagline = this.state.tagline
     let slug = this.state.slug
+    let user_id = this.props.user.id
     this.setState({recently_typed: false})
-    ChangelogActions.create(name, tagline, slug)
+    ChangelogActions.create(name, tagline, slug, user_id)
   }
 }

@@ -50,19 +50,16 @@ class StoryStore extends Store {
           break
 
         case STORY_SUBSCRIBED:
-          const { storyId } = action
-          this.get(storyId).viewer_has_subscribed = true
+          this.get(action.storyId).viewer_has_subscribed = true
           break
 
         case STORY_UNSUBSCRIBED:
-          const { storyId } = action
-          this.get(storyId).viewer_has_subscribed = false
+          this.get(action.storyId).viewer_has_subscribed = false
           break
 
         case STORY_UNHEARTED:
-          const { storyId } = action
-          this.get(storyId).viewer_has_hearted = false
-          this.get(storyId).hearts_count -= 1
+          this.get(action.storyId).viewer_has_hearted = false
+          this.get(action.storyId).hearts_count -= 1
           break
 
         case CHANGELOG_TIME_CHANGED:

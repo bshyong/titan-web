@@ -66,8 +66,8 @@ export default {
     })
   },
 
-  create(name, tagline, slug) {
-    api.post(`changelogs`, {name: name, tagline: tagline, slug: slug}).
+  create(name, tagline, slug, user_id) {
+    api.post(`changelogs`, {name: name, tagline: tagline, slug: slug, user_id: user_id}).
       then(resp => {
         Dispatcher.dispatch({
           type: CHANGELOG_FETCHED,
