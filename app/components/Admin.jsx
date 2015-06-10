@@ -15,7 +15,6 @@ export default class Admin extends React.Component {
   }
 
   render() {
-    console.log(this.props.changelogs)
     return (
       <div className="container">
         <h1>Admin Page</h1>
@@ -60,7 +59,6 @@ export default class Admin extends React.Component {
   }
 
   renderChangelog(changelog) {
-    console.log(changelog)
     let date = moment(changelog.created_at).format('MMMM D, YYYY')
     return (
       <tr>
