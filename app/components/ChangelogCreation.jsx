@@ -35,98 +35,141 @@ export default class ChangelogCreation extends React.Component {
     }
   }
 
-  render() {
-    return <div>
-      <div className="container py2">
-        <div className="sm-col-8 mx-auto px2">
-          <h2>Create a new changelog</h2>
+  BoxCssErrors() {
+    let err = this.props.errors
+    if (err) {
+      if (err['slug'] == "has already been taken" && !this.state.recently_typed) {
+        return "border-red"
+      } else {
+        return ""
+      }
+    } else {
+      return ""
+    }
+  }
 
-          <div className="border-bottom border-smoke mb2">
-            <div className="clearfix">
+  render() {
+    return (
+      <div className="container">
+        <div className="mx-auto">
+          <div className="clearfix">
+            {this.renderHeader()}
+          </div>
+
+          <div className="clearfix">
+            <div className="sm-col-5 mx-auto">
               Name
               <input type="text"
-                className="full-width input-invisible border-bottom border-smoke mb2"
+                className="full-width border border-smoke mb2"
                 placeholder="My Product"
                 value={this.state.name}
                 onChange={this.NameChange.bind(this)}
                 ref="name"
                 style={{
-                  fontSize: '1.5rem',
+                  fontSize: '1rem',
                   height: 'auto'
                 }} />
             </div>
-            <br/>
+          </div>
 
-            <div className="clearfix">
-              URL
-              <div className="flex flex-grow border-bottom" style={{fontSize: '1.5rem', height: 'auto'}}>
-                changelog.assembly.com/
-                <input type="text"
-                  className="input-invisible border-smoke"
-                  placeholder="my_changelog"
-                  value={this.state.slug}
-                  onChange={this.SlugChange.bind(this)}
-                  ref="tagline"
-                  style={{
-                    fontSize: '1.5rem'
-                  }} />
+          <div className="clearfix mx-auto">
+            <div className="col sm-col-8">
+              <div className="flex flex-center">
+                <div className="flex-none"></div>
+                <div className="flex-auto">
+                  {this.renderUrlForm()}
+                </div>
+                <div className="flex-none">
+                  {this.renderSlugMessage()}
+                </div>
               </div>
             </div>
-            <br/><br/>
-            <div className="clearfix">
-              Tagline
-              <input type="text"
-                className="full-width input-invisible border-bottom border-smoke mb2"
-                placeholder="My Product's Tagline eg. 'Bigger than Big'"
-                value={this.state.tagline}
-                onChange={this.TaglineChange.bind(this)}
-                ref="tagline"
-                style={{
-                  fontSize: '1.5rem',
-                  height: 'auto'
-                }} />
+            <div className="clearfix sm-col-5 mx-auto py2">
+              {this.renderCreateButton()}
             </div>
 
           </div>
-          {this.renderCreateButton()}
         </div>
       </div>
-    </div>
+    )
+  }
+
+  renderUrlForm() {
+    let css = "flex flex-grow full-width border border-smoke"
+    if (this.slugError()) {
+      css = "flex flex-grow full-width border border-smoke border-red"
+    }
+    return (
+      <div>
+        URL
+        <div className={css} style={{fontSize: '1rem', height: 'auto'}}>
+          <div className="ml1 mr3 py1">
+            changelog.assembly.com/
+          </div>
+          <input type="text"
+            className="input-invisible border-smoke"
+            placeholder="MyChangelog"
+            value={this.state.slug}
+            onChange={this.SlugChange.bind(this)}
+            ref="tagline"
+            style={{
+              fontSize: '1rem',
+              height: 'auto'
+            }} />
+        </div>
+      </div>
+    )
+  }
+
+  renderHeader() {
+    return (
+      <h2 className="py4 mx-auto center" style={{fontSize: '2rem'}}>
+        Start a changelog
+      </h2>
+    )
+  }
+
+  slugError() {
+    let err = this.props.errors
+    if (err) {
+      if (err['slug'] == "has already been taken" && !this.state.recently_typed) {
+        return true
+      }
+    }
+    return false
+  }
+
+  renderSlugMessage() {
+    let err = this.props.errors
+    if (this.slugError())
+      {
+        return (
+            <div className="red" style={{fontSize: '1rem'}}>
+              * slug taken
+            </div>
+          )
+      }
   }
 
   renderCreateButton() {
     let valid = this.state.name != null && this.state.slug != null
     let onPublish=this.handlePublish.bind(this)
-    let err = this.props.errors
 
-    if (!err || this.state.recently_typed) {
-      return (
-        <div className="sm-col-4 mx-auto">
-          <Button style="outline"
-            block={true}
-            color={"orange"}
-            disabled={!valid}
-            action={valid ? onPublish : null}>
-            Create Changelog
-          </Button>
-        </div>
-      )
-    } else if (err['slug']=="has already been taken" && !this.state.recently_typed) {
-      return (
-      <div className="sm-col-4 mx-auto">
+    return (
+      <div className="mx-auto mt3 block">
         <Button style="outline"
           block={true}
           color={"orange"}
-          disabled={true}>
-          URL is taken
+          disabled={!valid}
+          action={valid ? onPublish : null}>
+          Create Changelog
         </Button>
       </div>
-      )
-    }
+    )
   }
 
   NameChange(e) {
-    this.setState({name: e.target.value, recently_typed: true})
+    this.setState({name: e.target.value})
   }
 
   TaglineChange(e) {
