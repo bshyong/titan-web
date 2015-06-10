@@ -29,7 +29,7 @@ export default class Logo extends React.Component {
 Logo.propTypes = {
   changelog: React.PropTypes.shape({
     name: React.PropTypes.string.isRequired,
-    logo_url: React.PropTypes.string.isRequired
+    logo_url: React.PropTypes.string
   }).isRequired,
   size: React.PropTypes.string.isRequired,
 }
