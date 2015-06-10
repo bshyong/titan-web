@@ -1,13 +1,14 @@
 import authenticated from '../mixins/authenticated_mixin.jsx'
-import UserCell from '../User/UserCell.jsx'
+import Avatar from '../../ui/Avatar.jsx'
 import ChangelogActions from '../../actions/changelog_actions'
 import ChangelogStore from '../../stores/changelog_store'
 import connectToStores from '../../lib/connectToStores.jsx'
 import MembershipActions from '../../actions/MembershipActions'
 import React from 'react'
-
-import Avatar from '../../ui/Avatar.jsx'
+import RouterContainer from '../../lib/router_container'
 import Table from '../../ui/Table.jsx'
+import UserCell from '../User/UserCell.jsx'
+
 
 @authenticated()
 @connectToStores(ChangelogStore)
@@ -18,6 +19,7 @@ export default class ChangelogSettings extends React.Component {
 
   static getPropsFromStores(props) {
     return {
+      changelogId: RouterContainer.get().getCurrentParams().changelogId,
       coreMemberships: ChangelogStore.coreMemberships,
       errors: ChangelogStore.updateErrors,
       updateSuccessful: ChangelogStore.updateSuccessful
@@ -43,7 +45,7 @@ export default class ChangelogSettings extends React.Component {
         <form onSubmit={this.handleAddMember.bind(this)}>
           <input type="text" ref="emailOrUsername"
                  className="field-light full-width"
-                 placeholder="Add core team member by username or email" />
+                 placeholder="Add core team member by username" />
         </form>
         {this.renderStatus()}
 
@@ -69,13 +71,17 @@ export default class ChangelogSettings extends React.Component {
   handleAddMember(e) {
     e.preventDefault()
     let el = React.findDOMNode(this.refs.emailOrUsername)
-
-    MembershipActions.update(
-      this.props.params.changelogId,
-      el.value, {
-        is_core: true
-      }
-    )
+    let text = el.value
+    // if (text.match(/.+@.+/)) {
+    //   MembershipActions.invite(this.props.params.changelogId, text)
+    // } else {
+      MembershipActions.update(
+        this.props.changelogId,
+        text, {
+          is_core: true
+        }
+      )
+    // }
 
     el.value = ''
   }
@@ -83,7 +89,7 @@ export default class ChangelogSettings extends React.Component {
   handleRemoveClicked(membership) {
     return (e) => {
       MembershipActions.update(
-        this.props.params.changelogId,
+        this.props.changelogId,
         membership.user.username, {
           is_core: false
         }

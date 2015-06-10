@@ -197,11 +197,11 @@ export default class MarkdownArea extends React.Component {
     }, 0)
   }
 
-  _onGifSelected(gif) {
+  _onGifSelected(gif, alt) {
     setTimeout(() => {
       const value = this.props.value || ''
       const beginning = value.substr(0, this.selectionStart).trim()
-      const newBeginning = `${beginning} ![gif](${gif.url})`
+      const newBeginning = `${beginning} ![${alt || 'gif'}](${gif.url})`
 
       let end = value.substr(this.selectionStart)
 

@@ -244,9 +244,9 @@ export default class GifPicker extends React.Component {
   }
 
   handleGifSelect(gif) {
+    this.props.onGifSelect(gif, GifStore.searchTerm)
     React.findDOMNode(this.refs.gifSearch).value = ''
     this.handleOnChange()
-    this.props.onGifSelect(gif)
   }
 
   renderGif(gif) {

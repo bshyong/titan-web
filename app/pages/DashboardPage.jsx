@@ -7,12 +7,14 @@ import Dashboard from '../components/Dashboard.jsx'
 import Jumbotron from '../ui/Jumbotron.jsx'
 import Button from '../ui/Button.jsx'
 import SessionStore from '../stores/session_store'
+import { Link } from 'react-router'
 
 @AuthenticatedComponent()
 export default class DashboardPage extends React.Component {
   static willTransitionTo(transition, params, query) {
     ChangelogActions.fetchAll()
     FollowingActions.fetchFollowing(SessionStore.user.username)
+    ChangelogActions.clearCurrent()
   }
 
   render() {
@@ -28,7 +30,9 @@ export default class DashboardPage extends React.Component {
             feedback</a>, and turn down for what.
           </p>
           <div className="center">
-            <Button bg="green">Create your own changelog</Button>
+            <Link to="newChangelog">
+              <Button bg="green">Create your own Changelog</Button>
+            </Link>
           </div>
         </Jumbotron>
 

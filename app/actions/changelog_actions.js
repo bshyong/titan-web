@@ -1,6 +1,7 @@
 import {
   CHANGELOGS_ALL_FETCHED,
   CHANGELOG_CREATE_FAILED,
+  CHANGELOG_CURRENT_CLEARED,
   CHANGELOG_FETCHED,
   CHANGELOG_MEMBERSHIPS_FETCHED,
   CHANGELOG_VIEW_CHANGED,
@@ -32,6 +33,12 @@ export default {
           changelog: resp
         })
       })
+  },
+
+  clearCurrent() {
+    Dispatcher.dispatch({
+      type: CHANGELOG_CURRENT_CLEARED
+    })
   },
 
   fetchMemberships(changelogId) {

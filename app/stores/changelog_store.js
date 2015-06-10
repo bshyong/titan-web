@@ -1,13 +1,16 @@
 import {
   CHANGELOG_CREATE_FAILED,
+  CHANGELOG_CURRENT_CLEARED,
   CHANGELOG_FETCHED,
   CHANGELOG_FOLLOWED,
   CHANGELOG_MEMBERSHIPS_FETCHED,
   CHANGELOG_SHOW_ALL,
+  CHANGELOG_TIME_CHANGED,
+  CHANGELOG_UNFOLLOWED,
   CHANGELOG_UNFOLLOWED,
   CHANGELOG_VIEW_CHANGED,
-  MEMBERSHIP_UPDATED,
   MEMBERSHIP_UPDATE_FAILED,
+  MEMBERSHIP_UPDATED,
   MEMBERSHIP_UPDATING,
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
@@ -30,6 +33,10 @@ class ChangelogStore extends Store {
           this._changelog = action.changelog
           this._errors = null
           break;
+
+        case CHANGELOG_CURRENT_CLEARED:
+          this._changelog = null
+          break
 
         case CHANGELOG_FOLLOWED:
           this._changelog.viewer_is_follower = true
@@ -88,7 +95,7 @@ class ChangelogStore extends Store {
   }
 
   get following() {
-    return this._changelog.viewer_is_follower
+    return this._changelog && this._changelog.viewer_is_follower
   }
 
   get selectedView() {

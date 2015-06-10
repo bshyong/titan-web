@@ -44,7 +44,7 @@ export default class HomePage extends React.Component {
                     into contributors and eager evangelists.
                   </p>
                   <p className="h3 bold">
-                    Start your public (or private) changelog today &mdash; it's
+                    Start your Changelog today &mdash; it's
                     totally free.
                   </p>
 

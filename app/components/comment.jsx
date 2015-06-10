@@ -11,6 +11,7 @@ import SessionStore from '../stores/session_store'
 import classnames from 'classnames'
 import moment from '../config/moment'
 import onMobile from '../lib/on_mobile'
+import {Link} from 'react-router'
 
 @connectToStores(CommentsStore)
 export default class Comment extends React.Component {
@@ -35,7 +36,7 @@ export default class Comment extends React.Component {
 
           <div className="flex-auto h5" id={id}>
             <div className="flex">
-              <div className="flex-auto bold">{user.username}</div>
+              <Link className="flex-auto bold black" to="profile" params={{userId: user.username}}>{user.username}</Link>
               <div className="flex-none flex gray mxn1 visible-hover">
                 <div className="px1">
                   {moment(created_at).fromNow(true)}

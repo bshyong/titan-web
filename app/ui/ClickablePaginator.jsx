@@ -21,7 +21,7 @@ export default class ClickablePaginator extends React.Component {
       <div>
         <div>
           {this.props.children}
-          <div className='m2'>
+          <div className='m2 mt3'>
             <LoadingBar loading={this.state.loading} />
             {this.renderLoadMoreButton()}
           </div>
@@ -44,9 +44,9 @@ export default class ClickablePaginator extends React.Component {
     if (this.props.hasMore) {
       return (
         <div
-          className="flex flex-center pointer py1 bg-whitesmoke-hover gray orange-hover border"
+          className="pointer py1 bg-smoke-hover gray orange-hover border block center"
           onClick={this.handleOnClick.bind(this)}>
-          <div className="mx-auto">Load more</div>
+          <div className="mx-auto h5">Load more</div>
         </div>
       )
     }

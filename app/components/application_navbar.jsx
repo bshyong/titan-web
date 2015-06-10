@@ -36,8 +36,9 @@ export default class ApplicationNavbar extends React.Component {
   }
 
   left() {
+    let route = this.props.user ? "dashboard" : "root"
     return (
-      <Link to="changelog" params={{changelogId: 'assembly'}} className="flex">
+      <Link to={route} className="flex">
         <img className="flex-none mr2" src={LogoSrc} style={{height: '1.5rem'}} />
         <div className="black sm-show">Assembly</div>
       </Link>
@@ -95,6 +96,9 @@ export default class ApplicationNavbar extends React.Component {
         <List type="small">
           <List.Item>
             <Link to="profile" params={{userId: user.username}}>Profile</Link>
+          </List.Item>
+          <List.Item>
+            <Link to="settings">Settings</Link>
           </List.Item>
           <List.Item>
             <a href="https://assembly.com/about">About</a>

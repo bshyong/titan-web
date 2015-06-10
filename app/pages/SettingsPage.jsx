@@ -1,8 +1,6 @@
-import authenticated from '../components/mixins/authenticated_mixin.jsx'
 import ApplicationNavbar from '../components/application_navbar.jsx'
 import Button from '../ui/Button.jsx'
-import classnames from 'classnames'
-import connectToStores from '../lib/connectToStores.jsx'
+import ChangelogActions from '../actions/changelog_actions'
 import DocumentTitle from 'react-document-title'
 import ProfileActions from '../actions/profile_actions.js'
 import ProfileStore from '../stores/profile_store.js'
@@ -10,6 +8,9 @@ import React from 'react'
 import RouterContainer from '../lib/router_container'
 import SessionActions from '../actions/session_actions'
 import SessionStore from '../stores/session_store'
+import authenticated from '../components/mixins/authenticated_mixin.jsx'
+import classnames from 'classnames'
+import connectToStores from '../lib/connectToStores.jsx'
 import {Link, RouteHandler} from 'react-router'
 import {List} from 'immutable'
 
@@ -17,6 +18,7 @@ import {List} from 'immutable'
 export default class SettingsPage extends React.Component {
   static willTransitionTo(transition, params, query) {
     ProfileActions.fetchChangelogs(SessionStore.user.username)
+    ChangelogActions.clearCurrent()
   }
 
   static getPropsFromStores(props) {
