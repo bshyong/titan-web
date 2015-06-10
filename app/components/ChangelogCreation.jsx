@@ -153,6 +153,11 @@ export default class ChangelogCreation extends React.Component {
     )
   }
 
+  sanitizeSlug(slugText) {
+    let s = slugText.replace(/[|&;? $%@"<>/\()+,]/g, "");
+    return s
+  }
+
   NameChange(e) {
     this.setState({name: e.target.value})
   }
@@ -168,7 +173,7 @@ export default class ChangelogCreation extends React.Component {
   handlePublish() {
     let name = this.state.name
     let tagline = this.state.tagline
-    let slug = this.state.slug
+    let slug = this.sanitizeSlug(this.state.slug)
     let user_id = this.props.user.id
     this.setState({recently_typed: false})
     ChangelogActions.create(name, tagline, slug, user_id)
