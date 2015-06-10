@@ -72,22 +72,18 @@ export default class ChangelogCreation extends React.Component {
             </div>
           </div>
 
-          <div className="clearfix mx-auto">
-            <div className="col sm-col-8">
-              <div className="flex flex-center">
-                <div className="flex-none"></div>
-                <div className="flex-auto">
-                  {this.renderUrlForm()}
-                </div>
-                <div className="flex-none">
-                  {this.renderSlugMessage()}
-                </div>
-              </div>
+          <div className="clearfix">
+            <div className="sm-col-5 mx-auto">
+              {this.renderUrlForm()}
             </div>
+
+            <div className="sm-col-3 right">
+              {this.renderSlugMessage()}
+            </div>
+
             <div className="clearfix sm-col-5 mx-auto py2">
               {this.renderCreateButton()}
             </div>
-
           </div>
         </div>
       </div>
