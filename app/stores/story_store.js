@@ -44,9 +44,9 @@ class StoryStore extends Store {
           break
 
         case STORY_HEARTED:
-          const { storyId } = action
-          this.get(storyId).viewer_has_hearted = true
-          this.get(storyId).hearts_count += 1
+
+          this.get(action.storyId).viewer_has_hearted = true
+          this.get(action.storyId).hearts_count += 1
           break
 
         case STORY_SUBSCRIBED:
