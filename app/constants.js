@@ -2,6 +2,7 @@ import keyMirror from 'keymirror'
 
 export default keyMirror({
   ADMIN_DATA_FETCHED: null,
+  ADMIN_USERS_DATA_FETCHED: null,
 
   ANALYTICS_CHANGELOG_CREATED: null,
   ANALYTICS_COMMENT_CREATED: null,
