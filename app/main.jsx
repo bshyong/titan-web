@@ -43,6 +43,10 @@ RouterContainer.set(router)
 
 router.run((Handler, state) => {
   React.render(<Handler />, document.body)
-  segment.page()
+  segment.track(ANALYTICS_ENGAGED, {
+    type: 'page_view',
+    path: state.path,
+    routeName: state.routes[state.routes.length-1].name
+   })
   Dispatcher.dispatch({type: ROUTE_TRANSITIONED})
 })

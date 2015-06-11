@@ -1,4 +1,5 @@
 import {
+  ANALYTICS_CHANGELOG_CREATED,
   CHANGELOGS_ALL_FETCHED,
   CHANGELOG_CREATE_FAILED,
   CHANGELOG_CURRENT_CLEARED,
@@ -13,6 +14,7 @@ import Dispatcher from '../lib/dispatcher'
 import api from '../lib/api'
 import RouterContainer from '../lib/router_container'
 import SessionStore from '../stores/session_store'
+import segment from '../lib/segment'
 
 export default {
 
@@ -74,6 +76,9 @@ export default {
           changelog: resp
         })
         RouterContainer.get().transitionTo('new', {changelogId: resp.slug}, {type: 'helloWorld'})
+        segment.track(ANALYTICS_CHANGELOG_CREATED, {
+          changelogId: resp.slug
+        })
       }).catch(resp => {
         Dispatcher.dispatch({
           type: CHANGELOG_CREATE_FAILED,
