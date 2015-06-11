@@ -1,5 +1,4 @@
 import {
-  CHANGELOG_VIEW_CHANGED,
   COMMENT_CREATING,
   STORIES_FETCHED,
   STORIES_FETCHING,
@@ -12,17 +11,17 @@ import {
   STORY_UNHEARTED,
   STORY_UNSUBSCRIBED,
 } from '../constants'
-import { Map } from 'immutable'
+import { List, Map, OrderedMap } from 'immutable'
 import moment from 'moment'
 import paramsFor from '../lib/paramsFor'
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
 import ChangelogStore from './changelog_store.js'
 
-class StoryStore extends Store {
+class GroupedStoriesStore extends Store {
   constructor() {
     super()
-    this.stories = Map()
+    this.grouped = List()
     this._page = 0
     this._moreAvailable = true
     this._loading = false
@@ -30,17 +29,27 @@ class StoryStore extends Store {
     this.dispatchToken = Dispatcher.register(action => {
       switch (action.type) {
         case COMMENT_CREATING:
-          var story = this.stories.get(action.storyId)
+          var story = this.get(action.storyId)
           story.live_comments_count += 1
-          break;
+          break
 
         case STORY_DELETED:
-          this.stories = this.stories.delete(action.storyId)
-          break;
+          let g = this.grouped.find(g => g.stories.get(action.storyId))
+          g.stories = g.stories.delete(action.storyId)
+          break
 
         case STORY_FETCHED:
-          const { changelogId, story } = action
-          this.stories = this.stories.set(story.slug, addParams(changelogId, story))
+          let { group, story } = action
+          let g = this.grouped.find(g => g.stories.get(story.slug))
+          if (g) {
+            g.stories = g.stories.set(story.slug, story)
+          } else {
+            this.grouped = this.grouped.push({
+              group: action.story.group,
+              stories: OrderedMap([[story.slug, story]])
+            })
+          }
+
           break
 
         case STORY_HEARTED:
@@ -65,31 +74,38 @@ class StoryStore extends Store {
           this.get(storyId).hearts_count -= 1
           break
 
-        case CHANGELOG_VIEW_CHANGED:
-          this.stories = Map()
-          break
-
         case STORIES_FETCHED:
           if (action.page == 1) {
-            this.stories = Map()
+            this.grouped = List()
           }
 
-          this.stories = this.stories.merge(action.stories.reduce((m, story) => {
-            return m.set(story.slug, addParams(action.changelogId, story))
-          }, Map()))
+          action.grouped.forEach(newGroup => {
+            let existingGroup = this.grouped.find(g => g.group.key === newGroup.group.key)
+            if (existingGroup) {
+              newGroup.stories.forEach(s => {
+                existingGroup.stories = existingGroup.stories.set(s.slug, s)
+              })
+            } else {
+              this.grouped = this.grouped.push({
+                group: newGroup.group,
+                stories: OrderedMap(newGroup.stories.map(s => [s.slug, s]))
+              })
+            }
+          })
 
           this._page = action.page
           this._moreAvailable = action.moreAvailable
           this._loading = false
-          break;
+          break
 
         case STORIES_FETCHING:
           this._loading = true
-          break;
+          break
 
         case STORY_PUBLISHED:
-          this.stories = this.stories.set(action.story.slug, addParams(action.changelogId, action.story))
-          break;
+          let group = this.grouped.first()
+          group.stories = group.stories.set(action.story.slug, addParams(action.changelogId, action.story))
+          break
 
         default:
           return
@@ -98,26 +114,26 @@ class StoryStore extends Store {
     }.bind(this))
   }
 
-  get(storyId) {
-    return this.stories.get(storyId)
-  }
-
-  getCommentsCount(storyId) {
-    let story = this.stories.get(storyId)
-
-    return story && story.live_comments_count
-  }
-
-  all() {
-    return this.stories.toList()
-  }
-
   allWithinDates(start_date, timeInterval) {
     let end_date = moment(start_date).add(1, timeInterval.concat('s'))
     return this.stories.toList().filter(story => {
       let d = moment(story.created_at)
       return d >= start_date && d < end_date
     })
+  }
+
+  get(slug) {
+    let group = this.grouped.find(g => g.stories.get(slug))
+    if (group) {
+      return group.stories.get(slug)
+    }
+  }
+
+  getCommentsCount(slug) {
+    let story = this.get(slug)
+    if (story) {
+      return story.live_comments_count
+    }
   }
 
   get loading() {
@@ -133,7 +149,7 @@ class StoryStore extends Store {
   }
 }
 
-export default new StoryStore()
+export default new GroupedStoriesStore()
 
 function addParams(changelogSlug, story) {
   story.urlParams = paramsFor.story({slug: changelogSlug}, story)

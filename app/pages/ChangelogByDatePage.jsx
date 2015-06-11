@@ -6,10 +6,10 @@ import Changelog from '../components/changelog.js.jsx'
 import ChangelogHeader from '../components/ChangelogHeader.jsx'
 import GroupActions from '../actions/GroupActions'
 
-export default class ChangelogPage extends React.Component {
+export default class ChangelogByDatePage extends React.Component {
   static willTransitionTo(transition, params, query) {
     StoryActions.fetchAll(params.changelogId, {
-      group_by: 'markers'
+      group_by: 'calendar'
     })
   }
 
@@ -23,7 +23,7 @@ export default class ChangelogPage extends React.Component {
     const { changelogId } = this.props
     return <div>
       <ChangelogHeader changelogId={changelogId} />
-      <Changelog changelogId={changelogId} groupBy="markers" />
+      <Changelog changelogId={changelogId} groupBy="calendar" />
     </div>
   }
 }

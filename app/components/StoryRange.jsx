@@ -14,35 +14,50 @@ import paramsFor from '../lib/paramsFor'
 import { Link } from 'react-router'
 
 export default class StoryRange extends React.Component {
+  static propTypes = {
+    group: React.PropTypes.object.isRequired,
+    stories: React.PropTypes.object.isRequired,
+    timeInterval: React.PropTypes.string.isRequired,
+    truncatable: React.PropTypes.bool.isRequired
+  }
 
   constructor(props) {
     super(props)
     this.per = 5
     this.state = {
-      page: 1,
-      hasMore: this.hasMoreStories()
+      page: 1
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { stories } = nextProps
-    this.setState({
-      hasMore: this.props.truncatable && (stories.size < stories.minBy(story => story.group_total).group_total)
-    })
-  }
-
   render() {
-    const { date, stories, changelogId } = this.props
+    const { group, stories, changelogId } = this.props
+    let title = group.title
+    let date = moment(group.title)
+    if (date.isValid()) {
+      let format = 'MMM'
+      if (date.year() != moment().year()) {
+        format = 'MMM YYYY'
+      }
+      title = date.format(format)
+    }
     return (
-      <Table>
-        <ClickablePaginator onLoadMore={this.handleShowMore.bind(this)} hasMore={this.state.hasMore}>
-          {stories.map(story => (
-            <Table.Cell key={story.id} image={<UpvoteToggler story={story} hearted={story.viewer_has_hearted} />} to="story" params={paramsFor.story({slug: changelogId}, story)}>
-              <StoryCell story={story} />
-            </Table.Cell>
-          ))}
-        </ClickablePaginator>
-      </Table>
+      <div>
+        <div className="border-bottom flex flex-center">
+          <div className="flex-auto py2">
+            {title}
+          </div>
+        </div>
+
+        <Table>
+          <ClickablePaginator onLoadMore={this.handleShowMore.bind(this)} hasMore={this.hasMoreStories()}>
+            {stories.map(story => (
+              <Table.Cell key={story.id} image={<UpvoteToggler story={story} hearted={story.viewer_has_hearted} />} to="story" params={paramsFor.story({slug: changelogId}, story)}>
+                <StoryCell story={story} />
+              </Table.Cell>
+            ))}
+          </ClickablePaginator>
+        </Table>
+      </div>
     )
   }
 
@@ -62,12 +77,4 @@ export default class StoryRange extends React.Component {
       return false
     }
   }
-}
-
-StoryRange.propTypes = {
-  date: React.PropTypes.object.isRequired,
-  stories: React.PropTypes.object.isRequired,
-  storyCount: React.PropTypes.number.isRequired,
-  timeInterval: React.PropTypes.string.isRequired,
-  truncatable: React.PropTypes.bool.isRequired
 }

@@ -4,15 +4,15 @@ import React from 'react'
 import StoryRange from './StoryRange.jsx'
 import Table from '../ui/Table.jsx'
 import StoryActions from '../actions/story_actions'
-import StoryStore from '../stores/story_store'
+import GroupedStoriesStore from '../stores/GroupedStoriesStore'
 import dateString from '../lib/dateStringForTimeInterval'
 
-@connectToStores(StoryStore)
+@connectToStores(GroupedStoriesStore)
 export default class ChangelogDateRange extends React.Component {
   static getPropsFromStores(props) {
     let start_date = moment(props.start_date)
     return {
-      stories: StoryStore.allWithinDates(start_date, props.timeInterval)
+      stories: GroupedStoriesStore.allWithinDates(start_date, props.timeInterval)
     }
   }
 

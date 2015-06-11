@@ -4,7 +4,6 @@ import {
   CHANGELOG_CURRENT_CLEARED,
   CHANGELOG_FETCHED,
   CHANGELOG_MEMBERSHIPS_FETCHED,
-  CHANGELOG_VIEW_CHANGED,
 } from '../constants'
 import {List} from 'immutable'
 
@@ -49,13 +48,6 @@ export default {
           memberships: List(resp)
         })
       })
-  },
-
-  changeView(viewName) {
-    Dispatcher.dispatch({
-      type: CHANGELOG_VIEW_CHANGED,
-      selectedView: viewName
-    })
   },
 
   create(name, tagline, slug) {

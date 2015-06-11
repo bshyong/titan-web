@@ -8,7 +8,6 @@ import {
   CHANGELOG_TIME_CHANGED,
   CHANGELOG_UNFOLLOWED,
   CHANGELOG_UNFOLLOWED,
-  CHANGELOG_VIEW_CHANGED,
   MEMBERSHIP_UPDATE_FAILED,
   MEMBERSHIP_UPDATED,
   MEMBERSHIP_UPDATING,
@@ -20,7 +19,6 @@ class ChangelogStore extends Store {
   constructor() {
     super()
     this._changelog = null
-    this._selectedView = localStorage.getItem('defaultView') || 'week'
     this._timeShown = null
     this._errors = null
     this.dispatchToken = Dispatcher.register((action) => {
@@ -48,10 +46,6 @@ class ChangelogStore extends Store {
 
         case CHANGELOG_MEMBERSHIPS_FETCHED:
           this.memberships = action.memberships.sortBy(m => m.user.username.toLowerCase())
-          break
-
-        case CHANGELOG_VIEW_CHANGED:
-          this._selectedView = action.selectedView
           break
 
         case MEMBERSHIP_UPDATING:
@@ -96,10 +90,6 @@ class ChangelogStore extends Store {
 
   get following() {
     return this._changelog && this._changelog.viewer_is_follower
-  }
-
-  get selectedView() {
-    return this._selectedView
   }
 
   get slug() {

@@ -22,23 +22,30 @@ import RouterContainer from '../lib/router_container'
 import SessionStore from '../stores/session_store'
 import api from '../lib/api'
 import segment from '../lib/segment'
-import { List } from 'immutable'
+import { List, Map } from 'immutable'
 
 export default {
 
-  fetchAll(changelogId, timeInterval, page=1, per=25) {
+  fetchAll(changelogId, options, page=1, per=25) {
     Dispatcher.dispatch({
       type: STORIES_FETCHING
     })
-    api.get(`changelogs/${changelogId}/stories?page=${page}&per=${per}&time_interval=${timeInterval}`).
+    api.get(`changelogs/${changelogId}/stories?page=${page}&per=${per}&group_by=${options.group_by}`).
       then(resp => {
         let stories = List(resp)
+        let counts = stories.map(g => g.stories.length)
+        let count = counts.reduce((a, b) => a + b, 0)
+
+        console.log('page', page,
+          Map(stories.map(g => [g.group.title, g.stories.length])).toJS(),
+          'total', count
+        )
         Dispatcher.dispatch({
           type: STORIES_FETCHED,
           changelogId: changelogId,
-          stories: stories,
+          grouped: stories,
           page: page,
-          moreAvailable: stories.size === per
+          moreAvailable: count === per
         })
       })
   },
@@ -59,7 +66,7 @@ export default {
   },
 
   fetch(changelogId, storyId) {
-    api.get(`changelogs/${changelogId}/stories/${storyId}`).
+    api.get(`changelogs/${changelogId}/stories/${storyId}?include=group`).
       then(resp => {
         Dispatcher.dispatch({
           type: STORY_FETCHED,
