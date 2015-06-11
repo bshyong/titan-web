@@ -1,4 +1,5 @@
 import AuthenticatedMixin from '../components/mixins/authenticated_mixin.jsx'
+import ContributorsActions from '../actions/ContributorsActions'
 import ContributorsStore from '../stores/ContributorsStore'
 import EmojiStore from '../stores/emoji_store'
 import React from 'react'
@@ -12,6 +13,7 @@ import StoryFormStore from '../stores/story_form_store'
 @AuthenticatedMixin()
 export default class NewStoryPage extends React.Component {
   static willTransitionTo(transition, params, query) {
+    ContributorsActions.resetContributors()
     if (query.highlight) {
       // TODO load if page refreshed
     } else if (query.type=="helloWorld") {
