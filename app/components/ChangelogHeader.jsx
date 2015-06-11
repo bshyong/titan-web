@@ -28,10 +28,30 @@ export default class ChangelogHeader extends React.Component {
             <div>{changelog.tagline}</div>
           </Link>
           <div className="flex-none sm-ml2">
-            <FollowButton changelogId={changelogId} toggled={following}/>
+            <div className="flex mxn2">
+              {this.renderNewStoryButton()}
+              <div className="flex-none px2">
+                <FollowButton changelogId={changelogId} toggled={following}/>
+              </div>
+            </div>
           </div>
         </div>
       </Jumbotron>
+    )
+  }
+
+  renderNewStoryButton() {
+    const { changelog } = this.props
+    if (!(changelog && changelog.user_is_team_member)) {
+      return
+    }
+
+    return (
+      <div className="flex-none px2">
+        <Link className="button button-outline white" to="new" params={{changelogId: changelog.slug}}>
+          New story
+        </Link>
+      </div>
     )
   }
 }

@@ -57,7 +57,7 @@ export default class ApplicationNavbar extends React.Component {
     }
   }
 
-  render_new_story() {
+  renderNewStory() {
     const { changelog } = this.props
     if (changelog && changelog.user_is_team_member) {
       return (
@@ -91,7 +91,7 @@ export default class ApplicationNavbar extends React.Component {
     const userMenu = (
       <div className="py1">
         <List>
-          {this.render_new_story(changelogId)}
+          {this.renderNewStory(changelogId)}
         </List>
         <List type="small">
           <List.Item>
