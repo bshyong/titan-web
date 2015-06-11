@@ -52,7 +52,9 @@ class StoryFormStore extends Store {
   }
 
   titleHasEmoji() {
-    return this.title.match(EMOJI_REGEX)
+    // TODO @chrislloyd this is a quick fix for a production error
+    // and doesn't solve the root error
+    return this.title && this.title.match(EMOJI_REGEX)
   }
 
   init() {
