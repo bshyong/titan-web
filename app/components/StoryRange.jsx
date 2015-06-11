@@ -37,7 +37,7 @@ export default class StoryRange extends React.Component {
       <Table>
         <ClickablePaginator onLoadMore={this.handleShowMore.bind(this)} hasMore={this.state.hasMore && this.props.truncatable}>
           {stories.map(story => (
-            <Table.Cell key={story.id} image={<UpvoteToggler story={story} hearted={story.viewer_has_hearted} />} to="story" params={paramsFor.story({slug: changelogId}, story)}>
+            <Table.Cell key={story.id} to="story" params={paramsFor.story({slug: changelogId}, story)}>
               <StoryCell story={story} />
             </Table.Cell>
           ))}

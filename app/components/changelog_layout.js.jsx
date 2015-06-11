@@ -44,7 +44,7 @@ export default class ChangelogLayout extends React.Component {
 
     return (
       <div>
-        <ApplicationNavbar />
+        <ApplicationNavbar title={this.state.changelog.name} />
         <RouteHandler changelogId={changelogId} />
       </div>
     )

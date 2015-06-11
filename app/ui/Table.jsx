@@ -69,7 +69,7 @@ TableCell.propTypes = {
 class TableSeparator extends React.Component {
   render() {
     const { label } = this.props
-    return <h5 className="px2 md-px0 py1 mt2 mb0 gray caps border-bottom">{label}</h5>
+    return <h5 className="px2 py1 mt2 mb0 gray caps border-bottom">{label}</h5>
   }
 }
 

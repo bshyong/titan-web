@@ -54,8 +54,6 @@ export default class ProfileSettings extends React.Component {
     }
     return (
       <div>
-        <h2>Profile Settings</h2>
-
         <form onSubmit={this.handleSubmit.bind(this)}>
           <div className="mb2">
             <label>

@@ -30,7 +30,7 @@ export default class ApplicationNavbar extends React.Component {
   }
 
   render() {
-    return <Navbar title="Changelog"
+    return <Navbar title={this.props.title}
                    left={this.left()}
                    right={this.right()} />
   }
@@ -40,7 +40,6 @@ export default class ApplicationNavbar extends React.Component {
     return (
       <Link to={route} className="flex">
         <img className="flex-none mr2" src={LogoSrc} style={{height: '1.5rem'}} />
-        <div className="black sm-show">Assembly</div>
       </Link>
     )
   }
@@ -134,4 +133,12 @@ export default class ApplicationNavbar extends React.Component {
   _handleSignout() {
     SessionActions.signout()
   }
+}
+
+ApplicationNavbar.propTypes = {
+  title: React.PropTypes.string.isRequired
+}
+
+ApplicationNavbar.defaultProps = {
+  title: 'Changelog'
 }

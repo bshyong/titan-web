@@ -7,7 +7,9 @@ import MembershipActions from '../../actions/MembershipActions'
 import React from 'react'
 import RouterContainer from '../../lib/router_container'
 import Table from '../../ui/Table.jsx'
-import UserCell from '../User/UserCell.jsx'
+import Icon from '../../ui/Icon.jsx'
+import Switch from '../../ui/Switch.jsx'
+import Button from '../../ui/Button.jsx'
 
 
 @authenticated()
@@ -26,31 +28,70 @@ export default class ChangelogSettings extends React.Component {
     }
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      membersOnly: false
+    }
+  }
+
   render() {
     if (!this.props.coreMemberships) {
       return <div /> // loading
     }
     return (
       <div>
-        <h2 className="border-bottom border-smoke">Core Team</h2>
+        <h4 className="mt0 mb0 bold">Members</h4>
+        <p className="gray">Members can post stories</p>
 
-        <Table>
+        <div className="mb2">
           {this.props.coreMemberships.map(m => (
-            <Table.Cell key={m.id} image={<Avatar user={m.user} size={24} />}>
-              <a className="right pointer" onClick={this.handleRemoveClicked(m)}>x</a>
-              {m.user.username}
-            </Table.Cell>
+            <div className="flex flex-center px2 py1 bg-smoke-hover visible-hover-wrapper" key={m.id}>
+              <div>
+                <Avatar user={m.user} size={16 * 2} />
+              </div>
+              <div className="flex-auto px2">
+                {m.user.username}
+              </div>
+              <div className="visible-hover">
+                <a className="pointer" onClick={this.handleRemoveClicked(m)}>
+                  <Icon icon="trash-o" />
+                </a>
+              </div>
+            </div>
           ))}
-        </Table>
-        <form onSubmit={this.handleAddMember.bind(this)}>
-          <input type="text" ref="emailOrUsername"
-                 className="field-light full-width"
-                 placeholder="Add core team member by username" />
-        </form>
-        {this.renderStatus()}
+          <div className="px2 py1 visible-hover-wrapper">
+            <form onSubmit={this.handleAddMember.bind(this)} className="mb3">
+              <input type="text" ref="emailOrUsername"
+                     className="field-light full-width"
+                     placeholder="Add a member by username" />
+              {this.renderStatus()}
+            </form>
+          </div>
+        </div>
 
-        <h2 className="mt4 border-bottom border-smoke">Followers</h2>
-        <p>This is a <strong>public</strong> changelog. Anybody can find and follow it.</p>
+        <hr />
+
+        <div className="flex flex-center py2">
+          <div className="flex-auto">
+            <h4 className="mt0 mb0 bold">Members only</h4>
+            <p className="mb0 gray">
+              {
+                this.state.membersOnly ? "Only members can see this changelog" : "Anybody can see this changelog"
+              }
+            </p>
+          </div>
+          <div>
+            <Switch switched={this.state.membersOnly} onSwitched={this.handleSwitchMembersOnly.bind(this)} />
+          </div>
+        </div>
+
+        <hr />
+
+        <div className="py2 mxn1">
+          <Button color="red" style="transparent" size="small">Destroy changelog</Button>
+        </div>
+
       </div>
     )
   }
@@ -72,28 +113,29 @@ export default class ChangelogSettings extends React.Component {
     e.preventDefault()
     let el = React.findDOMNode(this.refs.emailOrUsername)
     let text = el.value
-    // if (text.match(/.+@.+/)) {
-    //   MembershipActions.invite(this.props.params.changelogId, text)
-    // } else {
-      MembershipActions.update(
-        this.props.changelogId,
-        text, {
-          is_core: true
-        }
-      )
-    // }
-
+    MembershipActions.update(
+      this.props.changelogId,
+      text, {
+        is_core: true
+      }
+    )
     el.value = ''
   }
 
   handleRemoveClicked(membership) {
     return (e) => {
-      MembershipActions.update(
-        this.props.changelogId,
-        membership.user.username, {
-          is_core: false
-        }
-      )
+      if (confirm(`Are you sure you want to remove @${membership.user.username}?`)) {
+        MembershipActions.update(
+          this.props.changelogId,
+          membership.user.username, {
+            is_core: false
+          }
+        )
+      }
     }
+  }
+
+  handleSwitchMembersOnly(on) {
+    this.setState({membersOnly: on})
   }
 }
