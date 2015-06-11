@@ -19,7 +19,7 @@ export default class Logo extends React.Component {
     return (
       <div className="bg-smoke rounded center" style={style}>
         <svg className="block" preserveAspectRatio="xMidYMid meet" width="100%" height="100%" viewBox="0 0 20 20">
-          <text text-anchor="middle" x="6.25" y="15" className="bold">{name.charAt(0).toUpperCase()}</text>
+          <text text-anchor="middle" x="5.5" y="16" style={{fontWeight: 400}}>{name.charAt(0).toUpperCase()}</text>
         </svg>
       </div>
     )
