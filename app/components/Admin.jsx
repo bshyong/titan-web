@@ -10,7 +10,8 @@ import moment from 'moment'
 export default class Admin extends React.Component {
   static getPropsFromStores() {
     return {
-      changelogs: AdminStore.changelogs
+      changelogs: AdminStore.changelogs,
+      users: AdminStore.users
     }
   }
 
@@ -19,6 +20,8 @@ export default class Admin extends React.Component {
       <div className="container">
         <h1>Admin Page</h1>
         {this.renderTable()}
+        <h1>Newest 20 Users</h1>
+        {this.renderUsers()}
       </div>
     )
   }
@@ -70,16 +73,44 @@ export default class Admin extends React.Component {
       username = "Mr. E"
       l = "users/awwstn"
     }
-
-
     return (
       <tr>
-        <th><a href= {changelog.slug}>{changelog.name}</a></th>
-        <th>{date}</th>
-        <th>{changelog.followers_count}</th>
-        <th><a href={l} >{username}</a></th>
+        <td><a href= {changelog.slug}>{changelog.name}</a></td>
+        <td>{date}</td>
+        <td>{changelog.followers_count}</td>
+        <td><a href={l} >{username}</a></td>
       </tr>
     )
   }
 
+  renderUsers() {
+    return (
+      <table className="table-light">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Joined On</th>
+          </tr>
+        </thead>
+        <tbody>
+          {this.renderThem()}
+        </tbody>
+      </table>
+    )
+  }
+
+  renderThem() {
+    if (this.props.users) {
+      return List(this.props.users).map(user => {
+        let date = moment(user.created_at).format('MMMM D, YYYY')
+        let q  = "users/".concat(user.username)
+        return (
+          <tr>
+            <td><a href={q}>{user.username}</a></td>
+            <td>{date}</td>
+          </tr>
+        )
+      })
+    }
+  }
 }
