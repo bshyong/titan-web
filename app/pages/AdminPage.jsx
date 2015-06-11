@@ -11,7 +11,7 @@ import SessionStore from '../stores/session_store'
 export default class AdminPage extends React.Component {
 
   static willTransitionTo() {
-    AdminActions.AdminDataFetched()
+    AdminActions.adminDataFetched()
   }
 
   static get defaultProps() {
