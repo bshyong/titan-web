@@ -21,7 +21,7 @@ export default class AdminPage extends React.Component {
   }
 
   render() {
-    if (this.props.user.staff_at!=null) {
+    if (this.props.user.staff_at!==null) {
       return (
         <div>
           <ApplicationNavbar />
