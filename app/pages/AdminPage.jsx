@@ -1,5 +1,5 @@
 import React from 'react'
-import Admin from '../components/admin.jsx'
+import Admin from '../components/Admin.jsx'
 import AdminActions from '../actions/admin_actions'
 import AuthenticatedComponent from '../components/mixins/authenticated_mixin.jsx'
 import RouterContainer from '../lib/router_container'
