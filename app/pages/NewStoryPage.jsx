@@ -3,6 +3,7 @@ import ContributorsStore from '../stores/ContributorsStore'
 import EmojiStore from '../stores/emoji_store'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
+import SessionStore from '../stores/session_store'
 import StoryActions from '../actions/story_actions'
 import StoryForm from '../components/NewStoryForm.jsx'
 import StoryFormActions from '../actions/story_form_actions'
@@ -13,7 +14,15 @@ export default class NewStoryPage extends React.Component {
   static willTransitionTo(transition, params, query) {
     if (query.highlight) {
       // TODO load if page refreshed
-    } else {
+    } else if (query.title!==null) {
+      StoryFormActions.change({
+        title: query.title,
+        isPublic: true,
+        contributors: [],
+        body: query.body
+      })
+    }
+    else {
       StoryFormActions.clearAll()
     }
   }
