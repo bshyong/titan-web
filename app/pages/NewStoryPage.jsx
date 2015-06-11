@@ -21,7 +21,7 @@ export default class NewStoryPage extends React.Component {
         title: "Hello World",
         isPublic: true,
         contributors: [],
-        body: "My first post!"
+        body: "Hey @core\n\nI setup this changelog so we can better share our daily work and collect feeback amongst our group.\n\nIt's simple to use, just log a quick note everytime you finish something or have something to share. You can also add a quick description, image, or link if you want too. Here are some examples.\n\n* 'Emojified all the things, replaced all nouns with an emoji'\n* 'Just finished the new homepage design, feedback?'\n* 'Released Version 2 in production'\n\nWhat do you think?"
       })
     }
     else {
