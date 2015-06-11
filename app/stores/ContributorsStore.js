@@ -7,12 +7,15 @@ import Dispatcher from '../lib/dispatcher'
 import MENTION_REGEX from '../lib/mention_regex'
 import { Set } from 'immutable'
 import Store from '../lib/store'
+import SessionStore from './session_store'
 
 class ContributorsStore extends Store {
   constructor() {
     super()
 
-    this._contributors = null
+    let u = SessionStore.user
+    this._contributors = u!== null ? u.username : null
+    console.log(u)
     this._suggestedContributors = null
 
     this.dispatchToken = Dispatcher.register(action => {
