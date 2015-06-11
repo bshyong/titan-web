@@ -124,15 +124,16 @@ export default {
 
     api.post(`changelogs/${changelogId}/stories`, data).
       then(resp => {
+
+        segment.track(ANALYTICS_POST_CREATED, {
+          length: data.body.length
+        })
+
         let story = addParams(changelogId, resp)
         Dispatcher.dispatch({
           type: STORY_PUBLISHED,
           story: story,
           changelogId: changelogId
-        })
-
-        segment.track(ANALYTICS_POST_CREATED, {
-          length: data.body.length
         })
 
         RouterContainer.get().transitionTo('story', story.urlParams)

@@ -27,14 +27,13 @@ export default {
 
     api.post(`changelogs/${changelogId}/stories/${storyId}/comments`, {body: comment}).
       then(resp => {
+        segment.track(ANALYTICS_COMMENT_CREATED, {
+          length: resp.body.length,
+          storyId: storyId
+        })
         Dispatcher.dispatch({
           type: COMMENT_PUBLISHED,
           comment: resp,
-          storyId: storyId
-        })
-
-        segment.track(ANALYTICS_COMMENT_CREATED, {
-          length: resp.body.length,
           storyId: storyId
         })
       })
