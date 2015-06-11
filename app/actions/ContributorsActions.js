@@ -12,9 +12,10 @@ export default {
     })
   },
 
-  resetContributors() {
+  resetContributors(user) {
     Dispatcher.dispatch({
-      type: CONTRIBUTORS_RESET
+      type: CONTRIBUTORS_RESET,
+      user: user
     })
   }
 

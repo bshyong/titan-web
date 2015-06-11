@@ -13,7 +13,7 @@ import StoryFormStore from '../stores/story_form_store'
 @AuthenticatedMixin()
 export default class NewStoryPage extends React.Component {
   static willTransitionTo(transition, params, query) {
-    ContributorsActions.resetContributors()
+    ContributorsActions.resetContributors(SessionStore.user)
     if (query.highlight) {
       // TODO load if page refreshed
     } else if (query.type=="helloWorld") {
