@@ -73,7 +73,7 @@ export default {
           type: CHANGELOG_FETCHED,
           changelog: resp
         })
-        RouterContainer.get().transitionTo('new', {changelogId: resp.slug}, {type: 'helloWorld'})
+        RouterContainer.get().transitionTo('new', {changelogId: resp.slug}, {title: "Hello World!", body: "My first post!"})
       }).catch(resp => {
         Dispatcher.dispatch({
           type: CHANGELOG_CREATE_FAILED,

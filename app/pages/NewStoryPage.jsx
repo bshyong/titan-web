@@ -14,12 +14,12 @@ export default class NewStoryPage extends React.Component {
   static willTransitionTo(transition, params, query) {
     if (query.highlight) {
       // TODO load if page refreshed
-    } else if (query.type=="helloWorld") {
+    } else if (query.title!==null) {
       StoryFormActions.change({
-        title: "Hello World",
+        title: query.title,
         isPublic: true,
         contributors: [],
-        body: "My first post!"
+        body: query.body
       })
     }
     else {
