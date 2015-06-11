@@ -34,6 +34,7 @@ export default class Admin extends React.Component {
                 <th>Name</th>
                 <th>Created On</th>
                 <th>Followers</th>
+                <th>Creator</th>
               </tr>
             </thead>
             <tbody>
@@ -60,11 +61,23 @@ export default class Admin extends React.Component {
 
   renderChangelog(changelog) {
     let date = moment(changelog.created_at).format('MMMM D, YYYY')
+    let username = null
+    let l = null
+    if (changelog.user) {
+      username = changelog.user.username
+      l = "users/".concat(username)
+    } else {
+      username = "Mr. E"
+      l = "users/awwstn"
+    }
+
+
     return (
       <tr>
         <th><a href= {changelog.slug}>{changelog.name}</a></th>
         <th>{date}</th>
         <th>{changelog.followers_count}</th>
+        <th><a href={l} >{username}</a></th>
       </tr>
     )
   }
