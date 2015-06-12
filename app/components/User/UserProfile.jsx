@@ -48,7 +48,9 @@ export default class ProfilePage extends React.Component {
       <div>
         <UserCell user={user} />
 
-        <Divider />
+        <div className="full-width overflow-hidden">
+          <Divider />
+        </div>
 
         {this.renderThingyCounts(upvoteCount, this.props.user.contribution_count, this.props.following.length)}
 
