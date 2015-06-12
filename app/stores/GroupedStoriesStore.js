@@ -98,8 +98,17 @@ class GroupedStoriesStore extends Store {
           break
 
         case STORY_PUBLISHED:
-          let group = this.grouped.first()
-          group.stories = group.stories.set(action.story.slug, addParams(action.changelogId, action.story))
+          let { story } = action
+          let group = this.grouped.find(g => g.group.key === story.group.key)
+          if (group) {
+            group.stories = group.stories.set(action.story.slug, addParams(action.changelogId, action.story))
+          } else {
+            this.grouped = this.grouped.push({
+              group: story.group,
+              stories: OrderedMap([[story.slug, story]])
+            })
+          }
+
           break
 
         default:
