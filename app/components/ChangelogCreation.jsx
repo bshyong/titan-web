@@ -135,7 +135,7 @@ export default class ChangelogCreation extends React.Component {
             changelog.assembly.com/
           </div>
           <input type="text"
-            className="input-invisible border-smoke"
+            className="input-invisible border border-smoke"
             placeholder="MyChangelog"
             value={this.state.slug}
             onChange={this.SlugChange.bind(this)}

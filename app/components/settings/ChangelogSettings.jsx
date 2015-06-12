@@ -40,7 +40,9 @@ export default class ChangelogSettings extends React.Component {
     this.state = {
       membersOnly: false,
       logoSet: false,
-      bannerSet: false
+      bannerSet: false,
+      nameSet: false,
+      taglineSet: false
     }
   }
 
@@ -95,7 +97,8 @@ export default class ChangelogSettings extends React.Component {
             <Switch switched={is_members_only} onSwitched={this.handleSwitchMembersOnly.bind(this)} />
           </div>
         </div>
-
+        {this.renderNameChanger()}
+        {this.renderTaglineChanger()}
         {this.renderLogoChanger()}
         {this.renderBannerChanger()}
 
@@ -103,9 +106,10 @@ export default class ChangelogSettings extends React.Component {
 
         <div className="flex flex-center py2">
           <div className="flex-auto">
-            <h4 className="mt0 mb0 bold">The desolate shores of Regretistan</h4>
+            <h4 className="mt0 mb0 bold">Do not go gentle into that good night,</h4>
             <p className="mb0 gray">
-              There are no take backsies here, son
+              Old age should burn and rave at close of day;<br/>
+              Rage, rage against the dying of the light.
             </p>
           </div>
           <div className="mxn1">
@@ -117,42 +121,82 @@ export default class ChangelogSettings extends React.Component {
     )
   }
 
+  renderNameChanger() {
+    return (
+      <div className="clearfix">
+        <label>
+          <h4 className="bold mr3">
+            Name
+          </h4>
+        </label>
+          <div className="px2 py1 visible-hover-wrapper">
+            <form onSubmit={this.handleChangeName.bind(this)} className="mb3">
+              <input type="text" ref="name"
+                     className="field-light full-width"
+                     placeholder={this.props.changelog.name} />
+            </form>
+            {this.state.nameSet ? <div>name set</div> : <div/>}
+          </div>
+      </div>
+    )
+  }
+
+  renderTaglineChanger() {
+    return (
+      <div className="clearfix">
+        <label>
+          <h4 className="bold mr3">
+            Tagline
+          </h4>
+        </label>
+          <div className="px2 py1 visible-hover-wrapper">
+            <form onSubmit={this.handleChangeTagline.bind(this)} className="mb3">
+              <input type="text" ref="tagline"
+                     className="field-light full-width"
+                     placeholder={this.props.changelog.tagline} />
+            </form>
+            {this.state.taglineSet ? <div>Tagline set</div> : <div/>}
+          </div>
+      </div>
+    )
+  }
+
   renderLogoChanger() {
     return (
-      <div className="clearfix py2">
-        <div className="flex flex-auto">
+      <div className="clearfix py1">
+        <label>
           <h4 className="bold mr3">
-            Set Logo
+            Logo
           </h4>
+        </label>
           <div className="px2 py1 visible-hover-wrapper">
             <form onSubmit={this.handleAddLogoUrl.bind(this)} className="mb3">
               <input type="text" ref="logo"
                      className="field-light full-width"
-                     placeholder="URL to a logo image" />
+                     placeholder={this.props.changelog.logo_url ? this.props.changelog.logo_url : "Logo image url here"} />
             </form>
             {this.state.logoSet ? <div>Logo set</div> : <div/>}
           </div>
-        </div>
       </div>
     )
   }
 
   renderBannerChanger() {
     return (
-      <div className="clearfix py2">
-        <div className="flex flex-auto">
-          <h4 className="bold mr2">
-            Set Banner
+      <div className="clearfix py1">
+        <label>
+          <h4 className="bold mr3">
+            Banner
           </h4>
+        </label>
           <div className="px2 py1 visible-hover-wrapper">
             <form onSubmit={this.handleAddBannerUrl.bind(this)} className="mb3">
               <input type="text" ref="banner"
                      className="field-light full-width"
-                     placeholder="URL to a banner image" />
+                     placeholder={this.props.changelog.banner_url ? this.props.changelog.banner_url : "Banner image URL here"} />
             </form>
             {this.state.bannerSet ? <div>Banner set</div> : <div/>}
           </div>
-        </div>
       </div>
     )
   }
@@ -197,6 +241,22 @@ export default class ChangelogSettings extends React.Component {
     let text = el.value
     ChangelogActions.update(this.props.changelogId, {banner_url: text, name: this.props.changelog.name})
     this.setState({bannerSet: true})
+  }
+
+  handleChangeTagline(e) {
+    e.preventDefault()
+    let el = React.findDOMNode(this.refs.tagline)
+    let text = el.value
+    ChangelogActions.update(this.props.changelogId, {tagline: text, name: this.props.changelog.name})
+    this.setState({taglineSet: true})
+  }
+
+  handleChangeName(e) {
+    e.preventDefault()
+    let el = React.findDOMNode(this.refs.name)
+    let text = el.value
+    ChangelogActions.update(this.props.changelogId, {slug: this.props.changelogId, name: text})
+    this.setState({nameSet: true})
   }
 
   handleRemoveClicked(membership) {
