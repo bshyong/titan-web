@@ -106,7 +106,7 @@ export default class ChangelogCreation extends React.Component {
     return (
       <div className="clearfix">
         <div className="sm-col-5 mx-auto">
-          Home Website
+          Website URL
           <input type="text"
             className="full-width border border-smoke mb2"
             placeholder="www.myproduct.com"
