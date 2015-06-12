@@ -99,6 +99,9 @@ class GroupedStoriesStore extends Store {
           break
 
         case STORIES_FETCHING:
+          if (action.page === 1) {
+            this.grouped = List()
+          }
           this._loading = true
           break
 

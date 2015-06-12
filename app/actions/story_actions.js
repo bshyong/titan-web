@@ -28,7 +28,8 @@ export default {
 
   fetchAll(changelogId, options, page=1, per=25) {
     Dispatcher.dispatch({
-      type: STORIES_FETCHING
+      type: STORIES_FETCHING,
+      page: page
     })
     api.get(`changelogs/${changelogId}/stories?page=${page}&per=${per}&group_by=${options.group_by}`).
       then(resp => {
