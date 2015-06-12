@@ -1,5 +1,5 @@
 import ApplicationNavbar from '../components/application_navbar.jsx'
-import Logo from '../components/Logo.jsx'
+import Logo from '../components/logo.jsx'
 import Button from '../ui/Button.jsx'
 import ChangelogActions from '../actions/changelog_actions'
 import ProfileActions from '../actions/profile_actions.js'
