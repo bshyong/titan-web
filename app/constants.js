@@ -40,6 +40,7 @@ export default keyMirror({
   COMMENTS_FETCHED: null,
   COMMENTS_FETCHING: null,
 
+  CONTRIBUTORS_RESET: null,
   CONTRIBUTORS_STRING_RECEIVED: null,
 
   EMOJI_FETCHED: null,
