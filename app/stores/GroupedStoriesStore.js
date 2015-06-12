@@ -2,6 +2,8 @@ import {
   COMMENT_CREATING,
   GROUP_COLLAPSED,
   GROUP_STORIES_FETCHED,
+  SET_UPDATED,
+  SET_UPDATING,
   STORIES_FETCHED,
   STORIES_FETCHING,
   STORY_CREATING,
@@ -115,6 +117,15 @@ class GroupedStoriesStore extends Store {
             })
           }
 
+          break
+
+        case SET_UPDATING:
+          let group = this.grouped.find(g => g.group.key == action.setId)
+          if (group) {
+            for (var k of Object.keys(action.change)) {
+              group.group[k] = action.change[k]
+            }
+          }
           break
 
         default:

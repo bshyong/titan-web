@@ -16,7 +16,7 @@ import SegmentedControl from '../ui/SegmentedControl.jsx'
 import shallowEqual from 'react-pure-render/shallowEqual'
 import Stack from '../ui/Stack.jsx'
 import StoryActions from '../actions/story_actions'
-import StoryGroup from '../components/StoryGroup.jsx'
+import PostSet from '../components/PostSet.jsx'
 import StoryRange from './StoryRange.jsx'
 import Table from '../ui/Table.jsx'
 
@@ -28,6 +28,7 @@ export default class Changelog extends React.Component {
 
   static getPropsFromStores(props) {
     return {
+      changelog: ChangelogStore.changelog,
       loading: GroupedStoriesStore.loading,
       moreAvailable: GroupedStoriesStore.moreAvailable,
       page: GroupedStoriesStore.page,
@@ -72,7 +73,7 @@ export default class Changelog extends React.Component {
   }
 
   renderStories() {
-    const { changelogId, groupedStories } = this.props
+    const { changelogId, changelog, groupedStories } = this.props
 
     if (!groupedStories) {
       return
@@ -90,7 +91,8 @@ export default class Changelog extends React.Component {
     }
 
     return groupedStories.map(g =>
-      <StoryGroup
+      <PostSet
+        editable={changelog.user_is_team_member}
         key={g.group.key}
         group={g.group}
         stories={g.stories.toList()}

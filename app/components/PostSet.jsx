@@ -4,10 +4,10 @@ import Avatar from '../ui/Avatar.jsx'
 import ChangelogStore from '../stores/changelog_store'
 import ClickablePaginator from '../ui/ClickablePaginator.jsx'
 import Button from '../ui/Button.jsx'
-import GroupActions from '../actions/GroupActions'
 import Icon from '../ui/Icon.jsx'
 import moment from 'moment'
 import paramsFor from '../lib/paramsFor'
+import PostSetActions from '../actions/PostSetActions'
 import React from 'react'
 import Stack from '../ui/Stack.jsx'
 import StoryActions from '../actions/story_actions'
@@ -15,23 +15,32 @@ import StoryCell from './Story/StoryCell.jsx'
 import Table from '../ui/Table.jsx'
 import UpvoteToggler from './UpvoteToggler.jsx'
 
-export default class StoryGroup extends React.Component {
+export default class PostSet extends React.Component {
   static propTypes = {
     changelogId: React.PropTypes.string.isRequired,
+    editable: React.PropTypes.bool,
     group: React.PropTypes.object.isRequired,
     stories: React.PropTypes.object.isRequired,
-    truncatable: React.PropTypes.bool.isRequired
+    truncatable: React.PropTypes.bool.isRequired,
   }
 
   constructor(props) {
     super(props)
     this.per = 50
     this.state = {
-      title: this.props.group.title,
-      page: 0,
-      hasMore: this.hasMoreStories(),
       editing: false,
       expanded: false,
+      hasMore: this.hasMoreStories(),
+      page: 1,
+      title: this.props.group.title,
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (!prevState.editing && this.state.editing) {
+      let input = React.findDOMNode(this.refs.text)
+      input.value = this.state.title
+      input.focus()
     }
   }
 
@@ -45,17 +54,7 @@ export default class StoryGroup extends React.Component {
 
     return (
       <div key={group.key}>
-        <div className="flex flex-center">
-          <div className="flex-auto">
-            { group.done_at ?
-                this.renderTitle() :
-                this.renderHeader()
-            }
-          </div>
-          <div className="px1">
-            {this.renderShowAll()}
-          </div>
-        </div>
+        {this.renderHeader()}
 
         <Table>
           <ClickablePaginator onLoadMore={this.handleShowMore.bind(this)} hasMore={showLoadMore}>
@@ -94,13 +93,22 @@ export default class StoryGroup extends React.Component {
         <div className="flex-auto">
           {this.state.editing ? this.renderEditForm() : this.renderTitle() }
         </div>
-        <div className="flex-none">
-          <Button size="small" bg="green" action={this.handleCloseGroup.bind(this)}>
-            Finalize
-          </Button>
+        {this.renderFinalizeButton()}
+        <div className="px1">
+          {this.renderShowAll()}
         </div>
       </div>
     )
+  }
+
+  renderFinalizeButton() {
+    if (this.props.editable && !this.props.group.done_at) {
+      return <div className="flex-none">
+        <Button size="small" bg="green" action={this.handleCloseGroup.bind(this)}>
+          Finalize
+        </Button>
+      </div>
+    }
   }
 
   renderTitle() {
@@ -110,29 +118,39 @@ export default class StoryGroup extends React.Component {
         <div className="flex-auto">
           {title ? title : <span className="gray">Latest</span>}
         </div>
-        <div className="px1">
-          <Button size="small" color="orange" style="transparent"
-                  action={this.handleShowEditing.bind(this)}>
-            Edit
-          </Button>
-        </div>
+        {this.renderEditButton()}
       </div>
     )
   }
 
+  renderEditButton() {
+    if (this.props.editable) {
+      return <div className="px1">
+        <Button size="small" color="orange" style="transparent"
+                action={this.handleShowEditing.bind(this)}>
+          Edit
+        </Button>
+      </div>
+    }
+  }
+
   renderEditForm() {
     return (
-      <div className="py1 flex flex-center">
-        <div className="mr1">
-          <input type="text" className="field-light full-width" placeholder="Latest" />
+      <form onSubmit={this.handleTitleSave.bind(this)}>
+        <div className="py1 flex flex-center">
+          <div className="mr1">
+            <input type="text"
+              className="field-light full-width"
+              placeholder="Latest"
+              ref="text" />
+          </div>
+          <div>
+            <Button size="small" color="orange" style="transparent">
+              Save
+            </Button>
+          </div>
         </div>
-        <div>
-          <Button size="small" color="orange" style="transparent"
-                  action={function() {alert('foo')}}>
-            Save
-          </Button>
-        </div>
-      </div>
+      </form>
     )
   }
 
@@ -146,7 +164,7 @@ export default class StoryGroup extends React.Component {
       if (expanded) {
         this.setState({
           page: 0
-        }, GroupActions.collapse(group.key))
+        }, PostSetActions.collapse(group.key))
       } else {
         this.handleShowMore()
       }
@@ -157,14 +175,18 @@ export default class StoryGroup extends React.Component {
     this.setState({editing: true})
   }
 
-  handleTitleSave() {
-    GroupActions.changeTitle(this.props.group.key, {
-
+  handleTitleSave(e) {
+    e.preventDefault()
+    let newTitle = React.findDOMNode(this.refs.text).value
+    this.setState({
+      editing: false,
+      title: newTitle
     })
+    PostSetActions.updateTitle(this.props.group.key, newTitle)
   }
 
   handleCloseGroup() {
-    GroupActions.done(this.props.group.key)
+    PostSetActions.finalize(this.props.group.key)
   }
 
   handleShowMore() {
