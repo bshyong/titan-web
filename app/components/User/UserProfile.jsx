@@ -54,7 +54,7 @@ export default class ProfilePage extends React.Component {
 
         <div className="container">
           {this.renderSection('Upvotes earned', upvoteCount, this.renderUpvotes)}
-          {this.renderSection('Recent posts', this.props.user.contribution_count, this.renderStories)}
+          {this.renderSection('Public posts', this.props.user.contribution_count, this.renderStories)}
           {this.renderSection('Following', this.props.following.length, this.renderFollowingChangelogs)}
         </div>
       </div>
