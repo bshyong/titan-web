@@ -38,7 +38,9 @@ export default class ChangelogSettings extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      membersOnly: false
+      membersOnly: false,
+      logoSet: false,
+      bannerSet: false
     }
   }
 
@@ -94,6 +96,9 @@ export default class ChangelogSettings extends React.Component {
           </div>
         </div>
 
+        {this.renderLogoChanger()}
+        {this.renderBannerChanger()}
+
         <hr />
 
         <div className="flex flex-center py2">
@@ -108,6 +113,46 @@ export default class ChangelogSettings extends React.Component {
           </div>
         </div>
 
+      </div>
+    )
+  }
+
+  renderLogoChanger() {
+    return (
+      <div className="clearfix py2">
+        <div className="flex flex-auto">
+          <h4 className="bold mr3">
+            Set Logo
+          </h4>
+          <div className="px2 py1 visible-hover-wrapper">
+            <form onSubmit={this.handleAddLogoUrl.bind(this)} className="mb3">
+              <input type="text" ref="logo"
+                     className="field-light full-width"
+                     placeholder="URL to a logo image" />
+            </form>
+            {this.state.logoSet ? <div>Logo set</div> : <div/>}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  renderBannerChanger() {
+    return (
+      <div className="clearfix py2">
+        <div className="flex flex-auto">
+          <h4 className="bold mr2">
+            Set Banner
+          </h4>
+          <div className="px2 py1 visible-hover-wrapper">
+            <form onSubmit={this.handleAddBannerUrl.bind(this)} className="mb3">
+              <input type="text" ref="banner"
+                     className="field-light full-width"
+                     placeholder="URL to a banner image" />
+            </form>
+            {this.state.bannerSet ? <div>Banner set</div> : <div/>}
+          </div>
+        </div>
       </div>
     )
   }
@@ -136,6 +181,22 @@ export default class ChangelogSettings extends React.Component {
       }
     )
     el.value = ''
+  }
+
+  handleAddLogoUrl(e) {
+    e.preventDefault()
+    let el = React.findDOMNode(this.refs.logo)
+    let text = el.value
+    ChangelogActions.update(this.props.changelogId, {logo_url: text, name: this.props.changelog.name})
+    this.setState({logoSet: true})
+  }
+
+  handleAddBannerUrl(e) {
+    e.preventDefault()
+    let el = React.findDOMNode(this.refs.banner)
+    let text = el.value
+    ChangelogActions.update(this.props.changelogId, {banner_url: text, name: this.props.changelog.name})
+    this.setState({bannerSet: true})
   }
 
   handleRemoveClicked(membership) {

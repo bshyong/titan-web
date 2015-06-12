@@ -46,6 +46,7 @@ export default (
 
     <Route handler={ChangelogLayout} path="/:changelogId">
       <DefaultRoute handler={ChangelogPage} name="changelog" />
+      
       <Route handler={EditStoryForm} path=":storyId/edit" name="edit" />
 
       <Route handler={StoryComposer} path="new">
