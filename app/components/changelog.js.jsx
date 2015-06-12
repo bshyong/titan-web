@@ -54,10 +54,10 @@ export default class Changelog extends React.Component {
             <div className="flex-none">
               <SegmentedControl>
                 <SegmentedControl.Link to="changelog" params={{changelogId: ChangelogStore.slug}}>
-                  Stream
+                  Posts
                 </SegmentedControl.Link>
-                <SegmentedControl.Link to="changelog_by_time" params={{changelogId: ChangelogStore.slug}}>
-                  Date
+                <SegmentedControl.Link to="changelog_by_sets" params={{changelogId: ChangelogStore.slug}}>
+                  Sets
                 </SegmentedControl.Link>
               </SegmentedControl>
             </div>

@@ -1,14 +1,6 @@
 import React from 'react'
 
 export default class Navbar extends React.Component {
-  componentDidMount() {
-    document.title = this.props.title || document.title
-  }
-
-  componentDidUpdate() {
-    document.title = this.props.title || document.title
-  }
-
   render() {
     const {title, left, right} = this.props
     return <div className="navbar flex relative full-width z1">
