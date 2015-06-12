@@ -43,12 +43,7 @@ export default class StoryRange extends React.Component {
     }
 
     if (group.title !== 'Today') {
-      stories = stories.sortBy(s => s, (a, b) => {
-        if (b.hearts_count === a.hearts_count) {
-          return moment(b.created_at) > moment(a.created_at) ? 1 : 0
-        }
-        return b.hearts_count > a.hearts_count ? 1 : 0
-      })
+      stories = stories.sortBy(s => -s.hearts_count)
     }
 
     return (

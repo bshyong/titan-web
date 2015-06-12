@@ -1,5 +1,6 @@
 import {
   COMMENT_CREATING,
+  GROUP_STORIES_FETCHED,
   STORIES_FETCHED,
   STORIES_FETCHING,
   STORY_CREATING,
@@ -49,7 +50,6 @@ class GroupedStoriesStore extends Store {
               stories: OrderedMap([[story.slug, story]])
             })
           }
-
           break
 
         case STORY_HEARTED:
@@ -74,25 +74,17 @@ class GroupedStoriesStore extends Store {
           this.get(storyId).hearts_count -= 1
           break
 
+        case GROUP_STORIES_FETCHED:
+          this._groupStories(action)
+          this._loading = false
+          break
+
         case STORIES_FETCHED:
           if (action.page == 1) {
             this.grouped = List()
           }
 
-          action.grouped.forEach(newGroup => {
-            let existingGroup = this.grouped.find(g => g.group.key === newGroup.group.key)
-            if (existingGroup) {
-              newGroup.stories.forEach(s => {
-                existingGroup.stories = existingGroup.stories.set(s.slug, s)
-              })
-            } else {
-              this.grouped = this.grouped.push({
-                group: newGroup.group,
-                stories: OrderedMap(newGroup.stories.map(s => [s.slug, s]))
-              })
-            }
-          })
-
+          this._groupStories(action)
           this._page = action.page
           this._moreAvailable = action.moreAvailable
           this._loading = false
@@ -115,6 +107,22 @@ class GroupedStoriesStore extends Store {
       }
       this.emitChange()
     }.bind(this))
+  }
+
+  _groupStories(action) {
+    action.grouped.forEach(newGroup => {
+      let existingGroup = this.grouped.find(g => g.group.key === newGroup.group.key)
+      if (existingGroup) {
+        newGroup.stories.forEach(s => {
+          existingGroup.stories = existingGroup.stories.set(s.slug, s)
+        })
+      } else {
+        this.grouped = this.grouped.push({
+          group: newGroup.group,
+          stories: OrderedMap(newGroup.stories.map(s => [s.slug, s]))
+        })
+      }
+    })
   }
 
   allWithinDates(start_date, timeInterval) {

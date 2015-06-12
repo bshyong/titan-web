@@ -50,6 +50,7 @@ export default keyMirror({
   GIFS_FETCHED_FROM_STORE: null,
 
   GROUP_DONE: null,
+  GROUP_STORIES_FETCHED: null,
 
   HIGHLIGHTS_FETCHED: null,
   HIGHLIGHT_IGNORED: null,

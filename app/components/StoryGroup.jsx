@@ -33,7 +33,13 @@ export default class StoryGroup extends React.Component {
   }
 
   render() {
-    const { changelogId, group, stories } = this.props
+    const { changelogId, group, truncatable } = this.props
+    let { stories } = this.props
+
+    if (group.key) {
+      stories = stories.sortBy(s => -s.hearts_count)
+    }
+
     return (
       <div key={group.key}>
         <div className="border-bottom flex flex-center">
@@ -44,7 +50,7 @@ export default class StoryGroup extends React.Component {
         </div>
 
         <Table>
-          <ClickablePaginator onLoadMore={this.handleShowMore.bind(this)} hasMore={this.hasMoreStories()}>
+          <ClickablePaginator onLoadMore={this.handleShowMore.bind(this)} hasMore={truncatable && this.hasMoreStories()}>
             {stories.map(story => (
               <Table.Cell key={story.id} image={<UpvoteToggler story={story} hearted={story.viewer_has_hearted} />} to="story" params={paramsFor.story({slug: changelogId}, story)}>
                 <StoryCell story={story} />
@@ -91,6 +97,6 @@ export default class StoryGroup extends React.Component {
       return false
     }
 
-    return truncatable && (stories.size < group.count)
+    return truncatable && (stories.size < group.total)
   }
 }

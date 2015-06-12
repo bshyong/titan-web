@@ -1,6 +1,7 @@
 import {
   ANALYTICS_POST_CREATED,
   ANALYTICS_UPVOTE,
+  GROUP_STORIES_FETCHED,
   RESOURCE_NOT_FOUND,
   STORIES_FETCHED,
   STORIES_FETCHING,
@@ -48,10 +49,6 @@ export default {
   },
 
   fetchSpecificDate(changelogId, dateString, page, per) {
-    Dispatcher.dispatch({
-      type: STORIES_FETCHING
-    })
-
     api.get(`changelogs/${changelogId}/stories?filter=date:${dateString}&page=${page}&per=${per}`).
       then(resp => {
         let stories = List(resp)
@@ -59,7 +56,7 @@ export default {
         let count = counts.reduce((a, b) => a + b, 0)
 
         Dispatcher.dispatch({
-          type: STORIES_FETCHED,
+          type: GROUP_STORIES_FETCHED,
           changelogId: changelogId,
           grouped: stories,
           page: page,
@@ -80,13 +77,18 @@ export default {
   },
 
   fetchForSpecificGroup(changelogId, groupId, page, per) {
-    api.get(`changelogs/${changelogId}/groups/${groupId}/stories?page=${page}&per=${per}`).
+    api.get(`changelogs/${changelogId}/stories?filter=group:${groupId}&page=${page}&per=${per}`).
       then(resp => {
         let stories = List(resp)
+        let counts = stories.map(g => g.stories.length)
+        let count = counts.reduce((a, b) => a + b, 0)
+
         Dispatcher.dispatch({
-          type: STORIES_FETCHED,
-          stories: resp,
-          changelogId: changelogId
+          type: GROUP_STORIES_FETCHED,
+          grouped: stories,
+          page: page,
+          per: per,
+          moreAvailable: count === per
         })
       })
   },
