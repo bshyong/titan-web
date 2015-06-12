@@ -49,6 +49,7 @@ export default keyMirror({
   GIFS_FETCHED: null,
   GIFS_FETCHED_FROM_STORE: null,
 
+  GROUP_COLLAPSED: null,
   GROUP_DONE: null,
   GROUP_STORIES_FETCHED: null,
 

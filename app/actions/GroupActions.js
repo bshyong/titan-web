@@ -1,4 +1,5 @@
 import {
+  GROUP_COLLAPSED,
   GROUP_DONE,
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
@@ -12,5 +13,9 @@ export default {
 
   changeTitle(id, newTitle) {
     api.put(`groups/${id}`, {title: newTitle})
+  },
+
+  collapse(groupKey) {
+    Dispatcher.dispatch({type: GROUP_COLLAPSED, groupKey: groupKey})
   }
 }

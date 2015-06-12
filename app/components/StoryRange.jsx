@@ -23,9 +23,10 @@ export default class StoryRange extends React.Component {
 
   constructor(props) {
     super(props)
-    this.per = 5
+    this.per = 50
     this.state = {
-      page: 1
+      page: 0,
+      truncatable: props.truncatable
     }
   }
 

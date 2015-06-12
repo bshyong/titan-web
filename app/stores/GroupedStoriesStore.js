@@ -1,5 +1,6 @@
 import {
   COMMENT_CREATING,
+  GROUP_COLLAPSED,
   GROUP_STORIES_FETCHED,
   STORIES_FETCHED,
   STORIES_FETCHING,
@@ -72,6 +73,11 @@ class GroupedStoriesStore extends Store {
           const { storyId } = action
           this.get(storyId).viewer_has_hearted = false
           this.get(storyId).hearts_count -= 1
+          break
+
+        case GROUP_COLLAPSED:
+          let group = this.grouped.find(g => g.group.key === action.groupKey)
+          group.stories = group.stories.take(5)
           break
 
         case GROUP_STORIES_FETCHED:

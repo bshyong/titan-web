@@ -25,32 +25,40 @@ export default class StoryGroup extends React.Component {
 
   constructor(props) {
     super(props)
-    this.per = 5
+    this.per = 50
     this.state = {
       title: this.props.group.title,
-      page: 1,
+      page: 0,
       hasMore: this.hasMoreStories(),
       editing: false,
+      expanded: false,
     }
   }
 
   render() {
-    const { changelogId, group, truncatable } = this.props
+    const { changelogId, group } = this.props
+    const showLoadMore = this.hasMoreStories() && this.state.page !== 0
     let { stories } = this.props
-
     if (group.key) {
       stories = stories.sortBy(s => -s.hearts_count)
     }
 
     return (
       <div key={group.key}>
-        { group.done_at ?
-            this.renderTitle() :
-            this.renderHeader()
-        }
+        <div className="flex flex-center">
+          <div className="flex-auto">
+            { group.done_at ?
+                this.renderTitle() :
+                this.renderHeader()
+            }
+          </div>
+          <div className="px1">
+            {this.renderShowAll()}
+          </div>
+        </div>
 
         <Table>
-          <ClickablePaginator onLoadMore={this.handleShowMore.bind(this)} hasMore={truncatable && this.hasMoreStories()}>
+          <ClickablePaginator onLoadMore={this.handleShowMore.bind(this)} hasMore={showLoadMore}>
             {stories.map(story => (
               <Table.Cell key={story.id} image={<UpvoteToggler story={story} hearted={story.viewer_has_hearted} />} to="story" params={paramsFor.story({slug: changelogId}, story)}>
                 <StoryCell story={story} />
@@ -58,6 +66,24 @@ export default class StoryGroup extends React.Component {
             ))}
           </ClickablePaginator>
         </Table>
+      </div>
+    )
+  }
+
+  renderShowAll() {
+    const { expanded } = this.state
+    const { group } = this.props
+
+    if (group.total > 5) {
+      return (
+        <a className='h5 orange pointer' onClick={this.toggleShowAll.bind(this)}>
+          {expanded ? 'Collapse' : 'See all'}
+        </a>
+      )
+    }
+    return (
+      <div className='h5 silver'>
+        See all
       </div>
     )
   }
@@ -110,6 +136,23 @@ export default class StoryGroup extends React.Component {
     )
   }
 
+  toggleShowAll() {
+    const { expanded } = this.state
+    const { group } = this.props
+
+    this.setState({
+      expanded: !expanded
+    }, () => {
+      if (expanded) {
+        this.setState({
+          page: 0
+        }, GroupActions.collapse(group.key))
+      } else {
+        this.handleShowMore()
+      }
+    })
+  }
+
   handleShowEditing() {
     this.setState({editing: true})
   }
@@ -134,6 +177,7 @@ export default class StoryGroup extends React.Component {
 
   hasMoreStories() {
     const { group, stories, truncatable } = this.props
+
     if (stories.isEmpty()) {
       return false
     }
