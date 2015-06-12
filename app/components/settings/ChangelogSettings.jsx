@@ -97,6 +97,9 @@ export default class ChangelogSettings extends React.Component {
             <Switch switched={is_members_only} onSwitched={this.handleSwitchMembersOnly.bind(this)} />
           </div>
         </div>
+
+        <hr />
+
         {this.renderNameChanger()}
         {this.renderTaglineChanger()}
         {this.renderLogoChanger()}
@@ -163,7 +166,7 @@ export default class ChangelogSettings extends React.Component {
 
   renderLogoChanger() {
     return (
-      <div className="clearfix py1">
+      <div className="clearfix">
         <label>
           <h4 className="bold mr3">
             Logo
@@ -183,7 +186,7 @@ export default class ChangelogSettings extends React.Component {
 
   renderBannerChanger() {
     return (
-      <div className="clearfix py1">
+      <div className="clearfix">
         <label>
           <h4 className="bold mr3">
             Banner
