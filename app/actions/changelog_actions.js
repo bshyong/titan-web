@@ -3,10 +3,13 @@ import {
   CHANGELOGS_ALL_FETCHED,
   CHANGELOG_CREATE_FAILED,
   CHANGELOG_CURRENT_CLEARED,
+  CHANGELOG_DESTROYED,
   CHANGELOG_FETCHED,
   CHANGELOG_MEMBERSHIPS_FETCHED,
   CHANGELOG_SHOW_ALL,
   CHANGELOG_TIME_CHANGED,
+  CHANGELOG_UPDATED,
+  CHANGELOGS_ALL_FETCHED,
 } from '../constants'
 import {List} from 'immutable'
 
@@ -85,6 +88,26 @@ export default {
           errors: resp
         })
       })
-  }
+  },
 
+  update(id, params) {
+    api.put(`changelogs/${id}`, params).
+      then(resp => {
+        Dispatcher.dispatch({
+          type: CHANGELOG_UPDATED,
+          changelog: resp
+        })
+      })
+  },
+
+  destroy(id) {
+    api.delete(`changelogs/${id}`).
+      then(resp => {
+        Dispatcher.dispatch({
+          type: CHANGELOG_DESTROYED,
+          changelog: resp
+        })
+        RouterContainer.get().transitionTo('dashboard')
+      })
+  }
 }

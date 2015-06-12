@@ -9,6 +9,12 @@ export default class Switch extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      switched: nextProps.switched
+    })
+  }
+
   render() {
     const { switched } = this.state
     let styles = {

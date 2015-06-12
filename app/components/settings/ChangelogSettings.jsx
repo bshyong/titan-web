@@ -1,8 +1,10 @@
+import {List} from 'immutable'
 import authenticated from '../mixins/authenticated_mixin.jsx'
 import Avatar from '../../ui/Avatar.jsx'
 import ChangelogActions from '../../actions/changelog_actions'
 import ChangelogStore from '../../stores/changelog_store'
 import connectToStores from '../../lib/connectToStores.jsx'
+import ProfileStore from '../../stores/profile_store'
 import MembershipActions from '../../actions/MembershipActions'
 import React from 'react'
 import RouterContainer from '../../lib/router_container'
@@ -16,12 +18,17 @@ import Button from '../../ui/Button.jsx'
 @connectToStores(ChangelogStore)
 export default class ChangelogSettings extends React.Component {
   static willTransitionTo(transition, params) {
+    ChangelogActions.clearCurrent()
+    ChangelogActions.select(params.changelogId)
     ChangelogActions.fetchMemberships(params.changelogId)
   }
 
   static getPropsFromStores(props) {
+    const changelogId = RouterContainer.get().getCurrentParams().changelogId
+
     return {
-      changelogId: RouterContainer.get().getCurrentParams().changelogId,
+      changelogId,
+      changelog: ChangelogStore.changelog,
       coreMemberships: ChangelogStore.coreMemberships,
       errors: ChangelogStore.updateErrors,
       updateSuccessful: ChangelogStore.updateSuccessful
@@ -36,9 +43,12 @@ export default class ChangelogSettings extends React.Component {
   }
 
   render() {
-    if (!this.props.coreMemberships) {
+    if (!(this.props.coreMemberships && this.props.changelog)) {
       return <div /> // loading
     }
+
+    const {changelog, changelog: { is_members_only }} = this.props
+
     return (
       <div>
         <h4 className="mt0 mb0 bold">Members</h4>
@@ -54,7 +64,7 @@ export default class ChangelogSettings extends React.Component {
                 {m.user.username}
               </div>
               <div className="visible-hover">
-                <a className="pointer" onClick={this.handleRemoveClicked(m)}>
+                <a className="pointer red" onClick={this.handleRemoveClicked(m)}>
                   <Icon icon="trash-o" />
                 </a>
               </div>
@@ -70,26 +80,32 @@ export default class ChangelogSettings extends React.Component {
           </div>
         </div>
 
-        <hr />
-
         <div className="flex flex-center py2">
           <div className="flex-auto">
             <h4 className="mt0 mb0 bold">Members only</h4>
             <p className="mb0 gray">
               {
-                this.state.membersOnly ? "Only members can see this changelog" : "Anybody can see this changelog"
+                is_members_only ? "Only members can see this changelog" : "Anybody can see this changelog"
               }
             </p>
           </div>
           <div>
-            <Switch switched={this.state.membersOnly} onSwitched={this.handleSwitchMembersOnly.bind(this)} />
+            <Switch switched={is_members_only} onSwitched={this.handleSwitchMembersOnly.bind(this)} />
           </div>
         </div>
 
         <hr />
 
-        <div className="py2 mxn1">
-          <Button color="red" style="transparent" size="small">Destroy changelog</Button>
+        <div className="flex flex-center py2">
+          <div className="flex-auto">
+            <h4 className="mt0 mb0 bold">The desolate shores of Regretistan</h4>
+            <p className="mb0 gray">
+              There are no take backsies here, son
+            </p>
+          </div>
+          <div className="mxn1">
+            <Button color="red" style="transparent" size="small" action={this.handleDeleteChangelog.bind(this)}>Delete changelog</Button>
+          </div>
         </div>
 
       </div>
@@ -136,6 +152,14 @@ export default class ChangelogSettings extends React.Component {
   }
 
   handleSwitchMembersOnly(on) {
-    this.setState({membersOnly: on})
+    ChangelogActions.update(this.props.changelogId, {
+      is_members_only: on
+    })
+  }
+
+  handleDeleteChangelog() {
+    if (confirm("Are you 100%, totally sure you want to delete this changelog?")) {
+      ChangelogActions.destroy(this.props.changelogId)
+    }
   }
 }

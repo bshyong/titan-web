@@ -7,8 +7,9 @@ import {
   CHANGELOG_SHOW_ALL,
   CHANGELOG_TIME_CHANGED,
   CHANGELOG_UNFOLLOWED,
-  MEMBERSHIP_UPDATED,
+  CHANGELOG_UPDATED,
   MEMBERSHIP_UPDATE_FAILED,
+  MEMBERSHIP_UPDATED,
   MEMBERSHIP_UPDATING,
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
@@ -71,6 +72,10 @@ class ChangelogStore extends Store {
           this.memberships = this.memberships.filterNot(m => m.user.username == action.userId)
           this.updateErrors = action.errors
           this.updateSuccessful = false
+          break
+
+        case CHANGELOG_UPDATED:
+          this._changelog = action.changelog
           break
 
         default:
