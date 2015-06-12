@@ -132,10 +132,9 @@ export default class ProfilePage extends React.Component {
     )
   }
 
-  renderStories(nStories) {
+  renderStories() {
     const { stories, storyPagination } = this.props
-
-    if (nStories === 0) {
+    if (stories.size==0) {
       return this.renderBlankState(
         '1f4dc',
         "Contribute by posting to a changelog."
