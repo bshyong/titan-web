@@ -27,8 +27,10 @@ export default class StoryGroup extends React.Component {
     super(props)
     this.per = 5
     this.state = {
+      title: this.props.group.title,
       page: 1,
-      hasMore: this.hasMoreStories()
+      hasMore: this.hasMoreStories(),
+      editing: false,
     }
   }
 
@@ -36,12 +38,10 @@ export default class StoryGroup extends React.Component {
     const { changelogId, group, stories } = this.props
     return (
       <div key={group.key}>
-        <div className="border-bottom flex flex-center">
-          <div className="flex-auto py2">
-            {group.title ? group.title : <span className="gray">Fresh group</span>}
-          </div>
-          {this.renderActions()}
-        </div>
+        { group.done_at ?
+            this.renderTitle() :
+            this.renderHeader()
+        }
 
         <Table>
           <ClickablePaginator onLoadMore={this.handleShowMore.bind(this)} hasMore={this.hasMoreStories()}>
@@ -56,25 +56,66 @@ export default class StoryGroup extends React.Component {
     )
   }
 
-  renderActions() {
-    return null // TODO hook up buttons
-
+  renderHeader() {
     return (
-      <div className="flex-none flex mxn1">
-        <div className="px1">
-          <Button size="small" color="orange" style="transparent" action={function() {}}>Edit</Button>
+      <div className="border-bottom flex flex-center">
+        <div className="flex-auto">
+          {this.state.editing ? this.renderEditForm() : this.renderTitle() }
         </div>
-        <div className="px1">
-          <Button size="small" bg="gray" action={this.handleCloseGroup.bind(this)}>Publish </Button>
+        <div className="flex-none">
+          <Button size="small" bg="green" action={this.handleCloseGroup.bind(this)}>
+            Finalize
+          </Button>
         </div>
       </div>
     )
   }
 
+  renderTitle() {
+    const { title } = this.state
+    return (
+      <div className="py2 flex flex-center">
+        <div className="flex-auto">
+          {title ? title : <span className="gray">Latest</span>}
+        </div>
+        <div className="px1">
+          <Button size="small" color="orange" style="transparent"
+                  action={this.handleShowEditing.bind(this)}>
+            Edit
+          </Button>
+        </div>
+      </div>
+    )
+  }
+
+  renderEditForm() {
+    return (
+      <div className="py1 flex flex-center">
+        <div className="mr1">
+          <input type="text" className="field-light full-width" placeholder="Latest" />
+        </div>
+        <div>
+          <Button size="small" color="orange" style="transparent"
+                  action={function() {alert('foo')}}>
+            Save
+          </Button>
+        </div>
+      </div>
+    )
+  }
+
+  handleShowEditing() {
+    this.setState({editing: true})
+  }
+
+  handleTitleSave() {
+    GroupActions.changeTitle(this.props.group.key, {
+
+    })
+  }
+
   handleCloseGroup() {
     GroupActions.done(this.props.group.key)
-    // if (confirm("Are you sure you want to close this group?")) {
-    // }
   }
 
   handleShowMore() {
