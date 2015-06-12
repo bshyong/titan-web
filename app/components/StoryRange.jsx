@@ -16,8 +16,8 @@ import { Link } from 'react-router'
 export default class StoryRange extends React.Component {
   static propTypes = {
     group: React.PropTypes.object.isRequired,
+    changelogId: React.PropTypes.string.isRequired,
     stories: React.PropTypes.object.isRequired,
-    timeInterval: React.PropTypes.string.isRequired,
     truncatable: React.PropTypes.bool.isRequired
   }
 
@@ -30,7 +30,8 @@ export default class StoryRange extends React.Component {
   }
 
   render() {
-    const { group, stories, changelogId } = this.props
+    const { group, changelogId } = this.props
+    let { stories } = this.props
     let title = group.title
     let date = moment(group.title)
     if (date.isValid()) {
@@ -40,6 +41,16 @@ export default class StoryRange extends React.Component {
       }
       title = date.format(format)
     }
+
+    if (group.title !== 'Today') {
+      stories = stories.sortBy(s => s, (a, b) => {
+        if (b.hearts_count === a.hearts_count) {
+          return moment(b.created_at) > moment(a.created_at) ? 1 : 0
+        }
+        return b.hearts_count > a.hearts_count ? 1 : 0
+      })
+    }
+
     return (
       <div>
         <div className="border-bottom flex flex-center">
@@ -62,8 +73,8 @@ export default class StoryRange extends React.Component {
   }
 
   handleShowMore() {
-    const { date, timeInterval } = this.props
-    StoryActions.fetchSpecificDate(ChangelogStore.slug, date.format('MM-DD-YYYY'), timeInterval, this.state.page + 1, this.per)
+    const { changelogId, group } = this.props
+    StoryActions.fetchSpecificDate(changelogId, group.key, this.state.page + 1, this.per)
     this.setState({
       page: this.state.page + 1
     })

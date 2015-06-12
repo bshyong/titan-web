@@ -80,7 +80,9 @@ export default class Changelog extends React.Component {
 
     if (this.props.groupBy == 'calendar') {
       return groupedStories.map(g =>
-        <StoryRange group={g.group}
+        <StoryRange
+            key={g.group.key}
+            group={g.group}
             changelogId={changelogId}
             stories={g.stories.toList()}
             truncatable={true} />

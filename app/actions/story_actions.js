@@ -36,10 +36,6 @@ export default {
         let counts = stories.map(g => g.stories.length)
         let count = counts.reduce((a, b) => a + b, 0)
 
-        console.log('page', page,
-          Map(stories.map(g => [g.group.title, g.stories.length])).toJS(),
-          'total', count
-        )
         Dispatcher.dispatch({
           type: STORIES_FETCHED,
           changelogId: changelogId,
@@ -50,17 +46,23 @@ export default {
       })
   },
 
-  fetchSpecificDate(changelogId, dateString, timeInterval, page, per) {
+  fetchSpecificDate(changelogId, dateString, page, per) {
     Dispatcher.dispatch({
       type: STORIES_FETCHING
     })
-    api.get(`changelogs/${changelogId}/stories?date=${dateString}&time_interval=${timeInterval}&page=${page}&per=${per}`).
+
+    api.get(`changelogs/${changelogId}/stories?filter=date:${dateString}&page=${page}&per=${per}`).
       then(resp => {
         let stories = List(resp)
+        let counts = stories.map(g => g.stories.length)
+        let count = counts.reduce((a, b) => a + b, 0)
+
         Dispatcher.dispatch({
           type: STORIES_FETCHED,
           changelogId: changelogId,
-          stories: resp
+          grouped: stories,
+          page: page,
+          moreAvailable: count === per
         })
       })
   },
