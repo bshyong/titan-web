@@ -77,6 +77,10 @@ export default keyMirror({
   ROUTE_TRANSITIONED: null,
   RESOURCE_NOT_FOUND: null,
 
+  SET_UPDATE_FAILED: null,
+  SET_UPDATED: null,
+  SET_UPDATING: null,
+
   STORIES_FETCHED: null,
   STORIES_FETCHING: null,
 

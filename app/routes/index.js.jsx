@@ -44,9 +44,9 @@ export default (
     <Route handler={DashboardPage} path="/dashboard" name="dashboard" />
 
     <Route handler={ChangelogLayout} path="/:changelogId">
-      <DefaultRoute handler={ChangelogPage} name="changelog" />
+      <DefaultRoute handler={ChangelogByDatePage} name="changelog" />
 
-      <Route handler={ChangelogByDatePage} name="changelog_by_time" path="date" />
+      <Route handler={ChangelogPage} name="changelog_by_sets" path="sets" />
 
       <Route handler={EditStoryForm} path=":storyId/edit" name="edit" />
 
