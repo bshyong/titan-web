@@ -12,7 +12,7 @@ import UpvoteToggler from './UpvoteToggler.jsx'
 import moment from 'moment'
 import paramsFor from '../lib/paramsFor'
 import { Link } from 'react-router'
-import GroupActions from '../actions/GroupActions'
+import PostSetActions from '../actions/PostSetActions'
 
 export default class StoryRange extends React.Component {
   static propTypes = {
@@ -108,7 +108,7 @@ export default class StoryRange extends React.Component {
       if (expanded) {
         this.setState({
           page: 0
-        }, GroupActions.collapse(group.key))
+        }, PostSetActions.collapse(group.key))
       } else {
         this.handleShowMore()
       }
