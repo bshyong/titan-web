@@ -29,9 +29,8 @@ export default class PostSet extends React.Component {
     this.per = 50
     this.state = {
       editing: false,
-      expanded: false,
       hasMore: this.hasMoreStories(),
-      page: 1,
+      page: 0,
       title: this.props.group.title,
     }
   }
@@ -46,18 +45,17 @@ export default class PostSet extends React.Component {
 
   render() {
     const { changelogId, group } = this.props
-    const showLoadMore = this.hasMoreStories() && this.state.page !== 0
     let { stories } = this.props
     if (group.key) {
       stories = stories.sortBy(s => -s.hearts_count)
     }
 
     return (
-      <div key={group.key}>
+      <div key={group.key} className="mb4">
         {this.renderHeader()}
 
         <Table>
-          <ClickablePaginator onLoadMore={this.handleShowMore.bind(this)} hasMore={showLoadMore}>
+          <ClickablePaginator onLoadMore={this.handleShowMore.bind(this)} hasMore={this.hasMoreStories()}>
             {stories.map(story => (
               <Table.Cell key={story.id} image={<UpvoteToggler story={story} hearted={story.viewer_has_hearted} />} to="story" params={paramsFor.story({slug: changelogId}, story)}>
                 <StoryCell story={story} />
@@ -69,24 +67,6 @@ export default class PostSet extends React.Component {
     )
   }
 
-  renderShowAll() {
-    const { expanded } = this.state
-    const { group } = this.props
-
-    if (group.total > 5) {
-      return (
-        <a className='h5 orange pointer' onClick={this.toggleShowAll.bind(this)}>
-          {expanded ? 'Collapse' : 'See all'}
-        </a>
-      )
-    }
-    return (
-      <div className='h5 silver'>
-        See all
-      </div>
-    )
-  }
-
   renderHeader() {
     return (
       <div className="border-bottom flex flex-center">
@@ -94,9 +74,6 @@ export default class PostSet extends React.Component {
           {this.state.editing ? this.renderEditForm() : this.renderTitle() }
         </div>
         {this.renderFinalizeButton()}
-        <div className="px1">
-          {this.renderShowAll()}
-        </div>
       </div>
     )
   }
@@ -152,23 +129,6 @@ export default class PostSet extends React.Component {
         </div>
       </form>
     )
-  }
-
-  toggleShowAll() {
-    const { expanded } = this.state
-    const { group } = this.props
-
-    this.setState({
-      expanded: !expanded
-    }, () => {
-      if (expanded) {
-        this.setState({
-          page: 0
-        }, PostSetActions.collapse(group.key))
-      } else {
-        this.handleShowMore()
-      }
-    })
   }
 
   handleShowEditing() {

@@ -27,20 +27,12 @@ export default class StoryRange extends React.Component {
     this.per = 50
     this.state = {
       page: 0,
-      expanded: props.stories.size === props.group.total,
     }
-  }
-
-  componentWillReceiveProps(newProps) {
-    const { stories, group } = newProps
-    this.setState({
-      expanded: stories.size === group.total
-    })
   }
 
   render() {
     const { group, changelogId } = this.props
-    const showLoadMore = this.hasMoreStories() && this.state.page !== 0
+    const showLoadMore = this.hasMoreStories()
     let { stories } = this.props
     let title = group.title
     let date = moment(group.title)
@@ -57,13 +49,10 @@ export default class StoryRange extends React.Component {
     }
 
     return (
-      <div>
+      <div className="mb4">
         <div className="border-bottom flex flex-center">
           <div className="flex-auto py2">
             {title}
-          </div>
-          <div className="px1">
-            {this.renderShowAll()}
           </div>
         </div>
 
@@ -78,41 +67,6 @@ export default class StoryRange extends React.Component {
         </Table>
       </div>
     )
-  }
-
-  renderShowAll() {
-    const { expanded } = this.state
-    const { group } = this.props
-
-    if (group.total > 5) {
-      return (
-        <a className='h5 orange pointer' onClick={this.toggleShowAll.bind(this)}>
-          {expanded ? 'Collapse' : 'See all'}
-        </a>
-      )
-    }
-    return (
-      <div className='h5 silver'>
-        See all
-      </div>
-    )
-  }
-
-  toggleShowAll() {
-    const { expanded } = this.state
-    const { group } = this.props
-
-    this.setState({
-      expanded: !expanded
-    }, () => {
-      if (expanded) {
-        this.setState({
-          page: 0
-        }, PostSetActions.collapse(group.key))
-      } else {
-        this.handleShowMore()
-      }
-    })
   }
 
   handleShowMore() {

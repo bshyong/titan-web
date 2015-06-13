@@ -44,7 +44,7 @@ export default class ClickablePaginator extends React.Component {
     if (this.props.hasMore) {
       return (
         <div
-          className="pointer py1 bg-smoke-hover gray orange-hover border block center"
+          className="pointer p2 bg-smoke-hover gray orange-hover border-top block right-align"
           onClick={this.handleOnClick.bind(this)}>
           <div className="mx-auto h5">Load more</div>
         </div>
