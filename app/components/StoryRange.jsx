@@ -12,6 +12,7 @@ import UpvoteToggler from './UpvoteToggler.jsx'
 import moment from 'moment'
 import paramsFor from '../lib/paramsFor'
 import { Link } from 'react-router'
+import GroupActions from '../actions/GroupActions'
 
 export default class StoryRange extends React.Component {
   static propTypes = {
@@ -26,12 +27,20 @@ export default class StoryRange extends React.Component {
     this.per = 50
     this.state = {
       page: 0,
-      truncatable: props.truncatable
+      expanded: props.stories.size === props.group.total,
     }
+  }
+
+  componentWillReceiveProps(newProps) {
+    const { stories, group } = newProps
+    this.setState({
+      expanded: stories.size === group.total
+    })
   }
 
   render() {
     const { group, changelogId } = this.props
+    const showLoadMore = this.hasMoreStories() && this.state.page !== 0
     let { stories } = this.props
     let title = group.title
     let date = moment(group.title)
@@ -53,10 +62,13 @@ export default class StoryRange extends React.Component {
           <div className="flex-auto py2">
             {title}
           </div>
+          <div className="px1">
+            {this.renderShowAll()}
+          </div>
         </div>
 
         <Table>
-          <ClickablePaginator onLoadMore={this.handleShowMore.bind(this)} hasMore={this.hasMoreStories()}>
+          <ClickablePaginator onLoadMore={this.handleShowMore.bind(this)} hasMore={showLoadMore}>
             {stories.map(story => (
               <Table.Cell key={story.id} image={<UpvoteToggler story={story} hearted={story.viewer_has_hearted} />} to="story" params={paramsFor.story({slug: changelogId}, story)}>
                 <StoryCell story={story} />
@@ -68,6 +80,41 @@ export default class StoryRange extends React.Component {
     )
   }
 
+  renderShowAll() {
+    const { expanded } = this.state
+    const { group } = this.props
+
+    if (group.total > 5) {
+      return (
+        <a className='h5 orange pointer' onClick={this.toggleShowAll.bind(this)}>
+          {expanded ? 'Collapse' : 'See all'}
+        </a>
+      )
+    }
+    return (
+      <div className='h5 silver'>
+        See all
+      </div>
+    )
+  }
+
+  toggleShowAll() {
+    const { expanded } = this.state
+    const { group } = this.props
+
+    this.setState({
+      expanded: !expanded
+    }, () => {
+      if (expanded) {
+        this.setState({
+          page: 0
+        }, GroupActions.collapse(group.key))
+      } else {
+        this.handleShowMore()
+      }
+    })
+  }
+
   handleShowMore() {
     const { changelogId, group } = this.props
     StoryActions.fetchSpecificDate(changelogId, group.key, this.state.page + 1, this.per)
@@ -77,11 +124,11 @@ export default class StoryRange extends React.Component {
   }
 
   hasMoreStories() {
-    const { stories, truncatable } = this.props
-    if (stories.size) {
-      return truncatable && (stories.size < stories.minBy(story => story.group_total).group_total)
-    } else {
+    const { stories, truncatable, group } = this.props
+    if (stories.isEmpty()) {
       return false
     }
+
+    return truncatable && (stories.size < group.total)
   }
 }
