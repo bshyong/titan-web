@@ -122,13 +122,14 @@ export default class ChangelogSettings extends React.Component {
       <div className="clearfix py2">
         <div className="flex flex-auto">
           <h4 className="bold mr3">
-            Set Logo
+            Select logo URL
           </h4>
           <div className="px2 py1 visible-hover-wrapper">
             <form onSubmit={this.handleAddLogoUrl.bind(this)} className="mb3">
               <input type="text" ref="logo"
                      className="field-light full-width"
                      placeholder="URL to a logo image" />
+                   <input type="submit" value="Submit" />
             </form>
             {this.state.logoSet ? <div>Logo set</div> : <div/>}
           </div>
@@ -142,7 +143,7 @@ export default class ChangelogSettings extends React.Component {
       <div className="clearfix py2">
         <div className="flex flex-auto">
           <h4 className="bold mr2">
-            Set Banner
+            Select banner URL
           </h4>
           <div className="px2 py1 visible-hover-wrapper">
             <form onSubmit={this.handleAddBannerUrl.bind(this)} className="mb3">
