@@ -5,6 +5,7 @@ import {
   STORIES_FETCHED,
   STORY_DELETED,
   STORY_FETCHED,
+  STORY_PUBLISHED,
 } from '../../constants'
 
 describe('GroupedStoriesStore', () => {
@@ -18,6 +19,14 @@ describe('GroupedStoriesStore', () => {
   describe('STORY_FETCHED', () => {
     it('adds to set', () => {
       dispatchStory()
+
+      expect(GroupedStoriesStore.get('foo').slug).toEqual('foo')
+    })
+  })
+
+  describe('STORY_PUBLISHED', () => {
+    it('adds to a newly created set', () => {
+      dispatchPublish()
 
       expect(GroupedStoriesStore.get('foo').slug).toEqual('foo')
     })
@@ -55,6 +64,14 @@ describe('GroupedStoriesStore', () => {
       type: STORIES_FETCHED,
       page: 1,
       grouped: List(groupedStories),
+      changelogId: 'changelog'
+    })
+  }
+
+  function dispatchPublish() {
+    Dispatcher.dispatch({
+      type: STORY_PUBLISHED,
+      story: { slug: 'foo' },
       changelogId: 'changelog'
     })
   }
