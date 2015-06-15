@@ -57,16 +57,6 @@ export default class ProfileSettings extends React.Component {
         <form onSubmit={this.handleSubmit.bind(this)}>
           <div className="mb2">
             <label>
-              Username
-              <input className={this.fieldClasses('username')}
-                type="text"
-                value={this.state.username.value}
-                onChange={this.handleChange('username').bind(this)} />
-            </label>
-          </div>
-
-          <div className="mb2">
-            <label>
               Email
               <input className={this.fieldClasses('email')}
                 type="email" value={this.state.email.value}
