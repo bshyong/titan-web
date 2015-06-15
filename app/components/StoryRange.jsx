@@ -44,7 +44,7 @@ export default class StoryRange extends React.Component {
       title = date.format(format)
     }
 
-    if (group.title !== 'Today') {
+    if (group.title !== 'Today' && group.title !== 'Yesterday') {
       stories = stories.sortBy(s => -s.hearts_count)
     }
 
