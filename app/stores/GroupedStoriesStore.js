@@ -112,7 +112,7 @@ class GroupedStoriesStore extends Store {
             group3.stories = group3.stories.set(action.story.slug, addParams(action.changelogId, action.story))
           } else {
             this.grouped = this.grouped.push({
-              group: story.group,
+              group: story10.group,
               stories: OrderedMap([[story10.slug, story10]])
             })
           }
