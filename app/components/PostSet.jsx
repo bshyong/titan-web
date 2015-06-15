@@ -80,10 +80,10 @@ export default class PostSet extends React.Component {
 
   renderFinalizeButton() {
     if (this.props.editable && !this.props.group.done_at) {
-      return <div className="flex-none">
-        <Button size="small" bg="green" action={this.handleCloseGroup.bind(this)}>
+      return <div className="flex-none mr1">
+        <a className="gray h5 orange-hover pointer" onClick={this.handleCloseGroup.bind(this)}>
           Close set
-        </Button>
+        </a>
       </div>
     }
   }
@@ -93,7 +93,7 @@ export default class PostSet extends React.Component {
     return (
       <div className="py2 flex flex-center">
         <div className="flex-none">
-          {title ? title : "New Set"}
+          {title ? title : "Latest Set"}
         </div>
         <div className="flex-none">
           {this.renderEditButton()}
