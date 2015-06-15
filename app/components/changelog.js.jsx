@@ -62,14 +62,37 @@ export default class Changelog extends React.Component {
                 </SegmentedControl.Link>
               </SegmentedControl>
             </div>
+            <div className="flex-auto" />
           </div>
         </div>
       </div>
+      {this.renderOpenSet()}
       <div className="container">
         {this.renderStories()}
         <LoadingBar loading={loading} />
       </div>
     </div>
+  }
+
+  renderOpenSet() {
+    const { changelogId, changelog, groupedStories, groupBy } = this.props
+    if (groupBy === 'calendar') { return }
+
+    return (
+      <div style={{background: '#FAF9F7'}}>
+        <div className="container p1 mb4">
+          {groupedStories.filterNot(g => g.group.done_at).map(g =>
+            <PostSet
+              editable={changelog.user_is_team_member}
+              key={g.group.key}
+              group={g.group}
+              stories={g.stories.toList()}
+              changelogId={changelogId}
+              truncatable={true} />
+          )}
+        </div>
+      </div>
+    )
   }
 
   renderStories() {
@@ -79,7 +102,7 @@ export default class Changelog extends React.Component {
       return
     }
 
-    if (this.props.groupBy == 'calendar') {
+    if (this.props.groupBy === 'calendar') {
       return groupedStories.map(g =>
         <StoryRange
           key={g.group.key}
@@ -90,7 +113,7 @@ export default class Changelog extends React.Component {
       )
     }
 
-    return groupedStories.map(g =>
+    return groupedStories.filter(g => g.group.done_at).map(g =>
       <PostSet
         editable={changelog.user_is_team_member}
         key={g.group.key}
