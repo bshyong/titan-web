@@ -75,8 +75,12 @@ export default class Changelog extends React.Component {
   }
 
   renderOpenSet() {
-    const { changelogId, changelog, groupedStories, groupBy } = this.props
-    if (groupBy === 'calendar') { return }
+    const { changelogId, changelog, groupBy } = this.props
+    let { groupedStories } = this.props
+
+    groupedStories = groupedStories.filterNot(g => g.group.done_at)
+
+    if (groupBy === 'calendar' || groupedStories.isEmpty()) { return }
 
     return (
       <div style={{background: '#FAF9F7'}}>

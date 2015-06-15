@@ -114,7 +114,7 @@ export default class PostSet extends React.Component {
 
   renderEditForm() {
     return (
-      <form onSubmit={this.handleTitleSave.bind(this)}>
+      <form>
         <div className="py1 flex flex-center">
           <div className="mr1">
             <input type="text"
@@ -122,10 +122,10 @@ export default class PostSet extends React.Component {
               placeholder="Latest"
               ref="text" />
           </div>
-          <div>
-            <Button size="small" color="orange" style="transparent">
+          <div className="px1">
+            <a className="h4 orange pointer" onClick={this.handleTitleSave.bind(this)}>
               Save
-            </Button>
+            </a>
           </div>
         </div>
       </form>

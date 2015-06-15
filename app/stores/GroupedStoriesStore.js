@@ -107,12 +107,12 @@ class GroupedStoriesStore extends Store {
 
         case STORY_PUBLISHED:
           let { story: story10 } = action
-          let group3 = this.grouped.find(g => g.group.key === story10.group.key)
+          let group3 = this.grouped.find(g => g.group.key === story10.group.id)
           if (group3) {
             group3.stories = group3.stories.set(action.story.slug, addParams(action.changelogId, action.story))
           } else {
             this.grouped = this.grouped.push({
-              group: story.group,
+              group: story10.group,
               stories: OrderedMap([[story10.slug, story10]])
             })
           }
