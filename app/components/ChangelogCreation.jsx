@@ -106,7 +106,7 @@ export default class ChangelogCreation extends React.Component {
     return (
       <div className="clearfix">
         <div className="sm-col-5 mx-auto">
-          Home Website
+          Website URL
           <input type="text"
             className="full-width border border-smoke mb2"
             placeholder="www.myproduct.com"
@@ -135,7 +135,7 @@ export default class ChangelogCreation extends React.Component {
             changelog.assembly.com/
           </div>
           <input type="text"
-            className="input-invisible border-smoke"
+            className="input-invisible border border-smoke"
             placeholder="MyChangelog"
             value={this.state.slug}
             onChange={this.SlugChange.bind(this)}
