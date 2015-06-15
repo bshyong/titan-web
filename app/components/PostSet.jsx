@@ -46,7 +46,7 @@ export default class PostSet extends React.Component {
   render() {
     const { changelogId, group } = this.props
     let { stories } = this.props
-    if (group.key) {
+    if (group.done_at) {
       stories = stories.sortBy(s => -s.hearts_count)
     }
 
