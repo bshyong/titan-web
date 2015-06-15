@@ -82,7 +82,7 @@ export default class PostSet extends React.Component {
     if (this.props.editable && !this.props.group.done_at) {
       return <div className="flex-none">
         <Button size="small" bg="green" action={this.handleCloseGroup.bind(this)}>
-          Finalize
+          Close set
         </Button>
       </div>
     }
@@ -92,21 +92,22 @@ export default class PostSet extends React.Component {
     const { title } = this.state
     return (
       <div className="py2 flex flex-center">
-        <div className="flex-auto">
-          {title ? title : <span className="gray">Latest</span>}
+        <div className="flex-none">
+          {title ? title : "New Set"}
         </div>
-        {this.renderEditButton()}
+        <div className="flex-none">
+          {this.renderEditButton()}
+        </div>
       </div>
     )
   }
 
   renderEditButton() {
     if (this.props.editable) {
-      return <div className="px1">
-        <Button size="small" color="orange" style="transparent"
-                action={this.handleShowEditing.bind(this)}>
+      return <div className="px2">
+        <a className="gray h5 orange-hover pointer" onClick={this.handleShowEditing.bind(this)}>
           Edit
-        </Button>
+        </a>
       </div>
     }
   }
