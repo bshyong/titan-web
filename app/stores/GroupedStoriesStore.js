@@ -44,9 +44,9 @@ class GroupedStoriesStore extends Store {
 
         case STORY_FETCHED:
           let { group, story } = action
-          let g = this.grouped.find(g => g.stories.get(story.slug))
-          if (g) {
-            g.stories = g.stories.set(story.slug, story)
+          let g2 = this.grouped.find(g => g.stories.get(story.slug))
+          if (g2) {
+            g2.stories = g2.stories.set(story.slug, story)
           } else {
             this.grouped = this.grouped.push({
               group: action.story.group,
@@ -56,30 +56,30 @@ class GroupedStoriesStore extends Store {
           break
 
         case STORY_HEARTED:
-          const { storyId } = action
-          this.get(storyId).viewer_has_hearted = true
-          this.get(storyId).hearts_count += 1
+          const { storyId: storyId1 } = action
+          this.get(storyId1).viewer_has_hearted = true
+          this.get(storyId1).hearts_count += 1
           break
 
         case STORY_SUBSCRIBED:
-          const { storyId } = action
-          this.get(storyId).viewer_has_subscribed = true
+          const { storyId: storyId2 } = action
+          this.get(storyId2).viewer_has_subscribed = true
           break
 
         case STORY_UNSUBSCRIBED:
-          const { storyId } = action
-          this.get(storyId).viewer_has_subscribed = false
+          const { storyId: storyId3 } = action
+          this.get(storyId3).viewer_has_subscribed = false
           break
 
         case STORY_UNHEARTED:
-          const { storyId } = action
-          this.get(storyId).viewer_has_hearted = false
-          this.get(storyId).hearts_count -= 1
+          const { storyId: storyId4 } = action
+          this.get(storyId4).viewer_has_hearted = false
+          this.get(storyId4).hearts_count -= 1
           break
 
         case GROUP_COLLAPSED:
-          let group = this.grouped.find(g => g.group.key === action.groupKey)
-          group.stories = group.stories.take(5)
+          let group2 = this.grouped.find(g => g.group.key === action.groupKey)
+          group2.stories = group2.stories.take(5)
           break
 
         case GROUP_STORIES_FETCHED:
@@ -106,24 +106,24 @@ class GroupedStoriesStore extends Store {
           break
 
         case STORY_PUBLISHED:
-          let { story } = action
-          let group = this.grouped.find(g => g.group.key === story.group.key)
-          if (group) {
-            group.stories = group.stories.set(action.story.slug, addParams(action.changelogId, action.story))
+          let { story: story10 } = action
+          let group3 = this.grouped.find(g => g.group.key === story10.group.key)
+          if (group3) {
+            group3.stories = group3.stories.set(action.story.slug, addParams(action.changelogId, action.story))
           } else {
             this.grouped = this.grouped.push({
               group: story.group,
-              stories: OrderedMap([[story.slug, story]])
+              stories: OrderedMap([[story10.slug, story10]])
             })
           }
 
           break
 
         case SET_UPDATING:
-          let group = this.grouped.find(g => g.group.key == action.setId)
-          if (group) {
+          let group4 = this.grouped.find(g => g.group.key == action.setId)
+          if (group4) {
             for (var k of Object.keys(action.change)) {
-              group.group[k] = action.change[k]
+              group4.group[k] = action.change[k]
             }
           }
           break
