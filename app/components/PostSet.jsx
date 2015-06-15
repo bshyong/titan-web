@@ -80,10 +80,10 @@ export default class PostSet extends React.Component {
 
   renderFinalizeButton() {
     if (this.props.editable && !this.props.group.done_at) {
-      return <div className="flex-none">
-        <Button size="small" bg="green" action={this.handleCloseGroup.bind(this)}>
-          Finalize
-        </Button>
+      return <div className="flex-none mr1">
+        <a className="gray h5 orange-hover pointer" onClick={this.handleCloseGroup.bind(this)}>
+          Close set
+        </a>
       </div>
     }
   }
@@ -92,28 +92,29 @@ export default class PostSet extends React.Component {
     const { title } = this.state
     return (
       <div className="py2 flex flex-center">
-        <div className="flex-auto">
-          {title ? title : <span className="gray">Latest</span>}
+        <div className="flex-none">
+          {title ? title : "Latest Set"}
         </div>
-        {this.renderEditButton()}
+        <div className="flex-none">
+          {this.renderEditButton()}
+        </div>
       </div>
     )
   }
 
   renderEditButton() {
     if (this.props.editable) {
-      return <div className="px1">
-        <Button size="small" color="orange" style="transparent"
-                action={this.handleShowEditing.bind(this)}>
+      return <div className="px2">
+        <a className="gray h5 orange-hover pointer" onClick={this.handleShowEditing.bind(this)}>
           Edit
-        </Button>
+        </a>
       </div>
     }
   }
 
   renderEditForm() {
     return (
-      <form onSubmit={this.handleTitleSave.bind(this)}>
+      <form>
         <div className="py1 flex flex-center">
           <div className="mr1">
             <input type="text"
@@ -121,10 +122,10 @@ export default class PostSet extends React.Component {
               placeholder="Latest"
               ref="text" />
           </div>
-          <div>
-            <Button size="small" color="orange" style="transparent">
+          <div className="px1">
+            <a className="h4 orange pointer" onClick={this.handleTitleSave.bind(this)}>
               Save
-            </Button>
+            </a>
           </div>
         </div>
       </form>
