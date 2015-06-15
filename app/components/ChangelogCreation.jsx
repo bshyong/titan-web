@@ -131,7 +131,7 @@ export default class ChangelogCreation extends React.Component {
       <div>
         URL
         <div className={css} style={{fontSize: '1rem', height: 'auto'}}>
-          <div className="ml1 mr3 py1">
+          <div className="ml1 mr2 py1">
             changelog.assembly.com/
           </div>
           <input type="text"
@@ -142,6 +142,7 @@ export default class ChangelogCreation extends React.Component {
             ref="tagline"
             style={{
               fontSize: '1rem',
+              marginLeft: '10px',
               height: 'auto'
             }} />
         </div>
