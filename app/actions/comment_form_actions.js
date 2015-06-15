@@ -32,11 +32,6 @@ export default {
           comment: resp,
           storyId: storyId
         })
-
-        segment.track(ANALYTICS_COMMENT_CREATED, {
-          length: resp.body.length,
-          storyId: storyId
-        })
       })
   },
 

@@ -1,7 +1,7 @@
 import ApplicationNavbar from '../components/application_navbar.jsx'
+import Logo from '../components/logo.jsx'
 import Button from '../ui/Button.jsx'
 import ChangelogActions from '../actions/changelog_actions'
-import DocumentTitle from 'react-document-title'
 import ProfileActions from '../actions/profile_actions.js'
 import ProfileStore from '../stores/profile_store.js'
 import React from 'react'
@@ -30,44 +30,47 @@ export default class SettingsPage extends React.Component {
 
   render() {
     return (
-      <DocumentTitle title="Settings">
-        <div>
-          <ApplicationNavbar />
-          <div className="container">
-            <div className="clearfix mxn3">
+      <div>
+        <ApplicationNavbar title="Settings" />
+        <div className="container">
+          <div className="flex" style={{minHeight: 'calc(100vh - 3.5rem)'}}>
 
-              <div className="sm-col sm-col-3">
-                <h4>{this.props.user.username}</h4>
-                <div className="bg-white border rounded">
-                  <Link to="profile_settings" className="button block button-transparent"
-                    activeClassName="bg-blue white">Profile</Link>
-                </div>
-
-                <h4 className="mt3">Changelogs</h4>
-
-                <div className="bg-white border rounded">
-                  {this.renderChangelogLinks()}
-                </div>
+            <div className="col-3 border-right py4">
+              <div className="mb4">
+                <h4 className="mt0 mb2 gray">Personal Settings</h4>
+                <Link to="profile_settings" className="block px2 py1 black bg-smoke-hover"
+                    activeClassName="bg-smoke bold">
+                  Profile
+                </Link>
               </div>
 
-              <div className="sm-col sm-col-9 px3">
-                <RouteHandler />
+              <div className="mb4">
+                <h4 className="mt0 mb2 gray">Changelogs</h4>
+                {this.renderChangelogLinks()}
               </div>
-
             </div>
+
+            <div className="col col-9 p4">
+              <RouteHandler />
+            </div>
+
           </div>
         </div>
-      </DocumentTitle>
+      </div>
     )
   }
 
   renderChangelogLinks() {
     return List(this.props.changelogs).sortBy(c => c.name).map((c, i) => {
-      let cn = classnames("button block button-transparent", {
-        "border-bottom": i < (this.props.changelogs.size - 1)
-      })
-      return <Link to="changelog_settings" activeClassName="bg-blue white" params={{changelogId: c.slug}}
-        className={cn} key={c.slug}>{c.name}</Link>
+      return (
+        <Link to="changelog_settings" activeClassName="bg-smoke bold" params={{changelogId: c.slug}}
+          className="flex flex-center px2 py1 black bg-smoke-hover" key={c.id}>
+          <div className="mr1">
+            <Logo changelog={c} size="1.5rem" />
+          </div>
+          <div className="flex-auto">{c.name}</div>
+        </Link>
+      )
     })
   }
 

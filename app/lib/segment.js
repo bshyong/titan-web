@@ -1,13 +1,13 @@
 import SessionStore from '../stores/session_store'
 
 const eventDefinitions = {
-  ANALYTICS_CHANGELOG_CREATED: 'Changelog Created',
-  ANALYTICS_COMMENT_CREATED: 'Comment Created',
-  ANALYTICS_FOLLOWED: 'Followed',
-  ANALYTICS_POST_CREATED: 'Post Created',
-  ANALYTICS_UPVOTE: 'Upvoted',
-  ANALYTICS_USER_CREATED: 'User Created',
-  ANALYTICS_ENGAGED: 'Engaged',
+  ANALYTICS_CHANGELOG_CREATED: 'changelog-created',
+  ANALYTICS_COMMENT_CREATED: 'comment-created',
+  ANALYTICS_FOLLOWED: 'followed',
+  ANALYTICS_POST_CREATED: 'post-created',
+  ANALYTICS_UPVOTE: 'upvoted',
+  ANALYTICS_USER_CREATED: 'user-created',
+  ANALYTICS_ENGAGED: 'engaged',
 }
 
 export default {

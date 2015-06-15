@@ -30,7 +30,7 @@ export default class ApplicationNavbar extends React.Component {
   }
 
   render() {
-    return <Navbar title="Changelog"
+    return <Navbar title={this.props.title}
                    left={this.left()}
                    right={this.right()} />
   }
@@ -40,7 +40,6 @@ export default class ApplicationNavbar extends React.Component {
     return (
       <Link to={route} className="flex">
         <img className="flex-none mr2" src={LogoSrc} style={{height: '1.5rem'}} />
-        <div className="black sm-show">Assembly</div>
       </Link>
     )
   }
@@ -57,14 +56,14 @@ export default class ApplicationNavbar extends React.Component {
     }
   }
 
-  render_new_story() {
+  renderNewStory() {
     const { changelog } = this.props
     if (changelog && changelog.user_is_team_member) {
       return (
         <div>
           <List.Item>
             <Link to="new" params={{changelogId: changelog.slug}}>
-              <Icon icon="pencil" fw={true} /> New story
+              <Icon icon="pencil" fw={true} /> Write
             </Link>
             {this.renderHighlightsLink()}
           </List.Item>
@@ -91,7 +90,7 @@ export default class ApplicationNavbar extends React.Component {
     const userMenu = (
       <div className="py1">
         <List>
-          {this.render_new_story(changelogId)}
+          {this.renderNewStory(changelogId)}
         </List>
         <List type="small">
           <List.Item>
@@ -134,4 +133,12 @@ export default class ApplicationNavbar extends React.Component {
   _handleSignout() {
     SessionActions.signout()
   }
+}
+
+ApplicationNavbar.propTypes = {
+  title: React.PropTypes.string.isRequired
+}
+
+ApplicationNavbar.defaultProps = {
+  title: 'Changelog'
 }

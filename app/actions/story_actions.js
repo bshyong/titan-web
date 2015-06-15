@@ -155,10 +155,6 @@ export default {
           changelogId: changelogId
         })
 
-        segment.track(ANALYTICS_POST_CREATED, {
-          length: data.body.length
-        })
-
         RouterContainer.get().transitionTo('story', story.urlParams)
       })
   },

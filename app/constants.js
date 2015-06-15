@@ -1,6 +1,9 @@
 import keyMirror from 'keymirror'
 
 export default keyMirror({
+  ADMIN_DATA_FETCHED: null,
+  ADMIN_USERS_DATA_FETCHED: null,
+
   ANALYTICS_CHANGELOG_CREATED: null,
   ANALYTICS_COMMENT_CREATED: null,
   ANALYTICS_ENGAGED: null,
@@ -17,10 +20,12 @@ export default keyMirror({
 
   CHANGELOG_CREATE_FAILED: null,
   CHANGELOG_CURRENT_CLEARED: null,
+  CHANGELOG_DESTROYED: null,
   CHANGELOG_FETCHED: null,
   CHANGELOG_FOLLOWED: null,
   CHANGELOG_MEMBERSHIPS_FETCHED: null,
   CHANGELOG_UNFOLLOWED: null,
+  CHANGELOG_UPDATED: null,
 
   CHANGELOGS_ALL_FETCHED: null,
 
@@ -35,6 +40,7 @@ export default keyMirror({
   COMMENTS_FETCHED: null,
   COMMENTS_FETCHING: null,
 
+  CONTRIBUTORS_RESET: null,
   CONTRIBUTORS_STRING_RECEIVED: null,
 
   EMOJI_FETCHED: null,

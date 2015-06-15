@@ -11,6 +11,7 @@ import moment from '../config/moment'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
 import ScrollPaginator from '../ui/ScrollPaginator.jsx'
+import SessionStore from '../stores/session_store'
 import shallowEqual from 'react-pure-render/shallowEqual'
 import Stack from '../ui/Stack.jsx'
 import Table from '../ui/Table.jsx'
@@ -25,13 +26,15 @@ export default class ChangelogCreation extends React.Component {
       name: null,
       tagline: null,
       slug: null,
-      recently_typed: false
+      recently_typed: false,
+      website: null
     }
   }
 
   static getPropsFromStores(props) {
     return {
-      errors: ChangelogStore.errors
+      errors: ChangelogStore.errors,
+      user: SessionStore.user
     }
   }
 
@@ -58,6 +61,8 @@ export default class ChangelogCreation extends React.Component {
                 }} />
             </div>
           </div>
+          {this.renderTaglinePicker()}
+          {this.renderWebsiteUrlPicker()}
 
           <div className="clearfix">
             <div className="sm-col-5 mx-auto">
@@ -72,6 +77,46 @@ export default class ChangelogCreation extends React.Component {
               {this.renderCreateButton()}
             </div>
           </div>
+        </div>
+      </div>
+    )
+  }
+
+  renderTaglinePicker() {
+    return (
+      <div className="clearfix">
+        <div className="sm-col-5 mx-auto">
+          Tagline
+          <input type="text"
+            className="full-width border border-smoke mb2"
+            placeholder="Bigger than Big"
+            value={this.state.tagline}
+            onChange={this.TaglineChange.bind(this)}
+            ref="name"
+            style={{
+              fontSize: '1rem',
+              height: 'auto'
+            }} />
+        </div>
+      </div>
+    )
+  }
+
+  renderWebsiteUrlPicker() {
+    return (
+      <div className="clearfix">
+        <div className="sm-col-5 mx-auto">
+          Home Website
+          <input type="text"
+            className="full-width border border-smoke mb2"
+            placeholder="www.myproduct.com"
+            value={this.state.website}
+            onChange={this.WebsiteChange.bind(this)}
+            ref="name"
+            style={{
+              fontSize: '1rem',
+              height: 'auto'
+            }} />
         </div>
       </div>
     )
@@ -107,7 +152,7 @@ export default class ChangelogCreation extends React.Component {
   renderHeader() {
     return (
       <h2 className="py4 mx-auto center" style={{fontSize: '2rem'}}>
-        Start a changelog
+        Start a Changelog
       </h2>
     )
   }
@@ -151,6 +196,11 @@ export default class ChangelogCreation extends React.Component {
     )
   }
 
+  sanitizeSlug(slugText) {
+    let s = slugText.replace(/[|&;? $%@"<>/\()+,]/g, "");
+    return s
+  }
+
   NameChange(e) {
     this.setState({name: e.target.value})
   }
@@ -163,11 +213,17 @@ export default class ChangelogCreation extends React.Component {
     this.setState({slug: e.target.value, recently_typed: true})
   }
 
+  WebsiteChange(e) {
+    this.setState({website: e.target.value, recently_typed: true})
+  }
+
   handlePublish() {
     let name = this.state.name
     let tagline = this.state.tagline
-    let slug = this.state.slug
+    let slug = this.sanitizeSlug(this.state.slug)
+    let website = this.state.website
+    let user_id = this.props.user.id
     this.setState({recently_typed: false})
-    ChangelogActions.create(name, tagline, slug)
+    ChangelogActions.create(name, tagline, slug, user_id, website)
   }
 }

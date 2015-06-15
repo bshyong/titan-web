@@ -1,56 +1,158 @@
+import {List} from 'immutable'
 import authenticated from '../mixins/authenticated_mixin.jsx'
 import Avatar from '../../ui/Avatar.jsx'
 import ChangelogActions from '../../actions/changelog_actions'
 import ChangelogStore from '../../stores/changelog_store'
 import connectToStores from '../../lib/connectToStores.jsx'
+import ProfileStore from '../../stores/profile_store'
 import MembershipActions from '../../actions/MembershipActions'
 import React from 'react'
 import RouterContainer from '../../lib/router_container'
 import Table from '../../ui/Table.jsx'
-import UserCell from '../User/UserCell.jsx'
+import Icon from '../../ui/Icon.jsx'
+import Switch from '../../ui/Switch.jsx'
+import Button from '../../ui/Button.jsx'
 
 
 @authenticated()
 @connectToStores(ChangelogStore)
 export default class ChangelogSettings extends React.Component {
   static willTransitionTo(transition, params) {
+    ChangelogActions.clearCurrent()
+    ChangelogActions.select(params.changelogId)
     ChangelogActions.fetchMemberships(params.changelogId)
   }
 
   static getPropsFromStores(props) {
+    const changelogId = RouterContainer.get().getCurrentParams().changelogId
+
     return {
-      changelogId: RouterContainer.get().getCurrentParams().changelogId,
+      changelogId,
+      changelog: ChangelogStore.changelog,
       coreMemberships: ChangelogStore.coreMemberships,
       errors: ChangelogStore.updateErrors,
       updateSuccessful: ChangelogStore.updateSuccessful
     }
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      membersOnly: false,
+      logoSet: false,
+      bannerSet: false
+    }
+  }
+
   render() {
-    if (!this.props.coreMemberships) {
+    if (!(this.props.coreMemberships && this.props.changelog)) {
       return <div /> // loading
     }
+
+    const {changelog, changelog: { is_members_only }} = this.props
+
     return (
       <div>
-        <h2 className="border-bottom border-smoke">Core Team</h2>
+        <h4 className="mt0 mb0 bold">Members</h4>
+        <p className="gray">Members can post stories</p>
 
-        <Table>
+        <div className="mb2">
           {this.props.coreMemberships.map(m => (
-            <Table.Cell key={m.id} image={<Avatar user={m.user} size={24} />}>
-              <a className="right pointer" onClick={this.handleRemoveClicked(m)}>x</a>
-              {m.user.username}
-            </Table.Cell>
+            <div className="flex flex-center px2 py1 bg-smoke-hover visible-hover-wrapper" key={m.id}>
+              <div>
+                <Avatar user={m.user} size={16 * 2} />
+              </div>
+              <div className="flex-auto px2">
+                {m.user.username}
+              </div>
+              <div className="visible-hover">
+                <a className="pointer red" onClick={this.handleRemoveClicked(m)}>
+                  <Icon icon="trash-o" />
+                </a>
+              </div>
+            </div>
           ))}
-        </Table>
-        <form onSubmit={this.handleAddMember.bind(this)}>
-          <input type="text" ref="emailOrUsername"
-                 className="field-light full-width"
-                 placeholder="Add core team member by username" />
-        </form>
-        {this.renderStatus()}
+          <div className="px2 py1 visible-hover-wrapper">
+            <form onSubmit={this.handleAddMember.bind(this)} className="mb3">
+              <input type="text" ref="emailOrUsername"
+                     className="field-light full-width"
+                     placeholder="Add a member by username" />
+              {this.renderStatus()}
+            </form>
+          </div>
+        </div>
 
-        <h2 className="mt4 border-bottom border-smoke">Followers</h2>
-        <p>This is a <strong>public</strong> changelog. Anybody can find and follow it.</p>
+        <div className="flex flex-center py2">
+          <div className="flex-auto">
+            <h4 className="mt0 mb0 bold">Members only</h4>
+            <p className="mb0 gray">
+              {
+                is_members_only ? "Only members can see this changelog" : "Anybody can see this changelog"
+              }
+            </p>
+          </div>
+          <div>
+            <Switch switched={is_members_only} onSwitched={this.handleSwitchMembersOnly.bind(this)} />
+          </div>
+        </div>
+
+        {this.renderLogoChanger()}
+        {this.renderBannerChanger()}
+
+        <hr />
+
+        <div className="flex flex-center py2">
+          <div className="flex-auto">
+            <h4 className="mt0 mb0 bold">The desolate shores of Regretistan</h4>
+            <p className="mb0 gray">
+              There are no take backsies here, son
+            </p>
+          </div>
+          <div className="mxn1">
+            <Button color="red" style="transparent" size="small" action={this.handleDeleteChangelog.bind(this)}>Delete changelog</Button>
+          </div>
+        </div>
+
+      </div>
+    )
+  }
+
+  renderLogoChanger() {
+    return (
+      <div className="clearfix py2">
+        <div className="flex flex-auto">
+          <h4 className="bold mr3">
+            Set Logo
+          </h4>
+          <div className="px2 py1 visible-hover-wrapper">
+            <form onSubmit={this.handleAddLogoUrl.bind(this)} className="mb3">
+              <input type="text" ref="logo"
+                     className="field-light full-width"
+                     placeholder="URL to a logo image" />
+            </form>
+            {this.state.logoSet ? <div>Logo set</div> : <div/>}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  renderBannerChanger() {
+    return (
+      <div className="clearfix py2">
+        <div className="flex flex-auto">
+          <h4 className="bold mr2">
+            Set Banner
+          </h4>
+          <div className="px2 py1 visible-hover-wrapper">
+            <form onSubmit={this.handleAddBannerUrl.bind(this)} className="mb3">
+              <input type="text" ref="banner"
+                     className="field-light full-width"
+                     placeholder="URL to a banner image" />
+            </form>
+            {this.state.bannerSet ? <div>Banner set</div> : <div/>}
+          </div>
+        </div>
       </div>
     )
   }
@@ -72,28 +174,53 @@ export default class ChangelogSettings extends React.Component {
     e.preventDefault()
     let el = React.findDOMNode(this.refs.emailOrUsername)
     let text = el.value
-    // if (text.match(/.+@.+/)) {
-    //   MembershipActions.invite(this.props.params.changelogId, text)
-    // } else {
-      MembershipActions.update(
-        this.props.changelogId,
-        text, {
-          is_core: true
-        }
-      )
-    // }
-
+    MembershipActions.update(
+      this.props.changelogId,
+      text, {
+        is_core: true
+      }
+    )
     el.value = ''
+  }
+
+  handleAddLogoUrl(e) {
+    e.preventDefault()
+    let el = React.findDOMNode(this.refs.logo)
+    let text = el.value
+    ChangelogActions.update(this.props.changelogId, {logo_url: text, name: this.props.changelog.name})
+    this.setState({logoSet: true})
+  }
+
+  handleAddBannerUrl(e) {
+    e.preventDefault()
+    let el = React.findDOMNode(this.refs.banner)
+    let text = el.value
+    ChangelogActions.update(this.props.changelogId, {banner_url: text, name: this.props.changelog.name})
+    this.setState({bannerSet: true})
   }
 
   handleRemoveClicked(membership) {
     return (e) => {
-      MembershipActions.update(
-        this.props.changelogId,
-        membership.user.username, {
-          is_core: false
-        }
-      )
+      if (confirm(`Are you sure you want to remove @${membership.user.username}?`)) {
+        MembershipActions.update(
+          this.props.changelogId,
+          membership.user.username, {
+            is_core: false
+          }
+        )
+      }
+    }
+  }
+
+  handleSwitchMembersOnly(on) {
+    ChangelogActions.update(this.props.changelogId, {
+      is_members_only: on
+    })
+  }
+
+  handleDeleteChangelog() {
+    if (confirm("Are you 100%, totally sure you want to delete this changelog?")) {
+      ChangelogActions.destroy(this.props.changelogId)
     }
   }
 }

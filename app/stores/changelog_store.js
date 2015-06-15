@@ -4,10 +4,8 @@ import {
   CHANGELOG_FETCHED,
   CHANGELOG_FOLLOWED,
   CHANGELOG_MEMBERSHIPS_FETCHED,
-  CHANGELOG_SHOW_ALL,
-  CHANGELOG_TIME_CHANGED,
   CHANGELOG_UNFOLLOWED,
-  CHANGELOG_UNFOLLOWED,
+  CHANGELOG_UPDATED,
   MEMBERSHIP_UPDATE_FAILED,
   MEMBERSHIP_UPDATED,
   MEMBERSHIP_UPDATING,
@@ -63,6 +61,10 @@ class ChangelogStore extends Store {
           this.memberships = this.memberships.filterNot(m => m.user.username == action.userId)
           this.updateErrors = action.errors
           this.updateSuccessful = false
+          break
+
+        case CHANGELOG_UPDATED:
+          this._changelog = action.changelog
           break
 
         default:

@@ -4,6 +4,7 @@ import {
   Route,
   DefaultRoute
 } from 'react-router'
+import AdminPage from '../pages/AdminPage.jsx'
 import AppPage from '../pages/AppPage.jsx'
 import Changelog from '../components/changelog.js.jsx'
 import ChangelogLayout from '../components/changelog_layout.js.jsx'
@@ -31,6 +32,7 @@ export default (
     <DefaultRoute handler={HomePage} name="home" />
     <NotFoundRoute handler={NotFound} name="not_found" />
 
+    <Route handler={AdminPage} path="/admin" />
     <Route handler={HomePage} path="/home" />
     <Route handler={NewChangelogPage} path="/new" name="newChangelog" />
     <Route handler={SigninSSO} path="/signin/sso" name="sso" />

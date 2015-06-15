@@ -2,7 +2,9 @@ import {Link} from 'react-router'
 import {List, Map, Set} from 'immutable'
 import Badge from '../Badge.jsx'
 import Button from '../../ui/Button.jsx'
+import ClickablePaginator from '../../ui/ClickablePaginator.jsx'
 import connectToStores from '../../lib/connectToStores.jsx'
+import Divider from '../Divider.jsx'
 import Logo from '../logo.jsx'
 import paramsFor from '../../lib/paramsFor'
 import pluralize from '../../lib/pluralize'
@@ -13,7 +15,6 @@ import React from 'react'
 import StoryCell from '../Story/StoryCell.jsx'
 import Table from '../../ui/Table.jsx'
 import UserCell from '../User/UserCell.jsx'
-import ClickablePaginator from '../../ui/ClickablePaginator.jsx'
 
 @connectToStores(ProfileStore, ProfileStories)
 export default class ProfilePage extends React.Component {
@@ -47,36 +48,72 @@ export default class ProfilePage extends React.Component {
       <div>
         <UserCell user={user} />
 
-        <hr className="mt0 mb0 border-silver" />
+        <div className="full-width overflow-hidden">
+          <Divider />
+        </div>
+
+        {this.renderThingyCounts(upvoteCount, this.props.user.contribution_count, this.props.following.length)}
 
         <div className="container">
-          <div className="px2 md-px0 py4">
-            <p className="h3 mt0 mb0 center">
-              Earned <strong>{pluralize(upvoteCount, 'upvote', 'upvotes')}</strong>,
-              contributed to <strong>{pluralize(this.props.user.contribution_count, 'post', 'posts')}</strong>,
-              and following <strong>{pluralize(this.props.following.length, 'changelog', 'changelogs')}</strong>.
-            </p>
-          </div>
-          {this.renderSection('Upvotes earned', this.renderUpvotes)}
-          {this.renderSection('Recent posts', this.renderStories)}
-          {this.renderSection('Following', this.renderFollowingChangelogs)}
+          {this.renderSection('Upvotes earned', upvoteCount, this.renderUpvotes)}
+          {this.renderSection('Public posts', this.props.user.contribution_count, this.renderStories)}
+          {this.renderSection('Following', this.props.following.length, this.renderFollowingChangelogs)}
         </div>
       </div>
     )
   }
 
-  renderSection(title, body) {
+  renderThingyCounts(upvotes, posts, changelogs) {
+    if (upvotes === 0 && posts === 0 && changelogs === 0) {
+      return (
+        <div className="px2 md-px0 py4 gray">
+          <p className="h2 mt0 mb0 center">
+            “Genius is 1% inspiration, 99% perspiration.”
+          </p>
+          <p className="mt0 mb0 center">— Thomas Edison</p>
+        </div>
+      )
+    }
+
     return (
-      <div className="mb4">
-        <h4 className="px2 md-px0 py1 caps gray h5 mt0 mb0 border-bottom">{title}</h4>
-        {body.bind(this)()}
+      <div className="px2 md-px0 py4">
+        <p className="h3 mt0 mb0 center">
+          Earned <strong>{pluralize(upvotes, 'upvote', 'upvotes')}</strong>,
+          contributed to <strong>{pluralize(posts, 'post', 'posts')}</strong>,
+          and following <strong>{pluralize(changelogs, 'changelog', 'changelogs')}</strong>.
+        </p>
       </div>
     )
   }
 
-  renderUpvotes() {
+  renderSection(title, count, body) {
+    return (
+      <div className="mb4">
+        <h4 className="px2 md-px0 py1 caps gray h5 mt0 mb0 border-bottom">{title}</h4>
+        {body.bind(this)(count)}
+      </div>
+    )
+  }
+
+  renderBlankState(emoji, message) {
+    return (
+      <div className="py3 gray">
+        <img src={`https://twemoji.maxcdn.com/svg/${emoji}.svg`} className="block left mr1" style={{width: '1.5rem'}} />
+        {message}
+      </div>
+    )
+  }
+
+  renderUpvotes(nUpvotes) {
     const { upvotes } = this.props
     const stickerSheet = List(upvotes).sortBy(s => -s.count)
+
+    if (nUpvotes === 0) {
+      return this.renderBlankState(
+        '1f496',
+        "Earn upvotes on your posts and get that warm, fuzzy feeling."
+      )
+    }
 
     return (
       <div className="">
@@ -99,6 +136,12 @@ export default class ProfilePage extends React.Component {
 
   renderStories() {
     const { stories, storyPagination } = this.props
+    if (stories.size==0) {
+      return this.renderBlankState(
+        '1f4dc',
+        "Contribute by posting to a changelog."
+      )
+    }
 
     return (
       <ClickablePaginator
@@ -131,24 +174,16 @@ export default class ProfilePage extends React.Component {
     )
   }
 
-  renderChangelogs() {
-    return (
-      <div className="sm-flex p2">
-        <div className="half-width px2 md-px0">
-          <h5 className="mt1 mb2 gray">Working on</h5>
-          {this.renderWorkingOnChangelogs()}
-        </div>
-
-        <div className="half-width px2 md-px0">
-          <h5 className="mt1 mb2 gray">Following</h5>
-          {this.renderFollowingChangelogs()}
-        </div>
-      </div>
-    )
-  }
-
-  renderFollowingChangelogs() {
+  renderFollowingChangelogs(nFollowing) {
     const { following: changelogs } = this.props
+
+    if (nFollowing === 0) {
+      return this.renderBlankState(
+        '1f60e',
+        "Follow changelogs that you work on and find interesting."
+      )
+    }
+
     return (
       <div className="flex flex-wrap p1 py2">
         {changelogs.map(changelog =>

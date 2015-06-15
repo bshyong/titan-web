@@ -17,10 +17,10 @@ export default class Logo extends React.Component {
       )
     }
     return (
-      <div className="bg-smoke rounded flex flex-center" style={style}>
-        <div className="black h1 mx-auto bold">
-          {name.charAt(0).toUpperCase()}
-        </div>
+      <div className="bg-smoke rounded center" style={style}>
+        <svg className="block" preserveAspectRatio="xMidYMid meet" width="100%" height="100%" viewBox="0 0 20 20">
+          <text textAnchor="middle" x="10" y="16" style={{fontWeight: 400}}>{name.charAt(0).toUpperCase()}</text>
+        </svg>
       </div>
     )
   }
