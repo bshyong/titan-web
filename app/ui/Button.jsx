@@ -15,10 +15,10 @@ export default class Button extends React.Component {
     } = this.props
 
     const cn = classnames(
+      'button',
       {
         'block full-width':    block,
         'button--disabled':    disabled,
-        'button':              style === 'solid',
         'button-outline':      style === 'outline',
         'button-transparent':  style === 'transparent',
         'button-small':        size === 'small',

@@ -5,7 +5,7 @@ import moment from 'moment'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
 import StoryActions from '../actions/story_actions'
-import StoryStore from '../stores/story_store'
+import GroupedStoriesStore from '../stores/GroupedStoriesStore'
 
 export default class SingleDateChangelogPage extends React.Component {
   static willTransitionTo(transition, params, query) {

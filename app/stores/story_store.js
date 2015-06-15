@@ -1,5 +1,4 @@
 import {
-  CHANGELOG_TIME_CHANGED,
   COMMENT_CREATING,
   STORIES_FETCHED,
   STORIES_FETCHING,
@@ -60,10 +59,6 @@ class StoryStore extends Store {
         case STORY_UNHEARTED:
           this.get(action.storyId).viewer_has_hearted = false
           this.get(action.storyId).hearts_count -= 1
-          break
-
-        case CHANGELOG_TIME_CHANGED:
-          this.stories = Map()
           break
 
         case STORIES_FETCHED:

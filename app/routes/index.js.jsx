@@ -9,6 +9,7 @@ import AppPage from '../pages/AppPage.jsx'
 import Changelog from '../components/changelog.js.jsx'
 import ChangelogLayout from '../components/changelog_layout.js.jsx'
 import ChangelogPage from '../pages/ChangelogPage.jsx'
+import ChangelogByDatePage from '../pages/ChangelogByDatePage.jsx'
 import ChangelogSettings from '../components/settings/ChangelogSettings.jsx'
 import DashboardPage from '../pages/DashboardPage.jsx'
 import EditStoryForm from '../components/edit_story_form.js.jsx'
@@ -45,8 +46,10 @@ export default (
     <Route handler={DashboardPage} path="/dashboard" name="dashboard" />
 
     <Route handler={ChangelogLayout} path="/:changelogId">
-      <DefaultRoute handler={ChangelogPage} name="changelog" />
-      
+      <DefaultRoute handler={ChangelogByDatePage} name="changelog" />
+
+      <Route handler={ChangelogPage} name="changelog_by_sets" path="sets" />
+
       <Route handler={EditStoryForm} path=":storyId/edit" name="edit" />
 
       <Route handler={StoryComposer} path="new">

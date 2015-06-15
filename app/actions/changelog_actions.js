@@ -6,8 +6,6 @@ import {
   CHANGELOG_DESTROYED,
   CHANGELOG_FETCHED,
   CHANGELOG_MEMBERSHIPS_FETCHED,
-  CHANGELOG_SHOW_ALL,
-  CHANGELOG_TIME_CHANGED,
   CHANGELOG_UPDATED,
   CHANGELOGS_ALL_FETCHED,
 } from '../constants'
@@ -55,20 +53,6 @@ export default {
           memberships: List(resp)
         })
       })
-  },
-
-  changeTimeInterval(timeInterval) {
-    Dispatcher.dispatch({
-      type: CHANGELOG_TIME_CHANGED,
-      timeInterval: timeInterval
-    })
-  },
-
-  changeTimeShown(timeShown) {
-    Dispatcher.dispatch({
-      type: CHANGELOG_SHOW_ALL,
-      timeShown: timeShown
-    })
   },
 
   create(name, tagline, slug, user_id, website) {

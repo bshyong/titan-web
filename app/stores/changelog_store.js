@@ -4,8 +4,6 @@ import {
   CHANGELOG_FETCHED,
   CHANGELOG_FOLLOWED,
   CHANGELOG_MEMBERSHIPS_FETCHED,
-  CHANGELOG_SHOW_ALL,
-  CHANGELOG_TIME_CHANGED,
   CHANGELOG_UNFOLLOWED,
   CHANGELOG_UPDATED,
   MEMBERSHIP_UPDATE_FAILED,
@@ -19,7 +17,6 @@ class ChangelogStore extends Store {
   constructor() {
     super()
     this._changelog = null
-    this._timeInterval = localStorage.getItem('preferredTimeInterval') || 'week'
     this._timeShown = null
     this._errors = null
     this.dispatchToken = Dispatcher.register((action) => {
@@ -47,14 +44,6 @@ class ChangelogStore extends Store {
 
         case CHANGELOG_MEMBERSHIPS_FETCHED:
           this.memberships = action.memberships.sortBy(m => m.user.username.toLowerCase())
-          break
-
-        case CHANGELOG_TIME_CHANGED:
-          this._timeInterval = action.timeInterval
-          break
-
-        case CHANGELOG_SHOW_ALL:
-          this._timeShown = action.timeShown
           break
 
         case MEMBERSHIP_UPDATING:
@@ -103,10 +92,6 @@ class ChangelogStore extends Store {
 
   get following() {
     return this._changelog && this._changelog.viewer_is_follower
-  }
-
-  get timeInterval() {
-    return this._timeInterval
   }
 
   get slug() {

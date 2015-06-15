@@ -1,5 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
+import {Link} from 'react-router'
 
 export default class SegmentedControl extends React.Component {
   render() {
@@ -13,24 +14,21 @@ export default class SegmentedControl extends React.Component {
   }
 }
 
-class SegmentedControlItem extends React.Component {
+class SegmentedControlLink extends React.Component {
   render() {
-    const { active, children } = this.props
-    const cn = classnames('px2 h5 py1 center flex-auto pointer rounded bold', {
-      'gray': !active,
-      'bg-white orange': active
-    })
-
-    return <div {...this.props} className={cn}>{children}</div>
+    return <Link
+      {...this.props}
+      className="px2 h5 py1 center flex-auto pointer rounded bold gray"
+      activeClassName="bg-white orange">{this.props.children}</Link>
   }
 }
 
-SegmentedControlItem.propTypes = {
+SegmentedControlLink.propTypes = {
   active: React.PropTypes.bool.isRequired
 }
 
-SegmentedControlItem.defaultProps = {
+SegmentedControlLink.defaultProps = {
   active: false
 }
 
-SegmentedControl.Item = SegmentedControlItem
+SegmentedControl.Link = SegmentedControlLink

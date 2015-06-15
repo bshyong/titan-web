@@ -13,7 +13,7 @@ import SessionStore from '../../stores/session_store'
 import Stack from '../../ui/Stack.jsx'
 import StoryActions from '../../actions/story_actions'
 import StoryReadersStore from '../../stores/story_readers_store'
-import StoryStore from '../../stores/story_store'
+import GroupedStoriesStore from '../../stores/GroupedStoriesStore'
 import SubscribeStoryButton from '../subscribe_story_button.jsx'
 import UpvoteToggler from '../UpvoteToggler.jsx'
 import connectToStores from '../../lib/connectToStores.jsx'
@@ -23,12 +23,12 @@ import shallowEqual from 'react-pure-render/shallowEqual'
 import {Link} from 'react-router'
 import {List} from 'immutable'
 
-@connectToStores(StoryStore, StoryReadersStore, ChangelogStore)
+@connectToStores(GroupedStoriesStore, StoryReadersStore, ChangelogStore)
 export default class Story extends React.Component {
 
   static getPropsFromStores(props) {
     return {
-      story: StoryStore.get(props.storyId),
+      story: GroupedStoriesStore.get(props.storyId),
       totalReads: StoryReadersStore.totalReads,
       uniqueReads: StoryReadersStore.uniqueReads,
       changelog: ChangelogStore.changelog,

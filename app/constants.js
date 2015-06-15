@@ -24,8 +24,6 @@ export default keyMirror({
   CHANGELOG_FETCHED: null,
   CHANGELOG_FOLLOWED: null,
   CHANGELOG_MEMBERSHIPS_FETCHED: null,
-  CHANGELOG_SHOW_ALL: null,
-  CHANGELOG_TIME_CHANGED: null,
   CHANGELOG_UNFOLLOWED: null,
   CHANGELOG_UPDATED: null,
 
@@ -57,6 +55,10 @@ export default keyMirror({
   GIFS_FETCHED: null,
   GIFS_FETCHED_FROM_STORE: null,
 
+  GROUP_COLLAPSED: null,
+  GROUP_DONE: null,
+  GROUP_STORIES_FETCHED: null,
+
   HIGHLIGHTS_FETCHED: null,
   HIGHLIGHT_IGNORED: null,
   HIGHLIGHT_USED: null,
@@ -80,6 +82,10 @@ export default keyMirror({
 
   ROUTE_TRANSITIONED: null,
   RESOURCE_NOT_FOUND: null,
+
+  SET_UPDATE_FAILED: null,
+  SET_UPDATED: null,
+  SET_UPDATING: null,
 
   STORIES_FETCHED: null,
   STORIES_FETCHING: null,

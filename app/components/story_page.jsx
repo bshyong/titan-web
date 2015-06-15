@@ -13,7 +13,7 @@ import SessionStore from '../stores/session_store'
 import Stack from '../ui/Stack.jsx'
 import StoryActions from '../actions/story_actions'
 import StoryReadersStore from '../stores/story_readers_store'
-import StoryStore from '../stores/story_store'
+import GroupedStoriesStore from '../stores/GroupedStoriesStore'
 import SubscribeStoryButton from './subscribe_story_button.jsx'
 import UpvoteToggler from './UpvoteToggler.jsx'
 import connectToStores from '../lib/connectToStores.jsx'
@@ -24,7 +24,7 @@ import {Link} from 'react-router'
 import {List} from 'immutable'
 import GifPicker from './gif_picker.jsx'
 
-@connectToStores(StoryStore, StoryReadersStore, ChangelogStore)
+@connectToStores(GroupedStoriesStore, StoryReadersStore, ChangelogStore)
 export default class StoryPage extends React.Component {
   static willTransitionTo(transition, params, query) {
     StoryActions.fetch(params.changelogId, params.storyId)
@@ -34,7 +34,7 @@ export default class StoryPage extends React.Component {
   static getPropsFromStores() {
     const storyId = Router.get().getCurrentParams().storyId
     return {
-      story: StoryStore.get(storyId),
+      story: GroupedStoriesStore.get(storyId),
       totalReads: StoryReadersStore.totalReads,
       uniqueReads: StoryReadersStore.uniqueReads,
       changelog: ChangelogStore.changelog,

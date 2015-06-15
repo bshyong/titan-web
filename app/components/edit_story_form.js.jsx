@@ -7,7 +7,7 @@ import StoryForm from './NewStoryForm.jsx'
 import StoryFormActions from '../actions/story_form_actions'
 import StoryFormStore from '../stores/story_form_store'
 import StoryActions from '../actions/story_actions'
-import StoryStore from '../stores/story_store'
+import GroupedStoriesStore from '../stores/GroupedStoriesStore'
 
 @AuthenticatedMixin()
 export default class EditStoryForm extends React.Component {
@@ -28,7 +28,7 @@ export default class EditStoryForm extends React.Component {
   }
 
   getExistingStory() {
-    const story = StoryStore.get(this.props.storyId)
+    const story = GroupedStoriesStore.get(this.props.storyId)
 
     if (story) {
       StoryFormActions.change({

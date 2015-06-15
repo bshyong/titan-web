@@ -6,21 +6,21 @@ import GifPicker from './gif_picker.jsx'
 import LoadingBar from '../ui/LoadingBar.jsx'
 import MarkdownArea from '../ui/markdown_area.jsx'
 import React from 'react'
-import StoryStore from '../stores/story_store'
+import GroupedStoriesStore from '../stores/GroupedStoriesStore'
 import SubscribeStoryButton from './subscribe_story_button.jsx'
 import Table from '../ui/Table.jsx'
 import connectToStores from '../lib/connectToStores.jsx'
 import pluralize from '../lib/pluralize'
 import {List} from 'immutable'
 
-@connectToStores(CommentsStore, StoryStore)
+@connectToStores(CommentsStore, GroupedStoriesStore)
 export default class Discussion extends React.Component {
   static getPropsFromStores(props) {
     return {
       comments: CommentsStore.all(),
-      commentsCount: StoryStore.getCommentsCount(props.storyId),
+      commentsCount: GroupedStoriesStore.getCommentsCount(props.storyId),
       loading: CommentsStore.loading,
-      story: StoryStore.get(props.storyId)
+      story: GroupedStoriesStore.get(props.storyId)
     }
   }
 

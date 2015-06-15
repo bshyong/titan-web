@@ -6,10 +6,10 @@ import React from 'react'
 import RouterContainer from '../lib/router_container'
 import StoryActions from '../actions/story_actions'
 
-export default class ChangelogPage extends React.Component {
+export default class ChangelogByDatePage extends React.Component {
   static willTransitionTo(transition, params, query) {
     StoryActions.fetchAll(params.changelogId, {
-      group_by: 'markers'
+      group_by: 'calendar'
     })
   }
 
@@ -21,10 +21,10 @@ export default class ChangelogPage extends React.Component {
 
   render() {
     const { changelogId } = this.props
-    return <DocumentTitle title="Sets">
+    return <DocumentTitle title="Posts">
       <div>
         <ChangelogHeader changelogId={changelogId} />
-        <Changelog changelogId={changelogId} groupBy="markers" />
+        <Changelog changelogId={changelogId} groupBy="calendar" />
       </div>
     </DocumentTitle>
   }

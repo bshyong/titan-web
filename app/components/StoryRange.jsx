@@ -12,78 +12,77 @@ import UpvoteToggler from './UpvoteToggler.jsx'
 import moment from 'moment'
 import paramsFor from '../lib/paramsFor'
 import { Link } from 'react-router'
+import PostSetActions from '../actions/PostSetActions'
 
 export default class StoryRange extends React.Component {
+  static propTypes = {
+    group: React.PropTypes.object.isRequired,
+    changelogId: React.PropTypes.string.isRequired,
+    stories: React.PropTypes.object.isRequired,
+    truncatable: React.PropTypes.bool.isRequired
+  }
 
   constructor(props) {
     super(props)
-    this.per = 5
+    this.per = 50
     this.state = {
-      page: 1,
-      hasMore: this.hasMoreStories()
+      page: 0,
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { stories } = nextProps
-    this.setState({
-      hasMore: stories.size < stories.minBy(story => story.group_total).group_total
-    })
-  }
-
   render() {
-    const { date, stories, changelogId } = this.props
+    const { group, changelogId } = this.props
+    const showLoadMore = this.hasMoreStories()
+    let { stories } = this.props
+    let title = group.title
+    let date = moment(group.title)
+    if (date.isValid()) {
+      let format = 'MMM'
+      if (date.year() != moment().year()) {
+        format = 'MMM YYYY'
+      }
+      title = date.format(format)
+    }
+
+    if (group.title !== 'Today') {
+      stories = stories.sortBy(s => -s.hearts_count)
+    }
+
     return (
-      <Table>
-        <ClickablePaginator onLoadMore={this.handleShowMore.bind(this)} hasMore={this.state.hasMore && this.props.truncatable}>
-          {stories.map(story => (
-            <Table.Cell key={story.id} image={<UpvoteToggler story={story} hearted={story.viewer_has_hearted} />}  to="story" params={paramsFor.story({slug: changelogId}, story)}>
-              <StoryCell story={story} />
-            </Table.Cell>
-          ))}
-        </ClickablePaginator>
-      </Table>
+      <div className="mb4">
+        <div className="border-bottom flex flex-center">
+          <div className="flex-auto py2">
+            {title}
+          </div>
+        </div>
+
+        <Table>
+          <ClickablePaginator onLoadMore={this.handleShowMore.bind(this)} hasMore={showLoadMore}>
+            {stories.map(story => (
+              <Table.Cell key={story.id} image={<UpvoteToggler story={story} hearted={story.viewer_has_hearted} />} to="story" params={paramsFor.story({slug: changelogId}, story)}>
+                <StoryCell story={story} />
+              </Table.Cell>
+            ))}
+          </ClickablePaginator>
+        </Table>
+      </div>
     )
   }
 
   handleShowMore() {
-    const { date, timeInterval } = this.props
-    StoryActions.fetchSpecificDate(ChangelogStore.slug, date.format('MM-DD-YYYY'), timeInterval, this.state.page + 1, this.per)
+    const { changelogId, group } = this.props
+    StoryActions.fetchSpecificDate(changelogId, group.key, this.state.page + 1, this.per)
     this.setState({
       page: this.state.page + 1
     })
   }
 
   hasMoreStories() {
-    const { stories } = this.props
-    if (stories.size) {
-      return stories.size < stories.minBy(story => story.group_total).group_total
-    } else {
+    const { stories, truncatable, group } = this.props
+    if (stories.isEmpty()) {
       return false
     }
+
+    return truncatable && (stories.size < group.total)
   }
-
-  parseCalendarDate() {
-    const { date, timeInterval } = this.props
-    const start_date = moment(date)
-
-    if (timeInterval === "day") {
-      return date.calendar()
-    }
-    if (timeInterval === "week") {
-      var end_date = moment(date).add(1, 'weeks')
-    }
-    if (timeInterval === "month") {
-      var end_date = moment(date).add(1, 'months')
-    }
-    return start_date.format('MMMM D, YYYY').concat(" - ").concat(end_date.format('MMMM D, YYYY'))
-  }
-}
-
-StoryRange.propTypes = {
-  date: React.PropTypes.object.isRequired,
-  stories: React.PropTypes.object.isRequired,
-  storyCount: React.PropTypes.number.isRequired,
-  timeInterval: React.PropTypes.string.isRequired,
-  truncatable: React.PropTypes.bool.isRequired
 }
