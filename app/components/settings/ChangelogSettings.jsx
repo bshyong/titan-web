@@ -135,8 +135,9 @@ export default class ChangelogSettings extends React.Component {
           <div className="px2 py1 visible-hover-wrapper">
             <form onSubmit={this.handleChangeName.bind(this)} className="mb3">
               <input type="text" ref="name"
-                     className="field-light full-width"
+                     className="field-light sm-col-9"
                      placeholder={this.props.changelog.name} />
+                   <button className="button ml2">Change</button>
             </form>
             {this.state.nameSet ? <div>name set</div> : <div/>}
           </div>
@@ -155,8 +156,9 @@ export default class ChangelogSettings extends React.Component {
           <div className="px2 py1 visible-hover-wrapper">
             <form onSubmit={this.handleChangeTagline.bind(this)} className="mb3">
               <input type="text" ref="tagline"
-                     className="field-light full-width"
+                     className="field-light sm-col-9"
                      placeholder={this.props.changelog.tagline} />
+                   <button className="button ml2">Change</button>
             </form>
             {this.state.taglineSet ? <div>Tagline set</div> : <div/>}
           </div>
@@ -169,14 +171,15 @@ export default class ChangelogSettings extends React.Component {
       <div className="clearfix">
         <label>
           <h4 className="bold mr3">
-            Logo
+            Logo URL
           </h4>
         </label>
           <div className="px2 py1 visible-hover-wrapper">
             <form onSubmit={this.handleAddLogoUrl.bind(this)} className="mb3">
               <input type="text" ref="logo"
-                     className="field-light full-width"
+                     className="field-light sm-col-9"
                      placeholder={this.props.changelog.logo_url ? this.props.changelog.logo_url : "Logo image url here"} />
+                   <button className="button ml2">Change</button>
             </form>
             {this.state.logoSet ? <div>Logo set</div> : <div/>}
           </div>
@@ -189,14 +192,15 @@ export default class ChangelogSettings extends React.Component {
       <div className="clearfix">
         <label>
           <h4 className="bold mr3">
-            Banner
+            Banner URL
           </h4>
         </label>
           <div className="px2 py1 visible-hover-wrapper">
             <form onSubmit={this.handleAddBannerUrl.bind(this)} className="mb3">
               <input type="text" ref="banner"
-                     className="field-light full-width"
+                     className="field-light sm-col-9"
                      placeholder={this.props.changelog.banner_url ? this.props.changelog.banner_url : "Banner image URL here"} />
+                   <button className="button ml2">Change</button>
             </form>
             {this.state.bannerSet ? <div>Banner set</div> : <div/>}
           </div>
