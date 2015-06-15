@@ -1,10 +1,11 @@
-import { Link } from 'react-router'
+import ChangelogStore from '../stores/changelog_store'
 import FollowButton from './follow_button.jsx'
+import Icon from '../ui/Icon.jsx'
 import Jumbotron from '../ui/Jumbotron.jsx'
 import Logo from './logo.jsx'
 import React from 'react'
 import connectToStores from '../lib/connectToStores.jsx'
-import ChangelogStore from '../stores/changelog_store'
+import { Link } from 'react-router'
 
 @connectToStores(ChangelogStore)
 export default class ChangelogHeader extends React.Component {
@@ -49,7 +50,7 @@ export default class ChangelogHeader extends React.Component {
     return (
       <div className="flex-none px2">
         <Link className="button button-outline white" to="new" params={{changelogId: changelog.slug}}>
-          Write
+          <Icon icon="pencil" fw={true} /> Write
         </Link>
       </div>
     )
