@@ -116,12 +116,12 @@ export default class ProfilePage extends React.Component {
     }
 
     return (
-      <div className="">
-        <div className="flex flex-wrap">
+      <div className="overflow-hidden">
+        <div className="flex flex-wrap mxn3">
           {stickerSheet.map(s => {
             const {emoji, count} = s
             return (
-              <div className="p2 center" key={emoji.id}>
+              <div className="p3 center" key={emoji.id}>
                 <div className="mb1">
                   <Badge badge={emoji} size="2rem" />
                 </div>
