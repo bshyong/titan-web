@@ -150,7 +150,10 @@ class Notification extends React.Component {
     }
 
     return (
-      <Link className={cns.notification} to="storyWithComment" params={urlParams} onClick={this.handleOnClick.bind(this)}>
+      <Link className={cns.notification}
+        to={`${initial_comment_id ? 'storyWithComment' : 'story'}`}
+        params={urlParams}
+        onClick={this.handleOnClick.bind(this)}>
         <div className={cns.actor}>
           <Avatar user={face} size={32} />
         </div>
@@ -196,10 +199,10 @@ class Notification extends React.Component {
     switch (category) {
       case 'comment':
         return 'commented on'
-        break;
       case 'comment_mention':
         return 'mentioned you in'
-        break;
+      case 'new_story':
+        return 'wrote a new story'
       default:
         break;
     }
