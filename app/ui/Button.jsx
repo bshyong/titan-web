@@ -18,7 +18,6 @@ export default class Button extends React.Component {
       'button',
       {
         'block full-width':    block,
-        'button--disabled':    disabled,
         'button-outline':      style === 'outline',
         'button-transparent':  style === 'transparent',
         'button-small':        size === 'small',

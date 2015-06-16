@@ -20,7 +20,6 @@ export default class AutocompleteUserInput extends React.Component {
 
   render() {
     const {
-      className,
       onChange,
       placeholder,
       value
@@ -31,7 +30,6 @@ export default class AutocompleteUserInput extends React.Component {
         {this.renderUserPicker()}
         <input type="text"
           {...this.props}
-          className={className}
           placeholder={placeholder}
           value={value}
           onBlur={this.toggleFocus}

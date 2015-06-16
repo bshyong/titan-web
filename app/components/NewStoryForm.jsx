@@ -97,6 +97,7 @@ export default class NewStoryForm extends React.Component {
           <div className="mb2">
             <ContributorsInput />
           </div>
+          
           <div className="clearfix border-top py3" style={{ borderColor: '#aaa' }}>
             <div className="left">
               <div className="clearfix">
