@@ -13,7 +13,6 @@ import UpvoteToggler from '../../components/UpvoteToggler.jsx'
 export default class StoryFeedItem extends React.Component {
   render() {
     const { story } = this.props
-    console.log(story)
     return (
       <Table.Cell key={story.id} image={<UpvoteToggler story={story} hearted={story.viewer_has_hearted} />} to="story" params={paramsFor.story({slug: story.changelog_slug}, story)}>
         <StoryCell story={story} />

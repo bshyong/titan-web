@@ -10,7 +10,6 @@ import Table from '../../ui/Table.jsx'
 export default class StoryCell extends React.Component {
   render() {
     const { story } = this.props
-    console.log(story)
     return (
       <div className="flex">
 
