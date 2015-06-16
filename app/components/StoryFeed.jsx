@@ -15,7 +15,7 @@ import SessionStore from '../stores/session_store'
 import shallowEqual from 'react-pure-render/shallowEqual'
 import Stack from '../ui/Stack.jsx'
 import StoryActions from '../actions/story_actions'
-import StoryCell from '../components/Story/StoryCell.jsx'
+import StoryFeedItem from '../components/Story/StoryFeedItem.jsx'
 import FeedStoryStore from '../stores/feed_story_store'
 import Table from '../ui/Table.jsx'
 import TextareaAutosize from 'react-textarea-autosize'
@@ -60,7 +60,7 @@ export default class StoryFeed extends React.Component {
         stories.sortBy(s => s.created_at).reverse().map(story => {
           return (
             <div className="py1">
-              <StoryCell story={story} />
+              <StoryFeedItem story={story} />
             </div>
           )
         })
