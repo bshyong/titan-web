@@ -110,6 +110,44 @@ export default class NotificationsList extends React.Component {
 
 
 class Notification extends React.Component {
+
+  renderNewFollower() {
+    const { notification: { changelog } } = this.props
+    return (
+      <div className="flex-auto">
+        {this.renderDescription()} {changelog.name}
+      </div>
+    )
+  }
+
+  renderStoryNotification() {
+    const {
+      notification: {
+        story,
+        title,
+        read_at,
+        updated_at,
+      }
+    } = this.props
+
+    var isRead = moment(read_at || 0).unix() > moment(updated_at).unix()
+
+    const cns = {
+      title: classnames({
+        'orange': !isRead,
+        'gray': isRead
+      })
+    }
+
+    return (
+      <div className="flex-auto">
+        {this.renderDescription()}
+        <span className={cns.title}>{' ' + title}</span>
+        <span>{` in ${story.changelog_name}`}</span>
+      </div>
+    )
+  }
+
   render() {
     if (!this.props.notification) {
       return
@@ -123,8 +161,23 @@ class Notification extends React.Component {
         story,
         title,
         updated_at,
+        changelog,
       }
     } = this.props
+
+    const linkParams = {
+      to: 'home',
+      urlParams: {}
+    }
+
+    if (changelog) {
+      linkParams.to = 'profile'
+      linkParams.urlParams = { userId: actors[0].user.username }
+    } else if (story) {
+      linkParams.to = initial_comment_id ? 'storyWithComment' : 'story'
+      linkParams.urlParams = addParams(story.changelog_slug, story).urlParams
+      linkParams.urlParams.commentId = initial_comment_id
+    }
 
     var isRead = moment(read_at || 0).unix() > moment(updated_at).unix()
     let face = actors[0].user
@@ -137,32 +190,18 @@ class Notification extends React.Component {
       actor: classnames('flex-none mr1', {
         muted: isRead
       }),
-
-      title: classnames({
-        'orange': !isRead,
-        'gray': isRead
-      })
-    }
-
-    const { urlParams } = addParams(story.changelog_slug, story)
-    if (initial_comment_id) {
-      urlParams.commentId = initial_comment_id
     }
 
     return (
       <Link className={cns.notification}
-        to={`${initial_comment_id ? 'storyWithComment' : 'story'}`}
-        params={urlParams}
+        to={linkParams.to}
+        params={linkParams.urlParams}
         onClick={this.handleOnClick.bind(this)}>
         <div className={cns.actor}>
           <Avatar user={face} size={32} />
         </div>
         <div className="flex-auto h5 gray">
-          <div className="flex-auto">
-            {this.renderDescription()}
-            <span className={cns.title}>{' ' + title}</span>
-            <span>{' in ' + story.changelog_name}</span>
-          </div>
+          {story ? this.renderStoryNotification() : this.renderNewFollower()}
         </div>
         <div className="flex-none h5 gray ml1">
           {moment(updated_at).fromNow(true)}
@@ -203,6 +242,8 @@ class Notification extends React.Component {
         return 'mentioned you in'
       case 'new_story':
         return 'wrote a new story'
+      case 'new_follower':
+        return 'started following'
       default:
         break;
     }
