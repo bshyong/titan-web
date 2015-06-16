@@ -1,11 +1,12 @@
-import {List} from 'immutable'
 import Avatar from '../../ui/Avatar.jsx'
 import Badge from '../Badge.jsx'
 import Emoji from '../../ui/Icon.jsx'
+import Guest from '../../ui/Guest.jsx'
 import Icon from '../../ui/Icon.jsx'
 import React from 'react'
 import Stack from '../../ui/Stack.jsx'
 import Table from '../../ui/Table.jsx'
+import {List} from 'immutable'
 
 export default class StoryCell extends React.Component {
   render() {
@@ -48,18 +49,26 @@ export default class StoryCell extends React.Component {
   }
 
   renderContributors() {
-    const { story, story: { contributors } } = this.props
-
     if (this.props.slim) {
       return
     }
 
     return (
       <div className="flex-none sm-show ml2">
-        <Stack items={List(contributors).map(user => <Avatar user={user} size={24} />)} align="right" />
+        <Stack items={this.avatars()} align="right" />
       </div>
     )
   }
+
+  avatars() {
+    const { story } = this.props
+    let guests = List(new Array(story.guests_count || 0)).map(() => <Guest size={24} />)
+
+    return List(story.contributors).
+      map(user => <Avatar user={user} size={24} />).
+      concat(guests)
+  }
+
 }
 
 StoryCell.propTypes = {

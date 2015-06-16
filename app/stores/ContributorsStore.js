@@ -7,7 +7,7 @@ import {
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import MENTION_REGEX from '../lib/mention_regex'
-import { Set } from 'immutable'
+import { List, Set } from 'immutable'
 import SessionStore from './session_store'
 import Store from '../lib/store'
 
@@ -21,9 +21,7 @@ class ContributorsStore extends Store {
     this.dispatchToken = Dispatcher.register(action => {
       switch (action.type) {
         case CONTRIBUTORS_STRING_RECEIVED:
-          this._contributors = Set(action.string.split(', ')).filter((s) => {
-            return MENTION_REGEX.test(s)
-          })
+          this._contributors = Set(splitContributors(action.string))
           this._suggestedContributors = null
           break
         case USER_PICKER_USER_SELECTED:
@@ -48,10 +46,16 @@ class ContributorsStore extends Store {
 
   contributorsAsString() {
     const string = (this._contributors || Set()).join(', ')
-    return (string && string.lastIndexOf(',') !== string.length - 2) ?
+    return (string.lastIndexOf(',') !== string.length - 2) ?
       string + ', ' :
       string
   }
+}
+
+function splitContributors(string) {
+  return List(
+    string.split(', ')
+  ).filter(s => s.length > 0)
 }
 
 export default new ContributorsStore()

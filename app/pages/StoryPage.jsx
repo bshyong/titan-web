@@ -1,3 +1,4 @@
+import {List} from 'immutable'
 import Avatar from '../ui/Avatar.jsx'
 import Badge from '../components/Badge.jsx'
 import ChangelogStore from '../stores/changelog_store'
@@ -7,8 +8,11 @@ import DiscussionActions from '../actions/discussion_actions'
 import DocumentTitle from 'react-document-title'
 import GifPicker from '../components/gif_picker.jsx'
 import GroupedStoriesStore from '../stores/GroupedStoriesStore'
+import Guest from '../ui/Guest.jsx'
 import Icon from '../ui/Icon.jsx'
+import invite from '../lib/invite'
 import Label from '../ui/Label.jsx'
+import Link from '../components/Link.jsx'
 import LoadingBar from '../ui/LoadingBar.jsx'
 import Markdown from '../ui/Markdown.jsx'
 import moment from '../config/moment'
@@ -23,30 +27,26 @@ import Stack from '../ui/Stack.jsx'
 import StoryActions from '../actions/story_actions'
 import StoryReadersStore from '../stores/story_readers_store'
 import UpvoteToggler from '../components/UpvoteToggler.jsx'
-import Link from '../components/Link.jsx'
-import {List} from 'immutable'
 
 @connectToStores(GroupedStoriesStore, StoryReadersStore, ChangelogStore)
 export default class StoryPage extends React.Component {
   static willTransitionTo(transition, params, query) {
-    StoryActions.fetch(Router.changelogSlug(params), params.storyId)
-    DiscussionActions.fetchAll(Router.changelogSlug(params), params.storyId)
+    if (query.i) {
+      invite.set(query.i)
+    }
+    StoryActions.fetch(params.changelogId, params.storyId)
+    DiscussionActions.fetchAll(params.changelogId, params.storyId)
   }
 
   static getPropsFromStores() {
-    const storyId = Router.get().getCurrentParams().storyId
+    const params = Router.get().getCurrentParams()
+    const storyId = params.storyId
     return {
+      changelog: ChangelogStore.changelog,
       story: GroupedStoriesStore.get(storyId),
       totalReads: StoryReadersStore.totalReads,
       uniqueReads: StoryReadersStore.uniqueReads,
-      changelog: ChangelogStore.changelog,
     }
-  }
-
-  constructor(props) {
-    super(props)
-
-    this.deleteStory = this._deleteStory.bind(this)
   }
 
   render() {
@@ -67,6 +67,8 @@ export default class StoryPage extends React.Component {
     return (
       <DocumentTitle title={[story.title, (changelog && changelog.name)].join(' · ')}>
         <div className="flex flex-column" style={{minHeight: 'calc(100vh - 3.5rem)'}}>
+          {this.renderInvite()}
+
           <Link className="p2 gray orange-hover" to="changelog" params={{changelogId}}>
             <Icon icon="angle-left" /> { changelog.name }
           </Link>
@@ -89,13 +91,7 @@ export default class StoryPage extends React.Component {
                 </div>
 
                 <div className="mb3">
-                  <Stack items={story.contributors.map(user => {
-                      return (
-                        <Link to="profile" params={{userId: user.username}} className="bold gray">
-                          <Avatar user={user} size={32} />
-                        </Link>
-                      )
-                    })} />
+                  <Stack items={this.avatars()} />
                 </div>
 
                 <div className="flex h5 gray mb3 sm-mb0">
@@ -200,7 +196,31 @@ export default class StoryPage extends React.Component {
 
   }
 
-  _deleteStory() {
+  renderInvite() {
+    if (!this.props.story.invited) {
+      return
+    }
+
+    return (
+      <div className="bold center p2 white bg-green rounded">
+        You were invited as a guest contributor on this story. Sign up to be more awesome
+      </div>
+    )
+  }
+
+  avatars() {
+    const { story } = this.props
+    let guests = List(new Array(story.guests_count || 0)).map(() => <Guest size={32} />)
+
+    return List(story.contributors).
+      map(user => (
+        <Link to="profile" params={{userId: user.username}} className="bold gray">
+          <Avatar user={user} size={32} />
+        </Link>)
+      ).concat(guests)
+  }
+
+  deleteStory() {
     const { changelogId, story: { slug } } = this.props
     if (window.confirm('Are you sure you want to delete this story?')) {
       StoryActions.delete(changelogId, slug)

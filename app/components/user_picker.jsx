@@ -40,7 +40,6 @@ export default class UserPicker extends React.Component {
 
   componentDidMount() {
     document.addEventListener('keydown', this.handleKeyDown)
-    UserPickerActions.fetchUsers(this.props.query)
   }
 
   componentDidUpdate(prevProps) {
@@ -149,10 +148,10 @@ export default class UserPicker extends React.Component {
       switch (keyCode) {
         case DOWN_KEY:
           UserPickerActions.setHighlightIndex(highlightIndex + 1)
-          break;
+          break
         case UP_KEY:
           UserPickerActions.setHighlightIndex(highlightIndex - 1)
-          break;
+          break
         case ENTER_KEY:
         case TAB_KEY:
           this.handleUserSelected.bind(this)(users.get(highlightIndex), e)

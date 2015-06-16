@@ -71,6 +71,7 @@ Picker.defaultProps = {
   fullscreen: false,
   maxHeight: 300,
   offset: 0,
+  position: 'top',
   shown: false,
 }
 

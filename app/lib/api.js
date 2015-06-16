@@ -4,6 +4,7 @@ import {
 } from '../constants'
 
 import Dispatcher from '../lib/dispatcher'
+import invite from '../lib/invite'
 import SessionStore from '../stores/session_store'
 
 module.exports = {
@@ -41,6 +42,10 @@ module.exports = {
     }
     if (SessionStore.jwt) {
       options.headers['Authorization'] = 'Bearer ' + SessionStore.jwt
+    }
+
+    if (invite.get()) {
+      options.headers['invite'] = invite.get()
     }
 
     let handleError = function handleError(resp) {
