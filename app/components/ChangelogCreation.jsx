@@ -5,6 +5,7 @@ import Button from '../ui/Button.jsx'
 import ChangelogActions from '../actions/changelog_actions'
 import ChangelogStore from '../stores/changelog_store'
 import connectToStores from '../lib/connectToStores.jsx'
+import classnames from 'classnames'
 import Icon from '../ui/Icon.jsx'
 import LoadingBar from '../ui/LoadingBar.jsx'
 import moment from '../config/moment'
@@ -27,7 +28,8 @@ export default class ChangelogCreation extends React.Component {
       tagline: null,
       slug: null,
       recently_typed: false,
-      website: null
+      website: null,
+      isUrlFieldFocused: false
     }
   }
 
@@ -48,8 +50,9 @@ export default class ChangelogCreation extends React.Component {
 
           <div className="clearfix">
             <div className="sm-col-5 mx-auto">
-              Name
+              <label htmlFor="new-changelog-name">Tagline</label>
               <input type="text"
+                id="new-changelog-name"
                 className="full-width border border-smoke mb2"
                 placeholder="My Product"
                 value={this.state.name}
@@ -86,8 +89,9 @@ export default class ChangelogCreation extends React.Component {
     return (
       <div className="clearfix">
         <div className="sm-col-5 mx-auto">
-          Tagline
+          <label htmlFor="new-changelog-tagline">Tagline</label>
           <input type="text"
+            id="new-changelog-tagline"
             className="full-width border border-smoke mb2"
             placeholder="Bigger than Big"
             value={this.state.tagline}
@@ -104,45 +108,53 @@ export default class ChangelogCreation extends React.Component {
 
   renderWebsiteUrlPicker() {
     return (
-      <div className="clearfix">
-        <div className="sm-col-5 mx-auto">
-          Website URL
-          <input type="text"
-            className="full-width border border-smoke mb2"
-            placeholder="www.myproduct.com"
-            value={this.state.website}
-            onChange={this.WebsiteChange.bind(this)}
-            ref="name"
-            style={{
-              fontSize: '1rem',
-              height: 'auto'
-            }} />
-        </div>
+      <div className="mb2 sm-col-5 mx-auto">
+        <label htmlFor="new-changelog-website-url">Website URL</label>
+        <input type="text"
+          id="new-changelog-website-url"
+          className="field-light block full-width"
+          placeholder="www.myproduct.com"
+          value={this.state.website}
+          onChange={this.WebsiteChange.bind(this)}
+          ref="name"
+          style={{
+            fontSize: '1rem',
+            height: 'auto'
+          }} />
       </div>
     )
   }
 
+  handleURLFocus() {
+    this.setState({isUrlFieldFocused: true})
+  }
+
+  handleURLBlur() {
+    this.setState({isUrlFieldFocused: false})
+  }
+
   renderUrlForm() {
-    let css = "flex flex-grow full-width border border-smoke"
-    if (this.slugError()) {
-      css = "flex flex-grow full-width border border-smoke border-red"
-    }
+    const cs = classnames("flex full-width field-light", {
+      'is-error': this.slugError(),
+      'is-focused': this.state.isUrlFieldFocused
+    })
+
     return (
       <div>
-        URL
-        <div className={css} style={{fontSize: '1rem', height: 'auto'}}>
-          <div className="ml1 mr2 py1">
+        <label htmlFor="new-changelog-url">Changelog URL</label>
+        <div className={cs} style={{fontSize: '1rem', height: 'auto'}} onFocus={this.handleURLFocus.bind(this)} onBlur={this.handleURLBlur.bind(this)}>
+          <div className="p1 bg-white flex-none" style={{paddingRight: 0}}>
             changelog.assembly.com/
           </div>
           <input type="text"
-            className="input-invisible border border-smoke"
+            id="new-changelog-url"
+            className="input-invisible flex-auto"
             placeholder="MyChangelog"
             value={this.state.slug}
             onChange={this.SlugChange.bind(this)}
             ref="tagline"
             style={{
               fontSize: '1rem',
-              marginLeft: '10px',
               height: 'auto'
             }} />
         </div>
