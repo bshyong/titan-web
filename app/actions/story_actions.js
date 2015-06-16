@@ -154,7 +154,6 @@ export default {
           story: story,
           changelogId: changelogId
         })
-
         RouterContainer.get().transitionTo('story', story.urlParams)
       })
   },

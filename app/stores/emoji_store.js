@@ -40,7 +40,8 @@ class EmojiStore extends Store {
           this._emojis = null
           this._selectedEmoji = null
           this._selectedEmojiName = null
-          return
+          break
+          
         default:
           return
       }

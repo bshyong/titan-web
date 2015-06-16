@@ -6,7 +6,6 @@ import {
   STORY_DELETED,
   STORY_FETCHED,
   STORY_HEARTED,
-  STORY_PUBLISHED,
   STORY_SUBSCRIBED,
   STORY_UNHEARTED,
   STORY_UNSUBSCRIBED,
@@ -77,10 +76,6 @@ class StoryStore extends Store {
 
         case STORIES_FETCHING:
           this._loading = true
-          break;
-
-        case STORY_PUBLISHED:
-          this.stories = this.stories.set(action.story.slug, addParams(action.changelogId, action.story))
           break;
 
         default:
