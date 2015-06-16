@@ -83,7 +83,7 @@ export default class Changelog extends React.Component {
     if (groupBy === 'calendar' || groupedStories.isEmpty()) { return }
 
     return (
-      <div style={{background: '#FAF9F7'}}>
+      <div style={{background: changelog.user_is_team_member ? '#FAF9F7' : null}}>
         <div className="container p1 mb4">
           {groupedStories.filterNot(g => g.group.done_at).map(g =>
             <PostSet
