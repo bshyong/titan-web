@@ -4,10 +4,12 @@ import Avatar from '../ui/Avatar.jsx'
 import Button from '../ui/Button.jsx'
 import ChangelogActions from '../actions/changelog_actions'
 import ChangelogStore from '../stores/changelog_store'
+import ClickablePaginator from '../ui/ClickablePaginator.jsx'
 import connectToStores from '../lib/connectToStores.jsx'
 import Icon from '../ui/Icon.jsx'
 import LoadingBar from '../ui/LoadingBar.jsx'
 import moment from '../config/moment'
+import paramsFor from '../lib/paramsFor'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
 import ScrollPaginator from '../ui/ScrollPaginator.jsx'
@@ -15,10 +17,12 @@ import SessionStore from '../stores/session_store'
 import shallowEqual from 'react-pure-render/shallowEqual'
 import Stack from '../ui/Stack.jsx'
 import StoryActions from '../actions/story_actions'
+import StoryCell from './Story/StoryCell.jsx'
 import StoryFeedItem from '../components/Story/StoryFeedItem.jsx'
 import FeedStoryStore from '../stores/feed_story_store'
 import Table from '../ui/Table.jsx'
 import TextareaAutosize from 'react-textarea-autosize'
+import UpvoteToggler from './UpvoteToggler.jsx'
 
 @connectToStores(FeedStoryStore)
 export default class StoryFeed extends React.Component {
@@ -38,13 +42,12 @@ export default class StoryFeed extends React.Component {
   render() {
     const { page, user } = this.props
     let username = user.username
-    console.log(page)
     let nextPage = () =>
       StoryActions.fetchUserFirehoseFeed(username, page + 1, 25)
 
     return (
       <div className="container">
-        <h2>Story Feed</h2>
+        <h3 className="px2 md-px0 py2 caps gray h2 border-bottom">Story Feed</h3>
         <div className="sm-col-8">
           {this.renderStories()}
           <ScrollPaginator page={page} onScrollBottom={nextPage} />
@@ -57,14 +60,27 @@ export default class StoryFeed extends React.Component {
     const { stories } = this.props
     if (stories !== null) {
       return (
-        stories.sortBy(s => s.created_at).reverse().map(story => {
-          return (
-            <div className="py1">
-              <StoryFeedItem story={story} />
-            </div>
-          )
-        })
+        <Table>
+          <ClickablePaginator onLoadMore={this.handleShowMore.bind(this)} hasMore={this.showLoadMore.bind(this)}>
+          {stories.sortBy(s => s.created_at).reverse().map(story => {
+              return (
+                <Table.Cell key={story.id} to="story" params={paramsFor.story({slug: story.changelog_slug}, story)}>
+                  <StoryCell story={story} showContributors={false} hideZeroComments={true} showScore={true} showChangelog={true} />
+                </Table.Cell>
+              )
+            })}
+          </ClickablePaginator>
+        </Table>
       )
     }
   }
+
+  handleShowMore() {
+
+  }
+
+  showLoadMore() {
+
+  }
+
 }

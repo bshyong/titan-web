@@ -3,34 +3,21 @@ import Avatar from '../../ui/Avatar.jsx'
 import Badge from '../Badge.jsx'
 import Emoji from '../../ui/Icon.jsx'
 import Icon from '../../ui/Icon.jsx'
+import paramsFor from '../../lib/paramsFor'
 import React from 'react'
 import Stack from '../../ui/Stack.jsx'
+import StoryCell from './StoryCell.jsx'
 import Table from '../../ui/Table.jsx'
+import UpvoteToggler from '../../components/UpvoteToggler.jsx'
 
 export default class StoryFeedItem extends React.Component {
   render() {
     const { story } = this.props
+    console.log(story)
     return (
-      <div className="flex">
-        {this.renderChangelogLogo(story)}
-        <div className="flex-none mr2">
-          <Badge badge={story.emoji} size="1.5rem" />
-        </div>
-        <div className="flex-auto">
-          {story.team_member_only ? <Icon icon="lock" /> : null} {story.title}
-        </div>
-        {this.renderContributors()}
-
-        <div className="flex-none sm-show ml2">
-          <div className="h5 gray  mxn1 flex">
-            <div className="px1 no-underline">
-              <span className=" silver"><Icon icon="comment" /></span>
-              {' '}
-              {story.live_comments_count}
-            </div>
-          </div>
-        </div>
-      </div>
+      <Table.Cell key={story.id} image={<UpvoteToggler story={story} hearted={story.viewer_has_hearted} />} to="story" params={paramsFor.story({slug: story.changelog_slug}, story)}>
+        <StoryCell story={story} />
+      </Table.Cell>
     )
   }
 

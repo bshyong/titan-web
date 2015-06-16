@@ -10,8 +10,11 @@ import Table from '../../ui/Table.jsx'
 export default class StoryCell extends React.Component {
   render() {
     const { story } = this.props
+    console.log(story)
     return (
       <div className="flex">
+
+        {this.renderScore(story)}
         <div className="flex-none mr2">
           <Badge badge={story.emoji} size="1.5rem" />
         </div>
@@ -19,31 +22,68 @@ export default class StoryCell extends React.Component {
           {story.team_member_only ? <Icon icon="lock" /> : null} {story.title}
         </div>
         {this.renderContributors()}
-
         <div className="flex-none sm-show ml2">
-          <div className="h5 gray  mxn1 flex">
-            <div className="px1 no-underline">
-              <span className=" silver"><Icon icon="comment" /></span>
-              {' '}
-              {story.live_comments_count}
-            </div>
-          </div>
+          {this.renderComments(story)}
         </div>
+        {this.renderChangelog(story)}
       </div>
     )
   }
 
-  renderContributors() {
-    const { story, story: { contributors } } = this.props
+  renderChangelog(story) {
+    let size = 16
+    if (this.props.showChangelog && story.changelog_logo !=null) {
+      return (
+        <img className="ml2 block rounded" src={story.changelog_logo} size={16} style={{width: size, height: size, outline: 'none'}} />
+      )
+    } else {
+      return (
+        <div className="ml2 block" size={16} style={{width: size, height: size, outline: 'none'}} />
+      )
+    }
 
-    return (
-      <div className="flex-none sm-show ml2">
-        <Stack items={List(contributors).map(user => <Avatar user={user} size={24} />)} align="right" />
-      </div>
-    )
+  }
+
+  renderScore(story) {
+    if (this.props.showScore) {
+      return (
+        <div className="gray flex mr1">
+          {story.hearts_count}
+        </div>
+      )
+    }
+  }
+
+  renderComments(story) {
+    if (!this.props.hideZeroComments || story.live_comments_count > 0 ) {
+      return (
+        <div className="h5 gray mxn1 flex">
+          <div className="px1 no-underline">
+            <span className=" silver"><Icon icon="comment" /></span>
+            {' '}
+            {story.live_comments_count}
+          </div>
+        </div>
+      )
+    }
+  }
+
+  renderContributors() {
+    const { showContributors, story, story: { contributors } } = this.props
+    if (showContributors) {
+      return (
+        <div className="flex-none sm-show ml2">
+          <Stack items={List(contributors).map(user => <Avatar user={user} size={24} />)} align="right" />
+        </div>
+      )
+    }
   }
 }
 
 StoryCell.propTypes = {
-  story: React.PropTypes.object.isRequired
+  story: React.PropTypes.object.isRequired,
+  showContributors: React.PropTypes.bool,
+  hideZeroComments: React.PropTypes.bool,
+  showScore: React.PropTypes.bool,
+  showChangelog: React.PropTypes.bool
 }

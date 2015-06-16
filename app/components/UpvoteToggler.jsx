@@ -40,22 +40,23 @@ export default class UpvoteToggler extends React.Component {
 
     return (
       <div className={cn} onClick={this.handleClick} onMouseEnter={this.handleHover} onMouseLeave={this.handleHover}>
-        <img className="upvote-toggler-icon" src={src} />
+        {this.props.voteable===false ? '' : <img className="upvote-toggler-icon" src={src} /> }
         <div className="upvote-toggler-count">{hearts_count}</div>
       </div>
     )
   }
 
   _handleClick(e) {
-    const { story } = this.props
-    if (!SessionStore.isSignedIn()) {
-      // FIXME (@chrislloyd): this probably isn't cool (calling an
-      // action from an action) but it was a quick fix.
-      SessionActions.signin()
-      return
+    if (this.props.voteable === false) {
+      const { story } = this.props
+      if (!SessionStore.isSignedIn()) {
+        // FIXME (@chrislloyd): this probably isn't cool (calling an
+        // action from an action) but it was a quick fix.
+        SessionActions.signin()
+        return
+      }
+      StoryActions.clickHeart(story)
     }
-
-    StoryActions.clickHeart(story)
   }
 
   _handleHover(e) {
@@ -66,7 +67,8 @@ export default class UpvoteToggler extends React.Component {
 UpvoteToggler.propTypes = {
   story: React.PropTypes.object.isRequired,
   hearted: React.PropTypes.bool.isRequired,
-  size: React.PropTypes.oneOf(['sm', 'lg']).isRequired
+  size: React.PropTypes.oneOf(['sm', 'lg']).isRequired,
+  voteable: React.PropTypes.bool
 }
 
 UpvoteToggler.defaultProps = {

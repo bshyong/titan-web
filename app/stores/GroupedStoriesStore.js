@@ -57,6 +57,7 @@ class GroupedStoriesStore extends Store {
 
         case STORY_HEARTED:
           const { storyId: storyId1 } = action
+          console.log(storyId1)
           this.get(storyId1).viewer_has_hearted = true
           this.get(storyId1).hearts_count += 1
           break
