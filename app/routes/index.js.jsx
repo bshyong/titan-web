@@ -13,6 +13,7 @@ import ChangelogByDatePage from '../pages/ChangelogByDatePage.jsx'
 import ChangelogSettings from '../components/settings/ChangelogSettings.jsx'
 import DashboardPage from '../pages/DashboardPage.jsx'
 import EditStoryForm from '../components/edit_story_form.js.jsx'
+import FeedPage from '../pages/FeedPage.jsx'
 import HighlightPicker from '../components/highlight_picker.js.jsx'
 import HomePage from '../pages/HomePage.jsx'
 import NewChangelogPage from '../pages/NewChangelogPage.jsx'
@@ -37,6 +38,7 @@ export default (
     <Route handler={NewChangelogPage} path="/new" name="newChangelog" />
     <Route handler={SigninSSO} path="/signin/sso" name="sso" />
     <Route handler={UserPage} path="/users/:userId" name="profile" />
+    <Route handler={FeedPage} path="/feed" name="feed" />
 
     <Route handler={SettingsPage} name="settings" path="/settings">
       <Route handler={ChangelogSettings} name="changelog_settings" path=":changelogId" />
