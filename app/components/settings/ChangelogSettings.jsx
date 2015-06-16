@@ -228,6 +228,8 @@ export default class ChangelogSettings extends React.Component {
     MembershipActions.update(
       this.props.changelogId,
       text, {
+        can_write: true,
+        can_view: true,
         is_core: true
       }
     )
@@ -272,6 +274,8 @@ export default class ChangelogSettings extends React.Component {
         MembershipActions.update(
           this.props.changelogId,
           membership.user.username, {
+            can_view: false,
+            can_write: false,
             is_core: false
           }
         )
