@@ -266,7 +266,6 @@ export default class ChangelogCreation extends React.Component {
     let user_id = this.props.user.id
     let membersOnly = this.state.is_members_only
     this.setState({recently_typed: false})
-    console.log(membersOnly)
     ChangelogActions.create(name, tagline, slug, user_id, website, membersOnly)
   }
 }
