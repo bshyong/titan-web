@@ -15,6 +15,7 @@ import ScrollPaginator from '../ui/ScrollPaginator.jsx'
 import SessionStore from '../stores/session_store'
 import shallowEqual from 'react-pure-render/shallowEqual'
 import Stack from '../ui/Stack.jsx'
+import Switch from '../ui/Switch.jsx'
 import Table from '../ui/Table.jsx'
 import TextareaAutosize from 'react-textarea-autosize'
 
@@ -29,7 +30,8 @@ export default class ChangelogCreation extends React.Component {
       slug: null,
       recently_typed: false,
       website: null,
-      isUrlFieldFocused: false
+      isUrlFieldFocused: false,
+      is_members_only: false
     }
   }
 
@@ -76,6 +78,10 @@ export default class ChangelogCreation extends React.Component {
               {this.renderSlugMessage()}
             </div>
 
+            <div className="sm-col-5 mx-auto">
+              {this.renderMembersOnly()}
+            </div>
+
             <div className="clearfix sm-col-5 mx-auto py2">
               {this.renderCreateButton()}
             </div>
@@ -104,6 +110,28 @@ export default class ChangelogCreation extends React.Component {
         </div>
       </div>
     )
+  }
+
+  renderMembersOnly() {
+    return (
+      <div className="flex flex-center py2">
+        <div className="flex-auto">
+          <h4 className="mt0 mb0">Members only</h4>
+          <p className="mb0 gray">
+            {
+              this.state.is_members_only ? "Only members can see this changelog" : "Anybody can see this changelog"
+            }
+          </p>
+        </div>
+        <div>
+          <Switch switched={this.state.is_members_only} onSwitched={this.handleSwitchMembersOnly.bind(this)} />
+        </div>
+      </div>
+    )
+  }
+
+  handleSwitchMembersOnly() {
+    this.setState({is_members_only: !this.state.is_members_only})
   }
 
   renderWebsiteUrlPicker() {
@@ -236,7 +264,9 @@ export default class ChangelogCreation extends React.Component {
     let slug = this.sanitizeSlug(this.state.slug)
     let website = this.state.website
     let user_id = this.props.user.id
+    let membersOnly = this.state.is_members_only
     this.setState({recently_typed: false})
-    ChangelogActions.create(name, tagline, slug, user_id, website)
+    console.log(membersOnly)
+    ChangelogActions.create(name, tagline, slug, user_id, website, membersOnly)
   }
 }
