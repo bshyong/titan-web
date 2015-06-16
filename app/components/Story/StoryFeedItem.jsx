@@ -35,7 +35,7 @@ export default class StoryFeedItem extends React.Component {
   }
 
   renderChangelogLogo(story) {
-    let size = 20
+    let size = 16
     const style = {
       width: size,
       height: size,
@@ -43,13 +43,13 @@ export default class StoryFeedItem extends React.Component {
     }
     if (story.changelog_logo !== null) {
       return (
-        <div className="bg-silver rounded" style={style}>
-          <img className="block rounded mr2" src={story.changelog_logo} style={style} />
+        <div className="bg-silver rounded mr2" style={style}>
+          <img className="block rounded" src={story.changelog_logo} style={style} />
         </div>
       )
     } else {
       return (
-        <div className="px1"></div>
+        <div className="mr3"></div>
       )
     }
 
