@@ -29,9 +29,10 @@ export default class ChangelogHeader extends React.Component {
             <div>{changelog.tagline}</div>
           </Link>
           <div className="flex-none sm-ml2">
-            <div className="flex mxn2">
+            <div className="flex mxn1">
               {this.renderNewStoryButton()}
-              <div className="flex-none px2">
+              {this.renderSettingsButton()}
+              <div className="flex-none px1">
                 <FollowButton changelogId={changelogId} toggled={following}/>
               </div>
             </div>
@@ -48,9 +49,24 @@ export default class ChangelogHeader extends React.Component {
     }
 
     return (
-      <div className="flex-none px2">
+      <div className="flex-none px1">
         <Link className="button button-outline white" to="new" params={{changelogId: changelog.slug}}>
-          <Icon icon="pencil" fw={true} /> Write
+          <Icon icon="pencil" />
+        </Link>
+      </div>
+    )
+  }
+
+  renderSettingsButton() {
+    const { changelog } = this.props
+    if (!(changelog && changelog.user_is_team_member)) {
+      return
+    }
+
+    return (
+      <div className="flex-none px1">
+        <Link className="button button-outline white" to="changelog_settings" params={{changelogId: changelog.slug}}>
+          <Icon icon="cog" />
         </Link>
       </div>
     )
