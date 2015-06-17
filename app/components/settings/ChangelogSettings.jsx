@@ -38,13 +38,6 @@ export default class ChangelogSettings extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      membersOnly: false,
-      logoSet: false,
-      bannerSet: false,
-      nameSet: false,
-      taglineSet: false
-    }
   }
 
   render() {
@@ -106,7 +99,7 @@ export default class ChangelogSettings extends React.Component {
         {this.renderTaglineChanger()}
         {this.renderLogoChanger()}
         {this.renderBannerChanger()}
-
+        {this.renderSaver()}
         <hr />
 
         <div className="flex flex-center py2">
@@ -121,9 +114,27 @@ export default class ChangelogSettings extends React.Component {
             <Button color="red" style="transparent" size="small" action={this.handleDeleteChangelog.bind(this)}>Delete changelog</Button>
           </div>
         </div>
-
       </div>
     )
+  }
+
+  renderSaver() {
+    return (
+      <form onSubmit={this.handleSave.bind(this)} className="right clearfix">
+        <button className="button">Save</button>
+      </form>
+    )
+  }
+
+  handleSave() {
+    e.preventDefault()
+    let elname = React.findDOMNode(this.refs.name)
+    let name = elname.value
+    let eltagline = React.findDOMNode(this.refs.tagline)
+    let tagline = eltagline.value
+    let logo = React.findDOMNode(this.refs.logo).value
+    let banner = React.findDOMNode(this.refs.banner).value
+    ChangelogActions.update(this.props.changelogId, {slug: this.props.changelogId, name: name, tagline: tagline, logo_url: logo, banner_url: banner})
   }
 
   renderNameChanger() {
@@ -134,15 +145,13 @@ export default class ChangelogSettings extends React.Component {
             Name
           </h4>
         </label>
-          <div className="px2 py1 visible-hover-wrapper">
-            <form onSubmit={this.handleChangeName.bind(this)} className="mb3">
-              <input type="text" ref="name"
-                     className="field-light sm-col-9"
-                     placeholder={this.props.changelog.name} />
-                   <button className="button ml2">Change</button>
-            </form>
-            {this.state.nameSet ? <div>name set</div> : <div/>}
-          </div>
+        <div className="px2 py1 visible-hover-wrapper">
+           <form className="mb2">
+             <input type="text" ref="name"
+                    className="field-light full-width"
+                    value={this.props.changelog.name} />
+           </form>
+         </div>
       </div>
     )
   }
@@ -155,15 +164,13 @@ export default class ChangelogSettings extends React.Component {
             Tagline
           </h4>
         </label>
-          <div className="px2 py1 visible-hover-wrapper">
-            <form onSubmit={this.handleChangeTagline.bind(this)} className="mb3">
-              <input type="text" ref="tagline"
-                     className="field-light sm-col-9"
-                     placeholder={this.props.changelog.tagline} />
-                   <button className="button ml2">Change</button>
-            </form>
-            {this.state.taglineSet ? <div>Tagline set</div> : <div/>}
-          </div>
+        <div className="px2 py1 visible-hover-wrapper">
+           <form className="mb2">
+             <input type="text" ref="tagline"
+                    className="field-light full-width"
+                    value={this.props.changelog.tagline} />
+           </form>
+         </div>
       </div>
     )
   }
@@ -176,15 +183,13 @@ export default class ChangelogSettings extends React.Component {
             Logo URL
           </h4>
         </label>
-          <div className="px2 py1 visible-hover-wrapper">
-            <form onSubmit={this.handleAddLogoUrl.bind(this)} className="mb3">
-              <input type="text" ref="logo"
-                     className="field-light sm-col-9"
-                     placeholder={this.props.changelog.logo_url ? this.props.changelog.logo_url : "Logo image url here"} />
-                   <button className="button ml2">Change</button>
-            </form>
-            {this.state.logoSet ? <div>Logo set</div> : <div/>}
-          </div>
+        <div className="px2 py1 visible-hover-wrapper">
+           <form className="mb2">
+             <input type="text" ref="logo"
+                    className="field-light full-width"
+                    value={this.props.changelog.logo_url} />
+           </form>
+         </div>
       </div>
     )
   }
@@ -197,15 +202,13 @@ export default class ChangelogSettings extends React.Component {
             Banner URL
           </h4>
         </label>
-          <div className="px2 py1 visible-hover-wrapper">
-            <form onSubmit={this.handleAddBannerUrl.bind(this)} className="mb3">
-              <input type="text" ref="banner"
-                     className="field-light sm-col-9"
-                     placeholder={this.props.changelog.banner_url ? this.props.changelog.banner_url : "Banner image URL here"} />
-                   <button className="button ml2">Change</button>
-            </form>
-            {this.state.bannerSet ? <div>Banner set</div> : <div/>}
-          </div>
+        <div className="px2 py1 visible-hover-wrapper">
+           <form className="mb3">
+             <input type="text" ref="banner"
+                    className="field-light full-width"
+                    value={this.props.changelog.banner_url} />
+           </form>
+         </div>
       </div>
     )
   }
@@ -236,38 +239,6 @@ export default class ChangelogSettings extends React.Component {
       }
     )
     el.value = ''
-  }
-
-  handleAddLogoUrl(e) {
-    e.preventDefault()
-    let el = React.findDOMNode(this.refs.logo)
-    let text = el.value
-    ChangelogActions.update(this.props.changelogId, {logo_url: text, name: this.props.changelog.name})
-    this.setState({logoSet: true})
-  }
-
-  handleAddBannerUrl(e) {
-    e.preventDefault()
-    let el = React.findDOMNode(this.refs.banner)
-    let text = el.value
-    ChangelogActions.update(this.props.changelogId, {banner_url: text, name: this.props.changelog.name})
-    this.setState({bannerSet: true})
-  }
-
-  handleChangeTagline(e) {
-    e.preventDefault()
-    let el = React.findDOMNode(this.refs.tagline)
-    let text = el.value
-    ChangelogActions.update(this.props.changelogId, {tagline: text, name: this.props.changelog.name})
-    this.setState({taglineSet: true})
-  }
-
-  handleChangeName(e) {
-    e.preventDefault()
-    let el = React.findDOMNode(this.refs.name)
-    let text = el.value
-    ChangelogActions.update(this.props.changelogId, {slug: this.props.changelogId, name: text})
-    this.setState({nameSet: true})
   }
 
   handleRemoveClicked(membership) {
