@@ -36,19 +36,34 @@ export default class StoryCell extends React.Component {
 
   renderChangelog(story) {
     let size = 24
-    if (this.props.showChangelog && story.changelog_logo !=null) {
-      return (
-        <div className="flex-none mx-auto">
-          <img className="mr1 ml1 block rounded" src={story.changelog_logo} size={size} style={{width: size, height: size, outline: 'none'}} />
-          <div className="gray h6">
-            {story.changelog_name}
+    if (this.props.showChangelog) {
+      if (story.changelog_logo !=null) {
+        return (
+          <div className="flex-none mx-auto">
+            <img className="mr1 ml1 block rounded" src={story.changelog_logo} size={size} style={{width: size, height: size, outline: 'none'}} />
+            <div className="gray h6">
+              {story.changelog_name}
+            </div>
+            <div className="gray h6 sm-col-8">
+              {story.changelog_tagline}
+            </div>
           </div>
-          <div className="gray h6 sm-col-8">
-            {story.changelog_tagline}
+        )
+      } else {
+        return (
+          <div className="flex-none mx-auto">
+            <img className="mr2 ml1 block rounded" size={size} style={{width: size, height: size, outline: 'none'}} />
+            <div className="gray h6">
+
+            </div>
+            <div className="gray h6 sm-col-8">
+
+            </div>
           </div>
-        </div>
-      )
-    } 
+        )
+      }
+
+    }
   }
 
   renderContributors() {
