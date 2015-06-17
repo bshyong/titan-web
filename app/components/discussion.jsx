@@ -13,7 +13,7 @@ import connectToStores from '../lib/connectToStores.jsx'
 import pluralize from '../lib/pluralize'
 import {List} from 'immutable'
 
-@connectToStores(CommentsStore, GroupedStoriesStore)
+@connectToStores(CommentsStore)
 export default class Discussion extends React.Component {
   static getPropsFromStores(props) {
     return {
