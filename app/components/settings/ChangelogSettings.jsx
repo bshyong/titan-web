@@ -1,4 +1,5 @@
 import {List} from 'immutable'
+import {Link} from 'react-router'
 import authenticated from '../mixins/authenticated_mixin.jsx'
 import Avatar from '../../ui/Avatar.jsx'
 import ChangelogActions from '../../actions/changelog_actions'
@@ -56,7 +57,9 @@ export default class ChangelogSettings extends React.Component {
     return (
       <div>
         <h4 className="mt0 mb0 bold">Members</h4>
-        <p className="gray">Only members can post stories</p>
+        <p className="gray">
+          Only members can post stories. After your team <Link to="sso">signs up</Link> you'll be able to add them here.
+        </p>
 
         <div className="mb2">
           {this.props.coreMemberships.map(m => (
@@ -86,15 +89,11 @@ export default class ChangelogSettings extends React.Component {
 
         <div className="flex flex-center py2">
           <div className="flex-auto">
-            <h4 className="mt0 mb0 bold">Changelog privacy</h4>
-            <p className="mb0 gray">
-              {
-                is_members_only ? "Private: Only members can see this changelog" : "Public: Anybody can see this changelog"
-              }
-            </p>
+            <h4 className="mt0 mb0 bold">Public</h4>
+            <p className="mb0 gray">Anybody can see this changelog</p>
           </div>
           <div>
-            <Switch switched={is_members_only} onSwitched={this.handleSwitchMembersOnly.bind(this)} />
+            <Switch switched={!is_members_only} onSwitched={this.handleSwitchMembersOnly.bind(this)} />
           </div>
         </div>
 
@@ -285,7 +284,7 @@ export default class ChangelogSettings extends React.Component {
 
   handleSwitchMembersOnly(on) {
     ChangelogActions.update(this.props.changelogId, {
-      is_members_only: on
+      is_members_only: !on
     })
   }
 
