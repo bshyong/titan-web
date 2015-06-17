@@ -56,7 +56,7 @@ export default class ChangelogSettings extends React.Component {
     return (
       <div>
         <h4 className="mt0 mb0 bold">Members</h4>
-        <p className="gray">Members can post stories</p>
+        <p className="gray">Only members can post stories</p>
 
         <div className="mb2">
           {this.props.coreMemberships.map(m => (
@@ -86,10 +86,10 @@ export default class ChangelogSettings extends React.Component {
 
         <div className="flex flex-center py2">
           <div className="flex-auto">
-            <h4 className="mt0 mb0 bold">Members only</h4>
+            <h4 className="mt0 mb0 bold">Changelog privacy</h4>
             <p className="mb0 gray">
               {
-                is_members_only ? "Only members can see this changelog" : "Anybody can see this changelog"
+                is_members_only ? "Private: Only members can see this changelog" : "Public: Anybody can see this changelog"
               }
             </p>
           </div>
