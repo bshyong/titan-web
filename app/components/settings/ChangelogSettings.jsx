@@ -38,6 +38,9 @@ export default class ChangelogSettings extends React.Component {
 
   constructor(props) {
     super(props)
+    this.state = {
+      saved: false
+    }
   }
 
   render() {
@@ -99,6 +102,7 @@ export default class ChangelogSettings extends React.Component {
         {this.renderTaglineChanger()}
         {this.renderLogoChanger()}
         {this.renderBannerChanger()}
+        {this.renderHomepageChanger()}
         {this.renderSaver()}
         <hr />
 
@@ -120,13 +124,21 @@ export default class ChangelogSettings extends React.Component {
 
   renderSaver() {
     return (
-      <form onSubmit={this.handleSave.bind(this)} className="right clearfix">
-        <button className="button">Save</button>
-      </form>
+      <div>
+        <div className="clearfix">
+          <form onSubmit={this.handleSave.bind(this)} className="right clearfix">
+            <button className="button">Save</button>
+          </form>
+        </div>
+        <div className="clearfix right py1">
+          {this.state.saved ? "Saved" : null}
+        </div>
+      </div>
+
     )
   }
 
-  handleSave() {
+  handleSave(e) {
     e.preventDefault()
     let elname = React.findDOMNode(this.refs.name)
     let name = elname.value
@@ -134,22 +146,43 @@ export default class ChangelogSettings extends React.Component {
     let tagline = eltagline.value
     let logo = React.findDOMNode(this.refs.logo).value
     let banner = React.findDOMNode(this.refs.banner).value
+    this.setState({saved: true})
     ChangelogActions.update(this.props.changelogId, {slug: this.props.changelogId, name: name, tagline: tagline, logo_url: logo, banner_url: banner})
   }
 
   renderNameChanger() {
     return (
-      <div className="clearfix">
+      <div className="mb2">
         <label>
           <h4 className="bold mr3">
             Name
           </h4>
         </label>
-        <div className="px2 py1 visible-hover-wrapper">
+        <div className="mr2 py1 visible-hover-wrapper">
            <form className="mb2">
              <input type="text" ref="name"
                     className="field-light full-width"
-                    value={this.props.changelog.name} />
+                    defaultValue={this.props.changelog.name} />
+           </form>
+         </div>
+      </div>
+    )
+  }
+
+  renderHomepageChanger() {
+    return (
+      <div className="mb2">
+        <label>
+          <h4 className="bold mr3">
+            Home Page URL
+          </h4>
+        </label>
+        <div className="mr2 py1 visible-hover-wrapper">
+           <form className="mb2">
+             <input type="text" ref="homepage"
+                    className="field-light full-width"
+                    defaultValue={this.props.changelog.homepage_url}
+                    placeholder="https://www.example.com" />
            </form>
          </div>
       </div>
@@ -158,17 +191,17 @@ export default class ChangelogSettings extends React.Component {
 
   renderTaglineChanger() {
     return (
-      <div className="clearfix">
+      <div className="mb2">
         <label>
           <h4 className="bold mr3">
             Tagline
           </h4>
         </label>
-        <div className="px2 py1 visible-hover-wrapper">
+        <div className="mr2 py1 visible-hover-wrapper">
            <form className="mb2">
              <input type="text" ref="tagline"
                     className="field-light full-width"
-                    value={this.props.changelog.tagline} />
+                    defaultValue={this.props.changelog.tagline} />
            </form>
          </div>
       </div>
@@ -177,17 +210,17 @@ export default class ChangelogSettings extends React.Component {
 
   renderLogoChanger() {
     return (
-      <div className="clearfix">
+      <div className="mb2">
         <label>
           <h4 className="bold mr3">
             Logo URL
           </h4>
         </label>
-        <div className="px2 py1 visible-hover-wrapper">
+        <div className="mr2 py1 visible-hover-wrapper">
            <form className="mb2">
              <input type="text" ref="logo"
                     className="field-light full-width"
-                    value={this.props.changelog.logo_url} />
+                    defaultValue={this.props.changelog.logo_url} />
            </form>
          </div>
       </div>
@@ -196,17 +229,17 @@ export default class ChangelogSettings extends React.Component {
 
   renderBannerChanger() {
     return (
-      <div className="clearfix">
+      <div className="mb2">
         <label>
           <h4 className="bold mr3">
             Banner URL
           </h4>
         </label>
-        <div className="px2 py1 visible-hover-wrapper">
-           <form className="mb3">
+        <div className="mr2 py1 visible-hover-wrapper">
+           <form className="mb2">
              <input type="text" ref="banner"
                     className="field-light full-width"
-                    value={this.props.changelog.banner_url} />
+                    defaultValue={this.props.changelog.banner_url} />
            </form>
          </div>
       </div>
