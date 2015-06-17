@@ -1,6 +1,7 @@
 import {
   ANALYTICS_POST_CREATED,
   ANALYTICS_UPVOTE,
+  FEED_STORIES_FETCHED,
   GROUP_STORIES_FETCHED,
   RESOURCE_NOT_FOUND,
   STORIES_FETCHED,
@@ -89,6 +90,19 @@ export default {
           page: page,
           per: per,
           moreAvailable: count === per
+        })
+      })
+  },
+
+  fetchUserFirehoseFeed(username, page, per) {
+    api.get(`user/feed?username=${username}&page=${page}&per=${per}`).
+      then(resp => {
+        let stories = List(resp)
+        Dispatcher.dispatch({
+          type: FEED_STORIES_FETCHED,
+          stories: stories,
+          page: page,
+          per: per
         })
       })
   },

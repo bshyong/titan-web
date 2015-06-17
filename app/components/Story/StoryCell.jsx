@@ -12,6 +12,7 @@ export default class StoryCell extends React.Component {
     const { story } = this.props
     return (
       <div className="flex">
+        {this.renderChangelog(story)}
         <div className="flex-none mr2">
           <Badge badge={story.emoji} size="1.5rem" />
         </div>
@@ -33,17 +34,36 @@ export default class StoryCell extends React.Component {
     )
   }
 
+  renderChangelog(story) {
+    let size = 24
+    if (this.props.showChangelog && story.changelog_logo !=null) {
+      return (
+        <div className="flex-none mx-auto">
+          <img className="mr1 ml1 block rounded" src={story.changelog_logo} size={size} style={{width: size, height: size, outline: 'none'}} />
+          <div className="gray h6">
+            {story.changelog_name}
+          </div>
+          <div className="gray h6 sm-col-8">
+            {story.changelog_tagline}
+          </div>
+        </div>
+      )
+    } 
+  }
+
   renderContributors() {
     const { story, story: { contributors } } = this.props
-
-    return (
-      <div className="flex-none sm-show ml2">
-        <Stack items={List(contributors).map(user => <Avatar user={user} size={24} />)} align="right" />
-      </div>
-    )
+    if (this.props.hideContributors !== true) {
+      return (
+        <div className="flex-none sm-show ml2">
+          <Stack items={List(contributors).map(user => <Avatar user={user} size={24} />)} align="right" />
+        </div>
+      )
+    }
   }
 }
 
 StoryCell.propTypes = {
-  story: React.PropTypes.object.isRequired
+  story: React.PropTypes.object.isRequired,
+  hideContributors: React.PropTypes.bool
 }

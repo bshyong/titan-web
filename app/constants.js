@@ -46,6 +46,7 @@ export default keyMirror({
   EMOJI_FETCHED: null,
   EMOJI_SELECTED: null,
 
+  FEED_STORIES_FETCHED: null,
   FOLLOWINGS_FETCHED: null,
 
   GIF_FORM_CHANGED: null,
