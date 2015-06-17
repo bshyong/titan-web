@@ -26,10 +26,6 @@ import UpvoteToggler from './UpvoteToggler.jsx'
 @connectToStores(FeedStoryStore)
 export default class StoryFeed extends React.Component {
 
-  constructor(props) {
-    super(props)
-  }
-
   static getPropsFromStores(props) {
     return {
       user: SessionStore.user,
@@ -73,13 +69,4 @@ export default class StoryFeed extends React.Component {
       )
     }
   }
-
-  handleShowMore() {
-
-  }
-
-  showLoadMore() {
-
-  }
-
 }
