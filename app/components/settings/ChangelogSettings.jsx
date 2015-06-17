@@ -53,7 +53,6 @@ export default class ChangelogSettings extends React.Component {
     }
 
     const {changelog, changelog: { is_members_only }} = this.props
-
     return (
       <div>
         <h4 className="mt0 mb0 bold">Members</h4>
@@ -284,7 +283,7 @@ export default class ChangelogSettings extends React.Component {
 
   handleSwitchMembersOnly(on) {
     ChangelogActions.update(this.props.changelogId, {
-      is_members_only: !on
+      is_members_only: !this.props.changelog.is_members_only
     })
   }
 

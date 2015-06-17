@@ -124,7 +124,7 @@ export default class ChangelogCreation extends React.Component {
           </p>
         </div>
         <div>
-          <Switch switched={this.state.is_members_only} onSwitched={this.handleSwitchMembersOnly.bind(this)} />
+          <Switch switched={!this.state.is_members_only} onSwitched={this.handleSwitchMembersOnly.bind(this)} />
         </div>
       </div>
     )
