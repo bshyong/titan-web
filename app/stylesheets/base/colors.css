@@ -7,3 +7,5 @@
 .gray-visited:visited { color: var(--gray) }
 
 .orange-hover:hover { color: var(--orange) }
+
+.gray-hover:hover { color: var(--charcoal) }
