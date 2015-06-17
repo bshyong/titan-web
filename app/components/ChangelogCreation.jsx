@@ -52,7 +52,7 @@ export default class ChangelogCreation extends React.Component {
 
           <div className="clearfix">
             <div className="sm-col-5 mx-auto">
-              <label htmlFor="new-changelog-name">Tagline</label>
+              <label htmlFor="new-changelog-name">Name</label>
               <input type="text"
                 id="new-changelog-name"
                 className="full-width border border-smoke mb2"
