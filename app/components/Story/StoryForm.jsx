@@ -60,32 +60,31 @@ export default class NewStoryForm extends React.Component {
 
     return (
       <div>
-        <div className="mb2">
+        <div className="mb3">
           <TextareaAutosize
             className="field-light block full-width h2"
-            placeholder="What have you done?"
+            placeholder="What did your team do this week?"
             value={title}
             onChange={this.handleChanged('title').bind(this)}
             ref="title"
             rows={2} />
-        </div>
-
-        <div className="flex mb2 mxn2">
-          <div className="col-6 px2">
-            <EmojiPicker className="field-light block full-width" />
-          </div>
-          <div className="col-6 px2">
-          <ContributorsInput className="field-light block full-width" />
-          </div>
+          <p className="mt1 h5 gray">Features, bug fixes, designs are all fair game.</p>
         </div>
 
         <div className="mb3">
-
+          <EmojiPicker className="field-light block full-width" />
+          <p className="mt1 h5 gray">
+            Pick an emoji to describe the post. <a href="http://www.emoji-cheat-sheet.com/" target="_blank">
+              Need a ✋?
+            </a>
+          </p>
         </div>
 
-        <div className="right-align">
-          {this.renderPostButton()}
+        <div className="mb3">
+          <ContributorsInput className="field-light block full-width" />
+          <p className="mt1 h5 gray">Who else helped out? @mention friends or add their emails comma separated.</p>
         </div>
+
       </div>
     )
   }

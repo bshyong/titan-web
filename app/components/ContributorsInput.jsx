@@ -31,7 +31,7 @@ export default class ContributorsInput extends React.Component {
     return <AutocompleteUserInput
               {...this.props}
               ref="input"
-              placeholder="List contributors"
+              placeholder="Who helped out?"
               value={this.props.contributors}
               onChange={this.handleChange}
               onFocus={this.handleFocus} />

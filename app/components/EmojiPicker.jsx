@@ -59,52 +59,27 @@ export default class EmojiPicker extends React.Component {
   renderEmojis() {
     const { emojis, selectedEmoji } = this.props
     if (emojis && emojis.size > 0) {
-      let classes = classnames('transition-stagger overflow-hidden mxn1', {
+      let classes = classnames('ml1 transition-stagger overflow-hidden', {
         'transition-stagger--focused': this.state.focused || selectedEmoji
       })
-
       return (
-        <div>
-          <div className={classes} style={{ height: 66 }}>
-            {emojis.take(6).map(this.renderEmoji.bind(this))}
-            <div className="h5 px1 mt1">
-              <a className="gray" href="http://www.emoji-cheat-sheet.com" target="_blank">
-                (Need a <img className="inline-block" src="https://twemoji.maxcdn.com/svg/270b.svg" style={{width: "0.8rem"}} alt="hand" />?)
-              </a>
-            </div>
-          </div>
-          {this.renderInspirationLink()}
+        <div className={classes} style={{ height: 40 }}>
+          {emojis.take(8).map(this.renderEmoji.bind(this))}
         </div>
       )
     }
   }
 
-  renderInspirationLink() {
-    if (!this.state.focused) {
-      return
-    }
-
-    return (
-      <div></div>
-    )
-  }
-
   render() {
     return (
-      <div>
-        <div>
-          <input
-            {...this.props}
-            type="text"
-            placeholder="Pick a label"
-            onBlur={this.toggleFocus}
-            onFocus={this.toggleFocus}
-            value={this.props.selectedEmojiName}
-            onChange={this.handleChange} />
-        </div>
-        <div className="p1">
-          {this.renderEmojis()}
-        </div>
+      <div className="flex">
+        <input className="p1 field-light border-silver"
+          placeholder="Emoji"
+          onBlur={this.toggleFocus}
+          onFocus={this.toggleFocus}
+          value={this.props.selectedEmojiName}
+          onChange={this.handleChange} />
+        {this.renderEmojis()}
       </div>
     )
   }

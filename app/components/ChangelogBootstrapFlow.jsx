@@ -20,8 +20,11 @@ export default class ChangelogBootstrapFlow extends React.Component {
   render() {
     return (
       <div>
-        <p className="h3 mb3">
-          Be as <img src="https://twemoji.maxcdn.com/svg/1f60e.svg" alt="casual" className="inline-block" style={{height: "1.25rem", verticalAlign: 'middle'}} /> or <img src="https://twemoji.maxcdn.com/svg/1f4bc.svg" alt="formal" className="inline-block" style={{height: "1.25rem", verticalAlign: 'middle'}} /> as you want with your posts. Even better, give credit to anyone who has helped out by adding them as a contributor.
+        <h2 className="mb2">
+          Aww, your <img src="https://twemoji.maxcdn.com/svg/261d.svg" alt="first"  style={{height: "1.5rem", verticalAlign: "middle"}} /> post
+        </h2>
+        <p className="h3 mb3 gray">
+          Be as <img src="https://twemoji.maxcdn.com/svg/1f60e.svg" alt="casual" className="inline-block" style={{height: "1.25rem", verticalAlign: 'middle'}} /> or <img src="https://twemoji.maxcdn.com/svg/1f4bc.svg" alt="formal" className="inline-block" style={{height: "1.25rem", verticalAlign: 'middle'}} /> as you want. Even better, give credit to anyone who has helped out by adding them as a contributor.
         </p>
         {this.renderStoriesCount()}
         {this.renderFormOrList()}
