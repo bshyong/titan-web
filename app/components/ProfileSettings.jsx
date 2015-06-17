@@ -32,6 +32,9 @@ export default class ProfileSettings extends React.Component {
         },
         username: {
           value: next.profile.username
+        },
+        flair_url: {
+          value: next.profile.flair_url
         }
       })
     } else {
@@ -71,6 +74,16 @@ export default class ProfileSettings extends React.Component {
                 type="text" value={this.state.blurb.value}
                 onChange={this.handleChange('blurb').bind(this)}
                 placeholder="Short blurb about yourself" />
+            </label>
+          </div>
+
+          <div className="mb2">
+            <label>
+              Flair Image URL
+              <input className={this.fieldClasses('flair_url')}
+                type="text" value={this.state.flair_url.value}
+                onChange={this.handleChange('flair_url').bind(this)}
+                placeholder="https://media.giphy.com/media/GehetVRdV5EAw/giphy.gif" />
             </label>
           </div>
 
