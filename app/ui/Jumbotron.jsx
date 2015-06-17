@@ -28,7 +28,7 @@ export default class Jumbotron extends React.Component {
     }
 
     return (
-      <div className="absolute top-0 right-0 bottom-0 left-0 bg-darken-3" />
+      <div className="absolute top-0 right-0 bottom-0 left-0 bg-darken-4" />
     )
   }
 }
