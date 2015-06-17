@@ -86,9 +86,7 @@ export default class ChangelogSettings extends React.Component {
           <div className="flex-auto">
             <h4 className="mt0 mb0 bold">Public</h4>
           <p className="mb0 gray">
-            {
-              is_members_only ? "Only members can see this changelog" : "Anybody can see this changelog"
-            }
+            Anybody can see this changelog
           </p>
           </div>
           <div>
