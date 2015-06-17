@@ -51,7 +51,7 @@ export default class ChangelogHeader extends React.Component {
     return (
       <div className="flex-none px1">
         <Link className="button button-outline white" to="new" params={{changelogId: changelog.slug}}>
-          <Icon icon="pencil" />
+          <Icon icon="plus" />
         </Link>
       </div>
     )
