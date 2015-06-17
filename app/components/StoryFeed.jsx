@@ -47,7 +47,7 @@ export default class StoryFeed extends React.Component {
 
     return (
       <div className="container">
-        <h3 className="px2 md-px0 py2 caps gray h2 border-bottom">Story Feed</h3>
+        <h3 className="px2 md-px0 py2 caps gray h2 border-bottom">Top Posts</h3>
         <div className="sm-col-8">
           {this.renderStories()}
           <ScrollPaginator page={page} onScrollBottom={nextPage} />
@@ -65,7 +65,7 @@ export default class StoryFeed extends React.Component {
           {stories.sortBy(s => s.created_at).reverse().map(story => {
               return (
                 <Table.Cell key={story.id} to="story" params={paramsFor.story({slug: story.changelog_slug}, story)}>
-                  <StoryCell story={story} showContributors={false} hideZeroComments={true} showScore={true} showChangelog={true} />
+                  <StoryCell story={story} showContributors={false} hideZeroComments={true} showScore={true} showChangelog={true} hideBadge={false} />
                 </Table.Cell>
               )
             })}

@@ -35,7 +35,6 @@ class FeedStoryStore extends Store {
           }
 
           this.stories = this.stories.concat(action.stories)
-          console.log(this.stories, action.page)
           this._per = action.per
           this._page = action.page
           this._loading = false

@@ -12,32 +12,50 @@ export default class StoryCell extends React.Component {
     const { story } = this.props
     return (
       <div className="flex">
+        <div className="flex-none sm-col-4">
+          {this.renderScore(story)}
+          {this.renderChangelog(story)}
+          {this.renderBadge(story)}
+        </div>
 
-        {this.renderScore(story)}
-        <div className="flex-none mr2">
-          <Badge badge={story.emoji} size="1.5rem" />
-        </div>
-        <div className="flex-auto">
+        <h4 className="flex-auto">
           {story.team_member_only ? <Icon icon="lock" /> : null} {story.title}
-        </div>
+        </h4>
         {this.renderContributors()}
         <div className="flex-none sm-show ml2">
           {this.renderComments(story)}
         </div>
-        {this.renderChangelog(story)}
       </div>
     )
   }
 
+  renderBadge(story) {
+    if (this.props.hideBadge !== true) {
+      return (
+        <div className="flex-none mr2">
+          <Badge badge={story.emoji} size="1.5rem" />
+        </div>
+      )
+    }
+  }
+
   renderChangelog(story) {
-    let size = 16
+    let size = 24
     if (this.props.showChangelog && story.changelog_logo !=null) {
       return (
-        <img className="ml2 block rounded" src={story.changelog_logo} size={16} style={{width: size, height: size, outline: 'none'}} />
+        <div className="flex-none mx-auto">
+          <img className="mr1 ml1 block rounded" src={story.changelog_logo} size={16} style={{width: size, height: size, outline: 'none'}} />
+          <div className="gray h6">
+            {story.changelog_name}
+          </div>
+          <div className="gray h6 sm-col-8">
+            {story.changelog_tagline}
+          </div>
+        </div>
       )
     } else {
       return (
-        <div className="ml2 block" size={16} style={{width: size, height: size, outline: 'none'}} />
+        <div className="mr2 block" size={16} style={{width: size, height: size, outline: 'none'}} />
       )
     }
 
@@ -84,5 +102,6 @@ StoryCell.propTypes = {
   showContributors: React.PropTypes.bool,
   hideZeroComments: React.PropTypes.bool,
   showScore: React.PropTypes.bool,
-  showChangelog: React.PropTypes.bool
+  showChangelog: React.PropTypes.bool,
+  hideBadge: React.PropTypes.bool
 }
