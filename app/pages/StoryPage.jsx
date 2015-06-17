@@ -1,7 +1,6 @@
 import Avatar from '../ui/Avatar.jsx'
 import Badge from '../components/Badge.jsx'
 import ChangelogStore from '../stores/changelog_store'
-import connectToStores from '../lib/connectToStores.jsx'
 import Discussion from '../components/discussion.jsx'
 import DiscussionActions from '../actions/discussion_actions'
 import DocumentTitle from 'react-document-title'
@@ -11,17 +10,19 @@ import Icon from '../ui/Icon.jsx'
 import Label from '../ui/Label.jsx'
 import LoadingBar from '../ui/LoadingBar.jsx'
 import Markdown from '../ui/Markdown.jsx'
-import moment from '../config/moment'
-import pluralize from '../lib/pluralize'
+import Popover from '../ui/Popover.jsx'
 import React from 'react'
 import Router from '../lib/router_container'
 import SessionStore from '../stores/session_store'
-import shallowEqual from 'react-pure-render/shallowEqual'
 import Stack from '../ui/Stack.jsx'
 import StoryActions from '../actions/story_actions'
 import StoryReadersStore from '../stores/story_readers_store'
 import SubscribeStoryButton from '../components/subscribe_story_button.jsx'
 import UpvoteToggler from '../components/UpvoteToggler.jsx'
+import connectToStores from '../lib/connectToStores.jsx'
+import moment from '../config/moment'
+import pluralize from '../lib/pluralize'
+import shallowEqual from 'react-pure-render/shallowEqual'
 import {Link} from 'react-router'
 import {List} from 'immutable'
 
@@ -112,6 +113,7 @@ export default class StoryPage extends React.Component {
                       </li>
                       {this.renderEditLink()}
                       {this.renderDeleteLink()}
+                      {this.renderShareLink()}
                     </ul>
                   </div>
                 </div>
@@ -159,6 +161,43 @@ export default class StoryPage extends React.Component {
         </li>
       )
     }
+  }
+
+  renderShareLink() {
+    const { story } = this.props
+
+    const buttons = <div className="p1 center">
+      <h5 className="mt0">share with</h5>
+      <ul className="list-reset flex mb0 h3">
+        <li className="px1">
+          <a target="_blank" className="gray" href={`https://twitter.com/home?status=${story.title}%20-%20${window.location}%20via%20%40asm`}>
+            <Icon icon="twitter" />
+          </a>
+        </li>
+        <li className="px1">
+          <a target="_blank" className="gray" href={`https://www.facebook.com/sharer/sharer.php?u=${window.location}`}>
+            <Icon icon="facebook-square" />
+          </a>
+        </li>
+        <li className="px1">
+          <a className="gray" href={`mailto:?subject=${story.title} on Assembly&body=${window.location}`}>
+            <Icon icon="envelope" />
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    return (
+      <Popover content={buttons}>
+        <li className="px1">
+          <span className="gray"><Icon icon="share-square-o" /> Share</span>
+        </li>
+      </Popover>
+    )
+  }
+
+  handleTwitterShare() {
+
   }
 
   _deleteStory() {
