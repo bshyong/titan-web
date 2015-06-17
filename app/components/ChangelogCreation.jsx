@@ -116,7 +116,7 @@ export default class ChangelogCreation extends React.Component {
     return (
       <div className="flex flex-center py2">
         <div className="flex-auto">
-          <h4 className="mt0 mb0">Members only</h4>
+          <h4 className="mt0 mb0">Public</h4>
           <p className="mb0 gray">
             {
               this.state.is_members_only ? "Only members can see this changelog" : "Anybody can see this changelog"
