@@ -56,7 +56,7 @@ export default class StoryFeed extends React.Component {
     if (stories !== null) {
       return (
         <Table>
-          <ClickablePaginator onLoadMore={this.handleShowMore.bind(this)} hasMore={this.showLoadMore.bind(this)}>
+          <ClickablePaginator>
           {stories.sortBy(s => s.created_at).reverse().map(story => {
               return (
                 <Table.Cell key={story.id} to="story" params={paramsFor.story({slug: story.changelog_slug}, story)}>
