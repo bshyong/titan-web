@@ -171,8 +171,8 @@ class Notification extends React.Component {
     }
 
     if (changelog) {
-      linkParams.to = 'profile'
-      linkParams.urlParams = { userId: actors[0].user.username }
+      linkParams.to = 'changelog'
+      linkParams.urlParams = { changelogId: changelog.slug }
     } else if (story) {
       linkParams.to = initial_comment_id ? 'storyWithComment' : 'story'
       linkParams.urlParams = addParams(story.changelog_slug, story).urlParams
