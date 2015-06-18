@@ -73,7 +73,7 @@ export default class NewStoryForm extends React.Component {
 
         <div className="mb3">
           <EmojiPicker className="field-light block full-width" />
-          <p className="mt1 h5 gray">
+          <p className="mt1 h5">
             Pick an emoji to describe the post. <a href="http://www.emoji-cheat-sheet.com/" target="_blank">
               Need a ✋?
             </a>
@@ -82,7 +82,7 @@ export default class NewStoryForm extends React.Component {
 
         <div className="mb3">
           <ContributorsInput className="field-light block full-width" />
-          <p className="mt1 h5 gray">Who else helped out? @mention friends or add their emails comma separated.</p>
+          <p className="mt1 h5">Who else helped out? @mention friends or add their emails comma separated.</p>
         </div>
 
       </div>

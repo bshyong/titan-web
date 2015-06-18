@@ -110,7 +110,7 @@ export default class ChangelogCreation extends React.Component {
       'is-error': !nameValid
     })
 
-    const nameErrorText = nameValid ? '&nbsp;' : NewChangelogStore.errors.name || "can't be blank"
+    const nameErrorText = nameValid ? '&nbsp;' : NewChangelogStore.errors.name || "Oops. Name can't be blank"
 
     return (
       <div className="mb2">
@@ -135,7 +135,7 @@ export default class ChangelogCreation extends React.Component {
       'is-error': !slugValid
     })
 
-    const slugErrorText = slugValid ? '&nbsp;' : NewChangelogStore.errors.slug || "can't be blank"
+    const slugErrorText = slugValid ? '&nbsp;' : NewChangelogStore.errors.slug || "Oops. Slug can't be blank"
 
     return (
       <div className="mb2">

@@ -17,6 +17,7 @@ class NewChangelogStore extends Store {
     this._isCreating = false
     this._nameValid = true
     this._slugValid = true
+    this._modified = false
 
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
@@ -29,6 +30,7 @@ class NewChangelogStore extends Store {
           this.emitChange()
           break
         case CHANGELOG_FORM_CHANGED:
+          this._modified = true
           this._errors = Map()
           let actionValue = action.field === 'slug' ? this.sanitizeSlug(action.value) : action.value
           this._newChangelog = this._newChangelog.set(action.field, actionValue)
@@ -42,7 +44,7 @@ class NewChangelogStore extends Store {
           }
           if (action.errors["param"] === "name") {
             this._nameValid = false
-            this._errors = this._errors.set("name", "can't be blank")
+            this._errors = this._errors.set("name", "Oops. Name can't be blank")
           }
           this.emitChange()
           break
@@ -92,7 +94,7 @@ class NewChangelogStore extends Store {
   }
 
   get isValid() {
-    return this._nameValid && this._slugValid
+    return this._modified && this._nameValid && this._slugValid
   }
 
   get nameValid() {
