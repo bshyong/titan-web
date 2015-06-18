@@ -52,7 +52,7 @@ export default class ChangelogCreation extends React.Component {
             }} />
         </div>
 
-        {this.renderUrlForm()}
+        {this.renderSlugField()}
 
         <div className="mb3">
           <label htmlFor="new-changelog-website-url">Website</label>
@@ -69,14 +69,13 @@ export default class ChangelogCreation extends React.Component {
         </div>
 
         <div className="mb3">
-          {this.renderMembersOnly()}
+          {this.renderVisibilitySettings()}
         </div>
-        {this.renderCreateButton()}
       </div>
     )
   }
 
-  renderMembersOnly() {
+  renderVisibilitySettings() {
     const { is_members_only } = this.props.changelog
 
     return (
@@ -90,7 +89,7 @@ export default class ChangelogCreation extends React.Component {
           </p>
         </div>
         <div>
-          <Switch switched={!is_members_only} onSwitched={this.handleSwitchMembersOnly.bind(this)} />
+          <Switch switched={!is_members_only} onSwitched={this.toggleVisibility.bind(this)} />
         </div>
       </div>
     )
@@ -100,7 +99,7 @@ export default class ChangelogCreation extends React.Component {
     NewChangelogActions.formChange(name, e.target.value)
   }
 
-  handleSwitchMembersOnly() {
+  toggleVisibility() {
     const { changelog } = this.props
     NewChangelogActions.formChange('is_members_only', !changelog.is_members_only)
   }
@@ -130,7 +129,7 @@ export default class ChangelogCreation extends React.Component {
     )
   }
 
-  renderUrlForm() {
+  renderSlugField() {
     const slugValid = NewChangelogStore.slugValid
     const cs = classnames("flex full-width field-light", {
       'is-error': !slugValid
@@ -157,45 +156,9 @@ export default class ChangelogCreation extends React.Component {
     )
   }
 
-  renderCreateButton() {
-    return
-    let valid = this.state.name != null && this.state.slug != null
-    // let onPublish=this.handlePublish.bind(this)
-    let onPublish = () => {}
-
-    return (
-      <div className="mx-auto mt3 block">
-        <Button style="outline"
-          block={true}
-          color={"orange"}
-          disabled={!valid || this.slugError()}
-          action={valid ? onPublish : null}>
-          Create Changelog
-        </Button>
-      </div>
-    )
-  }
-
   sanitizeSlug(slugText) {
     let s = slugText.replace(/[|&;?$%@"<>/\()+,]/g, "").replace(/\s/, "-");
     return s
-  }
-
-  NameChange(e) {
-    this.setState({name: e.target.value})
-  }
-
-  TaglineChange(e) {
-    this.setState({tagline: e.target.value, recently_typed: true})
-  }
-
-  // TODO: should sanitize slug as user is typing
-  SlugChange(e) {
-    this.setState({slug: e.target.value, recently_typed: true})
-  }
-
-  WebsiteChange(e) {
-    this.setState({website: e.target.value, recently_typed: true})
   }
 
   handlePublish() {
