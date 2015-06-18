@@ -13,6 +13,7 @@ export default class AdminPage extends React.Component {
   static willTransitionTo() {
     AdminActions.adminDataFetched()
     AdminActions.adminUserDataFetched()
+    AdminActions.adminStoriesFetched()
   }
 
   static get defaultProps() {
