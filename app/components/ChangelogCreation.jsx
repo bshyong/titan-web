@@ -145,6 +145,7 @@ export default class ChangelogCreation extends React.Component {
             id="new-changelog-url"
             className="field-light block full-width"
             placeholder="Your Changelog slug"
+            value={NewChangelogStore.slug}
             onChange={this.handleFormChange.bind(this, 'slug')}
             ref="tagline"
             style={{
@@ -154,11 +155,6 @@ export default class ChangelogCreation extends React.Component {
         <div className="red h5" dangerouslySetInnerHTML={{__html: slugErrorText}} />
       </div>
     )
-  }
-
-  sanitizeSlug(slugText) {
-    let s = slugText.replace(/[|&;?$%@"<>/\()+,]/g, "").replace(/\s/, "-");
-    return s
   }
 
   handlePublish() {

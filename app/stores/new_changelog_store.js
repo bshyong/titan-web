@@ -7,6 +7,7 @@ import {
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
 import {Map} from 'immutable'
+import RouterContainer from '../lib/router_container'
 
 class NewChangelogStore extends Store {
   constructor() {
@@ -29,7 +30,8 @@ class NewChangelogStore extends Store {
           break
         case CHANGELOG_FORM_CHANGED:
           this._errors = Map()
-          this._newChangelog = this._newChangelog.set(action.field, action.value)
+          let actionValue = action.field === 'slug' ? this.sanitizeSlug(action.value) : action.value
+          this._newChangelog = this._newChangelog.set(action.field, actionValue)
           this.checkValidity(action.field)
           this.emitChange()
           break
@@ -56,18 +58,37 @@ class NewChangelogStore extends Store {
 
     switch (field) {
       case 'name':
-        this._nameValid = name && name.replace(/\s+/, '').length > 0
+        this._nameValid = name && (name.replace(/\s+/, '').length > 0)
         break
       case 'slug':
-        this._slugValid = !this._errors["slug"] && slug && slug.replace(/\s/, '').length > 0
+        this._slugValid = !this._errors["slug"] && slug && this.sanitizeSlug(slug).length > 0
         break
       default:
         break
     }
   }
 
+  sanitizeSlug(value) {
+    value = value.toLowerCase()
+
+    var from = "åàáäâèéëêìíïîòóöôùúüûñç·/_,:;"
+    var to   = "aaaaaeeeeiiiioooouuuunc------"
+    for (var i=0, l=from.length ; i<l ; i++) {
+      value = value.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i))
+    }
+
+    value = value.replace(/[^a-z0-9 -]/g, '')
+      .replace(/\s+/g, '-')
+
+    return value
+  }
+
   isSaving() {
     return this._isCreating
+  }
+
+  get slug() {
+    return this._newChangelog.get('slug')
   }
 
   get isValid() {
