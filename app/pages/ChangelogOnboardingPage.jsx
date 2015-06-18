@@ -11,6 +11,7 @@ import StoryActions from '../actions/story_actions'
 import StoryForm from '../components/Story/StoryForm.jsx'
 import StoryFormStore from '../stores/story_form_store'
 import connectToStores from '../lib/connectToStores.jsx'
+import StoryGifSrc from '../images/interface.gif'
 
 class Slide extends React.Component {
   render() {
@@ -52,7 +53,7 @@ export default class ChangelogOnboardingPage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      slide: 0
+      slide: 1
     }
     this.goToSlide = this._goToSlide.bind(this)
   }
@@ -81,9 +82,12 @@ export default class ChangelogOnboardingPage extends React.Component {
           active={slide === 1}
           onNext={this.goToSlide(2)}
           onNextValid={true}>
-          <p className="h2 mb3">
+          <p className="h2 mb4">
             Be as <img src="https://twemoji.maxcdn.com/svg/1f60e.svg" alt="casual" className="inline-block" style={{height: "1.25rem", verticalAlign: 'middle'}} /> or <img src="https://twemoji.maxcdn.com/svg/1f4bc.svg" alt="formal" className="inline-block" style={{height: "1.25rem", verticalAlign: 'middle'}} /> as you want. Even better, give credit to anyone who has helped out by adding them as a contributor.
           </p>
+          <div>
+            <img src={StoryGifSrc} />
+          </div>
         </Slide>
         <Slide
           title="Start with 3 posts: 1 of 3"
