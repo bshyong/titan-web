@@ -95,7 +95,7 @@ export default class Comment extends React.Component {
     }
 
     if (!(SessionStore.user &&
-        SessionStore.user.id === this.props.comment.user.id)) {
+        (SessionStore.user.id === this.props.comment.user.id || SessionStore.user.staff_at !==null) )) {
       return
     }
 
