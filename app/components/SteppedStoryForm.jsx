@@ -19,7 +19,6 @@ import StoryFormActions from '../actions/story_form_actions'
 import StoryFormStore from '../stores/story_form_store'
 import GroupedStoriesStore from '../stores/GroupedStoriesStore'
 import connectToStores from '../lib/connectToStores.jsx'
-import {Link} from 'react-router'
 import {List, Map, Set} from 'immutable'
 
 @AuthenticatedMixin()

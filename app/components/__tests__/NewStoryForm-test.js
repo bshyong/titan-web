@@ -17,6 +17,9 @@ describe('NewStoryForm', () => {
         }
       }
     })
+    spyOn(RouterContainer, 'changelogSlug').and.callFake(() => {
+      return 1
+    })
     spyOn(EmojiActions, 'fetch').and.returnValue([])
 
     NewStoryForm = require('../NewStoryForm.jsx').Component.Component

@@ -1,7 +1,8 @@
 import React from 'react'
 import DashboardStore from '../stores/DashboardStore'
 import connectToStores from '../lib/connectToStores.jsx'
-import {Link} from 'react-router'
+import Link from '../components/Link.jsx'
+import paramsFor from '../lib/paramsFor'
 import ChangelogCard from './Changelog/ChangelogCard.jsx'
 import Button from '../ui/Button.jsx'
 import Jumbotron from '../ui/Jumbotron.jsx'
@@ -28,7 +29,7 @@ export default class Dashboard extends React.Component {
           <div className="sm-flex flex-wrap mxn2">
             {featured.map((changelog, i) =>
               <div className="sm-col-4 p2" key={changelog.id + i}>
-                <Link to="changelog" params={{changelogId: changelog.slug}}>
+                <Link to="changelog" params={paramsFor.changelog(changelog)}>
                   <ChangelogCard changelog={changelog} />
                 </Link>
               </div>
@@ -53,7 +54,7 @@ export default class Dashboard extends React.Component {
         <div className="sm-flex flex-wrap mxn2">
           {following.map((changelog, i) =>
             <div className="sm-col-4 p2" key={changelog.id + i}>
-              <Link to="changelog" params={{changelogId: changelog.slug}}>
+              <Link to="changelog" params={paramsFor.changelog(changelog)}>
                 <ChangelogCard changelog={changelog} />
               </Link>
             </div>

@@ -11,6 +11,7 @@ import {List} from 'immutable'
 
 import Dispatcher from '../lib/dispatcher'
 import api from '../lib/api'
+import paramsFor from '../lib/paramsFor'
 import RouterContainer from '../lib/router_container'
 import SessionStore from '../stores/session_store'
 import segment from '../lib/segment'
@@ -27,9 +28,12 @@ export default {
       })
   },
 
-  select(changelog_id) {
+  select(changelog_id, callback) {
     api.get(`changelogs/${changelog_id}`).
       then(resp => {
+        if (callback) {
+          callback(resp)
+        }
         Dispatcher.dispatch({
           type: CHANGELOG_FETCHED,
           changelog: resp

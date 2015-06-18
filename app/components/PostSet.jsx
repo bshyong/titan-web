@@ -1,4 +1,4 @@
-import { Link } from 'react-router'
+import Link from '../components/Link.jsx'
 import { List } from 'immutable'
 import Avatar from '../ui/Avatar.jsx'
 import ChangelogStore from '../stores/changelog_store'

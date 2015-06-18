@@ -1,5 +1,4 @@
-import {Link, RouteHandler} from 'react-router'
-import ApplicationNavbar from './application_navbar.jsx'
+import ApplicationNavbar from '../components/application_navbar.jsx'
 import Avatar from '../ui/Avatar.jsx'
 import Button from '../ui/Button.jsx'
 import ChangelogActions from '../actions/changelog_actions'
@@ -8,12 +7,20 @@ import classnames from 'classnames'
 import Icon from '../ui/Icon.jsx'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
+import paramsFor from '../lib/paramsFor'
 import SessionActions from '../actions/session_actions'
 import SessionStore from '../stores/session_store'
+import {RouteHandler} from 'react-router'
+import Link from '../components/Link.jsx'
 
-export default class ChangelogLayout extends React.Component {
+export default class ChangelogPage extends React.Component {
   static willTransitionTo(transition, params, query) {
-    ChangelogActions.select(params.changelogId)
+    ChangelogActions.select(RouterContainer.changelogSlug(params), (changelog) => {
+      if (changelog.domain && !RouterContainer.isCurrentDomain(changelog.domain)) {
+        // if we load a changelog for a custom domain, redirect to it
+        window.location.href = RouterContainer.fullUrl(changelog.domain, '/')
+      }
+    })
   }
 
   constructor() {
@@ -40,11 +47,11 @@ export default class ChangelogLayout extends React.Component {
       return <div />
     }
 
-    const changelogId = RouterContainer.get().getCurrentParams().changelogId
+    const changelogId = RouterContainer.changelogSlug()
 
     return (
       <div>
-        <ApplicationNavbar title={this.state.changelog.name} />
+        <ApplicationNavbar title={this.title()} />
         <RouteHandler changelogId={changelogId} />
       </div>
     )
@@ -60,6 +67,17 @@ export default class ChangelogLayout extends React.Component {
           <Avatar user={this.state.user} size={24} />
         </a>
       </div>
+    )
+  }
+
+  title() {
+    return this.state.changelog.name
+    
+    // TODO hook up link, looks weird right meow
+    return (
+      <Link to="changelog" params={paramsFor.changelog(this.state.changelog)}>
+        {this.state.changelog.name}
+      </Link>
     )
   }
 

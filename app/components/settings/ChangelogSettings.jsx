@@ -1,18 +1,18 @@
-import {List} from 'immutable'
-import {Link} from 'react-router'
 import authenticated from '../mixins/authenticated_mixin.jsx'
 import Avatar from '../../ui/Avatar.jsx'
+import Button from '../../ui/Button.jsx'
 import ChangelogActions from '../../actions/changelog_actions'
 import ChangelogStore from '../../stores/changelog_store'
 import connectToStores from '../../lib/connectToStores.jsx'
-import ProfileStore from '../../stores/profile_store'
+import Icon from '../../ui/Icon.jsx'
 import MembershipActions from '../../actions/MembershipActions'
+import ProfileStore from '../../stores/profile_store'
 import React from 'react'
 import RouterContainer from '../../lib/router_container'
-import Table from '../../ui/Table.jsx'
-import Icon from '../../ui/Icon.jsx'
 import Switch from '../../ui/Switch.jsx'
-import Button from '../../ui/Button.jsx'
+import Table from '../../ui/Table.jsx'
+import Link from '../../components/Link.jsx'
+import {List} from 'immutable'
 
 
 @authenticated()
@@ -20,12 +20,12 @@ import Button from '../../ui/Button.jsx'
 export default class ChangelogSettings extends React.Component {
   static willTransitionTo(transition, params) {
     ChangelogActions.clearCurrent()
-    ChangelogActions.select(params.changelogId)
-    ChangelogActions.fetchMemberships(params.changelogId)
+    ChangelogActions.select(RouterContainer.changelogSlug(params))
+    ChangelogActions.fetchMemberships(RouterContainer.changelogSlug(params))
   }
 
   static getPropsFromStores(props) {
-    const changelogId = RouterContainer.get().getCurrentParams().changelogId
+    const changelogId = RouterContainer.changelogSlug()
 
     return {
       changelogId,

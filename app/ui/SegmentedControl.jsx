@@ -1,6 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
-import {Link} from 'react-router'
+import Link from '../components/Link.jsx'
 
 export default class SegmentedControl extends React.Component {
   render() {

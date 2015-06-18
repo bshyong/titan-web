@@ -31,7 +31,7 @@ export default class NewStoryPage extends React.Component {
 
   static get defaultProps() {
     return {
-      changelogId: RouterContainer.get().getCurrentParams().changelogId
+      changelogId: RouterContainer.changelogSlug()
     }
   }
 

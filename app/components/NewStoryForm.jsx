@@ -2,10 +2,12 @@ import AuthenticatedMixin from './mixins/authenticated_mixin.jsx'
 import AutocompleteUserInput from './autocomplete_user_input.jsx'
 import Button from '../ui/Button.jsx'
 import ChangelogStore from '../stores/changelog_store'
+import connectToStores from '../lib/connectToStores.jsx'
 import ContributorsActions from '../actions/ContributorsActions'
 import ContributorsInput from './ContributorsInput.jsx'
 import EmojiPicker from './EmojiPicker.jsx'
 import EmojiStore from '../stores/emoji_store'
+import GroupedStoriesStore from '../stores/GroupedStoriesStore'
 import HighlightsActionCreator from '../actions/highlight_actions'
 import HighlightsStore from '../stores/highlights_store'
 import Icon from '../ui/Icon.jsx'
@@ -13,14 +15,12 @@ import MarkdownArea from '../ui/markdown_area.jsx'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
 import SessionStore from '../stores/session_store'
+import shouldPureComponentUpdate from 'react-pure-render/function'
 import StoriesActionCreator from '../actions/story_actions'
 import StoryActions from '../actions/story_actions'
 import StoryFormActions from '../actions/story_form_actions'
 import StoryFormStore from '../stores/story_form_store'
-import GroupedStoriesStore from '../stores/GroupedStoriesStore'
-import connectToStores from '../lib/connectToStores.jsx'
-import shouldPureComponentUpdate from 'react-pure-render/function'
-import {Link} from 'react-router'
+import Link from '../components/Link.jsx'
 import {List, Map, Set} from 'immutable'
 
 @AuthenticatedMixin()
@@ -30,7 +30,7 @@ export default class NewStoryForm extends React.Component {
 
   static get defaultProps() {
     return {
-      changelogId: RouterContainer.get().getCurrentParams().changelogId,
+      changelogId: RouterContainer.changelogSlug(),
       isPublic: true
     }
   }
@@ -97,7 +97,7 @@ export default class NewStoryForm extends React.Component {
           <div className="mb2">
             <ContributorsInput />
           </div>
-          
+
           <div className="clearfix border-top py3" style={{ borderColor: '#aaa' }}>
             <div className="left">
               <div className="clearfix">

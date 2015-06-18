@@ -1,14 +1,15 @@
-import {Link} from 'react-router'
 import Avatar from '../ui/Avatar.jsx'
 import ChangelogStore from '../stores/changelog_store.js'
 import connectToStores from '../lib/connectToStores.jsx'
 import Icon from '../ui/Icon.jsx'
 import Jewel from '../ui/Jewel.jsx'
+import Link from '../components/Link.jsx'
 import List from '../ui/List.jsx'
 import Navbar from '../ui/Navbar.jsx'
 import NotificationActions from '../actions/notification_actions'
 import NotificationsList from './notifications_list.js.jsx'
 import NotificationsStore from '../stores/notifications_store'
+import paramsFor from '../lib/paramsFor'
 import Popover from '../ui/Popover.jsx'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
@@ -49,7 +50,7 @@ export default class ApplicationNavbar extends React.Component {
 
     if (changelog.slug === 'assembly') {
       return (
-        <Link to="highlights" params={{changelogId: changelog.slug}}>
+        <Link to="highlights" params={paramsFor.changelog(changelog)}>
           <Icon icon="magic" fw={true} /> Highlights
         </Link>
       )
@@ -62,7 +63,7 @@ export default class ApplicationNavbar extends React.Component {
       return (
         <div>
           <List.Item>
-            <Link to="new" params={{changelogId: changelog.slug}}>
+            <Link to="new" params={paramsFor.changelog(changelog)}>
               <Icon icon="pencil" fw={true} /> Write
             </Link>
             {this.renderHighlightsLink()}
@@ -84,7 +85,7 @@ export default class ApplicationNavbar extends React.Component {
       )
     }
 
-    const changelogId = RouterContainer.get().getCurrentParams().changelogId
+    const changelogId = RouterContainer.changelogSlug()
     const unreadCount = this.props.unreadCount
 
     const userMenu = (

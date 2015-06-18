@@ -1,22 +1,24 @@
-import { RouteHandler, Link } from 'react-router'
+import { RouteHandler } from 'react-router'
 import {List, Set} from 'immutable'
 
 import Avatar from '../ui/Avatar.jsx'
 import ChangelogActions from '../actions/changelog_actions'
 import ChangelogStore from '../stores/changelog_store'
 import connectToStores from '../lib/connectToStores.jsx'
+import paramsFor from '../lib/paramsFor'
 import dateString from '../lib/dateStringForTimeInterval'
 import GroupedStoriesStore from '../stores/GroupedStoriesStore'
 import Icon from '../ui/Icon.jsx'
+import Link from '../components/Link.jsx'
 import LoadingBar from '../ui/LoadingBar.jsx'
 import moment from '../config/moment'
+import PostSet from '../components/PostSet.jsx'
 import React from 'react'
 import ScrollPaginator from '../ui/ScrollPaginator.jsx'
 import SegmentedControl from '../ui/SegmentedControl.jsx'
 import shallowEqual from 'react-pure-render/shallowEqual'
 import Stack from '../ui/Stack.jsx'
 import StoryActions from '../actions/story_actions'
-import PostSet from '../components/PostSet.jsx'
 import StoryRange from './StoryRange.jsx'
 import Table from '../ui/Table.jsx'
 
@@ -54,10 +56,10 @@ export default class Changelog extends React.Component {
             <div className="flex-auto" />
             <div className="flex-none">
               <SegmentedControl>
-                <SegmentedControl.Link to="changelog" params={{changelogId: ChangelogStore.slug}}>
+                <SegmentedControl.Link to="changelog" params={paramsFor.changelog(ChangelogStore.changelog)}>
                   Posts
                 </SegmentedControl.Link>
-                <SegmentedControl.Link to="changelog_by_sets" params={{changelogId: ChangelogStore.slug}}>
+                <SegmentedControl.Link to="changelog_by_sets" params={paramsFor.changelog(ChangelogStore.changelog)}>
                   Sets
                 </SegmentedControl.Link>
               </SegmentedControl>

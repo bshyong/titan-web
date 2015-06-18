@@ -8,7 +8,7 @@ import FollowingActions from '../actions/follow_actions'
 import Jumbotron from '../ui/Jumbotron.jsx'
 import React from 'react'
 import SessionStore from '../stores/session_store'
-import { Link } from 'react-router'
+import Link from '../components/Link.jsx'
 
 @AuthenticatedComponent()
 export default class DashboardPage extends React.Component {

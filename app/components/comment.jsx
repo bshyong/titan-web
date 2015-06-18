@@ -11,7 +11,7 @@ import SessionStore from '../stores/session_store'
 import classnames from 'classnames'
 import moment from '../config/moment'
 import onMobile from '../lib/on_mobile'
-import {Link} from 'react-router'
+import Link from '../components/Link.jsx'
 
 @connectToStores(CommentsStore)
 export default class Comment extends React.Component {

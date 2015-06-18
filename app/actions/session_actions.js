@@ -6,10 +6,16 @@ import RouterContainer from '../lib/router_container'
 
 export default {
   signin() {
-    fetch(`${API_URL}/sessions/new?return_url=${encodeURIComponent(window.location.pathname)}`, {
+    let query = `return_url=${encodeURIComponent(window.location.href)}`
+
+    if (RouterContainer.customDomain) {
+      query = `${query}&changelog=${RouterContainer.customDomain}`
+    }
+
+    fetch(`${API_URL}/sessions/new?${query}`, {
       method: 'GET'
     }).then(resp => resp.json()).
-       then(json => window.location = json.url)
+       then(json => { window.location.href = json.url })
   },
 
   signinFromSSO(payload, sig) {
@@ -22,9 +28,7 @@ export default {
       body: data
     }).then(resp => resp.json()).then(resp => {
       this.signinFromToken(resp.token)
-      // This is a hack to let the mobile app know who we are
-      window.location = `${resp.return_url}?u=${jwt_decode(resp.token).user.username}`
-      RouterContainer.get().transitionTo(resp.return_url);
+      window.location.href = resp.return_url
     })
   },
 

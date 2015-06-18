@@ -32,6 +32,7 @@ var webpackConfig = {
     new webpack.DefinePlugin({
       APP_ENV: JSON.stringify(process.env.APP_ENV),
       API_URL: JSON.stringify(process.env.API_URL),
+      MAIN_HOST: JSON.stringify(process.env.MAIN_HOST || 'assembly.test'),
       RR_URL: JSON.stringify(process.env.RR_URL || 'https://readraptor.com'),
       'process.env.NODE_ENV': JSON.stringify('test')
     }),
