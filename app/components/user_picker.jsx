@@ -130,13 +130,11 @@ export default class UserPicker extends React.Component {
         nextProps.highlightIndex !== highlightIndex) {
       return true
     }
-
-    return false
+    return true    // TODO make this FALSE and fix the underlying bug, if this is false it often does not update when it should
   }
 
   _handleKeyDown(e) {
     const { keyCode } = e
-
     if (KEYS.indexOf(keyCode) > -1) {
       e.preventDefault()
       e.stopPropagation()
