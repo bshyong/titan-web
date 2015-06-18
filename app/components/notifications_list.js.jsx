@@ -166,6 +166,10 @@ class Notification extends React.Component {
       }
     } = this.props
 
+    if (!changelog && !story) {
+      return null
+    }
+
     const linkParams = {
       to: 'home',
       urlParams: {}
