@@ -144,7 +144,7 @@ export default class StoryPage extends React.Component {
     if (this.props.changelog.viewer_can_edit) {
       return (
         <li className="px1">
-          <span className="gray pointer" onClick={this.deleteStory}><Icon icon="trash" /> Delete</span>
+          <span className="gray gray-hover pointer" onClick={this.deleteStory}><Icon icon="trash" /> Delete</span>
         </li>
       )
     }
@@ -155,7 +155,7 @@ export default class StoryPage extends React.Component {
       return (
         <li className="px1">
           <Link to="edit" params={{changelogId: ChangelogStore.slug, storyId: this.props.story.id}}>
-            <span className="gray"><Icon icon="pencil" /> Edit</span>
+            <span className="gray gray-hover"><Icon icon="pencil" /> Edit</span>
           </Link>
         </li>
       )
@@ -169,17 +169,17 @@ export default class StoryPage extends React.Component {
       <h5 className="mt0">share with</h5>
       <ul className="list-reset flex mb0 h3">
         <li className="px1">
-          <a target="_blank" className="gray" href={`https://twitter.com/home?status=${story.title}%20-%20${window.location}%20via%20%40asm`}>
+          <a target="_blank" className="gray gray-hover" href={`https://twitter.com/home?status=${story.title}%20-%20${window.location}%20via%20%40asm`}>
             <Icon icon="twitter" />
           </a>
         </li>
         <li className="px1">
-          <a target="_blank" className="gray" href={`https://www.facebook.com/sharer/sharer.php?u=${window.location}`}>
+          <a target="_blank" className="gray gray-hover" href={`https://www.facebook.com/sharer/sharer.php?u=${window.location}`}>
             <Icon icon="facebook-square" />
           </a>
         </li>
         <li className="px1">
-          <a className="gray" href={`mailto:?subject=${story.title} on Assembly&body=${window.location}`}>
+          <a className="gray gray-hover" href={`mailto:?subject=${story.title} on Assembly&body=${window.location}`}>
             <Icon icon="envelope" />
           </a>
         </li>
@@ -189,7 +189,7 @@ export default class StoryPage extends React.Component {
     return (
       <Popover content={buttons}>
         <li className="px1">
-          <span className="gray"><Icon icon="share-square-o" /> Share</span>
+          <span className="gray gray-hover"><Icon icon="share-square-o" /> Share</span>
         </li>
       </Popover>
     )
