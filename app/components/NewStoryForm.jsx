@@ -87,6 +87,11 @@ export default class NewStoryForm extends React.Component {
               border={false}
               style={{ padding: 0 }}
               rows={8} />
+            <div className="right-align">
+              <a className="mt1 h6 light-gray" href="http://daringfireball.net/projects/markdown/basics" target="_blank">
+                Markdown <strong>*syntax*</strong> <i>_supported_</i>
+              </a>
+            </div>
           </div>
 
           <div className="mb2">
