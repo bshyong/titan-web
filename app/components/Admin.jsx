@@ -4,14 +4,19 @@ import React from 'react'
 import AdminActions from '../actions/admin_actions'
 import AdminStore from '../stores/admin_store'
 import connectToStores from '../lib/connectToStores.jsx'
+import Logo from './logo.jsx'
 import moment from 'moment'
+import paramsFor from '../lib/paramsFor'
+import StoryCell from './Story/StoryCell.jsx'
+import Table from '../ui/Table.jsx'
 
 @connectToStores(AdminStore)
 export default class Admin extends React.Component {
   static getPropsFromStores() {
     return {
       changelogs: AdminStore.changelogs,
-      users: AdminStore.users
+      users: AdminStore.users,
+      stories: AdminStore.stories
     }
   }
 
@@ -22,8 +27,26 @@ export default class Admin extends React.Component {
         {this.renderTable()}
         <h1>Newest 20 Users</h1>
         {this.renderUsers()}
+
+        <h1>Latest 20 Stories</h1>
+        {this.renderStories()}
       </div>
     )
+  }
+
+  renderStories() {
+    const { stories } = this.props
+    if (stories === null) {
+      return
+    }
+    return stories.map(story => {
+      console.log(story)
+      return (
+        <Table.Cell key={story.id} to="story" params={paramsFor.story({slug: story.changelog.slug}, story)} image={<Logo changelog={story.changelog} size="1.5rem" />}>
+          <StoryCell story={story} slim={true} />
+        </Table.Cell>
+      )
+    })
   }
 
   renderTable() {

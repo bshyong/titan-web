@@ -1,5 +1,6 @@
 import {
   ADMIN_DATA_FETCHED,
+  ADMIN_STORIES_FETCHED,
   ADMIN_USERS_DATA_FETCHED
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
@@ -10,6 +11,7 @@ class AdminStore extends Store {
     super()
     this._changelogs = []
     this._users = []
+    this._stories = []
 
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
@@ -18,6 +20,9 @@ class AdminStore extends Store {
           break;
         case ADMIN_USERS_DATA_FETCHED:
           this._users = action.users
+          break;
+        case ADMIN_STORIES_FETCHED:
+          this._stories = action.stories
           break;
         default:
           return
@@ -32,6 +37,10 @@ class AdminStore extends Store {
 
   get users() {
     return this._users
+  }
+
+  get stories() {
+    return this._stories
   }
 
 }

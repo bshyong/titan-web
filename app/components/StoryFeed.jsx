@@ -8,6 +8,7 @@ import ClickablePaginator from '../ui/ClickablePaginator.jsx'
 import connectToStores from '../lib/connectToStores.jsx'
 import Icon from '../ui/Icon.jsx'
 import LoadingBar from '../ui/LoadingBar.jsx'
+import Logo from './logo.jsx'
 import moment from '../config/moment'
 import paramsFor from '../lib/paramsFor'
 import React from 'react'
@@ -22,7 +23,7 @@ import FeedStoryStore from '../stores/feed_story_store'
 import Table from '../ui/Table.jsx'
 import TextareaAutosize from 'react-textarea-autosize'
 import UpvoteToggler from './UpvoteToggler.jsx'
-import Logo from './logo.jsx'
+
 
 @connectToStores(FeedStoryStore)
 export default class StoryFeed extends React.Component {
