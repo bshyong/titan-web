@@ -27,6 +27,7 @@ import SingleDateChangelogPage from '../pages/SingleDateChangelogPage.jsx'
 import StoryComposer from '../components/story_composer.js.jsx'
 import StoryPage from '../pages/StoryPage.jsx'
 import UserPage from '../pages/UserPage.jsx'
+import ChangelogOnboardingPage from '../pages/ChangelogOnboardingPage.jsx'
 
 export default (
   <Route handler={AppPage} name="root" path="/">
@@ -35,7 +36,9 @@ export default (
 
     <Route handler={AdminPage} path="/admin" />
     <Route handler={HomePage} path="/home" />
-    <Route handler={NewChangelogPage} path="/new" name="newChangelog" />
+
+    <Route handler={ChangelogOnboardingPage} path="/new" name="newChangelog" />
+
     <Route handler={SigninSSO} path="/signin/sso" name="sso" />
     <Route handler={UserPage} path="/users/:userId" name="profile" />
     <Route handler={FeedPage} path="/feed" name="feed" />

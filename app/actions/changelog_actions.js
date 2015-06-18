@@ -1,7 +1,5 @@
 import {
-  ANALYTICS_CHANGELOG_CREATED,
   CHANGELOGS_ALL_FETCHED,
-  CHANGELOG_CREATE_FAILED,
   CHANGELOG_CURRENT_CLEARED,
   CHANGELOG_DESTROYED,
   CHANGELOG_FETCHED,
@@ -51,25 +49,6 @@ export default {
         Dispatcher.dispatch({
           type: CHANGELOG_MEMBERSHIPS_FETCHED,
           memberships: List(resp)
-        })
-      })
-  },
-
-  create(name, tagline, slug, user_id, website, membersOnly) {
-    api.post(`changelogs`, {name: name, tagline: tagline, slug: slug, user_id: user_id, homepage: website, is_members_only: membersOnly}).
-      then(resp => {
-        Dispatcher.dispatch({
-          type: CHANGELOG_FETCHED,
-          changelog: resp
-        })
-        RouterContainer.get().transitionTo('new', {changelogId: resp.slug}, {type: 'helloWorld'})
-        segment.track(ANALYTICS_CHANGELOG_CREATED, {
-          changelogId: resp.slug
-        })
-      }).catch(resp => {
-        Dispatcher.dispatch({
-          type: CHANGELOG_CREATE_FAILED,
-          errors: resp
         })
       })
   },

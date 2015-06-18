@@ -155,7 +155,7 @@ export default {
     })
   },
 
-  publish(changelogId, data) {
+  publish(changelogId, data, shouldTransition = true, successCallback = (() => {})) {
     Dispatcher.dispatch({
       type: STORY_CREATING
     })
@@ -168,7 +168,10 @@ export default {
           story: story,
           changelogId: changelogId
         })
-        RouterContainer.get().transitionTo('story', story.urlParams)
+        successCallback()
+        if (shouldTransition) {
+          RouterContainer.get().transitionTo('story', story.urlParams)
+        }
       })
   },
 

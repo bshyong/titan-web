@@ -113,6 +113,7 @@ class Notification extends React.Component {
 
   renderNewFollower() {
     const { notification: { changelog } } = this.props
+
     return (
       <div className="flex-auto">
         {this.renderDescription()} {changelog.name}

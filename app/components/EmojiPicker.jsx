@@ -70,32 +70,16 @@ export default class EmojiPicker extends React.Component {
     }
   }
 
-  renderInspirationLink() {
-    const style = {
-      fontSize: 12,
-    }
-    return (
-      <div style={style} className="mt1">
-        <a href="http://www.emoji-cheat-sheet.com/" target="_blank">
-          Need a ✋?
-        </a>
-      </div>
-    )
-  }
-
   render() {
     return (
-      <div>
-        <div className="flex">
-          <input className="p1 field-light border-silver"
-            placeholder="Badge"
-            onBlur={this.toggleFocus}
-            onFocus={this.toggleFocus}
-            value={this.props.selectedEmojiName}
-            onChange={this.handleChange} />
-          {this.renderEmojis()}
-        </div>
-        {this.renderInspirationLink()}
+      <div className="flex">
+        <input className="p1 field-light border-silver"
+          placeholder="Emoji"
+          onBlur={this.toggleFocus}
+          onFocus={this.toggleFocus}
+          value={this.props.selectedEmojiName}
+          onChange={this.handleChange} />
+        {this.renderEmojis()}
       </div>
     )
   }

@@ -1,9 +1,10 @@
 import {
+  EMOJI_SELECTED,
+  HIGHLIGHT_USED,
   STORY_FETCHED,
   STORY_FORM_CHANGE,
   STORY_FORM_CLEAR,
   STORY_PUBLISHED,
-  HIGHLIGHT_USED
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import EMOJI_REGEX from '../lib/emoji_regex'
@@ -29,6 +30,10 @@ class StoryFormStore extends Store {
           this.body = action.fields.body
           this.contributors = action.fields.contributors
           this.isPublic = action.fields.isPublic
+          break
+
+        case EMOJI_SELECTED:
+          this.emoji_id = action.selectedEmoji.id
           break
 
         case STORY_FORM_CLEAR:
@@ -62,11 +67,22 @@ class StoryFormStore extends Store {
     this.body  = ''
     this.contributors = ''
     this.isPublic = true
+    this.emoji_id = ''
   }
 
   isValid() {
     const title = this.title.replace(EMOJI_REGEX, '').replace(/ /g, '')
     return title && title.length > 0
+  }
+
+  get data() {
+    return {
+      title: this.title,
+      body: this.body,
+      contributors: this.contributors,
+      isPublic: this.isPublic,
+      emoji_id: this.emoji_id,
+    }
   }
 }
 
