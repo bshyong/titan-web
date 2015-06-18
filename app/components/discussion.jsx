@@ -32,6 +32,7 @@ export default class Discussion extends React.Component {
   }
 
   render() {
+    const { loading, story } = this.props
     return (
       <div>
         <div className="flex py1 border-bottom gray h5 px2 sm-px0">
@@ -39,17 +40,17 @@ export default class Discussion extends React.Component {
             {pluralize(this.props.commentsCount, 'Comment', 'Comments')}
           </div>
           <div className="flex-none">
-            <SubscribeStoryButton story={this.props.story} />
+            <SubscribeStoryButton story={story} />
           </div>
         </div>
 
         <div className="px2 sm-px0">
           {this.renderComments()}
         </div>
-        <LoadingBar loading={this.props.loading} />
+        <LoadingBar loading={loading} />
 
         <div className="p2 md-px0">
-          <CommentForm storyId={this.props.storyId} changelogId={this.props.changelogId}/>
+          <CommentForm storyId={story.slug} changelogId={this.props.changelogId}/>
         </div>
       </div>
     )
@@ -59,7 +60,7 @@ export default class Discussion extends React.Component {
     return this.props.comments.map(comment =>
       <div className="py2" key={comment.id}>
         <Comment comment={comment}
-                 storyId={this.props.storyId}
+                 storyId={this.props.story.slug}
                  changelogId={this.props.changelogId} />
       </div>
     )
