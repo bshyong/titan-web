@@ -16,6 +16,11 @@ class ProfileStoriesStore extends Store {
     this.dispatchToken = Dispatcher.register(action => {
       switch (action.type) {
         case PROFILE_STORIES_FETCHED:
+
+          if (action.page === 1) {
+            this._stories = Map()
+          }
+
           this._pagination.moreAvailable = action.moreAvailable
           this._pagination.page = action.page
           this._stories = this._stories.merge(action.stories.reduce((m, story) => {
