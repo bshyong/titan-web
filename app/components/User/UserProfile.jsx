@@ -47,7 +47,6 @@ export default class ProfilePage extends React.Component {
     return (
       <div>
         <UserCell user={user} />
-
         <div className="full-width overflow-hidden">
           <Divider />
         </div>
