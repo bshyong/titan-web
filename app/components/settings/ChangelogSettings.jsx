@@ -147,6 +147,7 @@ export default class ChangelogSettings extends React.Component {
     let homepage = React.findDOMNode(this.refs.homepage).value
     this.setState({saved: true})
     ChangelogActions.update(this.props.changelogId, {slug: this.props.changelogId, name: name, tagline: tagline, logo_url: logo, banner_url: banner, homepage: homepage})
+    RouterContainer.get().transitionTo('changelog', {changelogId: this.props.changelogId})
   }
 
   renderNameChanger() {
