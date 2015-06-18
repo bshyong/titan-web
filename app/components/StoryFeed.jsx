@@ -22,7 +22,7 @@ import FeedStoryStore from '../stores/feed_story_store'
 import Table from '../ui/Table.jsx'
 import TextareaAutosize from 'react-textarea-autosize'
 import UpvoteToggler from './UpvoteToggler.jsx'
-import Logo from './Logo.jsx'
+import Logo from './logo.jsx'
 
 @connectToStores(FeedStoryStore)
 export default class StoryFeed extends React.Component {
