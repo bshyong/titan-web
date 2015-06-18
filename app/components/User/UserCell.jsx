@@ -1,5 +1,6 @@
 import Avatar from '../../ui/Avatar.jsx'
 import React from 'react'
+import SessionStore from '../../stores/session_store'
 
 export default class UserCell extends React.Component {
 
@@ -25,8 +26,20 @@ export default class UserCell extends React.Component {
           <h2 className="mt0 mb0 bold">{user.username}</h2>
           {this.renderBlurb.bind(this)()}
         </div>
+          {this.renderEmail()}
       </div>
     )
+  }
+
+  renderEmail() {
+    const { user } = this.props
+    if (SessionStore.user) {
+      if (SessionStore.user.staff_at !== null) {
+        return (
+          user.email
+        )
+      }
+    }
   }
 
   renderBlurb() {
