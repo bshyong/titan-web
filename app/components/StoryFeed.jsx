@@ -22,6 +22,7 @@ import FeedStoryStore from '../stores/feed_story_store'
 import Table from '../ui/Table.jsx'
 import TextareaAutosize from 'react-textarea-autosize'
 import UpvoteToggler from './UpvoteToggler.jsx'
+import Logo from './Logo.jsx'
 
 @connectToStores(FeedStoryStore)
 export default class StoryFeed extends React.Component {
@@ -41,12 +42,9 @@ export default class StoryFeed extends React.Component {
       StoryActions.fetchUserFirehoseFeed(username, page + 1, 25)
 
     return (
-      <div className="container">
-        <h3 className="px2 md-px0 py2 caps gray h2 border-bottom">Top Posts</h3>
-        <div className="sm-col-8">
-          {this.renderStories()}
-          <ScrollPaginator page={page} onScrollBottom={nextPage} />
-        </div>
+      <div>
+        {this.renderStories()}
+        <ScrollPaginator page={page} onScrollBottom={nextPage} />
       </div>
     )
   }
@@ -59,8 +57,8 @@ export default class StoryFeed extends React.Component {
           <ClickablePaginator>
           {stories.sortBy(s => s.created_at).reverse().map(story => {
               return (
-                <Table.Cell key={story.id} to="story" params={paramsFor.story({slug: story.changelog_slug}, story)}>
-                  <StoryCell story={story} showChangelog={true} hideContributors={true} />
+                <Table.Cell key={story.id} to="story" params={paramsFor.story({slug: story.changelog.slug}, story)} image={<Logo changelog={story.changelog} size="1.5rem" />}>
+                  <StoryCell story={story} slim={true} />
                 </Table.Cell>
               )
             })}

@@ -6,19 +6,19 @@ import Icon from '../../ui/Icon.jsx'
 import React from 'react'
 import Stack from '../../ui/Stack.jsx'
 import Table from '../../ui/Table.jsx'
+import Logo from '../Logo.jsx'
 
 export default class StoryCell extends React.Component {
   render() {
     const { story } = this.props
     return (
       <div className="flex">
-        {this.renderChangelog(story)}
-        <div className="flex-none mr2">
-          <Badge badge={story.emoji} size="1.5rem" />
-        </div>
+        {this.renderBadge()}
+
         <div className="flex-auto">
           {story.team_member_only ? <Icon icon="lock" /> : null} {story.title}
         </div>
+
         {this.renderContributors()}
 
         <div className="flex-none sm-show ml2">
@@ -34,51 +34,40 @@ export default class StoryCell extends React.Component {
     )
   }
 
-  renderChangelog(story) {
-    let size = 24
-    if (this.props.showChangelog) {
-      if (story.changelog_logo !=null) {
-        return (
-          <div className="flex-none mx-auto">
-            <img className="mr1 ml1 block rounded" src={story.changelog_logo} size={size} style={{width: size, height: size, outline: 'none'}} />
-            <div className="gray h6">
-              {story.changelog_name}
-            </div>
-            <div className="gray h6 sm-col-8">
-              {story.changelog_tagline}
-            </div>
-          </div>
-        )
-      } else {
-        return (
-          <div className="flex-none mx-auto">
-            <img className="mr2 ml1 block rounded" size={size} style={{width: size, height: size, outline: 'none'}} />
-            <div className="gray h6">
-
-            </div>
-            <div className="gray h6 sm-col-8">
-
-            </div>
-          </div>
-        )
-      }
-
+  renderBadge() {
+    if (this.props.slim) {
+      return
     }
+
+    const { story } = this.props
+
+    return (
+      <div className="flex-none mr2">
+        <Badge badge={story.emoji} size="1.5rem" />
+      </div>
+    )
   }
 
   renderContributors() {
     const { story, story: { contributors } } = this.props
-    if (this.props.hideContributors !== true) {
-      return (
-        <div className="flex-none sm-show ml2">
-          <Stack items={List(contributors).map(user => <Avatar user={user} size={24} />)} align="right" />
-        </div>
-      )
+
+    if (this.props.slim) {
+      return
     }
+
+    return (
+      <div className="flex-none sm-show ml2">
+        <Stack items={List(contributors).map(user => <Avatar user={user} size={24} />)} align="right" />
+      </div>
+    )
   }
 }
 
 StoryCell.propTypes = {
   story: React.PropTypes.object.isRequired,
-  hideContributors: React.PropTypes.bool
+  slim: React.PropTypes.bool.isRequired,
+}
+
+StoryCell.defaultProps = {
+  slim: false,
 }

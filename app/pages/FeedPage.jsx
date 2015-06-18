@@ -23,7 +23,10 @@ export default class FeedPage extends React.Component {
     } else {
       return <div>
         <ApplicationNavbar />
-        <StoryFeed />
+        <div className="container">
+          <h1 className="caps border-bottom center py2 mt4 mb4">The <span className="blue">Long</span> Log</h1>
+          <StoryFeed />
+        </div>
       </div>
     }
   }
