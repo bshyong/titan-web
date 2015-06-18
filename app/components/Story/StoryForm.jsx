@@ -62,13 +62,13 @@ export default class NewStoryForm extends React.Component {
       <div>
         <div className="mb3">
           <TextareaAutosize
-            className="field-light block full-width h2"
-            placeholder="What did your team do this week?"
+            className="field-light block full-width h2 border-bottom"
+            placeholder="What did your team do lately?"
             value={title}
             onChange={this.handleChanged('title').bind(this)}
             ref="title"
             rows={2} />
-          <p className="mt1 h5 gray">Features, bug fixes, designs are all fair game.</p>
+          <p className="mt1 h5">Features, bug fixes, designs are all fair game.</p>
         </div>
 
         <div className="mb3">

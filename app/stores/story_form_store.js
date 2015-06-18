@@ -68,6 +68,15 @@ class StoryFormStore extends Store {
     const title = this.title.replace(EMOJI_REGEX, '').replace(/ /g, '')
     return title && title.length > 0
   }
+
+  get data() {
+    return {
+      title: this.title,
+      body: this.body,
+      contributors: this.contributors,
+      isPublic: this.isPublic
+    }
+  }
 }
 
 function flattenUsers(users) {

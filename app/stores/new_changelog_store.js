@@ -70,6 +70,10 @@ class NewChangelogStore extends Store {
     return this._isCreating
   }
 
+  get isValid() {
+    return this._nameValid && this._slugValid
+  }
+
   get nameValid() {
     return this._nameValid
   }
