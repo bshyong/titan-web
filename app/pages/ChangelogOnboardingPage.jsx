@@ -53,7 +53,7 @@ export default class ChangelogOnboardingPage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      slide: 1
+      slide: 0
     }
     this.goToSlide = this._goToSlide.bind(this)
   }
