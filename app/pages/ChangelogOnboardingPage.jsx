@@ -50,7 +50,7 @@ export default class ChangelogOnboardingPage extends React.Component {
   }
 
   handleChangelogCreation() {
-    NewChangelogActions.create(this.goToSlide.bind(this, 1))
+    NewChangelogActions.create(this.goToSlide(1))
   }
 
   render() {

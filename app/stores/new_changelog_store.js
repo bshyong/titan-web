@@ -39,7 +39,8 @@ class NewChangelogStore extends Store {
             this._errors = this._errors.set("slug", action.errors["slug"])
           }
           if (action.errors["param"] === "name") {
-            this._errors = this._errors.set("name", "invalid name")
+            this._nameValid = false
+            this._errors = this._errors.set("name", "can't be blank")
           }
           this.emitChange()
           break

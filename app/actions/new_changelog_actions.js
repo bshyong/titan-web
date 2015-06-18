@@ -31,6 +31,7 @@ export default {
         segment.track(ANALYTICS_CHANGELOG_CREATED, {
           changelogId: resp.slug
         })
+
         successCallback()
       }).catch(resp => {
         Dispatcher.dispatch({

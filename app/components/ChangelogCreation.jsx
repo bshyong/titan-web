@@ -110,7 +110,7 @@ export default class ChangelogCreation extends React.Component {
       'is-error': !nameValid
     })
 
-    const nameErrorText = nameValid ? '&nbsp;' : NewChangelogStore.errors.name || "invalid name"
+    const nameErrorText = nameValid ? '&nbsp;' : NewChangelogStore.errors.name || "can't be blank"
 
     return (
       <div className="mb2">
