@@ -27,7 +27,7 @@ Avatar.propTypes = {
   user: React.PropTypes.shape({
     username: React.PropTypes.string.isRequired,
     avatar_url: React.PropTypes.string.isRequired,
-    flair_url: React.PropTypes.string.isRequired
+    flair_url: React.PropTypes.string
   }).isRequired,
   size: React.PropTypes.number.isRequired,
   flaired: React.PropTypes.bool.isRequired,
