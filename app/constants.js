@@ -18,6 +18,7 @@ export default keyMirror({
 
   API_ERROR: null,
 
+  CHANGELOG_CREATING: null,
   CHANGELOG_CREATE_FAILED: null,
   CHANGELOG_CURRENT_CLEARED: null,
   CHANGELOG_DESTROYED: null,
@@ -26,6 +27,7 @@ export default keyMirror({
   CHANGELOG_MEMBERSHIPS_FETCHED: null,
   CHANGELOG_UNFOLLOWED: null,
   CHANGELOG_UPDATED: null,
+  CHANGELOG_FORM_CHANGED: null,
 
   CHANGELOGS_ALL_FETCHED: null,
 

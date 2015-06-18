@@ -36,7 +36,9 @@ export default (
 
     <Route handler={AdminPage} path="/admin" />
     <Route handler={HomePage} path="/home" />
-    <Route handler={NewChangelogPage} path="/new" name="newChangelog" />
+
+    <Route handler={ChangelogOnboardingPage} path="/new" name="newChangelog" />
+
     <Route handler={SigninSSO} path="/signin/sso" name="sso" />
     <Route handler={UserPage} path="/users/:userId" name="profile" />
     <Route handler={FeedPage} path="/feed" name="feed" />
@@ -47,8 +49,6 @@ export default (
     </Route>
 
     <Route handler={DashboardPage} path="/dashboard" name="dashboard" />
-
-    <Route handler={ChangelogOnboardingPage} path="/:changelogId/welcome" name="onboarding" />
 
     <Route handler={ChangelogLayout} path="/:changelogId">
       <DefaultRoute handler={ChangelogByDatePage} name="changelog" />

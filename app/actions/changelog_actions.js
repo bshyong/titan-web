@@ -8,6 +8,7 @@ import {
   CHANGELOG_MEMBERSHIPS_FETCHED,
   CHANGELOG_UPDATED,
   CHANGELOGS_ALL_FETCHED,
+  CHANGELOG_CREATING,
 } from '../constants'
 import {List} from 'immutable'
 
@@ -55,17 +56,22 @@ export default {
       })
   },
 
-  create(name, tagline, slug, user_id, website, membersOnly) {
+  create(name, tagline, slug, user_id, website, membersOnly, successCallback=(() => {})) {
+    Dispatcher.dispatch({
+      type: CHANGELOG_CREATING,
+      changelog: resp
+    })
+
     api.post(`changelogs`, {name: name, tagline: tagline, slug: slug, user_id: user_id, homepage: website, is_members_only: membersOnly}).
       then(resp => {
         Dispatcher.dispatch({
           type: CHANGELOG_FETCHED,
           changelog: resp
         })
-        RouterContainer.get().transitionTo('new', {changelogId: resp.slug}, {type: 'helloWorld'})
         segment.track(ANALYTICS_CHANGELOG_CREATED, {
           changelogId: resp.slug
         })
+        successCallback()
       }).catch(resp => {
         Dispatcher.dispatch({
           type: CHANGELOG_CREATE_FAILED,
