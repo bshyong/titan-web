@@ -7,6 +7,8 @@ import Button from '../ui/Button.jsx'
 import ChangelogCreation from '../components/ChangelogCreation.jsx'
 import StoryForm from '../components/Story/StoryForm.jsx'
 
+import NewChangelogActions from '../actions/new_changelog_actions'
+
 class Slide extends React.Component {
   render() {
     const { active, children, next, title, onNext } = this.props
@@ -48,7 +50,7 @@ export default class ChangelogOnboardingPage extends React.Component {
   }
 
   handleChangelogCreation() {
-
+    NewChangelogActions.create(this.goToSlide.bind(this, 1))
   }
 
   render() {
@@ -60,7 +62,7 @@ export default class ChangelogOnboardingPage extends React.Component {
           next="Next"
           onNext={this.handleChangelogCreation.bind(this)}
           active={slide === 0}>
-            <ChangelogCreation successCallback={this.goToSlide.bind(this, 1)}/>
+            <ChangelogCreation />
         </Slide>
         <Slide title="Fill out your new changelog" next="Ok, got it!" active={slide === 1} onNext={this.goToSlide(2)}>
           <p className="h3 mb3 gray">

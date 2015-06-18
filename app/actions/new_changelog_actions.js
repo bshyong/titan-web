@@ -12,16 +12,17 @@ import api from '../lib/api'
 import RouterContainer from '../lib/router_container'
 import SessionStore from '../stores/session_store'
 import segment from '../lib/segment'
+import NewChangelogStore from '../stores/new_changelog_store'
 
 export default {
+  create(successCallback=(() => {})) {
+    const changelog = NewChangelogStore.changelog
 
-  create(name, tagline, slug, user_id, website, membersOnly, successCallback=(() => {})) {
     Dispatcher.dispatch({
-      type: CHANGELOG_CREATING,
-      changelog: resp
+      type: CHANGELOG_CREATING
     })
 
-    api.post(`changelogs`, {name: name, tagline: tagline, slug: slug, user_id: user_id, homepage: website, is_members_only: membersOnly}).
+    api.post(`changelogs`, changelog).
       then(resp => {
         Dispatcher.dispatch({
           type: CHANGELOG_FETCHED,
