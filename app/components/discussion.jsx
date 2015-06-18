@@ -18,9 +18,8 @@ export default class Discussion extends React.Component {
   static getPropsFromStores(props) {
     return {
       comments: CommentsStore.all(),
-      commentsCount: GroupedStoriesStore.getCommentsCount(props.storyId),
+      commentsCount: GroupedStoriesStore.getCommentsCount(props.story.slug),
       loading: CommentsStore.loading,
-      story: GroupedStoriesStore.get(props.storyId)
     }
   }
 
@@ -87,6 +86,6 @@ export default class Discussion extends React.Component {
 }
 
 Discussion.propTypes = {
-  storyId: React.PropTypes.string.isRequired,
+  story: React.PropTypes.object.isRequired,
   changelogId: React.PropTypes.string.isRequired,
 }
