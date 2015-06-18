@@ -144,8 +144,9 @@ export default class ChangelogSettings extends React.Component {
     let tagline = eltagline.value
     let logo = React.findDOMNode(this.refs.logo).value
     let banner = React.findDOMNode(this.refs.banner).value
+    let homepage = React.findDOMNode(this.refs.homepage).value
     this.setState({saved: true})
-    ChangelogActions.update(this.props.changelogId, {slug: this.props.changelogId, name: name, tagline: tagline, logo_url: logo, banner_url: banner})
+    ChangelogActions.update(this.props.changelogId, {slug: this.props.changelogId, name: name, tagline: tagline, logo_url: logo, banner_url: banner, homepage: homepage})
   }
 
   renderNameChanger() {
