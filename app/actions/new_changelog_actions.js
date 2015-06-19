@@ -42,17 +42,6 @@ export default {
       })
   },
 
-  fetchMemberships() {
-    const changelog = NewChangelogStore.changelog
-    api.get('changelogs/${changelogId}/memberships').
-      then(resp => {
-        Dispatcher.dispatch({
-          type: MEMBERSHIP_UPDATED,
-          memberships: Map(resp)
-        })
-      })
-  },
-
   formChange(field, value) {
     Dispatcher.dispatch({
       type: CHANGELOG_FORM_CHANGED,
