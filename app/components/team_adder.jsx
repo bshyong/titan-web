@@ -35,6 +35,7 @@ export default class TeamAdder extends React.Component {
   }
 
   render() {
+    console.log(this.props.coreMemberships)
     return (
       <div className="mb2">
         {this.props.coreMemberships.map(m => (
