@@ -124,7 +124,7 @@ export default class ChangelogOnboardingPage extends React.Component {
 
           <StoryForm />
         </Slide>
-        <Slide title="Start with 3 posts: 3 of 3" next="Check out your new changelog" active={slide === 4} onNext={this.goToSlide(5)} onNextValid={StoryFormStore.isValid()} >
+        <Slide title="Start with 3 posts: 3 of 3" next="Invite Friends" active={slide === 4} onNext={this.goToSlide(5)} onNextValid={StoryFormStore.isValid()} >
 
           <div className="mb4">
 
@@ -138,7 +138,7 @@ export default class ChangelogOnboardingPage extends React.Component {
           <StoryForm />
         </Slide>
 
-        <Slide title="Add your Team Members" active={slide === 5} next={"Invite Colleagues"} onNext={this.handleStoryCreation(this.handleTransitionToChangelog())}>
+        <Slide title="Add your Team Members" active={slide === 5} next={"Check out your new changelog"} onNext={this.handleStoryCreation(this.handleTransitionToChangelog())}>
           <TeamAdder />
         </Slide>
 
