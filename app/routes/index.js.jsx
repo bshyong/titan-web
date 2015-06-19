@@ -54,9 +54,9 @@ var internal = (
     <Route handler={ChangelogPage} path="/:changelogId/?">
       <DefaultRoute handler={ChangelogByDatePage} name="changelog" />
 
-      <Route handler={ChangelogBySetsPage} name="changelog_by_sets" path="sets" />
+      <Route handler={ChangelogBySetsPage} name="changelog_by_sets" path="sets/?" />
 
-      <Route handler={EditStoryForm} path=":storyId/edit" name="edit" />
+      <Route handler={EditStoryForm} path=":storyId/edit/?" name="edit" />
 
       <Route handler={StoryComposer} path="new">
         <DefaultRoute handler={NewStoryPage} name="new" />
@@ -64,9 +64,9 @@ var internal = (
         <Route handler={HighlightPicker} path="highlights/?:filter?" name="highlights" />
       </Route>
 
-      <Route handler={StoryPage} path=":year/:month/:day/:storyId" name="story" />
-      <Route handler={StoryPage} path=":year/:month/:day/:storyId#:commentId" name="storyWithComment" />
-      <Route handler={SingleDateChangelogPage} path="date/:date/:timeInterval" name="changelog_date" />
+      <Route handler={StoryPage} path=":year/:month/:day/:storyId/?" name="story" />
+      <Route handler={StoryPage} path=":year/:month/:day/:storyId#:commentId/?" name="storyWithComment" />
+      <Route handler={SingleDateChangelogPage} path="date/:date/:timeInterval/?" name="changelog_date" />
     </Route>
   </Route>
 )
@@ -75,11 +75,11 @@ var internal = (
 var external = (
   <Route handler={AppPage} name="root" path="/">
     <Route handler={ChangelogPage}>
-      <Route handler={SigninSSO} path="/signin/sso" name="sso" />
+      <Route handler={SigninSSO} path="/signin/sso/?" name="sso" />
 
       <DefaultRoute handler={ChangelogByDatePage} name="changelog" />
 
-      <Route handler={ChangelogBySetsPage} name="changelog_by_sets" path="sets" />
+      <Route handler={ChangelogBySetsPage} name="changelog_by_sets" path="sets/?" />
 
       <Route handler={EditStoryForm} path=":storyId/edit/?" name="edit" />
 
@@ -90,7 +90,7 @@ var external = (
       </Route>
 
       <Route handler={StoryPage} path=":year/:month/:day/:storyId/?" name="story" />
-      <Route handler={StoryPage} path=":year/:month/:day/:storyId#:commentId" name="storyWithComment" />
+      <Route handler={StoryPage} path=":year/:month/:day/:storyId#:commentId/?" name="storyWithComment" />
       <Route handler={SingleDateChangelogPage} path="date/:date/:timeInterval/?" name="changelog_date" />
     </Route>
   </Route>
