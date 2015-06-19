@@ -67,13 +67,13 @@ export default class ChangelogOnboardingPage extends React.Component {
     return (
       <div>
         <Slide
-          title="Start a Changelog"
+          title="Start a new Changelog"
           next="Next"
           onNext={this.handleChangelogCreation.bind(this)}
           onNextValid={NewChangelogStore.isValid}
           active={slide === 0}>
             <div className="mb4 center">
-              Record what you and your team have accomplished, from fixing bugs and releasing new features, to organizational updates
+              Changelogs make it easy to share what you and your team have accomplished, from fixing bugs and releasing new features, to organizational updates.
             </div>
             <ChangelogCreation />
         </Slide>

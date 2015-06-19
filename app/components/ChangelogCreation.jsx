@@ -41,35 +41,8 @@ export default class ChangelogCreation extends React.Component {
     return (
       <div className="md-col-8 mx-auto">
         {this.renderNameField()}
-        <div className="mb3">
-          <label htmlFor="new-changelog-tagline">Tagline</label>
-          <input type="text"
-            id="new-changelog-tagline"
-            className="field-light full-width block"
-            placeholder="Describe your Changelog"
-            onChange={this.handleFormChange.bind(this, 'tagline')}
-            ref="name"
-            style={{
-              fontSize: '1rem',
-              height: 'auto'
-            }} />
-        </div>
-
         {this.renderSlugField()}
-
-        <div className="mb3">
-          <label htmlFor="new-changelog-website-url">Website</label>
-          <input type="text"
-            id="new-changelog-website-url"
-            className="field-light block full-width"
-            placeholder="External URL (optional)"
-            onChange={this.handleFormChange.bind(this, 'website')}
-            ref="name"
-            style={{
-              fontSize: '1rem',
-              height: 'auto'
-            }} />
-        </div>
+		{this.renderDescriptionField()}
 
         <div className="mb3">
           {this.renderVisibilitySettings()}
@@ -84,16 +57,17 @@ export default class ChangelogCreation extends React.Component {
     return (
       <div className="flex flex-center py2">
         <div className="flex-auto">
-          <h4 className="mt0 mb0">Your Changelog is {is_members_only ? 'private' : 'public'}</h4>
+          <h4 className="mt0 mb0">Choose who can see your Changelog</h4>
           <p className="mb0 gray">
             {
-              is_members_only ? "Only members can see this Changelog" : "Anybody may follow this Changelog"
+              is_members_only ? "Make it private. Only those you invite will be able to see and comment on it. You can change this later." : "Make it public. Anyone will be able to see it, follow it, and comment on it. You can change this later."
             }
           </p>
-        </div>
         <div>
           <Switch switched={!is_members_only} onSwitched={this.toggleVisibility.bind(this)} />
         </div>
+        </div>
+			
       </div>
     )
   }
@@ -107,22 +81,39 @@ export default class ChangelogCreation extends React.Component {
     NewChangelogActions.formChange('is_members_only', !changelog.is_members_only)
   }
 
+  renderDescriptionField(){
+  return (<div className="mb3">
+    <label htmlFor="new-changelog-tagline">Tell everyone what its about</label>
+    <textarea
+      id="new-changelog-tagline"
+      className="field-light full-width block"
+      placeholder="5 words or less is best"
+      onChange={this.handleFormChange.bind(this, 'tagline')}
+      ref="name"
+      style={{
+        fontSize: '1rem',
+        height: 'auto'
+      }} />
+  </div>)
+  	
+  }
+
   renderNameField() {
     const nameValid = NewChangelogStore.nameValid
     const cs = classnames("flex full-width field-light", {
       'is-error': !nameValid
     })
 
-    const nameErrorText = nameValid ? '&nbsp;' : NewChangelogStore.errors.name || "Oops. Name can't be blank"
+    const nameErrorText = nameValid ? '&nbsp;' : NewChangelogStore.errors.name || "We share your excitment but we need a name first."
 
     return (
       <div className="mb2">
-        <label htmlFor="new-changelog-name">Name</label>
+        <label htmlFor="new-changelog-name">Name your changelog</label>
         <div className={cs} style={{height: 'auto'}}>
           <input type="text"
             id="new-changelog-name"
             className="field-light full-width block"
-            placeholder="Your Changelog name"
+            placeholder="now's your chance to be memorable"
             onChange={this.handleFormChange.bind(this, 'name')}
             ref="name"
             style={{height: 'auto'}} />
@@ -138,19 +129,19 @@ export default class ChangelogCreation extends React.Component {
       'is-error': !slugValid
     })
 
-    const slugErrorText = slugValid ? '&nbsp;' : NewChangelogStore.errors.slug || "Oops. Slug can't be blank"
+    const slugErrorText = slugValid ? '&nbsp;' : NewChangelogStore.errors.slug || "You'll want this later, it can't be blank."
 
     return (
       <div className="mb2">
-        <label htmlFor="new-changelog-url">changelog.assembly.com/..</label>
+        <label htmlFor="new-changelog-url">Your address</label>
         <div className={cs} style={{height: 'auto'}}>
           <input type="text"
             id="new-changelog-url"
             className="field-light block full-width"
-            placeholder="Your Changelog slug"
+            placeholder="slug"
             value={NewChangelogStore.slug}
             onChange={this.handleFormChange.bind(this, 'slug')}
-            ref="tagline"
+            ref="slug"
             style={{
               height: 'auto'
             }} />
