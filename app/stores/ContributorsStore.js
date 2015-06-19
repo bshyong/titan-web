@@ -4,7 +4,8 @@ import {
   CONTRIBUTORS_STRING_RECEIVED,
   CONTRIBUTORS_SUGGESTED,
   USER_PICKER_USER_SELECTED,
-  USER_SIGNIN
+  USER_SIGNIN,
+  STORY_FETCHED,
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import EMAIL_REGEX from '../lib/email_regex'
@@ -34,6 +35,15 @@ class ContributorsStore extends Store {
 
     this.dispatchToken = Dispatcher.register(action => {
       switch (action.type) {
+        case STORY_FETCHED:
+          this._tokens = List([])
+          action.story.contributors.forEach(c => {
+            this._tokens = this._tokens.push({
+              type: 'contributor',
+              string: `@${c.username}`
+            })
+          })
+          break
         case CONTRIBUTORS_KEYDOWN:
           this._lastInvalidToken = null
           if (!this._currentMatch && !this._tokens.isEmpty() && action.event.keyCode === KEYCODES.BACKSPACE) {
