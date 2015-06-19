@@ -20,11 +20,12 @@ class NewChangelogStore extends Store {
     this._nameValid = true
     this._slugValid = true
     this._modified = false
-    this._memberships = Map()
+    this._memberships = List()
 
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
         case CHANGELOG_CREATING:
+          this._memberships = List()
           this._isCreating = true
           this.emitChange()
           break
@@ -52,8 +53,14 @@ class NewChangelogStore extends Store {
           this.emitChange()
           break
         case MEMBERSHIP_UPDATED:
-          console.log('newchangelogstore membership updated', action.membership)
-          this._memberships = this._memberships.merge(action.membership)
+          if (action.membership.is_core) {
+            this._memberships = this._memberships.push(action.membership)
+          } else {
+            let m = this._memberships.find(m => m.user.username == action.userId)
+            this._memberships.delete(m)
+          }
+
+          this.emitChange()
           break
         case NEW_CHANGELOG_MEMBERSHIPS_FETCHED:
           this._memberships = action.memberships

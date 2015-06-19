@@ -19,11 +19,6 @@ import PostSetActions from '../actions/PostSetActions'
 
 @connectToStores(NewChangelogStore)
 export default class TeamAdder extends React.Component {
-  static willTransitionTo(transition, params) {
-    console.log(this.props.changelogId)
-    console.log("TRANSTON")
-    NewChangelogActions.fetchMemberships(this.props.changelogId)
-  }
 
   static getPropsFromStores(props) {
     return {
@@ -34,24 +29,27 @@ export default class TeamAdder extends React.Component {
 
   render() {
     const { memberships } = this.props
-    console.log('team adder component memberships', memberships)
     return (
       <div className="mb2">
-        {memberships.map(m => (
-          <div className="flex flex-center px2 py1 bg-smoke-hover visible-hover-wrapper" key={m.id}>
-            <div>
-              <Avatar user={m.user} size={16 * 2} />
-            </div>
-            <div className="flex-auto px2">
-              {m.user.username}
-            </div>
-            <div className="visible-hover">
-              <a className="pointer red" onClick={this.handleRemoveClicked(m)}>
-                <Icon icon="trash-o" />
-              </a>
-            </div>
-          </div>
-        ))}
+        {memberships.map(m => {
+          if (m.is_core) {
+            return (
+              <div className="flex flex-center px2 py1 bg-smoke-hover visible-hover-wrapper" key={m.id}>
+                <div>
+                  <Avatar user={m.user} size={16 * 2} />
+                </div>
+                <div className="flex-auto px2">
+                  {m.user.username}
+                </div>
+                <div className="visible-hover">
+                  <a className="pointer red" onClick={this.handleRemoveClicked(m)}>
+                    <Icon icon="trash-o" />
+                  </a>
+                </div>
+              </div>
+            )
+          }
+        })}
         <div className="px2 py1 visible-hover-wrapper">
           <form onSubmit={this.handleAddMember.bind(this)} className="mb3">
             <input type="text" ref="emailOrUsername"
@@ -68,7 +66,6 @@ export default class TeamAdder extends React.Component {
     e.preventDefault()
     let el = React.findDOMNode(this.refs.emailOrUsername)
     let text = el.value
-    console.log('membershipactions update params', this.props.changelogId)
     MembershipActions.update(
       this.props.changelogId,
       text, {
@@ -107,7 +104,4 @@ export default class TeamAdder extends React.Component {
     }
     return null
   }
-
-
-
 }

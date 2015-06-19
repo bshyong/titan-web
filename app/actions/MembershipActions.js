@@ -17,6 +17,7 @@ export default {
     })
 
     api.put(`changelogs/${changelogId}/members/${userId}`, change).then(resp => {
+      console.log('membership update response', resp)
       Dispatcher.dispatch({
         type: MEMBERSHIP_UPDATED,
         changelogId: changelogId,
