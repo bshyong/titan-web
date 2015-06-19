@@ -12,13 +12,6 @@ export default class ContributorsInput extends React.Component {
     }
   }
 
-  constructor(props) {
-    super(props)
-
-    this.handleChange = this._handleChange.bind(this)
-    this.handleFocus = this._handleFocus.bind(this)
-  }
-
   componentDidUpdate() {
     if (this.selectionStart) {
       React.findDOMNode(this.refs.input).
@@ -33,16 +26,16 @@ export default class ContributorsInput extends React.Component {
               ref="input"
               placeholder="Who helped out?"
               value={this.props.contributors}
-              onChange={this.handleChange}
-              onFocus={this.handleFocus} />
+              onChange={this.handleChange.bind(this)}
+              onFocus={this.handleFocus.bind(this)} />
   }
 
-  _handleChange(e) {
+  handleChange(e) {
     this.selectionStart = e.target.selectionStart
     ContributorsActions.setContributorsFromString(e.target.value)
   }
 
-  _handleFocus(e) {
+  handleFocus(e) {
     this.selectionStart = e.target.selectionStart
   }
 }

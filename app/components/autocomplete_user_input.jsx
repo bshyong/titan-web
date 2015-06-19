@@ -1,3 +1,4 @@
+import EmailInvitePopup from '../components/EmailInvitePopup.jsx'
 import MENTION_REGEX from '../lib/mention_regex'
 import noop from '../lib/noop'
 import onUserSelected from '../lib/onUserSelected'
@@ -27,7 +28,7 @@ export default class AutocompleteUserInput extends React.Component {
 
     return (
       <div className="relative">
-        {this.renderUserPicker()}
+        {this.renderPopup()}
         <input type="text"
           {...this.props}
           placeholder={placeholder}
@@ -41,18 +42,21 @@ export default class AutocompleteUserInput extends React.Component {
     )
   }
 
-  renderUserPicker() {
+  renderPopup() {
     if (!this.state.focused) {
       return
     }
 
     const value = this.props.value || ''
-    const match = MENTION_REGEX.exec(value.substr(0, this.selectionStart))
+    const mention = MENTION_REGEX.exec(value.substr(0, this.selectionStart))
+    const email = /[^ ]+@[^ +]/.exec(value.substr(0, this.selectionStart))
 
-    if (match) {
-      return <UserPicker query={match[2]}
+    if (mention) {
+      return <UserPicker query={mention[2]}
           onUserSelected={this.onUserSelected}
           maxHeight={170} />
+    } else if (email) {
+      // return <EmailInvitePopup email={email[0]} />
     }
   }
 
