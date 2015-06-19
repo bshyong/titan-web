@@ -138,7 +138,7 @@ export default class ChangelogOnboardingPage extends React.Component {
           <StoryForm />
         </Slide>
 
-        <Slide title="Add your Team Members" active={slide === 5} onNext={this.handleStoryCreation(this.handleTransitionToChangelog())}>
+        <Slide title="Add your Team Members" active={slide === 5} next={"Invite Colleagues"} onNext={this.handleStoryCreation(this.handleTransitionToChangelog())}>
           <TeamAdder />
         </Slide>
 

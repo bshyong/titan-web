@@ -4,6 +4,7 @@ import {
   CHANGELOG_FETCHED,
   CHANGELOG_FORM_CHANGED,
   CHANGELOG_CREATING,
+  MEMBERSHIP_UPDATED
 } from '../constants'
 import {List} from 'immutable'
 
@@ -37,6 +38,17 @@ export default {
         Dispatcher.dispatch({
           type: CHANGELOG_CREATE_FAILED,
           errors: resp
+        })
+      })
+  },
+
+  fetchMemberships() {
+    const changelog = NewChangelogStore.changelog
+    api.get('changelogs/${changelogId}/memberships').
+      then(resp => {
+        Dispatcher.dispatch({
+          type: MEMBERSHIP_UPDATED,
+          memberships: Map(resp)
         })
       })
   },

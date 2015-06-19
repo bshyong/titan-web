@@ -3,10 +3,12 @@ import {
   CHANGELOG_CREATING,
   CHANGELOG_FETCHED,
   CHANGELOG_FORM_CHANGED,
+  MEMBERSHIP_UPDATED,
+  NEW_CHANGELOG_MEMBERSHIPS_FETCHED
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
-import {Map} from 'immutable'
+import { Map, List } from 'immutable'
 import RouterContainer from '../lib/router_container'
 
 class NewChangelogStore extends Store {
@@ -18,6 +20,7 @@ class NewChangelogStore extends Store {
     this._nameValid = true
     this._slugValid = true
     this._modified = false
+    this._memberships = Map()
 
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
@@ -47,6 +50,13 @@ class NewChangelogStore extends Store {
             this._errors = this._errors.set("name", "Oops. Name can't be blank")
           }
           this.emitChange()
+          break
+        case MEMBERSHIP_UPDATED:
+          console.log('newchangelogstore membership updated', action.membership)
+          this._memberships = this._memberships.merge(action.membership)
+          break
+        case NEW_CHANGELOG_MEMBERSHIPS_FETCHED:
+          this._memberships = action.memberships
           break
         default:
           break
@@ -95,6 +105,11 @@ class NewChangelogStore extends Store {
 
   get isValid() {
     return this._modified && this._nameValid && this._slugValid
+  }
+
+  get memberships() {
+    console.log('newchangelogstore memberships', this._memberships)
+    return this._memberships
   }
 
   get nameValid() {

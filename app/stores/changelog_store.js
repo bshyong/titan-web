@@ -12,6 +12,7 @@ import {
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
+import { Map, List } from 'immutable'
 
 class ChangelogStore extends Store {
   constructor() {
