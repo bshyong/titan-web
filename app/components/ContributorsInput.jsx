@@ -13,6 +13,14 @@ export default class ContributorsInput extends React.Component {
     }
   }
 
+  constructor(props) {
+    super(props)
+
+    this.handleChange = this._handleChange.bind(this)
+    this.handleFocus = this._handleFocus.bind(this)
+    this.handleKeyDown = this._handleKeyDown.bind(this)
+  }
+
   componentDidUpdate() {
     if (this.selectionStart) {
       React.findDOMNode(this.refs.input).
@@ -23,8 +31,8 @@ export default class ContributorsInput extends React.Component {
 
   render() {
     return (
-      <div className="flex flex-baseline border border-silver flex-wrap">
-        <div className="flex flex-wrap ml1">
+      <div className="flex flex-baseline border border-silver flex-wrap px1">
+        <div className="flex flex-wrap">
           {this.renderTokens()}
         </div>
         <div className="flex-auto">
@@ -33,6 +41,7 @@ export default class ContributorsInput extends React.Component {
             ref="input"
             placeholder="Who helped out?"
             value={this.props.contributors}
+            onKeyDown={this.handleKeyDown}
             onChange={this.handleChange}
             onFocus={this.handleFocus} />
         </div>
@@ -50,7 +59,11 @@ export default class ContributorsInput extends React.Component {
     )
   }
 
-  handleChange(e) {
+  _handleKeyDown(e) {
+    ContributorsActions.propagateKeyDown(e)
+  }
+
+  _handleChange(e) {
     this.selectionStart = e.target.selectionStart
     ContributorsActions.setContributorsFromString(e.target.value)
   }

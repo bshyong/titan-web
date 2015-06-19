@@ -45,6 +45,7 @@ export default keyMirror({
 
   CONTRIBUTORS_RESET: null,
   CONTRIBUTORS_STRING_RECEIVED: null,
+  CONTRIBUTORS_KEYDOWN: null,
 
   EMOJI_FETCHED: null,
   EMOJI_SELECTED: null,

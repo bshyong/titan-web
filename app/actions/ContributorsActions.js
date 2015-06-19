@@ -1,6 +1,7 @@
 import {
+  CONTRIBUTORS_KEYDOWN,
+  CONTRIBUTORS_RESET,
   CONTRIBUTORS_STRING_RECEIVED,
-  CONTRIBUTORS_RESET
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
 
@@ -16,6 +17,13 @@ export default {
     Dispatcher.dispatch({
       type: CONTRIBUTORS_RESET,
       user: user
+    })
+  },
+
+  propagateKeyDown(e) {
+    Dispatcher.dispatch({
+      type: CONTRIBUTORS_KEYDOWN,
+      event: e
     })
   }
 

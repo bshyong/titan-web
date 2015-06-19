@@ -1,4 +1,5 @@
 import {
+  CONTRIBUTORS_KEYDOWN,
   CONTRIBUTORS_RESET,
   CONTRIBUTORS_STRING_RECEIVED,
   CONTRIBUTORS_SUGGESTED,
@@ -11,6 +12,12 @@ import MENTION_REGEX from '../lib/mention_regex'
 import SessionStore from './session_store'
 import Store from '../lib/store'
 import { Set, List, OrderedSet } from 'immutable'
+
+const KEYCODES = {
+  ENTER: 13,
+  TAB: 9,
+  BACKSPACE: 8,
+}
 
 class ContributorsStore extends Store {
   constructor() {
@@ -26,6 +33,11 @@ class ContributorsStore extends Store {
 
     this.dispatchToken = Dispatcher.register(action => {
       switch (action.type) {
+        case CONTRIBUTORS_KEYDOWN:
+          if (!this._currentMatch && action.event.keyCode === KEYCODES.BACKSPACE) {
+            this._tokens = this._tokens.pop()
+          }
+          break
         case CONTRIBUTORS_STRING_RECEIVED:
           this._matchString = action.string
           let tokens = action.string.split(/,\s*/)
