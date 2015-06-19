@@ -24,8 +24,8 @@ class Slide extends React.Component {
         <ApplicationNavbar title="New changelog" />
         <div className="flex flex-center full-width" style={{minHeight: "calc(100vh - 3.5rem - 2.25rem - 4rem - 2px)"}}>
           <div className="container full-width p2">
-            <div className="md-col-8 mx-auto">
-              <h2 className="center">{title}</h2>
+            <div className="sm-col-8 mx-auto px2">
+              <h2 className="center mb3">{title}</h2>
               {children}
             </div>
           </div>
