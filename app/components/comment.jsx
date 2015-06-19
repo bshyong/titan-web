@@ -100,7 +100,7 @@ export default class Comment extends React.Component {
     }
 
     return (
-      <div className="px1 pointer" onClick={this.handleDelete.bind(this)}>
+      <div className="px1 pointer gray-hover" onClick={this.handleDelete.bind(this)}>
         <Icon icon="trash" />
       </div>
     )
@@ -117,7 +117,7 @@ export default class Comment extends React.Component {
     }
 
     return (
-      <div className="px1 pointer" onClick={this.toggleEditing.bind(this)}>
+      <div className="px1 pointer gray-hover" onClick={this.toggleEditing.bind(this)}>
         <Icon icon="pencil" />
       </div>
     )
