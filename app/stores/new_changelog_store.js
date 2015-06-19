@@ -57,7 +57,8 @@ class NewChangelogStore extends Store {
             this._memberships = this._memberships.push(action.membership)
           } else {
             let m = this._memberships.find(m => m.user.username == action.userId)
-            this._memberships.delete(m)
+            let r = this._memberships.indexOf(m)
+            this._memberships = this._memberships.delete(r)
           }
 
           this.emitChange()
@@ -115,7 +116,6 @@ class NewChangelogStore extends Store {
   }
 
   get memberships() {
-    console.log('newchangelogstore memberships', this._memberships)
     return this._memberships
   }
 
