@@ -1,15 +1,15 @@
 import AuthenticatedMixin from './mixins/authenticated_mixin.jsx'
-import React from 'react'
 import Highlight from './highlight.js.jsx'
 import HighlightActions from '../actions/highlight_actions'
 import HighlightsStore from '../stores/highlights_store'
 import Icon from '../ui/Icon.jsx'
-import {Link} from 'react-router'
-import {List} from 'immutable'
+import React from 'react'
 import RouterContainer from '../lib/router_container'
 import ScrollPaginator from '../ui/ScrollPaginator.jsx'
 import SessionStore from '../stores/session_store'
 import shallowEqual from 'react-pure-render/shallowEqual'
+import Link from '../components/Link.jsx'
+import {List} from 'immutable'
 
 @AuthenticatedMixin()
 export default class HighlightPicker extends React.Component {
@@ -23,7 +23,7 @@ export default class HighlightPicker extends React.Component {
 
   static get defaultProps() {
     return {
-      changelogId: RouterContainer.get().getCurrentParams().changelogId
+      changelogId: RouterContainer.changelogSlug()
     }
   }
 
@@ -36,7 +36,7 @@ export default class HighlightPicker extends React.Component {
   }
 
   render() {
-    const changelogId = RouterContainer.get().getCurrentParams().changelogId
+    const changelogId = RouterContainer.changelogSlug()
     const filter = RouterContainer.get().getCurrentParams().filter
     const highlights = List(this.state.highlights)
       .filter(highlight => {

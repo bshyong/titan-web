@@ -1,4 +1,4 @@
-import {Link} from 'react-router'
+import Link from '../../components/Link.jsx'
 import {List, Map, Set} from 'immutable'
 import Badge from '../Badge.jsx'
 import Button from '../../ui/Button.jsx'
@@ -187,7 +187,7 @@ export default class ProfilePage extends React.Component {
       <div className="flex flex-wrap p1 py2">
         {changelogs.map(changelog =>
           <div className="ml1 mb1" key={changelog.id}>
-            <Link to="changelog" params={{changelogId: changelog.slug}}>
+            <Link to="changelog" params={paramsFor.changelog(changelog)}>
               <Logo changelog={changelog} size="2rem" />
             </Link>
           </div>

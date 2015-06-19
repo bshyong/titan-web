@@ -1,6 +1,7 @@
 import Avatar from '../ui/Avatar.jsx'
 import Badge from '../components/Badge.jsx'
 import ChangelogStore from '../stores/changelog_store'
+import connectToStores from '../lib/connectToStores.jsx'
 import Discussion from '../components/discussion.jsx'
 import DiscussionActions from '../actions/discussion_actions'
 import DocumentTitle from 'react-document-title'
@@ -10,26 +11,26 @@ import Icon from '../ui/Icon.jsx'
 import Label from '../ui/Label.jsx'
 import LoadingBar from '../ui/LoadingBar.jsx'
 import Markdown from '../ui/Markdown.jsx'
+import moment from '../config/moment'
+import paramsFor from '../lib/paramsFor'
+import pluralize from '../lib/pluralize'
 import Popover from '../ui/Popover.jsx'
 import React from 'react'
 import Router from '../lib/router_container'
 import SessionStore from '../stores/session_store'
+import shallowEqual from 'react-pure-render/shallowEqual'
 import Stack from '../ui/Stack.jsx'
 import StoryActions from '../actions/story_actions'
 import StoryReadersStore from '../stores/story_readers_store'
 import UpvoteToggler from '../components/UpvoteToggler.jsx'
-import connectToStores from '../lib/connectToStores.jsx'
-import moment from '../config/moment'
-import pluralize from '../lib/pluralize'
-import shallowEqual from 'react-pure-render/shallowEqual'
-import {Link} from 'react-router'
+import Link from '../components/Link.jsx'
 import {List} from 'immutable'
 
 @connectToStores(GroupedStoriesStore, StoryReadersStore, ChangelogStore)
 export default class StoryPage extends React.Component {
   static willTransitionTo(transition, params, query) {
-    StoryActions.fetch(params.changelogId, params.storyId)
-    DiscussionActions.fetchAll(params.changelogId, params.storyId)
+    StoryActions.fetch(Router.changelogSlug(params), params.storyId)
+    DiscussionActions.fetchAll(Router.changelogSlug(params), params.storyId)
   }
 
   static getPropsFromStores() {
@@ -154,7 +155,7 @@ export default class StoryPage extends React.Component {
     if (this.props.changelog.user_is_team_member) {
       return (
         <li className="px1">
-          <Link to="edit" params={{changelogId: ChangelogStore.slug, storyId: this.props.story.id}}>
+          <Link to="edit" params={paramsFor.story(ChangelogStore.changelog, this.props.story)}>
             <span className="gray gray-hover"><Icon icon="pencil" /> Edit</span>
           </Link>
         </li>

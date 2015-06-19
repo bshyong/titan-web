@@ -11,7 +11,7 @@ import Table from '../ui/Table.jsx'
 import UpvoteToggler from './UpvoteToggler.jsx'
 import moment from 'moment'
 import paramsFor from '../lib/paramsFor'
-import { Link } from 'react-router'
+import Link from '../components/Link.jsx'
 import PostSetActions from '../actions/PostSetActions'
 
 export default class StoryRange extends React.Component {

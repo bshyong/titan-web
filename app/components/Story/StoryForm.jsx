@@ -20,7 +20,6 @@ import StoryFormStore from '../../stores/story_form_store'
 import GroupedStoriesStore from '../../stores/GroupedStoriesStore'
 import connectToStores from '../../lib/connectToStores.jsx'
 import shouldPureComponentUpdate from 'react-pure-render/function'
-import {Link} from 'react-router'
 import {List, Map, Set} from 'immutable'
 import TextareaAutosize from 'react-textarea-autosize'
 

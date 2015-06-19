@@ -6,7 +6,8 @@
 import React from 'react'
 import moment from '../config/moment'
 import classnames from 'classnames'
-import {Link, Route} from 'react-router'
+import {Route} from 'react-router'
+import Link from '../components/Link.jsx'
 
 export default class Table extends React.Component {
   render() {

@@ -17,7 +17,7 @@ import connectToStores from '../lib/connectToStores.jsx'
 import moment from '../config/moment'
 import paramsFor from '../lib/paramsFor'
 import pluralize from '../lib/pluralize'
-import {Link} from 'react-router'
+import Link from '../components/Link.jsx'
 import {List} from 'immutable'
 
 function addParams(changelogSlug, story) {

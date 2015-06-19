@@ -43,6 +43,7 @@
     "marked": "^0.3.3",
     "moment": "^2.10.2",
     "morgan": "^1.5.2",
+    "path": "^0.11.14",
     "react": "~0.13",
     "react-document-title": "^1.0.2",
     "react-pure-render": "^1.0.1",
@@ -52,6 +53,7 @@
     "style-loader": "~0.8",
     "textarea-caret-position": "component/textarea-caret-position#3.0.0",
     "twemoji": "^1.4.1",
+    "url": "^0.10.3",
     "webpack": "~1.8",
     "whatwg-fetch": "^0.8.1"
   },
