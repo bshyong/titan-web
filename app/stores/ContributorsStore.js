@@ -6,22 +6,36 @@ import {
   USER_SIGNIN
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
+import EMAIL_REGEX from '../lib/email_regex'
 import MENTION_REGEX from '../lib/mention_regex'
-import { List, Set } from 'immutable'
 import SessionStore from './session_store'
 import Store from '../lib/store'
+import { Set, List } from 'immutable'
 
 class ContributorsStore extends Store {
   constructor() {
     super()
 
-    this._contributors = null
-    this._suggestedContributors = null
+    this._contributors = Set()
+    this._emails = Set()
+    this._invalidMatches = Set()
+    this._suggestedContributors = Set()
+    this._currentMatch = ''
+    this._matchData = List([])
+    this._tokens = List([])
 
     this.dispatchToken = Dispatcher.register(action => {
       switch (action.type) {
         case CONTRIBUTORS_STRING_RECEIVED:
-          this._contributors = Set(splitContributors(action.string))
+          this._matchString = action.string
+          let tokens = action.string.split(/,\s*/)
+          this._currentMatch = tokens.pop().trim()
+
+          if (tokens[0]) {
+            this._tokens = this._tokens.push(
+              this.tokenize(tokens[0].replace(/ /, ''))
+            )
+          }
           this._suggestedContributors = null
           break
         case USER_PICKER_USER_SELECTED:
@@ -44,18 +58,43 @@ class ContributorsStore extends Store {
     return this._contributors
   }
 
-  contributorsAsString() {
-    const string = (this._contributors || Set()).join(', ')
-    return (string.lastIndexOf(',') !== string.length - 2) ?
-      string + ', ' :
-      string
+  get emails() {
+    return this._emails
   }
-}
 
-function splitContributors(string) {
-  return List(
-    string.split(', ')
-  ).filter(s => s.length > 0)
+  get invalidMatches() {
+    return this._invalidMatches
+  }
+
+  get tokens() {
+    return this._tokens
+  }
+
+  tokenize(string) {
+    if (MENTION_REGEX.test(string)){
+      this._contributors = this._contributors.add(string)
+      return {
+        type: 'contributor',
+        string: string
+      }
+    } else if (EMAIL_REGEX.test(string)) {
+      this._emails = this._emails.add(string)
+      return {
+        type: 'email',
+        string: string
+      }
+    } else {
+      this._invalidMatches = this._invalidMatches.add(string)
+      return {
+        type: 'invalid',
+        string: string
+      }
+    }
+  }
+
+  contributorsAsString() {
+    return this._currentMatch
+  }
 }
 
 export default new ContributorsStore()
