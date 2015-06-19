@@ -30,26 +30,30 @@ class ContributorsStore extends Store {
     this._currentMatch = ''
     this._matchData = List([])
     this._tokens = List([])
+    this._lastInvalidToken = null
 
     this.dispatchToken = Dispatcher.register(action => {
       switch (action.type) {
         case CONTRIBUTORS_KEYDOWN:
-          if (!this._currentMatch && action.event.keyCode === KEYCODES.BACKSPACE) {
+          this._lastInvalidToken = null
+          if (!this._currentMatch && !this._tokens.isEmpty() && action.event.keyCode === KEYCODES.BACKSPACE) {
             this._tokens = this._tokens.pop()
           }
           break
         case CONTRIBUTORS_STRING_RECEIVED:
-          this._matchString = action.string
+          this._lastInvalidToken = null
           let tokens = action.string.split(/,\s*/)
           this._currentMatch = tokens.pop().trim()
 
-          if (tokens[0] && !this._tokens.find(t => {
-            return t.string === tokens[0]
-            })
-            ) {
+          if (tokens[0] &&
+            !this._tokens.find(t => { return t.string === tokens[0] })) {
+            var newToken = this.tokenize(tokens[0].replace(/ /, ''))
             this._tokens = this._tokens.push(
-              this.tokenize(tokens[0].replace(/ /, ''))
+              newToken
             )
+            if (newToken.type === 'invalid') {
+              this._lastInvalidToken = newToken.string
+            }
           }
           this._suggestedContributors = null
           break
@@ -77,12 +81,20 @@ class ContributorsStore extends Store {
     return this._emails
   }
 
-  get invalidMatches() {
+  get lastInvalidToken() {
+    return this._lastInvalidToken
+  }
+
+  get invalidTokens() {
     return this._invalidMatches
   }
 
-  get tokens() {
-    return this._tokens
+  get validTokens() {
+    return this._tokens.filter(t =>{ return t.type !== 'invalid'})
+  }
+
+  get currentMatch() {
+    return this._currentMatch
   }
 
   tokenize(string) {

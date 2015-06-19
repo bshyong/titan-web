@@ -84,7 +84,7 @@ export default class NewStoryForm extends React.Component {
 
         <div className="mb3">
           <ContributorsInput className="field-light block full-width" />
-          <p className="mt1 h5">Who else helped out? @mention friends or add their emails comma separated.</p>
+          <p className="mt0 h5">Who else helped out? @mention friends or add their emails comma separated.</p>
         </div>
 
       </div>
