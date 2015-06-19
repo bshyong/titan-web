@@ -31,7 +31,7 @@ export default class ContributorsInput extends React.Component {
 
   render() {
     return (
-      <div className="flex flex-baseline border border-silver flex-wrap px1">
+      <div className="flex flex-baseline border border-silver flex-wrap">
         <div className="flex flex-wrap">
           {this.renderTokens()}
         </div>
@@ -39,6 +39,7 @@ export default class ContributorsInput extends React.Component {
           <AutocompleteUserInput
             {...this.props}
             ref="input"
+            className="border-none block full-width field-light"
             placeholder="Who helped out?"
             value={this.props.contributors}
             onKeyDown={this.handleKeyDown}
@@ -52,7 +53,7 @@ export default class ContributorsInput extends React.Component {
   renderTokens() {
     return this.props.tokens.map(
       t => {
-        return <span className="mr1 flex-none">
+        return <span className="mr1 flex-none ml1">
           {t.string},
         </span>
       }
