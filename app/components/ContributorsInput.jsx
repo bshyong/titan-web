@@ -8,7 +8,8 @@ import connectToStores from '../lib/connectToStores.jsx'
 export default class ContributorsInput extends React.Component {
   static getPropsFromStores() {
     return {
-      contributors: ContributorsStore.contributorsAsString()
+      contributors: ContributorsStore.contributorsAsString(),
+      tokens: ContributorsStore.tokens
     }
   }
 
@@ -21,13 +22,32 @@ export default class ContributorsInput extends React.Component {
   }
 
   render() {
-    return <AutocompleteUserInput
-              {...this.props}
-              ref="input"
-              placeholder="Who helped out?"
-              value={this.props.contributors}
-              onChange={this.handleChange.bind(this)}
-              onFocus={this.handleFocus.bind(this)} />
+    return (
+      <div className="flex flex-baseline border border-silver flex-wrap">
+        <div className="flex flex-wrap ml1">
+          {this.renderTokens()}
+        </div>
+        <div className="flex-auto">
+          <AutocompleteUserInput
+            {...this.props}
+            ref="input"
+            placeholder="Who helped out?"
+            value={this.props.contributors}
+            onChange={this.handleChange}
+            onFocus={this.handleFocus} />
+        </div>
+      </div>
+    )
+  }
+
+  renderTokens() {
+    return this.props.tokens.map(
+      t => {
+        return <span className="mr1 flex-none">
+          {t.string},
+        </span>
+      }
+    )
   }
 
   handleChange(e) {

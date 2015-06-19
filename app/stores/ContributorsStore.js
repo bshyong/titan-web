@@ -10,7 +10,7 @@ import EMAIL_REGEX from '../lib/email_regex'
 import MENTION_REGEX from '../lib/mention_regex'
 import SessionStore from './session_store'
 import Store from '../lib/store'
-import { Set, List } from 'immutable'
+import { Set, List, OrderedSet } from 'immutable'
 
 class ContributorsStore extends Store {
   constructor() {
@@ -31,7 +31,10 @@ class ContributorsStore extends Store {
           let tokens = action.string.split(/,\s*/)
           this._currentMatch = tokens.pop().trim()
 
-          if (tokens[0]) {
+          if (tokens[0] && !this._tokens.find(t => {
+            return t.string === tokens[0]
+            })
+            ) {
             this._tokens = this._tokens.push(
               this.tokenize(tokens[0].replace(/ /, ''))
             )
