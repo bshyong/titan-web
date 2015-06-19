@@ -12,6 +12,7 @@ import StoryForm from '../components/Story/StoryForm.jsx'
 import StoryFormStore from '../stores/story_form_store'
 import connectToStores from '../lib/connectToStores.jsx'
 import StoryGifSrc from '../images/interface.gif'
+import TeamAdder from '../components/team_adder.jsx'
 
 class Slide extends React.Component {
   render() {
@@ -123,7 +124,7 @@ export default class ChangelogOnboardingPage extends React.Component {
 
           <StoryForm />
         </Slide>
-        <Slide title="Start with 3 posts: 3 of 3" next="Check out your new changelog" active={slide === 4} onNext={this.handleStoryCreation(this.handleTransitionToChangelog())}>
+        <Slide title="Start with 3 posts: 3 of 3" next="Check out your new changelog" active={slide === 4} onNext={this.goToSlide(5)} onNextValid={StoryFormStore.isValid()} >
 
           <div className="mb4">
 
@@ -136,6 +137,11 @@ export default class ChangelogOnboardingPage extends React.Component {
 
           <StoryForm />
         </Slide>
+
+        <Slide title="Add your Team Members" active={slide === 5} onNext={this.handleStoryCreation(this.handleTransitionToChangelog())}>
+          <TeamAdder />
+        </Slide>
+
       </div>
     )
   }
