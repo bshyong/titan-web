@@ -39,13 +39,15 @@ export default class Admin extends React.Component {
     if (stories === null) {
       return
     }
+
     return stories.map(story => {
-      console.log(story)
-      return (
-        <Table.Cell key={story.id} to="story" params={paramsFor.story({slug: story.changelog.slug}, story)} image={<Logo changelog={story.changelog} size="1.5rem" />}>
-          <StoryCell story={story} slim={true} />
-        </Table.Cell>
-      )
+      if (story.changelog !==null) {
+        return (
+          <Table.Cell key={story.id} to="story" params={paramsFor.story({slug: story.changelog.slug}, story)} image={<Logo changelog={story.changelog} size="1.5rem" />}>
+            <StoryCell story={story} slim={true} />
+          </Table.Cell>
+        )
+      } 
     })
   }
 
