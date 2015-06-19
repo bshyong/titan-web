@@ -70,21 +70,15 @@ export default class ContributorsInput extends React.Component {
   renderTokens() {
     return this.props.validTokens.map(
       t => {
-        return <span className="flex-none ml1" key={t.string}>
-          {t.string},
+        return <span className="flex-none ml1 bg-smoke black px1" key={t.string}>
+          {t.string}
         </span>
       }
     )
   }
 
   _handleKeyDown(e) {
-    const { currentMatch } = this.props
-    if (currentMatch && [KEYCODES.ENTER, KEYCODES.TAB].indexOf(e.keyCode) > -1) {
-      e.preventDefault()
-      ContributorsActions.setContributorsFromString(e.target.value + ',')
-    } else {
-      ContributorsActions.propagateKeyDown(e)
-    }
+    ContributorsActions.propagateKeyDown(e)
   }
 
   _handleChange(e) {

@@ -45,12 +45,13 @@ class ContributorsStore extends Store {
           let tokens = action.string.split(/,\s*/)
           this._currentMatch = tokens.pop().trim()
 
-          if (tokens[0] &&
-            !this._tokens.find(t => { return t.string === tokens[0] })) {
+          if (tokens[0]) {
             var newToken = this.tokenize(tokens[0].replace(/ /, ''))
-            this._tokens = this._tokens.push(
-              newToken
-            )
+            if (!this._tokens.find(t => { return t.string === tokens[0] })) {
+              this._tokens = this._tokens.push(
+                newToken
+              )
+            }
             if (newToken.type === 'invalid') {
               this._lastInvalidToken = newToken.string
             }
