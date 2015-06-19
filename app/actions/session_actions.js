@@ -34,11 +34,13 @@ export default {
 
   signinFromToken(jwt, user) {
     auth.set(jwt)
+    user = (user || jwt_decode(jwt).user)
     Dispatcher.dispatch({
       type: USER_SIGNIN,
       jwt: jwt,
-      user: (user || jwt_decode(jwt).user)
+      user: user
     })
+    return user
   },
 
   signout() {

@@ -17,6 +17,7 @@ import EditStoryForm from '../components/edit_story_form.js.jsx'
 import FeedPage from '../pages/FeedPage.jsx'
 import HomePage from '../pages/HomePage.jsx'
 import HighlightPicker from '../components/highlight_picker.js.jsx'
+import ImpersonatePage from '../pages/ImpersonatePage.jsx'
 import NewChangelogPage from '../pages/NewChangelogPage.jsx'
 import NewStoryPage from '../pages/NewStoryPage.jsx'
 import NotFound from '../pages/NotFoundPage.jsx'
@@ -42,6 +43,7 @@ var internal = (
 
     <Route handler={SigninSSO} path="/signin/sso/?" name="sso" />
     <Route handler={UserPage} path="/users/:userId/?" name="profile" />
+    <Route handler={ImpersonatePage} path="/users/:userId/impersonate" name="impersonate" />
     <Route handler={FeedPage} path="/feed/?" name="feed" />
 
     <Route handler={SettingsPage} name="settings" path="/settings/?">
