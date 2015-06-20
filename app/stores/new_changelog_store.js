@@ -33,10 +33,7 @@ class NewChangelogStore extends Store {
           this.emitChange()
           break
         case CHANGELOG_FETCHED:
-          this._isCreating = false
-          this._newChangelog = Map()
-          this._modified = false
-          this._slugFocused = false
+          this.init()
           this.emitChange()
           break
         case CHANGELOG_FORM_FOCUSED:
@@ -119,6 +116,16 @@ class NewChangelogStore extends Store {
       default:
         break
     }
+  }
+
+  init() {
+    this._newChangelog = Map()
+    this._errors = Map()
+    this._isCreating = false
+    this._nameValid = true
+    this._slugValid = true
+    this._modified = false
+    this._slugFocused = false
   }
 
   sanitizeSlug(value) {
