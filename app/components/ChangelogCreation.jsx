@@ -28,6 +28,10 @@ export default class ChangelogCreation extends React.Component {
 
   constructor(props) {
     super(props)
+
+    this.state = {
+      slugFieldExpanded: false
+    }
   }
 
   static getPropsFromStores(props) {
@@ -43,7 +47,7 @@ export default class ChangelogCreation extends React.Component {
       <div className="md-col-8 mx-auto">
         {this.renderNameField()}
         {this.renderSlugField()}
-		{this.renderDescriptionField()}
+    		{this.renderDescriptionField()}
 
         <div className="mb3">
           {this.renderVisibilitySettings()}
@@ -96,7 +100,7 @@ export default class ChangelogCreation extends React.Component {
   renderDescriptionField(){
     return (
       <div className="mb3">
-        <label htmlFor="new-changelog-tagline">Tell everyone what its about</label>
+        <label htmlFor="new-changelog-tagline">Tell everyone what it's about</label>
         <textarea
           id="new-changelog-tagline"
           className="field-light full-width block"
@@ -109,7 +113,6 @@ export default class ChangelogCreation extends React.Component {
           }} />
       </div>
     )
-
   }
 
   renderNameField() {
@@ -118,13 +121,13 @@ export default class ChangelogCreation extends React.Component {
       'is-error': !nameValid
     })
 
-    const nameErrorText = nameValid ? '&nbsp;' : NewChangelogStore.errors.name || "We share your excitment but we need a name first."
+    const nameErrorText = nameValid ? '&nbsp;' : NewChangelogStore.errors.name || "We share your excitement but we need a name first."
 
     return (
       <div className="mb2">
         <label htmlFor="new-changelog-name">Name your Changelog</label>
     		<p className="mb0 gray">
-    		  It doesn't need to be formal, just fun and memorable.
+    		  It doesn't need to be formal; just fun and memorable.
     		</p>
         <div className={cs} style={{height: 'auto'}}>
           <input type="text"
@@ -146,40 +149,54 @@ export default class ChangelogCreation extends React.Component {
       'is-error': !slugValid
     })
 
-    const slugErrorText = slugValid ?
-      '&nbsp;' :
-      NewChangelogStore.errors.slug || "You'll want this later; it can't be blank."
+    const slugClasses = classnames('break-word', {
+      'gray': !NewChangelogStore.slug
+    })
+
+    const slugErrorText = slugValid ? 'You can add your own custom url later on.' : NewChangelogStore.errors.slug || "You'll want this later, it can't be blank."
 
     return (
       <div className="mb2">
-        <label htmlFor="new-changelog-url">Changelog URL</label>
-		<p className="mb0 gray">
-		  You can add your own customized url later on.
-		</p>
-      <div className={cs} style={{height: 'auto'}}>
-        <input type="text"
-          id="new-changelog-url"
-          className="field-light block full-width"
-          placeholder="slug"
-          value={NewChangelogStore.slug}
-          onChange={this.handleFormChange.bind(this, 'slug')}
-          ref="slug"
-          style={{
-            height: 'auto'
-          }} />
-      </div>
-      <div className="red h5" dangerouslySetInnerHTML={{__html: slugErrorText}} />
+        <div onClick={this.handleEditClicked.bind(this)}>
+          <div>
+            <span className="px1 pointer gray h5">
+              <Icon icon="pencil" />
+            </span>
+            <label htmlFor="new-changelog-url" className="mr1 pointer">
+              Changelog slug:
+            </label>
+          </div>
+          <div>
+            <span className={slugClasses}>{this.state.slugFieldExpanded ? null : (NewChangelogStore.slug || 'changelog.assembly.com/')}</span>
+          </div>
+        </div>
+        <div className={cs} style={{height: 'auto'}}>
+        {
+          this.state.slugFieldExpanded ? <input type="text"
+            id="new-changelog-url"
+            className="field-light block full-width"
+            placeholder="slug"
+            value={NewChangelogStore.slug}
+            onChange={this.handleFormChange.bind(this, 'slug')}
+            onFocus={this.handleSlugOnFocus.bind(this)}
+            ref="slug"
+            style={{
+              height: 'auto'
+            }} /> : null
+        }
+        </div>
+        <p className={`mb3 ${slugValid ? 'gray' : 'red'}`} dangerouslySetInnerHTML={{__html: slugErrorText}} />
       </div>
     )
   }
 
-  handlePublish() {
-    const { name, tagline, website, membersOnly } = this.state
-    const slug = this.sanitizeSlug(this.state.slug)
-    const user_id = this.props.user.id
-    const successCallback = this.props
+  handleEditClicked() {
+    this.setState({
+      slugFieldExpanded: true
+    })
+  }
 
-    this.setState({recently_typed: false})
-    ChangelogActions.create(name, tagline, slug, user_id, website, membersOnly, successCallback)
+  handleSlugOnFocus() {
+    NewChangelogActions.focusField('slug')
   }
 }

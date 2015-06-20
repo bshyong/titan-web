@@ -3,9 +3,10 @@ import {
   CHANGELOG_CREATING,
   CHANGELOG_FETCHED,
   CHANGELOG_FORM_CHANGED,
+  CHANGELOG_FORM_FOCUSED,
   MEMBERSHIP_UPDATED,
   NEW_CHANGELOG_MEMBERSHIPS_FETCHED,
-  PENDING_MEMBERSHIP_UPDATED
+  PENDING_MEMBERSHIP_UPDATED,
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
@@ -21,7 +22,8 @@ class NewChangelogStore extends Store {
     this._nameValid = true
     this._slugValid = true
     this._modified = false
-    this._memberships = List()
+    this._memberships = List([])
+    this._slugFocused = false
 
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
@@ -34,11 +36,28 @@ class NewChangelogStore extends Store {
           this._isCreating = false
           this.emitChange()
           break
+        case CHANGELOG_FORM_FOCUSED:
+          if (action.field === 'slug') {
+            this._slugFocused = true
+          }
+          break
         case CHANGELOG_FORM_CHANGED:
           this._modified = true
           this._errors = Map()
-          let actionValue = action.field === 'slug' ? this.sanitizeSlug(action.value) : action.value
-          this._newChangelog = this._newChangelog.set(action.field, actionValue)
+
+          if (action.field === 'name' && !this._slugFocused) {
+            var sanitizedSlug = this.sanitizeSlug(action.value)
+            if (!this._slugFocused) {
+              this._newChangelog = this._newChangelog.set('slug', sanitizedSlug)
+            }
+            this._newChangelog = this._newChangelog.set(action.field, action.value)
+          } else if (action.field === 'slug'){
+            this._slugFocused = true
+            this._newChangelog = this._newChangelog.set(action.field, this.sanitizeSlug(action.value))
+          } else {
+            this._newChangelog = this._newChangelog.set(action.field, action.value)
+          }
+
           this.checkValidity(action.field)
           this.emitChange()
           break
@@ -49,7 +68,7 @@ class NewChangelogStore extends Store {
           }
           if (action.errors["param"] === "name") {
             this._nameValid = false
-            this._errors = this._errors.set("name", "Oops. Name can't be blank")
+            this._errors = this._errors.set("name", "We share your excitment but we need a name first.")
           }
           this.emitChange()
           break

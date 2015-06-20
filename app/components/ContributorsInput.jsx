@@ -86,7 +86,7 @@ export default class ContributorsInput extends React.Component {
     ContributorsActions.setContributorsFromString(e.target.value)
   }
 
-  handleFocus(e) {
+  _handleFocus(e) {
     this.selectionStart = e.target.selectionStart
   }
 }

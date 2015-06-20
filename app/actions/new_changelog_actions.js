@@ -1,9 +1,10 @@
 import {
   ANALYTICS_CHANGELOG_CREATED,
   CHANGELOG_CREATE_FAILED,
+  CHANGELOG_CREATING,
   CHANGELOG_FETCHED,
   CHANGELOG_FORM_CHANGED,
-  CHANGELOG_CREATING
+  CHANGELOG_FORM_FOCUSED,
 } from '../constants'
 import {List} from 'immutable'
 
@@ -39,6 +40,13 @@ export default {
           errors: resp
         })
       })
+  },
+
+  focusField(field) {
+    Dispatcher.dispatch({
+      type: CHANGELOG_FORM_FOCUSED,
+      field: field
+    })
   },
 
   formChange(field, value) {

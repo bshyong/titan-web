@@ -29,6 +29,7 @@ export default keyMirror({
   CHANGELOG_UNFOLLOWED: null,
   CHANGELOG_UPDATED: null,
   CHANGELOG_FORM_CHANGED: null,
+  CHANGELOG_FORM_FOCUSED: null,
 
   CHANGELOGS_ALL_FETCHED: null,
 
