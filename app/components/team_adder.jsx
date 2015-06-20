@@ -68,27 +68,38 @@ export default class TeamAdder extends React.Component {
             )
           }
         })}
-        {this.renderEntries()}
+        {this.renderEntry()}
+        {this.renderBlankEntries()}
       </div>
     )
   }
 
-  renderEntries() {
+  renderBlankEntries() {
     let n = this.state.entryCount
     let m = 3
     if (n >=3 ) {
       m = n + 1
     }
-    return Range(0, m).map(a => this.renderEntry.bind(this)(a))
+    return Range(0, m).map(a => this.renderBlankEntry.bind(this))
   }
 
-  renderEntry(a) {
-    let b = "emailOrUsername".concat(a)
-    console.log(b)
+  renderBlankEntry() {
     return (
       <div className="px2 py1 visible-hover-wrapper">
-        <form onSubmit={this.handleAddMember.bind(this)(b)} className="mb3">
-          <input type="text" ref={b}
+        <form className="mb3">
+          <input type="text"
+                 className="field-light full-width"
+                 placeholder="Add a member by username" />
+        </form>
+      </div>
+    )
+  }
+
+  renderEntry() {
+    return (
+      <div className="px2 py1 visible-hover-wrapper">
+        <form onSubmit={this.handleAddMember.bind(this)} className="mb3">
+          <input type="text" ref={emailOrUsername}
                  className="field-light full-width"
                  placeholder="Add a member by username" />
           {this.renderStatus()}
@@ -97,7 +108,8 @@ export default class TeamAdder extends React.Component {
     )
   }
 
-  handleAddMember(b) {
+  handleAddMember(e) {
+    e.preventDefault()
     let c = this.state.entryCount + 1
     this.setState({entryCount: c})
     let el = React.findDOMNode(b)
