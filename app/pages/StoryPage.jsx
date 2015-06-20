@@ -34,8 +34,8 @@ export default class StoryPage extends React.Component {
     if (query.i) {
       invite.set(query.i)
     }
-    StoryActions.fetch(params.changelogId, params.storyId)
-    DiscussionActions.fetchAll(params.changelogId, params.storyId)
+    StoryActions.fetch(Router.changelogSlug(params), params.storyId)
+    DiscussionActions.fetchAll(Router.changelogSlug(params), params.storyId)
   }
 
   static getPropsFromStores() {
