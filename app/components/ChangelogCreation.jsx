@@ -108,12 +108,15 @@ export default class ChangelogCreation extends React.Component {
 
     return (
       <div className="mb2">
-        <label htmlFor="new-changelog-name">Name your changelog</label>
+        <label htmlFor="new-changelog-name">Name your Changelog</label>
+		<p className="mb0 gray">
+		  It doesn't need to be formal, just fun and memorable.
+		</p>		
         <div className={cs} style={{height: 'auto'}}>
           <input type="text"
             id="new-changelog-name"
             className="field-light full-width block"
-            placeholder="now's your chance to be memorable"
+            placeholder="Usually a company or product name"
             onChange={this.handleFormChange.bind(this, 'name')}
             ref="name"
             style={{height: 'auto'}} />
@@ -133,7 +136,10 @@ export default class ChangelogCreation extends React.Component {
 
     return (
       <div className="mb2">
-        <label htmlFor="new-changelog-url">Your address</label>
+        <label htmlFor="new-changelog-url">Changelog URL</label>
+		<p className="mb0 gray">
+		  You can add your own customized url later on.
+		</p>
         <div className={cs} style={{height: 'auto'}}>
           <input type="text"
             id="new-changelog-url"
