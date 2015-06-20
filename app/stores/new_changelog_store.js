@@ -34,6 +34,7 @@ class NewChangelogStore extends Store {
           break
         case CHANGELOG_FETCHED:
           this._isCreating = false
+          this._newChangelog = Map()
           this.emitChange()
           break
         case CHANGELOG_FORM_FOCUSED:
