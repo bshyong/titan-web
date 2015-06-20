@@ -81,7 +81,7 @@ class StoryFormStore extends Store {
     return {
       title: this.title,
       body: this.body,
-      contributors: ContributorsStore.validTokens.join(','),
+      contributors: ContributorsStore.validTokensAsString,
       isPublic: this.isPublic,
       emoji_id: this.emoji_id,
     }

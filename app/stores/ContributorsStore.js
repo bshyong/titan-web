@@ -3,9 +3,11 @@ import {
   CONTRIBUTORS_RESET,
   CONTRIBUTORS_STRING_RECEIVED,
   CONTRIBUTORS_SUGGESTED,
+  STORY_FETCHED,
+  STORY_FORM_CLEAR,
+  STORY_PUBLISHED,
   USER_PICKER_USER_SELECTED,
   USER_SIGNIN,
-  STORY_FETCHED,
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import EMAIL_REGEX from '../lib/email_regex'
@@ -43,6 +45,12 @@ class ContributorsStore extends Store {
               string: `@${c.username}`
             })
           })
+          break
+        case STORY_FORM_CLEAR:
+          this._tokens = List([])
+          break
+        case STORY_PUBLISHED:
+          this._tokens = List([])
           break
         case CONTRIBUTORS_KEYDOWN:
           this._lastInvalidToken = null
@@ -102,6 +110,10 @@ class ContributorsStore extends Store {
 
   get validTokens() {
     return this._tokens.filter(t =>{ return t.type !== 'invalid'})
+  }
+
+  get validTokensAsString() {
+    return this.validTokens.map(t => t.string).join(',')
   }
 
   get currentMatch() {
