@@ -99,7 +99,7 @@ export default class TeamAdder extends React.Component {
     return (
       <div className="px2 py1 visible-hover-wrapper">
         <form onSubmit={this.handleAddMember.bind(this)} className="mb3">
-          <input type="text" ref={emailOrUsername}
+          <input type="text" ref={"emailOrUsername"}
                  className="field-light full-width"
                  placeholder="Add a member by username" />
           {this.renderStatus()}
@@ -112,7 +112,7 @@ export default class TeamAdder extends React.Component {
     e.preventDefault()
     let c = this.state.entryCount + 1
     this.setState({entryCount: c})
-    let el = React.findDOMNode(b)
+    let el = React.findDOMNode(this.refs.emailOrUsername)
     let text = el.value
     MembershipActions.update(
       this.props.changelogId,
