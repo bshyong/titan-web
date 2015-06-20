@@ -5,13 +5,14 @@
 @import 'base/typography';
 
 /* Utilities */
+@import 'utilities/colors';
 @import 'utilities/pill';
 @import 'utilities/pointer';
 @import 'utilities/shadow';
 @import 'utilities/transition';
 @import 'utilities/typography';
-@import 'utilities/whitespace';
 @import 'utilities/visible_hover';
+@import 'utilities/whitespace';
 
 /* Components */
 @import 'components/button';
@@ -36,6 +37,16 @@
   --charcoal: #444851;
   --whitesmoke: #FAF9F8;
   --smoke: #F3F2F1;
+
+  --darken-1: #00000010;
+  --darken-2: #00000020;
+  --darken-3: #00000040;
+  --darken-4: #00000080;
+
+  --lighten-1: #FFFFFF10;
+  --lighten-2: #FFFFFF20;
+  --lighten-3: #FFFFFF40;
+  --lighten-4: #FFFFFF80;
 
   --bold-font-weight: 600;
   --heading-font-weight: 400;

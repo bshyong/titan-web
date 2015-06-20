@@ -45,12 +45,13 @@ export default class NewStoryPage extends React.Component {
 
   handleOnPublish(e) {
     e.preventDefault()
-    StoryActions.publish(this.props.changelogId, {
+    const payload = {
       title: StoryFormStore.title,
       body:  StoryFormStore.body,
       contributors: ContributorsStore.contributorsAsString(),
       team_member_only: !StoryFormStore.isPublic,
-      emoji_id: EmojiStore.selectedEmoji
-    })
+      emoji_id: StoryFormStore.emoji_id
+    }
+    StoryActions.publish(this.props.changelogId, payload)
   }
 }

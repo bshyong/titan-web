@@ -23,6 +23,7 @@ class StoryFormStore extends Store {
           this.body = action.story.body
           this.contributors = flattenUsers(action.story.contributors)
           this.isPublic = !action.story.team_member_only
+          this.emoji_id = action.story.emoji_id
           break
 
         case STORY_FORM_CHANGE:
@@ -30,6 +31,8 @@ class StoryFormStore extends Store {
           this.body = action.fields.body
           this.contributors = action.fields.contributors
           this.isPublic = action.fields.isPublic
+          this.emoji_id = action.fields.emoji_id
+
           break
 
         case EMOJI_SELECTED:
@@ -52,6 +55,9 @@ class StoryFormStore extends Store {
         default:
           return
       }
+
+      console.log('store emoji_id = ', this.emoji_id)
+
       this.emitChange()
     })
   }
@@ -67,7 +73,7 @@ class StoryFormStore extends Store {
     this.body  = ''
     this.contributors = ''
     this.isPublic = true
-    this.emoji_id = ''
+    this.emoji_id = "c6a2b5b8-b1fc-4ff0-b108-746cef842362"
   }
 
   isValid() {

@@ -5,9 +5,6 @@ import ChangelogStore from '../stores/changelog_store'
 import connectToStores from '../lib/connectToStores.jsx'
 import ContributorsActions from '../actions/ContributorsActions'
 import ContributorsInput from './ContributorsInput.jsx'
-import EmojiPicker from './EmojiPicker.jsx'
-import EmojiStore from '../stores/emoji_store'
-import GroupedStoriesStore from '../stores/GroupedStoriesStore'
 import HighlightsActionCreator from '../actions/highlight_actions'
 import HighlightsStore from '../stores/highlights_store'
 import Icon from '../ui/Icon.jsx'
@@ -22,6 +19,9 @@ import StoryFormActions from '../actions/story_form_actions'
 import StoryFormStore from '../stores/story_form_store'
 import Link from '../components/Link.jsx'
 import {List, Map, Set} from 'immutable'
+
+import EmojiStore from '../stores/emoji_store'
+import EmojiInput from './EmojiInput.jsx'
 
 @AuthenticatedMixin()
 @connectToStores(EmojiStore, StoryFormStore)
@@ -43,7 +43,7 @@ export default class NewStoryForm extends React.Component {
       title:        StoryFormStore.title,
       body:         StoryFormStore.body,
       isPublic:     StoryFormStore.isPublic,
-      emoji_id:     EmojiStore.selectedEmoji
+      emoji_id:     StoryFormStore.emoji_id
     }
   }
 
@@ -53,22 +53,25 @@ export default class NewStoryForm extends React.Component {
       body,
       isPublic,
       storyId,
-      contributors
+      contributors,
+      emoji_id,
     } = this.props
 
     return (
-      <div className="sm-col-8 mx-auto px2">
-        <div className="flex flex-column">
-          <EmojiPicker />
+      <div className="mx-auto px2">
 
-          <div className="mt1 mb2 border-bottom border-smoke red h5">
-            {StoryFormStore.titleHasEmoji() ? "Pick a badge above! Emojis in the title will be stripped out" : "\u00a0"}
-          </div>
-          <div className="mb2 border-bottom border-smoke">
-            <div className="border-bottom border-smoke mb2">
+        <div className="">
+
+          <div className="flex flex-center mxn1 mb2">
+            <div className="p1">
+              <EmojiInput
+                value={emoji_id}
+                onChange={this.handleChanged('emoji_id').bind(this)} />
+            </div>
+            <div className="flex-auto p1">
               <input type="text"
-                className="full-width input-invisible border-bottom border-smoke mb2"
-                placeholder="Write a short header"
+                className="field-light block full-width"
+                placeholder="Wahtz happening?"
                 value={title}
                 onChange={this.handleChanged('title').bind(this)}
                 ref="title"
@@ -77,7 +80,9 @@ export default class NewStoryForm extends React.Component {
                   height: 'auto'
                 }} />
             </div>
+          </div>
 
+          <div className="mb2">
             <MarkdownArea id={storyId || "new_story"}
               placeholder="Describe your story (optional)"
               gifPickerPosition="bottom"

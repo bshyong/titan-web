@@ -1,127 +1,116 @@
-import {List, Set} from 'immutable'
-import classnames from 'classnames'
 import connectToStores from '../lib/connectToStores.jsx'
-import emojiDict from '../lib/emoji'
-import Emoji from '../ui/Emoji.jsx'
+import Emoji from './Emoji.jsx'
 import EmojiActions from '../actions/emoji_actions.js'
 import EmojiStore from '../stores/emoji_store'
-import EMOJI_REGEX from '../lib/emoji_regex'
-import Icon from '../ui/Icon.jsx'
+import Picker from '../ui/RealPicker.jsx'
 import React from 'react'
-import SessionStore from '../stores/session_store'
-import shouldPureComponentUpdate from 'react-pure-render/function'
+
+const EmojiGridRows = 3
 
 @connectToStores(EmojiStore)
 export default class EmojiPicker extends React.Component {
-  shouldComponentUpdate = shouldPureComponentUpdate
 
   static getPropsFromStores(props) {
-    return {
-      emojis: EmojiStore.emojis,
-      selectedEmoji: EmojiStore.selectedEmoji,
-      selectedEmojiName: EmojiStore.selectedEmojiName
-    }
+    return props
   }
 
   constructor(props) {
     super(props)
-
     this.state = {
-      focused: false
+      value: props.defaultValue
     }
-
-    this.handleChange = this._handleChange.bind(this)
-    this.selectEmoji = this._selectEmoji.bind(this)
-    this.toggleFocus = this._toggleFocus.bind(this)
-  }
-
-  componentDidMount() {
-    const { selectedEmojiName } = this.props
-    selectedEmojiName ?
-      EmojiActions.search(selectedEmojiName) :
-      EmojiActions.fetch()
-  }
-
-  renderEmoji(emoji) {
-    const classes = classnames('px1 pointer', {
-      'mt0 bg-smoke rounded border border-silver': emoji.id === this.props.selectedEmoji
-    })
-
-    return (
-      <div className={classes} onClick={this.selectEmoji.bind(this, emoji)} key={emoji.id}>
-        <div className="inline-block"
-          style={{width: 18, paddingTop: 8}}
-          dangerouslySetInnerHTML={{__html: Emoji.parse(emoji.character)}} />
-      </div>
-    )
   }
 
   renderEmojis() {
-    const { emojis, selectedEmoji } = this.props
-    if (emojis && emojis.size > 0) {
-      let classes = classnames('ml1 transition-stagger overflow-hidden', {
-        'transition-stagger--focused': this.state.focused || selectedEmoji
-      })
-      return (
-        <div className={classes} style={{ height: 40 }}>
-          {emojis.take(8).map(this.renderEmoji.bind(this))}
-        </div>
-      )
+    const minHeight = EmojiGridRows * 16 * 3.5
+    if (EmojiStore.isEmpty()) {
+      return <div style={{minHeight: minHeight}} />
     }
+
+    const { query } = this.state
+    let emojis = null
+
+    if (query) {
+      emojis = EmojiStore.search(query)
+    } else {
+      emojis = EmojiStore.all
+    }
+
+    return (
+      <div className="flex flex-wrap px2" style={{minHeight}}>
+        {emojis.take(8 * EmojiGridRows).map(emoji =>
+          <div className="p2 pointer"
+               onClick={this.selectEmoji.bind(this, emoji)}
+               key={emoji.id}>
+            <Emoji emoji={emoji} size={24} />
+          </div>
+        )}
+      </div>
+    )
   }
 
   render() {
     return (
-      <div className="flex">
-        <input className="p1 field-light border-silver"
-          placeholder="Emoji"
-          onBlur={this.toggleFocus}
-          onFocus={this.toggleFocus}
-          value={this.props.selectedEmojiName}
-          onChange={this.handleChange} />
+      <Picker value={this.renderValue()} onCancel={this.handleCancel.bind(this)} onOk={this.handleChange.bind(this)}>
+        <div className="border-bottom mb2">
+          <input type="search"
+                 className="input-invisible block full-width"
+                 style={{paddingLeft: '1rem', paddingRight: '1rem'}}
+                 placeholder={EmojiStore.isEmpty() ? null : "Search for a descriptive emoji"}
+                 onChange={this.handleSearchChange.bind(this)} />
+        </div>
         {this.renderEmojis()}
+      </Picker>
+    )
+  }
+
+  renderValue() {
+    const emoji = EmojiStore.find(this.state.value)
+
+    // Fill out the height so the bar doesn't jump around the place
+    if (!emoji) {
+      return <div style={{minHeight: "3rem"}} />
+    }
+
+    return (
+      <div className="flex flex-center">
+        <div className="mr2">
+          <div className="bg-white circle center flex flex-center p1" style={{width: '2rem', height: '2rem'}}>
+            <div className="mx-auto">
+              <Emoji emoji={emoji} size={24} />
+            </div>
+          </div>
+        </div>
+
+        <div className="white truncate">
+          :{emoji.name}:
+        </div>
       </div>
     )
   }
 
-  _handleChange(e) {
-    const { value } = e.target
-    if (EMOJI_REGEX.test(value)) {
-      return EmojiActions.find(value)
-    }
-
-    EmojiActions.search(value.replace(/[^A-Za-z0-9_\-:]/g, ''))
+  handleSearchChange(e) {
+    this.setState({query: e.target.value.replace(/:/g, '')})
   }
 
-  _selectEmoji(emoji, e) {
-    e.stopPropagation()
-
-    let emojiCopy = Object.assign({}, emoji)
-
-    emojiCopy.name = `:${emoji.name}:`
-
-    EmojiActions.selectEmoji(emojiCopy)
+  selectEmoji(emoji, e) {
+    this.setState({value: emoji.id})
   }
 
-  _toggleFocus(e) {
-    setTimeout(() => {
-      this.setState({
-        focused: !this.state.focused
-      })
-    }, 100)
+  handleChange(e) {
+    this.props.onChange({value: this.state.value})
   }
-}
 
-EmojiPicker.defaultProps = {
-  emojis: List()
+  handleCancel(e) {
+    this.props.onChange({value: this.props.defaultValue})
+  }
 }
 
 EmojiPicker.propTypes = {
-  emojis: React.PropTypes.shape({
-    take: React.PropTypes.func.isRequired,
-    map: React.PropTypes.func.isRequired
-  }).isRequired,
+  onChange: React.PropTypes.func.isRequired,
+  defaultValue: React.PropTypes.string.isRequired,
+}
 
-  selectedEmoji: React.PropTypes.string,
-  selectedEmojiName: React.PropTypes.string
+EmojiPicker.defaultProps = {
+  defaultValue: "c6a2b5b8-b1fc-4ff0-b108-746cef842362"
 }
