@@ -4,18 +4,23 @@ import ClickablePaginator from '../ui/ClickablePaginator.jsx'
 import connectToStores from '../lib/connectToStores.jsx'
 import Icon from '../ui/Icon.jsx'
 import MembershipActions from '../actions/MembershipActions'
+import moment from 'moment'
 import NewChangelogActions from '../actions/new_changelog_actions'
 import NewChangelogStore from '../stores/new_changelog_store'
+import paramsFor from '../lib/paramsFor'
+import PostSetActions from '../actions/PostSetActions'
 import React from 'react'
 import Stack from '../ui/Stack.jsx'
 import StoryActions from '../actions/story_actions'
 import StoryCell from './Story/StoryCell.jsx'
 import Table from '../ui/Table.jsx'
 import UpvoteToggler from './UpvoteToggler.jsx'
-import moment from 'moment'
-import paramsFor from '../lib/paramsFor'
+import UserPicker from '../components/user_picker.jsx'
+import UserPickerActions from '../actions/user_picker_actions'
 import { Link } from 'react-router'
-import PostSetActions from '../actions/PostSetActions'
+
+import { Range } from 'immutable'
+
 
 @connectToStores(NewChangelogStore)
 export default class TeamAdder extends React.Component {
@@ -23,14 +28,27 @@ export default class TeamAdder extends React.Component {
   static getPropsFromStores(props) {
     return {
       memberships: NewChangelogStore.memberships,
-      changelogId: NewChangelogStore.changelog.slug
+      changelogId: NewChangelogStore.changelog.slug,
+      changelog: NewChangelogStore.changelog
+    }
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      entryCount: 0
     }
   }
 
   render() {
-    const { memberships } = this.props
+    const { memberships, changelog } = this.props
+
     return (
       <div className="mb2">
+        <div>
+          <h4>🐛, 🔧, and 🚀 are better with a team.</h4>
+          Add teammates to <b>{changelog.name}</b>.  They'll be able to post to the changelog, as well as update its settings.
+        </div>
         {memberships.map(m => {
           if (m.is_core) {
             return (
@@ -50,21 +68,39 @@ export default class TeamAdder extends React.Component {
             )
           }
         })}
-        <div className="px2 py1 visible-hover-wrapper">
-          <form onSubmit={this.handleAddMember.bind(this)} className="mb3">
-            <input type="text" ref="emailOrUsername"
-                   className="field-light full-width"
-                   placeholder="Add a member by username" />
-            {this.renderStatus()}
-          </form>
-        </div>
+        {this.renderEntries()}
       </div>
     )
   }
 
-  handleAddMember(e) {
-    e.preventDefault()
-    let el = React.findDOMNode(this.refs.emailOrUsername)
+  renderEntries() {
+    let n = this.state.entryCount
+    let m = 3
+    if (n >=3 ) {
+      m = n + 1
+    }
+    return Range(0, m).map(a => this.renderEntry.bind(this)(a))
+  }
+
+  renderEntry(a) {
+    let b = "emailOrUsername".concat(a)
+    console.log(b)
+    return (
+      <div className="px2 py1 visible-hover-wrapper">
+        <form onSubmit={this.handleAddMember.bind(this)(b)} className="mb3">
+          <input type="text" ref={b}
+                 className="field-light full-width"
+                 placeholder="Add a member by username" />
+          {this.renderStatus()}
+        </form>
+      </div>
+    )
+  }
+
+  handleAddMember(b) {
+    let c = this.state.entryCount + 1
+    this.setState({entryCount: c})
+    let el = React.findDOMNode(b)
     let text = el.value
     MembershipActions.update(
       this.props.changelogId,
@@ -80,6 +116,8 @@ export default class TeamAdder extends React.Component {
   handleRemoveClicked(membership) {
     return (e) => {
       if (confirm(`Are you sure you want to remove @${membership.user.username}?`)) {
+        let c = this.state.entryCount - 1
+        this.setState({entryCount: c})
         MembershipActions.update(
           this.props.changelogId,
           membership.user.username, {

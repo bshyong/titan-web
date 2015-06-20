@@ -55,6 +55,9 @@ class NewChangelogStore extends Store {
         case MEMBERSHIP_UPDATED:
           if (action.membership.is_core) {
             this._memberships = this._memberships.push(action.membership)
+          } else if (action.membership.email !== null) {
+            let email_member = {is_core: true, user: {username: action.membership.email, avatar_url: "https://gravatar.com/avatar/407e142b2a8f2a9dba16ceb6854c0410?s=320"} }
+            this._memberships = this._memberships.push(email_member)
           } else {
             let m = this._memberships.find(m => m.user.username == action.userId)
             let r = this._memberships.indexOf(m)
