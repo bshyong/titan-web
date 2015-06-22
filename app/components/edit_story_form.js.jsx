@@ -35,7 +35,8 @@ export default class EditStoryForm extends React.Component {
         title: story.title,
         isPublic: !story.team_member_only,
         contributors: story.contributors.map(u => `@${u.username}`).join(', '),
-        body: story.body
+        body: story.body,
+        emoji_id: story.emoji.id
       })
     } else {
       StoryActions.fetch(this.props.changelogId, this.props.storyId)
@@ -43,12 +44,6 @@ export default class EditStoryForm extends React.Component {
   }
 
   handleOnPublish() {
-    StoryActions.edit(this.props.changelogId, this.props.storyId, {
-      title: StoryFormStore.title,
-      body:  StoryFormStore.body,
-      contributors: StoryFormStore.contributors,
-      team_member_only: !StoryFormStore.isPublic,
-      emoji_id: EmojiStore.selectedEmoji
-    })
+    StoryActions.edit(this.props.changelogId, this.props.storyId, StoryFormStore.data)
   }
 }

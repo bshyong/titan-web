@@ -23,7 +23,7 @@ class StoryFormStore extends Store {
           this.body = action.story.body
           this.contributors = flattenUsers(action.story.contributors)
           this.isPublic = !action.story.team_member_only
-          this.emoji_id = action.story.emoji_id
+          this.emoji_id = action.story.emoji_id || action.story.emoji.id
           break
 
         case STORY_FORM_CHANGE:
@@ -55,8 +55,6 @@ class StoryFormStore extends Store {
         default:
           return
       }
-
-      console.log('store emoji_id = ', this.emoji_id)
 
       this.emitChange()
     })
