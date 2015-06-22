@@ -76,11 +76,11 @@ export default class TeamAdder extends React.Component {
 
   renderBlankEntries() {
     let n = this.state.entryCount
-    let m = 3
-    if (n >=3 ) {
-      m = n + 1
+    let m = 3 - n
+    if (n > 3 ) {
+      m = 0
     }
-    return Range(0, m).map(a => this.renderBlankEntry.bind(this))
+    return Range(0, m).map(this.renderBlankEntry.bind(this))
   }
 
   renderBlankEntry() {
@@ -88,8 +88,9 @@ export default class TeamAdder extends React.Component {
       <div className="px2 py1 visible-hover-wrapper">
         <form className="mb3">
           <input type="text"
+                disabled={true}
                  className="field-light full-width"
-                 placeholder="Add a member by username" />
+                 placeholder="Add more team members" />
         </form>
       </div>
     )
