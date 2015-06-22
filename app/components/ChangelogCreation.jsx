@@ -12,6 +12,7 @@ import LoadingBar from '../ui/LoadingBar.jsx'
 import moment from '../config/moment'
 import NewChangelogActions from '../actions/new_changelog_actions'
 import NewChangelogStore from '../stores/new_changelog_store'
+import RadioGroup from 'react-radio-group'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
 import ScrollPaginator from '../ui/ScrollPaginator.jsx'
@@ -58,16 +59,27 @@ export default class ChangelogCreation extends React.Component {
       <div className="flex flex-center py2">
         <div className="flex-auto">
           <h4 className="mt0 mb0">Choose who can see your Changelog</h4>
-          <p className="mb0 gray">
-            {
-              is_members_only ? "Make it private. Only those you invite will be able to see and comment on it. You can change this later." : "Make it public. Anyone will be able to see it, follow it, and comment on it. You can change this later."
-            }
-          </p>
-        <div>
-          <Switch switched={!is_members_only} onSwitched={this.toggleVisibility.bind(this)} />
+          <RadioGroup name="privacy"
+            selectedValue={is_members_only ? 'private' : 'public'}
+            onChange={this.toggleVisibility.bind(this)}>
+            {Radio => (
+              <div>
+                <div>
+                  <label>
+                    <Radio value="public" ref="public" />
+                    Public <span className="gray">(Anyone with link)</span>
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <Radio value="private" ref="private" />
+                    Private <span className="gray">(Only invited members)</span>
+                  </label>
+                </div>
+              </div>
+            )}
+          </RadioGroup>
         </div>
-        </div>
-			
       </div>
     )
   }
@@ -82,20 +94,22 @@ export default class ChangelogCreation extends React.Component {
   }
 
   renderDescriptionField(){
-  return (<div className="mb3">
-    <label htmlFor="new-changelog-tagline">Tell everyone what its about</label>
-    <textarea
-      id="new-changelog-tagline"
-      className="field-light full-width block"
-      placeholder="5 words or less is best"
-      onChange={this.handleFormChange.bind(this, 'tagline')}
-      ref="name"
-      style={{
-        fontSize: '1rem',
-        height: 'auto'
-      }} />
-  </div>)
-  	
+    return (
+      <div className="mb3">
+        <label htmlFor="new-changelog-tagline">Tell everyone what its about</label>
+        <textarea
+          id="new-changelog-tagline"
+          className="field-light full-width block"
+          placeholder="5 words or less is best"
+          onChange={this.handleFormChange.bind(this, 'tagline')}
+          ref="name"
+          style={{
+            fontSize: '1rem',
+            height: 'auto'
+          }} />
+      </div>
+    )
+
   }
 
   renderNameField() {
@@ -109,9 +123,9 @@ export default class ChangelogCreation extends React.Component {
     return (
       <div className="mb2">
         <label htmlFor="new-changelog-name">Name your Changelog</label>
-		<p className="mb0 gray">
-		  It doesn't need to be formal, just fun and memorable.
-		</p>		
+    		<p className="mb0 gray">
+    		  It doesn't need to be formal, just fun and memorable.
+    		</p>
         <div className={cs} style={{height: 'auto'}}>
           <input type="text"
             id="new-changelog-name"
@@ -132,7 +146,9 @@ export default class ChangelogCreation extends React.Component {
       'is-error': !slugValid
     })
 
-    const slugErrorText = slugValid ? '&nbsp;' : NewChangelogStore.errors.slug || "You'll want this later, it can't be blank."
+    const slugErrorText = slugValid ?
+      '&nbsp;' :
+      NewChangelogStore.errors.slug || "You'll want this later; it can't be blank."
 
     return (
       <div className="mb2">
@@ -140,19 +156,19 @@ export default class ChangelogCreation extends React.Component {
 		<p className="mb0 gray">
 		  You can add your own customized url later on.
 		</p>
-        <div className={cs} style={{height: 'auto'}}>
-          <input type="text"
-            id="new-changelog-url"
-            className="field-light block full-width"
-            placeholder="slug"
-            value={NewChangelogStore.slug}
-            onChange={this.handleFormChange.bind(this, 'slug')}
-            ref="slug"
-            style={{
-              height: 'auto'
-            }} />
-        </div>
-        <div className="red h5" dangerouslySetInnerHTML={{__html: slugErrorText}} />
+      <div className={cs} style={{height: 'auto'}}>
+        <input type="text"
+          id="new-changelog-url"
+          className="field-light block full-width"
+          placeholder="slug"
+          value={NewChangelogStore.slug}
+          onChange={this.handleFormChange.bind(this, 'slug')}
+          ref="slug"
+          style={{
+            height: 'auto'
+          }} />
+      </div>
+      <div className="red h5" dangerouslySetInnerHTML={{__html: slugErrorText}} />
       </div>
     )
   }

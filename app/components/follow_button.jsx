@@ -35,5 +35,5 @@ export default class FollowButton extends React.Component {
 
 FollowButton.propTypes = {
   changelogId: React.PropTypes.string.isRequired,
-  toggled: React.PropTypes.bool.isRequired
+  toggled: React.PropTypes.bool
 }

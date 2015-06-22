@@ -45,6 +45,7 @@ RouterContainer.setRouters({
     location: Router.HistoryLocation
   }),
 })
+
 RouterContainer.setDomain(window.location.hostname)
 
 RouterContainer.router.run((Handler, state) => {

@@ -7,6 +7,7 @@ import connectToStores from '../../lib/connectToStores.jsx'
 import Icon from '../../ui/Icon.jsx'
 import MembershipActions from '../../actions/MembershipActions'
 import ProfileStore from '../../stores/profile_store'
+import RadioGroup from 'react-radio-group'
 import React from 'react'
 import RouterContainer from '../../lib/router_container'
 import Switch from '../../ui/Switch.jsx'
@@ -56,7 +57,7 @@ export default class ChangelogSettings extends React.Component {
           Only members can post stories. After your team <Link to="sso">signs up</Link> you'll be able to add them here.
         </p>
 
-        <div className="mb2">
+        <div>
           {this.props.coreMemberships.map(m => (
             <div className="flex flex-center px2 py1 bg-smoke-hover visible-hover-wrapper" key={m.id}>
               <div>
@@ -84,13 +85,27 @@ export default class ChangelogSettings extends React.Component {
 
         <div className="flex flex-center py2">
           <div className="flex-auto">
-            <h4 className="mt0 mb0 bold">Public</h4>
-          <p className="mb0 gray">
-            Anybody can see this changelog
-          </p>
-          </div>
-          <div>
-            <Switch switched={!is_members_only} onSwitched={this.handleSwitchMembersOnly.bind(this)} />
+            <h4 className="mt0 bold">Privacy</h4>
+            <RadioGroup name="privacy"
+              selectedValue={is_members_only ? 'private' : 'public'}
+              onChange={this.handleSwitchMembersOnly.bind(this)}>
+              {Radio => (
+                <div>
+                  <div>
+                    <label>
+                      <Radio value="public" className="ml0" />
+                      Public <span className="gray">(Anyone with link)</span>
+                    </label>
+                  </div>
+                  <div>
+                    <label>
+                      <Radio value="private" className="ml0" />
+                      Private <span className="gray">(Only invited members)</span>
+                    </label>
+                  </div>
+                </div>
+              )}
+            </RadioGroup>
           </div>
         </div>
 

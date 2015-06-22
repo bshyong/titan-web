@@ -134,7 +134,7 @@ export default class Story extends React.Component {
       )
     )
     return story.contributors.
-      map(user => <Avatar user={user} size={32} />).concat(guests))
+      map(user => <Avatar user={user} size={32} />).concat(guests)
   }
 
   renderDeleteLink() {
