@@ -18,7 +18,6 @@ import UpvoteToggler from './UpvoteToggler.jsx'
 import UserPicker from '../components/user_picker.jsx'
 import UserPickerActions from '../actions/user_picker_actions'
 import { Link } from 'react-router'
-
 import { Range } from 'immutable'
 
 
@@ -111,19 +110,21 @@ export default class TeamAdder extends React.Component {
 
   handleAddMember(e) {
     e.preventDefault()
-    let c = this.state.entryCount + 1
-    this.setState({entryCount: c})
     let el = React.findDOMNode(this.refs.emailOrUsername)
     let text = el.value
-    MembershipActions.update(
-      this.props.changelogId,
-      text, {
-        can_write: true,
-        can_view: true,
-        is_core: true
-      }
-    )
-    el.value = ''
+    if (text !== "") {
+      MembershipActions.update(
+        this.props.changelogId,
+        text, {
+          can_write: true,
+          can_view: true,
+          is_core: true
+        }
+      )
+      let c = this.state.entryCount + 1
+      this.setState({entryCount: NewChangelogStore.memberships.size })
+      el.value = ''
+    }
   }
 
   handleRemoveClicked(membership) {
