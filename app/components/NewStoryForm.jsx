@@ -100,7 +100,8 @@ export default class NewStoryForm extends React.Component {
           </div>
 
           <div className="mb2">
-            <ContributorsInput />
+            <ContributorsInput className="field-light block full-width" />
+            <p className="mt0 h5 gray">@mention friends or add their emails comma separated.</p>
           </div>
 
           <div className="clearfix border-top py3" style={{ borderColor: '#aaa' }}>

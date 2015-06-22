@@ -23,17 +23,19 @@ class Slide extends React.Component {
     return (
       <div>
         <ApplicationNavbar title="New changelog" />
-        <div className="flex flex-center full-width" style={{minHeight: "calc(100vh - 3.5rem - 2.25rem - 4rem - 2px)"}}>
-          <div className="container full-width p2">
+        <div className="flex flex-center full-width">
+          <div className="container full-width px2">
             <div className="sm-col-8 mx-auto px2">
               <h2 className="center mb3">{title}</h2>
               {children}
             </div>
           </div>
         </div>
-        <div className="bg-smoke p3">
-          <div className="container right-align">
-            <Button disabled={!onNextValid} color="orange" bg="white" style="outline" action={this.handleOnNext.bind(this)}>{next}</Button>
+        <div className="full-width border-top p2">
+          <div className="container">
+            <div className="sm-col-8 mx-auto p1 right-align">
+              <Button disabled={!onNextValid} color="green" bg="white" style="outline" action={this.handleOnNext.bind(this)}>{next}</Button>
+            </div>
           </div>
         </div>
       </div>
@@ -78,68 +80,31 @@ export default class ChangelogOnboardingPage extends React.Component {
             </div>
             <ChangelogCreation />
         </Slide>
+
+        <Slide title="Add your Team Members" active={slide === 1} next={"Next"} onNext={this.goToSlide(2)}>
+          <TeamAdder />
+        </Slide>
+
         <Slide
-          next="Ok, got it!"
-          active={slide === 1}
-          onNext={this.goToSlide(2)}
+          next="Start writing"
+          active={slide === 2}
+          onNext={this.goToSlide(3)}
           onNextValid={true}>
-          <p className="h2 mb4">
+          <p className="h2 mb4 mt4">
             Be as <img src="https://twemoji.maxcdn.com/svg/1f60e.svg" alt="casual" className="inline-block" style={{height: "1.25rem", verticalAlign: 'middle'}} /> or <img src="https://twemoji.maxcdn.com/svg/1f4bc.svg" alt="formal" className="inline-block" style={{height: "1.25rem", verticalAlign: 'middle'}} /> as you want. Even better, give credit to anyone who has helped out by adding them as a contributor.
           </p>
-          <div>
+          <div className="mb0">
             <img src={StoryGifSrc} />
           </div>
         </Slide>
         <Slide
-          title="Start with 3 posts: 1 of 3"
-          next="Write another post"
-          active={slide === 2}
-          onNext={this.handleStoryCreation(this.goToSlide(3))}
-          onNextValid={StoryFormStore.isValid()}>
-
-          <div className="mb4">
-            <div className="flex flex-justify pill overflow-hidden" style={{height: ".5rem"}}>
-              <div className="flex-auto bg-green"></div>
-              <div className="flex-auto border-left border-white bg-smoke"></div>
-              <div className="flex-auto border-left border-white bg-smoke"></div>
-            </div>
-          </div>
-
-          <StoryForm />
-        </Slide>
-        <Slide
-          title="Start with 3 posts: 2 of 3"
-          next="Write one more post"
+          title="Write your first post"
+          next="Post"
           active={slide === 3}
-          onNext={this.handleStoryCreation(this.goToSlide(4))}
+          onNext={this.handleStoryCreation(this.handleTransitionToChangelog())}
           onNextValid={StoryFormStore.isValid()}>
 
-          <div className="mb4">
-            <div className="flex flex-justify pill overflow-hidden" style={{height: ".5rem"}}>
-              <div className="flex-auto bg-green"></div>
-              <div className="flex-auto border-left border-white bg-green"></div>
-              <div className="flex-auto border-left border-white bg-smoke"></div>
-            </div>
-          </div>
-
           <StoryForm />
-        </Slide>
-        <Slide title="Start with 3 posts: 3 of 3" next="Invite Friends" active={slide === 4} onNext={this.goToSlide(5)} onNextValid={StoryFormStore.isValid()} >
-
-          <div className="mb4">
-
-            <div className="flex flex-justify pill overflow-hidden" style={{height: ".5rem"}}>
-              <div className="flex-auto bg-green"></div>
-              <div className="flex-auto border-left border-white bg-green"></div>
-              <div className="flex-auto border-left border-white bg-green"></div>
-            </div>
-          </div>
-
-          <StoryForm />
-        </Slide>
-
-        <Slide title="Add your Team Members" active={slide === 5} next={"Check out your new changelog"} onNext={this.handleStoryCreation(this.handleTransitionToChangelog())}>
-          <TeamAdder />
         </Slide>
 
       </div>

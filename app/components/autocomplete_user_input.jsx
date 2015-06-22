@@ -54,7 +54,7 @@ export default class AutocompleteUserInput extends React.Component {
     if (mention) {
       return <UserPicker query={mention[2]}
           onUserSelected={this.onUserSelected}
-          maxHeight={170} />
+          maxHeight={170} ref="userPickerPopup"/>
     } else if (email) {
       // return <EmailInvitePopup email={email[0]} />
     }
@@ -64,6 +64,7 @@ export default class AutocompleteUserInput extends React.Component {
     // Keep track of the cursor location (without triggering a render)
     // so that the user picker can match usernames in the middle of the
     // text
+    this.props.onKeyDown(e)
     this.selectionStart = e.target.selectionStart + 1
   }
 

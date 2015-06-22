@@ -29,6 +29,7 @@ export default keyMirror({
   CHANGELOG_UNFOLLOWED: null,
   CHANGELOG_UPDATED: null,
   CHANGELOG_FORM_CHANGED: null,
+  CHANGELOG_FORM_FOCUSED: null,
 
   CHANGELOGS_ALL_FETCHED: null,
 
@@ -45,6 +46,7 @@ export default keyMirror({
 
   CONTRIBUTORS_RESET: null,
   CONTRIBUTORS_STRING_RECEIVED: null,
+  CONTRIBUTORS_KEYDOWN: null,
 
   EMOJI_FETCHED: null,
   EMOJI_SELECTED: null,

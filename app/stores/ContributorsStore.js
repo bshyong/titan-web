@@ -1,27 +1,76 @@
 import {
+  CONTRIBUTORS_KEYDOWN,
   CONTRIBUTORS_RESET,
   CONTRIBUTORS_STRING_RECEIVED,
   CONTRIBUTORS_SUGGESTED,
+  STORY_FETCHED,
+  STORY_FORM_CLEAR,
+  STORY_PUBLISHED,
   USER_PICKER_USER_SELECTED,
-  USER_SIGNIN
+  USER_SIGNIN,
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
+import EMAIL_REGEX from '../lib/email_regex'
 import MENTION_REGEX from '../lib/mention_regex'
-import { List, Set } from 'immutable'
 import SessionStore from './session_store'
 import Store from '../lib/store'
+import { Set, List, OrderedSet } from 'immutable'
+
+const KEYCODES = {
+  ENTER: 13,
+  TAB: 9,
+  BACKSPACE: 8,
+}
 
 class ContributorsStore extends Store {
   constructor() {
     super()
 
-    this._contributors = null
-    this._suggestedContributors = null
+    this._contributors = Set()
+    this._emails = Set()
+    this._invalidMatches = Set()
+    this._suggestedContributors = Set()
+    this._currentMatch = ''
+    this._matchData = List([])
+    this._tokens = List([])
+    this._lastInvalidToken = null
 
     this.dispatchToken = Dispatcher.register(action => {
       switch (action.type) {
+        case STORY_FETCHED:
+          this._tokens = List([])
+          action.story.contributors.forEach(c => {
+            this._tokens = this._tokens.push({
+              type: 'contributor',
+              string: `@${c.username}`
+            })
+          })
+          break
+        case STORY_FORM_CLEAR:
+          this._tokens = List([])
+          break
+        case STORY_PUBLISHED:
+          this._tokens = List([])
+          break
+        case CONTRIBUTORS_KEYDOWN:
+          this._lastInvalidToken = null
+          if (!this._currentMatch && !this._tokens.isEmpty() && (action.event.keyCode === KEYCODES.BACKSPACE)) {
+            this._tokens = this._tokens.pop()
+          }
+          if (this._currentMatch && [KEYCODES.ENTER, KEYCODES.TAB].includes(action.event.keyCode)) {
+            this.saveToken(this._currentMatch)
+            this._currentMatch = null
+          }
+
+          break
         case CONTRIBUTORS_STRING_RECEIVED:
-          this._contributors = Set(splitContributors(action.string))
+          this._lastInvalidToken = null
+          let tokens = action.string.split(/,\s*/)
+          this._currentMatch = tokens.pop().trim()
+
+          if (tokens[0]) {
+            this.saveToken(tokens[0])
+          }
           this._suggestedContributors = null
           break
         case USER_PICKER_USER_SELECTED:
@@ -44,18 +93,67 @@ class ContributorsStore extends Store {
     return this._contributors
   }
 
-  contributorsAsString() {
-    const string = (this._contributors || Set()).join(', ')
-    return (string.lastIndexOf(',') !== string.length - 2) ?
-      string + ', ' :
-      string
+  get emails() {
+    return this._emails
   }
-}
 
-function splitContributors(string) {
-  return List(
-    string.split(', ')
-  ).filter(s => s.length > 0)
+  get lastInvalidToken() {
+    return this._lastInvalidToken
+  }
+
+  get invalidTokens() {
+    return this._invalidMatches
+  }
+
+  get validTokens() {
+    return this._tokens.filter(t =>{ return t.type !== 'invalid'})
+  }
+
+  get validTokensAsString() {
+    return this.validTokens.map(t => t.string).join(',')
+  }
+
+  get currentMatch() {
+    return this._currentMatch
+  }
+
+  saveToken(string) {
+    var newToken = this.tokenize(string.replace(/ /, ''))
+    if (!this._tokens.find(t => { return t.string === string.replace(/ /, '') })) {
+      this._tokens = this._tokens.push(
+        newToken
+      )
+    }
+    if (newToken.type === 'invalid') {
+      this._lastInvalidToken = newToken.string
+    }
+  }
+
+  tokenize(string) {
+    if (MENTION_REGEX.test(string)){
+      this._contributors = this._contributors.add(string)
+      return {
+        type: 'contributor',
+        string: string
+      }
+    } else if (EMAIL_REGEX.test(string)) {
+      this._emails = this._emails.add(string)
+      return {
+        type: 'email',
+        string: string
+      }
+    } else {
+      this._invalidMatches = this._invalidMatches.add(string)
+      return {
+        type: 'invalid',
+        string: string
+      }
+    }
+  }
+
+  contributorsAsString() {
+    return this._currentMatch
+  }
 }
 
 export default new ContributorsStore()

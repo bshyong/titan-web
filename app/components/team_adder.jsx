@@ -1,13 +1,12 @@
 import Avatar from '../ui/Avatar.jsx'
 import Badge from './Badge.jsx'
+import Button from '../ui/Button.jsx'
+import ChangelogStore from '../stores/changelog_store'
 import ClickablePaginator from '../ui/ClickablePaginator.jsx'
-import connectToStores from '../lib/connectToStores.jsx'
 import Icon from '../ui/Icon.jsx'
 import MembershipActions from '../actions/MembershipActions'
-import moment from 'moment'
 import NewChangelogActions from '../actions/new_changelog_actions'
 import NewChangelogStore from '../stores/new_changelog_store'
-import paramsFor from '../lib/paramsFor'
 import PostSetActions from '../actions/PostSetActions'
 import React from 'react'
 import Stack from '../ui/Stack.jsx'
@@ -17,18 +16,21 @@ import Table from '../ui/Table.jsx'
 import UpvoteToggler from './UpvoteToggler.jsx'
 import UserPicker from '../components/user_picker.jsx'
 import UserPickerActions from '../actions/user_picker_actions'
+import connectToStores from '../lib/connectToStores.jsx'
+import moment from 'moment'
+import paramsFor from '../lib/paramsFor'
 import { Link } from 'react-router'
 import { Range } from 'immutable'
 
 
-@connectToStores(NewChangelogStore)
+@connectToStores(NewChangelogStore, ChangelogStore)
 export default class TeamAdder extends React.Component {
 
   static getPropsFromStores(props) {
     return {
       memberships: NewChangelogStore.memberships,
-      changelogId: NewChangelogStore.changelog.slug,
-      changelog: NewChangelogStore.changelog
+      changelogId: ChangelogStore.slug,
+      changelog: ChangelogStore.changelog
     }
   }
 
@@ -97,12 +99,13 @@ export default class TeamAdder extends React.Component {
 
   renderEntry() {
     return (
-      <div className="px2 py1 visible-hover-wrapper">
-        <form onSubmit={this.handleAddMember.bind(this)} className="mb3">
+      <div className="px2 py1">
+        <form onSubmit={this.handleAddMember.bind(this)} className="mb3 full-width flex">
           <input type="text" ref={"emailOrUsername"}
-                 className="field-light full-width"
+                 className="field-light flex-auto"
                  placeholder="Add a member by username" />
           {this.renderStatus()}
+          <Button>Add</Button>
         </form>
       </div>
     )

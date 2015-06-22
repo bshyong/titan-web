@@ -76,15 +76,13 @@ export default class NewStoryForm extends React.Component {
               value={emoji_id}
               onChange={this.handleChanged('emoji_id').bind(this)} />
           <p className="mt1 h5">
-            Pick an emoji to describe the post. <a href="http://www.emoji-cheat-sheet.com/" target="_blank">
-              Need a ✋?
-            </a>
+            Pick an emoji to describe the post.
           </p>
         </div>
 
         <div className="mb3">
           <ContributorsInput className="field-light block full-width" />
-          <p className="mt1 h5">Who else helped out? @mention friends or add their emails comma separated.</p>
+          <p className="mt0 h5">Who else helped out? @mention friends or add their emails comma separated.</p>
         </div>
 
       </div>

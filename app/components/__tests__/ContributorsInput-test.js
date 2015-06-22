@@ -2,20 +2,23 @@ describe('ContributorsInput', () => {
   let React,
       TestUtils,
       ContributorsInput,
-      ContributorsActions
+      ContributorsActions,
+      Immutable,
+      List
 
   beforeEach(() => {
     React = require('react/addons')
     TestUtils = React.addons.TestUtils
     ContributorsInput = require('../ContributorsInput.jsx').Component
     ContributorsActions = require('../../actions/ContributorsActions')
+    List = require('immutable').List
   })
 
   describe('handleChange()', () => {
     let input
 
     beforeEach(() => {
-      input = React.render(<ContributorsInput />, document.body)
+      input = React.render(<ContributorsInput validTokens={List([])} />, document.body)
     })
 
     it('updates this.selectionStart', () => {

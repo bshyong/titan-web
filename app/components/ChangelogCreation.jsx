@@ -28,6 +28,10 @@ export default class ChangelogCreation extends React.Component {
 
   constructor(props) {
     super(props)
+
+    this.state = {
+      slugFieldExpanded: false
+    }
   }
 
   static getPropsFromStores(props) {
@@ -43,7 +47,7 @@ export default class ChangelogCreation extends React.Component {
       <div className="md-col-8 mx-auto">
         {this.renderNameField()}
         {this.renderSlugField()}
-		{this.renderDescriptionField()}
+    		{this.renderDescriptionField()}
 
         <div className="mb3">
           {this.renderVisibilitySettings()}
@@ -59,21 +63,28 @@ export default class ChangelogCreation extends React.Component {
       <div className="flex flex-center py2">
         <div className="flex-auto">
           <h4 className="mt0 mb0">Choose who can see your Changelog</h4>
+          <h4 className="mt0 mb1 gray">You can change this setting later.</h4>
           <RadioGroup name="privacy"
             selectedValue={is_members_only ? 'private' : 'public'}
             onChange={this.toggleVisibility.bind(this)}>
             {Radio => (
               <div>
-                <div>
-                  <label>
-                    <Radio value="public" ref="public" />
-                    Public <span className="gray">(Anyone with link)</span>
+                <div className="mb1">
+                  <label className="flex">
+                    <div className="flex-none mr1"><Radio value="public" ref="public" /></div>
+                    <div>
+                      <h4 className="m0">Public</h4>
+                      <p className="mb0 gray">Anyone wil be able to see it, follow it, and comment on it.</p>
+                    </div>
                   </label>
                 </div>
                 <div>
-                  <label>
-                    <Radio value="private" ref="private" />
-                    Private <span className="gray">(Only invited members)</span>
+                  <label className="flex">
+                    <div className="flex-none mr1"><Radio value="private" ref="private" /></div>
+                    <div>
+                      <h4 className="m0">Private</h4>
+                      <p className="mb0 gray">Only those you invite will be able to see and comment on it.</p>
+                    </div>
                   </label>
                 </div>
               </div>
@@ -96,7 +107,7 @@ export default class ChangelogCreation extends React.Component {
   renderDescriptionField(){
     return (
       <div className="mb3">
-        <label htmlFor="new-changelog-tagline">Tell everyone what its about</label>
+        <label htmlFor="new-changelog-tagline">Tell everyone what it's about</label>
         <textarea
           id="new-changelog-tagline"
           className="field-light full-width block"
@@ -109,7 +120,6 @@ export default class ChangelogCreation extends React.Component {
           }} />
       </div>
     )
-
   }
 
   renderNameField() {
@@ -118,14 +128,11 @@ export default class ChangelogCreation extends React.Component {
       'is-error': !nameValid
     })
 
-    const nameErrorText = nameValid ? '&nbsp;' : NewChangelogStore.errors.name || "We share your excitment but we need a name first."
+    const nameErrorText = nameValid ? '&nbsp;' : NewChangelogStore.errors.name || "We share your excitement but we need a name first."
 
     return (
       <div className="mb2">
         <label htmlFor="new-changelog-name">Name your Changelog</label>
-    		<p className="mb0 gray">
-    		  It doesn't need to be formal, just fun and memorable.
-    		</p>
         <div className={cs} style={{height: 'auto'}}>
           <input type="text"
             id="new-changelog-name"
@@ -146,40 +153,48 @@ export default class ChangelogCreation extends React.Component {
       'is-error': !slugValid
     })
 
-    const slugErrorText = slugValid ?
-      '&nbsp;' :
-      NewChangelogStore.errors.slug || "You'll want this later; it can't be blank."
+    const slugClasses = classnames('break-word', {
+      'gray': true
+    })
+
+    const slugErrorText = slugValid ? '&nbsp;' : NewChangelogStore.errors.slug || "You'll want this later, it can't be blank."
 
     return (
       <div className="mb2">
-        <label htmlFor="new-changelog-url">Changelog URL</label>
-		<p className="mb0 gray">
-		  You can add your own customized url later on.
-		</p>
-      <div className={cs} style={{height: 'auto'}}>
-        <input type="text"
-          id="new-changelog-url"
-          className="field-light block full-width"
-          placeholder="slug"
-          value={NewChangelogStore.slug}
-          onChange={this.handleFormChange.bind(this, 'slug')}
-          ref="slug"
-          style={{
-            height: 'auto'
-          }} />
-      </div>
-      <div className="red h5" dangerouslySetInnerHTML={{__html: slugErrorText}} />
+        <div onClick={this.handleEditClicked.bind(this)}>
+          <div>
+            <label htmlFor="new-changelog-url" className="mr1 pointer">
+              URL: <span className="gray">changelog.assembly.com/..</span>
+            </label>
+          </div>
+        </div>
+        <div className={cs} style={{height: 'auto'}}>
+        {
+          true ? <input type="text"
+            id="new-changelog-url"
+            className="field-light block full-width"
+            placeholder="Letters, numbers, and dashes only"
+            value={NewChangelogStore.slug}
+            onChange={this.handleFormChange.bind(this, 'slug')}
+            onFocus={this.handleSlugOnFocus.bind(this)}
+            ref="slug"
+            style={{
+              height: 'auto'
+            }} /> : null
+        }
+        </div>
+        <p className={`mb2 h5 ${slugValid ? 'gray' : 'red'}`} dangerouslySetInnerHTML={{__html: slugErrorText}} />
       </div>
     )
   }
 
-  handlePublish() {
-    const { name, tagline, website, membersOnly } = this.state
-    const slug = this.sanitizeSlug(this.state.slug)
-    const user_id = this.props.user.id
-    const successCallback = this.props
+  handleEditClicked() {
+    this.setState({
+      slugFieldExpanded: true
+    })
+  }
 
-    this.setState({recently_typed: false})
-    ChangelogActions.create(name, tagline, slug, user_id, website, membersOnly, successCallback)
+  handleSlugOnFocus() {
+    NewChangelogActions.focusField('slug')
   }
 }

@@ -10,6 +10,7 @@ import Dispatcher from '../lib/dispatcher'
 import EMOJI_REGEX from '../lib/emoji_regex'
 import { List } from 'immutable'
 import Store from '../lib/store'
+import ContributorsStore from '../stores/ContributorsStore'
 
 class StoryFormStore extends Store {
   constructor() {
@@ -21,15 +22,12 @@ class StoryFormStore extends Store {
         case STORY_FETCHED:
           this.title = action.story.title
           this.body = action.story.body
-          this.contributors = flattenUsers(action.story.contributors)
           this.isPublic = !action.story.team_member_only
           this.emoji_id = action.story.emoji_id || action.story.emoji.id
           break
-
         case STORY_FORM_CHANGE:
           this.title = action.fields.title
           this.body = action.fields.body
-          this.contributors = action.fields.contributors
           this.isPublic = action.fields.isPublic
           this.emoji_id = action.fields.emoji_id
 
@@ -83,7 +81,7 @@ class StoryFormStore extends Store {
     return {
       title: this.title,
       body: this.body,
-      contributors: this.contributors,
+      contributors: ContributorsStore.validTokensAsString,
       isPublic: this.isPublic,
       emoji_id: this.emoji_id,
     }
