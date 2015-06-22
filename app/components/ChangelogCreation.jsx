@@ -126,9 +126,6 @@ export default class ChangelogCreation extends React.Component {
     return (
       <div className="mb2">
         <label htmlFor="new-changelog-name">Name your Changelog</label>
-    		<p className="mb0 gray">
-    		  It doesn't need to be formal; just fun and memorable.
-    		</p>
         <div className={cs} style={{height: 'auto'}}>
           <input type="text"
             id="new-changelog-name"
@@ -150,32 +147,26 @@ export default class ChangelogCreation extends React.Component {
     })
 
     const slugClasses = classnames('break-word', {
-      'gray': !NewChangelogStore.slug
+      'gray': true
     })
 
-    const slugErrorText = slugValid ? 'You can add your own custom url later on.' : NewChangelogStore.errors.slug || "You'll want this later, it can't be blank."
+    const slugErrorText = slugValid ? '&nbsp;' : NewChangelogStore.errors.slug || "You'll want this later, it can't be blank."
 
     return (
       <div className="mb2">
         <div onClick={this.handleEditClicked.bind(this)}>
           <div>
-            <span className="px1 pointer gray h5">
-              <Icon icon="pencil" />
-            </span>
             <label htmlFor="new-changelog-url" className="mr1 pointer">
-              Changelog slug:
+              URL: <span className="gray">changelog.assembly.com/..</span>
             </label>
-          </div>
-          <div>
-            <span className={slugClasses}>{this.state.slugFieldExpanded ? null : (NewChangelogStore.slug || 'changelog.assembly.com/')}</span>
           </div>
         </div>
         <div className={cs} style={{height: 'auto'}}>
         {
-          this.state.slugFieldExpanded ? <input type="text"
+          true ? <input type="text"
             id="new-changelog-url"
             className="field-light block full-width"
-            placeholder="slug"
+            placeholder="Letters, numbers, and dashes only"
             value={NewChangelogStore.slug}
             onChange={this.handleFormChange.bind(this, 'slug')}
             onFocus={this.handleSlugOnFocus.bind(this)}
@@ -185,7 +176,7 @@ export default class ChangelogCreation extends React.Component {
             }} /> : null
         }
         </div>
-        <p className={`mb3 ${slugValid ? 'gray' : 'red'}`} dangerouslySetInnerHTML={{__html: slugErrorText}} />
+        <p className={`mb2 h5 ${slugValid ? 'gray' : 'red'}`} dangerouslySetInnerHTML={{__html: slugErrorText}} />
       </div>
     )
   }
