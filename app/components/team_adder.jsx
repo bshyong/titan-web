@@ -45,15 +45,15 @@ export default class TeamAdder extends React.Component {
     const { memberships, changelog } = this.props
 
     return (
-      <div className="mb2">
+      <div className="mb2 px2">
         <div>
-          <h4>🐛, 🔧, and 🚀 are better with a team.</h4>
-          Add teammates to <b>{changelog.name}</b>.  They'll be able to post to the changelog, as well as update its settings.
+          <h4>Building is better with a team.</h4>
+          Add teammates to <b>{changelog.name}</b>. They'll be able to post to the changelog, as well as update its settings.
         </div>
         {memberships.map(m => {
           if (m.is_core) {
             return (
-              <div className="flex flex-center px2 py1 bg-smoke-hover visible-hover-wrapper" key={m.id}>
+              <div className="flex flex-center py2 bg-smoke-hover visible-hover-wrapper" key={m.id}>
                 <div>
                   <Avatar user={m.user} size={16 * 2} />
                 </div>
@@ -86,8 +86,8 @@ export default class TeamAdder extends React.Component {
 
   renderBlankEntry() {
     return (
-      <div className="px2 py1 visible-hover-wrapper">
-        <form className="mb3">
+      <div className="py1">
+        <form className="mb2">
           <input type="text"
                 disabled={true}
                  className="field-light full-width"
@@ -99,8 +99,8 @@ export default class TeamAdder extends React.Component {
 
   renderEntry() {
     return (
-      <div className="px2 py1">
-        <form onSubmit={this.handleAddMember.bind(this)} className="mb3 full-width flex">
+      <div className="py2">
+        <form onSubmit={this.handleAddMember.bind(this)} className="mb2 mt2 full-width flex">
           <input type="text" ref={"emailOrUsername"}
                  className="field-light flex-auto"
                  placeholder="Add a member by username" />
