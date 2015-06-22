@@ -3,7 +3,7 @@ import {
   CHANGELOG_CREATE_FAILED,
   CHANGELOG_FETCHED,
   CHANGELOG_FORM_CHANGED,
-  CHANGELOG_CREATING,
+  CHANGELOG_CREATING
 } from '../constants'
 import {List} from 'immutable'
 

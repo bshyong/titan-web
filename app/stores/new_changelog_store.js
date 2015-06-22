@@ -3,10 +3,12 @@ import {
   CHANGELOG_CREATING,
   CHANGELOG_FETCHED,
   CHANGELOG_FORM_CHANGED,
+  MEMBERSHIP_UPDATED,
+  NEW_CHANGELOG_MEMBERSHIPS_FETCHED
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
-import {Map} from 'immutable'
+import { Map, List } from 'immutable'
 import RouterContainer from '../lib/router_container'
 
 class NewChangelogStore extends Store {
@@ -18,10 +20,12 @@ class NewChangelogStore extends Store {
     this._nameValid = true
     this._slugValid = true
     this._modified = false
+    this._memberships = List()
 
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
         case CHANGELOG_CREATING:
+          this._memberships = List()
           this._isCreating = true
           this.emitChange()
           break
@@ -47,6 +51,23 @@ class NewChangelogStore extends Store {
             this._errors = this._errors.set("name", "Oops. Name can't be blank")
           }
           this.emitChange()
+          break
+        case MEMBERSHIP_UPDATED:
+          if (action.membership.is_core) {
+            this._memberships = this._memberships.push(action.membership)
+          } else if (action.membership.email !== null) {
+            let email_member = {is_core: true, user: {username: action.membership.email, avatar_url: "https://gravatar.com/avatar/407e142b2a8f2a9dba16ceb6854c0410?s=320"} }
+            this._memberships = this._memberships.push(email_member)
+          } else {
+            let m = this._memberships.find(m => m.user.username == action.userId)
+            let r = this._memberships.indexOf(m)
+            this._memberships = this._memberships.delete(r)
+          }
+
+          this.emitChange()
+          break
+        case NEW_CHANGELOG_MEMBERSHIPS_FETCHED:
+          this._memberships = action.memberships
           break
         default:
           break
@@ -95,6 +116,10 @@ class NewChangelogStore extends Store {
 
   get isValid() {
     return this._modified && this._nameValid && this._slugValid
+  }
+
+  get memberships() {
+    return this._memberships
   }
 
   get nameValid() {

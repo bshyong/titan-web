@@ -48,7 +48,7 @@ export default class Admin extends React.Component {
             <StoryCell story={story} slim={true} />
           </Table.Cell>
         )
-      } 
+      }
     })
   }
 
