@@ -71,7 +71,7 @@ export default class NewStoryForm extends React.Component {
             <div className="flex-auto p1">
               <input type="text"
                 className="field-light block full-width"
-                placeholder="Wahtz happening?"
+                placeholder="What did your team do lately?"
                 value={title}
                 onChange={this.handleChanged('title').bind(this)}
                 ref="title"
