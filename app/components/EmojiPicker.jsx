@@ -57,7 +57,8 @@ export default class EmojiPicker extends React.Component {
                  className="input-invisible block full-width"
                  style={{paddingLeft: '1rem', paddingRight: '1rem'}}
                  placeholder={EmojiStore.isEmpty() ? null : "Search for a descriptive emoji"}
-                 onChange={this.handleSearchChange.bind(this)} />
+                 onChange={this.handleSearchChange.bind(this)}
+                 ref="search" />
         </div>
         {this.renderEmojis()}
       </Picker>
