@@ -54,7 +54,8 @@ export default class ChangelogSettings extends React.Component {
       <div>
         <h4 className="mt0 mb0 bold">Members</h4>
         <p className="gray">
-          Only members can post stories. After your team <Link to="sso">signs up</Link> you'll be able to add them here.
+          A list of current members who can create new stories.
+          Make sure your team <Link to="sso">signs up</Link> so they can participate!
         </p>
 
         <div>
