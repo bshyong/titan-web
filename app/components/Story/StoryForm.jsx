@@ -4,7 +4,7 @@ import Button from '../../ui/Button.jsx'
 import ChangelogStore from '../../stores/changelog_store'
 import ContributorsActions from '../../actions/ContributorsActions'
 import ContributorsInput from '../ContributorsInput.jsx'
-import EmojiPicker from '../EmojiPicker.jsx'
+import EmojiInput from '../EmojiInput.jsx'
 import EmojiStore from '../../stores/emoji_store'
 import HighlightsActionCreator from '../../actions/highlight_actions'
 import HighlightsStore from '../../stores/highlights_store'
@@ -44,7 +44,7 @@ export default class NewStoryForm extends React.Component {
       title:        StoryFormStore.title,
       body:         StoryFormStore.body,
       isPublic:     StoryFormStore.isPublic,
-      emoji_id:     EmojiStore.selectedEmoji
+      emoji_id:     StoryFormStore.emoji_id
     }
   }
 
@@ -54,7 +54,8 @@ export default class NewStoryForm extends React.Component {
       body,
       isPublic,
       storyId,
-      contributors
+      contributors,
+      emoji_id
     } = this.props
 
     return (
@@ -71,7 +72,9 @@ export default class NewStoryForm extends React.Component {
         </div>
 
         <div className="mb3">
-          <EmojiPicker className="field-light block full-width" />
+          <EmojiInput
+              value={emoji_id}
+              onChange={this.handleChanged('emoji_id').bind(this)} />
           <p className="mt1 h5">
             Pick an emoji to describe the post. <a href="http://www.emoji-cheat-sheet.com/" target="_blank">
               Need a ✋?
