@@ -54,9 +54,14 @@ class ContributorsStore extends Store {
           break
         case CONTRIBUTORS_KEYDOWN:
           this._lastInvalidToken = null
-          if (!this._currentMatch && !this._tokens.isEmpty() && action.event.keyCode === KEYCODES.BACKSPACE) {
+          if (!this._currentMatch && !this._tokens.isEmpty() && (action.event.keyCode === KEYCODES.BACKSPACE)) {
             this._tokens = this._tokens.pop()
           }
+          if (this._currentMatch && [KEYCODES.ENTER, KEYCODES.TAB].includes(action.event.keyCode)) {
+            this.saveToken(this._currentMatch)
+            this._currentMatch = null
+          }
+
           break
         case CONTRIBUTORS_STRING_RECEIVED:
           this._lastInvalidToken = null
@@ -64,15 +69,7 @@ class ContributorsStore extends Store {
           this._currentMatch = tokens.pop().trim()
 
           if (tokens[0]) {
-            var newToken = this.tokenize(tokens[0].replace(/ /, ''))
-            if (!this._tokens.find(t => { return t.string === tokens[0] })) {
-              this._tokens = this._tokens.push(
-                newToken
-              )
-            }
-            if (newToken.type === 'invalid') {
-              this._lastInvalidToken = newToken.string
-            }
+            this.saveToken(tokens[0])
           }
           this._suggestedContributors = null
           break
@@ -118,6 +115,18 @@ class ContributorsStore extends Store {
 
   get currentMatch() {
     return this._currentMatch
+  }
+
+  saveToken(string) {
+    var newToken = this.tokenize(string.replace(/ /, ''))
+    if (!this._tokens.find(t => { return t.string === string.replace(/ /, '') })) {
+      this._tokens = this._tokens.push(
+        newToken
+      )
+    }
+    if (newToken.type === 'invalid') {
+      this._lastInvalidToken = newToken.string
+    }
   }
 
   tokenize(string) {

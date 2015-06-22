@@ -51,7 +51,7 @@ export default class ContributorsInput extends React.Component {
               ref="input"
               className="border-none block full-width"
               placeholder={validTokens.isEmpty() ? 'Who helped out?' : 'Who else helped out?'}
-              value={this.props.contributors}
+              value={this.props.currentMatch}
               onKeyDown={this.handleKeyDown}
               onChange={this.handleChange}
               onFocus={this.handleFocus} />
@@ -64,7 +64,7 @@ export default class ContributorsInput extends React.Component {
 
   renderInvalidTokenText() {
     const { lastInvalidToken, validTokens, currentMatch } = this.props
-    return lastInvalidToken ? `${lastInvalidToken} is invalid` : '&nbsp;'
+    return lastInvalidToken ? `${lastInvalidToken} is neither a valid username nor an email address` : '&nbsp;'
   }
 
   renderTokens() {
@@ -78,7 +78,13 @@ export default class ContributorsInput extends React.Component {
   }
 
   _handleKeyDown(e) {
-    ContributorsActions.propagateKeyDown(e)
+    // don't propagate if userPickerPopup is open
+    if (!React.findDOMNode(this.refs.input.refs.userPickerPopup)) {
+      if ([KEYCODES.ENTER, KEYCODES.TAB].includes(e.keyCode)) {
+        e.preventDefault()
+      }
+      ContributorsActions.propagateKeyDown(e)
+    }
   }
 
   _handleChange(e) {
