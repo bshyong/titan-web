@@ -18,7 +18,6 @@ import UpvoteToggler from './UpvoteToggler.jsx'
 import UserPicker from '../components/user_picker.jsx'
 import UserPickerActions from '../actions/user_picker_actions'
 import { Link } from 'react-router'
-
 import { Range } from 'immutable'
 
 

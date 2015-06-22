@@ -1,7 +1,8 @@
 import {
   MEMBERSHIP_UPDATE_FAILED,
   MEMBERSHIP_UPDATED,
-  MEMBERSHIP_UPDATING
+  MEMBERSHIP_UPDATING,
+  PENDING_MEMBERSHIP_UPDATED
 } from '../constants'
 
 import api from '../lib/api'
@@ -33,13 +34,15 @@ export default {
         })
       })
     } else {
+      console.log(userId)
       let d = {email: userId}
       api.post(`changelogs/${changelogId}/pending_members`, d).then(resp => {
         Dispatcher.dispatch({
-          type: MEMBERSHIP_UPDATED,
+          type: PENDING_MEMBERSHIP_UPDATED,
           changelogId: changelogId,
           userId: userId,
-          membership: resp
+          membership: resp,
+          created: change.is_core ? true : false
         })
       }).catch(errors => {
         Dispatcher.dispatch({
@@ -50,7 +53,5 @@ export default {
         })
       })
     }
-
-
   }
 }
