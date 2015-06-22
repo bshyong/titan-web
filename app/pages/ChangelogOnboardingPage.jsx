@@ -80,10 +80,15 @@ export default class ChangelogOnboardingPage extends React.Component {
             </div>
             <ChangelogCreation />
         </Slide>
+
+        <Slide title="Add your Team Members" active={slide === 1} next={"Next"} onNext={this.goToSlide(2)}>
+          <TeamAdder />
+        </Slide>
+
         <Slide
           next="Start writing"
-          active={slide === 1}
-          onNext={this.goToSlide(2)}
+          active={slide === 2}
+          onNext={this.goToSlide(3)}
           onNextValid={true}>
           <p className="h2 mb4 mt4">
             Be as <img src="https://twemoji.maxcdn.com/svg/1f60e.svg" alt="casual" className="inline-block" style={{height: "1.25rem", verticalAlign: 'middle'}} /> or <img src="https://twemoji.maxcdn.com/svg/1f4bc.svg" alt="formal" className="inline-block" style={{height: "1.25rem", verticalAlign: 'middle'}} /> as you want. Even better, give credit to anyone who has helped out by adding them as a contributor.
@@ -93,56 +98,13 @@ export default class ChangelogOnboardingPage extends React.Component {
           </div>
         </Slide>
         <Slide
-          title="Start with 3 posts: 1 of 3"
-          next="Post"
-          active={slide === 2}
-          onNext={this.handleStoryCreation(this.goToSlide(3))}
-          onNextValid={StoryFormStore.isValid()}>
-
-          <div className="mb4">
-            <div className="flex flex-justify pill overflow-hidden" style={{height: ".5rem"}}>
-              <div className="flex-auto bg-green"></div>
-              <div className="flex-auto border-left border-white bg-smoke"></div>
-              <div className="flex-auto border-left border-white bg-smoke"></div>
-            </div>
-          </div>
-
-          <StoryForm />
-        </Slide>
-        <Slide
-          title="Start with 3 posts: 2 of 3"
+          title="Write your first post"
           next="Post"
           active={slide === 3}
-          onNext={this.handleStoryCreation(this.goToSlide(4))}
+          onNext={this.handleStoryCreation(this.handleTransitionToChangelog())}
           onNextValid={StoryFormStore.isValid()}>
 
-          <div className="mb4">
-            <div className="flex flex-justify pill overflow-hidden" style={{height: ".5rem"}}>
-              <div className="flex-auto bg-green"></div>
-              <div className="flex-auto border-left border-white bg-green"></div>
-              <div className="flex-auto border-left border-white bg-smoke"></div>
-            </div>
-          </div>
-
           <StoryForm />
-        </Slide>
-
-        <Slide title="Start with 3 posts: 3 of 3" next="Post" active={slide === 4} onNext={this.handleStoryCreation(this.handleTransitionToChangelog())}>
-
-          <div className="mb4">
-
-            <div className="flex flex-justify pill overflow-hidden" style={{height: ".5rem"}}>
-              <div className="flex-auto bg-green"></div>
-              <div className="flex-auto border-left border-white bg-green"></div>
-              <div className="flex-auto border-left border-white bg-green"></div>
-            </div>
-          </div>
-
-          <StoryForm />
-        </Slide>
-
-        <Slide title="Add your Team Members" active={slide === 5} next={"Check out your new changelog"} onNext={this.handleStoryCreation(this.handleTransitionToChangelog())}>
-          <TeamAdder />
         </Slide>
 
       </div>
