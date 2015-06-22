@@ -34,7 +34,6 @@ export default {
         })
       })
     } else {
-      console.log(userId)
       let d = {email: userId}
       api.post(`changelogs/${changelogId}/pending_members`, d).then(resp => {
         Dispatcher.dispatch({
