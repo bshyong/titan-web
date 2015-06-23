@@ -8,6 +8,7 @@ import {
 
 import api from '../lib/api'
 import Dispatcher from '../lib/dispatcher'
+import { flash } from './SnackbarActions'
 
 export default {
   delete(changelogId, userId) {
@@ -18,12 +19,14 @@ export default {
     api.delete(`changelogs/${changelogId}/members/${userId}`)
   },
   update(changelogId, userId, change) {
-    Dispatcher.dispatch({
+    const action = {
       type: MEMBERSHIP_UPDATING,
       changelogId: changelogId,
       userId: userId,
       change: change
-    })
+    }
+
+    Dispatcher.dispatch(action)
 
     if (userId.indexOf('@') === -1) {
       api.put(`changelogs/${changelogId}/members/${userId}`, change).then(resp => {
@@ -33,12 +36,18 @@ export default {
           userId: userId,
           membership: resp
         })
+        flash({
+          msg: `Membership updated for "${userId}"`
+        })
       }).catch(errors => {
         Dispatcher.dispatch({
           type: MEMBERSHIP_UPDATE_FAILED,
           changelogId: changelogId,
           userId: userId,
           errors: errors
+        })
+        flash({
+          msg: `Unknown user "${userId}"`
         })
       })
     } else {
@@ -51,12 +60,18 @@ export default {
           membership: resp,
           created: change.is_core ? true : false
         })
+        flash({
+          msg: `Membership updated for "${userId}"`
+        })
       }).catch(errors => {
         Dispatcher.dispatch({
           type: MEMBERSHIP_UPDATE_FAILED,
           changelogId: changelogId,
           userId: userId,
           errors: errors
+        })
+        flash({
+          msg: `Unknown user "${userId}"`
         })
       })
     }
