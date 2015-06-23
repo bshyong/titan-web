@@ -8,6 +8,9 @@ import Stack from '../../ui/Stack.jsx'
 import Table from '../../ui/Table.jsx'
 import {List} from 'immutable'
 
+import UpvoteArrowSrc  from '../../images/upvote-arrow.svg'
+import UpvotedArrowSrc  from '../../images/upvoted-arrow.svg'
+
 export default class StoryCell extends React.Component {
   render() {
     const { story } = this.props
@@ -27,6 +30,13 @@ export default class StoryCell extends React.Component {
               <span className=" silver"><Icon icon="comment" /></span>
               {' '}
               {story.live_comments_count}
+            </div>
+            <div className="px1 no-underline flex flex-center">
+              <div style={{marginRight:'0.25rem'}}>
+                <img src={story.viewer_has_hearted ? UpvotedArrowSrc : UpvoteArrowSrc} height="12"  />
+              </div>
+              {' '}
+              <div>{story.hearts_count}</div>
             </div>
           </div>
         </div>
