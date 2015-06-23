@@ -14,6 +14,7 @@ export default keyMirror({
   ANALYTICS_USER_CREATED: null,
 
   ATTACHMENT_FAILED: null,
+  ATTACHMENT_SUCCEEDED: null,
   ATTACHMENT_UPLOADED: null,
   ATTACHMENT_UPLOADING: null,
 

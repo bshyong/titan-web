@@ -6,11 +6,6 @@ import onMobile from '../lib/on_mobile'
 import React from 'react'
 import UploadingAttachmentStore from '../stores/uploading_attachment_store'
 
-let UploadSrc = ''
-if (typeof __TEST__ === 'undefined') {
-  UploadSrc = require('../images/image-upload-icon.svg')
-}
-
 export default class DropzoneContainer extends React.Component {
   constructor(props) {
     super(props)
@@ -47,6 +42,7 @@ export default class DropzoneContainer extends React.Component {
         accept: AttachmentActions.uploadAttachment(this.props.id),
         clickable: this.props.clickable,
         sending: this.onSending,
+        success: AttachmentActions.confirmAttachment,
         url: `https://s3.amazonaws.com/titan-api`
       })
     }

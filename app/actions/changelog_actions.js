@@ -42,6 +42,13 @@ export default {
       })
   },
 
+  change(changelog){
+    Dispatcher.dispatch({
+      type: CHANGELOG_CHANGED,
+      changelog: changelog
+    })
+  },
+
   clearCurrent() {
     Dispatcher.dispatch({
       type: CHANGELOG_CURRENT_CLEARED

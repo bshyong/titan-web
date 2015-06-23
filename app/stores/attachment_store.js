@@ -1,5 +1,6 @@
 import {
   ATTACHMENT_FAILED,
+  ATTACHMENT_SUCCEEDED,
   ATTACHMENT_UPLOADED
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
@@ -20,6 +21,8 @@ class AttachmentsStore extends Store {
             action.commentId,
             action.attachment
           )
+          return
+        case ATTACHMENT_SUCCEEDED:
           break
         case ATTACHMENT_FAILED:
           this.errors = this.errors.set(

@@ -1,4 +1,5 @@
 import {
+  CHANGELOG_CHANGED,
   CHANGELOG_CREATE_FAILED,
   CHANGELOG_CURRENT_CLEARED,
   CHANGELOG_FETCHED,
@@ -30,6 +31,10 @@ class ChangelogStore extends Store {
         case CHANGELOG_FETCHED:
           this._changelog = action.changelog
           this.errors = null
+          break;
+
+        case CHANGELOG_CHANGED:
+          this._changelog = action.changelog
           break;
 
         case CHANGELOG_CURRENT_CLEARED:

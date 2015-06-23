@@ -31,5 +31,8 @@ Logo.propTypes = {
     name: React.PropTypes.string.isRequired,
     logo_url: React.PropTypes.string
   }).isRequired,
-  size: React.PropTypes.string.isRequired,
+  size: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.number
+  ]).isRequired,
 }

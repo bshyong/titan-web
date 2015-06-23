@@ -1,4 +1,4 @@
-import DropzoneContainer from '../components/dropzone_container.jsx'
+import DropzoneContainer from '../components/DropzoneContainer.jsx'
 import GifPicker from '../components/gif_picker.jsx'
 import GifPickerTrigger from '../images/magic-icon.svg'
 import MENTION_REGEX from '../lib/mention_regex'
