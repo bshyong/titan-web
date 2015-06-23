@@ -22,6 +22,7 @@ import Stack from '../ui/Stack.jsx'
 import Switch from '../ui/Switch.jsx'
 import Table from '../ui/Table.jsx'
 import TextareaAutosize from 'react-textarea-autosize'
+import VisibilityToggler from '../components/VisibilityToggler.jsx'
 
 @connectToStores(NewChangelogStore, SessionStore)
 export default class ChangelogCreation extends React.Component {
@@ -50,46 +51,7 @@ export default class ChangelogCreation extends React.Component {
     		{this.renderDescriptionField()}
 
         <div className="mb3">
-          {this.renderVisibilitySettings()}
-        </div>
-      </div>
-    )
-  }
-
-  renderVisibilitySettings() {
-    const { is_members_only } = this.props.changelog
-
-    return (
-      <div className="flex flex-center py2">
-        <div className="flex-auto">
-          <h4 className="mt0 mb0">Choose who can see your Changelog</h4>
-          <h4 className="mt0 mb1 gray">You can change this setting later.</h4>
-          <RadioGroup name="privacy"
-            selectedValue={is_members_only ? 'private' : 'public'}
-            onChange={this.toggleVisibility.bind(this)}>
-            {Radio => (
-              <div>
-                <div className="mb1">
-                  <label className="flex">
-                    <div className="flex-none mr1"><Radio value="public" ref="public" /></div>
-                    <div>
-                      <h4 className="m0">Public</h4>
-                      <p className="mb0 gray">Anyone wil be able to see it, follow it, and comment on it.</p>
-                    </div>
-                  </label>
-                </div>
-                <div>
-                  <label className="flex">
-                    <div className="flex-none mr1"><Radio value="private" ref="private" /></div>
-                    <div>
-                      <h4 className="m0">Private</h4>
-                      <p className="mb0 gray">Only those you invite will be able to see and comment on it.</p>
-                    </div>
-                  </label>
-                </div>
-              </div>
-            )}
-          </RadioGroup>
+          <VisibilityToggler changelog={this.props.changelog} onChange={this.toggleVisibility.bind(this)} />
         </div>
       </div>
     )
@@ -97,11 +59,6 @@ export default class ChangelogCreation extends React.Component {
 
   handleFormChange(name, e) {
     NewChangelogActions.formChange(name, e.target.value)
-  }
-
-  toggleVisibility() {
-    const { changelog } = this.props
-    NewChangelogActions.formChange('is_members_only', !changelog.is_members_only)
   }
 
   renderDescriptionField(){
@@ -192,6 +149,11 @@ export default class ChangelogCreation extends React.Component {
     this.setState({
       slugFieldExpanded: true
     })
+  }
+
+  toggleVisibility() {
+    const { changelog } = this.props
+    NewChangelogActions.formChange('is_members_only', !changelog.is_members_only)
   }
 
   handleSlugOnFocus() {

@@ -16,6 +16,7 @@ import React from 'react'
 import RouterContainer from '../../lib/router_container'
 import Switch from '../../ui/Switch.jsx'
 import Table from '../../ui/Table.jsx'
+import VisibilityToggler from '../../components/VisibilityToggler.jsx'
 import Link from '../../components/Link.jsx'
 import {List, Map} from 'immutable'
 
@@ -84,20 +85,7 @@ export default class ChangelogSettings extends React.Component {
           </div>
         </div>
 
-        <div className="flex flex-center py2">
-          <div className="flex-auto">
-            <h4 className="mt0 bold">Privacy</h4>
-            <RadioGroup name="privacy"
-              selectedValue={is_members_only ? 'private' : 'public'}
-              onChange={this.handleSwitchMembersOnly.bind(this)}>
-              {/*
-                Note: We're not foregetting to call the function below.
-                <RadioGroup> expects a function and calls it for us.
-              */}
-              {this.renderPrivacyOptions}
-            </RadioGroup>
-          </div>
-        </div>
+        <VisibilityToggler changelog={this.props.changelog} onChange={this.handleSwitchMembersOnly.bind(this)} />
 
         <hr />
 
@@ -243,25 +231,6 @@ export default class ChangelogSettings extends React.Component {
               onChange={this.handleChange('name')}
               value={this.props.changelog.name} />
           </form>
-        </div>
-      </div>
-    )
-  }
-
-  renderPrivacyOptions(Radio) {
-    return (
-      <div>
-        <div>
-          <label>
-            <Radio value="public" className="ml0" />
-            Public <span className="gray">(Anyone with link)</span>
-          </label>
-        </div>
-        <div>
-          <label>
-            <Radio value="private" className="ml0" />
-            Private <span className="gray">(Only invited members)</span>
-          </label>
         </div>
       </div>
     )
