@@ -15,7 +15,6 @@ import membershipInvite from '../lib/membershipInvite'
 @connectToStores(SessionStore, InvitationStore)
 export default class InvitationPage extends React.Component {
   static willTransitionTo(transition, params, query) {
-    console.log(params)
     InvitationActions.fetchInvitation(params.invite_token)
     membershipInvite.set(params.invite_token)
   }

@@ -1,6 +1,6 @@
 import {
-  INVITATION_FETCHING,
   INVITATION_FETCHED,
+  INVITATION_FETCHING,
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'

@@ -74,6 +74,7 @@ export default keyMirror({
 
   INVITATION_FETCHING: null,
   INVITATION_FETCHED: null,
+  INVITATION_RESET: null,
 
   MEMBERSHIP_UPDATE_FAILED: null,
   MEMBERSHIP_UPDATED: null,

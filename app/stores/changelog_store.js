@@ -12,6 +12,7 @@ import {
   MEMBERSHIP_UPDATE_FAILED,
   MEMBERSHIP_UPDATED,
   MEMBERSHIP_UPDATING,
+  INVITATION_RESET,
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
@@ -26,6 +27,13 @@ class ChangelogStore extends Store {
       switch (action.type) {
         case CHANGELOG_CREATE_FAILED:
           this.errors = action.errors
+          break
+
+        case INVITATION_RESET:
+          this._changelog = {
+            ...this._changelog,
+            invite_hash: action.hash
+          }
           break
 
         case CHANGELOG_FETCHED:
