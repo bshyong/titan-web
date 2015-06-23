@@ -5,8 +5,8 @@ import jwt_decode from 'jwt-decode'
 import RouterContainer from '../lib/router_container'
 
 export default {
-  signin() {
-    let query = `return_url=${encodeURIComponent(window.location.href)}`
+  signin(returnUrl) {
+    let query = `return_url=${encodeURIComponent(returnUrl || window.location.href)}`
 
     if (RouterContainer.customDomain) {
       query = `${query}&changelog=${RouterContainer.customDomain}`

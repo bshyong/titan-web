@@ -49,7 +49,7 @@ export default class HomePage extends React.Component {
                   </p>
 
                   <div className="mb3">
-                    <Button action={this.handleSignUp.bind(this)} bg="orange" size="big">
+                    <Button action={this.handleSignUp} bg="orange" size="big">
                       Sign up
                     </Button>
                   </div>
@@ -77,6 +77,6 @@ export default class HomePage extends React.Component {
   }
 
   handleSignUp() {
-    SessionActions.signin()
+    SessionActions.signin('/new')
   }
 }
