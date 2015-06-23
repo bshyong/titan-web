@@ -1,3 +1,4 @@
+import classnames from 'classnames'
 import connectToStores from '../lib/connectToStores.jsx'
 import Emoji from './Emoji.jsx'
 import EmojiActions from '../actions/emoji_actions.js'
@@ -6,6 +7,7 @@ import Picker from '../ui/RealPicker.jsx'
 import React from 'react'
 
 const EmojiGridRows = 3
+const ENTER_KEY = 13
 
 @connectToStores(EmojiStore)
 export default class EmojiPicker extends React.Component {
@@ -42,14 +44,7 @@ export default class EmojiPicker extends React.Component {
 
     return (
       <div className="flex flex-wrap px2" style={{minHeight}}>
-        {emojis.take(8 * EmojiGridRows).map(emoji =>
-          <div className="p2 pointer"
-               onClick={this.selectEmoji.bind(this, emoji)}
-               onDoubleClick={this.handleChange.bind(this)}
-               key={emoji.id}>
-            <Emoji emoji={emoji} size={24} />
-          </div>
-        )}
+        {emojis.take(8 * EmojiGridRows).map(this.renderEmoji.bind(this))}
       </div>
     )
   }
@@ -67,6 +62,19 @@ export default class EmojiPicker extends React.Component {
         </div>
         {this.renderEmojis()}
       </Picker>
+    )
+  }
+
+  renderEmoji(emoji) {
+    let selected = emoji.id === this.state.value
+    return (
+      <div className="p2 pointer circle"
+           style={{backgroundColor: (selected && '#F1F1F1')}}
+           onClick={this.selectEmoji.bind(this, emoji)}
+           onDoubleClick={this.handleChange.bind(this)}
+           key={emoji.id}>
+        <Emoji emoji={emoji} size={24} />
+      </div>
     )
   }
 

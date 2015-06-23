@@ -38,7 +38,7 @@ export default class NewStoryPage extends React.Component {
   render() {
     return (
       <div className="container py2">
-        <StoryForm onPublish={this.handleOnPublish.bind(this)} />
+        <StoryForm onPublish={this.handleOnPublish.bind(this)} autoFocusEmoji={true} />
       </div>
     )
   }

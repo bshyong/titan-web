@@ -28,6 +28,10 @@ import EmojiInput from './EmojiInput.jsx'
 export default class NewStoryForm extends React.Component {
   shouldComponentUpdate = shouldPureComponentUpdate
 
+  static propTypes = {
+    autoFocusEmoji: React.PropTypes.bool
+  }
+
   static get defaultProps() {
     return {
       changelogId: RouterContainer.changelogSlug(),
@@ -65,6 +69,7 @@ export default class NewStoryForm extends React.Component {
           <div className="flex flex-center mxn1 mb2">
             <div className="p1">
               <EmojiInput
+                autoFocus={this.props.autoFocusEmoji}
                 value={emoji_id}
                 onChange={this.handleChanged('emoji_id').bind(this)} />
             </div>

@@ -8,12 +8,19 @@ import Picker from '../ui/RealPicker.jsx'
 import React from 'react'
 
 export default class EmojiInput extends React.Component {
+  static propTypes = {
+    autoFocus: React.PropTypes.bool,
+    defaultValue: React.PropTypes.string,
+    onChange: React.PropTypes.func,
+    value: React.PropTypes.string,
+  }
+
   constructor(props) {
     super(props)
     this.state = {
       value: props.defaultValue,
       showDialog: false,
-      focused: false,
+      focused: props.autoFocus,
     }
   }
 
@@ -100,10 +107,4 @@ export default class EmojiInput extends React.Component {
   handleToggleFocus() {
     this.setState({focused: !this.state.focused})
   }
-}
-
-EmojiInput.propTypes = {
-  value: React.PropTypes.string,
-  defaultValue: React.PropTypes.string,
-  onChange: React.PropTypes.func,
 }
