@@ -18,10 +18,6 @@ export default class AppLink extends React.Component {
   }
 
   renderForMainSite() {
-    if (this.domain()) {
-      return this.renderFullUrl(RouterContainer.routers.external)
-    }
-
     return <Link {...this.props} />
   }
 

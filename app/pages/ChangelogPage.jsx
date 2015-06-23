@@ -15,12 +15,7 @@ import Link from '../components/Link.jsx'
 
 export default class ChangelogPage extends React.Component {
   static willTransitionTo(transition, params, query) {
-    ChangelogActions.select(RouterContainer.changelogSlug(params), (changelog) => {
-      if (changelog.domain && !RouterContainer.isCurrentDomain(changelog.domain)) {
-        // if we load a changelog for a custom domain, redirect to it
-        window.location.href = RouterContainer.fullUrl(changelog.domain, '/')
-      }
-    })
+    ChangelogActions.select(RouterContainer.changelogSlug(params))
   }
 
   constructor() {
