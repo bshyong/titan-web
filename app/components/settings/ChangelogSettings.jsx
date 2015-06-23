@@ -16,6 +16,8 @@ import React from 'react'
 import RouterContainer from '../../lib/router_container'
 import Switch from '../../ui/Switch.jsx'
 import Table from '../../ui/Table.jsx'
+import TeamAdder from '../../components/team_adder.jsx'
+import VisibilityToggler from '../../components/VisibilityToggler.jsx'
 import Link from '../../components/Link.jsx'
 import {List, Map} from 'immutable'
 
@@ -66,38 +68,10 @@ export default class ChangelogSettings extends React.Component {
     return (
       <div>
         <h4 className="mt0 mb0 bold">Members</h4>
-        <p className="gray">
-          A list of current members who can create new stories.
-          Make sure your team <Link to="sso">signs up</Link> so they can participate!
-        </p>
 
-        <div>
-          {this.props.coreMemberships.map(this.renderMembership.bind(this))}
-          <div className="px2 py1 visible-hover-wrapper">
-            <form onSubmit={this.handleAddMember.bind(this)} className="mb3">
-              <input type="text"
-                ref="emailOrUsername"
-                className="field-light full-width"
-                placeholder="Add a member by username" />
-              {this.renderStatus()}
-            </form>
-          </div>
-        </div>
+        <TeamAdder memberships={this.props.coreMemberships} changelog={this.props.changelog} changelogId={this.props.changelogId} showBlankEntries={false} />
 
-        <div className="flex flex-center py2">
-          <div className="flex-auto">
-            <h4 className="mt0 bold">Privacy</h4>
-            <RadioGroup name="privacy"
-              selectedValue={is_members_only ? 'private' : 'public'}
-              onChange={this.handleSwitchMembersOnly.bind(this)}>
-              {/*
-                Note: We're not foregetting to call the function below.
-                <RadioGroup> expects a function and calls it for us.
-              */}
-              {this.renderPrivacyOptions}
-            </RadioGroup>
-          </div>
-        </div>
+        <VisibilityToggler changelog={this.props.changelog} onChange={this.handleSwitchMembersOnly.bind(this)} />
 
         <hr />
 
@@ -243,25 +217,6 @@ export default class ChangelogSettings extends React.Component {
               onChange={this.handleChange('name')}
               value={this.props.changelog.name} />
           </form>
-        </div>
-      </div>
-    )
-  }
-
-  renderPrivacyOptions(Radio) {
-    return (
-      <div>
-        <div>
-          <label>
-            <Radio value="public" className="ml0" />
-            Public <span className="gray">(Anyone with link)</span>
-          </label>
-        </div>
-        <div>
-          <label>
-            <Radio value="private" className="ml0" />
-            Private <span className="gray">(Only invited members)</span>
-          </label>
         </div>
       </div>
     )
