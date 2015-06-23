@@ -66,8 +66,10 @@ export default class ChangelogPage extends React.Component {
   }
 
   title() {
+    const changelogId = RouterContainer.changelogSlug()
+
     return (
-      <Link to="changelog" params={paramsFor.changelog(this.state.changelog)} className="black">
+      <Link to="changelog" params={{changelogId}} className="black">
         {this.state.changelog.name}
       </Link>
     )
