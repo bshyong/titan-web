@@ -37,12 +37,14 @@ export default class TeamAdder extends React.Component {
     return (
       <div className="mb2 px2">
         <div>
-		  Anyone you add here will be members of your Changelog. They will be able to read, write, and comment on all posts.
+	        <p className="gray">
+            Anyone you add here will be members of your Changelog. They will be able to read, write, and comment on all posts.
+	        </p>
         </div>
         {memberships.map(m => {
           if (m.is_core) {
             return (
-              <div className="flex flex-center py2 bg-smoke-hover visible-hover-wrapper" key={m.id}>
+              <div className="flex flex-center py1 bg-smoke-hover visible-hover-wrapper" key={m.id}>
                 <div>
                   <Avatar user={m.user} size={16 * 2} />
                 </div>
