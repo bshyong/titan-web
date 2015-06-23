@@ -41,6 +41,10 @@ export default class Changelog extends React.Component {
   render() {
     const { changelogId, page, moreAvailable, loading } = this.props
 
+    if (!this.props.changelog) {
+      return <div />
+    }
+
     let nextPage = () =>
       StoryActions.fetchAll(changelogId, {
         group_by: this.props.groupBy

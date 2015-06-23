@@ -1,10 +1,11 @@
 import {
-  CHANGELOGS_ALL_FETCHED,
   CHANGELOG_CURRENT_CLEARED,
   CHANGELOG_DESTROYED,
   CHANGELOG_FETCHED,
   CHANGELOG_MEMBERSHIPS_FETCHED,
+  CHANGELOG_UPDATE_FAILED,
   CHANGELOG_UPDATED,
+  CHANGELOG_UPDATING,
   CHANGELOGS_ALL_FETCHED,
 } from '../constants'
 import {List} from 'immutable'
@@ -58,11 +59,24 @@ export default {
   },
 
   update(id, params) {
+    Dispatcher.dispatch({
+      type: CHANGELOG_UPDATING,
+      changelogId: id,
+      params: params
+    })
+
     api.put(`changelogs/${id}`, params).
       then(resp => {
         Dispatcher.dispatch({
           type: CHANGELOG_UPDATED,
           changelog: resp
+        })
+      }).catch(errors => {
+        Dispatcher.dispatch({
+          type: CHANGELOG_UPDATE_FAILED,
+          changelogId: id,
+          params: params,
+          errors: errors
         })
       })
   },

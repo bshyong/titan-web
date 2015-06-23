@@ -5,7 +5,9 @@ import {
   CHANGELOG_FOLLOWED,
   CHANGELOG_MEMBERSHIPS_FETCHED,
   CHANGELOG_UNFOLLOWED,
+  CHANGELOG_UPDATING,
   CHANGELOG_UPDATED,
+  CHANGELOG_UPDATE_FAILED,
   MEMBERSHIP_UPDATE_FAILED,
   MEMBERSHIP_UPDATED,
   MEMBERSHIP_UPDATING,
@@ -19,16 +21,15 @@ class ChangelogStore extends Store {
     super()
     this._changelog = null
     this._timeShown = null
-    this._errors = null
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
         case CHANGELOG_CREATE_FAILED:
-          this._errors = action.errors
+          this.errors = action.errors
           break
 
         case CHANGELOG_FETCHED:
           this._changelog = action.changelog
-          this._errors = null
+          this.errors = null
           break;
 
         case CHANGELOG_CURRENT_CLEARED:
@@ -48,7 +49,7 @@ class ChangelogStore extends Store {
           break
 
         case MEMBERSHIP_UPDATING:
-          this.updateErrors = null
+          this.errors = null
           this.updateSuccessful = null
           this.memberships = applyChanges(this.memberships, action.userId, action.change)
           break
@@ -60,12 +61,26 @@ class ChangelogStore extends Store {
 
         case MEMBERSHIP_UPDATE_FAILED:
           this.memberships = this.memberships.filterNot(m => m.user.username == action.userId)
-          this.updateErrors = action.errors
+          this.errors = action.errors
           this.updateSuccessful = false
+          break
+
+        case CHANGELOG_UPDATING:
+          this.errors = null
+          this.updateSuccessful = null
+          this.saving = true
           break
 
         case CHANGELOG_UPDATED:
           this._changelog = action.changelog
+          this.updateSuccessful = true
+          this.saving = false
+          break
+
+        case CHANGELOG_UPDATE_FAILED:
+          this.errors = action.errors
+          this.updateSuccessful = false
+          this.saving = false
           break
 
         default:
@@ -77,10 +92,6 @@ class ChangelogStore extends Store {
 
   get coreMemberships() {
     return this.memberships && this.memberships.filter(m => m.is_core)
-  }
-
-  get errors() {
-    return this._errors
   }
 
   get changelog() {

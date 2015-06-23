@@ -3,6 +3,7 @@ import Avatar from '../../ui/Avatar.jsx'
 import Button from '../../ui/Button.jsx'
 import ChangelogActions from '../../actions/changelog_actions'
 import ChangelogStore from '../../stores/changelog_store'
+import CustomDomainSettingsPanel from './CustomDomainSettingsPanel.jsx'
 import connectToStores from '../../lib/connectToStores.jsx'
 import Icon from '../../ui/Icon.jsx'
 import MembershipActions from '../../actions/MembershipActions'
@@ -32,7 +33,7 @@ export default class ChangelogSettings extends React.Component {
       changelogId,
       changelog: ChangelogStore.changelog,
       coreMemberships: ChangelogStore.coreMemberships,
-      errors: ChangelogStore.updateErrors,
+      errors: ChangelogStore.errors,
       updateSuccessful: ChangelogStore.updateSuccessful
     }
   }
@@ -118,6 +119,8 @@ export default class ChangelogSettings extends React.Component {
         {this.renderBannerChanger()}
         {this.renderHomepageChanger()}
         {this.renderSaver()}
+        <hr />
+        <CustomDomainSettingsPanel />
         <hr />
 
         <div className="flex flex-center py2">

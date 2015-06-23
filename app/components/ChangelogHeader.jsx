@@ -20,6 +20,10 @@ export default class ChangelogHeader extends React.Component {
 
   render() {
     const { changelogId, following, changelog } = this.props
+    if (!changelog) {
+      return <div />
+    }
+
     return (
       <Jumbotron bgColor="charcoal" bgImageUrl={changelog.banner_url}>
         <div className="sm-flex flex-center">
