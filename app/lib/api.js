@@ -5,6 +5,7 @@ import {
 
 import Dispatcher from '../lib/dispatcher'
 import invite from '../lib/invite'
+import membership_invite from '../lib/membershipInvite'
 import SessionStore from '../stores/session_store'
 
 module.exports = {
@@ -46,6 +47,10 @@ module.exports = {
 
     if (invite.get()) {
       options.headers['invite'] = invite.get()
+    }
+
+    if (invite.get()) {
+      options.headers['membership_invite'] = membership_invite.get()
     }
 
     let handleError = function handleError(resp) {

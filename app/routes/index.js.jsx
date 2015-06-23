@@ -29,6 +29,7 @@ import SingleDateChangelogPage from '../pages/SingleDateChangelogPage.jsx'
 import StoryComposer from '../components/story_composer.js.jsx'
 import StoryPage from '../pages/StoryPage.jsx'
 import UserPage from '../pages/UserPage.jsx'
+import InvitationPage from '../pages/InvitationPage.jsx'
 import ChangelogOnboardingPage from '../pages/ChangelogOnboardingPage.jsx'
 
 var internal = (
@@ -52,6 +53,7 @@ var internal = (
     </Route>
 
     <Route handler={DashboardPage} path="/dashboard" name="dashboard" />
+    <Route handler={InvitationPage} path="/invitations/:invite_token" name="invitation" />
 
     <Route handler={ChangelogPage} path="/:changelogId">
       <DefaultRoute handler={ChangelogByDatePage} name="changelog" />
