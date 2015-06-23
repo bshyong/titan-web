@@ -22,14 +22,21 @@ import paramsFor from '../lib/paramsFor'
 import { Link } from 'react-router'
 import { Range } from 'immutable'
 import InvitationActions from '../actions/invitation_actions'
+import Clipboard from 'react-zeroclipboard'
 
 export default class TeamAdder extends React.Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      entryCount: 0
+      entryCount: 0,
+      copied: false
     }
+    this.timeout = null
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timeout)
   }
 
   render() {
@@ -70,6 +77,8 @@ export default class TeamAdder extends React.Component {
 
   renderInviteLink() {
     const { changelog } = this.props
+    const { copied } = this.state
+
     return (
       <div className="h5 mb3">
         <div>
@@ -81,16 +90,34 @@ export default class TeamAdder extends React.Component {
             <input
               className="border-none full-width px1"
               style={{outline: 'none'}}
-              value={`${MAIN_HOST}/invitations/${changelog.invite_hash}`}
+              value={this.inviteLinkAsURL()}
               onClick={e => e.target.select()}
-               />
+              ref="inviteLink"
+             />
           </div>
-          <div className="pointer flex-none p1 border-left border-silver center bg-whitesmoke orange">
-            Copy
-          </div>
+          <Clipboard
+            text={this.inviteLinkAsURL()}
+            onAfterCopy={this.handleAfterCopy.bind(this)}>
+             <div className="pointer flex-none p1 border-left border-silver center bg-whitesmoke orange">
+               {copied ? 'Copied' : 'Copy'}
+             </div>
+          </Clipboard>
         </div>
       </div>
     )
+  }
+
+  handleAfterCopy() {
+    this.setState({copied: true}, () => {
+      this.timeout = setTimeout(() => {
+        this.setState({copied: false})
+      }, 1000)
+    })
+  }
+
+  inviteLinkAsURL() {
+    const { changelog } = this.props
+    return `${MAIN_HOST}/invitations/${changelog.invite_hash}`
   }
 
   handleLinkReset() {
