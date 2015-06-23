@@ -45,9 +45,6 @@ export default class VisibilityToggler extends React.Component {
       </div>
     )
   }
-
-
-
 }
 
 VisibilityToggler.propTypes = {

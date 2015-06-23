@@ -22,17 +22,7 @@ import paramsFor from '../lib/paramsFor'
 import { Link } from 'react-router'
 import { Range } from 'immutable'
 
-
-@connectToStores(NewChangelogStore, ChangelogStore)
 export default class TeamAdder extends React.Component {
-
-  static getPropsFromStores(props) {
-    return {
-      memberships: NewChangelogStore.memberships,
-      changelogId: ChangelogStore.slug,
-      changelog: ChangelogStore.changelog
-    }
-  }
 
   constructor(props) {
     super(props)
@@ -75,12 +65,14 @@ export default class TeamAdder extends React.Component {
   }
 
   renderBlankEntries() {
-    let n = this.state.entryCount
+    let n = this.state.entryCount + 1
     let m = 3 - n
     if (n > 3 ) {
       m = 0
     }
-    return Range(0, m).map(this.renderBlankEntry.bind(this))
+    if (this.props.showBlankEntries) {
+      return Range(0, m).map(this.renderBlankEntry.bind(this))
+    }
   }
 
   renderBlankEntry() {
@@ -104,7 +96,6 @@ export default class TeamAdder extends React.Component {
                  className="field-light flex-auto"
                  placeholder="Invite using their email or username" />
           {this.renderStatus()}
-          <Button>Add</Button>
         </form>
       </div>
     )
@@ -158,4 +149,11 @@ export default class TeamAdder extends React.Component {
     }
     return null
   }
+}
+
+TeamAdder.propTypes = {
+  memberships: React.PropTypes.object,
+  changelogId: React.PropTypes.string,
+  changelog: React.PropTypes.object,
+  showBlankEntries: React.PropTypes.bool
 }

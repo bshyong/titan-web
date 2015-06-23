@@ -51,7 +51,7 @@ Slide.defaultProps = {
   onNextValid: true
 }
 
-@connectToStores(NewChangelogStore, StoryFormStore)
+@connectToStores(NewChangelogStore, ChangelogStore, StoryFormStore)
 export default class ChangelogOnboardingPage extends React.Component {
   constructor(props) {
     super(props)
@@ -62,7 +62,11 @@ export default class ChangelogOnboardingPage extends React.Component {
   }
 
   static getPropsFromStores(props) {
-    return {}
+    return {
+      memberships: NewChangelogStore.memberships,
+      changelogId: ChangelogStore.slug,
+      changelog: ChangelogStore.changelog
+    }
   }
 
   render() {
@@ -82,7 +86,7 @@ export default class ChangelogOnboardingPage extends React.Component {
         </Slide>
 
         <Slide title="Invite your team" active={slide === 1} next={"Next"} onNext={this.goToSlide(2)}>
-          <TeamAdder />
+          <TeamAdder memberships={this.props.memberships} changelog={this.props.changelog} changelogId={this.props.changelogId} showBlankEntries={true} />
         </Slide>
 
         <Slide
