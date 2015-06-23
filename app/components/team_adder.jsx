@@ -21,6 +21,7 @@ import moment from 'moment'
 import paramsFor from '../lib/paramsFor'
 import { Link } from 'react-router'
 import { Range } from 'immutable'
+import InvitationActions from '../actions/invitation_actions'
 
 export default class TeamAdder extends React.Component {
 
@@ -35,16 +36,17 @@ export default class TeamAdder extends React.Component {
     const { memberships, changelog } = this.props
 
     return (
-      <div className="mb2 px2">
+      <div className="mb2">
         <div>
-	        <p className="gray">
+	        <p className="gray h5">
             Anyone you add here will be members of your Changelog. They will be able to read, write, and comment on all posts.
 	        </p>
         </div>
+        { this.renderInviteLink() }
         {memberships.map(m => {
           if (m.is_core) {
             return (
-              <div className="flex flex-center py1 bg-smoke-hover visible-hover-wrapper" key={m.id}>
+              <div className="flex flex-center py2 bg-smoke-hover visible-hover-wrapper" key={m.id}>
                 <div>
                   <Avatar user={m.user} size={16 * 2} />
                 </div>
@@ -64,6 +66,38 @@ export default class TeamAdder extends React.Component {
         {this.renderBlankEntries()}
       </div>
     )
+  }
+
+  renderInviteLink() {
+    const { changelog } = this.props
+    return (
+      <div className="h5 mb3">
+        <div>
+          Send this private link to anyone you want to invite.
+          <span className="gray ml1 pointer" onClick={this.handleLinkReset.bind(this)}>Reset link</span>
+        </div>
+        <div className="flex flex-center border border-silver">
+          <div className="flex-auto">
+            <input
+              className="border-none full-width px1"
+              style={{outline: 'none'}}
+              value={`${MAIN_HOST}/invitations/${changelog.invite_hash}`}
+              onClick={e => e.target.select()}
+               />
+          </div>
+          <div className="pointer flex-none p1 border-left border-silver center bg-whitesmoke orange">
+            Copy
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  handleLinkReset() {
+    const { changelog } = this.props
+    if(confirm('This will invalidate the current link and create a new one')) {
+      InvitationActions.resetInvitation(changelog.slug, changelog.invite_hash)
+    }
   }
 
   renderBlankEntries() {
