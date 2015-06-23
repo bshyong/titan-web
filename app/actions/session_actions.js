@@ -7,6 +7,10 @@ import membershipInvite from '../lib/membershipInvite'
 
 export default {
   signin(returnUrl) {
+    if (typeof returnUrl !== 'string') {
+      returnUrl = null
+    }
+
     let query = `return_url=${encodeURIComponent(returnUrl || window.location.href)}`
 
     if (RouterContainer.customDomain) {
