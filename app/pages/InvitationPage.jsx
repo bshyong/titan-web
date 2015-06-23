@@ -15,8 +15,9 @@ import membershipInvite from '../lib/membershipInvite'
 @connectToStores(SessionStore, InvitationStore)
 export default class InvitationPage extends React.Component {
   static willTransitionTo(transition, params, query) {
-    InvitationActions.fetchInvitation(params.inviteToken)
-    membershipInvite.set(params.inviteToken)
+    console.log(params)
+    InvitationActions.fetchInvitation(params.invite_token)
+    membershipInvite.set(params.invite_token)
   }
 
   static getPropsFromStores() {
@@ -40,22 +41,24 @@ export default class InvitationPage extends React.Component {
         <ApplicationNavbar title={`You're invited to ${changelog.name}'s Changelog`} />
           <DocumentTitle title={`Invitation to ${changelog.name} Changelog`}>
             <div className="container p3">
-              <div className="sm-col-9 h2 mt4 mb2" style={{lineHeight: '2em'}}>
-                { guest.username || (currentUser || {}).username || 'Hey'},<br />
-                You've been invited to join Assembly's Changelog to build a behind-the-scene's making of your product.
-              </div>
-              <div className="mt2 mb3">
-                <div className="flex flex-center">
-                  <div>
-                    <Avatar user={invitor} size={16 * 2} />
-                  </div>
-                  <div className="flex-auto px2">
-                    {invitor.username}
+              <div className="sm-col-9 mx-auto">
+                <div className="h2 mt4 mb2" style={{lineHeight: '2em'}}>
+                  { guest.username || (currentUser || {}).username || 'Hey'},<br />
+                  You've been invited to join Assembly's Changelog to build a behind-the-scene's making of your product.
+                </div>
+                <div className="mt2 mb3">
+                  <div className="flex flex-center">
+                    <div>
+                      <Avatar user={invitor} size={16 * 2} />
+                    </div>
+                    <div className="flex-auto px2">
+                      {invitor.username}
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div>
-                {this.renderCTA()}
+                <div>
+                  {this.renderCTA()}
+                </div>
               </div>
             </div>
           </DocumentTitle>
