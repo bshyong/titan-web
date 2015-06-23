@@ -94,12 +94,12 @@ export default class StoryPage extends React.Component {
                   <Stack items={this.avatars()} />
                 </div>
 
-                <div className="flex h5 gray mb3 sm-mb0">
-                  <div className="flex-auto h5">
+                <div className="clearfix h5 gray">
+                  <div className="col col-12 sm-col-6 mb1 sm-mb0">
                     {moment(story.created_at).format('ll @ LT')} by <Link to="profile" params={{userId: story.user.username}} className="bold gray">@{story.user.username}</Link>
                   </div>
 
-                  <div className="flex-none">
+                  <div className="col col-12 sm-col-6 mb1 sm-mb0">
                     <ul className="list-reset mb0 mxn1 h5 flex">
                       <li className="px1">
                         <span className="silver"><Icon icon="eye" /></span> {this.props.totalReads}
