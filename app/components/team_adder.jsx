@@ -47,8 +47,7 @@ export default class TeamAdder extends React.Component {
     return (
       <div className="mb2 px2">
         <div>
-          <h4>Building is better with a team.</h4>
-          Add teammates to <b>{changelog.name}</b>. They'll be able to post to the changelog, as well as update its settings.
+		  Anyone you add here will be members of your Changelog. They will be able to read, write, and comment on all posts.
         </div>
         {memberships.map(m => {
           if (m.is_core) {
@@ -103,7 +102,7 @@ export default class TeamAdder extends React.Component {
         <form onSubmit={this.handleAddMember.bind(this)} className="mb2 mt2 full-width flex">
           <input type="text" ref={"emailOrUsername"}
                  className="field-light flex-auto"
-                 placeholder="Add a member by username" />
+                 placeholder="Invite using their email or username" />
           {this.renderStatus()}
           <Button>Add</Button>
         </form>

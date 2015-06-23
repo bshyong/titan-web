@@ -81,7 +81,7 @@ export default class ChangelogOnboardingPage extends React.Component {
             <ChangelogCreation />
         </Slide>
 
-        <Slide title="Add your Team Members" active={slide === 1} next={"Next"} onNext={this.goToSlide(2)}>
+        <Slide title="Invite your team" active={slide === 1} next={"Next"} onNext={this.goToSlide(2)}>
           <TeamAdder />
         </Slide>
 

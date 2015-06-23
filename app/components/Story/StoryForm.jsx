@@ -63,7 +63,7 @@ export default class NewStoryForm extends React.Component {
         <div className="mb3">
           <TextareaAutosize
             className="field-light block full-width h2 border-bottom"
-            placeholder="What did your team do lately?"
+            placeholder="List one recent accomplishment."
             value={title}
             onChange={this.handleChanged('title').bind(this)}
             ref="title"
@@ -76,13 +76,13 @@ export default class NewStoryForm extends React.Component {
               value={emoji_id}
               onChange={this.handleChanged('emoji_id').bind(this)} />
           <p className="mt1 h5">
-            Pick an emoji to describe the post.
+            Pick an emoji to describe it.
           </p>
         </div>
 
         <div className="mb3">
           <ContributorsInput className="field-light block full-width" />
-          <p className="mt0 h5">Who else helped out? @mention friends or add their emails comma separated.</p>
+          <p className="mt0 h5">List those that have helped you. Just use their usernames or email addresses.</p>
         </div>
 
       </div>

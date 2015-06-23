@@ -50,7 +50,7 @@ export default class ContributorsInput extends React.Component {
               style={{outline: 'none'}}
               ref="input"
               className="border-none block full-width"
-              placeholder={validTokens.isEmpty() ? 'Who helped out?' : 'Who else helped out?'}
+              placeholder={validTokens.isEmpty() ? 'Did anyone help?' : 'anyone else?'}
               value={this.props.currentMatch}
               onKeyDown={this.handleKeyDown}
               onChange={this.handleChange}
