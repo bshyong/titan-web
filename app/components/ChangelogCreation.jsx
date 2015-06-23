@@ -45,7 +45,7 @@ export default class ChangelogCreation extends React.Component {
 
   render() {
     return (
-      <div className="md-col-8 mx-auto">
+      <div className="md-col-7 mx-auto">
         {this.renderNameField()}
         {this.renderSlugField()}
     		{this.renderDescriptionField()}
@@ -64,7 +64,7 @@ export default class ChangelogCreation extends React.Component {
   renderDescriptionField(){
     return (
       <div className="mb3">
-        <label htmlFor="new-changelog-tagline">Tell everyone what it's about</label>
+        <label className="new-changelog-tagline bold">Tell everyone what it's about</label>
         <textarea
           id="new-changelog-tagline"
           className="field-light full-width block"
@@ -89,7 +89,7 @@ export default class ChangelogCreation extends React.Component {
 
     return (
       <div className="mb2">
-        <label htmlFor="new-changelog-name">Name your Changelog</label>
+        <label className="new-changelog-name bold">Name your Changelog</label>
         <div className={cs} style={{height: 'auto'}}>
           <input type="text"
             id="new-changelog-name"
@@ -120,7 +120,7 @@ export default class ChangelogCreation extends React.Component {
       <div className="mb2">
         <div onClick={this.handleEditClicked.bind(this)}>
           <div>
-            <label htmlFor="new-changelog-url" className="mr1 pointer">
+            <label className="new-changelog-url bold mr1 pointer">
               URL: <span className="gray">changelog.assembly.com/..</span>
             </label>
           </div>
