@@ -21,6 +21,10 @@ export default class EmojiPicker extends React.Component {
     }
   }
 
+  componentDidMount() {
+    React.findDOMNode(this.refs.search).focus()
+  }
+
   renderEmojis() {
     const minHeight = EmojiGridRows * 16 * 3.5
     if (EmojiStore.isEmpty()) {
@@ -41,6 +45,7 @@ export default class EmojiPicker extends React.Component {
         {emojis.take(8 * EmojiGridRows).map(emoji =>
           <div className="p2 pointer"
                onClick={this.selectEmoji.bind(this, emoji)}
+               onDoubleClick={this.handleChange.bind(this)}
                key={emoji.id}>
             <Emoji emoji={emoji} size={24} />
           </div>

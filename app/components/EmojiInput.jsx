@@ -17,10 +17,6 @@ export default class EmojiInput extends React.Component {
     }
   }
 
-  static getPropsFromStores(props) {
-    return props
-  }
-
   get value() {
     return this.props.value || this.state.value
   }
@@ -79,7 +75,7 @@ export default class EmojiInput extends React.Component {
       return
     }
     return (
-      <Dialog>
+      <Dialog onCloseRequested={() => this.setState({ showDialog: false, focused: false })}>
         <EmojiPicker defaultValue={this.value} onChange={this.handleDidChange.bind(this)} />
       </Dialog>
     )
