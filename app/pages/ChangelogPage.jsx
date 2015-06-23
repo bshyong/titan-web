@@ -66,11 +66,8 @@ export default class ChangelogPage extends React.Component {
   }
 
   title() {
-    return this.state.changelog.name
-
-    // TODO hook up link, looks weird right meow
     return (
-      <Link to="changelog" params={paramsFor.changelog(this.state.changelog)}>
+      <Link to="changelog" params={paramsFor.changelog(this.state.changelog)} className="black">
         {this.state.changelog.name}
       </Link>
     )
