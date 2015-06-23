@@ -3,6 +3,7 @@ import auth from '../lib/auth'
 import Dispatcher from '../lib/dispatcher'
 import jwt_decode from 'jwt-decode'
 import RouterContainer from '../lib/router_container'
+import membershipInvite from '../lib/membershipInvite'
 
 export default {
   signin() {
@@ -45,6 +46,7 @@ export default {
 
   signout() {
     auth.remove()
+    membershipInvite.remove()
     Dispatcher.dispatch({
       type: USER_SIGNOUT
     })

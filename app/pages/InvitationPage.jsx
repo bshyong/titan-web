@@ -42,10 +42,11 @@ export default class InvitationPage extends React.Component {
           <DocumentTitle title={`Invitation to ${changelog.name} Changelog`}>
             <div className="container p3">
               <div className="sm-col-9 mx-auto">
-                <div className="h2 mt4 mb2" style={{lineHeight: '2em'}}>
+                <div className="h2 mt4 mb0" style={{lineHeight: '2em'}}>
                   { guest.username || (currentUser || {}).username || 'Hey'},<br />
-                  You've been invited to join Assembly's Changelog to build a behind-the-scene's making of your product.
+                {invitor.username} invited you to help craft a behind-the-scenes narrative of {`${changelog.name}'s`} creation. <br /> {currentUser ? 'You can now write to this Changelog.' : null}
                 </div>
+
                 <div className="mt2 mb3">
                   <div className="flex flex-center">
                     <div>
@@ -56,7 +57,10 @@ export default class InvitationPage extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div>
+                <div >
+                  <div className="h2 mb1" style={{lineHeight: '2em'}}>
+                    { currentUser ? null : 'Go ahead and get started:' }
+                  </div>
                   {this.renderCTA()}
                 </div>
               </div>
@@ -77,7 +81,7 @@ export default class InvitationPage extends React.Component {
       </Link>
     }
     return <Button color="white" bg="orange" size="big" action={SessionActions.signin}>
-      Sign in or create an account
+      Claim your invite
     </Button>
   }
 
