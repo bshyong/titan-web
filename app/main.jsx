@@ -14,6 +14,7 @@ import RouterContainer from './lib/router_container'
 import Routes from './routes/index.js.jsx'
 import segment from './lib/segment'
 import SessionActions from './actions/session_actions'
+import url from 'url'
 
 let jwt = localStorage.getItem('jwt')
 if (jwt) {
@@ -29,9 +30,16 @@ Router.HistoryLocation.getCurrentPath = function getCurrentPath() {
     hash = "#" + hash
   }
 
-  return decodeURI(
+  let windowPath = decodeURI(
     window.location.pathname + window.location.search + hash
   )
+
+  let parts = url.parse(windowPath)
+  if (parts.pathname.length > 1 && parts.pathname.substr(-1) === '/') {
+    parts.pathname = parts.pathname.substr(0, parts.pathname.length - 1);
+  }
+
+  return url.format(parts)
 }
 
 RouterContainer.setRouters({
