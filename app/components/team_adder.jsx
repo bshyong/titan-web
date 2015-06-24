@@ -23,6 +23,8 @@ import { Link } from 'react-router'
 import { Range } from 'immutable'
 import InvitationActions from '../actions/invitation_actions'
 import Clipboard from 'react-zeroclipboard'
+import { getOffsetTop } from '../ui/Picker.jsx'
+import EMAIL_REGEX from '../lib/email_regex'
 
 export default class TeamAdder extends React.Component {
 
@@ -30,9 +32,20 @@ export default class TeamAdder extends React.Component {
     super(props)
     this.state = {
       entryCount: 0,
-      copied: false
+      copied: false,
+      emailOrUsername: ''
     }
     this.timeout = null
+    this.emailOrUsername = null
+  }
+
+  componentDidMount() {
+    this.fromTop = getOffsetTop(React.findDOMNode(this))
+    this.emailOrUsername = React.findDOMNode(this.refs.emailOrUsername)
+  }
+
+  componentWillUpdate() {
+    this.fromTop = getOffsetTop(React.findDOMNode(this))
   }
 
   componentWillUnmount() {
@@ -49,26 +62,28 @@ export default class TeamAdder extends React.Component {
             Anyone you add here will be members of your Changelog. They will be able to read, write, and comment on all posts.
 	        </p>
         </div>
-        { this.renderInviteLink() }
-        {memberships.map(m => {
-          if (m.is_core) {
-            return (
-              <div className="flex flex-center py2 bg-smoke-hover visible-hover-wrapper" key={m.id}>
-                <div>
-                  <Avatar user={m.user} size={16 * 2} />
+        <div>
+          { this.renderInviteLink() }
+          {memberships.map(m => {
+            if (m.is_core) {
+              return (
+                <div className="flex flex-center py2 bg-smoke-hover visible-hover-wrapper" key={m.id}>
+                  <div>
+                    <Avatar user={m.user} size={16 * 2} />
+                  </div>
+                  <div className="flex-auto px2">
+                    {m.user.username}
+                  </div>
+                  <div className="visible-hover">
+                    <a className="pointer red" onClick={this.handleRemoveClicked(m)}>
+                      <Icon icon="trash-o" />
+                    </a>
+                  </div>
                 </div>
-                <div className="flex-auto px2">
-                  {m.user.username}
-                </div>
-                <div className="visible-hover">
-                  <a className="pointer red" onClick={this.handleRemoveClicked(m)}>
-                    <Icon icon="trash-o" />
-                  </a>
-                </div>
-              </div>
-            )
-          }
-        })}
+              )
+            }
+          })}
+        </div>
         {this.renderEntry()}
         {this.renderBlankEntries()}
       </div>
@@ -143,9 +158,9 @@ export default class TeamAdder extends React.Component {
       <div className="py1">
         <form className="mb2">
           <input type="text"
-                disabled={true}
-                 className="field-light full-width"
-                 placeholder="Add more team members" />
+            disabled={true}
+            className="field-light full-width"
+            placeholder="Add more team members" />
         </form>
       </div>
     )
@@ -153,34 +168,80 @@ export default class TeamAdder extends React.Component {
 
   renderEntry() {
     return (
-      <div className="py2">
-        <form onSubmit={this.handleAddMember.bind(this)} className="mb2 mt2 full-width flex">
-          <input type="text" ref={"emailOrUsername"}
-                 className="field-light flex-auto"
-                 placeholder="Invite using their email or username" />
+      <div className="py2 relative">
+        {this.renderUserPicker()}
+        <form className="mb2 mt2 full-width flex">
+          <input type="text" ref="emailOrUsername"
+            className="field-light flex-auto"
+            placeholder="Invite using their email or username"
+            onFocus={this.toggleFocus.bind(this)}
+            onBlur={this.toggleFocus.bind(this)}
+            onChange={this.handleChange.bind(this)}
+            onKeyDown={this.handleKeyDown.bind(this)}
+            value={this.state.emailOrUsername} />
           {this.renderStatus()}
         </form>
       </div>
     )
   }
 
-  handleAddMember(e) {
-    e.preventDefault()
-    let el = React.findDOMNode(this.refs.emailOrUsername)
-    let text = el.value
-    if (text !== "") {
-      MembershipActions.update(
-        this.props.changelogId,
-        text, {
-          can_write: true,
-          can_view: true,
-          is_core: true
-        }
-      )
-      let c = this.state.entryCount + 1
-      this.setState({entryCount: NewChangelogStore.memberships.size })
-      el.value = ''
+  toggleFocus(e) {
+    this.setState({
+      focused: !this.state.focused
+    })
+  }
+
+  handleChange() {
+    this.setState({
+      emailOrUsername: this.emailOrUsername.value
+    })
+  }
+
+  handleKeyDown(e) {
+    if (e.keyCode === 13 && !React.findDOMNode(this.refs.userPicker)) {
+      e.preventDefault()
+      if (EMAIL_REGEX.test(this.state.emailOrUsername)) {
+        this.handleAddMember(e)
+      }
     }
+  }
+
+  renderUserPicker() {
+    if (!this.state.focused) {
+      return
+    }
+
+    const value = (this.state.emailOrUsername || '').replace(/^@+/, '')
+
+    if (value) {
+      return <UserPicker query={value}
+        onUserSelected={this.onUserSelected.bind(this)}
+        maxHeight={Math.min((this.fromTop === 0 ? 170 : this.fromTop), 170)}
+        offset={30}
+        ref="userPicker" />
+    }
+
+  }
+
+  handleAddMember(e) {
+    MembershipActions.update(
+      this.props.changelogId,
+      this.state.emailOrUsername, {
+        can_write: true,
+        can_view: true,
+        is_core: true
+      }
+    )
+    this.setState({
+      entryCount: NewChangelogStore.memberships.size,
+      emailOrUsername: ''
+    })
+  }
+
+  onUserSelected(u) {
+    this.setState({ emailOrUsername: u.username },
+      this.handleAddMember
+    )
   }
 
   handleRemoveClicked(membership) {

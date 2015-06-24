@@ -34,7 +34,7 @@ export default {
         })
       })
     } else {
-      let d = {email: userId}
+      let d = {...change, email: userId}
       api.post(`changelogs/${changelogId}/pending_members`, d).then(resp => {
         Dispatcher.dispatch({
           type: PENDING_MEMBERSHIP_UPDATED,

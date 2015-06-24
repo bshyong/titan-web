@@ -86,13 +86,17 @@ class NewChangelogStore extends Store {
           this._memberships = action.memberships
           break
         case PENDING_MEMBERSHIP_UPDATED:
-            if (action.created) {
-              let email_member = {is_core: true, user: {username: action.membership.email, avatar_url: "https://gravatar.com/avatar/407e142b2a8f2a9dba16ceb6854c0410?s=320"} }
-              this._memberships = this._memberships.push(email_member)
+            if (action.membership.type === 'membership') {
+              this._memberships = this._memberships.push(action.membership)
             } else {
-              let m = this._memberships.find(m => m.user.username == action.userId)
-              let r = this._memberships.indexOf(m)
-              this._memberships = this._memberships.delete(r)
+              if (action.created) {
+                let email_member = {is_core: true, user: {username: action.membership.email, avatar_url: "https://gravatar.com/avatar/407e142b2a8f2a9dba16ceb6854c0410?s=320"} }
+                this._memberships = this._memberships.push(email_member)
+              } else {
+                let m = this._memberships.find(m => m.user.username == action.userId)
+                let r = this._memberships.indexOf(m)
+                this._memberships = this._memberships.delete(r)
+              }
             }
           this.emitChange()
           break
