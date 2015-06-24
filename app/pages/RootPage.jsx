@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from '../ui/Button.jsx'
-import SessionActions from '../actions/session_actions'
+import SessionActions from '../actions/SessionActions'
 import SessionStore from '../stores/session_store'
 
 export default class RootPage extends React.Component {

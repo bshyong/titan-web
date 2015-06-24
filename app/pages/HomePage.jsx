@@ -1,11 +1,14 @@
 import React from 'react'
-import Button from '../ui/Button.jsx'
-import SessionActions from '../actions/session_actions'
-import SessionStore from '../stores/session_store'
-import Divider from '../components/Divider.jsx'
+import Button from 'ui/Button.jsx'
+import Divider from 'components/Divider.jsx'
+import LoginForm from 'components/Authentication/LoginForm.jsx'
+import SessionActions from 'actions/SessionActions'
+import SessionStore from 'stores/session_store'
+import SigninScrimActions from 'actions/SigninScrimActions'
+import SignupForm from 'components/Authentication/SignupForm.jsx'
 
-import HomePageLogoSrc from '../images/HomePageLogo.svg'
-import HomePagePreviewSrc from '../images/HomePagePreview.png'
+import HomePageLogoSrc from 'images/HomePageLogo.svg'
+import HomePagePreviewSrc from 'images/HomePagePreview.png'
 
 export default class HomePage extends React.Component {
   static willTransitionTo(transition, params, query) {
@@ -52,13 +55,15 @@ export default class HomePage extends React.Component {
                     <Button action={this.handleSignUp} bg="orange" size="big">
                       Sign up
                     </Button>
+                    <span className="ml1">
+                      <Button action={this.handleSignIn}
+                        size="big"
+                        style="outline"
+                        color="orange">
+                        Sign in
+                      </Button>
+                    </span>
                   </div>
-
-                  <p className="gray">
-                    <a href="javascript:;" onClick={this.handleSignUp}>
-                      Sign in
-                    </a> with your Assembly account
-                  </p>
                 </div>
               </div>
 
@@ -76,7 +81,13 @@ export default class HomePage extends React.Component {
     )
   }
 
+  handleSignIn() {
+    // Using `initialize()` here since we want to redirect
+    // to '/new'
+    SigninScrimActions.initialize(LoginForm, {}, '/new')
+  }
+
   handleSignUp() {
-    SessionActions.signin('/new')
+    SigninScrimActions.show(SignupForm)
   }
 }

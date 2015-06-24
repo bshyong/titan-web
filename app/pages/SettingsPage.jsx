@@ -13,7 +13,7 @@ import ProfileStore from '../stores/profile_store.js'
 import React from 'react'
 import paramsFor from '../lib/paramsFor'
 import RouterContainer from '../lib/router_container'
-import SessionActions from '../actions/session_actions'
+import SessionActions from '../actions/SessionActions'
 import SessionStore from '../stores/session_store'
 
 @connectToStores(ProfileStore)

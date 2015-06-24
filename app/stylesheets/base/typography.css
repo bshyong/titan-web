@@ -5,3 +5,5 @@ h1, h2, h3, h4, h5, h6 {
 strong { font-weight: var(--bold-font-weight) }
 
 p {line-height: var(--paragraph-line-height)}
+
+.underline { text-decoration: underline; }

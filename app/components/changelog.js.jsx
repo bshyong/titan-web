@@ -17,6 +17,7 @@ import React from 'react'
 import ScrollPaginator from '../ui/ScrollPaginator.jsx'
 import SegmentedControl from '../ui/SegmentedControl.jsx'
 import shallowEqual from 'react-pure-render/shallowEqual'
+import SigninScrim from './Authentication/SigninScrim.jsx'
 import Stack from '../ui/Stack.jsx'
 import StoryActions from '../actions/story_actions'
 import StoryRange from './StoryRange.jsx'
@@ -53,7 +54,6 @@ export default class Changelog extends React.Component {
     return <div>
       {moreAvailable ?
         <ScrollPaginator page={page} onScrollBottom={nextPage} /> : null}
-
       <div className="bg-smoke">
         <div className="container">
           <div className="sm-flex">

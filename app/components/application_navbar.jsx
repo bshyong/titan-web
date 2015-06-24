@@ -1,23 +1,25 @@
-import Avatar from '../ui/Avatar.jsx'
-import ChangelogStore from '../stores/changelog_store.js'
-import connectToStores from '../lib/connectToStores.jsx'
-import Icon from '../ui/Icon.jsx'
-import Jewel from '../ui/Jewel.jsx'
-import Link from '../components/Link.jsx'
-import List from '../ui/List.jsx'
-import Navbar from '../ui/Navbar.jsx'
-import NotificationActions from '../actions/notification_actions'
-import NotificationsList from './notifications_list.js.jsx'
-import NotificationsStore from '../stores/notifications_store'
-import paramsFor from '../lib/paramsFor'
-import Popover from '../ui/Popover.jsx'
+import Avatar from 'ui/Avatar.jsx'
+import ChangelogStore from 'stores/changelog_store.js'
+import connectToStores from 'lib/connectToStores.jsx'
+import Icon from 'ui/Icon.jsx'
+import Jewel from 'ui/Jewel.jsx'
+import Link from 'components/Link.jsx'
+import List from 'ui/List.jsx'
+import Navbar from 'ui/Navbar.jsx'
+import NotificationActions from 'actions/notification_actions'
+import NotificationsList from 'components/notifications_list.js.jsx'
+import NotificationsStore from 'stores/notifications_store'
+import paramsFor from 'lib/paramsFor'
+import Popover from 'ui/Popover.jsx'
 import React from 'react'
-import RouterContainer from '../lib/router_container'
-import SessionActions from '../actions/session_actions'
-import SessionStore from '../stores/session_store'
+import RouterContainer from 'lib/router_container'
+import SessionActions from 'actions/SessionActions'
+import SessionStore from 'stores/session_store'
+import SigninScrimActions from 'actions/SigninScrimActions'
+import SignupForm from 'components/Authentication/SignupForm.jsx'
 
 // Logo versions:
-import LogoSrc from '../images/logo.svg'
+import LogoSrc from 'images/logo.svg'
 
 @connectToStores(ChangelogStore, SessionStore, NotificationsStore)
 export default class ApplicationNavbar extends React.Component {
@@ -80,7 +82,7 @@ export default class ApplicationNavbar extends React.Component {
     if (!user) {
       return (
         <div className="p2">
-          <a className="pointer" onClick={SessionActions.signin}>Sign in</a>
+          <a className="pointer" onClick={this._handleSignIn}>Sign in</a>
         </div>
       )
     }
@@ -129,6 +131,10 @@ export default class ApplicationNavbar extends React.Component {
         </Popover>
       </div>
     )
+  }
+
+  _handleSignIn(e) {
+    SigninScrimActions.show(SignupForm)
   }
 
   _handleSignout() {

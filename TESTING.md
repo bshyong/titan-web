@@ -273,7 +273,7 @@ describe('handleClick()', () => {
   let SessionActions
 
   beforeEach(() => {
-    SessionActions = require('../../actions/session_actions')
+    SessionActions = require('../../actions/SessionActions')
   })
 
   describe('not signed in', () => {

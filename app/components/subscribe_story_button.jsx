@@ -1,6 +1,6 @@
 import Icon from '../ui/Icon.jsx'
 import React from 'react'
-import SessionActions from '../actions/session_actions'
+import SessionActions from '../actions/SessionActions'
 import SessionStore from '../stores/session_store'
 import StoryActions from '../actions/story_actions'
 
