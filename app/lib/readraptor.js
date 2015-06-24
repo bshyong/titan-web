@@ -1,10 +1,12 @@
 // This should be extracted into readraptor itself
 
+import RCWebsocket from './reconnecting-websocket'
 let RR_HOST = `${RR_URL}`.replace(/(https?:\/\/)?/,'')
 
 export default class Readraptor {
   constructor(publicKey) {
-    this.conn = new WebSocket(`ws://${RR_HOST}/ws/${publicKey}`);
+    let scheme = window.location.protocol.indexOf('https') === -1 ? 'ws' : 'wss'
+    this.conn = new RCWebsocket(`${scheme}://${RR_HOST}/ws/${publicKey}`);
 
     this.openConn = new Promise(resolve => {
       this.conn.onopen = () => resolve(this.conn)

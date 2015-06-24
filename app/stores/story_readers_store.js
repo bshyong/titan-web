@@ -30,7 +30,7 @@ class StoryReadersStore extends Store {
           break
 
         case USER_SIGNIN:
-          if (window["WebSocket"] && window.location.protocol.indexOf('https') === -1) {
+          if (window["WebSocket"]) {
             rr = new Readraptor(action.user.readraptor_key)
             rr.subscribe(action.user.id).onArticle(receiveArticle)
           } else {
