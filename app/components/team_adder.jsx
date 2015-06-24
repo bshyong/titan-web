@@ -25,6 +25,7 @@ import InvitationActions from '../actions/invitation_actions'
 import Clipboard from 'react-zeroclipboard'
 import { getOffsetTop } from '../ui/Picker.jsx'
 import EMAIL_REGEX from '../lib/email_regex'
+import SessionStore from '../stores/session_store'
 
 export default class TeamAdder extends React.Component {
 
@@ -74,11 +75,7 @@ export default class TeamAdder extends React.Component {
                   <div className="flex-auto px2">
                     {m.user.username}
                   </div>
-                  <div className="visible-hover">
-                    <a className="pointer red" onClick={this.handleRemoveClicked(m)}>
-                      <Icon icon="trash-o" />
-                    </a>
-                  </div>
+                  {this.renderDeleteLink(m)}
                 </div>
               )
             }
@@ -88,6 +85,18 @@ export default class TeamAdder extends React.Component {
         {this.renderBlankEntries()}
       </div>
     )
+  }
+
+  renderDeleteLink(m) {
+    if (m.user.username !== SessionStore.user.username) {
+      return (
+        <div className="visible-hover">
+          <a className="pointer red" onClick={this.handleRemoveClicked(m)}>
+            <Icon icon="trash-o" />
+          </a>
+        </div>
+      )
+    }
   }
 
   renderInviteLink() {

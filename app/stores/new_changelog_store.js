@@ -74,7 +74,9 @@ class NewChangelogStore extends Store {
           break
         case MEMBERSHIP_UPDATED:
           if (action.membership.is_core) {
-            this._memberships = this._memberships.push(action.membership)
+            if (!this._memberships.find(m => m.user.username === action.userId)) {
+              this._memberships = this._memberships.push(action.membership)
+            }
           } else {
             let m = this._memberships.find(m => m.user.username == action.userId)
             let r = this._memberships.indexOf(m)
