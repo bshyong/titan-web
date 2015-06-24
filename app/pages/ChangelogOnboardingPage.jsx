@@ -22,11 +22,11 @@ class Slide extends React.Component {
     }
     return (
       <div>
-        <ApplicationNavbar title="New changelog" />
+        <ApplicationNavbar title="New Changelog" />
         <div className="flex flex-center full-width">
           <div className="container full-width px2">
-            <div className="sm-col-8 mx-auto px2">
-              <h2 className="center mb3">{title}</h2>
+            <div className="sm-col-9 mx-auto px2">
+              <h2 className="center mt4">{title}</h2>
               {children}
             </div>
           </div>
@@ -79,9 +79,9 @@ export default class ChangelogOnboardingPage extends React.Component {
           onNext={this.handleChangelogCreation.bind(this)}
           onNextValid={NewChangelogStore.isValid}
           active={slide === 0}>
-            <div className="mb4 center">
+            <p className="center mb3">
               Changelogs make it easy to share what you and your team have accomplished, from fixing bugs and releasing new features, to organizational updates.
-            </div>
+            </p>
             <ChangelogCreation />
         </Slide>
 

@@ -25,6 +25,7 @@
 @import 'components/popover';
 @import 'components/stack';
 @import 'components/upvote_toggler';
+@import 'components/field';
 
 :root {
   --blue: #00A3B9;
@@ -48,7 +49,7 @@
   --lighten-3: #FFFFFF40;
   --lighten-4: #FFFFFF80;
 
-  --bold-font-weight: 600;
+  --bold-font-weight: 500;
   --heading-font-weight: 400;
   --button-font-weight: 500;
   --container-width: 52rem;
