@@ -10,7 +10,7 @@ import StoryActions from '../actions/story_actions'
 @connectToStores(ChangelogStore)
 export default class ChangelogPage extends React.Component {
   static willTransitionTo(transition, params, query) {
-    StoryActions.fetchAll(RouterContainer.changelogSlug(), {
+    StoryActions.fetchAll(params.changelogId || RouterContainer.changelogSlug(), {
       group_by: 'markers'
     })
   }

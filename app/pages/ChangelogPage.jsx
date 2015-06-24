@@ -43,7 +43,6 @@ export default class ChangelogPage extends React.Component {
     }
 
     const changelogId = RouterContainer.changelogSlug()
-
     return (
       <div>
         <ApplicationNavbar title={this.title()} />
