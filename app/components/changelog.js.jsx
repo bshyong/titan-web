@@ -39,9 +39,9 @@ export default class Changelog extends React.Component {
   }
 
   render() {
-    const { changelogId, page, moreAvailable, loading } = this.props
+    const { changelogId, changelog, page, moreAvailable, loading } = this.props
 
-    if (!this.props.changelog) {
+    if (!changelog || !changelogId) {
       return <div />
     }
 
@@ -60,10 +60,10 @@ export default class Changelog extends React.Component {
             <div className="flex-auto" />
             <div className="flex-none">
               <SegmentedControl>
-                <SegmentedControl.Link to="changelog" params={paramsFor.changelog(ChangelogStore.changelog)}>
+                <SegmentedControl.Link to="changelog" params={{changelogId}}>
                   Posts
                 </SegmentedControl.Link>
-                <SegmentedControl.Link to="changelog_by_sets" params={paramsFor.changelog(ChangelogStore.changelog)}>
+                <SegmentedControl.Link to="changelog_by_sets" params={{changelogId}}>
                   Sets
                 </SegmentedControl.Link>
               </SegmentedControl>
