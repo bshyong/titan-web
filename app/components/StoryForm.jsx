@@ -1,14 +1,22 @@
+import {List, Map, Set} from 'immutable'
 import AuthenticatedMixin from './mixins/authenticated_mixin.jsx'
 import AutocompleteUserInput from './autocomplete_user_input.jsx'
 import Button from '../ui/Button.jsx'
+import Calendar from 'rc-calendar'
+import enUS from 'rc-calendar/lib/locale/en-us'
 import ChangelogStore from '../stores/changelog_store'
 import connectToStores from '../lib/connectToStores.jsx'
 import ContributorsActions from '../actions/ContributorsActions'
 import ContributorsInput from './ContributorsInput.jsx'
+import EmojiInput from './EmojiInput.jsx'
+import EmojiStore from '../stores/emoji_store'
+import GregorianCalendar from 'gregorian-calendar'
 import HighlightsActionCreator from '../actions/highlight_actions'
 import HighlightsStore from '../stores/highlights_store'
 import Icon from '../ui/Icon.jsx'
+import Link from '../components/Link.jsx'
 import MarkdownArea from '../ui/markdown_area.jsx'
+import moment from 'moment'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
 import SessionStore from '../stores/session_store'
@@ -17,15 +25,10 @@ import StoriesActionCreator from '../actions/story_actions'
 import StoryActions from '../actions/story_actions'
 import StoryFormActions from '../actions/story_form_actions'
 import StoryFormStore from '../stores/story_form_store'
-import Link from '../components/Link.jsx'
-import {List, Map, Set} from 'immutable'
-
-import EmojiStore from '../stores/emoji_store'
-import EmojiInput from './EmojiInput.jsx'
 
 @AuthenticatedMixin()
 @connectToStores(EmojiStore, StoryFormStore)
-export default class NewStoryForm extends React.Component {
+export default class StoryForm extends React.Component {
   shouldComponentUpdate = shouldPureComponentUpdate
 
   static propTypes = {
@@ -47,18 +50,27 @@ export default class NewStoryForm extends React.Component {
       title:        StoryFormStore.title,
       body:         StoryFormStore.body,
       isPublic:     StoryFormStore.isPublic,
-      emoji_id:     StoryFormStore.emoji_id
+      emoji_id:     StoryFormStore.emoji_id,
+      created_at:   StoryFormStore.created_at
+    }
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      showCalendar: false
     }
   }
 
   render() {
     const {
-      title,
       body,
+      contributors,
+      created_at,
+      emoji_id,
       isPublic,
       storyId,
-      contributors,
-      emoji_id,
+      title,
     } = this.props
 
     return (
@@ -124,6 +136,20 @@ export default class NewStoryForm extends React.Component {
                   </a>
                 </span>
               </div>
+              <div className="clearfix pointer" onClick={this.handleToggleCalendar.bind(this)}>
+                <span className="block left py1 black">
+                  <Icon icon="calendar" fw={true} />
+                  {created_at ?
+                    moment(created_at).format('MMM, DD YYYY') :
+                    'Today'}
+                </span>
+              </div>
+              {this.state.showCalendar &&
+                <Calendar
+                  style={{zIndex: 1000}}
+                  locale={enUS}
+                  onSelect={this.handleCalendarSelect.bind(this)} />}
+
             </div>
             <div className="right">
               {this.renderPostButton()}
@@ -136,6 +162,14 @@ export default class NewStoryForm extends React.Component {
 
   handleChanged(field) {
     return (e) => this.updateForm(field, e.target.value)
+  }
+
+  handleToggleCalendar() {
+    this.setState({showCalendar: !this.state.showCalendar})
+  }
+
+  handleCalendarSelect(value) {
+    this.updateForm('created_at', moment(value.time).toISOString())
   }
 
   handleTogglePrivacy(e) {

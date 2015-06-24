@@ -24,13 +24,15 @@ class StoryFormStore extends Store {
           this.body = action.story.body
           this.isPublic = !action.story.team_member_only
           this.emoji_id = action.story.emoji_id || action.story.emoji.id
+          this.created_at = action.story.created_at
           break
+
         case STORY_FORM_CHANGE:
           this.title = action.fields.title
           this.body = action.fields.body
           this.isPublic = action.fields.isPublic
           this.emoji_id = action.fields.emoji_id
-
+          this.created_at = action.fields.created_at
           break
 
         case EMOJI_SELECTED:
@@ -65,6 +67,7 @@ class StoryFormStore extends Store {
   }
 
   init() {
+    this.created_at = null
     this.title = ''
     this.body  = ''
     this.contributors = ''
@@ -79,11 +82,12 @@ class StoryFormStore extends Store {
 
   get data() {
     return {
-      title: this.title,
       body: this.body,
       contributors: ContributorsStore.validTokensAsString,
-      isPublic: this.isPublic,
+      created_at: this.created_at,
       emoji_id: this.emoji_id,
+      isPublic: this.isPublic,
+      title: this.title,
     }
   }
 }

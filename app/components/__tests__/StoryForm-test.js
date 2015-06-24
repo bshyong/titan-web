@@ -1,8 +1,8 @@
-describe('NewStoryForm', () => {
+describe('StoryForm', () => {
   let React,
       RouterContainer,
       EmojiActions,
-      NewStoryForm,
+      StoryForm,
       TestUtils
 
   beforeEach(() => {
@@ -22,15 +22,15 @@ describe('NewStoryForm', () => {
     })
     spyOn(EmojiActions, 'fetch').and.returnValue([])
 
-    NewStoryForm = require('../NewStoryForm.jsx').Component.Component
+    StoryForm = require('../StoryForm.jsx').Component.Component
     TestUtils = React.addons.TestUtils
   })
 
   describe('render()', () => {
     it('renders without any props', () => {
-      const form = TestUtils.renderIntoDocument(<NewStoryForm />)
+      const form = TestUtils.renderIntoDocument(<StoryForm />)
 
-      expect(form instanceof NewStoryForm).toBe(true)
+      expect(form instanceof StoryForm).toBe(true)
     })
   })
 
@@ -38,7 +38,7 @@ describe('NewStoryForm', () => {
     let form
 
     beforeEach(() => {
-      form = TestUtils.renderIntoDocument(<NewStoryForm />)
+      form = TestUtils.renderIntoDocument(<StoryForm />)
     })
 
     describe('.title', () => {

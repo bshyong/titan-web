@@ -23,8 +23,10 @@ import shouldPureComponentUpdate from 'react-pure-render/function'
 import {List, Map, Set} from 'immutable'
 import TextareaAutosize from 'react-textarea-autosize'
 
+import '../../stylesheets/components/calendar.css'
+
 @connectToStores(EmojiStore, StoryFormStore)
-export default class NewStoryForm extends React.Component {
+export default class StoryForm extends React.Component {
   shouldComponentUpdate = shouldPureComponentUpdate
 
   static get propTypes() {

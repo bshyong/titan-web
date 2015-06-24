@@ -6,7 +6,7 @@ import React from 'react'
 import RouterContainer from '../lib/router_container'
 import SessionStore from '../stores/session_store'
 import StoryActions from '../actions/story_actions'
-import StoryForm from '../components/NewStoryForm.jsx'
+import StoryForm from '../components/StoryForm.jsx'
 import StoryFormActions from '../actions/story_form_actions'
 import StoryFormStore from '../stores/story_form_store'
 
@@ -46,11 +46,12 @@ export default class NewStoryPage extends React.Component {
   handleOnPublish(e) {
     e.preventDefault()
     const payload = {
-      title: StoryFormStore.title,
       body:  StoryFormStore.body,
       contributors: ContributorsStore.contributorsAsString(),
+      created_at: StoryFormStore.created_at,
+      emoji_id: StoryFormStore.emoji_id,
       team_member_only: !StoryFormStore.isPublic,
-      emoji_id: StoryFormStore.emoji_id
+      title: StoryFormStore.title,
     }
     StoryActions.publish(this.props.changelogId, payload)
   }

@@ -1,18 +1,26 @@
 import ApplicationNavbar from './application_navbar.jsx'
 import AuthenticatedMixin from './mixins/authenticated_mixin.jsx'
+import connectToStores from '../lib/connectToStores.jsx'
 import EmojiStore from '../stores/emoji_store'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
-import StoryForm from './NewStoryForm.jsx'
+import StoryForm from './StoryForm.jsx'
 import StoryFormActions from '../actions/story_form_actions'
 import StoryFormStore from '../stores/story_form_store'
 import StoryActions from '../actions/story_actions'
 import GroupedStoriesStore from '../stores/GroupedStoriesStore'
 
 @AuthenticatedMixin()
+@connectToStores(StoryFormStore)
 export default class EditStoryForm extends React.Component {
   static get defaultProps() {
     return RouterContainer.get().getCurrentParams()
+  }
+
+  static getPropsFromStores(props) {
+    return {
+      storyLoaded: !!StoryFormStore.created_at
+    }
   }
 
   componentDidMount() {
@@ -20,6 +28,9 @@ export default class EditStoryForm extends React.Component {
   }
 
   render() {
+    if (!this.props.storyLoaded) {
+      return <div />
+    }
     return (
       <div className="container p2">
         <StoryForm onPublish={this.handleOnPublish.bind(this)} />
@@ -32,11 +43,12 @@ export default class EditStoryForm extends React.Component {
 
     if (story) {
       StoryFormActions.change({
-        title: story.title,
-        isPublic: !story.team_member_only,
-        contributors: story.contributors.map(u => `@${u.username}`).join(', '),
         body: story.body,
-        emoji_id: story.emoji.id
+        contributors: story.contributors.map(u => `@${u.username}`).join(', '),
+        created_at: story.created_at,
+        emoji_id: story.emoji.id,
+        isPublic: !story.team_member_only,
+        title: story.title,
       })
     } else {
       StoryActions.fetch(this.props.changelogId, this.props.storyId)
