@@ -25,6 +25,12 @@ export default class EmojiPicker extends React.Component {
 
   componentDidMount() {
     React.findDOMNode(this.refs.search).focus()
+    this.handleKeyDown = this.handleKeyDown.bind(this)
+    document.addEventListener('keydown', this.handleKeyDown)
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown)
   }
 
   renderEmojis() {
@@ -109,14 +115,21 @@ export default class EmojiPicker extends React.Component {
 
   selectEmoji(emoji, e) {
     this.setState({value: emoji.id})
+    React.findDOMNode(this).focus()
   }
 
-  handleChange(e) {
+  handleChange() {
     this.props.onChange({value: this.state.value})
   }
 
   handleCancel(e) {
     this.props.onChange({value: this.props.defaultValue})
+  }
+
+  handleKeyDown(e) {
+    if (e.keyCode === ENTER_KEY) {
+      this.handleChange()
+    }
   }
 }
 

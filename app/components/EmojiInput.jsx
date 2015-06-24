@@ -7,6 +7,8 @@ import EmojiStore from '../stores/emoji_store'
 import Picker from '../ui/RealPicker.jsx'
 import React from 'react'
 
+const ENTER_KEY = 13
+
 export default class EmojiInput extends React.Component {
   static propTypes = {
     autoFocus: React.PropTypes.bool,
@@ -20,7 +22,7 @@ export default class EmojiInput extends React.Component {
     this.state = {
       value: props.defaultValue,
       showDialog: false,
-      focused: props.autoFocus,
+      focused: false,
     }
   }
 
@@ -31,6 +33,9 @@ export default class EmojiInput extends React.Component {
   componentDidMount() {
     EmojiActions.fetch()
     EmojiStore.addChangeListener(this.setState.bind(this, {}))
+    if (this.props.autoFocus) {
+      React.findDOMNode(this.refs.button).focus()
+    }
   }
 
   componentWillUnmount() {
@@ -57,7 +62,8 @@ export default class EmojiInput extends React.Component {
              onClick={this.handleWillChange.bind(this)}
              onFocus={this.handleToggleFocus.bind(this)}
              onBlur={this.handleToggleFocus.bind(this)}
-             style={{width: '3rem', height: '3rem', backgroundColor: 'white'}}>
+             onKeyDown={this.handleKeyDown.bind(this)}
+             style={{width: '3rem', height: '3rem', backgroundColor: 'white'}} ref="button">
           {this.renderEmoji()}
         </div>
         {this.renderDialog()}
@@ -88,7 +94,13 @@ export default class EmojiInput extends React.Component {
     )
   }
 
-  handleWillChange(e) {
+  handleKeyDown(e) {
+    if (e.keyCode == ENTER_KEY) {
+      this.handleWillChange()
+    }
+  }
+
+  handleWillChange() {
     this.setState({
       showDialog: true,
       focused: true,
