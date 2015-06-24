@@ -351,12 +351,12 @@ export default class ChangelogSettings extends React.Component {
   }
 
   _onLogoUploaded(logo) {
-    ChangelogActions.update(
-      this.props.changelogId,
-      Map(ChangelogStore.changelog).set('logo_url', logo.href).toJS()
-    )
-
     setTimeout(() => {
+      ChangelogActions.update(
+        this.props.changelogId,
+        Map(ChangelogStore.changelog).set('logo_url', logo.href).toJS()
+      )
+
       this.setState({
         logoUploading: false
       })
