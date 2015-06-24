@@ -81,7 +81,7 @@ export default class ChangelogCreation extends React.Component {
 
   renderNameField() {
     const nameValid = NewChangelogStore.nameValid
-    const cs = classnames("flex full-width field-light", {
+    const cs = classnames("flex full-width", {
       'is-error': !nameValid
     })
 
@@ -89,7 +89,7 @@ export default class ChangelogCreation extends React.Component {
 
     return (
       <div className="mb2">
-        <label className="new-changelog-name bold">Name your Changelog</label>
+        <label className="bold">Name your Changelog</label>
         <div className={cs} style={{height: 'auto'}}>
           <input type="text"
             id="new-changelog-name"
@@ -106,7 +106,7 @@ export default class ChangelogCreation extends React.Component {
 
   renderSlugField() {
     const slugValid = NewChangelogStore.slugValid
-    const cs = classnames("flex full-width field-light", {
+    const cs = classnames("flex full-width", {
       'is-error': !slugValid
     })
 
@@ -120,7 +120,7 @@ export default class ChangelogCreation extends React.Component {
       <div className="mb2">
         <div onClick={this.handleEditClicked.bind(this)}>
           <div>
-            <label className="new-changelog-url bold mr1 pointer">
+            <label className="bold mr1 pointer">
               URL: <span className="gray">changelog.assembly.com/..</span>
             </label>
           </div>
