@@ -59,7 +59,7 @@ export default class ChangelogHeader extends React.Component {
     const host = URL.parse(changelog.homepage_url).host
     return (
       <div>
-        <a className="white" href={changelog.homepage_url} style={{textDecoration: "underline"}}>{host}</a>
+        <a className="white" target="_blank" href={changelog.homepage_url} style={{textDecoration: "underline"}}>{host}</a>
       </div>
     )
   }
