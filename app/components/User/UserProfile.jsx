@@ -54,16 +54,19 @@ export default class ProfilePage extends React.Component {
         {this.renderThingyCounts(upvoteCount, this.props.user.contribution_count, this.props.following.length)}
 
         <div className="container">
-          {this.renderSection('Upvotes earned', upvoteCount, this.renderUpvotes)}
-          {this.renderSection('Public posts', this.props.user.contribution_count, this.renderStories)}
-          {this.renderSection('Following', this.props.following.length, this.renderFollowingChangelogs)}
+          {this.renderSection('Public posts', this.renderStories.bind(this))}
+          {this.renderSection('Following', this.renderFollowingChangelogs.bind(this))}
         </div>
       </div>
     )
   }
 
-  renderThingyCounts(upvotes, posts, changelogs) {
-    if (upvotes === 0 && posts === 0 && changelogs === 0) {
+  renderThingyCounts() {
+    const {
+      user: {contribution_count, hearts_count, followings_count}
+    } = this.props
+
+    if (hearts_count === 0 && contribution_count === 0 && followings_count === 0) {
       return (
         <div className="px2 md-px0 py4 gray">
           <p className="h2 mt0 mb0 center">
@@ -77,19 +80,19 @@ export default class ProfilePage extends React.Component {
     return (
       <div className="px2 md-px0 py4">
         <p className="h3 mt0 mb0 center">
-          Earned <strong>{pluralize(upvotes, 'upvote', 'upvotes')}</strong>,
-          contributed to <strong>{pluralize(posts, 'post', 'posts')}</strong>,
-          and followed <strong>{pluralize(changelogs, 'changelog', 'changelogs')}</strong>.
+          Earned <strong>{pluralize(hearts_count, 'upvote', 'upvotes')}</strong>,
+          contributed to <strong>{pluralize(contribution_count, 'post', 'posts')}</strong>,
+          and followed <strong>{pluralize(followings_count, 'changelog', 'changelogs')}</strong>.
         </p>
       </div>
     )
   }
 
-  renderSection(title, count, body) {
+  renderSection(title, body) {
     return (
       <div className="mb4">
         <h4 className="px2 md-px0 py1 caps gray h5 mt0 mb0 border-bottom">{title}</h4>
-        {body.bind(this)(count)}
+        {body()}
       </div>
     )
   }
@@ -103,20 +106,13 @@ export default class ProfilePage extends React.Component {
     )
   }
 
-  renderUpvotes(nUpvotes) {
-    const { upvotes } = this.props
+  renderUpvotes() {
+    const { user: {hearts_count: nUpvotes}, upvotes } = this.props
     const stickerSheet = List(upvotes).sortBy(s => -s.count)
-
-    if (nUpvotes === 0) {
-      return this.renderBlankState(
-        '1f496',
-        "Earn upvotes on your posts and get that warm, fuzzy feeling."
-      )
-    }
 
     return (
       <div className="overflow-hidden">
-        <div className="flex flex-wrap mxn3">
+        <div className="flex flex-wrap mxn2">
           {stickerSheet.map(s => {
             const {emoji, count} = s
             return (
@@ -134,8 +130,8 @@ export default class ProfilePage extends React.Component {
   }
 
   renderStories() {
-    const { stories, storyPagination } = this.props
-    if (stories.size==0) {
+    const { stories, storyPagination, user: {contribution_count} } = this.props
+    if (contribution_count === 0) {
       return this.renderBlankState(
         '1f4dc',
         "Contribute by posting to a changelog."
@@ -143,40 +139,43 @@ export default class ProfilePage extends React.Component {
     }
 
     return (
-      <ClickablePaginator
-        hasMore={storyPagination.moreAvailable}
-        onLoadMore={this.handleLoadMoreStories.bind(this)}>
-        <Table>
-          {
-            List(stories)
-              .sortBy(story => story.created_at)
-              .reverse()
-              .map(story => (
-                <Table.Cell key={story.id} to="story" params={paramsFor.story(story.changelog, story)}>
-                  <div className="flex">
-                    <div className="flex-none">
-                      <Badge badge={story.emoji} size="1.5rem" />
+      <div>
+        {this.renderUpvotes()}
+        <ClickablePaginator
+          hasMore={storyPagination.moreAvailable}
+          onLoadMore={this.handleLoadMoreStories.bind(this)}>
+          <Table>
+            {
+              List(stories)
+                .sortBy(story => story.created_at)
+                .reverse()
+                .map(story => (
+                  <Table.Cell key={story.id} to="story" params={paramsFor.story(story.changelog, story)}>
+                    <div className="flex">
+                      <div className="flex-none">
+                        <Badge badge={story.emoji} size="1.5rem" />
+                      </div>
+                      <div className="flex-auto px2">
+                        {story.title}
+                      </div>
+                      <div className="flex-none gray h5">
+                        {story.changelog.name}
+                      </div>
                     </div>
-                    <div className="flex-auto px2">
-                      {story.title}
-                    </div>
-                    <div className="flex-none gray h5">
-                      {story.changelog.name}
-                    </div>
-                  </div>
 
-                </Table.Cell>
-              ))
-          }
-        </Table>
-      </ClickablePaginator>
+                  </Table.Cell>
+                ))
+            }
+          </Table>
+        </ClickablePaginator>
+      </div>
     )
   }
 
-  renderFollowingChangelogs(nFollowing) {
-    const { following: changelogs } = this.props
+  renderFollowingChangelogs() {
+    const { following: changelogs, user: {followings_count} } = this.props
 
-    if (nFollowing === 0) {
+    if (followings_count === 0) {
       return this.renderBlankState(
         '1f60e',
         "Follow changelogs that you work on and find interesting."
