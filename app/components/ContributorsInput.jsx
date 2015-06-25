@@ -3,6 +3,7 @@ import ContributorsActions from '../actions/ContributorsActions'
 import ContributorsStore from '../stores/ContributorsStore'
 import React from 'react'
 import connectToStores from '../lib/connectToStores.jsx'
+import classnames from 'classnames'
 
 const KEYCODES = {
   ENTER: 13,
@@ -22,9 +23,11 @@ export default class ContributorsInput extends React.Component {
 
   constructor(props) {
     super(props)
+    this.state = {
+      focused: false
+    }
 
     this.handleChange = this._handleChange.bind(this)
-    this.handleFocus = this._handleFocus.bind(this)
     this.handleKeyDown = this._handleKeyDown.bind(this)
   }
 
@@ -38,26 +41,29 @@ export default class ContributorsInput extends React.Component {
 
   render() {
     const { validTokens } = this.props
+    const cs = classnames(
+      "field-light flex flex-baseline flex-wrap",
+      {"is-focused": this.state.focused}
+    )
     return (
-      <div>
-        <div className="flex flex-baseline border border-silver flex-wrap">
-          <div className="flex flex-wrap">
-            {this.renderTokens()}
-          </div>
-          <div className="flex-auto">
-            <AutocompleteUserInput
-              {...this.props}
-              style={{outline: 'none'}}
-              ref="input"
-              className="border-none block full-width"
-              placeholder={validTokens.isEmpty() ? 'Did anyone help?' : 'anyone else?'}
-              value={this.props.currentMatch}
-              onKeyDown={this.handleKeyDown}
-              onChange={this.handleChange}
-              onFocus={this.handleFocus} />
-          </div>
+      <div className={cs}>
+        <div className="flex flex-wrap">
+          {this.renderTokens()}
         </div>
-        <div className="red h5 m0" dangerouslySetInnerHTML={{__html: this.renderInvalidTokenText()}}/>
+        <div className="flex-auto">
+          <AutocompleteUserInput
+            {...this.props}
+            tabIndex="0"
+            style={{outline: 'none'}}
+            ref="input"
+            className="border-none block full-width overflow-hidden"
+            placeholder={validTokens.isEmpty() ? 'Who helped out?' : 'Anyone else?'}
+            value={this.props.currentMatch}
+            onKeyDown={this.handleKeyDown}
+            onChange={this.handleChange}
+            onFocus={this.handleFocus.bind(this)}
+            onBlur={this.handleBlur.bind(this)} />
+        </div>
       </div>
     )
   }
@@ -92,7 +98,17 @@ export default class ContributorsInput extends React.Component {
     ContributorsActions.setContributorsFromString(e.target.value)
   }
 
-  _handleFocus(e) {
+  handleFocus(e) {
     this.selectionStart = e.target.selectionStart
+    this.setState({
+      focused: true,
+      selectionStart: e.target.selectionStart,
+    })
+  }
+
+  handleBlur() {
+    this.setState({
+      focused: false,
+    })
   }
 }

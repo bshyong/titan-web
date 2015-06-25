@@ -50,7 +50,7 @@ export default class EmojiInput extends React.Component {
 
   render() {
     const cs = classnames(
-      "field-light bg-white circle flex flex-center overflow-hidden pointer", {
+      "field-light bg-white flex flex-center overflow-hidden pointer", {
         "is-focused": this.state.focused
       }
     )
@@ -63,7 +63,13 @@ export default class EmojiInput extends React.Component {
              onFocus={this.handleToggleFocus.bind(this)}
              onBlur={this.handleToggleFocus.bind(this)}
              onKeyDown={this.handleKeyDown.bind(this)}
-             style={{width: '3rem', height: '3rem', backgroundColor: 'white'}} ref="button">
+             style={{
+               width: '3rem',
+               height: '3rem',
+               backgroundColor: 'white',
+               borderRadius: '50%',
+              }}
+             ref="button">
           {this.renderEmoji()}
         </div>
         {this.renderDialog()}

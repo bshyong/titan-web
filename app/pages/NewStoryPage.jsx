@@ -6,9 +6,10 @@ import React from 'react'
 import RouterContainer from '../lib/router_container'
 import SessionStore from '../stores/session_store'
 import StoryActions from '../actions/story_actions'
-import StoryForm from '../components/StoryForm.jsx'
+import StoryForm from '../components/Story/StoryForm.jsx'
 import StoryFormActions from '../actions/story_form_actions'
 import StoryFormStore from '../stores/story_form_store'
+import StoryFormWalkthrough from '../components/Story/StoryFormWalkthrough.jsx'
 
 @AuthenticatedMixin()
 export default class NewStoryPage extends React.Component {
@@ -37,8 +38,12 @@ export default class NewStoryPage extends React.Component {
 
   render() {
     return (
-      <div className="container py2">
-        <StoryForm onPublish={this.handleOnPublish.bind(this)} autoFocusEmoji={true} />
+      <div className="container py4">
+        <StoryFormWalkthrough>
+          <div className="py4">
+            <StoryForm onPublish={this.handleOnPublish.bind(this)} autoFocusEmoji={true} />
+          </div>
+        </StoryFormWalkthrough>
       </div>
     )
   }

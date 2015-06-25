@@ -11,6 +11,7 @@ import EMOJI_REGEX from '../lib/emoji_regex'
 import { List } from 'immutable'
 import Store from '../lib/store'
 import ContributorsStore from '../stores/ContributorsStore'
+import moment from 'moment'
 
 class StoryFormStore extends Store {
   constructor() {
@@ -67,7 +68,7 @@ class StoryFormStore extends Store {
   }
 
   init() {
-    this.created_at = null
+    this.created_at = moment()
     this.title = ''
     this.body  = ''
     this.contributors = ''

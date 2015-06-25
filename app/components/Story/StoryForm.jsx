@@ -22,6 +22,9 @@ import connectToStores from '../../lib/connectToStores.jsx'
 import shouldPureComponentUpdate from 'react-pure-render/function'
 import {List, Map, Set} from 'immutable'
 import TextareaAutosize from 'react-textarea-autosize'
+import moment from 'moment'
+import Calendar from 'rc-calendar'
+import enUS from 'rc-calendar/lib/locale/en-us'
 
 import '../../stylesheets/components/calendar.css'
 
@@ -35,18 +38,21 @@ export default class StoryForm extends React.Component {
     }
   }
 
-  static get defaultProps() {
-    return {
-      isPublic: true
-    }
-  }
-
   static getPropsFromStores() {
     return {
       title:        StoryFormStore.title,
       body:         StoryFormStore.body,
       isPublic:     StoryFormStore.isPublic,
-      emoji_id:     StoryFormStore.emoji_id
+      emoji_id:     StoryFormStore.emoji_id,
+      created_at:   StoryFormStore.created_at,
+    }
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      showDetails: false,
+      showCalendar: false,
     }
   }
 
@@ -57,38 +63,104 @@ export default class StoryForm extends React.Component {
       isPublic,
       storyId,
       contributors,
-      emoji_id
+      emoji_id,
+      created_at,
     } = this.props
 
     return (
       <div>
-        <div className="mb3">
-          <TextareaAutosize
-            className="field-light block full-width h2 border-bottom"
-            placeholder="List one recent accomplishment."
-            value={title}
-            onChange={this.handleChanged('title').bind(this)}
-            ref="title"
-            rows={2} />
-          <p className="mt1 h5">Features, bug fixes, designs are all fair game.</p>
-        </div>
+        <div className="flex mb3 mxn1">
+          <div className="flex-none px1">
+            <EmojiInput
+                value={emoji_id}
+                onChange={this.handleChanged('emoji_id').bind(this)} />
+          </div>
 
-        <div className="mb3">
-          <EmojiInput
-              value={emoji_id}
-              onChange={this.handleChanged('emoji_id').bind(this)} />
-          <p className="mt1 h5">
-            Pick an emoji to describe it.
-          </p>
-        </div>
+          <div className="flex-auto px1">
+            <div className="mb2">
+              <TextareaAutosize
+                className="field-light block full-width h2 border-bottom"
+                placeholder="What happened?"
+                value={title}
+                onChange={this.handleChanged('title').bind(this)}
+                ref="title" />
+            </div>
 
-        <div className="mb3">
-          <ContributorsInput className="field-light block full-width" />
-          <p className="mt0 h5">List those that have helped you. Just use their usernames or email addresses.</p>
-        </div>
+            <div>
+              <ContributorsInput />
+            </div>
 
+            <div className="py1 h5 flex mxn1">
+              <div className="p1">
+                <Icon icon="eye" color="silver" />
+                {' '}
+                <a className="gray underline bold pointer" onClick={this.handleTogglePrivacy.bind(this)}>
+                  {isPublic ? 'Everyone' : 'Team only'}
+                </a>
+              </div>
+              <div className="p1">
+                <Icon icon="calendar" color="silver" />
+                {' '}
+                <a className="gray underline bold pointer" onClick={this.handleToggleCalendar.bind(this)}>
+                  {moment(created_at).format('MMM, DD YYYY')}
+                </a>
+                {this.state.showCalendar &&
+                  <Calendar
+                    style={{zIndex: 1000}}
+                    locale={enUS}
+                    onSelect={this.handleCalendarSelect.bind(this)} />}
+              </div>
+              <div className="flex-grow" />
+              <div className="p1">
+                {this.renderDetailsToggle()}
+              </div>
+            </div>
+
+            {this.renderDetails()}
+          </div>
+        </div>
       </div>
     )
+  }
+
+  renderDetailsToggle() {
+    return (
+      <a className="pointer gray" onClick={this.handleToggleDetails.bind(this)}>
+        <Icon icon={this.state.showDetails ? 'caret-up' : 'caret-down'} color="silver" />
+        {' '}
+        {!this.state.showDetails ? 'Show extra' : 'Hide extra'}
+      </a>
+    )
+  }
+
+  renderDetails() {
+    if (!this.state.showDetails) {
+      return
+    }
+
+    return (
+      <div className="mb2">
+        <MarkdownArea id={this.props.storyId || "new_story"}
+                  placeholder="Describe your story (optional)"
+                  gifPickerPosition="bottom"
+                  ref="body"
+                  value={this.props.body}
+                  rows={4} />
+        <div className="right-align">
+          <a className="mt1 h6 silver" href="http://daringfireball.net/projects/markdown/basics" target="_blank">
+            <strong>*Markdown*</strong> <i>_syntax_</i>
+          </a>
+        </div>
+      </div>
+    )
+  }
+
+  handleToggleCalendar(e) {
+    this.setState({showCalendar: !this.state.showCalendar})
+  }
+
+  handleToggleDetails(e) {
+    this.setState({showDetails: !this.state.showDetails})
   }
 
   handleChanged(field) {
@@ -118,5 +190,9 @@ export default class StoryForm extends React.Component {
 
   handleOnSubmit(e) {
     this.props.onSubmit(e)
+  }
+
+  handleCalendarSelect(value) {
+    this.updateForm('created_at', moment(value.time).toISOString())
   }
 }
