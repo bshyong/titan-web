@@ -1,13 +1,13 @@
 export default {
   get() {
-    return localStorage.getItem('membershipInvite')
+    return localStorage.getItem('membership_invite')
   },
 
   set(i) {
-    localStorage.setItem('membershipInvite', i)
+    localStorage.setItem('membership_invite', i)
   },
 
   remove() {
-    localStorage.removeItem('membershipInvite')
+    localStorage.removeItem('membership_invite')
   }
 }
