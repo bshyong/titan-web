@@ -26,87 +26,73 @@ class ContributorsStore extends Store {
   constructor() {
     super()
 
-    this._contributors = Set()
-    this._emails = Set()
-    this._invalidMatches = Set()
-    this._suggestedContributors = Set()
     this._currentMatch = ''
     this._matchData = List([])
-    this._tokens = List([])
     this._lastInvalidToken = null
+
+    this.reset()
 
     this.dispatchToken = Dispatcher.register(action => {
       switch (action.type) {
         case STORY_FETCHED:
-          this._tokens = List([])
+          this.reset()
           action.story.contributors.forEach(c => {
-            this._tokens = this._tokens.push({
-              type: 'contributor',
-              string: `@${c.username}`
-            })
+            this.addToken(`@${c.username}`)
           })
           break
         case STORY_FORM_CLEAR:
-          this._tokens = List([])
+          this.reset()
           break
         case STORY_PUBLISHED:
-          this._tokens = List([])
+          this.reset()
           break
         case CONTRIBUTORS_KEYDOWN:
-          this._lastInvalidToken = null
           if (!this._currentMatch && !this._tokens.isEmpty() && (action.event.keyCode === KEYCODES.BACKSPACE)) {
             this._tokens = this._tokens.pop()
           }
           if (this._currentMatch && [KEYCODES.ENTER, KEYCODES.TAB].includes(action.event.keyCode)) {
-            this.saveToken(this._currentMatch)
+            this.addToken(this._currentMatch)
             this._currentMatch = null
           }
 
           break
         case CONTRIBUTORS_STRING_RECEIVED:
-          this._lastInvalidToken = null
           let tokens = action.string.split(/,\s*/)
           this._currentMatch = tokens.pop().trim()
 
           if (tokens[0]) {
-            this.saveToken(tokens[0])
+            this.addToken(tokens[0])
           }
-          this._suggestedContributors = null
+
           break
         case USER_PICKER_USER_SELECTED:
-          this._contributors = (this._contributors || Set()).add(`@${action.user.username}`)
+          this.addToken(`@${action.user.username}`)
           break
         case USER_SIGNIN:
-          this._contributors = (this._contributors || Set()).add(`@${action.user.username}`)
+          this.addToken(`@${action.user.username}`)
           break
         case CONTRIBUTORS_RESET:
-          this._contributors = Set().add(`@${action.user.username}`)
+          this.reset()
+          this.addToken(`@${action.user.username}`)
+          break
         default:
           return
       }
-
+      console.log(action.type, action)
       this.emitChange()
     }.bind(this))
   }
 
-  get contributors() {
-    return this._contributors
-  }
-
-  get emails() {
-    return this._emails
-  }
-
-  get lastInvalidToken() {
-    return this._lastInvalidToken
+  get validTokens() {
+    return this._tokens.filter(t =>{ return t.type !== 'invalid'})
   }
 
   get invalidTokens() {
-    return this._invalidMatches
+    return this._tokens.filter(t => t.type === 'invalid')
   }
 
-  get validTokens() {
-    return this._tokens.filter(t =>{ return t.type !== 'invalid'})
+  get lastInvalidToken() {
+    return this.invalidTokens.last()
   }
 
   get validTokensAsString() {
@@ -117,43 +103,33 @@ class ContributorsStore extends Store {
     return this._currentMatch
   }
 
-  saveToken(string) {
-    var newToken = this.tokenize(string.replace(/ /g, ''))
-    if (!this._tokens.find(t => { return t.string === string.replace(/ /g, '') })) {
-      this._tokens = this._tokens.push(
-        newToken
-      )
-    }
-    if (newToken.type === 'invalid') {
-      this._lastInvalidToken = newToken.string
-    }
+  reset() {
+    this._tokens = List()
   }
 
-  tokenize(string) {
-    if (MENTION_REGEX.test(string)){
-      this._contributors = this._contributors.add(string)
-      return {
-        type: 'contributor',
-        string: string
-      }
-    } else if (EMAIL_REGEX.test(string)) {
-      this._emails = this._emails.add(string)
-      return {
-        type: 'email',
-        string: string
-      }
-    } else {
-      this._invalidMatches = this._invalidMatches.add(string)
-      return {
-        type: 'invalid',
-        string: string
-      }
-    }
+  addToken(string) {
+    this._tokens = saveTokens(this._tokens, string)
+  }
+}
+
+function saveTokens(tokens, str) {
+  const sanitizedStr = str.replace(/ /g, '')
+  const tokenType = getTokenTypeFromString(sanitizedStr)
+
+  if (tokens.find(t => t.string === sanitizedStr)) {
+    return tokens
   }
 
-  contributorsAsString() {
-    return this._currentMatch
+  return tokens.push({type: tokenType, string: sanitizedStr})
+}
+
+function getTokenTypeFromString(str) {
+  if (MENTION_REGEX.test(str)) {
+    return 'contributor'
+  } else if (EMAIL_REGEX.test(str)) {
+    return 'email'
   }
+  return 'invalid'
 }
 
 export default new ContributorsStore()

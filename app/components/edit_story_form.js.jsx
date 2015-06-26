@@ -10,6 +10,7 @@ import StoryFormStore from '../stores/story_form_store'
 import StoryActions from '../actions/story_actions'
 import GroupedStoriesStore from '../stores/GroupedStoriesStore'
 import Button from '../ui/Button.jsx'
+import ContributorsStore from '../stores/ContributorsStore'
 
 @AuthenticatedMixin()
 @connectToStores(StoryFormStore)
@@ -70,6 +71,10 @@ export default class EditStoryForm extends React.Component {
   }
 
   handleOnUpdate() {
-    StoryActions.edit(this.props.changelogId, this.props.storyId, StoryFormStore.data)
+    const story = StoryFormStore.data
+    StoryActions.edit(this.props.changelogId, this.props.storyId, {
+      ...story,
+      contributors: ContributorsStore.validTokensAsString
+    })
   }
 }

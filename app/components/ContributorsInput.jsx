@@ -14,7 +14,6 @@ const KEYCODES = {
 export default class ContributorsInput extends React.Component {
   static getPropsFromStores() {
     return {
-      contributors: ContributorsStore.contributorsAsString(),
       validTokens: ContributorsStore.validTokens,
       currentMatch: ContributorsStore.currentMatch,
       lastInvalidToken: ContributorsStore.lastInvalidToken,
