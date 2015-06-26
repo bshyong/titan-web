@@ -47,8 +47,8 @@ export default class StoryForm extends React.Component {
 
     return (
       <div>
-        <div className="flex mxn1">
-          <div className="flex-none px1">
+        <div className="sm-flex mxn1">
+          <div className="flex-none px1 mb2">
             <EmojiInput
                 value={emoji_id}
                 onChange={this.handleEmojiChanged.bind(this)} />

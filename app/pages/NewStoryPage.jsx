@@ -51,7 +51,7 @@ export default class NewStoryPage extends React.Component {
 
   render() {
     return (
-      <div className="container py4">
+      <div className="container py4 px2 sm-px0">
         <StoryFormWalkthrough>
           <StoryForm story={this.props.story} onChange={this.handleOnChange.bind(this)} />
         </StoryFormWalkthrough>

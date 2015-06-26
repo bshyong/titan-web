@@ -1,5 +1,7 @@
 import React from 'react'
 import Button from '../../ui/Button.jsx'
+import onMobile from '../../lib/on_mobile'
+import SessionStore from '../../stores/session_store'
 
 export default class StoryFormWalkthrough extends React.Component {
   constructor(props) {
@@ -14,7 +16,7 @@ export default class StoryFormWalkthrough extends React.Component {
 
     // TODO Only on first post
     // TODO Disable on mobile
-    if (!this.state.show) {
+    if (!this.state.show || onMobile || (SessionStore.isSIgnedIn && SessionStore.user.contribution_count > 0)) {
       return content
     }
 
