@@ -118,8 +118,8 @@ class ContributorsStore extends Store {
   }
 
   saveToken(string) {
-    var newToken = this.tokenize(string.replace(/ /, ''))
-    if (!this._tokens.find(t => { return t.string === string.replace(/ /, '') })) {
+    var newToken = this.tokenize(string.replace(/ /g, ''))
+    if (!this._tokens.find(t => { return t.string === string.replace(/ /g, '') })) {
       this._tokens = this._tokens.push(
         newToken
       )
