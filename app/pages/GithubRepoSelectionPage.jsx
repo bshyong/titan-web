@@ -1,6 +1,8 @@
+import ApplicationNavbar from '../components/application_navbar.jsx'
+import GithubRepoActions from '../actions/github_repo_actions'
+import GithubReposStore from '../stores/github_repos_store'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
-import ApplicationNavbar from '../components/application_navbar.jsx'
 import SessionActions from '../actions/session_actions'
 import SessionStore from '../stores/session_store'
 
