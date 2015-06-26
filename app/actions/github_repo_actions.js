@@ -16,12 +16,12 @@ export default {
         repos: resp
       })
     })
-  }
+  },
 
   createDraftsFromRepo(repoName) {
     api.post(`github/repos/${repoName}/select`).then(resp => {
       Dispatcher.dispatch({
-        type: GITHUB_REPO_DRAFTS_CREATED
+        type: GITHUB_REPO_DRAFTS_CREATED,
         resp: resp
       })
     })
