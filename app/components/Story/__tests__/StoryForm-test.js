@@ -36,7 +36,10 @@ describe('StoryForm', () => {
     describe('.title', () => {
       it('triggers an update on change', () => {
         spyOn(form.props, 'onChange')
-        TestUtils.Simulate.change(form.refs.title, { target: { value: 'a' } })
+        const el = TestUtils.findRenderedDOMComponentWithTag(
+          form.refs.title, 'textarea'
+        )
+        TestUtils.Simulate.change(el, { target: { value: 'a' } })
 
         expect(form.props.onChange).toHaveBeenCalledWith({title: 'a'})
       })
@@ -44,7 +47,9 @@ describe('StoryForm', () => {
 
     describe('.body', () => {
       it('triggers an update on change', () => {
-        spyOn(form, 'updateForm')
+        spyOn(form.props, 'onChange')
+
+        TestUtils.Simulate.click(form.refs.toggleDetails)
 
         let body = TestUtils.findRenderedDOMComponentWithTag(
           form.refs.body.refs.textarea,
@@ -55,7 +60,7 @@ describe('StoryForm', () => {
         updatedBody.value = 'a'
         TestUtils.Simulate.change(body, { target: updatedBody })
 
-        expect(form.updateForm).toHaveBeenCalledWith('body', 'a')
+        expect(form.props.onChange).toHaveBeenCalledWith({body: 'a'})
       })
     })
 
@@ -64,7 +69,7 @@ describe('StoryForm', () => {
         spyOn(form.props, 'onChange')
         TestUtils.Simulate.click(form.refs.isPublic)
 
-        expect(form.props.onChange).toHaveBeenCalledWith({'isPublic', false})
+        expect(form.props.onChange).toHaveBeenCalledWith({isPublic: true})
       })
     })
   })

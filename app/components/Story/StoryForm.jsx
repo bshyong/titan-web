@@ -65,7 +65,7 @@ export default class StoryForm extends React.Component {
             </div>
 
             <div className="py1">
-              <a className="pointer gray h5 bold" onClick={this.handleDetailsToggled.bind(this)}>
+              <a className="pointer gray h5 bold" onClick={this.handleDetailsToggled.bind(this)} ref="toggleDetails">
                 <Icon icon={this.state.showDetails ? 'caret-up' : 'caret-down'} color="silver" />
                 {' '}
                 {!this.state.showDetails ? 'Add details' : 'Hide details'}
