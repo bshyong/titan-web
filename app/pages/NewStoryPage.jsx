@@ -47,7 +47,7 @@ export default class NewStoryPage extends React.Component {
     e.preventDefault()
     const payload = {
       body:  StoryFormStore.body,
-      contributors: ContributorsStore.contributorsAsString(),
+      contributors: ContributorsStore.validTokensAsString,
       created_at: StoryFormStore.created_at,
       emoji_id: StoryFormStore.emoji_id,
       team_member_only: !StoryFormStore.isPublic,
