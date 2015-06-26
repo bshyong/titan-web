@@ -16,6 +16,7 @@ import ChangelogSettings from 'components/settings/ChangelogSettings.jsx'
 import DashboardPage from 'pages/DashboardPage.jsx'
 import EditStoryForm from 'components/edit_story_form.js.jsx'
 import FeedPage from 'pages/FeedPage.jsx'
+import GithubRepoSelectionPage from '../pages/GithubRepoSelectionPage.jsx'
 import HighlightPicker from 'components/highlight_picker.js.jsx'
 import HomePage from 'pages/HomePage.jsx'
 import ImpersonatePage from 'pages/ImpersonatePage.jsx'
@@ -33,7 +34,7 @@ import StoryComposer from 'components/story_composer.js.jsx'
 import StoryPage from 'pages/StoryPage.jsx'
 import TermsPage from 'pages/TermsPage.jsx'
 import TwitterCallback from 'components/TwitterCallback.jsx'
-import UserPage from 'pages/UserPage.jsx'
+import UserPage from '../pages/UserPage.jsx'
 
 var internal = (
   <Route handler={AppPage} name="root" path="/">
@@ -61,6 +62,7 @@ var internal = (
 
     <Route handler={DashboardPage} path="/dashboard" name="dashboard" />
     <Route handler={InvitationPage} path="/invitations/:invite_token" name="invitation" />
+    <Route handler={GithubRepoSelectionPage} path="/github" name="githubDrafts" />
 
     <Route handler={ChangelogPage} path="/:changelogId">
       <DefaultRoute handler={ChangelogByDatePage} name="changelog" />
