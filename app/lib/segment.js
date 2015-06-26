@@ -1,12 +1,12 @@
 import SessionStore from '../stores/session_store'
 
 const eventDefinitions = {
-  ANALYTICS_CHANGELOG_CREATED: 'changelog-created',
-  ANALYTICS_COMMENT_CREATED: 'comment-created',
+  ANALYTICS_CHANGELOG_CREATED: 'changelog.created',
+  ANALYTICS_COMMENT_CREATED: 'comment.created',
   ANALYTICS_FOLLOWED: 'followed',
-  ANALYTICS_POST_CREATED: 'post-created',
+  ANALYTICS_POST_CREATED: 'post.created',
   ANALYTICS_UPVOTE: 'upvoted',
-  ANALYTICS_USER_CREATED: 'user-created',
+  ANALYTICS_USER_CREATED: 'user.created',
   ANALYTICS_ENGAGED: 'engaged',
 }
 
@@ -16,7 +16,8 @@ export default {
     if (user) {
       analytics.identify(user.id, {
         username: user.username,
-        email: user.email
+        email: user.email,
+        staff: user.staff_at
       })
     }
     return user

@@ -168,6 +168,11 @@ export default {
           story: story,
           changelogId: changelogId
         })
+
+        segment.track(ANALYTICS_POST_CREATED, {
+          length: resp.length
+        })
+
         successCallback()
         if (shouldTransition) {
           Router.get().transitionTo('story', story.urlParams)
