@@ -26,10 +26,7 @@ class ContributorsStore extends Store {
   constructor() {
     super()
 
-    this._currentMatch = ''
-    this._matchData = List([])
-    this._lastInvalidToken = null
-
+    this._fieldValue = ''
     this.reset()
 
     this.dispatchToken = Dispatcher.register(action => {
@@ -47,18 +44,18 @@ class ContributorsStore extends Store {
           this.reset()
           break
         case CONTRIBUTORS_KEYDOWN:
-          if (!this._currentMatch && !this._tokens.isEmpty() && (action.event.keyCode === KEYCODES.BACKSPACE)) {
+          if (!this._fieldValue && !this._tokens.isEmpty() && (action.event.keyCode === KEYCODES.BACKSPACE)) {
             this._tokens = this._tokens.pop()
           }
-          if (this._currentMatch && [KEYCODES.ENTER, KEYCODES.TAB].includes(action.event.keyCode)) {
-            this.addToken(this._currentMatch)
-            this._currentMatch = null
+
+          if (this._fieldValue && [KEYCODES.ENTER, KEYCODES.TAB].includes(action.event.keyCode)) {
+            this.addToken(this._fieldValue)
           }
 
           break
         case CONTRIBUTORS_STRING_RECEIVED:
           let tokens = action.string.split(/,\s*/)
-          this._currentMatch = tokens.pop().trim()
+          this._fieldValue = tokens.pop().trim()
 
           if (tokens[0]) {
             this.addToken(tokens[0])
@@ -78,21 +75,16 @@ class ContributorsStore extends Store {
         default:
           return
       }
-      console.log(action.type, action)
       this.emitChange()
     }.bind(this))
   }
 
+  get tokens() {
+    return this._tokens
+  }
+
   get validTokens() {
     return this._tokens.filter(t =>{ return t.type !== 'invalid'})
-  }
-
-  get invalidTokens() {
-    return this._tokens.filter(t => t.type === 'invalid')
-  }
-
-  get lastInvalidToken() {
-    return this.invalidTokens.last()
   }
 
   get validTokensAsString() {
@@ -100,7 +92,7 @@ class ContributorsStore extends Store {
   }
 
   get currentMatch() {
-    return this._currentMatch
+    return this._fieldValue
   }
 
   reset() {
@@ -109,11 +101,12 @@ class ContributorsStore extends Store {
 
   addToken(string) {
     this._tokens = saveTokens(this._tokens, string)
+    this._fieldValue = ''
   }
 }
 
 function saveTokens(tokens, str) {
-  const sanitizedStr = str.replace(/ /g, '')
+  const sanitizedStr = str.replace(/ /g, '').replace(/^([^@])/, '@$1')
   const tokenType = getTokenTypeFromString(sanitizedStr)
 
   if (tokens.find(t => t.string === sanitizedStr)) {
@@ -124,12 +117,11 @@ function saveTokens(tokens, str) {
 }
 
 function getTokenTypeFromString(str) {
-  if (MENTION_REGEX.test(str)) {
-    return 'contributor'
-  } else if (EMAIL_REGEX.test(str)) {
+  if (EMAIL_REGEX.test(str)) {
     return 'email'
   }
-  return 'invalid'
+
+  return 'contributor'
 }
 
 export default new ContributorsStore()

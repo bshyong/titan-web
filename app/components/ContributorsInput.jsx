@@ -14,7 +14,7 @@ const KEYCODES = {
 export default class ContributorsInput extends React.Component {
   static getPropsFromStores() {
     return {
-      validTokens: ContributorsStore.validTokens,
+      tokens: ContributorsStore.tokens,
       currentMatch: ContributorsStore.currentMatch,
       lastInvalidToken: ContributorsStore.lastInvalidToken,
     }
@@ -39,7 +39,6 @@ export default class ContributorsInput extends React.Component {
   }
 
   render() {
-    const { validTokens } = this.props
     const cs = classnames(
       "field-light flex flex-baseline flex-wrap",
       {"is-focused": this.state.focused}
@@ -56,7 +55,7 @@ export default class ContributorsInput extends React.Component {
             style={{outline: 'none'}}
             ref="input"
             className="border-none block full-width overflow-hidden"
-            placeholder={validTokens.isEmpty() ? 'Who helped out?' : 'Anyone else?'}
+            placeholder="Who helped out?"
             value={this.props.currentMatch}
             onKeyDown={this.handleKeyDown}
             onChange={this.handleChange}
@@ -67,17 +66,13 @@ export default class ContributorsInput extends React.Component {
     )
   }
 
-  renderInvalidTokenText() {
-    const { lastInvalidToken, validTokens, currentMatch } = this.props
-    return lastInvalidToken ? `${lastInvalidToken} is neither a valid username nor an email address` : '&nbsp;'
-  }
-
   renderTokens() {
-    return this.props.validTokens.map(
+    return this.props.tokens.map(
       t => {
-        return <span className="flex-none ml1 bg-smoke black px1" key={t.string}>
+        const cs = classnames("flex-none ml1 px1 bg-smoke black")
+        return <div className={cs} key={t.string}>
           {t.string}
-        </span>
+        </div>
       }
     )
   }
