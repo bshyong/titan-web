@@ -51,6 +51,10 @@ export default {
     return _routers
   },
 
+  transitionTo() {
+    return this.router.transitionTo.apply(this.router, arguments)
+  },
+
   changelogSlug(params) {
     if (_customDomain) {
       return _customDomain

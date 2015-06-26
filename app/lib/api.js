@@ -75,6 +75,11 @@ module.exports = {
 
     return fetch(`${API_URL}/${url}`, options).
       then(handleError).
-      then(resp => resp.json())
+      then(resp => {
+        if (resp.status === 204) {
+          return resp
+        }
+        return resp.json()
+      })
   }
 }

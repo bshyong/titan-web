@@ -51,7 +51,7 @@ export default class StoryPage extends React.Component {
 
   render() {
     const { story, changelog } = this.props
-    const changelogId = Router.get().getCurrentParams().changelogId
+    const changelogId = Router.changelogSlug
     let body
 
     if (!story) {
@@ -141,7 +141,9 @@ export default class StoryPage extends React.Component {
     if (this.props.changelog.viewer_can_edit) {
       return (
         <li className="px1">
-          <span className="gray gray-hover pointer" onClick={this.deleteStory}><Icon icon="trash" /> Delete</span>
+          <span className="gray gray-hover pointer" onClick={this.deleteStory.bind(this)} ref="del">
+            <Icon icon="trash" /> Delete
+          </span>
         </li>
       )
     }

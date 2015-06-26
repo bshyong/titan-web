@@ -20,7 +20,7 @@ import {
 
 import paramsFor from '../lib/paramsFor'
 import Dispatcher from '../lib/dispatcher'
-import RouterContainer from '../lib/router_container'
+import Router from '../lib/router_container'
 import SessionStore from '../stores/session_store'
 import api from '../lib/api'
 import segment from '../lib/segment'
@@ -113,7 +113,7 @@ export default {
       storyId: storyId
     })
     api.delete(`changelogs/${changelogId}/stories/${storyId}`)
-    RouterContainer.get().transitionTo("changelog", {changelogId: changelogId})
+    Router.transitionTo("changelog", {changelogId: changelogId})
   },
 
   edit(changelogId, storyId, data) {
@@ -130,7 +130,7 @@ export default {
           changelogId: changelogId,
         })
 
-        RouterContainer.get().transitionTo('story', story.urlParams)
+        Router.get().transitionTo('story', story.urlParams)
       })
   },
 
@@ -170,7 +170,7 @@ export default {
         })
         successCallback()
         if (shouldTransition) {
-          RouterContainer.get().transitionTo('story', story.urlParams)
+          Router.get().transitionTo('story', story.urlParams)
         }
       })
   },
