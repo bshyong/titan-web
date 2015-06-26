@@ -8,8 +8,6 @@ import Router from '../../lib/router_container'
 import StoryPage from '../StoryPage.jsx'
 import stubRouterContext from '../../lib/stubRouterContext'
 
-console.log(stubRouterContext)
-
 const TestUtils = React.addons.TestUtils
 
 describe('StoryPage', () => {

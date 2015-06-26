@@ -3,6 +3,9 @@ var webpack = require('webpack')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 var webpackConfig = {
+  resolve: {
+    modulesDirectories: ['node_modules', 'app']
+  },
   devtool: 'inline-source-map',
   module: {
     loaders: [

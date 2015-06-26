@@ -49,8 +49,8 @@ module.exports = {
       options.headers['invite'] = invite.get()
     }
 
-    if (invite.get()) {
-      options.headers['membership_invite'] = membership_invite.get()
+    if (membership_invite.get()) {
+      options.headers['membership-invite'] = membership_invite.get()
     }
 
     let handleError = function handleError(resp) {

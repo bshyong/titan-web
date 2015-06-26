@@ -17,7 +17,7 @@ module.exports = function makeConfig(options) {
 
   return {
     resolve: {
-      modulesDirectories: ['node_modules']
+      modulesDirectories: ['node_modules', 'app']
     },
     entry: {
       app: ['./app/main.jsx'],
