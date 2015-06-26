@@ -65,9 +65,6 @@ class ContributorsStore extends Store {
         case USER_PICKER_USER_SELECTED:
           this.addToken(`@${action.user.username}`)
           break
-        case USER_SIGNIN:
-          this.addToken(`@${action.user.username}`)
-          break
         case CONTRIBUTORS_RESET:
           this.reset()
           this.addToken(`@${action.user.username}`)
