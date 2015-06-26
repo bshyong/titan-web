@@ -12,12 +12,11 @@ export default class StoryFormWalkthrough extends React.Component {
   render() {
     const content = <div className="relative" ref="content">{this.props.children}</div>
 
+    // TODO Only on first post
+    // TODO Disable on mobile
     if (!this.state.show) {
       return content
     }
-
-    // <Bubble x={200} y={200}>Add details and images if you want.</Bubble>
-    // <Bubble x={200} y={200}>Give credit to anyone who helped. Just list their usernames or email addresses.</Bubble>
 
     return (
       <div className="relative z1" onClick={this.handleClose.bind(this)}>
@@ -25,32 +24,37 @@ export default class StoryFormWalkthrough extends React.Component {
              style={{backgroundColor: 'rgba(0,0,0,0.8)'}} />
         <div className="relative">
           {content}
-          <div className="absolute white no-select full-width" style={{cursor: 'default'}}>
-            <Bubble top={0} right={0} x={100} y={3*16}>
-              Features, bug fixes, and designs are all fair game.
-            </Bubble>
-            <Bubble top={-20} left={-10 * 16} x={50} y={80}>
+          <div className="absolute top-0 right-0 bottom-0 left-0" />
+          <div className="absolute white no-select full-width z1 top-0 left-0" style={{cursor: 'default'}}>
+            <Bubble top={-4 * 16} left={-10 * 16} x={1*16} y={3*16}>
               Pick an emoji to describe the post.
             </Bubble>
-            <Bubble top={16 * 16} right={-8 * 16} x={200} y={200}>
-              Add details and images if you want.
+
+            <Bubble top={-5*16} right={6*16} x={-6*16} y={5*16}>
+              Features, bug fixes, and designs are all fair game.
             </Bubble>
 
-            <Bubble top={18*16} x={200} y={-100}>
+            <Bubble top={10*16} right={-8 * 16} x={-2*16} y={-4*16}>
               Give credit to anyone who helped. Just list their usernames or email addresses.
+            </Bubble>
+
+            <Bubble top={12 * 16} x={-20} y={-120}>
+              Add details and images if you want.
             </Bubble>
           </div>
         </div>
-        <div className="fixed bottom-0 left-0 right-0 py4 center">
+
+        <div className="fixed bottom-0 left-0 right-0 z2 py4 center">
           <Button color="white"
-                  style="outline"
+                  bg="blue"
                   action={this.handleClose.bind(this)}>
-            Ok, gottit
+            Got it!
           </Button>
         </div>
       </div>
     )
   }
+
 
   handleClose(e) {
     e.preventDefault()
@@ -61,7 +65,6 @@ export default class StoryFormWalkthrough extends React.Component {
 
 // React doesn't pass down the correct props fro the marker so this needs
 // to be a template string. Doesn't change much so ¯\_(ツ)_/¯
-
 const svgMarkerHtml = `
   <marker id="markerArrow"
           markerWidth="8"
@@ -76,18 +79,19 @@ const svgMarkerHtml = `
 class Arrow extends React.Component {
   render() {
     const { children, x, y } = this.props
+    const width = Math.abs(x)
+    const height = Math.abs(y)
     const strokeWidth = 1
-    const viewBox = [0, 0, x, y]
-    const curve = [strokeWidth / 2, y-(strokeWidth/2)]
+    const viewBox = [0, 0, width+16, height+16]
     const path = [
-      'M', 0, 0,
-      'L', x - 8, y - 8
+      'M', (x < 0 ? width : 0) + 8, (y < 0 ? height : 0) + 8,
+      'l', x, y
     ]
     return (
       <svg xmlns="http://www.w3.org/svg/2000"
         viewBox={viewBox.join(' ')}
-        width={x}
-        height={y}
+        width={width + 16}
+        height={height + 16}
         fill="transparent"
         stroke="#93BD16"
         strokeWidth={strokeWidth}>
@@ -129,7 +133,7 @@ class Bubble extends React.Component {
     return (
       <div className="absolute inline-block" style={style.main}>
         <div className="absolute" style={style.arrow}>
-          <Arrow x={Math.abs(x)} y={Math.abs(y)} />
+          <Arrow x={x} y={y} />
         </div>
         <div className="relative bg-green white px2 py1 pill center">
           {this.props.children}

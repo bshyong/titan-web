@@ -7,28 +7,18 @@ describe('StoryForm', () => {
 
   beforeEach(() => {
     React = require('react/addons')
-    RouterContainer = require('../../lib/router_container')
-    EmojiActions = require('../../actions/emoji_actions')
-
-    spyOn(RouterContainer, 'get').and.callFake(() => {
-      return {
-        getCurrentParams() {
-          return { changelogId: 1 }
-        }
-      }
-    })
-    spyOn(RouterContainer, 'changelogSlug').and.callFake(() => {
-      return 1
-    })
+    EmojiActions = require('../../../actions/emoji_actions')
     spyOn(EmojiActions, 'fetch').and.returnValue([])
 
-    StoryForm = require('../StoryForm.jsx').Component.Component
+    StoryForm = require('../StoryForm.jsx')
     TestUtils = React.addons.TestUtils
   })
 
   describe('render()', () => {
-    it('renders without any props', () => {
-      const form = TestUtils.renderIntoDocument(<StoryForm />)
+    it('renders with an empty story', () => {
+      const form = TestUtils.renderIntoDocument(
+        <StoryForm story={{}} />
+      )
 
       expect(form instanceof StoryForm).toBe(true)
     })
@@ -38,27 +28,21 @@ describe('StoryForm', () => {
     let form
 
     beforeEach(() => {
-      form = TestUtils.renderIntoDocument(<StoryForm />)
+      form = TestUtils.renderIntoDocument(
+        <StoryForm story={{}} onChange={function() {}} />
+      )
     })
 
     describe('.title', () => {
-      it('is undefined by default', () => {
-        expect(form.props.title).toBeUndefined()
-      })
-
       it('triggers an update on change', () => {
-        spyOn(form, 'updateForm')
+        spyOn(form.props, 'onChange')
         TestUtils.Simulate.change(form.refs.title, { target: { value: 'a' } })
 
-        expect(form.updateForm).toHaveBeenCalledWith('title', 'a')
+        expect(form.props.onChange).toHaveBeenCalledWith({title: 'a'})
       })
     })
 
     describe('.body', () => {
-      it('is undefined by default', () => {
-        expect(form.props.body).toBeUndefined()
-      })
-
       it('triggers an update on change', () => {
         spyOn(form, 'updateForm')
 
@@ -66,6 +50,7 @@ describe('StoryForm', () => {
           form.refs.body.refs.textarea,
           'textarea'
         )
+
         let updatedBody = body.getDOMNode()
         updatedBody.value = 'a'
         TestUtils.Simulate.change(body, { target: updatedBody })
@@ -75,15 +60,11 @@ describe('StoryForm', () => {
     })
 
     describe('.isPublic', () => {
-      it('is true by default', () => {
-        expect(form.props.isPublic).toBe(true)
-      })
-
       it('toggles on click', () => {
-        spyOn(form, 'updateForm')
+        spyOn(form.props, 'onChange')
         TestUtils.Simulate.click(form.refs.isPublic)
 
-        expect(form.updateForm).toHaveBeenCalledWith('isPublic', false)
+        expect(form.props.onChange).toHaveBeenCalledWith({'isPublic', false})
       })
     })
   })
