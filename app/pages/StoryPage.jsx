@@ -51,7 +51,7 @@ export default class StoryPage extends React.Component {
 
   render() {
     const { story, changelog } = this.props
-    const changelogId = Router.changelogSlug
+    const changelogId = Router.changelogSlug()
     let body
 
     if (!story) {
