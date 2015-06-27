@@ -170,7 +170,8 @@ export default {
         })
 
         segment.track(ANALYTICS_POST_CREATED, {
-          length: resp.length
+          titleLength: story.title.length,
+          bodyLength: (story.body && story.body.length) || 0
         })
 
         successCallback()
