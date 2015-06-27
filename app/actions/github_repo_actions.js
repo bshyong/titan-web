@@ -10,9 +10,12 @@ import api from '../lib/api'
 export default {
 
   fetchAll() {
+    Dispatcher.dispatch({
+      type: GITHUB_REPOS_FETCHING
+    })
     api.get(`github/repos`).then(resp => {
       Dispatcher.dispatch({
-        type: GITHUB_REPOS_FETCHING,
+        type: GITHUB_REPOS_FETCHED,
         repos: resp
       })
     })

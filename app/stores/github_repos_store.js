@@ -16,14 +16,16 @@ class GithubReposStore extends Store {
       switch (action.type) {
         case GITHUB_REPOS_FETCHING:
           this._fetching = true
+          break
         case GITHUB_REPOS_FETCHED:
           this._fetching = false
           this._repos = List(action.repos)
+          break
         default:
           return
       }
       this.emitChange()
-    })
+    }.bind(this))
   }
 
   get repos() {
