@@ -62,7 +62,7 @@ export default class SigninScrim extends React.Component {
         Have an account?{' '}
         <a href="javascript:void(0)"
           onClick={SigninScrimActions.show.bind(null, LoginForm)}>
-          Log in
+          Sign in
         </a>.
       </small>,
       <span className="gray ml2 pointer right"

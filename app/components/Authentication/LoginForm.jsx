@@ -36,7 +36,7 @@ export default class LoginForm extends React.Component {
       <div className="flex flex-center">
         <div className="flex-none col-4 mx-auto py4">
           <img className="flex-none" src={LogoSrc} style={{height: '1.5rem'}} />
-          <h1 className="mt0">Log in</h1>
+          <h1 className="mt0">Sign in</h1>
           <Button size="big" color="twitter-blue" block
             action={SessionActions.initializeTwitterSignIn}>
             <Icon icon="twitter" />
@@ -66,7 +66,7 @@ export default class LoginForm extends React.Component {
                     onChange={this.handleChange('password')} />
                   <small className="left">
                     <a href="javascript:void(0)"
-                      className="gray underline"
+                      className="darken-4 underline"
                       onClick={this.handleForgotPassword}>
                       Forgot password?
                     </a>
@@ -75,7 +75,7 @@ export default class LoginForm extends React.Component {
 
                 <div className="py2 mt2">
                   <AuthenticationFormButton action={this.handleSubmit} disabled={this.isButtonDisabled()}>
-                    Log in
+                    Sign in
                   </AuthenticationFormButton>
                 </div>
               </form>
