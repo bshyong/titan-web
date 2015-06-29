@@ -32,7 +32,7 @@ export default class PasswordResetEmailForm extends React.Component {
   render() {
     return (
       <div className="flex">
-        <div className="flex-none col-4 mx-auto py4">
+        <div className="flex-none sm-col-4 mx-auto py4">
           <img className="flex-none" src={LogoSrc} style={{height: '1.5rem'}} />
           <h1 className="mt0">Forgot your password?</h1>
 
@@ -40,10 +40,6 @@ export default class PasswordResetEmailForm extends React.Component {
             Enter the email address associated with your account below.
             We'll send password reset instructions right away.
           </h5>
-
-          <h6 className="mt0 gray">
-            If you'd prefer to wait for reset instructions by carrier pigeon, click <a href="javascript:void(0);">here</a>.
-          </h6>
 
           <div className="mt2">
             <div className="border border-silver rounded p2">
@@ -70,7 +66,9 @@ export default class PasswordResetEmailForm extends React.Component {
     return (
       <form className="clearfix">
         <div className="py1">
+          <label htmlFor="password-email">Email</label>
           <input type="email"
+            id="password-email"
             className="block full-width field-light"
             placeholder="jane@example.com"
             value={email}
@@ -79,7 +77,7 @@ export default class PasswordResetEmailForm extends React.Component {
 
         <div className="py2">
           <AuthenticationFormButton action={this.handleSubmit} disabled={this.isButtonDisabled()}>
-            Submit
+            Send reset link
           </AuthenticationFormButton>
         </div>
       </form>

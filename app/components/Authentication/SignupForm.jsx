@@ -27,7 +27,7 @@ export default class SignupForm extends React.Component {
   render() {
     return (
       <div className="flex flex-center">
-        <div className="flex-none col-4 mx-auto py4">
+        <div className="flex-none sm-col-4 mx-auto py4">
           <img className="flex-none" src={LogoSrc} style={{height: '1.5rem'}} />
           <h1 className="mt0">Sign up</h1>
           <Button size="big" color="twitter-blue" block
@@ -81,16 +81,6 @@ export default class SignupForm extends React.Component {
         <AuthenticationFormError />
         <form>
           <div className="py1">
-            <label className="left bold" htmlFor="signup-username">Username</label>
-            <AvailableUsernameInput type="text"
-              id="signup-username"
-              className="block full-width field-light"
-              placeholder="jane"
-              value={username}
-              onChange={this.handleChange('username')}  />
-          </div>
-
-          <div className="py1">
             <label className="left bold" htmlFor="signup-email">Email</label>
             <AvailableUsernameInput type="email"
               id="signup-email"
@@ -98,6 +88,16 @@ export default class SignupForm extends React.Component {
               placeholder="jane@example.com"
               value={email}
               onChange={this.handleChange('email')} />
+          </div>
+
+          <div className="py1">
+            <label className="left bold" htmlFor="signup-username">Username</label>
+            <AvailableUsernameInput type="text"
+              id="signup-username"
+              className="block full-width field-light"
+              placeholder="jane"
+              value={username}
+              onChange={this.handleChange('username')}  />
           </div>
 
           <div className="py1">

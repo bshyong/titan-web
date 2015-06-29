@@ -60,7 +60,7 @@ export default class HomePage extends React.Component {
                         size="big"
                         style="outline"
                         color="orange">
-                        Sign in
+                        Log in
                       </Button>
                     </span>
                   </div>

@@ -3,6 +3,7 @@ import connectToStores from 'lib/connectToStores.jsx'
 import Icon from 'ui/Icon.jsx'
 import Link from 'components/Link.jsx'
 import LoginForm from 'components/Authentication/LoginForm.jsx'
+import PasswordResetEmailForm from 'components/Authentication/PasswordResetEmailForm.jsx'
 import React from 'react'
 import Scrim from 'ui/Scrim.jsx'
 import SessionActions from 'actions/SessionActions'
@@ -38,39 +39,40 @@ export default class SigninScrim extends React.Component {
   }
 
   renderFormToggle() {
-    if (this.props.Form === LoginForm) {
-      return [
-        <small key="signup-form-text">
+    const { Form } = this.props
+    if (Form === LoginForm || Form === PasswordResetEmailForm) {
+      return (
+        <div className="h4">
           Don't have an account?{' '}
           <a href="javascript:void(0)"
             onClick={SigninScrimActions.show.bind(null, SignupForm)}>
             Sign up
           </a>.
-        </small>,
-        <span className="gray ml2 pointer right"
-          onClick={this.handleClose}
-          key="sign-up-form-icon">
-          <Icon icon="close" />
-        </span>
-      ]
-    } else if (this.props.Form === SignupConfirmationForm) {
+          <span className="gray ml2 pointer right relative"
+            onClick={this.handleClose}
+            style={{ fontSize: '2rem', top: -12 }}>
+            <Icon icon="close" />
+          </span>
+        </div>
+      )
+    } else if (Form === SignupConfirmationForm) {
       return null
     }
 
-    return [
-      <small key="signup-form-text">
+    return (
+      <div className="h4">
         Have an account?{' '}
         <a href="javascript:void(0)"
           onClick={SigninScrimActions.show.bind(null, LoginForm)}>
-          Sign in
+          Log in
         </a>.
-      </small>,
-      <span className="gray ml2 pointer right"
-        onClick={this.handleClose}
-        key="sign-up-form-icon">
-        <Icon icon="close" />
-      </span>
-    ]
+        <span className="gray ml2 pointer right relative"
+          onClick={this.handleClose}
+          style={{ fontSize: '2rem', top: -12 }}>
+          <Icon icon="close" />
+        </span>
+      </div>
+    )
   }
 }
 

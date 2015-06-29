@@ -34,9 +34,9 @@ export default class LoginForm extends React.Component {
 
     return (
       <div className="flex flex-center">
-        <div className="flex-none col-4 mx-auto py4">
+        <div className="flex-none sm-col-4 mx-auto py4">
           <img className="flex-none" src={LogoSrc} style={{height: '1.5rem'}} />
-          <h1 className="mt0">Sign in</h1>
+          <h1 className="mt0">Log in</h1>
           <Button size="big" color="twitter-blue" block
             action={SessionActions.initializeTwitterSignIn}>
             <Icon icon="twitter" />
@@ -48,7 +48,7 @@ export default class LoginForm extends React.Component {
               <AuthenticationFormError />
               <form className="clearfix">
                 <div className="py1">
-                  <label className="left bold" htmlFor="login-username">Username</label>
+                  <label className="left bold" htmlFor="login-username">Username or email</label>
                   <input type="text"
                     id="login-username"
                     className="block full-width field-light"
@@ -75,7 +75,7 @@ export default class LoginForm extends React.Component {
 
                 <div className="py2 mt2">
                   <AuthenticationFormButton action={this.handleSubmit} disabled={this.isButtonDisabled()}>
-                    Sign in
+                    Log in
                   </AuthenticationFormButton>
                 </div>
               </form>
