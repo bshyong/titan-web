@@ -6,12 +6,12 @@ import React from 'react'
 
 @connectToStores(AvailableUsernameInputStore)
 export default class AvailableUsernameInput extends React.Component {
-  static getPropsFromStores() {
-    return { valid: AvailableUsernameInputStore.valid }
+  static getPropsFromStores(props) {
+    return { valid: AvailableUsernameInputStore.isValid(props.id || 'available-input') }
   }
 
   componentDidMount() {
-    AvailableUsernameInputActions.validate(this.props.value)
+    AvailableUsernameInputActions.validate(this.props.id, this.props.value)
   }
 
   constructor(props) {
@@ -50,7 +50,7 @@ export default class AvailableUsernameInput extends React.Component {
   }
 
   _handleChange(e) {
-    AvailableUsernameInputActions.validate(e.target.value)
+    AvailableUsernameInputActions.validate(this.props.id, e.target.value)
 
     this.props.onChange && this.props.onChange(e)
   }

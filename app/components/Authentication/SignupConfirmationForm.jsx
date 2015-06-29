@@ -40,7 +40,8 @@ export default class SignupConfirmationForm extends React.Component {
               <form>
                 <div className="py1">
                   <label className="left bold">Email</label>
-                  <input type="email"
+                  <AvailableUsernameInput type="email"
+                    id="confirmation-email"
                     className="block full-width field-light"
                     placeholder="jane@example.com"
                     value={email}
@@ -50,6 +51,7 @@ export default class SignupConfirmationForm extends React.Component {
                 <div className="py1">
                   <label className="left bold">Username</label>
                   <AvailableUsernameInput type="text"
+                    id="confirmation-username"
                     className="block full-width field-light"
                     placeholder="jane"
                     value={username}
@@ -87,7 +89,7 @@ export default class SignupConfirmationForm extends React.Component {
   _handleSubmit(e) {
     e.preventDefault()
 
-    AuthenticationFormActions.submit('auth/confirm', SignupConfirmationFormStore.formContent)
+    AuthenticationFormActions.submit('auth/confirm', this.props)
   }
 }
 

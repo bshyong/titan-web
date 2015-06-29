@@ -1,4 +1,5 @@
 import AuthenticationFormActions from 'actions/AuthenticationFormActions'
+import AuthenticationFormError from 'components/Authentication/AuthenticationFormError.jsx'
 import AuthenticationFormStore from 'stores/AuthenticationFormStore'
 import AvailableUsernameInput from 'components/Authentication/AvailableUsernameInput.jsx'
 import Button from 'ui/Button.jsx'
@@ -69,10 +70,12 @@ export default class SignupForm extends React.Component {
 
     return (
       <div className="border border-silver rounded p2">
+        <AuthenticationFormError />
         <form>
           <div className="py1">
             <label className="left bold">Username</label>
             <AvailableUsernameInput type="text"
+              id="signup-username"
               className="block full-width field-light"
               placeholder="jane"
               value={username}
@@ -81,7 +84,8 @@ export default class SignupForm extends React.Component {
 
           <div className="py1">
             <label className="left bold">Email</label>
-            <input type="email"
+            <AvailableUsernameInput type="email"
+              id="signup-email"
               className="block full-width field-light"
               placeholder="jane@example.com"
               value={email}

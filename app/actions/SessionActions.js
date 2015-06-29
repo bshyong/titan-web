@@ -71,7 +71,7 @@ export default {
   },
 
   twitterCallback(query) {
-    const { origin, provider, uid, username } = query
+    const { return_url, provider, uid, username } = query
     let data = new FormData()
     data.append('provider', provider)
     data.append('uid', uid)
@@ -82,9 +82,9 @@ export default {
     }).then(resp => resp.json()).then(json => {
       if (json.token) {
         this.signinFromToken(json.token)
-        window.location.href = origin
+        window.location.href = return_url
       } else {
-        SigninScrimActions.initialize(SignupConfirmationForm, query, origin)
+        SigninScrimActions.initialize(SignupConfirmationForm, query, return_url)
       }
     })
   }

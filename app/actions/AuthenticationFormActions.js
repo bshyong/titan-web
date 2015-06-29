@@ -37,10 +37,8 @@ export default {
 
   submit(path, data) {
     api.post(path, data).then(resp => {
-      if (resp.status >= 200 && resp.status < 400) {
-        SessionActions.signinFromToken(resp.token)
-        window.location = resp.return_url
-      }
+      SessionActions.signinFromToken(resp.token)
+      window.location = resp.return_url
     }).catch(error => {
       Dispatcher.dispatch({
         type: AUTHENTICATION_FORM_ERROR,
