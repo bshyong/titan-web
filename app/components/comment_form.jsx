@@ -30,6 +30,7 @@ export default class CommentForm extends React.Component {
 
     this.handleOnChange = this._handleOnChange.bind(this)
     this.handleOnPublish = this._handleOnPublish.bind(this)
+    this.handleSignInClick = this._handleSignInClick.bind(this)
     this.handleToggleFocus = this._handleToggleFocus.bind(this)
     this.onStoreChange = this._onStoreChange.bind(this)
   }
@@ -85,7 +86,7 @@ export default class CommentForm extends React.Component {
     if (!this.state.isSignedIn) {
       return (
         <div className="pointer">
-          <a onClick={SigninScrimActions.initialize(LoginForm, {}, window.location.href)} >
+          <a onClick={this.handleSignInClick} >
             Sign in to comment
           </a>
         </div>
@@ -145,6 +146,10 @@ export default class CommentForm extends React.Component {
       this.props.id || this.props.storyId,
       e.target.value
     )
+  }
+
+  _handleSignInClick(e) {
+    SigninScrimActions.initialize(LoginForm, {}, window.location.href)
   }
 
   _onStoreChange() {
