@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default class Scrim extends React.Component {  
+export default class Scrim extends React.Component {
   render() {
     if (!this.props.shown) {
       return null
@@ -8,7 +8,7 @@ export default class Scrim extends React.Component {
 
     const style = {
       height: '100%',
-      backgroundColor: 'rgba(255, 255, 255, 0.99)'
+      backgroundColor: 'rgba(255, 255, 255, 0.97)'
     }
 
     return (

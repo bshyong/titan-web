@@ -1,4 +1,5 @@
 import AuthenticationFormActions from 'actions/AuthenticationFormActions'
+import AuthenticationFormButton from 'components/Authentication/AuthenticationFormButton.jsx'
 import AuthenticationFormError from 'components/Authentication/AuthenticationFormError.jsx'
 import AuthenticationFormStore from 'stores/AuthenticationFormStore'
 import AvailableUsernameInput from 'components/Authentication/AvailableUsernameInput.jsx'
@@ -58,10 +59,11 @@ export default class SignupForm extends React.Component {
   renderForm() {
     if (!this.props.shown) {
       return (
-        <Button size="big"
-          color="black bg-darken-2"
+        <Button action={AuthenticationFormActions.show}
+          bg="silversmoke"
           block
-          action={AuthenticationFormActions.show}>
+          color="black"
+          size="big">
           <Icon icon="envelope" />
           <span className="ml2 h4">Use email</span>
         </Button>
@@ -109,16 +111,18 @@ export default class SignupForm extends React.Component {
           </div>
 
           <div className="py2 mt2">
-            <Button size="big"
-              color="black bg-darken-1"
-              block
-              action={this.handleSubmit}>
+            <AuthenticationFormButton action={this.handleSubmit} disabled={this.isButtonDisabled()}>
               Create account
-            </Button>
+            </AuthenticationFormButton>
           </div>
         </form>
       </div>
     )
+  }
+
+  isButtonDisabled() {
+    const { email, password, username } = this.props
+    return !email || !password || !username
   }
 
   _handleChange(prop) {

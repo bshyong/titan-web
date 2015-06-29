@@ -1,4 +1,5 @@
 import AuthenticationFormActions from 'actions/AuthenticationFormActions'
+import AuthenticationFormButton from 'components/Authentication/AuthenticationFormButton.jsx'
 import AuthenticationFormError from 'components/Authentication/AuthenticationFormError.jsx'
 import AuthenticationFormStore from 'stores/AuthenticationFormStore'
 import Button from 'ui/Button.jsx'
@@ -73,12 +74,9 @@ export default class LoginForm extends React.Component {
                 </div>
 
                 <div className="py2 mt2">
-                  <Button size="big"
-                    color="black bg-darken-2"
-                    block
-                    action={this.handleSubmit}>
+                  <AuthenticationFormButton action={this.handleSubmit} disabled={this.isButtonDisabled()}>
                     Log in
-                  </Button>
+                  </AuthenticationFormButton>
                 </div>
               </form>
             </div>
@@ -86,6 +84,11 @@ export default class LoginForm extends React.Component {
         </div>
       </div>
     )
+  }
+
+  isButtonDisabled() {
+    const { username, password } = this.props
+    return !username || !password
   }
 
   _handleChange(prop) {

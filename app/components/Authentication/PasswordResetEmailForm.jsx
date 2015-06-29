@@ -1,4 +1,5 @@
 import AuthenticationFormActions from 'actions/AuthenticationFormActions'
+import AuthenticationFormButton from 'components/Authentication/AuthenticationFormButton.jsx'
 import AuthenticationFormError from 'components/Authentication/AuthenticationFormError.jsx'
 import AuthenticationFormStore from 'stores/AuthenticationFormStore'
 import Button from 'ui/Button.jsx'
@@ -77,15 +78,16 @@ export default class PasswordResetEmailForm extends React.Component {
         </div>
 
         <div className="py2">
-          <Button size="big"
-            color="black bg-darken-2"
-            block
-            action={this.handleSubmit}>
+          <AuthenticationFormButton action={this.handleSubmit} disabled={this.isButtonDisabled()}>
             Submit
-          </Button>
+          </AuthenticationFormButton>
         </div>
       </form>
     )
+  }
+
+  isButtonDisabled() {
+    return !this.props.email
   }
 
   _handleChange(e) {

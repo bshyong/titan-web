@@ -1,4 +1,5 @@
 import AuthenticationFormActions from 'actions/AuthenticationFormActions'
+import AuthenticationFormButton from 'components/Authentication/AuthenticationFormButton.jsx'
 import AuthenticationFormStore from 'stores/AuthenticationFormStore'
 import AvailableUsernameInput from 'components/Authentication/AvailableUsernameInput.jsx'
 import Button from 'ui/Button.jsx'
@@ -59,12 +60,9 @@ export default class SignupConfirmationForm extends React.Component {
                 </div>
 
                 <div className="py2 mt2">
-                  <Button size="big"
-                    color="black bg-darken-2"
-                    block
-                    action={this.handleSubmit}>
+                  <AuthenticationFormButton action={this.handleSubmit} disabled={this.isButtonDisabled()}>
                     Done
-                  </Button>
+                  </AuthenticationFormButton>
                 </div>
               </form>
             </div>
@@ -84,6 +82,11 @@ export default class SignupConfirmationForm extends React.Component {
         </div>
       </div>
     )
+  }
+
+  isButtonDisabled() {
+    const { email, username } = this.props
+    return !email || !username
   }
 
   _handleChange(prop) {
