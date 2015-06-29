@@ -24,7 +24,7 @@ export default {
   },
 
   createDraftsFromRepo(repoId, changelogId) {
-    Router.get().transitionTo('githubDrafts')
+    Router.get().transitionTo('githubDrafts', {changelogId: changelogId})
     Dispatcher.dispatch({
       type: GITHUB_DRAFTS_CREATING
     })

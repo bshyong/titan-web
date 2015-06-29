@@ -3,13 +3,14 @@ import GithubOnboardingActions from '../actions/github_onboarding_actions'
 import GithubOnboardingStore from '../stores/github_onboarding_store'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
-import SessionActions from '../actions/session_actions'
+import SessionActions from '../actions/SessionActions'
 import SessionStore from '../stores/session_store'
 import connectToStores from '../lib/connectToStores.jsx'
 import LoadingBar from '../ui/LoadingBar.jsx'
 import Link from '../components/Link.jsx'
 import Icon from '../ui/Icon.jsx'
 import ChangelogStore from '../stores/changelog_store'
+import Router from '../lib/router_container'
 
 @connectToStores(GithubOnboardingStore)
 export default class GithubRepoSelectionPage extends React.Component {
@@ -19,37 +20,30 @@ export default class GithubRepoSelectionPage extends React.Component {
     else { SessionActions.signin() }
   }
 
-  constructor(props) {
-    super(props)
-  }
-
   static getPropsFromStores(props) {
     return {
       repos: GithubOnboardingStore.repos,
       reposFetching: GithubOnboardingStore.fetchingRepos,
-      changelogId: ChangelogStore.slug
+      changelogId: Router.get().getCurrentParams().changelogId
     }
   }
 
   render() {
     const user = SessionStore.user
-    return <div>
-      <ApplicationNavbar />
-      <div className="container">
-        { true ? this.renderAuthedState() : this.renderUnauthedState() }
-      </div>
+    return <div className="container">
+      { true ? this.renderAuthedState() : this.renderUnauthedState() }
     </div>
   }
 
   renderAuthedState() {
-    const { repos, reposFetching } = this.props
+    const { repos, reposFetching, changelogId } = this.props
 
     if (reposFetching) { return this.renderLoadingState() }
 
     return (
       <div className="p3">
         <h2>Choose a repo</h2>
-        {repos.map(r => {return <GithubRepo repo={r} />})}
+        {repos.map(r => {return <GithubRepo repo={r} changelogId={changelogId} key={r.id} />})}
       </div>
     )
   }

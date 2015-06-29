@@ -63,11 +63,12 @@ var internal = (
 
     <Route handler={DashboardPage} path="/dashboard" name="dashboard" />
     <Route handler={InvitationPage} path="/invitations/:invite_token" name="invitation" />
-    <Route handler={GithubRepoSelectionPage} path="/github" name="githubRepos" />
-    <Route handler={GithubRepoDraftsPage} path="/github/drafts" name="githubDrafts" />
 
     <Route handler={ChangelogPage} path="/:changelogId">
       <DefaultRoute handler={ChangelogByDatePage} name="changelog" />
+      <Route handler={GithubRepoSelectionPage} path="github" name="githubRepos" />
+      <Route handler={GithubRepoDraftsPage} path="github/drafts" name="githubDrafts" />
+
 
       <Route handler={ChangelogBySetsPage} name="changelog_by_sets" path="sets" />
 
