@@ -38,7 +38,6 @@ class ContributorsStore extends Store {
     this._lastInvalidToken = null
 
     this.dispatchToken = Dispatcher.register(action => {
-      console.log(action.type, this._tokens.toJS())
       switch (action.type) {
         case STORY_FETCHED:
           this.reset()
