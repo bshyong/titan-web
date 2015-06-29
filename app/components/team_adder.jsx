@@ -151,7 +151,7 @@ export default class TeamAdder extends React.Component {
   }
 
   renderBlankEntries() {
-    const n = Math.max(0, 3 - (this.props.memberhsips.count() + 1))
+    const n = Math.max(0, 3 - (this.props.memberships.count() + 1))
     return Range(0, n).map(this.renderBlankEntry.bind(this))
   }
 
@@ -238,7 +238,7 @@ export default class TeamAdder extends React.Component {
       emailOrUsername: ''
     })
   }
-  
+
   onUserSelected(u) {
     this.setState({ emailOrUsername: u.username },
       this.handleAddMember
