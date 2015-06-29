@@ -35,7 +35,7 @@ export default class LoginForm extends React.Component {
     return (
       <div className="flex flex-center">
         <div className="flex-none col-4 mx-auto py4">
-          <img className="flex-none mr2" src={LogoSrc} style={{height: '1.5rem'}} />
+          <img className="flex-none" src={LogoSrc} style={{height: '1.5rem'}} />
           <h1 className="mt0">Log in</h1>
           <Button size="big" color="twitter-blue" block
             action={SessionActions.initializeTwitterSignIn}>

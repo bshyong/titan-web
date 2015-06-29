@@ -33,7 +33,7 @@ export default class PasswordResetEmailForm extends React.Component {
     return (
       <div className="flex">
         <div className="flex-none col-4 mx-auto py4">
-          <img className="flex-none mr2" src={LogoSrc} style={{height: '1.5rem'}} />
+          <img className="flex-none" src={LogoSrc} style={{height: '1.5rem'}} />
           <h1 className="mt0">Forgot your password?</h1>
 
           <h5 className="mt0">
