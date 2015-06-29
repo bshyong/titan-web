@@ -32,7 +32,6 @@ export default class TeamAdder extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      entryCount: 0,
       copied: false,
       emailOrUsername: ''
     }
@@ -152,14 +151,8 @@ export default class TeamAdder extends React.Component {
   }
 
   renderBlankEntries() {
-    let n = this.state.entryCount + 1
-    let m = 3 - n
-    if (n > 3 ) {
-      m = 0
-    }
-    if (this.props.showBlankEntries) {
-      return Range(0, m).map(this.renderBlankEntry.bind(this))
-    }
+    const n = Math.max(0, 3 - (this.props.memberhsips.count() + 1))
+    return Range(0, n).map(this.renderBlankEntry.bind(this))
   }
 
   renderBlankEntry() {
@@ -242,11 +235,10 @@ export default class TeamAdder extends React.Component {
       }
     )
     this.setState({
-      entryCount: NewChangelogStore.memberships.size,
       emailOrUsername: ''
     })
   }
-
+  
   onUserSelected(u) {
     this.setState({ emailOrUsername: u.username },
       this.handleAddMember
@@ -256,8 +248,6 @@ export default class TeamAdder extends React.Component {
   handleRemoveClicked(membership) {
     return (e) => {
       if (confirm(`Are you sure you want to remove @${membership.user.username}?`)) {
-        let c = this.state.entryCount - 1
-        this.setState({entryCount: c})
         MembershipActions.update(
           this.props.changelogId,
           membership.user.username, {
