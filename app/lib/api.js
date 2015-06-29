@@ -54,10 +54,15 @@ module.exports = {
     }
 
     let handleError = function handleError(resp) {
-      if (resp.status == 404) {
-        Dispatcher.dispatch({ type: RESOURCE_NOT_FOUND })
-        throw Error("404")
-      } else if (resp.status == 500) {
+      if (resp.status === 404) {
+        if (options.method.toLowerCase() === 'get') {
+          Dispatcher.dispatch({ type: RESOURCE_NOT_FOUND })
+          throw Error("404")
+        }
+        return resp.json().then(json => {
+          throw json
+        })
+      } else if (resp.status === 500) {
         resp.json().then(json => {
           Dispatcher.dispatch({
             type: API_ERROR,
@@ -65,7 +70,7 @@ module.exports = {
           })
         })
         throw Error("API Error")
-      } else if (resp.status == 400) {
+      } else if (resp.status === 400 || resp.status === 401) {
         return resp.json().then(json => {
           throw json
         })

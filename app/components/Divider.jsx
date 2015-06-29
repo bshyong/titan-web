@@ -32,7 +32,7 @@ export default class Divider extends React.Component {
   // to be. If this is going to be refactored it's probably a good idea to use
   // Canvas' `globalCompositeOperation = "multiply"`. I wasn't 100% sure the
   // best way of using canvas with React. ~@chrislloyd
-  
+
   render() {
     const { fill, height } = this.props
 
@@ -65,7 +65,9 @@ export default class Divider extends React.Component {
   }
 
   renderBar(x, width, color) {
-    return <div className="absolute pill" style={{height: this.props.height, width: width, left: x, backgroundColor: color}} />
+    return <div className="absolute pill"
+      style={{height: this.props.height, width: width, left: x, backgroundColor: color}}
+      key={`${x}-${width}-${color}`} />
   }
 }
 

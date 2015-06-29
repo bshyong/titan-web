@@ -13,7 +13,7 @@ import Router from 'react-router'
 import RouterContainer from './lib/router_container'
 import Routes from './routes/index.js.jsx'
 import segment from './lib/segment'
-import SessionActions from './actions/session_actions'
+import SessionActions from './actions/SessionActions'
 import url from 'url'
 
 let jwt = localStorage.getItem('jwt')

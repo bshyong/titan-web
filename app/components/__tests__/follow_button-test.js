@@ -8,15 +8,15 @@ describe('FollowButton', () => {
   })
 
   describe('handleClick()', () => {
-    let SessionActions
+    let SigninScrimActions
 
     beforeEach(() => {
-      SessionActions = require('../../actions/session_actions')
+      SigninScrimActions = require('../../actions/SigninScrimActions')
     })
 
     describe('not signed in', () => {
-      it('calls SessionActions.signin()', () => {
-        spyOn(SessionActions, 'signin')
+      it('calls SigninScrimActions.initialize()', () => {
+        spyOn(SigninScrimActions, 'initialize')
 
         let followButton = TestUtils.renderIntoDocument(
           <FollowButton changelogId="changelog" toggled={true} />
@@ -29,7 +29,7 @@ describe('FollowButton', () => {
 
         TestUtils.Simulate.click(button)
 
-        expect(SessionActions.signin).toHaveBeenCalled()
+        expect(SigninScrimActions.initialize).toHaveBeenCalled()
       })
     })
 

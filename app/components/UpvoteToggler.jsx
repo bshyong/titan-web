@@ -1,6 +1,8 @@
+import LoginForm from 'components/Authentication/LoginForm.jsx'
 import React from 'react'
-import SessionActions from '../actions/session_actions'
+import SessionActions from '../actions/SessionActions'
 import SessionStore from '../stores/session_store'
+import SigninScrimActions from 'actions/SigninScrimActions'
 import StoryActions from '../actions/story_actions'
 import classnames from 'classnames'
 
@@ -49,9 +51,7 @@ export default class UpvoteToggler extends React.Component {
   _handleClick(e) {
     const { story } = this.props
     if (!SessionStore.isSignedIn()) {
-      // FIXME (@chrislloyd): this probably isn't cool (calling an
-      // action from an action) but it was a quick fix.
-      SessionActions.signin()
+      SigninScrimActions.initialize(LoginForm, {}, window.location.href)
       return
     }
 

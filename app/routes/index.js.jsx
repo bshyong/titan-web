@@ -5,32 +5,34 @@ import {
   Routes,
   DefaultRoute
 } from 'react-router'
-import AdminPage from '../pages/AdminPage.jsx'
-import AppPage from '../pages/AppPage.jsx'
-import Changelog from '../components/changelog.js.jsx'
-import ChangelogPage from '../pages/ChangelogPage.jsx'
-import ChangelogBySetsPage from '../pages/ChangelogBySetsPage.jsx'
-import ChangelogByDatePage from '../pages/ChangelogByDatePage.jsx'
-import ChangelogSettings from '../components/settings/ChangelogSettings.jsx'
-import DashboardPage from '../pages/DashboardPage.jsx'
-import EditStoryForm from '../components/edit_story_form.js.jsx'
-import FeedPage from '../pages/FeedPage.jsx'
-import HomePage from '../pages/HomePage.jsx'
-import HighlightPicker from '../components/highlight_picker.js.jsx'
-import ImpersonatePage from '../pages/ImpersonatePage.jsx'
-import NewChangelogPage from '../pages/NewChangelogPage.jsx'
-import NewStoryPage from '../pages/NewStoryPage.jsx'
-import NotFound from '../pages/NotFoundPage.jsx'
-import ProfileSettings from '../components/ProfileSettings.jsx'
+import AdminPage from 'pages/AdminPage.jsx'
+import AppPage from 'pages/AppPage.jsx'
+import Changelog from 'components/changelog.js.jsx'
+import ChangelogByDatePage from 'pages/ChangelogByDatePage.jsx'
+import ChangelogBySetsPage from 'pages/ChangelogBySetsPage.jsx'
+import ChangelogOnboardingPage from 'pages/ChangelogOnboardingPage.jsx'
+import ChangelogPage from 'pages/ChangelogPage.jsx'
+import ChangelogSettings from 'components/settings/ChangelogSettings.jsx'
+import DashboardPage from 'pages/DashboardPage.jsx'
+import EditStoryForm from 'components/edit_story_form.js.jsx'
+import FeedPage from 'pages/FeedPage.jsx'
+import HighlightPicker from 'components/highlight_picker.js.jsx'
+import HomePage from 'pages/HomePage.jsx'
+import ImpersonatePage from 'pages/ImpersonatePage.jsx'
+import InvitationPage from 'pages/InvitationPage.jsx'
+import NewChangelogPage from 'pages/NewChangelogPage.jsx'
+import NewStoryPage from 'pages/NewStoryPage.jsx'
+import NotFound from 'pages/NotFoundPage.jsx'
+import PasswordResetPage from 'components/Authentication/PasswordResetPage.jsx'
+import ProfileSettings from 'components/ProfileSettings.jsx'
 import React from 'react'
-import SettingsPage from '../pages/SettingsPage.jsx'
-import SigninSSO from '../components/signin_sso.js.jsx'
-import SingleDateChangelogPage from '../pages/SingleDateChangelogPage.jsx'
-import StoryComposer from '../components/story_composer.js.jsx'
-import StoryPage from '../pages/StoryPage.jsx'
-import UserPage from '../pages/UserPage.jsx'
-import InvitationPage from '../pages/InvitationPage.jsx'
-import ChangelogOnboardingPage from '../pages/ChangelogOnboardingPage.jsx'
+import SettingsPage from 'pages/SettingsPage.jsx'
+import SigninSSO from 'components/signin_sso.js.jsx'
+import SingleDateChangelogPage from 'pages/SingleDateChangelogPage.jsx'
+import StoryComposer from 'components/story_composer.js.jsx'
+import StoryPage from 'pages/StoryPage.jsx'
+import TwitterCallback from 'components/TwitterCallback.jsx'
+import UserPage from 'pages/UserPage.jsx'
 
 var internal = (
   <Route handler={AppPage} name="root" path="/">
@@ -43,6 +45,8 @@ var internal = (
     <Route handler={ChangelogOnboardingPage} path="/new" name="newChangelog" />
 
     <Route handler={SigninSSO} path="/signin/sso" name="sso" />
+    <Route handler={TwitterCallback} path="/auth/twitter/callback" name="twitterCallback" />
+    <Route handler={PasswordResetPage} path="/password/reset" name="passwordReset" />
     <Route handler={UserPage} path="/users/:userId" name="profile" />
     <Route handler={ImpersonatePage} path="/users/:userId/impersonate" name="impersonate" />
     <Route handler={FeedPage} path="/feed" name="feed" />

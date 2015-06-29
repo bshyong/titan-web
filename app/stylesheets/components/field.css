@@ -6,3 +6,7 @@
   border-color: #dddddd;
   border-radius: 3px;
 }
+
+.field-light:invalid:focus {
+  box-shadow: 0 0 0 2px color(var(--field-error-color) a(.5));
+}

@@ -2,11 +2,13 @@ import Avatar from '../ui/Avatar.jsx'
 import Button from '../ui/Button.jsx'
 import Comment from '../components/comment.jsx'
 import CommentFormActions from '../actions/comment_form_actions'
+import LoginForm from 'components/Authentication/LoginForm.jsx'
 import MarkdownArea from '../ui/markdown_area.jsx'
 import NewCommentsStore from '../stores/new_comments_store'
 import React from 'react'
-import SessionActions from '../actions/session_actions'
+import SessionActions from '../actions/SessionActions'
 import SessionStore from '../stores/session_store'
+import SigninScrimActions from 'actions/SigninScrimActions'
 
 export default class CommentForm extends React.Component {
   constructor(props) {
@@ -28,6 +30,7 @@ export default class CommentForm extends React.Component {
 
     this.handleOnChange = this._handleOnChange.bind(this)
     this.handleOnPublish = this._handleOnPublish.bind(this)
+    this.handleSignInClick = this._handleSignInClick.bind(this)
     this.handleToggleFocus = this._handleToggleFocus.bind(this)
     this.onStoreChange = this._onStoreChange.bind(this)
   }
@@ -83,7 +86,7 @@ export default class CommentForm extends React.Component {
     if (!this.state.isSignedIn) {
       return (
         <div className="pointer">
-          <a onClick={SessionActions.signin} >
+          <a onClick={this.handleSignInClick} >
             Sign in to comment
           </a>
         </div>
@@ -143,6 +146,10 @@ export default class CommentForm extends React.Component {
       this.props.id || this.props.storyId,
       e.target.value
     )
+  }
+
+  _handleSignInClick(e) {
+    SigninScrimActions.initialize(LoginForm, {}, window.location.href)
   }
 
   _onStoreChange() {

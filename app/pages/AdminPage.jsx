@@ -4,7 +4,7 @@ import AdminActions from '../actions/admin_actions'
 import AuthenticatedComponent from '../components/mixins/authenticated_mixin.jsx'
 import RouterContainer from '../lib/router_container'
 import ApplicationNavbar from '../components/application_navbar.jsx'
-import SessionActions from '../actions/session_actions'
+import SessionActions from '../actions/SessionActions'
 import SessionStore from '../stores/session_store'
 
 @AuthenticatedComponent()

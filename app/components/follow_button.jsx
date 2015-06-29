@@ -1,8 +1,10 @@
-import React from 'react'
 import Button from '../ui/Button.jsx'
-import SessionActions from '../actions/session_actions'
-import SessionStore from '../stores/session_store'
 import FollowActions from '../actions/follow_actions'
+import LoginForm from 'components/Authentication/LoginForm.jsx'
+import React from 'react'
+import SessionActions from '../actions/SessionActions'
+import SessionStore from '../stores/session_store'
+import SigninScrimActions from 'actions/SigninScrimActions'
 
 export default class FollowButton extends React.Component {
   constructor(props) {
@@ -22,7 +24,7 @@ export default class FollowButton extends React.Component {
 
   _handleClick() {
     if (!SessionStore.isSignedIn()) {
-      return SessionActions.signin()
+      return SigninScrimActions.initialize(LoginForm, {}, window.location.href)
     }
 
     if (this.props.toggled) {
