@@ -17,7 +17,7 @@ import connectToStores from '../lib/connectToStores.jsx'
 @connectToStores(StoryFormStore)
 export default class NewStoryPage extends React.Component {
   static willTransitionTo(transition, params, query) {
-    ContributorsActions.resetContributors(SessionStore.user)
+
     if (query.highlight) {
       // TODO load if page refreshed
     } else if (query.type=="helloWorld") {
@@ -30,6 +30,7 @@ export default class NewStoryPage extends React.Component {
     }
     else {
       StoryFormActions.clearAll()
+      ContributorsActions.resetContributors(SessionStore.user)
     }
   }
 

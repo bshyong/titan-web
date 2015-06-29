@@ -1,6 +1,7 @@
 import AutocompleteUserInput from './autocomplete_user_input.jsx'
 import ContributorsActions from '../actions/ContributorsActions'
 import ContributorsStore from '../stores/ContributorsStore'
+import SessionStore from '../stores/session_store'
 import React from 'react'
 import connectToStores from '../lib/connectToStores.jsx'
 import classnames from 'classnames'
@@ -25,7 +26,6 @@ export default class ContributorsInput extends React.Component {
     this.state = {
       focused: false
     }
-
     this.handleChange = this._handleChange.bind(this)
     this.handleKeyDown = this._handleKeyDown.bind(this)
   }

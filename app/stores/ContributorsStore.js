@@ -29,10 +29,6 @@ class ContributorsStore extends Store {
     this._fieldValue = ''
     this.reset()
     this._contributors = Set()
-    if (SessionStore.isSignedIn() && SessionStore.user) {
-      this._contributors.add(`@${SessionStore.user.username}`)
-    }
-
     this._emails = Set()
     this._invalidMatches = Set()
     this._suggestedContributors = Set()
@@ -42,6 +38,7 @@ class ContributorsStore extends Store {
     this._lastInvalidToken = null
 
     this.dispatchToken = Dispatcher.register(action => {
+      console.log(action.type, this._tokens.toJS())
       switch (action.type) {
         case STORY_FETCHED:
           this.reset()
@@ -80,6 +77,8 @@ class ContributorsStore extends Store {
         case CONTRIBUTORS_RESET:
           this.reset()
           this.addToken(`@${action.user.username}`)
+
+          this.emitChange()
           break
         default:
           return
