@@ -1,0 +1,4 @@
+/* Hack pending: https://github.com/basscss/color-forms/pull/3 */
+div.field-light:read-only {
+  background-color: var(--white);
+}

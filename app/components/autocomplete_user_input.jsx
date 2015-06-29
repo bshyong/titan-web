@@ -7,16 +7,22 @@ import UserPicker from './user_picker.jsx'
 import UserPickerActions from '../actions/user_picker_actions'
 
 export default class AutocompleteUserInput extends React.Component {
+  static propTypes = {
+    className: React.PropTypes.string,
+    onChange: React.PropTypes.func.isRequired,
+    onFocus: React.PropTypes.func,
+    placeholder: React.PropTypes.string,
+    value: React.PropTypes.string
+  }
+  
   constructor(props) {
     super(props)
-
     this.state = {
       focused: false
     }
 
     this.handleKeyDown = this._handleKeyDown.bind(this)
     this.onUserSelected = this._onUserSelected.bind(this)
-    this.toggleFocus = this._toggleFocus.bind(this)
   }
 
   render() {
@@ -33,9 +39,9 @@ export default class AutocompleteUserInput extends React.Component {
           {...this.props}
           placeholder={placeholder}
           value={value}
-          onBlur={this.toggleFocus}
+          onBlur={this.handleBlur.bind(this)}
           onChange={onChange}
-          onFocus={this.toggleFocus}
+          onFocus={this.handleFocus.bind(this)}
           onKeyDown={this.handleKeyDown}
           ref="input" />
       </div>
@@ -77,31 +83,13 @@ export default class AutocompleteUserInput extends React.Component {
     }, 0)
   }
 
-  _toggleFocus(e) {
-    e.preventDefault()
-    e.stopPropagation()
-
-    // if we're about to focus and there's an onFocus callback, call it
-    if (!this.state.focused) {
-      this.props.onFocus && this.props.onFocus(e)
-    }
-
-    setTimeout(() => {
-      this.setState({
-        focused: !this.state.focused
-      })
-    }, 100)
+  handleFocus(e) {
+    this.setState({focused: true})
+    this.props.onFocus && this.props.onFocus(e)
   }
-}
 
-AutocompleteUserInput.defaultProps = {
-  className: "full-width block mb0 border-none outline-none"
-}
-
-AutocompleteUserInput.propTypes = {
-  className: React.PropTypes.string,
-  onChange: React.PropTypes.func.isRequired,
-  onFocus: React.PropTypes.func,
-  placeholder: React.PropTypes.string,
-  value: React.PropTypes.string
+  handleBlur(e) {
+    this.setState({focused: false})
+    this.props.onBlur && this.props.onBlur(e)
+  }
 }

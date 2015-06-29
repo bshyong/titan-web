@@ -1,4 +1,5 @@
 import AuthenticatedMixin from '../components/mixins/authenticated_mixin.jsx'
+import Button from '../ui/Button.jsx'
 import ContributorsActions from '../actions/ContributorsActions'
 import ContributorsStore from '../stores/ContributorsStore'
 import EmojiStore from '../stores/emoji_store'
@@ -6,11 +7,14 @@ import React from 'react'
 import RouterContainer from '../lib/router_container'
 import SessionStore from '../stores/session_store'
 import StoryActions from '../actions/story_actions'
-import StoryForm from '../components/StoryForm.jsx'
+import StoryForm from '../components/Story/StoryForm.jsx'
 import StoryFormActions from '../actions/story_form_actions'
 import StoryFormStore from '../stores/story_form_store'
+import StoryFormWalkthrough from '../components/Story/StoryFormWalkthrough.jsx'
+import connectToStores from '../lib/connectToStores.jsx'
 
 @AuthenticatedMixin()
+@connectToStores(StoryFormStore)
 export default class NewStoryPage extends React.Component {
   static willTransitionTo(transition, params, query) {
     ContributorsActions.resetContributors(SessionStore.user)
@@ -35,12 +39,36 @@ export default class NewStoryPage extends React.Component {
     }
   }
 
+  static getPropsFromStores(props) {
+    return {
+      ...props,
+      story: {
+        ...StoryFormStore.data,
+        contributors: ContributorsStore.contributors
+      }
+    }
+  }
+
   render() {
     return (
-      <div className="container py2">
-        <StoryForm onPublish={this.handleOnPublish.bind(this)} autoFocusEmoji={true} />
+      <div className="container py4 px2 sm-px0">
+        <StoryFormWalkthrough>
+          <StoryForm story={this.props.story} onChange={this.handleOnChange.bind(this)} />
+        </StoryFormWalkthrough>
+        <div className="py2 right-align">
+          <Button
+            color="orange"
+            style="outline"
+            action={this.handleOnPublish.bind(this)} disabled={!StoryFormStore.isValid()}>
+            Post
+          </Button>
+        </div>
       </div>
     )
+  }
+
+  handleOnChange(fields) {
+    StoryFormActions.change(fields)
   }
 
   handleOnPublish(e) {

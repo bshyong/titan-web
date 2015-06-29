@@ -1,122 +1,168 @@
-import AuthenticatedMixin from '../mixins/authenticated_mixin.jsx'
-import AutocompleteUserInput from '../autocomplete_user_input.jsx'
 import Button from '../../ui/Button.jsx'
-import ChangelogStore from '../../stores/changelog_store'
-import ContributorsActions from '../../actions/ContributorsActions'
+import Calendar from 'rc-calendar'
 import ContributorsInput from '../ContributorsInput.jsx'
 import EmojiInput from '../EmojiInput.jsx'
-import EmojiStore from '../../stores/emoji_store'
-import HighlightsActionCreator from '../../actions/highlight_actions'
-import HighlightsStore from '../../stores/highlights_store'
 import Icon from '../../ui/Icon.jsx'
 import MarkdownArea from '../../ui/markdown_area.jsx'
 import React from 'react'
 import RouterContainer from '../../lib/router_container'
-import SessionStore from '../../stores/session_store'
-import StoriesActionCreator from '../../actions/story_actions'
-import StoryActions from '../../actions/story_actions'
-import StoryFormActions from '../../actions/story_form_actions'
-import StoryFormStore from '../../stores/story_form_store'
-import GroupedStoriesStore from '../../stores/GroupedStoriesStore'
-import connectToStores from '../../lib/connectToStores.jsx'
-import shouldPureComponentUpdate from 'react-pure-render/function'
-import {List, Map, Set} from 'immutable'
 import TextareaAutosize from 'react-textarea-autosize'
+import enUS from 'rc-calendar/lib/locale/en-us'
+import moment from 'moment'
 
 import '../../stylesheets/components/calendar.css'
 
-@connectToStores(EmojiStore, StoryFormStore)
 export default class StoryForm extends React.Component {
-  shouldComponentUpdate = shouldPureComponentUpdate
-
-  static get propTypes() {
-    return {
-      onSubmit: React.PropTypes.func.isRequired,
-    }
+  static propTypes = {
+    onChange: React.PropTypes.func,
+    story: React.PropTypes.shape({
+      title: React.PropTypes.string,
+      body:  React.PropTypes.string,
+      isPublic: React.PropTypes.string,
+      contributors: React.PropTypes.string,
+      emoji_id: React.PropTypes.string,
+      created_at: React.PropTypes.string,
+    }).isRequired,
   }
 
-  static get defaultProps() {
-    return {
-      isPublic: true
-    }
-  }
-
-  static getPropsFromStores() {
-    return {
-      title:        StoryFormStore.title,
-      body:         StoryFormStore.body,
-      isPublic:     StoryFormStore.isPublic,
-      emoji_id:     StoryFormStore.emoji_id
+  constructor(props) {
+    super(props)
+    this.state = {
+      showDetails: false,
+      showCalendar: false,
     }
   }
 
   render() {
     const {
-      title,
-      body,
-      isPublic,
-      storyId,
-      contributors,
-      emoji_id
+      story: {
+        title,
+        body,
+        isPublic,
+        contributors,
+        emoji_id,
+        created_at,
+      }
     } = this.props
 
     return (
       <div>
-        <div className="mb3">
-          <TextareaAutosize
-            className="field-light block full-width h2 border-bottom"
-            placeholder="List one recent accomplishment."
-            value={title}
-            onChange={this.handleChanged('title').bind(this)}
-            ref="title"
-            rows={2} />
-          <p className="mt1 h5">Features, bug fixes, designs are all fair game.</p>
-        </div>
+        <div className="sm-flex mxn1">
+          <div className="flex-none px1 mb2">
+            <EmojiInput
+                value={emoji_id}
+                onChange={this.handleEmojiChanged.bind(this)} />
+          </div>
 
-        <div className="mb3">
-          <EmojiInput
-              value={emoji_id}
-              onChange={this.handleChanged('emoji_id').bind(this)} />
-          <p className="mt1 h5">
-            Pick an emoji to describe it.
-          </p>
-        </div>
+          <div className="flex-auto px1">
+            <div>
+              <TextareaAutosize
+                className="field-light block full-width h2 border-bottom"
+                placeholder="What happened?"
+                value={title}
+                onChange={this.handleTitleChanged.bind(this)}
+                ref="title" />
+            </div>
 
-        <div className="mb3">
-          <ContributorsInput className="field-light block full-width" />
-          <p className="mt0 h5">List those that have helped you. Just use their usernames or email addresses.</p>
-        </div>
+            <div className="py1">
+              <a className="pointer gray h5 bold" onClick={this.handleDetailsToggled.bind(this)} ref="toggleDetails">
+                <Icon icon={this.state.showDetails ? 'caret-up' : 'caret-down'} color="silver" />
+                {' '}
+                {!this.state.showDetails ? 'Add details' : 'Hide details'}
+              </a>
+            </div>
 
+            <div>
+              <ContributorsInput />
+            </div>
+
+            <div className="py1 h5 flex mxn1">
+              <div className="p1">
+                <Icon icon="eye" color="silver" />
+                {' '}
+                <a className="gray underline bold pointer" onClick={this.handlePrivacyToggled.bind(this)}
+                  ref="isPublic">
+                  {isPublic ? 'Everyone' : 'Team only'}
+                </a>
+              </div>
+              <div className="p1">
+                <Icon icon="calendar" color="silver" />
+                {' '}
+                <a className="gray underline bold pointer" onClick={this.handleCalendarToggled.bind(this)}>
+                  {moment(created_at).format('MMM, DD YYYY')}
+                </a>
+                {this.state.showCalendar &&
+                  <Calendar
+                    style={{zIndex: 1000}}
+                    locale={enUS}
+                    onSelect={this.handleCreatedAtChanged.bind(this)} />}
+              </div>
+              <div className="flex-grow" />
+
+            </div>
+
+            {this.renderDetails()}
+          </div>
+        </div>
       </div>
     )
   }
 
-  handleChanged(field) {
-    return (e) => this.updateForm(field, e.target.value)
-  }
-
-  handleTogglePrivacy(e) {
-    this.updateForm('isPublic', !this.props.isPublic)
-  }
-
-  renderPostButton() {
-    const valid = StoryFormStore.isValid()
-    const { onPublish, storyId } = this.props
+  renderDetails() {
+    if (!this.state.showDetails) {
+      return
+    }
 
     return (
-      <Button bg="green"
-              disabled={!valid}
-              action={this.handleOnSubmit.bind(this)}>
-        {storyId ? 'Update' : 'Post'}
-      </Button>
+      <div className="mb2">
+        <MarkdownArea id={this.props.storyId || "new_story"}
+                  placeholder="Describe your story (optional)"
+                  gifPickerPosition="bottom"
+                  ref="body"
+                  value={this.props.body}
+                  rows={4}
+                  onChange={this.handleBodyChanged.bind(this)}/>
+        <div className="right-align">
+          <a className="mt1 h6 silver" href="http://daringfireball.net/projects/markdown/basics" target="_blank">
+            <strong>*Markdown*</strong> <i>_syntax_</i>
+          </a>
+        </div>
+      </div>
     )
   }
 
-  updateForm(field, value) {
-    StoryFormActions.change(Map(this.props).set(field, value).toJS())
+  handleCalendarToggled(e) {
+    this.setState({showCalendar: !this.state.showCalendar})
   }
 
-  handleOnSubmit(e) {
-    this.props.onSubmit(e)
+  handleDetailsToggled(e) {
+    this.setState({showDetails: !this.state.showDetails})
+  }
+
+  handleEmojiChanged(e) {
+    this.dispatchChange({emoji_id: e.target.value})
+  }
+
+  handleTitleChanged(e) {
+    this.dispatchChange({title: e.target.value})
+  }
+
+  handlePrivacyToggled(e) {
+    this.dispatchChange({isPublic: !this.props.story.isPublic})
+  }
+
+  handleCreatedAtChanged(e) {
+    this.dispatchChange({created_at: moment(e.time).toISOString()})
+  }
+
+  handleBodyChanged(e) {
+    this.dispatchChange({body: e.target.value})
+  }
+
+  dispatchChange(values) {
+    this.props.onChange && this.props.onChange({
+      ...this.props.story,
+      ...values
+    })
   }
 }
