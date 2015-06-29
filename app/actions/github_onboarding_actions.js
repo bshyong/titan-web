@@ -1,15 +1,17 @@
 import {
+  GITHUB_DRAFTS_CREATED,
+  GITHUB_DRAFTS_CREATING,
   GITHUB_REPOS_FETCHED,
   GITHUB_REPOS_FETCHING,
-  GITHUB_REPO_DRAFTS_CREATED,
 } from '../constants'
 
 import Dispatcher from '../lib/dispatcher'
 import api from '../lib/api'
+import Router from '../lib/router_container'
 
 export default {
 
-  fetchAll() {
+  fetchRepos() {
     Dispatcher.dispatch({
       type: GITHUB_REPOS_FETCHING
     })
@@ -21,11 +23,15 @@ export default {
     })
   },
 
-  createDraftsFromRepo(repoName) {
-    api.post(`github/repos/${repoName}/select`).then(resp => {
+  createDraftsFromRepo(repoId, changelogId) {
+    Router.get().transitionTo('githubDrafts')
+    Dispatcher.dispatch({
+      type: GITHUB_DRAFTS_CREATING
+    })
+    api.post(`github/repos/${repoId}/create_drafts`, {changelog_id: changelogId}).then(resp => {
       Dispatcher.dispatch({
-        type: GITHUB_REPO_DRAFTS_CREATED,
-        resp: resp
+        type: GITHUB_DRAFTS_CREATED,
+        drafts: resp
       })
     })
   }

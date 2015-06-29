@@ -1,21 +1,21 @@
 import ApplicationNavbar from '../components/application_navbar.jsx'
-import GithubRepoActions from '../actions/github_repo_actions'
-import GithubReposStore from '../stores/github_repos_store'
+import GithubOnboardingActions from '../actions/github_onboarding_actions'
+import GithubOnboardingStore from '../stores/github_onboarding_store'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
 import SessionActions from '../actions/session_actions'
 import SessionStore from '../stores/session_store'
 import connectToStores from '../lib/connectToStores.jsx'
 import LoadingBar from '../ui/LoadingBar.jsx'
-import Divider from '../components/Divider.jsx'
 import Link from '../components/Link.jsx'
 import Icon from '../ui/Icon.jsx'
+import ChangelogStore from '../stores/changelog_store'
 
-@connectToStores(GithubReposStore)
+@connectToStores(GithubOnboardingStore)
 export default class GithubRepoSelectionPage extends React.Component {
   static willTransitionTo(transition, params, query) {
     const user = SessionStore.user
-    if (user){ GithubRepoActions.fetchAll() }
+    if (user){ GithubOnboardingActions.fetchRepos() }
     else { SessionActions.signin() }
   }
 
@@ -25,8 +25,9 @@ export default class GithubRepoSelectionPage extends React.Component {
 
   static getPropsFromStores(props) {
     return {
-      repos: GithubReposStore.repos,
-      reposFetching: GithubReposStore.fetching
+      repos: GithubOnboardingStore.repos,
+      reposFetching: GithubOnboardingStore.fetchingRepos,
+      changelogId: ChangelogStore.slug
     }
   }
 
@@ -77,10 +78,15 @@ class GithubRepo extends React.Component {
   render() {
     const { repo } = this.props
 
-    return <div className="p2 mb1 mt1 border">
+    return <div className="p2 mb1 mt1 border bg-smoke-hover pointer" key={repo.id} onClick={this.handleRepoSelected.bind(this, repo)}>
       <div className="bold">{repo.name} {repo.private ? <Icon icon="lock" /> : null}</div>
-      <div className="gray"><a className="gray" href={repo.url}>{repo.url}</a></div>
+      <div className="gray">{repo.url}</div>
     </div>
+  }
+
+  handleRepoSelected(repo) {
+    const { changelogId } = this.props
+    GithubOnboardingActions.createDraftsFromRepo(repo.id, changelogId)
   }
 }
 
