@@ -18,7 +18,7 @@ describe('ContributorsInput', () => {
     let input
 
     beforeEach(() => {
-      input = React.render(<ContributorsInput validTokens={List([])} />, document.body)
+      input = React.render(<ContributorsInput tokens={List([])} />, document.body)
     })
 
     it('updates this.selectionStart', () => {
