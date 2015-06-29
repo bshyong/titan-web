@@ -47,8 +47,9 @@ export default class LoginForm extends React.Component {
               <AuthenticationFormError />
               <form className="clearfix">
                 <div className="py1">
-                  <label className="left bold">Username</label>
+                  <label className="left bold" htmlFor="login-username">Username</label>
                   <input type="text"
+                    id="login-username"
                     className="block full-width field-light"
                     placeholder="jane"
                     value={username}
@@ -56,8 +57,9 @@ export default class LoginForm extends React.Component {
                 </div>
 
                 <div className="py1">
-                  <label className="left bold block">Password</label>
+                  <label className="left bold block" htmlFor="login-password">Password</label>
                   <input type="password"
+                    id="login-password"
                     className="block full-width field-light"
                     value={password}
                     onChange={this.handleChange('password')} />

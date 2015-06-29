@@ -39,7 +39,7 @@ export default class SignupConfirmationForm extends React.Component {
             <div className="border border-silver rounded p2">
               <form>
                 <div className="py1">
-                  <label className="left bold">Email</label>
+                  <label className="left bold" htmlFor="confirmation-email">Email</label>
                   <AvailableUsernameInput type="email"
                     id="confirmation-email"
                     className="block full-width field-light"
@@ -49,7 +49,7 @@ export default class SignupConfirmationForm extends React.Component {
                 </div>
 
                 <div className="py1">
-                  <label className="left bold">Username</label>
+                  <label className="left bold" htmlFor="confirmation-username">Username</label>
                   <AvailableUsernameInput type="text"
                     id="confirmation-username"
                     className="block full-width field-light"
@@ -71,7 +71,13 @@ export default class SignupConfirmationForm extends React.Component {
           </div>
 
           <div className="h6 mt3 gray">
-            By signing up, you agree to Assembly's <a href="https://assembly.com/terms" className="gray underline">Terms of Service</a>.
+            By signing up, you agree to Assembly's
+            {' '}
+            <a href="https://assembly.com/terms"
+              className="gray underline"
+              target="_blank">
+              Terms of Service
+            </a>.
             <br />
             We will never post to Twitter unless you ask us to.
           </div>

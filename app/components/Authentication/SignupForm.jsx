@@ -40,7 +40,13 @@ export default class SignupForm extends React.Component {
           </div>
 
           <div className="h6 mt3 gray">
-            By signing up, you agree to Assembly's <a href="https://assembly.com/terms" className="gray underline">Terms of Service</a>.
+            By signing up, you agree to Assembly's
+            {' '}
+            <a href="https://assembly.com/terms"
+              className="gray underline"
+              target="_blank">
+              Terms of Service
+            </a>.
             <br />
             We will never post to Twitter unless you ask us to.
           </div>
@@ -73,7 +79,7 @@ export default class SignupForm extends React.Component {
         <AuthenticationFormError />
         <form>
           <div className="py1">
-            <label className="left bold">Username</label>
+            <label className="left bold" htmlFor="signup-username">Username</label>
             <AvailableUsernameInput type="text"
               id="signup-username"
               className="block full-width field-light"
@@ -83,7 +89,7 @@ export default class SignupForm extends React.Component {
           </div>
 
           <div className="py1">
-            <label className="left bold">Email</label>
+            <label className="left bold" htmlFor="signup-email">Email</label>
             <AvailableUsernameInput type="email"
               id="signup-email"
               className="block full-width field-light"
@@ -93,8 +99,9 @@ export default class SignupForm extends React.Component {
           </div>
 
           <div className="py1">
-            <label className="left bold">Password</label>
+            <label className="left bold" htmlFor="signup-password">Password</label>
             <input type="password"
+              id="signup-password"
               className="block full-width field-light"
               value={password}
               onChange={this.handleChange('password')} />
