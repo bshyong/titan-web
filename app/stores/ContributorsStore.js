@@ -28,6 +28,18 @@ class ContributorsStore extends Store {
 
     this._fieldValue = ''
     this.reset()
+    this._contributors = Set()
+    if (SessionStore.isSignedIn() && SessionStore.user) {
+      this._contributors.add(`@${SessionStore.user.username}`)
+    }
+
+    this._emails = Set()
+    this._invalidMatches = Set()
+    this._suggestedContributors = Set()
+    this._currentMatch = ''
+    this._matchData = List([])
+    this._tokens = List([])
+    this._lastInvalidToken = null
 
     this.dispatchToken = Dispatcher.register(action => {
       switch (action.type) {
