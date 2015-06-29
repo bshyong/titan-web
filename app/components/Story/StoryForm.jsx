@@ -119,7 +119,7 @@ export default class StoryForm extends React.Component {
                   placeholder="Describe your story (optional)"
                   gifPickerPosition="bottom"
                   ref="body"
-                  value={this.props.body}
+                  value={this.props.story.body}
                   rows={4}
                   onChange={this.handleBodyChanged.bind(this)}/>
         <div className="right-align">
