@@ -20,29 +20,39 @@ export default class SignupForm extends React.Component {
     super(props)
 
     this.handleChange = this._handleChange.bind(this)
+    this.handleForgotPassword = this._handleForgotPassword.bind(this)
     this.handleSubmit = this._handleSubmit.bind(this)
   }
 
   render() {
     return (
-      <div className="flex flex-center">
-        <div className="flex-none col-4 mx-auto py4">
-          <img className="flex-none mr2" src={LogoSrc} style={{height: '1.5rem'}} />
-          <h1 className="mt0">Sign up</h1>
-          <Button size="big" color="twitter-blue" block
-            action={SessionActions.initializeTwitterSignIn}>
-            <Icon icon="twitter" />
-            <span className="ml2">Use Twitter</span>
-          </Button>
-
-          <div className="mt2">
-            {this.renderForm()}
+      <div>
+        <div className="flex flex-center px4">
+          <div className="bg-orange white p2 rounded">
+            Used to signing in through Assembly Meta? Click
+            {' '}<a href="javascript:void(0)" onClick={this.handleForgotPassword}>here</a> and we'll walk you through
+            the password reset process. Your account is safe and intact.
           </div>
+        </div>
+        <div className="flex flex-center">
+          <div className="flex-none col-4 mx-auto py4">
+            <img className="flex-none mr2" src={LogoSrc} style={{height: '1.5rem'}} />
+            <h1 className="mt0">Sign up</h1>
+            <Button size="big" color="twitter-blue" block
+              action={SessionActions.initializeTwitterSignIn}>
+              <Icon icon="twitter" />
+              <span className="ml2">Use Twitter</span>
+            </Button>
 
-          <div className="h6 mt3 gray">
-            By signing up, you agree to Assembly's <a href="https://assembly.com/terms" className="gray underline">Terms of Service</a>.
-            <br />
-            We will never post to Twitter unless you ask us to.
+            <div className="mt2">
+              {this.renderForm()}
+            </div>
+
+            <div className="h6 mt3 gray">
+              By signing up, you agree to Assembly's <a href="https://assembly.com/terms" className="gray underline">Terms of Service</a>.
+              <br />
+              We will never post to Twitter unless you ask us to.
+            </div>
           </div>
         </div>
       </div>
@@ -118,6 +128,10 @@ export default class SignupForm extends React.Component {
     return (e) => {
       AuthenticationFormActions.change(Map(this.props).set(prop, e.target.value))
     }
+  }
+
+  _handleForgotPassword(e) {
+    SigninScrimActions.show(PasswordResetEmailForm)
   }
 
   _handleSubmit(e) {
