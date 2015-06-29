@@ -25,7 +25,7 @@ export default class ContributorsInput extends React.Component {
     this.state = {
       focused: false
     }
-
+    
     this.handleChange = this._handleChange.bind(this)
     this.handleKeyDown = this._handleKeyDown.bind(this)
   }
