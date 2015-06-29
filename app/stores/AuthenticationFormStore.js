@@ -46,6 +46,7 @@ class AuthenticationFormStore extends Store {
         case SIGNIN_SCRIM_SHOWN:
           this._error = null
           this._formContent = (this._formContent || Map()).delete('password')
+          this._shown = false
           break
         default:
           return

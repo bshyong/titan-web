@@ -31,8 +31,8 @@ export default class PasswordResetEmailForm extends React.Component {
 
   render() {
     return (
-      <div className="flex">
-        <div className="flex-none sm-col-4 mx-auto py4">
+      <div className="flex flex-center">
+        <div className="col-10 sm-col-4 mx-auto py4">
           <img className="flex-none" src={LogoSrc} style={{height: '1.5rem'}} />
           <h1 className="mt0">Forgot your password?</h1>
 
@@ -66,13 +66,14 @@ export default class PasswordResetEmailForm extends React.Component {
     return (
       <form className="clearfix">
         <div className="py1">
-          <label htmlFor="password-email">Email</label>
-          <input type="email"
+          <label className="left bold" htmlFor="password-email">Email</label>
+          <input autoFocus
+            type="email"
             id="password-email"
             className="block full-width field-light"
             placeholder="jane@example.com"
             value={email}
-            onChange={this.handleChange}  />
+            onChange={this.handleChange} />
         </div>
 
         <div className="py2">

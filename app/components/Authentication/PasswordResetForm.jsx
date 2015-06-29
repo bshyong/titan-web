@@ -35,7 +35,7 @@ export default class PasswordResetForm extends React.Component {
     const { password } = this.props
 
     return (
-      <div className="flex">
+      <div className="flex flex-center">
         <div className="flex-none sm-col-4 mx-auto py4">
           <img className="flex-none" src={LogoSrc} style={{height: '1.5rem'}} />
           <h1 className="mt0">Reset your password</h1>
@@ -48,7 +48,8 @@ export default class PasswordResetForm extends React.Component {
             <div className="border border-silver rounded p2">
               <form className="clearfix">
                 <div className="py1">
-                  <input type="password"
+                  <input autoFocus
+                    type="password"
                     className="block full-width field-light"
                     value={password}
                     onChange={this.handleChange}  />

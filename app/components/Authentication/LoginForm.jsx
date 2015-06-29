@@ -49,7 +49,8 @@ export default class LoginForm extends React.Component {
               <form className="clearfix">
                 <div className="py1">
                   <label className="left bold" htmlFor="login-username">Username or email</label>
-                  <input type="text"
+                  <input autoFocus
+                    type="text"
                     id="login-username"
                     className="block full-width field-light"
                     placeholder="jane"

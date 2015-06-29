@@ -41,7 +41,8 @@ export default class SignupConfirmationForm extends React.Component {
               <form>
                 <div className="py1">
                   <label className="left bold" htmlFor="confirmation-email">Email</label>
-                  <AvailableUsernameInput type="email"
+                  <AvailableUsernameInput autoFocus
+                    type="email"
                     id="confirmation-email"
                     className="block full-width field-light"
                     placeholder="jane@example.com"
