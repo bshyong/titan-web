@@ -25,7 +25,7 @@ export default class ContributorsInput extends React.Component {
     this.state = {
       focused: false
     }
-    
+
     this.handleChange = this._handleChange.bind(this)
     this.handleKeyDown = this._handleKeyDown.bind(this)
   }
@@ -55,7 +55,7 @@ export default class ContributorsInput extends React.Component {
             style={{outline: 'none'}}
             ref="input"
             className="border-none block full-width overflow-hidden"
-            placeholder="Who helped out?"
+            placeholder={this.props.tokens.length > 0 ? "Who else helped out?" : "Who helped out?"}
             value={this.props.currentMatch}
             onKeyDown={this.handleKeyDown}
             onChange={this.handleChange}
