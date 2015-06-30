@@ -23,7 +23,7 @@ class StoryFormStore extends Store {
         case STORY_FETCHED:
           this.title = action.story.title
           this.body = action.story.body
-          this.isPublic = !action.story.team_member_only
+          this.team_member_only = action.story.team_member_only
           this.emoji_id = action.story.emoji_id || action.story.emoji.id
           this.created_at = action.story.created_at
           break
@@ -31,7 +31,7 @@ class StoryFormStore extends Store {
         case STORY_FORM_CHANGE:
           this.title = action.fields.title
           this.body = action.fields.body
-          this.isPublic = action.fields.isPublic
+          this.team_member_only = action.fields.team_member_only
           this.emoji_id = action.fields.emoji_id
           this.created_at = action.fields.created_at
           break
@@ -72,7 +72,7 @@ class StoryFormStore extends Store {
     this.title = ''
     this.body  = ''
     this.contributors = ''
-    this.isPublic = true
+    this.team_member_only = false
     this.emoji_id = "c6a2b5b8-b1fc-4ff0-b108-746cef842362"
   }
 
@@ -87,7 +87,7 @@ class StoryFormStore extends Store {
       contributors: ContributorsStore.validTokensAsString,
       created_at: this.created_at,
       emoji_id: this.emoji_id,
-      isPublic: this.isPublic,
+      team_member_only: this.team_member_only,
       title: this.title,
     }
   }

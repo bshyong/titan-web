@@ -25,30 +25,29 @@ describe('StoryForm', () => {
   })
 
   describe('props', () => {
-    let form
+    let form, onChange
 
     beforeEach(() => {
+      onChange = jasmine.createSpy('onChange')
       form = TestUtils.renderIntoDocument(
-        <StoryForm story={{}} onChange={function() {}} />
+        <StoryForm story={{}} onChange={onChange} />
       )
     })
 
     describe('.title', () => {
       it('triggers an update on change', () => {
-        spyOn(form.props, 'onChange')
         const el = TestUtils.findRenderedDOMComponentWithTag(
           form.refs.title, 'textarea'
         )
+
         TestUtils.Simulate.change(el, { target: { value: 'a' } })
 
-        expect(form.props.onChange).toHaveBeenCalledWith({title: 'a'})
+        expect(onChange).toHaveBeenCalledWith({title: 'a'})
       })
     })
 
     describe('.body', () => {
       it('triggers an update on change', () => {
-        spyOn(form.props, 'onChange')
-
         TestUtils.Simulate.click(form.refs.toggleDetails)
 
         let body = TestUtils.findRenderedDOMComponentWithTag(
@@ -60,16 +59,14 @@ describe('StoryForm', () => {
         updatedBody.value = 'a'
         TestUtils.Simulate.change(body, { target: updatedBody })
 
-        expect(form.props.onChange).toHaveBeenCalledWith({body: 'a'})
+        expect(onChange).toHaveBeenCalledWith({body: 'a'})
       })
     })
 
-    describe('.isPublic', () => {
+    describe('.team_member_only', () => {
       it('toggles on click', () => {
-        spyOn(form.props, 'onChange')
         TestUtils.Simulate.click(form.refs.isPublic)
-
-        expect(form.props.onChange).toHaveBeenCalledWith({isPublic: true})
+        expect(onChange).toHaveBeenCalledWith({team_member_only: true})
       })
     })
   })

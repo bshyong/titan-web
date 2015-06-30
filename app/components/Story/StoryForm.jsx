@@ -18,7 +18,7 @@ export default class StoryForm extends React.Component {
     story: React.PropTypes.shape({
       title: React.PropTypes.string,
       body:  React.PropTypes.string,
-      isPublic: React.PropTypes.string,
+      team_member_only: React.PropTypes.string,
       contributors: React.PropTypes.string,
       emoji_id: React.PropTypes.string,
       created_at: React.PropTypes.string,
@@ -38,7 +38,7 @@ export default class StoryForm extends React.Component {
       story: {
         title,
         body,
-        isPublic,
+        team_member_only,
         contributors,
         emoji_id,
         created_at,
@@ -84,7 +84,7 @@ export default class StoryForm extends React.Component {
                 {' '}
                 <a className="gray underline bold pointer" onClick={this.handlePrivacyToggled.bind(this)}
                   ref="isPublic">
-                  {isPublic ? 'Everyone' : 'Team only'}
+                  {team_member_only ? 'Team only' : 'Everyone'}
                 </a>
               </div>
               <div className="p1">
@@ -147,7 +147,7 @@ export default class StoryForm extends React.Component {
   }
 
   handlePrivacyToggled(e) {
-    this.dispatchChange({isPublic: !this.props.story.isPublic})
+    this.dispatchChange({team_member_only: !this.props.story.team_member_only})
   }
 
   handleCreatedAtChanged(e) {
