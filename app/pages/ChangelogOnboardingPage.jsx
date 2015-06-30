@@ -9,6 +9,7 @@ import React from 'react'
 import RouterContainer from '../lib/router_container'
 import StoryActions from '../actions/story_actions'
 import StoryForm from '../components/Story/StoryForm.jsx'
+import StoryFormActions from 'actions/story_form_actions'
 import StoryFormStore from '../stores/story_form_store'
 import connectToStores from '../lib/connectToStores.jsx'
 import StoryGifSrc from '../images/interface.gif'
@@ -69,6 +70,10 @@ export default class ChangelogOnboardingPage extends React.Component {
     }
   }
 
+  componentDidMount() {
+    StoryFormStore.init()
+  }
+
   render() {
     const { slide } = this.state
     return (
@@ -108,7 +113,7 @@ export default class ChangelogOnboardingPage extends React.Component {
           onNext={this.handleStoryCreation(this.handleTransitionToChangelog())}
           onNextValid={StoryFormStore.isValid()}>
 
-          <StoryForm />
+          <StoryForm story={StoryFormStore.data} onChange={this.handleStoryChange.bind(this)} />
         </Slide>
 
       </div>
@@ -117,6 +122,10 @@ export default class ChangelogOnboardingPage extends React.Component {
 
   handleChangelogCreation() {
     NewChangelogActions.create(this.goToSlide(1))
+  }
+
+  handleStoryChange(fields) {
+    StoryFormActions.change(fields)
   }
 
   handleStoryCreation(callback) {
