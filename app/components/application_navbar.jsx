@@ -32,6 +32,14 @@ export default class ApplicationNavbar extends React.Component {
     }
   }
 
+  static propTypes = {
+    title: React.PropTypes.node.isRequired
+  }
+
+  static defaultProps = {
+    title: 'Changelog'
+  }
+
   render() {
     return <Navbar title={this.props.title}
                    left={this.left()}
@@ -140,12 +148,4 @@ export default class ApplicationNavbar extends React.Component {
   _handleSignout() {
     SessionActions.signout()
   }
-}
-
-ApplicationNavbar.propTypes = {
-  title: React.PropTypes.string.isRequired
-}
-
-ApplicationNavbar.defaultProps = {
-  title: 'Changelog'
 }
