@@ -23,6 +23,7 @@ import dateString from '../lib/dateStringForTimeInterval'
 import moment from '../config/moment'
 import paramsFor from '../lib/paramsFor'
 import shallowEqual from 'react-pure-render/shallowEqual'
+import SessionStore from '../stores/session_store'
 
 @connectToStores(ChangelogStore, GroupedStoriesStore)
 export default class Changelog extends React.Component {
@@ -138,11 +139,11 @@ export default class Changelog extends React.Component {
   }
 
   renderGithubRepoMessage() {
-    const { totalStoriesCount, changelogId } = this.props
+    const { totalStoriesCount, changelogId, changelog } = this.props
 
-    if (totalStoriesCount > 5) { return }
+    if (totalStoriesCount > 5 || !changelog.user_is_team_member) { return }
 
-    return <div className="p2 bg-smoke h4 flex flex-center">
+    return <div className="mt3 p2 bg-smoke h4 flex flex-center">
       <div className="flex-auto">Have a Github repo? Connect it to help populate your Changelog.</div>
       <div><Link to="githubRepos" params={{changelogId}}><Button>Connect</Button></Link></div>
     </div>
