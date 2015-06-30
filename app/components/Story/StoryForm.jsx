@@ -57,7 +57,7 @@ export default class StoryForm extends React.Component {
           <div className="flex-auto px1">
             <div>
               <TextareaAutosize
-                className="field-light block full-width h2 border-bottom"
+                className="field-light block full-width h2"
                 placeholder="What happened?"
                 value={title}
                 onChange={this.handleTitleChanged.bind(this)}

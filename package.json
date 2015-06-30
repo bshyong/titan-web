@@ -52,7 +52,7 @@
     "react-pure-render": "^1.0.1",
     "react-radio-group": "^2.0.2",
     "react-router": "~0.13",
-    "react-textarea-autosize": "^2.2.3",
+    "react-textarea-autosize": "^2.3.1",
     "react-tools": "~0.12",
     "react-zeroclipboard": "^1.1.0",
     "style-loader": "~0.8",
