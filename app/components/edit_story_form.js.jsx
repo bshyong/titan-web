@@ -58,7 +58,7 @@ export default class EditStoryForm extends React.Component {
         contributors: story.contributors.map(u => `@${u.username}`).join(', '),
         created_at: story.created_at,
         emoji_id: story.emoji.id,
-        isPublic: !story.team_member_only,
+        team_member_only: story.team_member_only,
         title: story.title,
       })
     } else {
