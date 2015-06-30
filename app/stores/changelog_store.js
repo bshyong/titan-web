@@ -9,6 +9,7 @@ import {
   CHANGELOG_UPDATING,
   CHANGELOG_UPDATED,
   CHANGELOG_UPDATE_FAILED,
+  IMPORT_STARTED,
   MEMBERSHIP_UPDATE_FAILED,
   MEMBERSHIP_UPDATED,
   MEMBERSHIP_UPDATING,
@@ -36,14 +37,15 @@ class ChangelogStore extends Store {
           }
           break
 
+        case IMPORT_STARTED:
         case CHANGELOG_FETCHED:
           this._changelog = action.changelog
           this.errors = null
-          break;
+          break
 
         case CHANGELOG_CHANGED:
           this._changelog = action.changelog
-          break;
+          break
 
         case CHANGELOG_CURRENT_CLEARED:
           this._changelog = null

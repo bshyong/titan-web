@@ -1,26 +1,26 @@
-import authenticated from '../mixins/authenticated_mixin.jsx'
-import Avatar from '../../ui/Avatar.jsx'
-import Button from '../../ui/Button.jsx'
-import ChangelogActions from '../../actions/changelog_actions'
-import ChangelogStore from '../../stores/changelog_store'
+import authenticated from 'components/mixins/authenticated_mixin.jsx'
+import Avatar from 'ui/Avatar.jsx'
+import Button from 'ui/Button.jsx'
+import ChangelogActions from 'actions/changelog_actions'
+import ChangelogStore from 'stores/changelog_store'
+import connectToStores from 'lib/connectToStores.jsx'
 import CustomDomainSettingsPanel from './CustomDomainSettingsPanel.jsx'
-import connectToStores from '../../lib/connectToStores.jsx'
 import DropzoneContainer from '../DropzoneContainer.jsx'
-import Icon from '../../ui/Icon.jsx'
-import LoadingBar from '../../ui/LoadingBar.jsx'
+import Icon from 'ui/Icon.jsx'
+import ImportFromCovePanel from 'components/settings/ImportFromCovePanel.jsx'
+import Link from 'components/Link.jsx'
+import LoadingBar from 'ui/LoadingBar.jsx'
 import Logo from '../logo.jsx'
-import MembershipActions from '../../actions/MembershipActions'
-import ProfileStore from '../../stores/profile_store'
+import MembershipActions from 'actions/MembershipActions'
+import ProfileStore from 'stores/profile_store'
 import RadioGroup from 'react-radio-group'
 import React from 'react'
-import RouterContainer from '../../lib/router_container'
-import Switch from '../../ui/Switch.jsx'
-import Table from '../../ui/Table.jsx'
-import TeamAdder from '../../components/team_adder.jsx'
-import VisibilityToggler from '../../components/VisibilityToggler.jsx'
-import Link from '../../components/Link.jsx'
+import RouterContainer from 'lib/router_container'
+import Switch from 'ui/Switch.jsx'
+import Table from 'ui/Table.jsx'
+import TeamAdder from 'components/team_adder.jsx'
+import VisibilityToggler from 'components/VisibilityToggler.jsx'
 import {List, Map} from 'immutable'
-
 
 @authenticated()
 @connectToStores(ChangelogStore)
@@ -83,6 +83,8 @@ export default class ChangelogSettings extends React.Component {
         {this.renderSaver()}
         <hr />
         <CustomDomainSettingsPanel />
+        <hr />
+        <ImportFromCovePanel changelog={changelog} />
         <hr />
 
         <div className="flex flex-center py2">

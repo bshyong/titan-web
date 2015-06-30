@@ -81,6 +81,10 @@ export default keyMirror({
   HIGHLIGHT_IGNORED: null,
   HIGHLIGHT_USED: null,
 
+  IMPORT_FAILED: null,
+  IMPORT_STARTED: null,
+  IMPORT_STARTING: null,
+
   INVITATION_FETCHING: null,
   INVITATION_FETCHED: null,
   INVITATION_RESET: null,
