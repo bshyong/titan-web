@@ -48,7 +48,7 @@ class GithubOnboardingStore extends Store {
     return this._drafts
   }
 
-  get loadingRepos() {
+  get fetchingRepos() {
     return this._fetchingRepos
   }
 
