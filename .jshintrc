@@ -1,4 +1,7 @@
 {
   "asi": true,
-  "esnext": true
+  "esnext": true,
+  "jasmine": true,
+  "undef": true,
+  "unused": true
 }
