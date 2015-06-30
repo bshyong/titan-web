@@ -4,11 +4,13 @@ import {
   GITHUB_REPOS_FETCHED,
   GITHUB_REPOS_FETCHING,
   GITHUB_DRAFT_DELETED,
+  USER_SIGNIN,
 } from '../constants'
 
 import Dispatcher from '../lib/dispatcher'
 import api from '../lib/api'
 import Router from '../lib/router_container'
+import SessionActions from '../actions/SessionActions'
 
 export default {
 
@@ -55,5 +57,12 @@ export default {
 
   deleteAllDrafts(changelogId) {
     api.delete(`changelogs/${changelogId}/drafts/destroy_all`).then(resp => {})
+  },
+
+  confirmGithubAuth(query) {
+    api.post(`auth/github/confirm`, query).then(resp => {
+      SessionActions.signinFromToken(resp.token)
+      window.location.href = query.return_url
+    })
   }
 }

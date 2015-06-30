@@ -16,6 +16,7 @@ import ChangelogSettings from 'components/settings/ChangelogSettings.jsx'
 import DashboardPage from 'pages/DashboardPage.jsx'
 import EditStoryForm from 'components/edit_story_form.js.jsx'
 import FeedPage from 'pages/FeedPage.jsx'
+import GithubCallback from 'components/GithubCallback.jsx'
 import GithubRepoDraftsPage from 'pages/GithubRepoDraftsPage.jsx'
 import GithubRepoSelectionPage from 'pages/GithubRepoSelectionPage.jsx'
 import HighlightPicker from 'components/highlight_picker.js.jsx'
@@ -49,6 +50,7 @@ var internal = (
 
     <Route handler={SigninSSO} path="/signin/sso" name="sso" />
     <Route handler={TwitterCallback} path="/auth/twitter/callback" name="twitterCallback" />
+    <Route handler={GithubCallback} path="/auth/github/callback" name="githubCallback" />
     <Route handler={PasswordResetPage} path="/password/reset" name="passwordReset" />
     <Route handler={UserPage} path="/users/:userId" name="profile" />
     <Route handler={ImpersonatePage} path="/users/:userId/impersonate" name="impersonate" />

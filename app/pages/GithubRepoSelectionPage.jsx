@@ -63,7 +63,7 @@ export default class GithubRepoSelectionPage extends React.Component {
     return (
       <div className="p3">
         <h2>You need to connect your Github account</h2>
-        <p>Click to authenticate with Github</p>
+        <a href={`${API_URL}/auth/github?origin=${window.location.href}`}>Click to authenticate with Github</a>
       </div>
     )
   }
