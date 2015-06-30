@@ -64,6 +64,8 @@ export default class StoryForm extends React.Component {
                 ref="title" />
             </div>
 
+            {this.renderDetails()}
+
             <div className="py1">
               <a className="pointer gray h5 bold" onClick={this.handleDetailsToggled.bind(this)} ref="toggleDetails">
                 <Icon icon={this.state.showDetails ? 'caret-up' : 'caret-down'} color="silver" />
@@ -98,10 +100,7 @@ export default class StoryForm extends React.Component {
                     onSelect={this.handleCreatedAtChanged.bind(this)} />}
               </div>
               <div className="flex-grow" />
-
             </div>
-
-            {this.renderDetails()}
           </div>
         </div>
       </div>
@@ -114,7 +113,7 @@ export default class StoryForm extends React.Component {
     }
 
     return (
-      <div className="mb2">
+      <div className="mt2">
         <MarkdownArea id={this.props.storyId || "new_story"}
                   placeholder="Describe your story (optional)"
                   gifPickerPosition="bottom"
