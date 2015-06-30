@@ -31,7 +31,7 @@ export default class GithubRepoSelectionPage extends React.Component {
   render() {
     const user = SessionStore.user
     return <div className="container">
-      { true ? this.renderAuthedState() : this.renderUnauthedState() }
+      { user.github_authed ? this.renderAuthedState() : this.renderUnauthedState() }
     </div>
   }
 
@@ -61,8 +61,9 @@ export default class GithubRepoSelectionPage extends React.Component {
 
   renderUnauthedState() {
     return (
-      <div>
-        <h2>You need to connect your Github repo</h2>
+      <div className="p3">
+        <h2>You need to connect your Github account</h2>
+        <p>Click to authenticate with Github</p>
       </div>
     )
   }
