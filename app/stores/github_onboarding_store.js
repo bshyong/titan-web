@@ -1,6 +1,6 @@
 import {
-  GITHUB_DRAFTS_CREATED,
-  GITHUB_DRAFTS_CREATING,
+  GITHUB_DRAFTS_LOADED,
+  GITHUB_DRAFTS_LOADING,
   GITHUB_REPOS_FETCHED,
   GITHUB_REPOS_FETCHING,
 } from '../constants'
@@ -14,7 +14,7 @@ class GithubOnboardingStore extends Store {
     this._repos = List()
     this._drafts = List()
     this._fetchingRepos = false
-    this._fetchingDrafts = false
+    this._loadingDrafts = false
 
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
@@ -25,12 +25,12 @@ class GithubOnboardingStore extends Store {
           this._fetchingRepos = false
           this._repos = List(action.repos)
           break
-        case GITHUB_DRAFTS_CREATING:
-          this._fetchingDrafts = true
+        case GITHUB_DRAFTS_LOADING:
+          this._loadingDrafts = true
           this._drafts = List()
           break
-        case GITHUB_DRAFTS_CREATED:
-          this._fetchingDrafts = false
+        case GITHUB_DRAFTS_LOADED:
+          this._loadingDrafts = false
           this._drafts = List(action.drafts)
           break
         default:
@@ -48,12 +48,12 @@ class GithubOnboardingStore extends Store {
     return this._drafts
   }
 
-  get fetchingRepos() {
+  get loadingRepos() {
     return this._fetchingRepos
   }
 
-  get fetchingDrafts() {
-    return this._fetchingDrafts
+  get loadingDrafts() {
+    return this._loadingDrafts
   }
 }
 

@@ -5,6 +5,7 @@ import {
   STORY_FORM_CHANGE,
   STORY_FORM_CLEAR,
   STORY_PUBLISHED,
+  GITHUB_DRAFTS_LOADED,
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import EMOJI_REGEX from '../lib/emoji_regex'
@@ -26,6 +27,13 @@ class StoryFormStore extends Store {
           this.team_member_only = action.story.team_member_only
           this.emoji_id = action.story.emoji_id || action.story.emoji.id
           this.created_at = action.story.created_at
+          break
+
+        case GITHUB_DRAFTS_LOADED:
+          if (action.drafts.length > 0) {
+            this.title = action.drafts[0].title,
+            this.body = action.drafts[0].body
+          }
           break
 
         case STORY_FORM_CHANGE:
