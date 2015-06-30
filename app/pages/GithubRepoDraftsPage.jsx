@@ -7,7 +7,6 @@ import Link from '../components/Link.jsx'
 import LoadingBar from '../ui/LoadingBar.jsx'
 import React from 'react'
 import Router from '../lib/router_container'
-import RouterContainer from '../lib/router_container'
 import SessionActions from '../actions/SessionActions'
 import SessionStore from '../stores/session_store'
 import StoryActions from '../actions/story_actions'
@@ -90,7 +89,7 @@ export default class GithubRepoDraftsPage extends React.Component {
           <div className="flex-auto">
             Reviewing {currentDraftIndex + 1} of {drafts.size + 1} drafts
           </div>
-          <div className="flex-none">Delete all drafts</div>
+          <div className="flex-none pointer" onClick={this.handleDeleteAll.bind(this)}>Delete all drafts</div>
         </div>
         <div className="mt2">
           <StoryForm
@@ -130,6 +129,12 @@ export default class GithubRepoDraftsPage extends React.Component {
     )
   }
 
+  handleDeleteAll() {
+    const { changelogId } = this.props
+    GithubOnboardingActions.deleteAllDrafts(changelogId)
+    Router.transitionTo('changelog', {changelogId: changelogId})
+  }
+
   handleDraftDeletion() {
     const { drafts, changelogId } = this.props
     const lastDraft = drafts.get(this.state.currentDraftIndex)
@@ -141,7 +146,8 @@ export default class GithubRepoDraftsPage extends React.Component {
       const nextDraft = drafts.get(this.state.currentDraftIndex)
       StoryFormActions.change({
         title: nextDraft.title,
-        body: nextDraft.body
+        body: nextDraft.body,
+        isPublic: true
       })
     })
   }

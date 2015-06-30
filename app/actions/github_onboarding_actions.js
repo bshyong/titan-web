@@ -51,5 +51,9 @@ export default {
 
   deleteDraft(changelogId, draftId) {
     api.delete(`changelogs/${changelogId}/drafts/${draftId}`).then(resp => {})
+  },
+
+  deleteAllDrafts(changelogId) {
+    api.delete(`changelogs/${changelogId}/drafts/destroy_all`).then(resp => {})
   }
 }
