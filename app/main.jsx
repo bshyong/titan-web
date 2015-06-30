@@ -7,6 +7,7 @@ import {
 import './images/favicon.ico'
 import './stylesheets/application.css'
 import 'isomorphic-fetch'
+import api from 'lib/api'
 import Dispatcher from './lib/dispatcher'
 import React from 'react'
 import Router from 'react-router'
@@ -15,6 +16,12 @@ import Routes from './routes/index.js.jsx'
 import segment from './lib/segment'
 import SessionActions from './actions/SessionActions'
 import url from 'url'
+
+// redux
+import createRedux from 'redux/create'
+import { Provider } from 'redux/react'
+
+let redux = createRedux(api)
 
 let jwt = localStorage.getItem('jwt')
 if (jwt) {
@@ -36,7 +43,7 @@ Router.HistoryLocation.getCurrentPath = function getCurrentPath() {
 
   let parts = url.parse(windowPath)
   if (parts.pathname.length > 1 && parts.pathname.substr(-1) === '/') {
-    parts.pathname = parts.pathname.substr(0, parts.pathname.length - 1);
+    parts.pathname = parts.pathname.substr(0, parts.pathname.length - 1)
   }
 
   return url.format(parts)
@@ -57,7 +64,11 @@ RouterContainer.setRouters({
 RouterContainer.setDomain(window.location.hostname)
 
 RouterContainer.router.run((Handler, state) => {
-  React.render(<Handler />, document.body)
+  React.render(
+    <Provider redux={redux}>
+      {() => <Handler />}
+    </Provider>
+    , document.body)
 
   let route = state.routes[state.routes.length-1]
   segment.track(ANALYTICS_ENGAGED, {
