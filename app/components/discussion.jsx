@@ -2,19 +2,19 @@ import Avatar from '../ui/Avatar.jsx'
 import Comment from './comment.jsx'
 import CommentForm from './comment_form.jsx'
 import CommentsStore from '../stores/comments_store'
+import connectToStores from '../lib/connectToStores.jsx'
 import GifPicker from './gif_picker.jsx'
+import GroupedStoriesStore from '../stores/GroupedStoriesStore'
 import LoadingBar from '../ui/LoadingBar.jsx'
 import MarkdownArea from '../ui/markdown_area.jsx'
+import pluralize from '../lib/pluralize'
 import React from 'react'
-import GroupedStoriesStore from '../stores/GroupedStoriesStore'
 import SubscribeStoryButton from './subscribe_story_button.jsx'
 import Table from '../ui/Table.jsx'
-import connectToStores from '../lib/connectToStores.jsx'
-import pluralize from '../lib/pluralize'
 import {List} from 'immutable'
 
-@connectToStores(CommentsStore)
-export default class Discussion extends React.Component {
+@connectToStores(CommentsStore, GroupedStoriesStore)
+export class Discussion extends React.Component {
   static getPropsFromStores(props) {
     return {
       comments: CommentsStore.all(),
