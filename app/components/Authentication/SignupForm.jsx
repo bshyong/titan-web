@@ -89,7 +89,7 @@ export default class SignupForm extends React.Component {
         <div className="h6 mt2 gray">
           By signing up, you agree to Assembly's
           {' '}
-          <a href="https://assembly.com/terms"
+          <a href="/terms"
             className="gray underline"
             target="_blank">
             Terms of Service
@@ -119,7 +119,7 @@ export default class SignupForm extends React.Component {
           <br />
           By signing up, you agree to Assembly's
           {' '}
-          <a href="https://assembly.com/terms"
+          <a href="/terms"
             className="gray underline"
             target="_blank">
             Terms of Service

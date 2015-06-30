@@ -31,6 +31,7 @@ import SigninSSO from 'components/signin_sso.js.jsx'
 import SingleDateChangelogPage from 'pages/SingleDateChangelogPage.jsx'
 import StoryComposer from 'components/story_composer.js.jsx'
 import StoryPage from 'pages/StoryPage.jsx'
+import TermsPage from 'pages/TermsPage.jsx'
 import TwitterCallback from 'components/TwitterCallback.jsx'
 import UserPage from 'pages/UserPage.jsx'
 
@@ -50,6 +51,8 @@ var internal = (
     <Route handler={UserPage} path="/users/:userId" name="profile" />
     <Route handler={ImpersonatePage} path="/users/:userId/impersonate" name="impersonate" />
     <Route handler={FeedPage} path="/feed" name="feed" />
+    <Route handler={TermsPage} path="/terms" name="terms" />
+    <Route handler={TermsPage} path="/tos" name="tos" />
 
     <Route handler={SettingsPage} name="settings" path="/settings">
       <Route handler={ChangelogSettings} name="changelog_settings" path=":changelogId" />
