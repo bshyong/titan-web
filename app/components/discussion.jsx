@@ -14,7 +14,7 @@ import Table from '../ui/Table.jsx'
 import {List} from 'immutable'
 
 @connectToStores(CommentsStore, GroupedStoriesStore)
-export class Discussion extends React.Component {
+export default class Discussion extends React.Component {
   static getPropsFromStores(props) {
     return {
       comments: CommentsStore.all(),
