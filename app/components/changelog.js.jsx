@@ -2,26 +2,27 @@ import { RouteHandler } from 'react-router'
 import {List, Set} from 'immutable'
 
 import Avatar from '../ui/Avatar.jsx'
+import Button from '../ui/Button.jsx'
 import ChangelogActions from '../actions/changelog_actions'
 import ChangelogStore from '../stores/changelog_store'
-import connectToStores from '../lib/connectToStores.jsx'
-import paramsFor from '../lib/paramsFor'
-import dateString from '../lib/dateStringForTimeInterval'
 import GroupedStoriesStore from '../stores/GroupedStoriesStore'
 import Icon from '../ui/Icon.jsx'
 import Link from '../components/Link.jsx'
 import LoadingBar from '../ui/LoadingBar.jsx'
-import moment from '../config/moment'
 import PostSet from '../components/PostSet.jsx'
 import React from 'react'
 import ScrollPaginator from '../ui/ScrollPaginator.jsx'
 import SegmentedControl from '../ui/SegmentedControl.jsx'
-import shallowEqual from 'react-pure-render/shallowEqual'
 import SigninScrim from './Authentication/SigninScrim.jsx'
 import Stack from '../ui/Stack.jsx'
 import StoryActions from '../actions/story_actions'
 import StoryRange from './StoryRange.jsx'
 import Table from '../ui/Table.jsx'
+import connectToStores from '../lib/connectToStores.jsx'
+import dateString from '../lib/dateStringForTimeInterval'
+import moment from '../config/moment'
+import paramsFor from '../lib/paramsFor'
+import shallowEqual from 'react-pure-render/shallowEqual'
 
 @connectToStores(ChangelogStore, GroupedStoriesStore)
 export default class Changelog extends React.Component {
@@ -32,10 +33,11 @@ export default class Changelog extends React.Component {
   static getPropsFromStores(props) {
     return {
       changelog: ChangelogStore.changelog,
+      groupedStories: GroupedStoriesStore.grouped,
       loading: GroupedStoriesStore.loading,
       moreAvailable: GroupedStoriesStore.moreAvailable,
       page: GroupedStoriesStore.page,
-      groupedStories: GroupedStoriesStore.grouped,
+      totalStoriesCount: GroupedStoriesStore.totalStoriesCount,
     }
   }
 
@@ -75,6 +77,7 @@ export default class Changelog extends React.Component {
       {this.renderOpenSet()}
       <div className="container">
         {this.renderStories()}
+        {this.renderGithubRepoMessage()}
         <LoadingBar loading={loading} />
       </div>
     </div>
@@ -132,5 +135,16 @@ export default class Changelog extends React.Component {
         changelogId={changelogId}
         truncatable={true} />
     )
+  }
+
+  renderGithubRepoMessage() {
+    const { totalStoriesCount, changelogId } = this.props
+
+    if (totalStoriesCount > 5) { return }
+
+    return <div className="p2 bg-smoke h4 flex flex-center">
+      <div className="flex-auto">Have a Github repo? Connect it to help populate your Changelog.</div>
+      <div><Link to="githubRepos" params={{changelogId}}><Button>Connect</Button></Link></div>
+    </div>
   }
 }

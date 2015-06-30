@@ -172,6 +172,12 @@ class GroupedStoriesStore extends Store {
     }
   }
 
+  get totalStoriesCount() {
+    return this.grouped.reduce((r, g) => {
+      return r + g.stories.size
+    }, 0)
+  }
+
   get loading() {
     return this._loading
   }

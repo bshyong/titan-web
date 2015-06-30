@@ -70,7 +70,7 @@ export default class GithubRepoDraftsPage extends React.Component {
 
     return (
       <div className="p3">
-        <h2>Loading drafts..</h2>
+        <h2>Generating drafts..</h2>
         <LoadingBar loading={draftsLoading} />
       </div>
     )
