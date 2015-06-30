@@ -160,7 +160,7 @@ export default class GithubRepoDraftsPage extends React.Component {
       team_member_only: !StoryFormStore.isPublic,
       title: StoryFormStore.title,
     }
-    StoryActions.publish(this.props.changelogId, payload)
+    StoryActions.publish(this.props.changelogId, payload, false, this.handleDraftDeletion.bind(this))
   }
 
 }
