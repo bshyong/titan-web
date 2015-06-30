@@ -72,9 +72,6 @@ export default class EditStoryForm extends React.Component {
 
   handleOnUpdate() {
     const story = StoryFormStore.data
-    StoryActions.edit(this.props.changelogId, this.props.storyId, {
-      ...story,
-      contributors: ContributorsStore.validTokensAsString
-    })
+    StoryActions.edit(this.props.changelogId, this.props.storyId, story)
   }
 }
