@@ -14,6 +14,7 @@ import StoryForm from '../components/Story/StoryForm.jsx'
 import StoryFormActions from '../actions/story_form_actions'
 import StoryFormStore from '../stores/story_form_store'
 import connectToStores from '../lib/connectToStores.jsx'
+import Icon from '../ui/Icon.jsx'
 
 @connectToStores(GithubOnboardingStore, StoryFormStore)
 export default class GithubRepoDraftsPage extends React.Component {
@@ -83,33 +84,37 @@ export default class GithubRepoDraftsPage extends React.Component {
     if (drafts.isEmpty() || currentDraftIndex > drafts.size) { return this.renderEmptyState() }
 
     return (
-      <div className="p3">
-        <h2>Drafts</h2>
-        <div className="bg-smoke p2 flex">
-          <div className="flex-auto">
-            Reviewing {currentDraftIndex + 1} of {drafts.size + 1} drafts
-          </div>
-          <div className="flex-none pointer" onClick={this.handleDeleteAll.bind(this)}>Delete all drafts</div>
-        </div>
-        <div className="mt2">
-          <StoryForm
-            story={story}
-            onChange={this.handleOnChange.bind(this)} />
-          <div className="py2 right-align">
-            <div className="mr2 inline">
-              <Button
-                color="gray"
-                style="outline"
-                action={this.handleDraftDeletion.bind(this)}>
-                Delete
-              </Button>
+      <div>
+        <h4 className="gray pointer" onClick={this.handleDeleteAll.bind(this)}>
+          <Icon icon="angle-left" /> Back to Changelog
+        </h4>
+        <div className="p3">
+          <div className="mt2">
+            <StoryForm
+              story={story}
+              onChange={this.handleOnChange.bind(this)} />
+            <div className="py2 flex flex-center">
+              <div className="flex-auto" />
+              <div className="gray flex-none mr2">
+                Draft: {currentDraftIndex + 1} of {drafts.size + 1}
+              </div>
+              <div className="mr2 flex-none">
+                <Button
+                  color="gray"
+                  style="outline"
+                  action={this.handleDraftDeletion.bind(this)}>
+                  Skip
+                </Button>
+              </div>
+              <div className="flex-none">
+                <Button
+                  color="orange"
+                  style="outline"
+                  action={this.handleOnPublish.bind(this)} disabled={!StoryFormStore.isValid()}>
+                  Post
+                </Button>
+              </div>
             </div>
-            <Button
-              color="orange"
-              style="outline"
-              action={this.handleOnPublish.bind(this)} disabled={!StoryFormStore.isValid()}>
-              Post
-            </Button>
           </div>
         </div>
       </div>
@@ -123,7 +128,7 @@ export default class GithubRepoDraftsPage extends React.Component {
       <div className="p3">
         <h2>No drafts</h2>
         <div>
-          <Link to="githubRepos" params={{changelogId: changelogId}}>Click here to generate drafts from a Github repo</Link>
+          <Link to="githubRepos" params={{changelogId: changelogId}}>Click here to generate drafts from another Github repo</Link>
         </div>
       </div>
     )
