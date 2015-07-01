@@ -98,7 +98,7 @@ export default class SignupForm extends React.Component {
         <div className="mt4">
           <a href="javascript:void(0)"
             className="bold darken-4"
-            onClick={AuthenticationFormActions.hide}>
+            onClick={SessionActions.initializeTwitterSignIn}>
             Sign up using Twitter instead
           </a>
         </div>
@@ -109,7 +109,7 @@ export default class SignupForm extends React.Component {
   renderTwitterButton() {
     return (
       <div>
-        <Button size="big" color="twitter-blue" block
+        <Button size="big" bg="twitter-blue" block
           action={SessionActions.initializeTwitterSignIn}>
           <Icon icon="twitter" />
           <span className="ml2">Use Twitter</span>

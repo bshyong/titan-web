@@ -19,6 +19,14 @@ export default {
     window.location.href = `${API_URL}/auth/twitter?origin=${returnUrl || window.location.href}`
   },
 
+  linkTwitterAccount(userId, returnUrl="/settings") {
+    if (typeof returnUrl !== 'string') {
+      returnUrl = null
+    }
+
+    window.location.href = `${API_URL}/auth/twitter?origin=${returnUrl || window.location.href}&user_id=${userId}`
+  },
+
   signin(returnUrl) {
     if (typeof returnUrl !== 'string') {
       returnUrl = ''

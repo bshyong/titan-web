@@ -5,6 +5,7 @@
 .bg-whitesmoke { background-color: var(--whitesmoke) }
 .bg-whitesmoke-hover:hover { background-color: var(--whitesmoke) }
 .bg-charcoal { background-color: var(--charcoal) }
+.bg-twitter-blue { background-color: var(--twitter-blue) }
 
 .gray-visited:visited { color: var(--gray) }
 
@@ -12,4 +13,4 @@
 
 .gray-hover:hover { color: var(--charcoal) }
 
-.twitter-blue { background-color: var(--twitter-blue) }
+.twitter-blue { color: var(--twitter-blue) }

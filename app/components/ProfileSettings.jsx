@@ -2,9 +2,11 @@ import authenticated from './mixins/authenticated_mixin.jsx'
 import Button from '../ui/Button.jsx'
 import classnames from 'classnames'
 import connectToStores from '../lib/connectToStores.jsx'
+import Icon from 'ui/Icon.jsx'
 import ProfileActions from '../actions/profile_actions.js'
 import ProfileStore from '../stores/profile_store.js'
 import React from 'react'
+import SessionActions from 'actions/SessionActions'
 
 @authenticated()
 @connectToStores(ProfileStore)
@@ -90,6 +92,11 @@ export default class ProfileSettings extends React.Component {
           <Button action={this.handleSubmit.bind(this)}>Save Settings</Button>
           {this.renderStatus()}
         </form>
+
+        <div className="mb2">
+          <h4 className="mt3 bold">Connections</h4>
+          {this.renderTwitterButton()}
+        </div>
       </div>
     )
   }
@@ -105,6 +112,33 @@ export default class ProfileSettings extends React.Component {
       return <span className="ml1 red">Update failed</span>
     }
     return null
+  }
+
+  renderTwitterButton() {
+    const { profile: { twitter_username } } = this.props
+
+    if (twitter_username) {
+      return (
+        <div className="clearfix">
+          <div className="twitter-blue mr1 left">
+            <Icon icon="twitter" />
+          </div>
+          <span className="darken-4">
+            You're connected as
+            {' '}<a href={`https://twitter.com/${twitter_username}`}>
+              @{twitter_username}
+            </a>.
+          </span>
+        </div>
+      )
+    }
+
+    return (
+      <Button size="default" bg="twitter-blue" action={this.linkTwitterAccount.bind(this)}>
+        <Icon icon="twitter" />
+        <span className="ml2 h5">Connect to Twitter</span>
+      </Button>
+    )
   }
 
   fieldClasses(field) {
@@ -134,5 +168,9 @@ export default class ProfileSettings extends React.Component {
       }
     }
     ProfileActions.update(change)
+  }
+
+  linkTwitterAccount(e) {
+    SessionActions.linkTwitterAccount(this.props.profile.id, '/settings')
   }
 }
