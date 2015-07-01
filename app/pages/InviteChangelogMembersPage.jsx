@@ -13,30 +13,46 @@ import StoryFormStore from '../stores/story_form_store'
 import connectToStores from '../lib/connectToStores.jsx'
 import StoryGifSrc from '../images/interface.gif'
 import TeamAdder from '../components/team_adder.jsx'
+import ChangelogActions from 'actions/changelog_actions'
 
-@connectToStores(NewChangelogStore, ChangelogStore, StoryFormStore)
-export default class ChangelogOnboardingPage extends React.Component {
+import ChangelogInviteLink from '../components/Changelog/ChangelogInviteLink.jsx'
+
+@connectToStores(NewChangelogStore, ChangelogStore)
+export default class InviteChangelogMembersPage extends React.Component {
+
+  static willTransitionTo(params) {
+    console.log(params)
+    ChangelogActions.select(params.changelogId)
+  }
+
   static getPropsFromStores(props) {
     return {
       memberships: NewChangelogStore.memberships,
-      changelogId: ChangelogStore.slug,
       changelog: ChangelogStore.changelog
     }
   }
 
   render() {
+    const { changelog } = this.props
     return (
       <div>
-        <ApplicationNavbar title="New Changelog" />
-
         <div className="flex flex-center full-width">
           <div className="container full-width px2">
             <div className="sm-col-9 mx-auto px2">
-              <h2 className="center mt4">Start a new changelog</h2>
-              <p className="center mb3">
-                Changelogs make it easy to share what you and your team have accomplished, from fixing bugs and releasing new features, to organizational updates.
+              <h2 className="center mt4">Invite your team</h2>
+
+              <p>
+                Anyone you add here will be members of your Changelog. They will be able to read, write, and comment on all posts.
               </p>
-              <ChangelogCreation />
+
+              <div className="mb2">
+                <p>Send this private link to anyone you want to invite:</p>
+                <ChangelogInviteLink changelog={changelog} />
+              </div>
+
+              <TeamAdder memberships={this.props.memberships}
+                         changelog={changelog}
+                         showBlankEntries={true} />
             </div>
           </div>
         </div>
@@ -48,7 +64,7 @@ export default class ChangelogOnboardingPage extends React.Component {
                       color="green"
                       bg="white"
                       style="outline"
-                      action={this.handleChangelogCreation.bind(this)}>
+                      action={function() {}}>
                 Next
               </Button>
             </div>
@@ -56,16 +72,5 @@ export default class ChangelogOnboardingPage extends React.Component {
         </div>
       </div>
     )
-  }
-
-  handleChangelogCreation() {
-    NewChangelogActions.create(() => {
-      const changelogId = ChangelogStore.slug
-      return () => {
-        RouterContainer.get().transitionTo("inviteChangelogMembers", {
-          changelogId: changelogId
-        })
-      }
-    })
   }
 }

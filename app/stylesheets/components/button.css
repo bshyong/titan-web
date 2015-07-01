@@ -2,6 +2,12 @@
   cursor: default;
 }
 
+.button-transparent {
+  font-weight: normal;
+}
+
+/* --- */
+
 .button-outline:disabled:hover::before {
   opacity: 0;
 }

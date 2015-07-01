@@ -1,9 +1,8 @@
-import authenticated from 'components/mixins/authenticated_mixin.jsx'
 import Avatar from 'ui/Avatar.jsx'
 import Button from 'ui/Button.jsx'
 import ChangelogActions from 'actions/changelog_actions'
+import ChangelogInviteLink from 'components/Changelog/ChangelogInviteLink.jsx'
 import ChangelogStore from 'stores/changelog_store'
-import connectToStores from 'lib/connectToStores.jsx'
 import CustomDomainSettingsPanel from './CustomDomainSettingsPanel.jsx'
 import DropzoneContainer from '../DropzoneContainer.jsx'
 import Icon from 'ui/Icon.jsx'
@@ -20,6 +19,10 @@ import Switch from 'ui/Switch.jsx'
 import Table from 'ui/Table.jsx'
 import TeamAdder from 'components/team_adder.jsx'
 import VisibilityToggler from 'components/VisibilityToggler.jsx'
+import authenticated from 'components/mixins/authenticated_mixin.jsx'
+import connectToStores from 'lib/connectToStores.jsx'
+import InvitationActions from 'actions/invitation_actions'
+
 import {List, Map} from 'immutable'
 
 @authenticated()
@@ -68,6 +71,24 @@ export default class ChangelogSettings extends React.Component {
     return (
       <div>
         <h4 className="mt0 mb0 bold">Members</h4>
+        <p className="h5 gray">
+          Anyone you add here will be members of your Changelog. They will be able to read, write, and comment on all posts.
+        </p>
+        <p className="h5 gray mb1">
+          Send this private link to anyone you want to invite:
+        </p>
+
+        <div className="mb2">
+          <ChangelogInviteLink changelog={this.props.changelog} />
+          <Button
+            style="transparent"
+            size="small"
+            color="gray"
+            action={this.handleResetInvitationLink.bind(this)}
+            ref="reset">
+            Reset
+          </Button>
+        </div>
 
         <TeamAdder memberships={this.props.coreMemberships} changelog={this.props.changelog} changelogId={this.props.changelogId} showBlankEntries={false} />
 
@@ -325,6 +346,13 @@ export default class ChangelogSettings extends React.Component {
     ChangelogActions.update(this.props.changelogId, {
       is_members_only: !this.props.changelog.is_members_only
     })
+  }
+
+  handleResetInvitationLink() {
+    const { changelog } = this.props
+    if(confirm('Are you sure you want to invalidate this link and create a new one?')) {
+      InvitationActions.resetInvitation(changelog.slug, changelog.invite_hash)
+    }
   }
 
   handleDeleteChangelog() {

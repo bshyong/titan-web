@@ -10,7 +10,6 @@ import AppPage from 'pages/AppPage.jsx'
 import Changelog from 'components/changelog.js.jsx'
 import ChangelogByDatePage from 'pages/ChangelogByDatePage.jsx'
 import ChangelogBySetsPage from 'pages/ChangelogBySetsPage.jsx'
-import ChangelogOnboardingPage from 'pages/ChangelogOnboardingPage.jsx'
 import ChangelogPage from 'pages/ChangelogPage.jsx'
 import ChangelogSettings from 'components/settings/ChangelogSettings.jsx'
 import DashboardPage from 'pages/DashboardPage.jsx'
@@ -23,6 +22,7 @@ import HighlightPicker from 'components/highlight_picker.js.jsx'
 import HomePage from 'pages/HomePage.jsx'
 import ImpersonatePage from 'pages/ImpersonatePage.jsx'
 import InvitationPage from 'pages/InvitationPage.jsx'
+import InviteChangelogMembersPage from 'pages/InviteChangelogMembersPage.jsx'
 import NewChangelogPage from 'pages/NewChangelogPage.jsx'
 import NewStoryPage from 'pages/NewStoryPage.jsx'
 import NotFound from 'pages/NotFoundPage.jsx'
@@ -46,7 +46,7 @@ var internal = (
     <Route handler={AdminPage} path="/admin" />
     <Route handler={HomePage} path="/home" />
 
-    <Route handler={ChangelogOnboardingPage} path="/new" name="newChangelog" />
+    <Route handler={NewChangelogPage} path="/new" name="newChangelog" />
 
     <Route handler={SigninSSO} path="/signin/sso" name="sso" />
     <Route handler={TwitterCallback} path="/auth/twitter/callback" name="twitterCallback" />
@@ -71,6 +71,8 @@ var internal = (
       <Route handler={GithubRepoSelectionPage} path="github" name="githubRepos" />
       <Route handler={GithubRepoDraftsPage} path="github/drafts" name="githubDrafts" />
 
+
+      <Route handler={InviteChangelogMembersPage} path="invite" name="inviteChangelogMembers" />
 
       <Route handler={ChangelogBySetsPage} name="changelog_by_sets" path="sets" />
 

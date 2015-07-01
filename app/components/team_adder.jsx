@@ -32,7 +32,6 @@ export default class TeamAdder extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      copied: false,
       emailOrUsername: ''
     }
     this.timeout = null
@@ -58,12 +57,6 @@ export default class TeamAdder extends React.Component {
     return (
       <div className="mb2">
         <div>
-	        <p className="gray h5">
-            Anyone you add here will be members of your Changelog. They will be able to read, write, and comment on all posts.
-	        </p>
-        </div>
-        <div>
-          { this.renderInviteLink() }
           {memberships.map(m => {
             if (m.is_core) {
               return (
@@ -95,58 +88,6 @@ export default class TeamAdder extends React.Component {
           </a>
         </div>
       )
-    }
-  }
-
-  renderInviteLink() {
-    const { changelog } = this.props
-    const { copied } = this.state
-
-    return (
-      <div className="h5 mb3">
-        <div>
-          Send this private link to anyone you want to invite.
-          <span className="gray ml1 pointer" onClick={this.handleLinkReset.bind(this)}>Reset link</span>
-        </div>
-        <div className="flex flex-center border border-silver">
-          <div className="flex-auto">
-            <input
-              className="border-none full-width px1"
-              style={{outline: 'none'}}
-              value={this.inviteLinkAsURL()}
-              onClick={e => e.target.select()}
-              ref="inviteLink"
-             />
-          </div>
-          <Clipboard
-            text={this.inviteLinkAsURL()}
-            onAfterCopy={this.handleAfterCopy.bind(this)}>
-             <div className="pointer flex-none p1 border-left border-silver center bg-whitesmoke orange">
-               {copied ? 'Copied' : 'Copy'}
-             </div>
-          </Clipboard>
-        </div>
-      </div>
-    )
-  }
-
-  handleAfterCopy() {
-    this.setState({copied: true}, () => {
-      this.timeout = setTimeout(() => {
-        this.setState({copied: false})
-      }, 1000)
-    })
-  }
-
-  inviteLinkAsURL() {
-    const { changelog } = this.props
-    return `${MAIN_HOST}/invitations/${changelog.invite_hash}`
-  }
-
-  handleLinkReset() {
-    const { changelog } = this.props
-    if(confirm('This will invalidate the current link and create a new one')) {
-      InvitationActions.resetInvitation(changelog.slug, changelog.invite_hash)
     }
   }
 
