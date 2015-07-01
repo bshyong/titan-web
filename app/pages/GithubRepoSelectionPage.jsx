@@ -42,7 +42,8 @@ export default class GithubRepoSelectionPage extends React.Component {
 
     return (
       <div className="p3">
-        <h2>Choose a repo</h2>
+        <h2 className="mb0">Choose a repo</h2>
+        <p className="gray">We will generate drafts from your top 30 merged pull requests</p>
         {repos.map(r => {return <GithubRepo repo={r} changelogId={changelogId} key={r.id} />})}
       </div>
     )

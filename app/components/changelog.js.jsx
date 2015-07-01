@@ -24,6 +24,7 @@ import moment from '../config/moment'
 import paramsFor from '../lib/paramsFor'
 import shallowEqual from 'react-pure-render/shallowEqual'
 import SessionStore from '../stores/session_store'
+import Router from '../lib/router_container'
 
 @connectToStores(ChangelogStore, GroupedStoriesStore)
 export default class Changelog extends React.Component {
@@ -144,8 +145,10 @@ export default class Changelog extends React.Component {
     if (totalStoriesCount > 2 || !changelog.user_is_team_member) { return }
 
     return <div className="mt3 p2 bg-smoke h4 flex flex-center">
-      <div className="flex-auto">Have a Github repo? Connect it to help populate your Changelog.</div>
-      <div><Link to="githubRepos" params={{changelogId}}><Button>Connect</Button></Link></div>
+      <div className="flex-auto">You can pull in drafts from Github.<br /><span className="h5 gray">We won't save your data or peek at your code.</span></div>
+      <div className="flex-none">
+        <a href={`${API_URL}/auth/github?origin=${window.location.origin}${Router.get().makeHref('githubRepos', {changelogId})}`}><Button>Connect with Github</Button></a>
+      </div>
     </div>
   }
 }
