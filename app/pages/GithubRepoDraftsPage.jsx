@@ -15,6 +15,7 @@ import StoryFormActions from '../actions/story_form_actions'
 import StoryFormStore from '../stores/story_form_store'
 import connectToStores from '../lib/connectToStores.jsx'
 import Icon from '../ui/Icon.jsx'
+import moment from 'moment'
 
 @connectToStores(GithubOnboardingStore, StoryFormStore)
 export default class GithubRepoDraftsPage extends React.Component {
@@ -53,7 +54,8 @@ export default class GithubRepoDraftsPage extends React.Component {
     if (!drafts.isEmpty()) {
       setTimeout(() => {StoryFormActions.change({
         title: drafts.get(0).title,
-        body: drafts.get(0).body
+        body: drafts.get(0).body,
+        created_at: moment(drafts.get(0).updated_at).toISOString()
       })})
     }
   }
@@ -152,7 +154,8 @@ export default class GithubRepoDraftsPage extends React.Component {
       StoryFormActions.change({
         title: nextDraft.title,
         body: nextDraft.body,
-        isPublic: true
+        isPublic: true,
+        created_at: moment(nextDraft.updated_at).toISOString()
       })
     })
   }
