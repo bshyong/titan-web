@@ -14,11 +14,11 @@ import SessionActions from '../actions/SessionActions'
 
 export default {
 
-  fetchRepos() {
+  fetchRepos(refetch) {
     Dispatcher.dispatch({
       type: GITHUB_REPOS_FETCHING
     })
-    api.get(`github/repos`).then(resp => {
+    api.get(`github/repos?refetch=${refetch || ''}`).then(resp => {
       Dispatcher.dispatch({
         type: GITHUB_REPOS_FETCHED,
         repos: resp

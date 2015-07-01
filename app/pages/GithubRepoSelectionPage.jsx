@@ -42,8 +42,17 @@ export default class GithubRepoSelectionPage extends React.Component {
 
     return (
       <div className="p3">
-        <h2 className="mb0">Choose a repo</h2>
-        <p className="gray">We will generate drafts from your top 30 merged pull requests</p>
+        <div className="flex flex-baseline">
+          <div className="flex-auto">
+            <h2 className="mb0">Choose a repo</h2>
+            <p className="gray">We will generate drafts from your top 30 merged pull requests</p>
+          </div>
+          <div
+            className="gray pointer"
+            onClick={GithubOnboardingActions.fetchRepos.bind(this, true)}>
+            <Icon icon="refresh" /> Refetch
+          </div>
+        </div>
         {repos.map(r => {return <GithubRepo repo={r} changelogId={changelogId} key={r.id} />})}
       </div>
     )
