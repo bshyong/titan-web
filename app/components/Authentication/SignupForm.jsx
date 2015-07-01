@@ -97,7 +97,7 @@ export default class SignupForm extends React.Component {
         </div>
         <div className="mt4">
           <a href="javascript:void(0)"
-            className="bold darken-4"
+            className="bold darken-4 gray-hover"
             onClick={SessionActions.initializeTwitterSignIn}>
             Sign up using Twitter instead
           </a>
@@ -127,7 +127,7 @@ export default class SignupForm extends React.Component {
         </div>
         <div className="mt4">
           <a href="javascript:void(0)"
-            className="bold darken-4"
+            className="bold darken-4 gray-hover"
             onClick={AuthenticationFormActions.show}>
             Sign up with your email instead
           </a>

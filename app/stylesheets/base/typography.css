@@ -7,3 +7,4 @@ strong { font-weight: var(--bold-font-weight) }
 p {line-height: var(--paragraph-line-height)}
 
 .underline { text-decoration: underline; }
+.underline-hover:hover { text-decoration: underline; }

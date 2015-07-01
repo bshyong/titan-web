@@ -45,6 +45,7 @@ export default class SigninScrim extends React.Component {
         <div className="h4">
           Don't have an account?{' '}
           <a href="javascript:void(0)"
+            className="underline-hover"
             onClick={SigninScrimActions.show.bind(null, SignupForm)}>
             Sign up
           </a>.
@@ -63,6 +64,7 @@ export default class SigninScrim extends React.Component {
       <div className="h4">
         Have an account?{' '}
         <a href="javascript:void(0)"
+          className="underline-hover"
           onClick={SigninScrimActions.show.bind(null, LoginForm)}>
           Log in
         </a>.
