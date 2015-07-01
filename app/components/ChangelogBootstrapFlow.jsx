@@ -1,6 +1,5 @@
 import React from 'react'
 import pluralize from '../lib/pluralize'
-import SteppedStoryForm from './SteppedStoryForm.jsx'
 import {List} from 'immutable'
 import StoryCell from './Story/StoryCell.jsx'
 import Button from '../ui/Button.jsx'
