@@ -5,6 +5,7 @@ import SessionStore from '../stores/session_store'
 import SigninScrimActions from 'actions/SigninScrimActions'
 import StoryActions from '../actions/story_actions'
 import classnames from 'classnames'
+import Icon from 'ui/Icon.jsx'
 
 import UpvoteArrowSrc  from '../images/upvote-arrow.svg'
 import UpvotedArrowSrc from '../images/upvoted-arrow.svg'
@@ -42,7 +43,9 @@ export default class UpvoteToggler extends React.Component {
 
     return (
       <div className={cn} onClick={this.handleClick} onMouseEnter={this.handleHover} onMouseLeave={this.handleHover}>
-        <img className="upvote-toggler-icon" src={src} />
+        <div className="upvote-toggler-icon">
+          <Icon icon="heart" />
+        </div>
         <div className="upvote-toggler-count">{hearts_count}</div>
       </div>
     )

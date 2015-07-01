@@ -33,7 +33,7 @@ export default class StoryCell extends React.Component {
             </div>
             <div className="px1 no-underline flex flex-center">
               <div style={{marginRight:'0.25rem'}}>
-                <img src={story.viewer_has_hearted ? UpvotedArrowSrc : UpvoteArrowSrc} height="12"  />
+                <Icon icon="heart" color={story.viewer_has_hearted ? "orange" : "silver"} />
               </div>
               {' '}
               <div>{story.hearts_count}</div>
