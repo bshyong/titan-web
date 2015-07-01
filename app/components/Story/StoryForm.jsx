@@ -28,7 +28,7 @@ export default class StoryForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      showDetails: false,
+      showDetails: false || props.showDetails,
       showCalendar: false,
     }
   }

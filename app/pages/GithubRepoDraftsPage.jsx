@@ -16,6 +16,7 @@ import StoryFormStore from '../stores/story_form_store'
 import connectToStores from '../lib/connectToStores.jsx'
 import Icon from '../ui/Icon.jsx'
 import moment from 'moment'
+import ContributorsActions from '../actions/ContributorsActions'
 
 @connectToStores(GithubOnboardingStore, StoryFormStore)
 export default class GithubRepoDraftsPage extends React.Component {
@@ -94,7 +95,8 @@ export default class GithubRepoDraftsPage extends React.Component {
           <div className="mt2">
             <StoryForm
               story={story}
-              onChange={this.handleOnChange.bind(this)} />
+              onChange={this.handleOnChange.bind(this)}
+              showDetails={true} />
             <div className="py2 flex flex-center">
               <div className="flex-auto" />
               <div className="gray flex-none mr2">
@@ -152,10 +154,11 @@ export default class GithubRepoDraftsPage extends React.Component {
       GithubOnboardingActions.deleteDraft(changelogId, lastDraft.id)
       const nextDraft = drafts.get(this.state.currentDraftIndex)
       StoryFormActions.change({
-        title: nextDraft.title,
         body: nextDraft.body,
+        contributors: nextDraft.contributors,
+        created_at: moment(nextDraft.updated_at).toISOString(),
         isPublic: true,
-        created_at: moment(nextDraft.updated_at).toISOString()
+        title: nextDraft.title,
       })
     })
   }

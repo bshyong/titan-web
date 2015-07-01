@@ -4,10 +4,12 @@ import {
   CONTRIBUTORS_STRING_RECEIVED,
   CONTRIBUTORS_SUGGESTED,
   STORY_FETCHED,
+  STORY_FORM_CHANGE,
   STORY_FORM_CLEAR,
   STORY_PUBLISHED,
   USER_PICKER_USER_SELECTED,
   USER_SIGNIN,
+  GITHUB_DRAFTS_LOADED,
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import EMAIL_REGEX from '../lib/email_regex'
@@ -43,6 +45,24 @@ class ContributorsStore extends Store {
         case STORY_PUBLISHED:
           this.reset()
           break
+
+        case STORY_FORM_CHANGE:
+          if (!action.fields.contributors) { return }
+          this.reset()
+          action.fields.contributors.split(/,\s*/).forEach(c => {
+            this.addToken(c)
+          })
+          break
+
+        case GITHUB_DRAFTS_LOADED:
+          if (action.drafts.length > 0) {
+            action.drafts[0].contributors.split(/,\s*/).forEach(c => {
+              if (c === '') { return }
+              this.addToken(c)
+            })
+          }
+          break
+
         case CONTRIBUTORS_KEYDOWN:
           if (!this._fieldValue && !this._tokens.isEmpty() && (action.event.keyCode === KEYCODES.BACKSPACE)) {
             this._tokens = this._tokens.pop()
@@ -103,11 +123,15 @@ class ContributorsStore extends Store {
 }
 
 function saveTokens(tokens, str) {
-  const sanitizedStr = str.replace(/ /g, '').replace(/^([^@])/, '@$1')
+  let sanitizedStr = str.replace(/ /g, '')
   const tokenType = getTokenTypeFromString(sanitizedStr)
 
   if (tokens.find(t => t.string === sanitizedStr)) {
     return tokens
+  }
+
+  if (tokenType === 'contributor') {
+    sanitizedStr = sanitizedStr.replace(/^([^@])/, '@$1')
   }
 
   return tokens.push({type: tokenType, string: sanitizedStr})
