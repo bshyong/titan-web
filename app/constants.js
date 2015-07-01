@@ -77,6 +77,7 @@ export default keyMirror({
   GITHUB_DRAFTS_LOADING: null,
   GITHUB_REPOS_FETCHED: null,
   GITHUB_REPOS_FETCHING: null,
+  GITHUB_UNAUTHED_ERROR: null,
 
   GROUP_COLLAPSED: null,
   GROUP_DONE: null,

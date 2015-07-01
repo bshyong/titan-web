@@ -22,17 +22,37 @@ export default class GithubRepoSelectionPage extends React.Component {
 
   static getPropsFromStores(props) {
     return {
+      changelogId: Router.get().getCurrentParams().changelogId,
+      error: GithubOnboardingStore.error,
       repos: GithubOnboardingStore.repos,
       reposFetching: GithubOnboardingStore.fetchingRepos,
-      changelogId: Router.get().getCurrentParams().changelogId
     }
   }
 
   render() {
     const user = SessionStore.user
+
+    const { error, changelogId } = this.props
+    const content = () => {
+      if (error) {
+        return this.renderErrorState()
+      }
+      return user.github_authed ? this.renderAuthedState() : this.renderUnauthedState()
+    }()
+
     return <div className="container">
-      { user.github_authed ? this.renderAuthedState() : this.renderUnauthedState() }
+      { content }
     </div>
+  }
+
+  renderErrorState() {
+    const { error, changelogId } = this.props
+    return (
+      <div className="p3">
+        <h2>{error}</h2>
+        <a href={`${API_URL}/auth/github?origin=${window.location.origin}${Router.get().makeHref('githubRepos', {changelogId})}`}>Click to authenticate with Github</a>
+      </div>
+    )
   }
 
   renderAuthedState() {

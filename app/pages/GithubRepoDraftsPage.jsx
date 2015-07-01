@@ -33,7 +33,8 @@ export default class GithubRepoDraftsPage extends React.Component {
       story: {
         ...StoryFormStore.data,
         contributors: ContributorsStore.contributors
-      }
+      },
+      error: GithubOnboardingStore.error,
     }
   }
 
@@ -62,11 +63,29 @@ export default class GithubRepoDraftsPage extends React.Component {
   }
 
   render() {
-    const { draftsLoading } = this.props
+    const { draftsLoading, error } = this.props
+
+    const content = () => {
+      if (error) {
+        return this.renderErrorState()
+      } else {
+        return draftsLoading ? this.renderLoadingState() : this.renderDraftStoryForms()
+      }
+    }()
 
     return <div className="container">
-        { draftsLoading ? this.renderLoadingState() : this.renderDraftStoryForms() }
+      {content}
+    </div>
+  }
+
+  renderErrorState() {
+    const { error, changelogId } = this.props
+    return (
+      <div className="p3">
+        <h2>{error}</h2>
+        <a href={`${API_URL}/auth/github?origin=${window.location.origin}${Router.get().makeHref('githubRepos', {changelogId})}`}>Click to authenticate with Github</a>
       </div>
+    )
   }
 
   renderLoadingState() {

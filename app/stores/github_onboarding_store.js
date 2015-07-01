@@ -3,6 +3,7 @@ import {
   GITHUB_DRAFTS_LOADING,
   GITHUB_REPOS_FETCHED,
   GITHUB_REPOS_FETCHING,
+  GITHUB_UNAUTHED_ERROR,
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
@@ -11,10 +12,7 @@ import { List } from 'immutable'
 class GithubOnboardingStore extends Store {
   constructor() {
     super()
-    this._repos = List()
-    this._drafts = List()
-    this._fetchingRepos = false
-    this._loadingDrafts = false
+    this.init()
 
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
@@ -33,11 +31,27 @@ class GithubOnboardingStore extends Store {
           this._loadingDrafts = false
           this._drafts = List(action.drafts)
           break
+        case GITHUB_UNAUTHED_ERROR:
+          this.init()
+          this._error = action.error
+          break
         default:
           return
       }
       this.emitChange()
     }.bind(this))
+  }
+
+  init() {
+    this._repos = List()
+    this._drafts = List()
+    this._fetchingRepos = false
+    this._loadingDrafts = false
+    this._error = null
+  }
+
+  get error() {
+    return this._error
   }
 
   get repos() {

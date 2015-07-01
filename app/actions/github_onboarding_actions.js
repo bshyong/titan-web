@@ -4,6 +4,7 @@ import {
   GITHUB_REPOS_FETCHED,
   GITHUB_REPOS_FETCHING,
   GITHUB_DRAFT_DELETED,
+  GITHUB_UNAUTHED_ERROR,
   USER_SIGNIN,
 } from '../constants'
 
@@ -23,6 +24,11 @@ export default {
         type: GITHUB_REPOS_FETCHED,
         repos: resp
       })
+    }).catch(errors => {
+      Dispatcher.dispatch({
+        type: GITHUB_UNAUTHED_ERROR,
+        error: errors.error
+      })
     })
   },
 
@@ -35,6 +41,11 @@ export default {
       Dispatcher.dispatch({
         type: GITHUB_DRAFTS_LOADED,
         drafts: resp
+      })
+    }).catch(errors => {
+      Dispatcher.dispatch({
+        type: GITHUB_UNAUTHED_ERROR,
+        error: errors.error
       })
     })
   },
