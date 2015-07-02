@@ -46,7 +46,13 @@ export default function Authenticated() {
       _onChange() {
         var newState = this.getStateFromStores()
         if (!newState.user) {
-          RouterContainer.get().transitionTo('/')
+          // Since this action effectively gets triggered
+          // by another action, we need to transition on the
+          // next tick to avoid dispatching in the middle of a
+          // dispatch
+          setTimeout(() => {
+            RouterContainer.get().transitionTo('/')
+          }, 0)
         } else {
           this.setState(this.getStateFromStores())
         }

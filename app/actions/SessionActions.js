@@ -72,10 +72,10 @@ export default {
   signout() {
     auth.remove()
     membershipInvite.remove()
+
     Dispatcher.dispatch({
       type: USER_SIGNOUT
     })
-    window.location = '/'
   },
 
   twitterCallback(query) {
