@@ -77,7 +77,9 @@ export default class UserPicker extends React.Component {
       return null
     }
 
-    const userHeight = this.cellHeight ? userCount * this.cellHeight : maxHeight
+    const cellHeight = 3.5 * 16
+
+    const userHeight = userCount * cellHeight
     const height = Math.min(maxHeight, userHeight)
 
     return (
