@@ -149,7 +149,7 @@ export default class CommentForm extends React.Component {
   }
 
   _handleSignInClick(e) {
-    SigninScrimActions.initialize(LoginForm, {}, window.location.href)
+    SigninScrimActions.initialize(LoginForm, {}, window.location.pathname)
   }
 
   _onStoreChange() {

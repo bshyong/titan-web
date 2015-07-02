@@ -82,12 +82,10 @@ export default class HomePage extends React.Component {
   }
 
   handleSignIn() {
-    // Using `initialize()` here since we want to redirect
-    // to '/new'
-    SigninScrimActions.initialize(LoginForm, {}, '/new')
+    SigninScrimActions.show(LoginForm, '/new')
   }
 
   handleSignUp() {
-    SigninScrimActions.initialize(SignupForm, {}, '/new')
+    SigninScrimActions.show(SignupForm, '/new')
   }
 }

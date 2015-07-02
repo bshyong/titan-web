@@ -22,10 +22,11 @@ export default {
     })
   },
 
-  show(form) {
+  show(form, redirectTo) {
     Dispatcher.dispatch({
       type: SIGNIN_SCRIM_SHOWN,
-      form: form
+      form: form,
+      redirectTo: redirectTo
     })
   }
 }

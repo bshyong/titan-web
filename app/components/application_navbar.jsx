@@ -142,7 +142,7 @@ export default class ApplicationNavbar extends React.Component {
   }
 
   _handleSignIn(e) {
-    SigninScrimActions.show(SignupForm)
+    SigninScrimActions.show(SignupForm, window.location.pathname)
   }
 
   _handleSignout() {

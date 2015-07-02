@@ -24,7 +24,7 @@ export default class FollowButton extends React.Component {
 
   _handleClick() {
     if (!SessionStore.isSignedIn()) {
-      return SigninScrimActions.initialize(LoginForm, {}, window.location.href)
+      return SigninScrimActions.initialize(LoginForm, {}, window.location.pathname)
     }
 
     if (this.props.toggled) {

@@ -10,6 +10,15 @@ import membershipInvite from 'lib/membershipInvite'
 import RouterContainer from 'lib/router_container'
 import SigninScrimActions from 'actions/SigninScrimActions'
 import SignupConfirmationForm from 'components/Authentication/SignupConfirmationForm.jsx'
+import url from 'url'
+
+const contstructReturnTo(returnUrl) {
+  let fullReturnUrlObj = url.parse(window.location.href, true)
+  fullReturnUrlObj.path = fullReturnUrlObj.pathname = (
+    returnUrl || AuthenticationFormStore.redirectTo || '/'
+  )
+  return url.format(fullReturnUrlObj)
+}
 
 export default {
   initializeTwitterSignIn(returnUrl) {
@@ -17,9 +26,7 @@ export default {
       returnUrl = null
     }
 
-    const origin = returnUrl || AuthenticationFormStore.redirectTo || window.location.href
-    // returnUrl is set to `origin` here because that's what OmniAuth expects :(
-    window.location.href = `${API_URL}/auth/twitter?origin=${origin}`
+    window.location.href = `${API_URL}/auth/twitter?return_url=${constructReturnTo(returnUrl)}`
   },
 
   linkTwitterAccount(userId, returnUrl="/settings") {
@@ -27,7 +34,7 @@ export default {
       returnUrl = null
     }
 
-    window.location.href = `${API_URL}/auth/twitter?origin=${returnUrl || window.location.href}&user_id=${userId}`
+    window.location.href = `${API_URL}/auth/twitter?return_url=${constructReturnTo(returnUrl)}&user_id=${userId}`
   },
 
   signin(returnUrl) {
@@ -88,13 +95,13 @@ export default {
     data.append('provider', provider)
     data.append('uid', uid)
 
-    fetch(`${API_URL}/twitter/signin`, {
+    fetch(`${API_URL}/auth/twitter/signin`, {
       method: 'POST',
       body: data
     }).then(resp => resp.json()).then(json => {
       if (json.token) {
         this.signinFromToken(json.token)
-        window.location.href = return_url
+        window.location.href = url.parse(return_url).path
       } else {
         SigninScrimActions.initialize(SignupConfirmationForm, query, return_url)
       }

@@ -99,7 +99,7 @@ export default class SignupConfirmationForm extends React.Component {
   _handleSubmit(e) {
     e.preventDefault()
 
-    AuthenticationFormActions.submit('auth/confirm', this.props)
+    AuthenticationFormActions.submit('auth/twitter/confirm', this.props)
   }
 }
 

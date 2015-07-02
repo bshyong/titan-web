@@ -54,7 +54,7 @@ export default class UpvoteToggler extends React.Component {
   _handleClick(e) {
     const { story } = this.props
     if (!SessionStore.isSignedIn()) {
-      SigninScrimActions.initialize(LoginForm, {}, window.location.href)
+      SigninScrimActions.initialize(LoginForm, {}, window.location.pathname)
       return
     }
 
