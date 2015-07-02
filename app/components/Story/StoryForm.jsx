@@ -85,7 +85,7 @@ export default class StoryForm extends React.Component {
                 {' '}
                 <a className="gray underline bold pointer" onClick={this.handlePrivacyToggled.bind(this)}
                   ref="isPublic">
-                  {team_member_only ? 'Team only' : 'Everyone'}
+                  {team_member_only ? 'Changelog members only' : 'Everyone'}
                 </a>
               </div>
               <div className="p1">
