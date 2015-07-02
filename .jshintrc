@@ -1,6 +1,8 @@
 {
   "asi": true,
+  "browser": true,
   "esnext": true,
+  "predef": [ "MAIN_HOST" ],
   "jasmine": true,
   "undef": true,
   "unused": true

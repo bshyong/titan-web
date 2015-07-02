@@ -24,6 +24,7 @@ class ChangelogStore extends Store {
     super()
     this._changelog = null
     this._timeShown = null
+    this.memberships = List()
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
         case CHANGELOG_CREATE_FAILED:
@@ -102,7 +103,7 @@ class ChangelogStore extends Store {
           return
       }
       this.emitChange()
-    })
+    }.bind(this))
   }
 
   get coreMemberships() {

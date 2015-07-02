@@ -1,28 +1,18 @@
-import { getOffsetTop } from 'ui/Picker.jsx'
-import { Link } from 'react-router'
-import { Range } from 'immutable'
 import Avatar from 'ui/Avatar.jsx'
-import Button from 'ui/Button.jsx'
-import ChangelogStore from 'stores/changelog_store'
 import EMAIL_REGEX from '../lib/email_regex'
+import Field from 'ui/Field.jsx'
 import Icon from 'ui/Icon.jsx'
-import InvitationActions from 'actions/invitation_actions'
 import MembershipActions from 'actions/MembershipActions'
-import moment from 'moment'
-import NewChangelogActions from 'actions/new_changelog_actions'
-import NewChangelogStore from 'stores/new_changelog_store'
-import paramsFor from 'lib/paramsFor'
-import PostSetActions from 'actions/PostSetActions'
 import React from 'react'
 import SessionStore from 'stores/session_store'
-import SingleUserField from 'components/SingleUserField.jsx'
 import UserPicker from 'components/user_picker.jsx'
-import UserPickerActions from 'actions/user_picker_actions'
-
-import Field from 'ui/Field.jsx'
+import { getOffsetTop } from 'ui/Picker.jsx'
+import { List, Range } from 'immutable'
 
 export default class TeamAdder extends React.Component {
-
+  static defaultProps = {
+    memberships: List()
+  }
   constructor(props) {
     super(props)
     this.state = {
@@ -46,7 +36,7 @@ export default class TeamAdder extends React.Component {
   }
 
   render() {
-    const { memberships, changelog } = this.props
+    const { memberships } = this.props
 
     return (
       <div className="mb2">
@@ -160,7 +150,7 @@ export default class TeamAdder extends React.Component {
     )
   }
 
-  toggleFocus(e) {
+  toggleFocus() {
     this.setState({
       focused: !this.state.focused
     })
@@ -198,7 +188,7 @@ export default class TeamAdder extends React.Component {
 
   }
 
-  handleAddMember(e) {
+  handleAddMember() {
     MembershipActions.update(
       this.props.changelog.slug,
       this.state.emailOrUsername, {
@@ -219,7 +209,7 @@ export default class TeamAdder extends React.Component {
   }
 
   handleRemoveClicked(membership) {
-    return (e) => {
+    return () => {
       MembershipActions.update(
         this.props.changelog.slug,
         membership.user.username, {

@@ -10,10 +10,8 @@ import Icon from '../ui/Icon.jsx'
 import Link from '../components/Link.jsx'
 import LoadingBar from '../ui/LoadingBar.jsx'
 import moment from '../config/moment'
-import NewChangelogActions from '../actions/new_changelog_actions'
-import NewChangelogStore from '../stores/new_changelog_store'
 import RadioGroup from 'react-radio-group'
-import React from 'react'
+import React, {PropTypes} from 'react'
 import RouterContainer from '../lib/router_container'
 import ScrollPaginator from '../ui/ScrollPaginator.jsx'
 import SessionStore from '../stores/session_store'
@@ -24,23 +22,14 @@ import Table from '../ui/Table.jsx'
 import TextareaAutosize from 'react-textarea-autosize'
 import VisibilityToggler from '../components/VisibilityToggler.jsx'
 
-@connectToStores(NewChangelogStore, SessionStore)
-export default class ChangelogCreation extends React.Component {
-
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      slugFieldExpanded: false
-    }
-  }
-
-  static getPropsFromStores(props) {
-    return {
-      errors: NewChangelogStore.errors,
-      user: SessionStore.user,
-      changelog: NewChangelogStore.changelog,
-    }
+export class NewChangelog extends React.Component {
+  static propTypes = {
+    create: PropTypes.func.isRequired,
+    formChange: PropTypes.func.isRequired,
+    fields: PropTypes.object.isRequired,
+    errors: PropTypes.array,
+    successful: PropTypes.bool,
+    updating: PropTypes.bool,
   }
 
   render() {
@@ -51,26 +40,26 @@ export default class ChangelogCreation extends React.Component {
     		{this.renderDescriptionField()}
 
         <div className="mb3">
-          <VisibilityToggler changelog={this.props.changelog} onChange={this.toggleVisibility.bind(this)} />
+          <VisibilityToggler ref="vis" changelog={this.props.fields.toJS()} onChange={this.handleVisibilityChanged.bind(this)} />
         </div>
       </div>
     )
   }
 
   handleFormChange(name, e) {
-    NewChangelogActions.formChange(name, e.target.value)
+    this.props.formChange(name, e.target.value)
   }
 
   renderDescriptionField(){
     return (
       <div className="mb3">
-        <label className="new-changelog-tagline bold">Tell everyone what it's about</label>
+        <label className="new-changelog-tagline bold">Tell everyone what it&#39;s about</label>
         <textarea
           id="new-changelog-tagline"
           className="field-light full-width block"
           placeholder="5 words or less is best"
           onChange={this.handleFormChange.bind(this, 'tagline')}
-          ref="name"
+          ref="tagline"
           style={{
             fontSize: '1rem',
             height: 'auto'
@@ -80,12 +69,15 @@ export default class ChangelogCreation extends React.Component {
   }
 
   renderNameField() {
-    const nameValid = NewChangelogStore.nameValid
+    const field = 'name'
+    let error = this.props.errors && this.props.errors[field]
+    if (error == 'required') {
+      error = "We share your excitement but we need a name first."
+    }
     const cs = classnames("flex full-width", {
-      'is-error': !nameValid
+      'is-error': error
     })
 
-    const nameErrorText = nameValid ? '&nbsp;' : NewChangelogStore.errors.name || "We share your excitement but we need a name first."
 
     return (
       <div className="mb2">
@@ -99,26 +91,26 @@ export default class ChangelogCreation extends React.Component {
             ref="name"
             style={{height: 'auto'}} />
         </div>
-        <div className="red h5" dangerouslySetInnerHTML={{__html: nameErrorText}} />
+        <div className="red h5" dangerouslySetInnerHTML={{__html: error}} />
       </div>
     )
   }
 
   renderSlugField() {
-    const slugValid = NewChangelogStore.slugValid
+    const field = 'slug'
+    const error = this.props.errors && this.props.errors[field]
+
     const cs = classnames("flex full-width", {
-      'is-error': !slugValid
+      'is-error': error
     })
 
     const slugClasses = classnames('break-word', {
       'gray': true
     })
 
-    const slugErrorText = slugValid ? '&nbsp;' : NewChangelogStore.errors.slug || "You'll want this later, it can't be blank."
-
     return (
       <div className="mb2">
-        <div onClick={this.handleEditClicked.bind(this)}>
+        <div>
           <div>
             <label className="bold mr1 pointer">
               URL: <span className="gray">changelog.assembly.com/..</span>
@@ -131,32 +123,39 @@ export default class ChangelogCreation extends React.Component {
             id="new-changelog-url"
             className="field-light block full-width"
             placeholder="Letters, numbers, and dashes only"
-            value={NewChangelogStore.slug}
+            value={this.props.fields.get('slug')}
             onChange={this.handleFormChange.bind(this, 'slug')}
-            onFocus={this.handleSlugOnFocus.bind(this)}
             ref="slug"
             style={{
               height: 'auto'
             }} /> : null
         }
         </div>
-        <p className={`mb2 h5 ${slugValid ? 'gray' : 'red'}`} dangerouslySetInnerHTML={{__html: slugErrorText}} />
+        <p className={`mb2 h5 ${error ? 'red' : 'gray'}`} dangerouslySetInnerHTML={{__html: error}} />
       </div>
     )
   }
 
-  handleEditClicked() {
-    this.setState({
-      slugFieldExpanded: true
-    })
+  handleVisibilityChanged(state) {
+    const { formChange, fields } = this.props
+    formChange('is_members_only', state === 'private')
   }
+}
 
-  toggleVisibility() {
-    const { changelog } = this.props
-    NewChangelogActions.formChange('is_members_only', !changelog.is_members_only)
-  }
+import * as newChangelogActions from 'actions/newChangelogActions'
+import {bindActionCreators} from 'redux';
+import {connect} from 'redux/react'
 
-  handleSlugOnFocus() {
-    NewChangelogActions.focusField('slug')
+@connect(state => ({
+  errors: state.newChangelog.errors,
+  updating: state.newChangelog.updating,
+  successful: state.newChangelog.successful,
+  fields: state.newChangelog.fields
+}))
+export default class NewChangelogContainer extends React.Component {
+  render() {
+    return <NewChangelog
+      {...this.props}
+      {...bindActionCreators(newChangelogActions, this.props.dispatch)} />
   }
 }

@@ -1,26 +1,16 @@
-import ApplicationNavbar from '../components/application_navbar.jsx'
 import Button from '../ui/Button.jsx'
-import ChangelogActions from 'actions/changelog_actions'
-import ChangelogBootstrapFlow from '../components/ChangelogBootstrapFlow.jsx'
-import ChangelogCreation from '../components/ChangelogCreation.jsx'
 import ChangelogInviteLink from '../components/Changelog/ChangelogInviteLink.jsx'
 import ChangelogStore from '../stores/changelog_store'
 import connectToStores from '../lib/connectToStores.jsx'
-import NewChangelogActions from '../actions/new_changelog_actions'
-import NewChangelogStore from '../stores/new_changelog_store'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
-import StoryActions from '../actions/story_actions'
-import StoryForm from '../components/Story/StoryForm.jsx'
-import StoryFormStore from '../stores/story_form_store'
-import StoryGifSrc from '../images/interface.gif'
 import TeamAdder from '../components/team_adder.jsx'
 
-@connectToStores(NewChangelogStore, ChangelogStore)
+@connectToStores(ChangelogStore)
 export default class InviteChangelogMembersPage extends React.Component {
   static getPropsFromStores(props) {
     return {
-      memberships: NewChangelogStore.memberships,
+      memberships: ChangelogStore.memberships,
       changelog: ChangelogStore.changelog
     }
   }

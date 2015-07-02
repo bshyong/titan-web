@@ -1,13 +1,10 @@
 import {
   NotFoundRoute,
-  Redirect,
   Route,
-  Routes,
   DefaultRoute
 } from 'react-router'
 import AdminPage from 'pages/AdminPage.jsx'
 import AppPage from 'pages/AppPage.jsx'
-import Changelog from 'components/changelog.js.jsx'
 import ChangelogByDatePage from 'pages/ChangelogByDatePage.jsx'
 import ChangelogBySetsPage from 'pages/ChangelogBySetsPage.jsx'
 import ChangelogPage from 'pages/ChangelogPage.jsx'

@@ -1,24 +1,21 @@
 import ApplicationNavbar from '../components/application_navbar.jsx'
 import Button from '../ui/Button.jsx'
-import ChangelogBootstrapFlow from '../components/ChangelogBootstrapFlow.jsx'
-import ChangelogCreation from '../components/ChangelogCreation.jsx'
 import ChangelogStore from '../stores/changelog_store'
-import NewChangelogActions from '../actions/new_changelog_actions'
-import NewChangelogStore from '../stores/new_changelog_store'
+import connectToStores from '../lib/connectToStores.jsx'
+import NewChangelog from '../components/NewChangelog.jsx'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
-import StoryActions from '../actions/story_actions'
-import StoryForm from '../components/Story/StoryForm.jsx'
-import StoryFormStore from '../stores/story_form_store'
-import connectToStores from '../lib/connectToStores.jsx'
-import StoryGifSrc from '../images/interface.gif'
-import TeamAdder from '../components/team_adder.jsx'
+import {connect} from 'redux/react'
+import {create} from 'actions/newChangelogActions'
 
-@connectToStores(NewChangelogStore, ChangelogStore, StoryFormStore)
+@connect(state => ({
+  canCreate: state.newChangelog.canCreate
+}))
+@connectToStores(ChangelogStore)
 export default class ChangelogOnboardingPage extends React.Component {
   static getPropsFromStores(props) {
     return {
-      memberships: NewChangelogStore.memberships,
+      memberships: ChangelogStore.memberships,
       changelogId: ChangelogStore.slug,
       changelog: ChangelogStore.changelog
     }
@@ -36,7 +33,7 @@ export default class ChangelogOnboardingPage extends React.Component {
               <p className="center mb3">
                 Changelogs make it easy to share what you and your team have accomplished, from fixing bugs and releasing new features, to organizational updates.
               </p>
-              <ChangelogCreation ref="form" />
+              <NewChangelog ref="form" />
             </div>
           </div>
         </div>
@@ -44,11 +41,11 @@ export default class ChangelogOnboardingPage extends React.Component {
         <div className="full-width border-top p2">
           <div className="container">
             <div className="sm-col-8 mx-auto p1 right-align">
-              <Button disabled={!NewChangelogStore.isValid}
+              <Button disabled={!this.props.canCreate}
                       color="green"
                       bg="white"
                       style="outline"
-                      action={this.handleChangelogCreation.bind(this)}
+                      action={this.handleNewChangelog.bind(this)}
                       ref="nextButton">
                 Next
               </Button>
@@ -59,8 +56,8 @@ export default class ChangelogOnboardingPage extends React.Component {
     )
   }
 
-  handleChangelogCreation() {
-    NewChangelogActions.create(this.handleRedirect)
+  handleNewChangelog() {
+    this.props.dispatch(create(this.handleRedirect))
   }
 
   handleRedirect() {
