@@ -24,6 +24,7 @@ describe('StoryPage', () => {
         unicode: '👍'
       },
       user: {},
+      contributors: [],
     }
 
     const Subject = stubRouterContext(StoryPage.Component, {
