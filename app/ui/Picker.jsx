@@ -4,6 +4,22 @@ import shallowEqual from 'react-pure-render/shallowEqual'
 import Table from './Table.jsx'
 
 export default class Picker extends React.Component {
+  static defaultProps = {
+    fullscreen: false,
+    maxHeight: 300,
+    offset: 0,
+    position: 'top',
+    shown: false,
+  }
+
+  static propTypes = {
+    maxHeight: React.PropTypes.number,
+    offset: React.PropTypes.number,
+    position: React.PropTypes.oneOf(['top', 'bottom']),
+    shown: React.PropTypes.bool,
+    fullscreen: React.PropTypes.bool,
+  }
+
   static getOffsetTop(element) {
     return (element && element.getBoundingClientRect().top) || 0
   }
@@ -65,20 +81,4 @@ export default class Picker extends React.Component {
       !shallowEqual(nextState, this.state)
     )
   }
-}
-
-Picker.defaultProps = {
-  fullscreen: false,
-  maxHeight: 300,
-  offset: 0,
-  position: 'top',
-  shown: false,
-}
-
-Picker.propTypes = {
-  maxHeight: React.PropTypes.number,
-  offset: React.PropTypes.number,
-  position: React.PropTypes.oneOf(['top', 'bottom']),
-  shown: React.PropTypes.bool,
-  fullscreen: React.PropTypes.bool,
 }

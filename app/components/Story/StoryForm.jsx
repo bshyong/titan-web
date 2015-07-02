@@ -1,6 +1,7 @@
 import Button from '../../ui/Button.jsx'
 import Calendar from 'rc-calendar'
 import ContributorsInput from '../ContributorsInput.jsx'
+import Dialog from 'ui/Dialog.jsx'
 import EmojiInput from '../EmojiInput.jsx'
 import Icon from '../../ui/Icon.jsx'
 import MarkdownArea from '../../ui/markdown_area.jsx'
@@ -18,7 +19,7 @@ export default class StoryForm extends React.Component {
     story: React.PropTypes.shape({
       title: React.PropTypes.string,
       body:  React.PropTypes.string,
-      team_member_only: React.PropTypes.string,
+      team_member_only: React.PropTypes.bool,
       contributors: React.PropTypes.string,
       emoji_id: React.PropTypes.string,
       created_at: React.PropTypes.string,
@@ -94,10 +95,15 @@ export default class StoryForm extends React.Component {
                   {moment(created_at).format('MMM, DD YYYY')}
                 </a>
                 {this.state.showCalendar &&
-                  <Calendar
-                    style={{zIndex: 1000}}
-                    locale={enUS}
-                    onSelect={this.handleCreatedAtChanged.bind(this)} />}
+                  <Dialog onCloseRequested={this.handleCalendarToggled.bind(this)} invisible={true}>
+                    <div className="absolute">
+                      <Calendar
+                        style={{zIndex: 1000}}
+                        locale={enUS}
+                        onSelect={this.handleCreatedAtChanged.bind(this)} />
+                    </div>
+                  </Dialog>
+                }
               </div>
               <div className="flex-grow" />
             </div>
