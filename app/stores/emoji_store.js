@@ -42,6 +42,10 @@ class EmojiStore extends Store {
     return this._emojis.find(emoji => emoji.id === id)
   }
 
+  findByCharacter(char) {
+    return this._emojis.find(emoji => emoji.character === char)
+  }
+
   isEmpty() {
     return this._emojis.isEmpty()
   }

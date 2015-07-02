@@ -110,7 +110,12 @@ export default class EmojiPicker extends React.Component {
   }
 
   handleSearchChange(e) {
-    this.setState({query: e.target.value.replace(/:/g, '')})
+    const query = e.target.value.replace(/:/g, '').trim()
+    const directEmojiHit = EmojiStore.findByCharacter(query)
+    this.setState({
+      query: query,
+      value: (directEmojiHit ? directEmojiHit.id : this.state.value),
+    })
   }
 
   selectEmoji(emoji, e) {
