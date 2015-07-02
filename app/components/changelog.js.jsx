@@ -54,24 +54,6 @@ export default class Changelog extends React.Component {
     return <div>
       {moreAvailable ?
         <ScrollPaginator page={page} onScrollBottom={nextPage} /> : null}
-      <div className="bg-smoke">
-        <div className="container">
-          <div className="sm-flex">
-            <div className="flex-auto" />
-            <div className="flex-none">
-              <SegmentedControl>
-                <SegmentedControl.Link to="changelog" params={{changelogId}}>
-                  Posts
-                </SegmentedControl.Link>
-                <SegmentedControl.Link to="changelog_by_sets" params={{changelogId}}>
-                  Sets
-                </SegmentedControl.Link>
-              </SegmentedControl>
-            </div>
-            <div className="flex-auto" />
-          </div>
-        </div>
-      </div>
       {this.renderOpenSet()}
       <div className="container">
         {this.renderStories()}
