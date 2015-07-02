@@ -59,13 +59,13 @@ export default class ChangelogOnboardingPage extends React.Component {
   }
 
   handleChangelogCreation() {
-    NewChangelogActions.create(() => {
-      const changelogId = ChangelogStore.slug
-      return () => {
-        RouterContainer.get().transitionTo("inviteChangelogMembers", {
-          changelogId: changelogId
-        })
-      }
+    NewChangelogActions.create(this.handleRedirect)
+  }
+
+  handleRedirect() {
+    const changelogId = ChangelogStore.slug
+    RouterContainer.get().transitionTo("inviteChangelogMembers", {
+      changelogId: changelogId
     })
   }
 }
