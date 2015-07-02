@@ -38,9 +38,11 @@ export default class ChangelogHeader extends React.Component {
             {this.renderHomepageUrl()}
           </div>
           <div className="flex-none sm-ml2">
-            <div className="flex mxn1">
-              {this.renderNewStoryButton()}
-              {this.renderSettingsButton()}
+            <div className="sm-flex mxn1">
+              <div className="flex mb2 sm-mb0">
+                {this.renderNewStoryButton()}
+                {this.renderSettingsButton()}
+              </div>
               <div className="flex-none px1">
                 <FollowButton changelogId={changelogId} toggled={following}/>
               </div>
@@ -71,8 +73,8 @@ export default class ChangelogHeader extends React.Component {
     }
 
     return (
-      <div className="flex-none px1">
-        <Link className="button button-outline white" to="new" params={paramsFor.changelog(changelog)}>
+      <div className="flex-auto px1">
+        <Link className="button button-outline block full-width center white" to="new" params={paramsFor.changelog(changelog)}>
           <Icon icon="pencil" /> Write
         </Link>
       </div>
@@ -86,8 +88,8 @@ export default class ChangelogHeader extends React.Component {
     }
 
     return (
-      <div className="flex-none px1">
-        <Link className="button button-outline white" to="changelog_settings" params={{changelogId: changelog.slug}}>
+      <div className="flex-auto px1">
+        <Link className="button button-outline block full-width center white" to="changelog_settings" params={{changelogId: changelog.slug}}>
           <Icon icon="cog" /> Settings
         </Link>
       </div>
