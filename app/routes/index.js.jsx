@@ -16,6 +16,9 @@ import ChangelogSettings from 'components/settings/ChangelogSettings.jsx'
 import DashboardPage from 'pages/DashboardPage.jsx'
 import EditStoryForm from 'components/edit_story_form.js.jsx'
 import FeedPage from 'pages/FeedPage.jsx'
+import GithubCallback from 'components/GithubCallback.jsx'
+import GithubRepoDraftsPage from 'pages/GithubRepoDraftsPage.jsx'
+import GithubRepoSelectionPage from 'pages/GithubRepoSelectionPage.jsx'
 import HighlightPicker from 'components/highlight_picker.js.jsx'
 import HomePage from 'pages/HomePage.jsx'
 import ImpersonatePage from 'pages/ImpersonatePage.jsx'
@@ -47,6 +50,7 @@ var internal = (
 
     <Route handler={SigninSSO} path="/signin/sso" name="sso" />
     <Route handler={TwitterCallback} path="/auth/twitter/callback" name="twitterCallback" />
+    <Route handler={GithubCallback} path="/auth/github/callback" name="githubCallback" />
     <Route handler={PasswordResetPage} path="/password/reset" name="passwordReset" />
     <Route handler={UserPage} path="/users/:userId" name="profile" />
     <Route handler={ImpersonatePage} path="/users/:userId/impersonate" name="impersonate" />
@@ -64,6 +68,9 @@ var internal = (
 
     <Route handler={ChangelogPage} path="/:changelogId">
       <DefaultRoute handler={ChangelogByDatePage} name="changelog" />
+      <Route handler={GithubRepoSelectionPage} path="github" name="githubRepos" />
+      <Route handler={GithubRepoDraftsPage} path="github/drafts" name="githubDrafts" />
+
 
       <Route handler={ChangelogBySetsPage} name="changelog_by_sets" path="sets" />
 
