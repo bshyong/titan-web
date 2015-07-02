@@ -55,7 +55,7 @@ export default class ContributorsInput extends React.Component {
             style={{outline: 'none'}}
             ref="input"
             className="border-none block full-width overflow-hidden"
-            placeholder={this.props.tokens.size > 0 ? "Who else helped out?" : "Who helped out?"}
+            placeholder={this.props.tokens.isEmpty() ? "Who helped out?" : "Who else helped out?" }
             value={this.props.currentMatch}
             onKeyDown={this.handleKeyDown}
             onChange={this.handleChange}
