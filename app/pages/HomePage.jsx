@@ -88,6 +88,6 @@ export default class HomePage extends React.Component {
   }
 
   handleSignUp() {
-    SigninScrimActions.show(SignupForm)
+    SigninScrimActions.initialize(SignupForm, {}, '/new')
   }
 }

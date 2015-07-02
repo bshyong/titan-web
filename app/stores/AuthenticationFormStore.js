@@ -61,7 +61,11 @@ class AuthenticationFormStore extends Store {
   }
 
   get formContent() {
-    return (this._formContent || Map()).toJS()
+    return (this._formContent || Map()).set('return_url', this._redirectTo).toJS()
+  }
+
+  get redirectTo() {
+    return this._redirectTo
   }
 
   get shown() {

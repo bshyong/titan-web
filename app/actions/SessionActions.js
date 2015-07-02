@@ -3,6 +3,7 @@ import {
   USER_SIGNOUT
 } from 'constants'
 import auth from 'lib/auth'
+import AuthenticationFormStore from 'stores/AuthenticationFormStore'
 import Dispatcher from 'lib/dispatcher'
 import jwt_decode from 'jwt-decode'
 import membershipInvite from 'lib/membershipInvite'
@@ -16,7 +17,9 @@ export default {
       returnUrl = null
     }
 
-    window.location.href = `${API_URL}/auth/twitter?origin=${returnUrl || window.location.href}`
+    const origin = returnUrl || AuthenticationFormStore.redirectTo || window.location.href
+    // returnUrl is set to `origin` here because that's what OmniAuth expects :(
+    window.location.href = `${API_URL}/auth/twitter?origin=${origin}`
   },
 
   linkTwitterAccount(userId, returnUrl="/settings") {
@@ -76,6 +79,7 @@ export default {
     Dispatcher.dispatch({
       type: USER_SIGNOUT
     })
+    window.location = '/'
   },
 
   twitterCallback(query) {
