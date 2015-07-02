@@ -15,7 +15,7 @@ export default function connectToStores(...stores) {
       }
 
       render() {
-        return <Component {...this.props} {...this.state} />;
+        return <Component {...this.props} {...this.state} ref="component" />;
       }
 
       componentDidMount() {

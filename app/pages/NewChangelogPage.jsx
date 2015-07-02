@@ -36,7 +36,7 @@ export default class ChangelogOnboardingPage extends React.Component {
               <p className="center mb3">
                 Changelogs make it easy to share what you and your team have accomplished, from fixing bugs and releasing new features, to organizational updates.
               </p>
-              <ChangelogCreation />
+              <ChangelogCreation ref="form" />
             </div>
           </div>
         </div>
@@ -48,7 +48,8 @@ export default class ChangelogOnboardingPage extends React.Component {
                       color="green"
                       bg="white"
                       style="outline"
-                      action={this.handleChangelogCreation.bind(this)}>
+                      action={this.handleChangelogCreation.bind(this)}
+                      ref="nextButton">
                 Next
               </Button>
             </div>
