@@ -40,7 +40,7 @@ export default class ContributorsInput extends React.Component {
 
   render() {
     const cs = classnames(
-      "field-light flex flex-baseline flex-wrap",
+      "field-light flex flex-center flex-wrap",
       {"is-focused": this.state.focused}
     )
     return (
@@ -69,9 +69,10 @@ export default class ContributorsInput extends React.Component {
   renderTokens() {
     return this.props.tokens.map(
       t => {
-        const cs = classnames("flex-none ml1 px1 bg-smoke black")
-        return <div className={cs} key={t.string}>
-          {t.string}
+        return <div className="flex-none p1" key={t.string}>
+          <div className="px1 bg-smoke black">
+            {t.string}
+          </div>
         </div>
       }
     )
