@@ -336,7 +336,7 @@ export default class ChangelogSettings extends React.Component {
   _onBannerUploaded(banner) {
     ChangelogActions.update(
       this.props.changelogId,
-      Map(ChangelogStore.changelog).set('banner_url', banner.href).toJS()
+      Map(ChangelogStore.changelog).set('banner_url', `${banner.firesize_url}/${banner.href}`).toJS()
     )
 
     setTimeout(() => {
@@ -356,7 +356,7 @@ export default class ChangelogSettings extends React.Component {
     setTimeout(() => {
       ChangelogActions.update(
         this.props.changelogId,
-        Map(ChangelogStore.changelog).set('logo_url', logo.href).toJS()
+        Map(ChangelogStore.changelog).set('logo_url', `${logo.firesize_url}/${logo.href}`).toJS()
       )
 
       this.setState({
