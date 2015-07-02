@@ -12,7 +12,7 @@ import SigninScrimActions from 'actions/SigninScrimActions'
 import SignupConfirmationForm from 'components/Authentication/SignupConfirmationForm.jsx'
 import url from 'url'
 
-const contstructReturnTo(returnUrl) {
+const constructReturnUrl = (returnUrl) => {
   let fullReturnUrlObj = url.parse(window.location.href, true)
   fullReturnUrlObj.path = fullReturnUrlObj.pathname = (
     returnUrl || AuthenticationFormStore.redirectTo || '/'
@@ -26,7 +26,7 @@ export default {
       returnUrl = null
     }
 
-    window.location.href = `${API_URL}/auth/twitter?return_url=${constructReturnTo(returnUrl)}`
+    window.location.href = `${API_URL}/auth/twitter?return_url=${constructReturnUrl(returnUrl)}`
   },
 
   linkTwitterAccount(userId, returnUrl="/settings") {
@@ -34,7 +34,7 @@ export default {
       returnUrl = null
     }
 
-    window.location.href = `${API_URL}/auth/twitter?return_url=${constructReturnTo(returnUrl)}&user_id=${userId}`
+    window.location.href = `${API_URL}/auth/twitter?return_url=${constructReturnUrl(returnUrl)}&user_id=${userId}`
   },
 
   signin(returnUrl) {
