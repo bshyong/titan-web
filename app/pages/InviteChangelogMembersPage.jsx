@@ -50,7 +50,7 @@ export default class InviteChangelogMembersPage extends React.Component {
 
               <hr />
 
-              <div className="right-align">
+              <div className="right-align mb4">
                 <Button color="green"
                         bg="white"
                         style="outline"
