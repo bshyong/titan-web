@@ -17,7 +17,7 @@ describe('StoryForm', () => {
   describe('render()', () => {
     it('renders with an empty story', () => {
       const form = TestUtils.renderIntoDocument(
-        <StoryForm story={{}} />
+        <StoryForm story={{}} changelog={{is_members_only: false}} />
       )
 
       expect(form instanceof StoryForm).toBe(true)
@@ -30,7 +30,7 @@ describe('StoryForm', () => {
     beforeEach(() => {
       onChange = jasmine.createSpy('onChange')
       form = TestUtils.renderIntoDocument(
-        <StoryForm story={{}} onChange={onChange} />
+        <StoryForm story={{}} changelog={{is_members_only: false}} onChange={onChange} />
       )
     })
 
