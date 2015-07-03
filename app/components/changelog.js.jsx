@@ -123,9 +123,9 @@ export default class Changelog extends React.Component {
   }
 
   renderGithubRepoMessage() {
-    const { totalStoriesCount, changelogId, changelog } = this.props
+    const { totalStoriesCount, changelogId, changelog, loading } = this.props
 
-    if (totalStoriesCount > 2 || !changelog.user_is_team_member) { return }
+    if (totalStoriesCount > 2 || !changelog.user_is_team_member || loading) { return }
 
     return <div className="mt3 p2 bg-smoke h4 flex flex-center">
       <div className="flex-auto">You can pull in drafts from Github.<br /><span className="h5 gray">We won't save your data or peek at your code.</span></div>
