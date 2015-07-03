@@ -4,14 +4,15 @@ import ApplicationNavbar from '../components/application_navbar.jsx'
 import authenticated from '../components/mixins/authenticated_mixin.jsx'
 import Button from '../ui/Button.jsx'
 import ChangelogActions from '../actions/changelog_actions'
+import ChangelogName from 'components/Changelog/ChangelogName.jsx'
 import classnames from 'classnames'
 import connectToStores from '../lib/connectToStores.jsx'
 import Link from '../components/Link.jsx'
 import Logo from '../components/logo.jsx'
+import paramsFor from '../lib/paramsFor'
 import ProfileActions from '../actions/profile_actions.js'
 import ProfileStore from '../stores/profile_store.js'
 import React from 'react'
-import paramsFor from '../lib/paramsFor'
 import RouterContainer from '../lib/router_container'
 import SessionActions from '../actions/SessionActions'
 import SessionStore from '../stores/session_store'
@@ -70,7 +71,9 @@ export default class SettingsPage extends React.Component {
           <div className="mr1">
             <Logo changelog={c} size="1.5rem" />
           </div>
-          <div className="flex-auto">{c.name}</div>
+          <div className="flex-auto">
+            <ChangelogName changelog={c} />
+          </div>
         </Link>
       )
     })

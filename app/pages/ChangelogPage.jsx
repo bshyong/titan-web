@@ -1,17 +1,18 @@
+import {RouteHandler} from 'react-router'
 import ApplicationNavbar from '../components/application_navbar.jsx'
 import Avatar from '../ui/Avatar.jsx'
 import Button from '../ui/Button.jsx'
 import ChangelogActions from '../actions/changelog_actions'
+import ChangelogName from 'components/Changelog/ChangelogName.jsx'
 import ChangelogStore from '../stores/changelog_store'
 import classnames from 'classnames'
 import Icon from '../ui/Icon.jsx'
+import Link from '../components/Link.jsx'
+import paramsFor from '../lib/paramsFor'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
-import paramsFor from '../lib/paramsFor'
 import SessionActions from '../actions/SessionActions'
 import SessionStore from '../stores/session_store'
-import {RouteHandler} from 'react-router'
-import Link from '../components/Link.jsx'
 
 export default class ChangelogPage extends React.Component {
   static willTransitionTo(transition, params, query) {
@@ -69,7 +70,7 @@ export default class ChangelogPage extends React.Component {
 
     return (
       <Link to="changelog" params={{changelogId}} className="black">
-        {this.state.changelog.name}
+        <ChangelogName changelog={this.state.changelog} />
       </Link>
     )
   }

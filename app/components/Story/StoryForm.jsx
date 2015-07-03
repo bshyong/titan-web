@@ -16,6 +16,9 @@ import '../../stylesheets/components/calendar.css'
 export default class StoryForm extends React.Component {
   static propTypes = {
     onChange: React.PropTypes.func,
+    changelog: React.PropTypes.shape({
+      is_members_only: React.PropTypes.bool.isRequired,
+    }),
     story: React.PropTypes.shape({
       title: React.PropTypes.string,
       body:  React.PropTypes.string,

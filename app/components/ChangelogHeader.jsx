@@ -1,3 +1,4 @@
+import ChangelogName from 'components/Changelog/ChangelogName.jsx'
 import ChangelogStore from '../stores/changelog_store'
 import connectToStores from '../lib/connectToStores.jsx'
 import FollowButton from './follow_button.jsx'
@@ -33,7 +34,7 @@ export default class ChangelogHeader extends React.Component {
             </Link>
           </div>
           <div className="block flex-auto mb2 md-mb0 sm-px3 center sm-left-align white">
-            <h2 className="mt0 mb0 bold">{changelog.name}</h2>
+            <h2 className="mt0 mb0 bold"><ChangelogName changelog={changelog} /></h2>
             <div>{changelog.tagline}</div>
             {this.renderHomepageUrl()}
           </div>

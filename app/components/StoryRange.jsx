@@ -17,6 +17,9 @@ import PostSetActions from '../actions/PostSetActions'
 export default class StoryRange extends React.Component {
   static propTypes = {
     group: React.PropTypes.object.isRequired,
+    changelog: React.PropTypes.shape({
+      is_members_only: React.PropTypes.bool.isRequired,
+    }).isRequired,
     changelogId: React.PropTypes.string.isRequired,
     stories: React.PropTypes.object.isRequired,
     truncatable: React.PropTypes.bool.isRequired
@@ -31,7 +34,7 @@ export default class StoryRange extends React.Component {
   }
 
   render() {
-    const { group, changelogId } = this.props
+    const { group, changelog, changelogId } = this.props
     const showLoadMore = this.hasMoreStories()
     let { stories } = this.props
     let title = group.title
@@ -60,7 +63,7 @@ export default class StoryRange extends React.Component {
           <ClickablePaginator onLoadMore={this.handleShowMore.bind(this)} hasMore={showLoadMore}>
             {stories.map(story => (
               <Table.Cell key={story.id} to="story" params={paramsFor.story({slug: changelogId}, story)}>
-                <StoryCell story={story} />
+                <StoryCell story={story} changelog={changelog} />
               </Table.Cell>
             ))}
           </ClickablePaginator>

@@ -12,14 +12,26 @@ import UpvoteArrowSrc  from '../../images/upvote-arrow.svg'
 import UpvotedArrowSrc  from '../../images/upvoted-arrow.svg'
 
 export default class StoryCell extends React.Component {
+  static propTypes = {
+    changelog: React.PropTypes.shape({
+      is_members_only: React.PropTypes.bool.isRequired,
+    }).isRequired,
+    story: React.PropTypes.object.isRequired,
+    slim: React.PropTypes.bool.isRequired,
+  }
+
+  static defaultProps = {
+    slim: false,
+  }
+
   render() {
-    const { story } = this.props
+    const { story, changelog } = this.props
     return (
       <div className="flex">
         {this.renderBadge()}
 
         <div className="flex-auto">
-          {story.team_member_only ? <Icon icon="lock" /> : null} {story.title}
+          {story.team_member_only && !changelog.is_members_only ? <Icon icon="lock" /> : null} {story.title}
         </div>
 
         {this.renderContributors()}
@@ -79,13 +91,4 @@ export default class StoryCell extends React.Component {
       concat(guests)
   }
 
-}
-
-StoryCell.propTypes = {
-  story: React.PropTypes.object.isRequired,
-  slim: React.PropTypes.bool.isRequired,
-}
-
-StoryCell.defaultProps = {
-  slim: false,
 }

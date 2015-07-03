@@ -104,6 +104,7 @@ export default class Changelog extends React.Component {
         <StoryRange
           key={g.group.key}
           group={g.group}
+          changelog={changelog}
           changelogId={changelogId}
           stories={g.stories.toList()}
           truncatable={true} />
