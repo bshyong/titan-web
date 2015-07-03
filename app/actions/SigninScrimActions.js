@@ -18,7 +18,7 @@ export default {
       type: SIGNIN_SCRIM_INITIALIZED,
       form: form,
       formContent: formContent,
-      redirectTo: redirectTo
+      redirectTo: typeof redirectTo === 'string' ? redirectTo : window.location.href
     })
   },
 
@@ -26,7 +26,7 @@ export default {
     Dispatcher.dispatch({
       type: SIGNIN_SCRIM_SHOWN,
       form: form,
-      redirectTo: redirectTo
+      redirectTo: typeof redirectTo === 'string' ? redirectTo : window.location.href
     })
   }
 }
