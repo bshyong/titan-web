@@ -17,6 +17,7 @@ import connectToStores from '../lib/connectToStores.jsx'
 import Icon from '../ui/Icon.jsx'
 import moment from 'moment'
 import ContributorsActions from '../actions/ContributorsActions'
+import ChangelogStore from '../stores/changelog_store'
 
 @connectToStores(GithubOnboardingStore, StoryFormStore)
 export default class GithubRepoDraftsPage extends React.Component {
@@ -34,6 +35,7 @@ export default class GithubRepoDraftsPage extends React.Component {
         ...StoryFormStore.data,
         contributors: ContributorsStore.contributors
       },
+      changelog: ChangelogStore.changelog,
       error: GithubOnboardingStore.error,
     }
   }
@@ -100,7 +102,7 @@ export default class GithubRepoDraftsPage extends React.Component {
   }
 
   renderDraftStoryForms() {
-    const { drafts, story } = this.props
+    const { drafts, story, changelog } = this.props
     const { currentDraftIndex } = this.state
 
     if (drafts.isEmpty() || currentDraftIndex > drafts.size) { return this.renderEmptyState() }
@@ -114,6 +116,7 @@ export default class GithubRepoDraftsPage extends React.Component {
           <div className="mt2">
             <StoryForm
               story={story}
+              changelog={changelog}
               onChange={this.handleOnChange.bind(this)}
               showDetails={true} />
             <div className="py2 flex flex-center">
