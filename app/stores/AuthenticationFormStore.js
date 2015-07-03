@@ -11,6 +11,14 @@ import Dispatcher from 'lib/dispatcher'
 import { Map } from 'immutable'
 import Store from 'lib/store'
 
+const ensureString = (s) => {
+  if (typeof s !== 'string') {
+    return ''
+  }
+
+  return s
+}
+
 class AuthenticationFormStore extends Store {
   constructor() {
     super()
@@ -40,13 +48,13 @@ class AuthenticationFormStore extends Store {
         case SIGNIN_SCRIM_INITIALIZED:
           this._error = null
           this._formContent = Map(action.formContent)
-          this._redirectTo = action.redirectTo
+          this._redirectTo = ensureString(action.redirectTo)
           this._shown = true
           break
         case SIGNIN_SCRIM_SHOWN:
           this._error = null
           this._formContent = (this._formContent || Map()).delete('password')
-          this._redirectTo = action.redirectTo
+          this._redirectTo = ensureString(action.redirectTo)
           this._shown = false
           break
         default:
@@ -62,7 +70,7 @@ class AuthenticationFormStore extends Store {
   }
 
   get formContent() {
-    return (this._formContent || Map()).set('return_url', this._redirectTo).toJS()
+    return (this._formContent || Map()).set('return_url', ensureString(this._redirectTo)).toJS()
   }
 
   get redirectTo() {
