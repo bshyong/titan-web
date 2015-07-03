@@ -10,6 +10,7 @@ import RouterContainer from '../../lib/router_container'
 import TextareaAutosize from 'react-textarea-autosize'
 import enUS from 'rc-calendar/lib/locale/en-us'
 import moment from 'moment'
+import ChangelogName from 'components/Changelog/ChangelogName.jsx'
 
 import '../../stylesheets/components/calendar.css'
 
@@ -39,6 +40,7 @@ export default class StoryForm extends React.Component {
 
   render() {
     const {
+      changelog,
       story: {
         title,
         body,
@@ -83,14 +85,7 @@ export default class StoryForm extends React.Component {
             </div>
 
             <div className="py1 h5 flex mxn1">
-              <div className="p1">
-                <Icon icon="eye" color="silver" />
-                {' '}
-                <a className="gray underline bold pointer" onClick={this.handlePrivacyToggled.bind(this)}
-                  ref="isPublic">
-                  {team_member_only ? 'Changelog members only' : 'Everyone'}
-                </a>
-              </div>
+              {this.renderPrivacyToggler()}
               <div className="p1">
                 <Icon icon="calendar" color="silver" />
                 {' '}
@@ -112,6 +107,27 @@ export default class StoryForm extends React.Component {
             </div>
           </div>
         </div>
+      </div>
+    )
+  }
+
+  renderPrivacyToggler() {
+    const { changelog, story: {
+      team_member_only
+    } } = this.props
+
+    if (changelog.is_members_only) {
+      return
+    }
+
+    return (
+      <div className="p1">
+        <Icon icon="eye" color="silver" />
+        {' '}
+        <a className="gray underline bold pointer" onClick={this.handlePrivacyToggled.bind(this)}
+          ref="isPublic">
+          {team_member_only ? 'Changelog members only' : 'Everyone'}
+        </a>
       </div>
     )
   }

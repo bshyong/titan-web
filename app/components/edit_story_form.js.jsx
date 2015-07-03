@@ -10,6 +10,7 @@ import StoryFormStore from '../stores/story_form_store'
 import StoryActions from '../actions/story_actions'
 import GroupedStoriesStore from '../stores/GroupedStoriesStore'
 import Button from '../ui/Button.jsx'
+import ChangelogStore from 'stores/changelog_store'
 import ContributorsStore from '../stores/ContributorsStore'
 
 @AuthenticatedMixin()
@@ -21,6 +22,7 @@ export default class EditStoryForm extends React.Component {
 
   static getPropsFromStores(props) {
     return {
+      changelog: ChangelogStore.changelog,
       story: StoryFormStore.data,
       storyLoaded: !!StoryFormStore.created_at
     }
@@ -36,7 +38,7 @@ export default class EditStoryForm extends React.Component {
     }
     return (
       <div className="container py4">
-        <StoryForm story={this.props.story} onChange={this.handleOnChange.bind(this)} />
+        <StoryForm changelog={this.props.changelog} story={this.props.story} onChange={this.handleOnChange.bind(this)} />
         <div className="py2 right-align">
           <Button
             color="orange"

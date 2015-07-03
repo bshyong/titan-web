@@ -1,5 +1,7 @@
 import AuthenticatedMixin from '../components/mixins/authenticated_mixin.jsx'
 import Button from '../ui/Button.jsx'
+import ChangelogStore from 'stores/changelog_store'
+import connectToStores from '../lib/connectToStores.jsx'
 import ContributorsActions from '../actions/ContributorsActions'
 import ContributorsStore from '../stores/ContributorsStore'
 import EmojiStore from '../stores/emoji_store'
@@ -11,7 +13,6 @@ import StoryForm from '../components/Story/StoryForm.jsx'
 import StoryFormActions from '../actions/story_form_actions'
 import StoryFormStore from '../stores/story_form_store'
 import StoryFormWalkthrough from '../components/Story/StoryFormWalkthrough.jsx'
-import connectToStores from '../lib/connectToStores.jsx'
 
 @AuthenticatedMixin()
 @connectToStores(StoryFormStore)
@@ -43,10 +44,11 @@ export default class NewStoryPage extends React.Component {
   static getPropsFromStores(props) {
     return {
       ...props,
+      changelog: ChangelogStore.changelog,
       story: {
         ...StoryFormStore.data,
         contributors: ContributorsStore.contributors
-      }
+      },
     }
   }
 
@@ -54,7 +56,7 @@ export default class NewStoryPage extends React.Component {
     return (
       <div className="container py4 px2 sm-px0">
         <StoryFormWalkthrough>
-          <StoryForm story={this.props.story} onChange={this.handleOnChange.bind(this)} />
+          <StoryForm story={this.props.story} changelog={this.props.changelog} onChange={this.handleOnChange.bind(this)} />
         </StoryFormWalkthrough>
         <div className="py2 right-align">
           <Button

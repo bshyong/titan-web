@@ -1,6 +1,7 @@
 import {List} from 'immutable'
 import Avatar from '../ui/Avatar.jsx'
 import Badge from '../components/Badge.jsx'
+import ChangelogName from 'components/Changelog/ChangelogName.jsx'
 import ChangelogStore from '../stores/changelog_store'
 import connectToStores from '../lib/connectToStores.jsx'
 import Discussion from '../components/discussion.jsx'
@@ -83,7 +84,7 @@ export default class StoryPage extends React.Component {
                   </div>
 
                   <h1 className="mt0 mb2">
-                    {story.team_member_only ? <Icon icon="lock" /> : null}
+                    {(story.team_member_only && !changelog.is_members_only) ? <Icon icon="lock" /> : null}
                     {' '}
                     {story.title}
                   </h1>
