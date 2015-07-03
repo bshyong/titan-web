@@ -6,7 +6,7 @@ import { NewChangelog } from '../NewChangelog.jsx'
 const TestUtils = React.addons.TestUtils
 
 describe('NewChangelog', () => {
-  it('updates calls formChange on field changed', () => {
+  it('calls formChange on field changed', () => {
     const formChange = jasmine.createSpy('formChange')
     const c = TestUtils.renderIntoDocument(
       <NewChangelog fields={Map()} formChange={formChange}/>

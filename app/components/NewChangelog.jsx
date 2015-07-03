@@ -78,7 +78,6 @@ export class NewChangelog extends React.Component {
       'is-error': error
     })
 
-
     return (
       <div className="mb2">
         <label className="bold">Name your Changelog</label>
@@ -91,7 +90,7 @@ export class NewChangelog extends React.Component {
             ref="name"
             style={{height: 'auto'}} />
         </div>
-        <div className="red h5" dangerouslySetInnerHTML={{__html: error}} />
+        <div className="red h5">{error}</div>
       </div>
     )
   }
@@ -131,7 +130,7 @@ export class NewChangelog extends React.Component {
             }} /> : null
         }
         </div>
-        <p className={`mb2 h5 ${error ? 'red' : 'gray'}`} dangerouslySetInnerHTML={{__html: error}} />
+        <p className={`mb2 h5 ${error ? 'red' : 'gray'}`}>{error}</p>
       </div>
     )
   }
