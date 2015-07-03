@@ -43,7 +43,7 @@ export default class SigninScrim extends React.Component {
     if (Form === LoginForm || Form === PasswordResetEmailForm) {
       return (
         <div className="h4">
-          Don't have an account?{' '}
+          Don&#39;t have an account?{' '}
           <a href="javascript:void(0)"
             className="underline-hover"
             onClick={SigninScrimActions.show.bind(null, SignupForm)}>

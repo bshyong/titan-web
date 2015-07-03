@@ -26,12 +26,8 @@ export default class LoginForm extends React.Component {
     this.handleSubmit = this._handleSubmit.bind(this)
   }
 
+  // can't disable button because safari :'( http://stackoverflow.com/questions/11708092/detecting-browser-autofill/
   render() {
-    const {
-      username,
-      password
-    } = this.props
-
     return (
       <div className="flex flex-center">
         <div className="flex-none sm-col-4 mx-auto py4">
@@ -52,9 +48,9 @@ export default class LoginForm extends React.Component {
                   <input autoFocus
                     type="text"
                     id="login-username"
+                    ref="username"
                     className="block full-width field-light"
                     placeholder="jane"
-                    value={username}
                     onChange={this.handleChange('username')}  />
                 </div>
 
@@ -62,8 +58,8 @@ export default class LoginForm extends React.Component {
                   <label className="left bold block" htmlFor="login-password">Password</label>
                   <input type="password"
                     id="login-password"
+                    ref="password"
                     className="block full-width field-light"
-                    value={password}
                     onChange={this.handleChange('password')} />
                   <small className="left">
                     <a href="javascript:void(0)"
@@ -75,7 +71,7 @@ export default class LoginForm extends React.Component {
                 </div>
 
                 <div className="py2 mt2">
-                  <AuthenticationFormButton action={this.handleSubmit} disabled={this.isButtonDisabled()}>
+                  <AuthenticationFormButton action={this.handleSubmit} disabled={false}>
                     Log in
                   </AuthenticationFormButton>
                 </div>
@@ -85,11 +81,6 @@ export default class LoginForm extends React.Component {
         </div>
       </div>
     )
-  }
-
-  isButtonDisabled() {
-    const { username, password } = this.props
-    return !username || !password
   }
 
   _handleChange(prop) {
@@ -107,9 +98,4 @@ export default class LoginForm extends React.Component {
 
     AuthenticationFormActions.submit('login', AuthenticationFormStore.formContent)
   }
-}
-
-LoginForm.propTypes = {
-  username: React.PropTypes.string,
-  password: React.PropTypes.string,
 }
