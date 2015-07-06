@@ -7,6 +7,8 @@ import EmojiStore from '../stores/emoji_store'
 import Picker from '../ui/RealPicker.jsx'
 import React from 'react'
 
+import DefaultImgSrc from 'images/emoji-input-default.svg'
+
 const ENTER_KEY = 13
 
 export default class EmojiInput extends React.Component {
@@ -55,6 +57,16 @@ export default class EmojiInput extends React.Component {
       }
     )
 
+    const style = {
+      width: '3rem',
+      height: '3rem',
+      backgroundColor: 'white',
+      borderRadius: '50%',
+      backgroundImage: (!this.value ? `url(${DefaultImgSrc})` : ''),
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    }
+
     return (
       <div>
         <div className={cs}
@@ -63,12 +75,7 @@ export default class EmojiInput extends React.Component {
              onFocus={this.handleToggleFocus.bind(this)}
              onBlur={this.handleToggleFocus.bind(this)}
              onKeyDown={this.handleKeyDown.bind(this)}
-             style={{
-               width: '3rem',
-               height: '3rem',
-               backgroundColor: 'white',
-               borderRadius: '50%',
-              }}
+             style={style}
              ref="button">
           {this.renderEmoji()}
         </div>

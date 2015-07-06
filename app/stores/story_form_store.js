@@ -83,12 +83,12 @@ class StoryFormStore extends Store {
     this.body  = ''
     this.contributors = ''
     this.team_member_only = false
-    this.emoji_id = "c6a2b5b8-b1fc-4ff0-b108-746cef842362"
+    this.emoji_id = null
   }
 
   isValid() {
     const title = this.title.replace(EMOJI_REGEX, '').replace(/ /g, '')
-    return title && title.length > 0
+    return this.emoji_id && title && title.length > 0
   }
 
   get data() {
