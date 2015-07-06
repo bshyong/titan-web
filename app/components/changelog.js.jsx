@@ -25,6 +25,8 @@ import paramsFor from '../lib/paramsFor'
 import shallowEqual from 'react-pure-render/shallowEqual'
 import SessionStore from '../stores/session_store'
 import Router from '../lib/router_container'
+import emoji from '../lib/emoji'
+import Emoji from '../ui/Emoji.jsx'
 
 @connectToStores(ChangelogStore, GroupedStoriesStore)
 export default class Changelog extends React.Component {
@@ -61,6 +63,7 @@ export default class Changelog extends React.Component {
       {this.renderOpenSet()}
       <div className="container">
         {this.renderStories()}
+        {this.renderEmptyState()}
         {this.renderGithubRepoMessage()}
         <LoadingBar loading={loading} />
       </div>
@@ -120,6 +123,20 @@ export default class Changelog extends React.Component {
         changelogId={changelogId}
         truncatable={true} />
     )
+  }
+
+  renderEmptyState() {
+    const { totalStoriesCount, loading } = this.props
+
+    if (totalStoriesCount > 0 || loading) { return }
+    return <div className="mt3 p2 h4 center">
+      <div className="mx-auto" style={{width: '5rem'}}>
+        <div dangerouslySetInnerHTML={{__html: Emoji.parse('📜')}} />
+      </div>
+      <div className="gray h4 mt1">
+        No posts yet
+      </div>
+    </div>
   }
 
   renderGithubRepoMessage() {
