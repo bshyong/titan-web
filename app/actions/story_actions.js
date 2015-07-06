@@ -3,7 +3,6 @@ import {
   ANALYTICS_UPVOTE,
   FEED_STORIES_FETCHED,
   GROUP_STORIES_FETCHED,
-  RESOURCE_NOT_FOUND,
   STORIES_FETCHED,
   STORIES_FETCHING,
   STORY_CREATING,
@@ -21,30 +20,29 @@ import {
 import paramsFor from '../lib/paramsFor'
 import Dispatcher from '../lib/dispatcher'
 import Router from '../lib/router_container'
-import SessionStore from '../stores/session_store'
 import api from '../lib/api'
 import segment from '../lib/segment'
-import { List, Map } from 'immutable'
+import { List } from 'immutable'
 
 export default {
 
   fetchAll(changelogId, options, page=1, per=25) {
     Dispatcher.dispatch({
       type: STORIES_FETCHING,
-      page: page
+      page,
     })
     api.get(`changelogs/${changelogId}/stories?page=${page}&per=${per}&group_by=${options.group_by}`).
       then(resp => {
-        let stories = List(resp)
-        let counts = stories.map(g => g.stories.length)
-        let count = counts.reduce((a, b) => a + b, 0)
+        const stories = List(resp)
+        const counts = stories.map(g => g.stories.length)
+        const count = counts.reduce((a, b) => a + b, 0)
 
         Dispatcher.dispatch({
           type: STORIES_FETCHED,
-          changelogId: changelogId,
+          changelogId,
           grouped: stories,
-          page: page,
-          moreAvailable: count === per
+          page,
+          moreAvailable: count === per,
         })
       })
   },
@@ -94,15 +92,15 @@ export default {
       })
   },
 
-  fetchUserFirehoseFeed(username, page, per) {
-    api.get(`user/feed?username=${username}&page=${page}&per=${per}`).
+  fetchFeed(page=1, per=10) {
+    api.get(`feed?page=${page}&per=${per}`).
       then(resp => {
         let stories = List(resp)
         Dispatcher.dispatch({
           type: FEED_STORIES_FETCHED,
-          stories: stories,
-          page: page,
-          per: per
+          stories,
+          page,
+          per,
         })
       })
   },

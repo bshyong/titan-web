@@ -1,11 +1,11 @@
-import React from 'react'
-import DashboardStore from '../stores/DashboardStore'
+import ChangelogCard from './Changelog/ChangelogCard.jsx'
 import connectToStores from '../lib/connectToStores.jsx'
+import DashboardStore from '../stores/DashboardStore'
 import Link from '../components/Link.jsx'
 import paramsFor from '../lib/paramsFor'
-import ChangelogCard from './Changelog/ChangelogCard.jsx'
-import Button from '../ui/Button.jsx'
-import Jumbotron from '../ui/Jumbotron.jsx'
+import React from 'react'
+import StoryFeed from 'components/StoryFeed.jsx'
+import Subheader from 'ui/Subheader.jsx'
 
 @connectToStores(DashboardStore)
 export default class Dashboard extends React.Component {
@@ -16,25 +16,33 @@ export default class Dashboard extends React.Component {
     }
   }
 
+  static propTypes = {
+    featured: React.PropTypes.object,
+    following: React.PropTypes.object,
+  }
+
   render() {
-    const { featured, following } = this.props
+    const { featured } = this.props
 
     return (
       <div>
+        <Subheader text="Top posts today" />
+
+        <StoryFeed />
+
+        <Subheader text="Changelogs you're following" />
         {this.renderFollowingChangelogs()}
 
-        <div className="mb3">
-          <h4 className="mt0 mb0 py2 caps center border-bottom gray">Featured public changelogs</h4>
+        <Subheader text="Featured public changelogs" />
 
-          <div className="sm-flex flex-wrap mxn2">
-            {featured.map((changelog, i) =>
-              <div className="sm-col-4 p2" key={changelog.id + i}>
-                <Link to="changelog" params={paramsFor.changelog(changelog)}>
-                  <ChangelogCard changelog={changelog} />
-                </Link>
-              </div>
-            )}
-          </div>
+        <div className="sm-flex flex-wrap mxn2">
+          {featured.map((changelog, i) =>
+            <div className="sm-col-4 p2" key={changelog.id + i}>
+              <Link to="changelog" params={paramsFor.changelog(changelog)}>
+                <ChangelogCard changelog={changelog} />
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     )
@@ -48,18 +56,14 @@ export default class Dashboard extends React.Component {
     }
 
     return (
-      <div className="mb3">
-        <h4 className="mt0 mb0 py2 caps center border-bottom gray">Changelogs you're following</h4>
-
-        <div className="sm-flex flex-wrap mxn2">
-          {following.map((changelog, i) =>
-            <div className="sm-col-4 p2" key={changelog.id + i}>
-              <Link to="changelog" params={paramsFor.changelog(changelog)}>
-                <ChangelogCard changelog={changelog} />
-              </Link>
-            </div>
-          )}
-        </div>
+      <div className="sm-flex flex-wrap mxn2">
+        {following.map((changelog, i) =>
+          <div className="sm-col-4 p2" key={changelog.id + i}>
+            <Link to="changelog" params={paramsFor.changelog(changelog)}>
+              <ChangelogCard changelog={changelog} />
+            </Link>
+          </div>
+        )}
       </div>
     )
   }

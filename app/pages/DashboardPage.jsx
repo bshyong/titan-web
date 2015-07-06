@@ -9,6 +9,7 @@ import Jumbotron from '../ui/Jumbotron.jsx'
 import React from 'react'
 import SessionStore from '../stores/session_store'
 import Link from '../components/Link.jsx'
+import StoryActions from 'actions/story_actions'
 
 @AuthenticatedComponent()
 export default class DashboardPage extends React.Component {
@@ -16,29 +17,33 @@ export default class DashboardPage extends React.Component {
     ChangelogActions.fetchAll()
     FollowingActions.fetchFollowing(SessionStore.user.username)
     ChangelogActions.clearCurrent()
+    StoryActions.fetchFeed()
   }
 
   render() {
     return (
       <DocumentTitle title="Dashboard">
         <div>
-          <ApplicationNavbar />
-          <Jumbotron bgColor="white" color="black">
-            <p className="center col-8 mx-auto">
-              Hey, you found us (it wasn’t a big secret anyway). We’re building a
-              powerful communication tool and we’d love your help to make it
-              {' '}<em>ab-so-lute-ly</em> amazing. Give it a go,
-              {' '}<a href="mailto:christine@assembly.com">send copious
-              feedback</a>, and turn down for what.
-            </p>
-            <div className="center">
-              <Link to="newChangelog">
-                <Button bg="green">Create your own Changelog</Button>
-              </Link>
+          <ApplicationNavbar title="Dashboard" />
+          <Jumbotron bgColor="whitesmoke" color="black">
+            <div className="sm-flex flex-center sm-mxn2 center sm-left-align">
+              <div className="px2 mb2 sm-mb0">
+                <h3 className="mt0 mb1 bold">Behind-the-scenes of your product</h3>
+                <p className="mb0">
+                  Log updates of your product as your team is building it. Engage
+                  your fans to chime in and you do what you want with their
+                  feedback.
+                </p>
+              </div>
+              <div className="flex-none px2">
+                <Link to="newChangelog">
+                  <Button bg="orange" size="big" block={true}>Create Changelog</Button>
+                </Link>
+              </div>
             </div>
           </Jumbotron>
 
-          <div className="container px2">
+          <div className="container px0 sm-px2 mb4">
             <Dashboard />
           </div>
         </div>

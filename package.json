@@ -64,6 +64,9 @@
     "whatwg-fetch": "^0.8.1"
   },
   "devDependencies": {
+    "babel-eslint": "^3.1.23",
+    "eslint": "^0.24.0",
+    "eslint-plugin-react": "^2.6.4",
     "jasmine": "^2.3.1",
     "jasmine-ajax": "^3.1.1",
     "jasmine-core": "^2.3.4",
