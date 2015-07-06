@@ -3,16 +3,17 @@ import Badge from './Badge.jsx'
 import ChangelogStore from '../stores/changelog_store'
 import ClickablePaginator from '../ui/ClickablePaginator.jsx'
 import Icon from '../ui/Icon.jsx'
+import Link from '../components/Link.jsx'
+import moment from 'moment'
+import paramsFor from '../lib/paramsFor'
+import PostSetActions from '../actions/PostSetActions'
 import React from 'react'
 import Stack from '../ui/Stack.jsx'
 import StoryActions from '../actions/story_actions'
 import StoryCell from './Story/StoryCell.jsx'
+import Subheader from 'ui/Subheader.jsx'
 import Table from '../ui/Table.jsx'
 import UpvoteToggler from './UpvoteToggler.jsx'
-import moment from 'moment'
-import paramsFor from '../lib/paramsFor'
-import Link from '../components/Link.jsx'
-import PostSetActions from '../actions/PostSetActions'
 
 export default class StoryRange extends React.Component {
   static propTypes = {
@@ -52,12 +53,8 @@ export default class StoryRange extends React.Component {
     }
 
     return (
-      <div className="mb4">
-        <div className="border-bottom flex flex-center">
-          <div className="flex-auto py2">
-            {title}
-          </div>
-        </div>
+      <div className="mb3">
+        <Subheader text={title} />
 
         <Table>
           <ClickablePaginator onLoadMore={this.handleShowMore.bind(this)} hasMore={showLoadMore}>

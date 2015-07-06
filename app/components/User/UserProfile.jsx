@@ -1,10 +1,10 @@
-import Link from '../../components/Link.jsx'
 import {List, Map, Set} from 'immutable'
 import Badge from '../Badge.jsx'
 import Button from '../../ui/Button.jsx'
 import ClickablePaginator from '../../ui/ClickablePaginator.jsx'
 import connectToStores from '../../lib/connectToStores.jsx'
 import Divider from '../Divider.jsx'
+import Link from '../../components/Link.jsx'
 import Logo from '../logo.jsx'
 import paramsFor from '../../lib/paramsFor'
 import pluralize from '../../lib/pluralize'
@@ -13,6 +13,7 @@ import ProfileStore from '../../stores/profile_store.js'
 import ProfileStories from '../../stores/profile_stories_store'
 import React from 'react'
 import StoryCell from '../Story/StoryCell.jsx'
+import Subheader from 'ui/Subheader.jsx'
 import Table from '../../ui/Table.jsx'
 import UserCell from '../User/UserCell.jsx'
 
@@ -91,7 +92,7 @@ export default class ProfilePage extends React.Component {
   renderSection(title, body) {
     return (
       <div className="mb4">
-        <h4 className="px2 md-px0 py1 caps gray h5 mt0 mb0 border-bottom">{title}</h4>
+        <Subheader text={title} />
         {body()}
       </div>
     )
