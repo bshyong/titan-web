@@ -13,9 +13,10 @@ import StoryForm from '../components/Story/StoryForm.jsx'
 import StoryFormActions from '../actions/story_form_actions'
 import StoryFormStore from '../stores/story_form_store'
 import StoryFormWalkthrough from '../components/Story/StoryFormWalkthrough.jsx'
+import UploadingAttachmentStore from '../stores/uploading_attachment_store'
 
 @AuthenticatedMixin()
-@connectToStores(StoryFormStore)
+@connectToStores(StoryFormStore, UploadingAttachmentStore)
 export default class NewStoryPage extends React.Component {
   static willTransitionTo(transition, params, query) {
 
@@ -49,6 +50,7 @@ export default class NewStoryPage extends React.Component {
         ...StoryFormStore.data,
         contributors: ContributorsStore.contributors
       },
+      uploadsFinished: UploadingAttachmentStore.uploadsFinished,
     }
   }
 
@@ -76,6 +78,10 @@ export default class NewStoryPage extends React.Component {
 
   handleOnPublish(e) {
     e.preventDefault()
-    StoryActions.publish(this.props.changelogId, StoryFormStore.data)
+    const { uploadsFinished } = this.props
+
+    if (uploadsFinished || confirm('Attachments are still uploading; are you sure you want to post?')) {
+      StoryActions.publish(this.props.changelogId, StoryFormStore.data)
+    }
   }
 }
