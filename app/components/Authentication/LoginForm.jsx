@@ -11,6 +11,7 @@ import PasswordResetEmailForm from 'components/Authentication/PasswordResetEmail
 import React from 'react'
 import SessionActions from 'actions/SessionActions'
 import SigninScrimActions from 'actions/SigninScrimActions'
+import SignupForm from 'components/Authentication/SignupForm.jsx'
 
 @connectToStores(AuthenticationFormStore)
 export default class LoginForm extends React.Component {
@@ -24,6 +25,7 @@ export default class LoginForm extends React.Component {
     this.handleChange = this._handleChange.bind(this)
     this.handleForgotPassword = this._handleForgotPassword.bind(this)
     this.handleSubmit = this._handleSubmit.bind(this)
+    this.showSignupForm = this._showSignupForm.bind(this)
   }
 
   // can't disable button because safari :'( http://stackoverflow.com/questions/11708092/detecting-browser-autofill/
@@ -41,7 +43,15 @@ export default class LoginForm extends React.Component {
 
           <div className="mt2">
             <div className="border border-silver rounded p2">
-              <AuthenticationFormError />
+              <AuthenticationFormError>
+                <div>
+                  <a href="javascript:void(0);"
+                    className="underline white"
+                    onClick={this.showSignupForm}>
+                    Need to sign up?
+                  </a>
+                </div>
+              </AuthenticationFormError>
               <form className="clearfix">
                 <div className="py1">
                   <label className="left bold" htmlFor="login-username">Username or email</label>
@@ -97,5 +107,9 @@ export default class LoginForm extends React.Component {
     e.preventDefault()
 
     AuthenticationFormActions.submit('login', AuthenticationFormStore.formContent)
+  }
+
+  _showSignupForm(e) {
+    SigninScrimActions.initialize(SignupForm, {})
   }
 }

@@ -17,14 +17,25 @@ export default class LoginForm extends React.Component {
   }
 
   render() {
-    const { error } = this.props
+    const { children, error } = this.props
 
     if (error) {
       return (
-        <div className="white bg-red rounded p2 pointer" onClick={this.handleClick}>
-          Something went wrong!
-          <div className="h5">
-            {error}
+        <div className="white bg-red rounded">
+          <div className="right mr1 mt1">
+            <a href="javascript:void(0);"
+              className="white"
+              onClick={this.handleClick}>
+              <Icon icon="close" />
+            </a>
+          </div>
+
+          <div className="p2">
+            Something went wrong!
+            <div className="h5">
+              {error}
+              {children}
+            </div>
           </div>
         </div>
       )
