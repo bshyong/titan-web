@@ -47,7 +47,7 @@ export default class ChangelogOnboardingPage extends React.Component {
                       style="outline"
                       action={this.handleNewChangelog.bind(this)}
                       ref="nextButton">
-                Next
+                Next, invite your team
               </Button>
             </div>
           </div>

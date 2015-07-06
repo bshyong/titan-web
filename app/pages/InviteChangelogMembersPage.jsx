@@ -55,7 +55,7 @@ export default class InviteChangelogMembersPage extends React.Component {
                         bg="white"
                         style="outline"
                         action={this.handleNext.bind(this)}>
-                  Write your first post
+                  Next, write your first post
                 </Button>
               </div>
             </div>
