@@ -17,10 +17,10 @@ function shouldRedirect() {
 export default class HomePage extends React.Component {
   static willTransitionTo(transition, params, query) {
     // TODO remove when domain transfer is done
-    if (shouldRedirect()) {
-      window.location.href = 'https://cove.assembly.com'
-      return
-    }
+    // if (shouldRedirect()) {
+    //   window.location.href = 'https://cove.assembly.com'
+    //   return
+    // }
     if (SessionStore.user) {
       transition.redirect("dashboard")
     }
