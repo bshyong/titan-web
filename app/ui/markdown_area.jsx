@@ -98,6 +98,7 @@ export default class MarkdownArea extends React.Component {
                   style={style.textarea}
                   onBlur={this.toggleFocus}
                   onChange={this.handleChange}
+                  onClick={this.updateSelectionStart}
                   onFocus={this.toggleFocus}
                   onKeyDown={this.props.onCmdEnter ? this.handleKeyDown : this.updateSelectionStart} />
               </div>
@@ -184,16 +185,29 @@ export default class MarkdownArea extends React.Component {
 
   _onUploading(attachments) {
     setTimeout(() => {
-      let value = this.props.value || ''
-      let attachmentText = attachments.
-        map(a => `![Uploading ${a.name}...]()`).join(' ')
-      let simulatedEvent = {
+      const value = this.props.value || ''
+      const beginning = value.substr(0, this.selectionStart).trim()
+
+      const attachmentText = attachments.
+        map(a => `![Uploading ${a.name}...]()`).join('\n')
+
+      let end = value.substr(this.selectionStart)
+      if (end === beginning) {
+        end = ''
+      }
+
+      const start = this.selectionStart = [beginning, attachmentText].join('\n').length
+
+      const simulatedEvent = {
         target: {
-          value: value + attachmentText
+          value: [beginning, attachmentText, end].join('\n')
         }
       }
 
       this.props.onChange(simulatedEvent)
+
+      React.findDOMNode(this.refs.textarea).setSelectionRange(start, start)
+
     }, 0)
   }
 
