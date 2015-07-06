@@ -17,6 +17,16 @@ import segment from './lib/segment'
 import SessionActions from './actions/SessionActions'
 import url from 'url'
 
+// Redirect old links to assembly.com
+// TODO: use 301 when we have server side rendering
+if (window.location.host === 'changelog.assembly.com') {
+  let parts = url.parse(window.location.href)
+  let to = `${parts.protocol}\/\/assembly.com${parts.path}`
+
+  window.location.href = to
+}
+
+
 // redux
 import createRedux from 'redux/create'
 import { Provider } from 'redux/react'
