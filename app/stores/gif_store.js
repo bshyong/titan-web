@@ -22,6 +22,7 @@ class GifStore extends Store {
           this.emitChange()
           break;
         case GIFS_FETCHED:
+          this._page = 1
           this._fetching = false
           this.gifs = List(shuffle(action.gifs))
           this.emitChange()
