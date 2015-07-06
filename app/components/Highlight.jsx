@@ -57,15 +57,14 @@ export default class Highlight extends React.Component {
 
   renderAvatarStack() {
     const {highlight: {mentioned_users}} = this.props
-    const avatars = List(mentioned_users).map((user) => {
-      return (
-        <Avatar user={user} size={24} key={user.id} />
-      )
-    })
 
-    if (avatars.isEmpty()) {
+    if (!mentioned_users.length) {
       return
     }
+
+    const avatars = List(mentioned_users).map((user) => {
+      return <Avatar user={user} size={24} key={user.id} />
+    })
 
     return <div className="mt1"><Stack items={avatars} /></div>
   }
