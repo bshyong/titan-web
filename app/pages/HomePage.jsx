@@ -59,7 +59,7 @@ export default class HomePage extends React.Component {
                     into contributors and eager evangelists.
                   </p>
                   <p className="h3 bold">
-                    Start your Changelog today &mdash; it's
+                    Start your Changelog today &mdash; it&#39;s
                     totally free.
                   </p>
 
@@ -94,7 +94,7 @@ export default class HomePage extends React.Component {
   }
 
   handleSignIn() {
-    SigninScrimActions.show(LoginForm, '/new')
+    SigninScrimActions.show(LoginForm, '/dashboard')
   }
 
   handleSignUp() {
