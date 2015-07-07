@@ -1,15 +1,10 @@
-import Avatar from '../../ui/Avatar.jsx'
-import Badge from '../Badge.jsx'
-import Emoji from '../../ui/Icon.jsx'
-import Guest from '../../ui/Guest.jsx'
-import Icon from '../../ui/Icon.jsx'
+import Avatar from 'ui/Avatar.jsx'
+import Badge from 'components/Badge.jsx'
+import Guest from 'ui/Guest.jsx'
+import Icon from 'ui/Icon.jsx'
 import React from 'react'
-import Stack from '../../ui/Stack.jsx'
-import Table from '../../ui/Table.jsx'
-import {List} from 'immutable'
-
-import UpvoteArrowSrc  from '../../images/upvote-arrow.svg'
-import UpvotedArrowSrc  from '../../images/upvoted-arrow.svg'
+import Stack from 'ui/Stack.jsx'
+import {List, Range} from 'immutable'
 
 export default class StoryCell extends React.Component {
   static propTypes = {
@@ -44,7 +39,7 @@ export default class StoryCell extends React.Component {
               {story.live_comments_count}
             </div>
             <div className="px1 no-underline flex flex-center">
-              <div style={{marginRight:'0.25rem'}}>
+              <div style={{marginRight: '0.25rem'}}>
                 <Icon icon="heart" color={story.viewer_has_hearted ? "orange" : "silver"} />
               </div>
               {' '}
@@ -84,9 +79,9 @@ export default class StoryCell extends React.Component {
 
   avatars() {
     const { story } = this.props
-    let guests = List(new Array(story.guests_count || 0)).map(() => <Guest size={24} />)
+    const guests = new Range(0, story.guests_count || 0).map(() => <Guest size={24} />)
 
-    return List(story.contributors).
+    return new List(story.contributors).
       map(user => <Avatar user={user} size={24} />).
       concat(guests)
   }
