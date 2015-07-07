@@ -14,6 +14,7 @@ import onMobile from '../lib/on_mobile'
 import onUserSelected from '../lib/onUserSelected'
 import { getOffsetTop } from './Picker.jsx'
 import { List } from 'immutable'
+import Sticky from 'ui/Sticky.jsx'
 
 export default class MarkdownArea extends React.Component {
   constructor(props) {
@@ -57,16 +58,15 @@ export default class MarkdownArea extends React.Component {
     let style = {
       div: {
         ...this.props.style,
-        backgroundColor: 'white'
+        backgroundColor: 'white',
       },
       textarea: {
         ...this.props.style,
-        width: '98%',
         resize: 'none',
         outline: 'none',
         border: 'none',
-        borderRadius: 3
-      }
+        borderRadius: 3,
+      },
     }
 
     if (border && this.state.focused) {
@@ -75,8 +75,9 @@ export default class MarkdownArea extends React.Component {
       style.div.outline = 'none'
     }
 
-    const classes = classnames("mb0 py0 full-width relative flex", {
-      "field-light border-silver": border
+    const classes = classnames(
+      'mb0 py0 full-width relative flex', {
+      'field-light border-silver': border,
     })
 
     return (
@@ -90,11 +91,11 @@ export default class MarkdownArea extends React.Component {
           {this.renderUserPicker()}
           <div className={classes}
               style={style.div}>
-              <div className="flex-grow">
+              <div className="flex-auto">
                 <TextareaAutosize
                   {...this.props}
                   ref="textarea"
-                  className="block"
+                  className="block full-width"
                   style={style.textarea}
                   onBlur={this.toggleFocus}
                   onChange={this.handleChange}
@@ -102,11 +103,17 @@ export default class MarkdownArea extends React.Component {
                   onFocus={this.toggleFocus}
                   onKeyDown={this.props.onCmdEnter ? this.handleKeyDown : this.updateSelectionStart} />
               </div>
-              <div className="flex-none mr1 mt1 h3 pointer gray" onClick={this.toggleGifPicker.bind(this)}>
-                <img src={GifPickerTrigger} style={{height: '1.5rem'}} />
-              </div>
-              <div className="flex-none mr1 mt1 h3 pointer gray" ref="clickable" onClick={this.closeGifPicker.bind(this)}>
-                <img src={UploadSrc} style={{height: '1.5rem'}} />
+              <div className="flex-none">
+                <Sticky>
+                  <div className="flex ml1">
+                    <div className="py1 mr1 pointer gray" onClick={this.toggleGifPicker.bind(this)}>
+                      <img className="block" src={GifPickerTrigger} style={{height: '1.5rem'}} />
+                    </div>
+                    <div className="py1 mr1 pointer gray" ref="clickable" onClick={this.closeGifPicker.bind(this)}>
+                      <img className="block" src={UploadSrc} style={{height: '1.5rem'}} />
+                    </div>
+                  </div>
+                </Sticky>
               </div>
           </div>
         </DropzoneContainer>
