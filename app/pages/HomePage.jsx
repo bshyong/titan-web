@@ -65,7 +65,7 @@ export default class HomePage extends React.Component {
           <h1 className="mt0 mb2">
             Simple Changelogs for happy teams.
           </h1>
-          <p className="mb0 sm-col-8 gray">
+          <p className="h3 mb0 sm-col-10 gray">
             Know what everyone is working on, get feedback on your work, and
             even share your latest product updates with your community.
           </p>
