@@ -35,6 +35,7 @@ import StoryPage from 'pages/StoryPage.jsx'
 import TermsPage from 'pages/TermsPage.jsx'
 import TwitterCallback from 'components/TwitterCallback.jsx'
 import UserPage from 'pages/UserPage.jsx'
+import FaqPage from 'pages/FaqPage.jsx'
 
 var internal = (
   <Route handler={AppPage} name="root" path="/">
@@ -43,6 +44,7 @@ var internal = (
 
     <Route handler={AdminPage} path="/admin" />
     <Route handler={HomePage} path="/home" />
+    <Route handler={FaqPage} path="/faq" />
 
     <Route handler={NewChangelogPage} path="/new" name="newChangelog" />
 
