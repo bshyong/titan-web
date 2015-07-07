@@ -1,6 +1,7 @@
 import {
   EMOJI_SELECTED,
   HIGHLIGHT_USED,
+  STORY_CREATING,
   STORY_FETCHED,
   STORY_FORM_CHANGE,
   STORY_FORM_CLEAR,
@@ -21,7 +22,11 @@ class StoryFormStore extends Store {
 
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
+        case STORY_CREATING:
+          this.isCreating = true
+          break
         case STORY_FETCHED:
+          this.isCreating = false
           this.title = action.story.title
           this.body = action.story.body
           this.team_member_only = action.story.team_member_only
@@ -39,6 +44,7 @@ class StoryFormStore extends Store {
           break
 
         case STORY_FORM_CHANGE:
+          this.isCreating = false
           this.title = action.fields.title
           this.body = action.fields.body
           this.team_member_only = action.fields.team_member_only
@@ -84,6 +90,7 @@ class StoryFormStore extends Store {
     this.contributors = ''
     this.team_member_only = false
     this.emoji_id = null
+    this.isCreating = false
   }
 
   isValid() {

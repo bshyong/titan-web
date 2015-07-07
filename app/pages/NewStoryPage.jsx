@@ -27,10 +27,17 @@ export default class NewStoryPage extends React.Component {
         title: "Hello World",
         team_member_only: false,
         contributors: [],
-        body: "Hey @core\n\nI set up this Changelog so we can better share our daily work and collect feedback amongst our group.\n\nIt's simple to use; just log a quick note everytime you finish something or have something to share. You can also add a quick description, image, or link if you want too. Here are some examples.\n\n* 'Emojified all the things, replaced all nouns with an emoji'\n* 'Just finished the new homepage design, feedback?'\n* 'Released Version 2 in production'\n\nWhat do you think?"
+        body: `Hey @core\n\n
+        I set up this Changelog so we can better share our daily work and collect
+        feedback amongst our group.\n\n
+        It's simple to use; just log a quick note everytime you finish something
+        or have something to share. You can also add a quick description, image,
+        or link if you want too. Here are some examples.\n\n* 'Emojified all the
+        things, replaced all nouns with an emoji'\n* 'Just finished the new
+        homepage design, feedback?'\n* 'Released Version 2 in production'\n\n
+        What do you think?`
       })
-    }
-    else {
+    } else {
       StoryFormActions.clearAll()
       ContributorsActions.resetContributors(SessionStore.user)
     }
@@ -46,6 +53,7 @@ export default class NewStoryPage extends React.Component {
     return {
       ...props,
       changelog: ChangelogStore.changelog,
+      isCreating: StoryFormStore.isCreating,
       story: {
         ...StoryFormStore.data,
         contributors: ContributorsStore.contributors
@@ -58,18 +66,35 @@ export default class NewStoryPage extends React.Component {
     return (
       <div className="container py4 px2 sm-px0">
         <StoryFormWalkthrough>
-          <StoryForm story={this.props.story} changelog={this.props.changelog} onChange={this.handleOnChange.bind(this)} />
+          {this.renderSuccessBanner()}
+          <StoryForm story={this.props.story}
+            changelog={this.props.changelog}
+            onChange={this.handleOnChange.bind(this)} />
         </StoryFormWalkthrough>
         <div className="py2 right-align">
           <Button
             color="orange"
             style="outline"
-            action={this.handleOnPublish.bind(this)} disabled={!StoryFormStore.isValid()}>
+            action={this.handleOnPublish.bind(this)}
+            disabled={!StoryFormStore.isValid() || this.props.isCreating}>
             Post
           </Button>
         </div>
       </div>
     )
+  }
+
+  renderSuccessBanner() {
+    const { isCreating, story: { title } } = this.props
+    if (isCreating) {
+      return (
+        <div className="bg-blue center p2 mb2 rounded">
+          <h4 className="bold mb0 mt0 white">
+            {title} is being published &mdash; sit tight!
+          </h4>
+        </div>
+      )
+    }
   }
 
   handleOnChange(fields) {
