@@ -12,60 +12,18 @@ import SigninScrimActions from 'actions/SigninScrimActions'
 import SignupConfirmationForm from 'components/Authentication/SignupConfirmationForm.jsx'
 import url from 'url'
 
-const constructReturnUrl = (returnUrl) => {
-  let fullReturnUrlObj = url.parse(window.location.href, true)
-  fullReturnUrlObj.path = fullReturnUrlObj.pathname = (
-    returnUrl || AuthenticationFormStore.redirectTo || '/'
-  )
-  return url.format(fullReturnUrlObj)
-}
-
 export default {
-  initializeTwitterSignIn(returnUrl) {
-    if (typeof returnUrl !== 'string') {
-      returnUrl = null
-    }
-
-    window.location.href = `${API_URL}/auth/twitter?return_url=${constructReturnUrl(returnUrl)}`
-  },
-
-  linkTwitterAccount(userId, returnUrl="/settings") {
-    if (typeof returnUrl !== 'string') {
-      returnUrl = null
-    }
-
-    window.location.href = `${API_URL}/auth/twitter?return_url=${constructReturnUrl(returnUrl)}&user_id=${userId}`
-  },
-
-  signin(returnUrl) {
-    if (typeof returnUrl !== 'string') {
-      returnUrl = ''
-    }
-
-    let query = `return_url=${encodeURIComponent(returnUrl || window.location.href)}`
-
-    if (RouterContainer.customDomain) {
-      query = `${query}&changelog=${RouterContainer.customDomain}`
-    }
-
-    fetch(`${API_URL}/sessions/new`, {
-      method: 'GET'
-    }).then(resp => resp.json())
-      .then(json => { window.location.href = json.url })
-  },
-
-  signinFromSSO(payload, sig) {
-    var data = new FormData()
-    data.append('payload', payload)
-    data.append('sig', sig)
-
-    fetch(`${API_URL}/sessions/sso_signin`, {
-      method: 'POST',
-      body: data
-    }).then(resp => resp.json()).then(resp => {
-      this.signinFromToken(resp.token)
-      window.location.href = resp.return_url
+  initializeTwitterSignIn(opts) {
+    let path = url.format({
+      pathname: 'auth/twitter',
+      query: opts
     })
+
+    window.open(
+      `${API_URL}/${path}`,
+      'Sign in to Changelog with Twitter',
+      'width=400,height=400,top=100,left=100'
+    )
   },
 
   signinFromToken(jwt, user) {

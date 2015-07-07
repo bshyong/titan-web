@@ -171,6 +171,6 @@ export default class ProfileSettings extends React.Component {
   }
 
   linkTwitterAccount(e) {
-    SessionActions.linkTwitterAccount(this.props.profile.id, '/settings')
+    SessionActions.initializeTwitterSignIn({ user_id: this.props.profile.id })
   }
 }

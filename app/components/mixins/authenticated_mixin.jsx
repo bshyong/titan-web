@@ -1,8 +1,9 @@
 import React from 'react'
-import RouterContainer from '../../lib/router_container'
-import RoutesStore from '../../stores/routes_store'
-import SessionStore from '../../stores/session_store'
-import SessionActions from '../../actions/SessionActions'
+import RouterContainer from 'lib/router_container'
+import RoutesStore from 'stores/routes_store'
+import SessionStore from 'stores/session_store'
+import SessionActions from 'actions/SessionActions'
+import SigninScrimActions from 'actions/SigninScrimActions'
 
 export default function Authenticated() {
   return (Component) => {
@@ -49,16 +50,10 @@ export default function Authenticated() {
       _onChange() {
         var newState = this.getStateFromStores()
         if (!newState.user) {
-          // Since this action effectively gets triggered
-          // by another action, we need to transition on the
-          // next tick to avoid dispatching in the middle of a
-          // dispatch
-          setTimeout(() => {
-            RouterContainer.get().transitionTo('/')
-          }, 0)
-        } else {
-          this.setState(this.getStateFromStores())
+          return
         }
+
+        this.setState(this.getStateFromStores())
       }
 
       static get Component() {

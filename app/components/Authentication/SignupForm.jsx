@@ -22,6 +22,7 @@ export default class SignupForm extends React.Component {
 
     this.handleChange = this._handleChange.bind(this)
     this.handleSubmit = this._handleSubmit.bind(this)
+    this.handleTwitterClick = this._handleTwitterClick.bind(this)
   }
 
   render() {
@@ -98,7 +99,7 @@ export default class SignupForm extends React.Component {
         <div className="mt4">
           <a href="javascript:void(0)"
             className="bold darken-4 gray-hover"
-            onClick={SessionActions.initializeTwitterSignIn}>
+            onClick={this.handleTwitterClick}>
             Sign up using Twitter instead
           </a>
         </div>
@@ -110,7 +111,7 @@ export default class SignupForm extends React.Component {
     return (
       <div>
         <Button size="big" bg="twitter-blue" block
-          action={SessionActions.initializeTwitterSignIn}>
+          action={this.handleTwitterClick}>
           <Icon icon="twitter" />
           <span className="ml2">Use Twitter</span>
         </Button>
@@ -152,11 +153,21 @@ export default class SignupForm extends React.Component {
 
     AuthenticationFormActions.submit('register', AuthenticationFormStore.formContent)
   }
+
+  _handleTwitterClick(e) {
+    e.preventDefault()
+
+    const { redirectTo } = this.props
+    const opts = redirectTo ? { origin: redirectTo } : {}
+
+    SessionActions.initializeTwitterSignIn(opts)
+  }
 }
 
 SignupForm.propTypes = {
   email: React.PropTypes.string,
   password: React.PropTypes.string,
+  redirectTo: React.PropTypes.string,
   shown: React.PropTypes.bool,
   username: React.PropTypes.string
 }
