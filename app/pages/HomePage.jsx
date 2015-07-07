@@ -10,17 +10,8 @@ import SignupForm from 'components/Authentication/SignupForm.jsx'
 import HomePageLogoSrc from 'images/HomePageLogo.svg'
 import HomePagePreviewSrc from 'images/HomePagePreview.png'
 
-function shouldRedirect() {
-  return window.location.host === 'assembly.com'
-}
-
 export default class HomePage extends React.Component {
   static willTransitionTo(transition, params, query) {
-    // TODO remove when domain transfer is done
-    // if (shouldRedirect()) {
-    //   window.location.href = 'https://cove.assembly.com'
-    //   return
-    // }
     if (SessionStore.user) {
       transition.redirect("dashboard")
     }

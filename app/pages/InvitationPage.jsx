@@ -1,16 +1,18 @@
 import ApplicationNavbar from '../components/application_navbar.jsx'
 import Avatar from '../ui/Avatar.jsx'
 import Button from '../ui/Button.jsx'
+import connectToStores from '../lib/connectToStores.jsx'
 import DocumentTitle from 'react-document-title'
 import InvitationActions from '../actions/invitation_actions'
 import InvitationStore from '../stores/invitation_store'
+import Link from '../components/Link.jsx'
+import membershipInvite from '../lib/membershipInvite'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
 import SessionActions from '../actions/SessionActions'
 import SessionStore from '../stores/session_store'
-import connectToStores from '../lib/connectToStores.jsx'
-import Link from '../components/Link.jsx'
-import membershipInvite from '../lib/membershipInvite'
+import SigninScrimActions from 'actions/SigninScrimActions'
+import SignupForm from 'components/Authentication/SignupForm.jsx'
 
 @connectToStores(SessionStore, InvitationStore)
 export default class InvitationPage extends React.Component {
@@ -56,7 +58,7 @@ export default class InvitationPage extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div >
+                <div>
                   <div className="h2 mb1" style={{lineHeight: '2em'}}>
                     { currentUser ? null : 'Go ahead and get started:' }
                   </div>
@@ -79,7 +81,7 @@ export default class InvitationPage extends React.Component {
         </Button>
       </Link>
     }
-    return <Button color="white" bg="orange" size="big" action={SessionActions.signin}>
+    return <Button color="white" bg="orange" size="big" action={() => SigninScrimActions.show(SignupForm, window.location.pathname)}>
       Claim your invite
     </Button>
   }
