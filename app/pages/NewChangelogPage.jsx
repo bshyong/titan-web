@@ -1,13 +1,15 @@
+import {connect} from 'redux/react'
+import {create} from 'actions/newChangelogActions'
 import ApplicationNavbar from '../components/application_navbar.jsx'
+import authenticatedComponent from 'components/mixins/authenticated_mixin.jsx'
 import Button from '../ui/Button.jsx'
 import ChangelogStore from '../stores/changelog_store'
 import connectToStores from '../lib/connectToStores.jsx'
 import NewChangelog from '../components/NewChangelog.jsx'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
-import {connect} from 'redux/react'
-import {create} from 'actions/newChangelogActions'
 
+@authenticatedComponent()
 @connect(state => ({
   canCreate: state.newChangelog.canCreate
 }))
@@ -17,7 +19,7 @@ export default class ChangelogOnboardingPage extends React.Component {
     return {
       memberships: ChangelogStore.memberships,
       changelogId: ChangelogStore.slug,
-      changelog: ChangelogStore.changelog
+      changelog: ChangelogStore.changelog,
     }
   }
 
