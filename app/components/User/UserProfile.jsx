@@ -16,8 +16,9 @@ import StoryCell from '../Story/StoryCell.jsx'
 import Subheader from 'ui/Subheader.jsx'
 import Table from '../../ui/Table.jsx'
 import UserCell from '../User/UserCell.jsx'
+import SessionStore from '../../stores/session_store'
 
-@connectToStores(ProfileStore, ProfileStories)
+@connectToStores(ProfileStore, ProfileStories, SessionStore)
 export default class ProfilePage extends React.Component {
 
   static getPropsFromStores() {
@@ -25,12 +26,13 @@ export default class ProfilePage extends React.Component {
     // eventually come from multiple stores so we can make the requests faster
     // and do smart things like pagination. ~@chrislloyd
     return {
-      user: ProfileStore.user,
-      upvotes: ProfileStore.upvotes,
+      changelogs: ProfileStore.changelogs,
+      currentUser: SessionStore.user,
+      following: ProfileStore.following,
       stories: ProfileStories.stories,
       storyPagination: ProfileStories.pagination,
-      changelogs: ProfileStore.changelogs,
-      following: ProfileStore.following,
+      upvotes: ProfileStore.upvotes,
+      user: ProfileStore.user,
     }
   }
 
@@ -98,11 +100,12 @@ export default class ProfilePage extends React.Component {
     )
   }
 
-  renderBlankState(emoji, message) {
+  renderBlankState(emoji, publicMessage, ownerMessage) {
+    const { user, currentUser } = this.props
     return (
       <div className="py3 gray">
         <img src={`https://twemoji.maxcdn.com/svg/${emoji}.svg`} className="block left mr1" style={{width: '1.5rem'}} />
-        {message}
+        { user.id === currentUser.id ? (ownerMessage || publicMessage) : publicMessage}
       </div>
     )
   }
@@ -135,6 +138,7 @@ export default class ProfilePage extends React.Component {
     if (contribution_count === 0) {
       return this.renderBlankState(
         '1f4dc',
+        "No public posts",
         "Contribute by posting to a changelog."
       )
     }
@@ -179,6 +183,7 @@ export default class ProfilePage extends React.Component {
     if (followings_count === 0) {
       return this.renderBlankState(
         '1f60e',
+        "Not following any changelogs",
         "Follow changelogs that you work on and find interesting."
       )
     }
