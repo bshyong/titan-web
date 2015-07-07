@@ -105,7 +105,7 @@ export default class ProfilePage extends React.Component {
     return (
       <div className="py3 gray">
         <img src={`https://twemoji.maxcdn.com/svg/${emoji}.svg`} className="block left mr1" style={{width: '1.5rem'}} />
-        { user.id === currentUser.id ? (ownerMessage || publicMessage) : publicMessage}
+        { currentUser && (user.id === currentUser.id) ? (ownerMessage || publicMessage) : publicMessage}
       </div>
     )
   }
