@@ -16,7 +16,7 @@ import RouterContainer from 'lib/router_container'
 import SessionActions from 'actions/SessionActions'
 import SessionStore from 'stores/session_store'
 import SigninScrimActions from 'actions/SigninScrimActions'
-import SignupForm from 'components/Authentication/SignupForm.jsx'
+import LoginForm from 'components/Authentication/LoginForm.jsx'
 
 // Logo versions:
 import LogoSrc from 'images/logo.svg'
@@ -142,7 +142,7 @@ export default class ApplicationNavbar extends React.Component {
   }
 
   _handleSignIn(e) {
-    SigninScrimActions.show(SignupForm, window.location.pathname)
+    SigninScrimActions.show(LoginForm, window.location.pathname)
   }
 
   _handleSignout() {
