@@ -48,11 +48,13 @@ export default class StoryForm extends React.Component {
         contributors,
         emoji_id,
         created_at,
+        errorMessage,
       }
     } = this.props
 
     return (
       <div>
+        {this.renderErrorMessage()}
         <div className="sm-flex mxn1">
           <div className="flex-none px1 mb2">
             <EmojiInput
@@ -109,6 +111,16 @@ export default class StoryForm extends React.Component {
         </div>
       </div>
     )
+  }
+
+  renderErrorMessage() {
+    const { story: { errorMessage }, showErrorMessage } = this.props
+    if (showErrorMessage && errorMessage) {
+      return <div className="h4 p1 mb2 center bg-red white">
+        {errorMessage}
+      </div>
+    }
+    return <div />
   }
 
   renderPrivacyToggler() {

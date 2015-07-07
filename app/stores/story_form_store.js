@@ -50,6 +50,7 @@ class StoryFormStore extends Store {
           this.team_member_only = action.fields.team_member_only
           this.emoji_id = action.fields.emoji_id
           this.created_at = action.fields.created_at
+          this.setErrorMessage()
           break
 
         case EMOJI_SELECTED:
@@ -83,6 +84,20 @@ class StoryFormStore extends Store {
     return this.title && this.title.match(EMOJI_REGEX)
   }
 
+  setErrorMessage() {
+    const title = this.title.replace(EMOJI_REGEX, '').trim()
+    const titleValid = (title && title.length > 0)
+    if (!this.emoji_id && !titleValid) {
+      this._errorMessage = "Please enter a title and select an emoji"
+    } else if (!this.emoji_id && titleValid) {
+      this._errorMessage = "Please select an emoji"
+    } else if (this.emoji_id && !titleValid) {
+      this._errorMessage = "Please enter a title"
+    } else {
+      this._errorMessage = null
+    }
+  }
+
   init() {
     this.created_at = moment()
     this.title = ''
@@ -91,11 +106,16 @@ class StoryFormStore extends Store {
     this.team_member_only = false
     this.emoji_id = null
     this.isCreating = false
+    this._errorMessage = "Please enter a title and select an emoji"
   }
 
   isValid() {
     const title = this.title.replace(EMOJI_REGEX, '').replace(/ /g, '')
     return this.emoji_id && title && title.length > 0
+  }
+
+  get errorMessage() {
+    return this._errorMessage
   }
 
   get data() {
