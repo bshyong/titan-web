@@ -24,6 +24,7 @@ class UploadingAttachmentStore extends Store {
           )
           break
         case ATTACHMENT_UPLOADED:
+          var attachment = action.attachment
           this.uploadStates = this.uploadStates.set(
             [attachment.name, attachment.content_type, attachment.size].join('_'),
             true
