@@ -1,4 +1,4 @@
-import { ATTACHMENT_UPLOADING } from '../constants'
+import { ATTACHMENT_UPLOADING, ATTACHMENT_UPLOADED } from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import { List, Map } from 'immutable'
 import Store from '../lib/store'
@@ -8,6 +8,7 @@ class UploadingAttachmentStore extends Store {
     super()
 
     this.attachments = Map()
+    this.uploadStates = Map()
 
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
@@ -17,12 +18,28 @@ class UploadingAttachmentStore extends Store {
             commentId,
             (this.attachments.get(commentId) || List()).push(attachment)
           )
+          this.uploadStates = this.uploadStates.set(
+            [attachment.name, attachment.type, attachment.size].join('_'),
+            false
+          )
+          break
+        case ATTACHMENT_UPLOADED:
+          this.uploadStates = this.uploadStates.set(
+            [attachment.name, attachment.content_type, attachment.size].join('_'),
+            true
+          )
           break
         default:
           return
       }
 
       this.emitChange()
+    })
+  }
+
+  get uploadsFinished() {
+    return this.uploadStates.values().size === 0 ? true : this.uploadStates.every((v, k) => {
+      v === true
     })
   }
 
