@@ -1,14 +1,10 @@
 import LoginForm from 'components/Authentication/LoginForm.jsx'
 import React from 'react'
-import SessionActions from '../actions/SessionActions'
 import SessionStore from '../stores/session_store'
 import SigninScrimActions from 'actions/SigninScrimActions'
 import StoryActions from '../actions/story_actions'
 import classnames from 'classnames'
 import Icon from 'ui/Icon.jsx'
-
-import UpvoteArrowSrc  from '../images/upvote-arrow.svg'
-import UpvotedArrowSrc from '../images/upvoted-arrow.svg'
 
 export default class UpvoteToggler extends React.Component {
 
@@ -18,7 +14,7 @@ export default class UpvoteToggler extends React.Component {
     this.handleHover = this._handleHover.bind(this)
 
     this.state = {
-      hovered: false
+      hovered: false,
     }
   }
 
@@ -38,8 +34,6 @@ export default class UpvoteToggler extends React.Component {
         'upvote-toggler--unhearted gray': !hearted,
         'upvote-toggler--hearted orange': hearted
       })
-
-    const src = (hearted || this.state.hovered) ? UpvotedArrowSrc : UpvoteArrowSrc
 
     return (
       <div className={cn} onClick={this.handleClick} onMouseEnter={this.handleHover} onMouseLeave={this.handleHover}>
