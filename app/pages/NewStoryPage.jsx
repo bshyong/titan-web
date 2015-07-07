@@ -19,7 +19,6 @@ import UploadingAttachmentStore from '../stores/uploading_attachment_store'
 @connectToStores(StoryFormStore, UploadingAttachmentStore)
 export default class NewStoryPage extends React.Component {
   static willTransitionTo(transition, params, query) {
-
     if (query.highlight) {
       // TODO load if page refreshed
     } else if (query.type=="helloWorld") {
@@ -49,6 +48,14 @@ export default class NewStoryPage extends React.Component {
     }
   }
 
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      showErrorMessage: false
+    }
+  }
+
   static getPropsFromStores(props) {
     return {
       ...props,
@@ -56,18 +63,22 @@ export default class NewStoryPage extends React.Component {
       isCreating: StoryFormStore.isCreating,
       story: {
         ...StoryFormStore.data,
-        contributors: ContributorsStore.contributors
+        contributors: ContributorsStore.contributors,
+        errorMessage: StoryFormStore.errorMessage
       },
       uploadsFinished: UploadingAttachmentStore.uploadsFinished,
     }
   }
 
   render() {
+    const { showErrorMessage } = this.state
+
     return (
       <div className="container py4 px2 sm-px0">
         <StoryFormWalkthrough>
           {this.renderSuccessBanner()}
           <StoryForm story={this.props.story}
+            showErrorMessage={showErrorMessage}
             changelog={this.props.changelog}
             onChange={this.handleOnChange.bind(this)} />
         </StoryFormWalkthrough>
@@ -76,7 +87,7 @@ export default class NewStoryPage extends React.Component {
             color="orange"
             style="outline"
             action={this.handleOnPublish.bind(this)}
-            disabled={!StoryFormStore.isValid() || this.props.isCreating}>
+            disabled={this.props.isCreating}>
             Post
           </Button>
         </div>
@@ -102,11 +113,15 @@ export default class NewStoryPage extends React.Component {
   }
 
   handleOnPublish(e) {
+    const { story: { errorMessage }, uploadsFinished } = this.props
     e.preventDefault()
-    const { uploadsFinished } = this.props
 
     if (uploadsFinished || confirm('Attachments are still uploading; are you sure you want to post?')) {
-      StoryActions.publish(this.props.changelogId, StoryFormStore.data)
+      if (!StoryFormStore.isValid() || errorMessage) {
+        this.setState({showErrorMessage: true})
+      } else {
+        StoryActions.publish(this.props.changelogId, StoryFormStore.data)
+      }
     }
   }
 }
