@@ -21,6 +21,7 @@ import HomePublicImgSrc from 'images/home-public.png'
 import HomePrivateImgSrc from 'images/home-private.png'
 import EmojiBgImgSrc from 'images/home-emoji-bg.jpg'
 import WorkmarkWhiteImgSrc from 'images/workmark-white.svg'
+import FacesImgSrc from 'images/faces.gif'
 
 import LogoImgSrc from 'images/HomePageLogo.svg'
 
@@ -59,18 +60,15 @@ export default class HomePage extends React.Component {
           }
         />
 
-        <Jumbotron bgColor="charcoal">
-          <div className="sm-flex flex-center mxn3">
-            <div className="sm-col-9 mx-auto center px3 mb3 sm-mb0">
-              <h1 className="mt0 mb2">
-                Simple Changelogs for happy teams.
-              </h1>
-              <p className="mb0">
-                Know what everyone is working on, get feedback on your work, and
-                even share your latest product updates with your community.
-              </p>
-            </div>
-          </div>
+        <Jumbotron bgColor="white" color="black">
+          <img className="block mb2" src={FacesImgSrc} width={76 / 2} />
+          <h1 className="mt0 mb2">
+            Simple Changelogs for happy teams.
+          </h1>
+          <p className="mb0 sm-col-8 gray">
+            Know what everyone is working on, get feedback on your work, and
+            even share your latest product updates with your community.
+          </p>
         </Jumbotron>
 
         <div style={{backgroundColor: BgColor}}>
