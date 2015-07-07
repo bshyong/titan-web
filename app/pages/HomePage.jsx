@@ -18,9 +18,6 @@ export default class HomePage extends React.Component {
   }
 
   render() {
-    if (shouldRedirect()) {
-      return <div />
-    }
     return (
       <div>
         <div className="flex flex-column" style={{minHeight: "100vh"}}>
