@@ -9,6 +9,8 @@ import SignupForm from 'components/Authentication/SignupForm.jsx'
 import Sticky from 'ui/Sticky.jsx'
 import Navbar from 'ui/Navbar.jsx'
 import Link from 'components/Link.jsx'
+import StoryFeed from 'components/StoryFeed.jsx'
+import StoryActions from 'actions/story_actions'
 
 import HomeWriteImgSrc from 'images/home-write.png'
 import HomeEmojiPickerImgSrc from 'images/home-emoji-picker.png'
@@ -30,6 +32,7 @@ export default class HomePage extends React.Component {
     if (SessionStore.user) {
       transition.redirect('dashboard')
     }
+    StoryActions.fetchFeed()
   }
 
   render() {
@@ -73,7 +76,7 @@ export default class HomePage extends React.Component {
         <div style={{backgroundColor: BgColor}}>
           <div className="container px2 py4" style={{paddingTop: 'calc(4rem + 2rem)'}}>
 
-            <div className="sm-flex mxn3">
+            <div className="sm-flex mxn3 mb4">
               <div className="flex-auto flex-last sm-col-7 px3" style={{marginTop: '-2rem'}}>
                 <Sticky>
                   <h1 className="m0 py3 center sm-left-align">
@@ -107,8 +110,8 @@ export default class HomePage extends React.Component {
             </div>
 
 
-            <div className="sm-flex mxn3">
-              <div className="sm-col-7 flex-last px3">
+            <div className="sm-flex mxn3 mb4">
+              <div className="sm-col-7 flex-last px3" style={{marginTop: '-2rem'}}>
                 <Sticky>
                   <h1 className="m0 py3 center sm-left-align">
                     Get thoughtful feedback from those who care
@@ -134,8 +137,8 @@ export default class HomePage extends React.Component {
             </div>
 
 
-            <div className="sm-flex mxn3">
-              <div className="sm-col-7 flex-auto flex-last px3">
+            <div className="sm-flex mxn3 mb4">
+              <div className="sm-col-7 flex-auto flex-last px3" style={{marginTop: '-2rem'}}>
                 <Sticky>
                   <h1 className="m0 py3 center sm-left-align">
                     Invite the community into the creation process with a public
@@ -163,6 +166,16 @@ export default class HomePage extends React.Component {
               </div>
             </div>
 
+          </div>
+        </div>
+
+        <div>
+          <div className="container px2 py4">
+            <h3 className="center border-bottom py2 mb0 mt0">What's happening today in the community</h3>
+            <StoryFeed />
+            <div className="border-top center py2">
+              <Button style="transparent" color="orange" action={this.handleSignUp}>Sign up and see more</Button>
+            </div>
           </div>
         </div>
 

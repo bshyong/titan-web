@@ -1,4 +1,3 @@
-import ClickablePaginator from '../ui/ClickablePaginator.jsx'
 import connectToStores from '../lib/connectToStores.jsx'
 import FeedStoryStore from '../stores/feed_story_store'
 import Logo from './logo.jsx'
@@ -27,7 +26,6 @@ export default class StoryFeed extends React.Component {
     if (stories !== null) {
       return (
         <Table>
-          <ClickablePaginator>
           {stories.sortBy(s => s.created_at).reverse().map(story => {
             return (
               <Table.Cell key={story.id} to="story" params={paramsFor.story({slug: story.changelog.slug}, story)} image={<Logo changelog={story.changelog} size="1.5rem" />}>
@@ -35,7 +33,6 @@ export default class StoryFeed extends React.Component {
               </Table.Cell>
             )
           })}
-          </ClickablePaginator>
         </Table>
       )
     }
