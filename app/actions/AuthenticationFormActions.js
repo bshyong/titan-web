@@ -13,25 +13,25 @@ export default {
   change(formContent) {
     Dispatcher.dispatch({
       type: AUTHENTICATION_FORM_CHANGED,
-      formContent: formContent
+      formContent: formContent,
     })
   },
 
   dismissError() {
     Dispatcher.dispatch({
-      type: AUTHENTICATION_FORM_ERROR_DISMISSED
+      type: AUTHENTICATION_FORM_ERROR_DISMISSED,
     })
   },
 
   hide() {
     Dispatcher.dispatch({
-      type: AUTHENTICATION_FORM_HIDDEN
+      type: AUTHENTICATION_FORM_HIDDEN,
     })
   },
 
   show() {
     Dispatcher.dispatch({
-      type: AUTHENTICATION_FORM_SHOWN
+      type: AUTHENTICATION_FORM_SHOWN,
     })
   },
 
@@ -42,8 +42,8 @@ export default {
     }).catch(error => {
       Dispatcher.dispatch({
         type: AUTHENTICATION_FORM_ERROR,
-        error: error.error
+        error: error.error,
       })
     })
-  }
+  },
 }

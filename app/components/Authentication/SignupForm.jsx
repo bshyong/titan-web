@@ -87,7 +87,7 @@ export default class SignupForm extends React.Component {
           </form>
         </div>
         <div className="h6 mt2 gray">
-          By signing up, you agree to Assembly's
+          By signing up, you agree to Assembly&#39;s
           {' '}
           <a href="/terms"
             className="gray underline"
@@ -117,7 +117,7 @@ export default class SignupForm extends React.Component {
         <div className="h6 mt2 gray">
           We will never post to Twitter unless you ask us to.
           <br />
-          By signing up, you agree to Assembly's
+          By signing up, you agree to Assembly&#39;s
           {' '}
           <a href="/terms"
             className="gray underline"

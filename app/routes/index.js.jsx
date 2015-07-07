@@ -17,7 +17,6 @@ import GithubRepoDraftsPage from 'pages/GithubRepoDraftsPage.jsx'
 import GithubRepoSelectionPage from 'pages/GithubRepoSelectionPage.jsx'
 import HighlightPicker from 'components/highlight_picker.js.jsx'
 import HomePage from 'pages/HomePage.jsx'
-import LoginPage from 'pages/LoginPage.jsx'
 import ImpersonatePage from 'pages/ImpersonatePage.jsx'
 import InvitationPage from 'pages/InvitationPage.jsx'
 import InviteChangelogMembersPage from 'pages/InviteChangelogMembersPage.jsx'
@@ -29,6 +28,7 @@ import ProfileSettings from 'components/ProfileSettings.jsx'
 import React from 'react'
 import SettingsPage from 'pages/SettingsPage.jsx'
 import SigninSSO from 'components/signin_sso.js.jsx'
+import SignupPage from 'pages/SignupPage.jsx'
 import SingleDateChangelogPage from 'pages/SingleDateChangelogPage.jsx'
 import StoryComposer from 'components/story_composer.js.jsx'
 import StoryPage from 'pages/StoryPage.jsx'
@@ -64,7 +64,7 @@ var internal = (
     <Route handler={DashboardPage} path="/dashboard" name="dashboard" />
     <Route handler={InvitationPage} path="/invitations/:invite_token" name="invitation" />
 
-    <Route handler={LoginPage} path="/login" name="login" />
+    <Route handler={SignupPage} path="/signup" name="signup" />
     <Route handler={ChangelogPage} path="/:changelogId">
       <DefaultRoute handler={ChangelogByDatePage} name="changelog" />
       <Route handler={GithubRepoSelectionPage} path="github" name="githubRepos" />
