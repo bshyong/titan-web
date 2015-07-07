@@ -12,11 +12,11 @@ export default class Badge extends React.Component {
 Badge.propTypes = {
   badge: React.PropTypes.shape({
     name: React.PropTypes.string.isRequired,
-    unicode: React.PropTypes.string.isRequired
+    unicode: React.PropTypes.string.isRequired,
   }).isRequired,
-  size:  React.PropTypes.string.isRequired
+  size: React.PropTypes.string.isRequired,
 }
 
 Badge.defaultProps = {
-  size: '1rem'
+  size: '1rem',
 }

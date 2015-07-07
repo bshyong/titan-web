@@ -10,6 +10,7 @@
 @import 'utilities/pill';
 @import 'utilities/pointer';
 @import 'utilities/shadow';
+@import 'utilities/sticky';
 @import 'utilities/transition';
 @import 'utilities/typography';
 @import 'utilities/visible_hover';
