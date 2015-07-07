@@ -190,8 +190,17 @@
     "react/wrap-multilines": 2,      // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/wrap-multilines.md
     "react/sort-comp": [2, {         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/sort-comp.md
       "order": [
+        "displayName",
         "propTypes",
         "defaultProps",
+        "contextTypes",
+        "childContextTypes",
+        "mixins",
+        "statics",
+        "getDefaultProps",
+        "getInitialState",
+        "getChildContext",
+        "willTransitionTo",
         "componentWillMount",
         "componentDidMount",
         "componentWillReceiveProps",
@@ -200,6 +209,8 @@
         "componentDidUpdate",
         "componentWillUnmount",
         "render",
+        "/^on.+$/",
+        "/^handle.+$/",
         "/^render.+$/"
       ]
     }]
