@@ -11,14 +11,6 @@ import SigninScrim from 'components/Authentication/SigninScrim.jsx'
 
 @connectToStores(RoutesStore)
 export default class AppPage extends React.Component {
-  static willTransitionTo(transition, params, query) {
-    if (query.a) {
-      if (!SessionStore.isSignedIn()) {
-        SessionActions.signin()
-      }
-    }
-  }
-
   static getPropsFromStores(props) {
     return {
       apiError: RoutesStore.apiError,
