@@ -10,9 +10,12 @@ export default function Authenticated() {
       static willTransitionTo(transition, params, query) {
         if (!SessionStore.isSignedIn()) {
           transition.abort()
-          SessionActions.signin()
+          RouterContainer.router.transitionTo("login", {}, {
+            return_path: window.location.pathname
+          })
+        } else {
+          Component.willTransitionTo && Component.willTransitionTo(transition, params, query)
         }
-        Component.willTransitionTo && Component.willTransitionTo(transition, params, query)
       }
 
       constructor() {
