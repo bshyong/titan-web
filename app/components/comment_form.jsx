@@ -87,7 +87,7 @@ export default class CommentForm extends React.Component {
       return (
         <div className="pointer">
           <a onClick={this.handleSignInClick} >
-            Sign in to comment
+            Log in to comment
           </a>
         </div>
       )
