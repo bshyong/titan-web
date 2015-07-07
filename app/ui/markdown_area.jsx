@@ -203,11 +203,11 @@ export default class MarkdownArea extends React.Component {
         end = ''
       }
 
-      const start = this.selectionStart = [beginning, attachmentText].join('\n').length
+      const start = this.selectionStart = [beginning, attachmentText].join(' ').length
 
       const simulatedEvent = {
         target: {
-          value: [beginning, attachmentText, end].join('\n')
+          value: [beginning, attachmentText, end].join(' ')
         }
       }
 
