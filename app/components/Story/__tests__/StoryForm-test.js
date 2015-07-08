@@ -29,8 +29,12 @@ describe('StoryForm', () => {
 
     beforeEach(() => {
       onChange = jasmine.createSpy('onChange')
+      const changelog = {
+        is_members_only: false,
+        user_is_team_member: true,
+      }
       form = TestUtils.renderIntoDocument(
-        <StoryForm story={{}} changelog={{is_members_only: false}} onChange={onChange} />
+        <StoryForm story={{}} changelog={changelog} onChange={onChange} />
       )
     })
 

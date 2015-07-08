@@ -1,16 +1,17 @@
 import Button from '../../ui/Button.jsx'
 import Calendar from 'rc-calendar'
+import ChangelogName from 'components/Changelog/ChangelogName.jsx'
 import ContributorsInput from '../ContributorsInput.jsx'
 import Dialog from 'ui/Dialog.jsx'
 import EmojiInput from '../EmojiInput.jsx'
+import enUS from 'rc-calendar/lib/locale/en-us'
 import Icon from '../../ui/Icon.jsx'
 import MarkdownArea from '../../ui/markdown_area.jsx'
+import MembersOnly from 'components/MembersOnly.jsx'
+import moment from 'moment'
 import React from 'react'
 import RouterContainer from '../../lib/router_container'
 import TextareaAutosize from 'react-textarea-autosize'
-import enUS from 'rc-calendar/lib/locale/en-us'
-import moment from 'moment'
-import ChangelogName from 'components/Changelog/ChangelogName.jsx'
 
 import '../../stylesheets/components/calendar.css'
 
@@ -86,27 +87,31 @@ export default class StoryForm extends React.Component {
               <ContributorsInput />
             </div>
 
-            <div className="py1 h5 flex mxn1">
-              {this.renderPrivacyToggler()}
-              <div className="p1">
-                <Icon icon="calendar" color="silver" />
-                {' '}
-                <a className="gray underline bold pointer" onClick={this.handleCalendarToggled.bind(this)}>
-                  {moment(created_at).format('MMM, DD YYYY')}
-                </a>
-                {this.state.showCalendar &&
-                  <Dialog onCloseRequested={this.handleCalendarToggled.bind(this)} invisible={true}>
-                    <div className="absolute">
-                      <Calendar
-                        style={{zIndex: 1000}}
-                        locale={enUS}
-                        onSelect={this.handleCreatedAtChanged.bind(this)} />
-                    </div>
-                  </Dialog>
-                }
+            <MembersOnly changelog={changelog}>
+              <div className="py1 h5 flex mxn1">
+                {this.renderPrivacyToggler()}
+                <div className="p1">
+                  <Icon icon="calendar" color="silver" />
+                  {' '}
+                  <a className="gray underline bold pointer" onClick={this.handleCalendarToggled.bind(this)}>
+                    {moment(created_at).format('MMM, DD YYYY')}
+                  </a>
+                  {this.state.showCalendar &&
+                    <Dialog onCloseRequested={this.handleCalendarToggled.bind(this)} invisible={true}>
+                      <div className="absolute">
+                        <Calendar
+                          style={{zIndex: 1000}}
+                          locale={enUS}
+                          onSelect={this.handleCreatedAtChanged.bind(this)} />
+                      </div>
+                    </Dialog>
+                  }
+                </div>
+
+                <div className="flex-grow" />
               </div>
-              <div className="flex-grow" />
-            </div>
+            </MembersOnly>
+
           </div>
         </div>
       </div>
