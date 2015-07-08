@@ -130,7 +130,7 @@ export default class StoryPage extends React.Component {
                 <Discussion story={this.props.story} changelogId={this.props.changelogId} />
               </div>
             </div>
-          </div>``
+          </div>
 
           <StaffOnly>
             <div className="clearfix bg-light-gray py4">
