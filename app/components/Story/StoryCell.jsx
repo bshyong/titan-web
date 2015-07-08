@@ -15,7 +15,8 @@ export default class StoryCell extends React.Component {
   }
 
   render() {
-    const { story, changelog } = this.props
+    const { story } = this.props
+    const changelog = story.changelog
     return (
       <div className="flex">
         <div className="flex-none mr2">
@@ -23,7 +24,7 @@ export default class StoryCell extends React.Component {
         </div>
 
         <div className="flex-auto">
-          <div className={changelog ? 'bold' : ''}>{story.team_member_only && !changelog.is_members_only ? <Icon icon="lock" /> : null} {story.title}</div>
+          <div className={changelog ? 'bold' : ''}>{story.team_member_only && !(changelog && changelog.is_members_only) ? <Icon icon="lock" /> : null} {story.title}</div>
           {this.renderChangelog()}
         </div>
 
