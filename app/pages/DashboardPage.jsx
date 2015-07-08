@@ -28,11 +28,10 @@ export default class DashboardPage extends React.Component {
           <Jumbotron bgColor="smoke" color="black">
             <div className="sm-flex flex-center sm-mxn2 center sm-left-align">
               <div className="px2 mb2 sm-mb0">
-                <h3 className="mt0 mb1 bold">Behind-the-scenes of your product</h3>
+                <h3 className="mt0 mb1 bold">Create a behind-the-scenes look into your product</h3>
                 <p className="mb0">
-                  Log updates of your product as your team is building it. Engage
-                  your fans to chime in and you do what you want with their
-                  feedback.
+				  Stay up to date with everyone's progress, get feedback on your work, 
+				  and share your product updates with the world.
                 </p>
               </div>
               <div className="flex-none px2">

@@ -80,11 +80,11 @@ export default class ProfileSettings extends React.Component {
 
           <div className="mb2">
             <label>
-              Blurb
+              Bio
               <input className={this.fieldClasses('blurb')}
                 type="text" value={this.state.blurb.value}
                 onChange={this.handleChange('blurb')}
-                placeholder="Short blurb about yourself" />
+                placeholder="Short bio about yourself" />
             </label>
           </div>
 

@@ -62,9 +62,9 @@ export default class Changelog extends React.Component {
         <ScrollPaginator page={page} onScrollBottom={nextPage} /> : null}
       {this.renderOpenSet()}
       <div className="container">
+      	{this.renderGithubRepoMessage()}
+      	{this.renderEmptyState()}
         {this.renderStories()}
-        {this.renderEmptyState()}
-        {this.renderGithubRepoMessage()}
         <LoadingBar loading={loading} />
       </div>
     </div>
@@ -145,9 +145,9 @@ export default class Changelog extends React.Component {
     if (totalStoriesCount > 2 || !changelog.user_is_team_member || loading) { return }
 
     return <div className="mt3 p2 bg-smoke h4 flex flex-center">
-      <div className="flex-auto">You can pull in drafts from Github.<br /><span className="h5 gray">We won't save your data or peek at your code.</span></div>
+      <div className="flex-auto">You can pull in draft posts from your GitHub repos.<br /><span className="h5 gray">We won't don't save your data and promise not to peek at your code.</span></div>
       <div className="flex-none">
-        <a href={`${API_URL}/auth/github?origin=${window.location.origin}${Router.get().makeHref('githubRepos', {changelogId})}`}><Button>Connect with Github</Button></a>
+        <a href={`${API_URL}/auth/github?origin=${window.location.origin}${Router.get().makeHref('githubRepos', {changelogId})}`}><Button>Connect GitHub</Button></a>
       </div>
     </div>
   }

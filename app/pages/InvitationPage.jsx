@@ -44,8 +44,11 @@ export default class InvitationPage extends React.Component {
             <div className="container p3">
               <div className="sm-col-9 mx-auto">
                 <div className="h2 mt4 mb0" style={{lineHeight: '2em'}}>
-                  { guest.username || (currentUser || {}).username || 'Hey'},<br />
-                {invitor.username} invited you to help craft a behind-the-scenes narrative of {`${changelog.name}'s`} creation. <br /> {currentUser ? 'You can now write to this Changelog.' : null}
+                Hi { guest.username || (currentUser || {}).username || ''}<br /><br />
+                {invitor.username} invited you to be a member of the {`${changelog.name}'s`} Changelog. {currentUser ? 'You can now read, write, and invite others to this Changelog.' : null} Use it to stay date with everyone's progress, get feedback from others on your work, 
+				  and even let you share product updates with a larger community. How exciting!<br /> 
+		
+				 
                 </div>
 
                 <div className="mt2 mb3">
