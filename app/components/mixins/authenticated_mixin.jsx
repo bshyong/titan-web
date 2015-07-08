@@ -12,7 +12,7 @@ export default function Authenticated() {
         if (!SessionStore.isSignedIn()) {
           transition.abort()
           RouterContainer.router.transitionTo("signup", {}, {
-            return_path: window.location.pathname
+            redirectTo: window.location.pathname
           })
         } else {
           Component.willTransitionTo && Component.willTransitionTo(transition, params, query)

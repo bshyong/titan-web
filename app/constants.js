@@ -150,6 +150,8 @@ export default keyMirror({
   STORY_FORM_CHANGE: null,
   STORY_FORM_CLEAR: null,
 
+  TWITTER_ACCOUNT_UNLINKED: null,
+
   USER_SIGNIN: null,
   USER_SIGNOUT: null,
   USER_UPDATED: null,

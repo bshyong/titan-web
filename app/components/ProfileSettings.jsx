@@ -6,7 +6,7 @@ import Icon from 'ui/Icon.jsx'
 import ProfileActions from '../actions/profile_actions.js'
 import ProfileStore from '../stores/profile_store.js'
 import React from 'react'
-import SessionActions from 'actions/SessionActions'
+import TwitterActions from 'actions/oauth/TwitterActions'
 
 @authenticated()
 @connectToStores(ProfileStore)
@@ -21,6 +21,15 @@ export default class ProfileSettings extends React.Component {
 
   static willTransitionTo() {
     ProfileActions.fetch()
+  }
+
+  constructor(props) {
+    super(props)
+
+    this.handleChange = this._handleChange.bind(this)
+    this.handleSubmit = this._handleSubmit.bind(this)
+    this.linkTwitterAccount = this._linkTwitterAccount.bind(this)
+    this.unlinkTwitterAccount = this._unlinkTwitterAccount.bind(this)
   }
 
   componentWillReceiveProps(next) {
@@ -65,7 +74,7 @@ export default class ProfileSettings extends React.Component {
               Email
               <input className={this.fieldClasses('email')}
                 type="email" value={this.state.email.value}
-                onChange={this.handleChange('email').bind(this)} />
+                onChange={this.handleChange('email')} />
             </label>
           </div>
 
@@ -74,7 +83,7 @@ export default class ProfileSettings extends React.Component {
               Blurb
               <input className={this.fieldClasses('blurb')}
                 type="text" value={this.state.blurb.value}
-                onChange={this.handleChange('blurb').bind(this)}
+                onChange={this.handleChange('blurb')}
                 placeholder="Short blurb about yourself" />
             </label>
           </div>
@@ -84,12 +93,12 @@ export default class ProfileSettings extends React.Component {
               Flair Image URL
               <input className={this.fieldClasses('flair_url')}
                 type="text" value={this.state.flair_url.value}
-                onChange={this.handleChange('flair_url').bind(this)}
+                onChange={this.handleChange('flair_url')}
                 placeholder="https://media.giphy.com/media/GehetVRdV5EAw/giphy.gif" />
             </label>
           </div>
 
-          <Button action={this.handleSubmit.bind(this)}>Save Settings</Button>
+          <Button action={this.handleSubmit}>Save Settings</Button>
           {this.renderStatus()}
         </form>
 
@@ -129,12 +138,17 @@ export default class ProfileSettings extends React.Component {
               @{twitter_username}
             </a>.
           </span>
+          <div className="clearfix">
+            <a href="javascript:void(0)" onClick={this.unlinkTwitterAccount}>
+              Disconnect
+            </a>
+          </div>
         </div>
       )
     }
 
     return (
-      <Button size="default" bg="twitter-blue" action={this.linkTwitterAccount.bind(this)}>
+      <Button size="default" bg="twitter-blue" action={this.linkTwitterAccount}>
         <Icon icon="twitter" />
         <span className="ml2 h5">Connect to Twitter</span>
       </Button>
@@ -148,7 +162,7 @@ export default class ProfileSettings extends React.Component {
     })
   }
 
-  handleChange(field) {
+  _handleChange(field) {
     return (e) => {
       let change = {}
       change[field] = {
@@ -159,7 +173,7 @@ export default class ProfileSettings extends React.Component {
     }
   }
 
-  handleSubmit(e) {
+  _handleSubmit(e) {
     e.preventDefault()
     let change = {}
     for (let field in this.state) {
@@ -170,7 +184,11 @@ export default class ProfileSettings extends React.Component {
     ProfileActions.update(change)
   }
 
-  linkTwitterAccount(e) {
-    SessionActions.initializeTwitterSignIn({ user_id: this.props.profile.id })
+  _linkTwitterAccount(e) {
+    TwitterActions.signIn({ user_id: this.props.profile.id })
+  }
+
+  _unlinkTwitterAccount(e) {
+    TwitterActions.unlink(this.props.profile.id)
   }
 }

@@ -9,12 +9,15 @@ import Icon from 'ui/Icon.jsx'
 import LogoSrc from 'images/logo.svg'
 import { Map } from 'immutable'
 import React from 'react'
-import SessionActions from 'actions/SessionActions'
+import TwitterActions from 'actions/oauth/TwitterActions'
 
 @connectToStores(AuthenticationFormStore)
 export default class SignupForm extends React.Component {
   static getPropsFromStores() {
-    return { shown: AuthenticationFormStore.shown, ...AuthenticationFormStore.formContent }
+    return {
+      shown: AuthenticationFormStore.shown,
+      ...AuthenticationFormStore.formContent
+    }
   }
 
   constructor(props) {
@@ -144,23 +147,28 @@ export default class SignupForm extends React.Component {
 
   _handleChange(prop) {
     return (e) => {
-      AuthenticationFormActions.change(Map(this.props).set(prop, e.target.value))
+      AuthenticationFormActions.change(
+        Map(this.props).set(prop, e.target.value)
+      )
     }
   }
 
   _handleSubmit(e) {
     e.preventDefault()
 
-    AuthenticationFormActions.submit('register', AuthenticationFormStore.formContent)
+    AuthenticationFormActions.submit(
+      'register',
+      AuthenticationFormStore.formContent
+    )
   }
 
   _handleTwitterClick(e) {
     e.preventDefault()
 
     const { redirectTo } = this.props
-    const opts = redirectTo ? { origin: redirectTo } : {}
+    const opts = redirectTo ? { redirectTo } : {}
 
-    SessionActions.initializeTwitterSignIn(opts)
+    TwitterActions.signIn(opts)
   }
 }
 

@@ -9,7 +9,7 @@ import LogoSrc from 'images/logo.svg'
 import { Map } from 'immutable'
 import PasswordResetEmailForm from 'components/Authentication/PasswordResetEmailForm.jsx'
 import React from 'react'
-import SessionActions from 'actions/SessionActions'
+import TwitterActions from 'actions/oauth/TwitterActions'
 import SigninScrimActions from 'actions/SigninScrimActions'
 import SignupForm from 'components/Authentication/SignupForm.jsx'
 
@@ -114,9 +114,9 @@ export default class LoginForm extends React.Component {
     e.preventDefault()
 
     const { redirectTo } = this.props
-    const opts = redirectTo ? { origin: redirectTo } : {}
+    const opts = redirectTo ? { redirectTo } : {}
 
-    SessionActions.initializeTwitterSignIn(opts)
+    TwitterActions.signIn(opts)
   }
 
   _showSignupForm(e) {

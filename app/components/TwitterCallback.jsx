@@ -1,5 +1,5 @@
 import React from 'react'
-import SessionActions from 'actions/SessionActions'
+import TwitterActions from 'actions/oauth/TwitterActions'
 
 export default class TwitterCallback extends React.Component {
   static willTransitionTo(transition, params, query) {
@@ -7,7 +7,7 @@ export default class TwitterCallback extends React.Component {
       window.opener.location = window.location
       window.close()
     } else {
-      SessionActions.twitterCallback(query)
+      TwitterActions.callback(query)
     }
   }
 

@@ -5,7 +5,8 @@ import {
   PROFILE_FETCHING,
   PROFILE_UPDATE_FAILED,
   PROFILE_UPDATING,
-  PROFILE_UPDATED
+  PROFILE_UPDATED,
+  TWITTER_ACCOUNT_UNLINKED
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
@@ -50,7 +51,11 @@ class ProfileStore extends Store {
 
         case FOLLOWINGS_FETCHED:
           this._following = action.changelogs
-          break;
+          break
+
+        case TWITTER_ACCOUNT_UNLINKED:
+          this._profile.user = action.profile
+          break
 
         default:
           return
