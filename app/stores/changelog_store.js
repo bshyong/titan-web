@@ -85,6 +85,10 @@ class ChangelogStore extends Store {
           this.errors = null
           this.updateSuccessful = null
           this.saving = true
+          this._changelog = {
+            ...this._changelog,
+            ...action.params,
+          }
           break
 
         case CHANGELOG_UPDATED:

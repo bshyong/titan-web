@@ -13,10 +13,7 @@ import {List} from 'immutable'
 
 import Dispatcher from '../lib/dispatcher'
 import api from '../lib/api'
-import paramsFor from '../lib/paramsFor'
 import RouterContainer from '../lib/router_container'
-import SessionStore from '../stores/session_store'
-import segment from '../lib/segment'
 
 export default {
 
@@ -25,7 +22,7 @@ export default {
       then(resp => {
         Dispatcher.dispatch({
           type: CHANGELOGS_ALL_FETCHED,
-          changelogs: resp
+          changelogs: resp,
         })
       })
   },
@@ -38,21 +35,21 @@ export default {
         }
         Dispatcher.dispatch({
           type: CHANGELOG_FETCHED,
-          changelog: resp
+          changelog: resp,
         })
       })
   },
 
-  change(changelog){
+  change(changelog) {
     Dispatcher.dispatch({
       type: CHANGELOG_CHANGED,
-      changelog: changelog
+      changelog: changelog,
     })
   },
 
   clearCurrent() {
     Dispatcher.dispatch({
-      type: CHANGELOG_CURRENT_CLEARED
+      type: CHANGELOG_CURRENT_CLEARED,
     })
   },
 
@@ -61,7 +58,7 @@ export default {
       then(resp => {
         Dispatcher.dispatch({
           type: CHANGELOG_MEMBERSHIPS_FETCHED,
-          memberships: List(resp)
+          memberships: List(resp),
         })
       })
   },
@@ -70,21 +67,21 @@ export default {
     Dispatcher.dispatch({
       type: CHANGELOG_UPDATING,
       changelogId: id,
-      params: params
+      params: params,
     })
 
     api.put(`changelogs/${id}`, params).
       then(resp => {
         Dispatcher.dispatch({
           type: CHANGELOG_UPDATED,
-          changelog: resp
+          changelog: resp,
         })
       }).catch(errors => {
         Dispatcher.dispatch({
           type: CHANGELOG_UPDATE_FAILED,
           changelogId: id,
           params: params,
-          errors: errors
+          errors: errors,
         })
       })
   },
@@ -94,9 +91,9 @@ export default {
       then(resp => {
         Dispatcher.dispatch({
           type: CHANGELOG_DESTROYED,
-          changelog: resp
+          changelog: resp,
         })
         RouterContainer.get().transitionTo('dashboard')
       })
-  }
+  },
 }
