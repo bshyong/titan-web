@@ -1,33 +1,28 @@
 import {List} from 'immutable'
 import Avatar from '../ui/Avatar.jsx'
 import Badge from '../components/Badge.jsx'
-import ChangelogName from 'components/Changelog/ChangelogName.jsx'
 import ChangelogStore from '../stores/changelog_store'
 import connectToStores from '../lib/connectToStores.jsx'
 import Discussion from '../components/discussion.jsx'
 import DiscussionActions from '../actions/discussion_actions'
 import DocumentTitle from 'react-document-title'
-import GifPicker from '../components/gif_picker.jsx'
 import GroupedStoriesStore from '../stores/GroupedStoriesStore'
+import FlagStory from 'components/staff/FlagStory.jsx'
 import Guest from '../ui/Guest.jsx'
 import Icon from '../ui/Icon.jsx'
 import invite from '../lib/invite'
-import Label from '../ui/Label.jsx'
 import Link from '../components/Link.jsx'
-import LoadingBar from '../ui/LoadingBar.jsx'
 import Markdown from '../ui/Markdown.jsx'
 import moment from '../config/moment'
 import paramsFor from '../lib/paramsFor'
-import pluralize from '../lib/pluralize'
 import Popover from '../ui/Popover.jsx'
 import React from 'react'
 import Router from '../lib/router_container'
-import SessionStore from '../stores/session_store'
-import shallowEqual from 'react-pure-render/shallowEqual'
 import Stack from '../ui/Stack.jsx'
 import StoryActions from '../actions/story_actions'
 import StoryReadersStore from '../stores/story_readers_store'
 import UpvoteToggler from '../components/UpvoteToggler.jsx'
+import StaffOnly from 'components/StaffOnly.jsx'
 
 @connectToStores(GroupedStoriesStore, StoryReadersStore, ChangelogStore)
 export default class StoryPage extends React.Component {
@@ -133,7 +128,18 @@ export default class StoryPage extends React.Component {
               </div>
             </div>
           </div>
+
+          <StaffOnly>
+            <div className="clearfix bg-light-gray py4">
+              <div className="container">
+                <h4>👊Super Admin Power Panel™</h4>
+                <FlagStory changelogId={this.props.changelogId} story={this.props.story} />
+              </div>
+            </div>
+          </StaffOnly>
+
         </div>
+
       </DocumentTitle>
     )
   }

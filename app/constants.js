@@ -137,15 +137,17 @@ export default keyMirror({
 
   STORY_CREATING: null,
   STORY_DELETED: null,
+  STORY_EDITING: null,
   STORY_FETCH: null,
   STORY_FETCHED: null,
   STORY_HEARTED: null,
   STORY_PUBLISHED: null,
-  STORY_EDITING: null,
   STORY_SUBSCRIBED: null,
   STORY_UNHEARTED: null,
   STORY_UNSUBSCRIBED: null,
+  STORY_UPDATE_FAILED: null,
   STORY_UPDATED: null,
+  STORY_UPDATING: null,
 
   STORY_FORM_CHANGE: null,
   STORY_FORM_CLEAR: null,

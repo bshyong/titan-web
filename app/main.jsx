@@ -31,12 +31,13 @@ import url from 'url'
 import createRedux from 'redux/create'
 import { Provider } from 'redux/react'
 
-let redux = createRedux(api)
-
+let initialState = {}
 let jwt = localStorage.getItem('jwt')
 if (jwt) {
-  SessionActions.signinFromToken(jwt)
+  const user = SessionActions.signinFromToken(jwt)
+  initialState.currentUser = user
 }
+let redux = createRedux(api, initialState)
 
 // Monkey patch to make domains and hashes in urls work
 Router.HistoryLocation.getCurrentPath = function getCurrentPath() {
