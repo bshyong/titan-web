@@ -9,11 +9,11 @@ const sample = (arr) => {
 }
 
 const Colors = [
-  "rgba(0,   163, 185, 0.8)",
-  "rgba(239, 84,  68,  0.8)",
-  "rgba(147, 189, 22,  0.8)",
-  "rgba(252, 203, 14,  0.8)",
-  "rgba(32,  91,  103, 0.8)",
+  "rgba(17,  163, 183, 0.8)", // blue
+  "rgba(249, 201, 51,  0.8)", // yellow
+  "rgba(147, 185, 69,  0.8)", // green
+  "rgba(255, 104, 70,  0.8)", // orange
+  "rgba(68,  72,  81,  0.8)", // charcoal
 ]
 
 export default class Divider extends React.Component {

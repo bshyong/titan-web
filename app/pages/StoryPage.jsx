@@ -121,7 +121,7 @@ export default class StoryPage extends React.Component {
             </div>
           </div>
 
-          <div className="flex-auto bg-whitesmoke">
+          <div className="flex-auto bg-smoke">
             <div className="container">
               <div className="sm-col-8 mx-auto mt4" style={{marginBottom: '20rem'}}>
                 <Discussion story={this.props.story} changelogId={this.props.changelogId} />

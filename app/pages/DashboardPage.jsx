@@ -25,7 +25,7 @@ export default class DashboardPage extends React.Component {
       <DocumentTitle title="Dashboard">
         <div>
           <ApplicationNavbar title="Dashboard" />
-          <Jumbotron bgColor="whitesmoke" color="black">
+          <Jumbotron bgColor="smoke" color="black">
             <div className="sm-flex flex-center sm-mxn2 center sm-left-align">
               <div className="px2 mb2 sm-mb0">
                 <h3 className="mt0 mb1 bold">Behind-the-scenes of your product</h3>

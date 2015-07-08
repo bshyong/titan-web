@@ -1,9 +1,5 @@
 @import 'basscss';
 
-/* Base */
-@import 'base/colors';
-@import 'base/typography';
-
 /* Utilities */
 @import 'utilities/colors';
 @import 'utilities/no_select';
@@ -13,6 +9,7 @@
 @import 'utilities/sticky';
 @import 'utilities/transition';
 @import 'utilities/typography';
+@import 'utilities/underline';
 @import 'utilities/visible_hover';
 @import 'utilities/whitespace';
 
@@ -20,29 +17,38 @@
 @import 'components/button';
 @import 'components/comment';
 @import 'components/field_light';
+@import 'components/field';
+@import 'components/headings';
 @import 'components/input';
 @import 'components/list';
 @import 'components/loading_bar';
 @import 'components/markdown';
 @import 'components/navbar';
+@import 'components/p';
 @import 'components/popover';
 @import 'components/stack';
+@import 'components/strong';
 @import 'components/upvote_toggler';
-@import 'components/field';
+
 
 :root {
-  --blue: #00A3B9;
-  --red: #EF5444;
-  --green: #93BD16;
-  --yellow: #FCCB0E;
-  --navy: #205B67;
-  --orange: #FE6600;
+  --blue: #11A3B7;
+  --yellow: #F9C933;
+  --green: #93B945;
+  --orange: #FF6846;
+
+  --black: #222;
+  --charcoal: #444851;
+  --gray: #A3A6AD;
+  --silver: #DEE0E3;
+  --smoke: #FAF9F8;
+  --white: #FFF;
+
   --twitter-blue: #55ACEE;
 
-  --charcoal: #444851;
-  --silversmoke: #DEE0E3;
-  --whitesmoke: #FAF9F8;
-  --smoke: #F3F2F1;
+  /* Deprecated */
+  --whitesmoke: var(--smoke);
+  --silversmoke: var(--whitesmoke);
 
   --darken-1: #00000010;
   --darken-2: #00000020;
@@ -71,7 +77,7 @@
   --time-3: 600ms;
   --time-4: 1200ms;
 
-  --border-color: var(--smoke);
+  --border-color: var(--silver);
 
   --font-family: "Avenir Next", "Avenir", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --heading-font-family: var(--font-family);

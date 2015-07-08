@@ -42,7 +42,7 @@ export default class ChangelogInviteLink extends React.Component {
         <Clipboard
           text={this.url()}
           onAfterCopy={this.handleAfterCopy.bind(this)}>
-           <div className="pointer flex-none px2 py1 border-left border-silver center bg-whitesmoke orange">
+           <div className="pointer flex-none px2 py1 border-left border-silver center bg-smoke orange">
              {this.state.copied ? 'Copied' : 'Copy'}
            </div>
         </Clipboard>

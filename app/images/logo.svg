@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg width="28px" height="24px" viewBox="0 0 28 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-    <!-- Generator: Sketch 3.3 (11970) - http://www.bohemiancoding.com/sketch -->
-    <title>Artboard 1 Copy</title>
+    <!-- Generator: Sketch 3.3.2 (12043) - http://www.bohemiancoding.com/sketch -->
+    <title>Untitled 16</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <g id="Artboard-1-Copy" sketch:type="MSArtboardGroup">
-            <rect id="Rectangle-1" fill="#FACB34" sketch:type="MSShapeGroup" x="8" y="18" width="20" height="4" rx="2"></rect>
-            <circle id="Oval-2" fill="#454A52" sketch:type="MSShapeGroup" cx="2" cy="20" r="2"></circle>
-            <rect id="Rectangle-2" fill="#93BC3F" sketch:type="MSShapeGroup" x="0" y="10" width="16" height="4" rx="2"></rect>
-            <rect id="Rectangle-2-Copy-2" fill="#F15745" sketch:type="MSShapeGroup" x="16" y="2" width="12" height="4" rx="2"></rect>
-            <rect id="Rectangle-2-Copy-4" fill="#454A52" sketch:type="MSShapeGroup" x="20" y="10" width="8" height="4" rx="2"></rect>
-            <rect id="Rectangle-2-Copy-3" fill="#14A2B7" sketch:type="MSShapeGroup" x="0" y="2" width="12" height="4" rx="2"></rect>
+        <g id="logo" sketch:type="MSLayerGroup" transform="translate(0.000000, 2.000000)">
+            <g id="Page-1" sketch:type="MSShapeGroup">
+                <g id="Artboard-1-Copy">
+                    <rect id="Rectangle-1" fill="#F9C933" x="8" y="16" width="20" height="4" rx="2"></rect>
+                    <circle id="Oval-2" fill="#444951" cx="2" cy="18" r="2"></circle>
+                    <rect id="Rectangle-2" fill="#93B945" x="0" y="8" width="16" height="4" rx="2"></rect>
+                    <rect id="Rectangle-2-Copy-2" fill="#FF6846" x="16" y="0" width="12" height="4" rx="2"></rect>
+                    <rect id="Rectangle-2-Copy-4" fill="#444951" x="20" y="8" width="8" height="4" rx="2"></rect>
+                    <rect id="Rectangle-2-Copy-3" fill="#14A2B7" x="0" y="0" width="12" height="4" rx="2"></rect>
+                </g>
+            </g>
         </g>
     </g>
 </svg>

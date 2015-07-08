@@ -7,3 +7,22 @@
 .lighten-2 { color: var(--lighten-2) }
 .lighten-3 { color: var(--lighten-3) }
 .lighten-4 { color: var(--lighten-4) }
+
+/* color */
+
+.charcoal { color: var(--charcoal) }
+.smoke { color: var(--smoke) }
+.twitter-blue { color: var(--twitter-blue) }
+
+.orange-hover:hover { color: var(--orange) }
+.gray-hover:hover { color: var(--charcoal) }
+
+.gray-visited:visited { color: var(--gray) }
+
+/* bg */
+
+.bg-charcoal { background-color: var(--charcoal) }
+.bg-smoke { background-color: var(--smoke) }
+.bg-twitter-blue { background-color: var(--twitter-blue) }
+
+.bg-smoke-hover:hover { background-color: var(--smoke) }
