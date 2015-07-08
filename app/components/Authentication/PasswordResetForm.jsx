@@ -56,7 +56,9 @@ export default class PasswordResetForm extends React.Component {
                 </div>
 
                 <div className="py2">
-                  <AuthenticationFormButton action={this.handleSubmit} disabled={this.isButtonDisabled()}>
+                  <AuthenticationFormButton
+                    action={this.handleSubmit}
+                    disabled={this.isButtonDisabled()}>
                     Submit
                   </AuthenticationFormButton>
                 </div>

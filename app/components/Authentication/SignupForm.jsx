@@ -9,12 +9,15 @@ import Icon from 'ui/Icon.jsx'
 import LogoSrc from 'images/logo.svg'
 import { Map } from 'immutable'
 import React from 'react'
-import SessionActions from 'actions/SessionActions'
+import TwitterActions from 'actions/oauth/TwitterActions'
 
 @connectToStores(AuthenticationFormStore)
 export default class SignupForm extends React.Component {
   static getPropsFromStores() {
-    return { shown: AuthenticationFormStore.shown, ...AuthenticationFormStore.formContent }
+    return {
+      shown: AuthenticationFormStore.shown,
+      ...AuthenticationFormStore.formContent
+    }
   }
 
   constructor(props) {
@@ -22,6 +25,7 @@ export default class SignupForm extends React.Component {
 
     this.handleChange = this._handleChange.bind(this)
     this.handleSubmit = this._handleSubmit.bind(this)
+    this.handleTwitterClick = this._handleTwitterClick.bind(this)
   }
 
   render() {
@@ -98,7 +102,7 @@ export default class SignupForm extends React.Component {
         <div className="mt4">
           <a href="javascript:void(0)"
             className="bold darken-4 gray-hover"
-            onClick={SessionActions.initializeTwitterSignIn}>
+            onClick={this.handleTwitterClick}>
             Sign up using Twitter instead
           </a>
         </div>
@@ -110,7 +114,7 @@ export default class SignupForm extends React.Component {
     return (
       <div>
         <Button size="big" bg="twitter-blue" block
-          action={SessionActions.initializeTwitterSignIn}>
+          action={this.handleTwitterClick}>
           <Icon icon="twitter" />
           <span className="ml2">Use Twitter</span>
         </Button>
@@ -143,20 +147,35 @@ export default class SignupForm extends React.Component {
 
   _handleChange(prop) {
     return (e) => {
-      AuthenticationFormActions.change(Map(this.props).set(prop, e.target.value))
+      AuthenticationFormActions.change(
+        Map(this.props).set(prop, e.target.value)
+      )
     }
   }
 
   _handleSubmit(e) {
     e.preventDefault()
 
-    AuthenticationFormActions.submit('register', AuthenticationFormStore.formContent)
+    AuthenticationFormActions.submit(
+      'register',
+      AuthenticationFormStore.formContent
+    )
+  }
+
+  _handleTwitterClick(e) {
+    e.preventDefault()
+
+    const { redirectTo } = this.props
+    const opts = redirectTo ? { redirectTo } : {}
+
+    TwitterActions.signIn(opts)
   }
 }
 
 SignupForm.propTypes = {
   email: React.PropTypes.string,
   password: React.PropTypes.string,
+  redirectTo: React.PropTypes.string,
   shown: React.PropTypes.bool,
   username: React.PropTypes.string
 }

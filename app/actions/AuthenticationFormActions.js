@@ -38,7 +38,7 @@ export default {
   submit(path, data) {
     api.post(path, data).then(resp => {
       SessionActions.signinFromToken(resp.token)
-      window.location = resp.return_url
+      window.location = data.redirectTo || '/'
     }).catch(error => {
       Dispatcher.dispatch({
         type: AUTHENTICATION_FORM_ERROR,

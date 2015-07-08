@@ -6,9 +6,12 @@ import SignupForm from 'components/Authentication/SignupForm.jsx'
 
 export default class SignupPage extends React.Component {
   componentDidMount() {
-    let returnUrl = RouterContainer.router.getCurrentQuery().return_path || '/dashboard'
-    SigninScrimActions.show(SignupForm, returnUrl)
+    const redirectTo = (
+      RouterContainer.router.getCurrentQuery().redirectTo || '/dashboard'
+    )
+    SigninScrimActions.show(SignupForm, redirectTo)
   }
+
   render() {
     return (
       <DocumentTitle title="Login" />

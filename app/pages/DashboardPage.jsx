@@ -42,7 +42,6 @@ export default class DashboardPage extends React.Component {
               </div>
             </div>
           </Jumbotron>
-
           <div className="container px0 sm-px2 mb4">
             <Dashboard />
           </div>
