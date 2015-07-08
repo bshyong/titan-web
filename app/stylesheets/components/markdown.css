@@ -6,6 +6,11 @@
   border-left: 2px solid var(--silver);
 }
 
+.markdown > blockquote,
+.markdown > blockquote p {
+  font-size: var(--h4);
+}
+
 .markdown img {
   border-radius: var(--border-radius);
   border: 1px solid var(--border-color);
