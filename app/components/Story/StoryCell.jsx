@@ -5,7 +5,6 @@ import Icon from 'ui/Icon.jsx'
 import React from 'react'
 import Stack from 'ui/Stack.jsx'
 import {List, Range} from 'immutable'
-import Logo from 'components/Logo.jsx'
 
 export default class StoryCell extends React.Component {
   static propTypes = {
