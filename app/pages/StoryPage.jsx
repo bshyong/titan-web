@@ -23,6 +23,7 @@ import StoryActions from '../actions/story_actions'
 import StoryReadersStore from '../stores/story_readers_store'
 import UpvoteToggler from '../components/UpvoteToggler.jsx'
 import StaffOnly from 'components/StaffOnly.jsx'
+import Sticky from 'ui/Sticky.jsx'
 
 @connectToStores(GroupedStoriesStore, StoryReadersStore, ChangelogStore)
 export default class StoryPage extends React.Component {
@@ -111,12 +112,14 @@ export default class StoryPage extends React.Component {
                 </div>
               </div>
 
-              <div className="flex-first sm-col-2">
-                <div className="flex flex-column flex-center px2 center">
-                  <UpvoteToggler story={story}
-                         size="lg"
-                         hearted={story.viewer_has_hearted} />
-                </div>
+              <div className="flex-first sm-col-2" style={{marginTop: '-1rem', marginBottom: '-1rem'}}>
+                <Sticky>
+                  <div className="flex flex-column flex-center p2 center">
+                    <UpvoteToggler story={story}
+                           size="lg"
+                           hearted={story.viewer_has_hearted} />
+                  </div>
+                </Sticky>
               </div>
             </div>
           </div>
@@ -127,12 +130,12 @@ export default class StoryPage extends React.Component {
                 <Discussion story={this.props.story} changelogId={this.props.changelogId} />
               </div>
             </div>
-          </div>
+          </div>``
 
           <StaffOnly>
             <div className="clearfix bg-light-gray py4">
               <div className="container">
-                <h4>👊Super Admin Power Panel™</h4>
+                <h4>👊 Super Admin Power Panel™</h4>
                 <FlagStory changelogId={this.props.changelogId} story={this.props.story} />
               </div>
             </div>
