@@ -4,8 +4,7 @@ import React from 'react'
 export default class AuthenticationFormButton extends React.Component {
   render() {
     return <Button size="big"
-      bg="smoke"
-      color="black"
+      bg="gray"
       block
       {...this.props} />
   }
