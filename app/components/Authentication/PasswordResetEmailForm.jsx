@@ -3,6 +3,7 @@ import AuthenticationFormButton from 'components/Authentication/AuthenticationFo
 import AuthenticationFormError from 'components/Authentication/AuthenticationFormError.jsx'
 import AuthenticationFormStore from 'stores/AuthenticationFormStore'
 import Button from 'ui/Button.jsx'
+import classnames from 'classnames'
 import connectToStores from 'lib/connectToStores.jsx'
 import Icon from 'ui/Icon.jsx'
 import LogoSrc from 'images/logo.svg'
@@ -18,7 +19,8 @@ export default class PasswordResetEmailForm extends React.Component {
   static getPropsFromStores() {
     return {
       ...AuthenticationFormStore.formContent,
-      confirmationShown: PasswordResetFormStore.confirmationShown
+      confirmation: PasswordResetFormStore.confirmation,
+      confirmationType: PasswordResetFormStore.confirmationType
     }
   }
 
@@ -53,12 +55,13 @@ export default class PasswordResetEmailForm extends React.Component {
   }
 
   renderForm() {
-    const { email, confirmationShown } = this.props
+    const { email, confirmation, confirmationType } = this.props
 
-    if (confirmationShown) {
+    if (confirmation) {
+      const classes = classnames(confirmationType, 'white rounded p2')
       return (
-        <div className="white bg-blue rounded p2">
-          An email has been sent to {PasswordResetFormStore.email}.
+        <div className={classes}>
+          {confirmation}
         </div>
       )
     }
