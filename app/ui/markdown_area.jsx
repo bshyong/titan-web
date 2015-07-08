@@ -30,7 +30,8 @@ export default class MarkdownArea extends React.Component {
     this.onUploading = this._onUploading.bind(this)
     this.onUserSelected = this._onUserSelected.bind(this)
     this.onGifSelected = this._onGifSelected.bind(this)
-    this.toggleFocus = this._toggleFocus.bind(this)
+    this.onFocus = this._onFocus.bind(this)
+    this.onBlur = this._onBlur.bind(this)
     this.updateSelectionStart = this._updateSelectionStart.bind(this)
   }
 
@@ -97,10 +98,10 @@ export default class MarkdownArea extends React.Component {
                   ref="textarea"
                   className="block full-width"
                   style={style.textarea}
-                  onBlur={this.toggleFocus}
+                  onBlur={this.onBlur}
                   onChange={this.handleChange}
                   onClick={this.updateSelectionStart}
-                  onFocus={this.toggleFocus}
+                  onFocus={this.onFocus}
                   onKeyDown={this.props.onCmdEnter ? this.handleKeyDown : this.updateSelectionStart} />
               </div>
               <div className="flex-none">
@@ -257,9 +258,21 @@ export default class MarkdownArea extends React.Component {
     }, 0)
   }
 
-  _toggleFocus(e) {
+  _onBlur(e) {
+    // we need to give the UserPicker and other events
+    // time to do their thing
+
+    // FIXME (pletcher): This component is rapidly getting out of hand :(
+    setTimeout(() => {
+      this.setState({
+        focused: false
+      })
+    }, 200)
+  }
+
+  _onFocus(e) {
     this.setState({
-      focused: !this.state.focused
+      focused: true
     })
   }
 
