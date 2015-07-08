@@ -60,7 +60,7 @@ export default class StoryRange extends React.Component {
           <ClickablePaginator onLoadMore={this.handleShowMore.bind(this)} hasMore={showLoadMore}>
             {stories.map(story => (
               <Table.Cell key={story.id} to="story" params={paramsFor.story({slug: changelogId}, story)}>
-                <StoryCell story={story} changelog={changelog} />
+                <StoryCell story={story} />
               </Table.Cell>
             ))}
           </ClickablePaginator>

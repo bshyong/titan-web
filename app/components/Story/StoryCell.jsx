@@ -5,31 +5,32 @@ import Icon from 'ui/Icon.jsx'
 import React from 'react'
 import Stack from 'ui/Stack.jsx'
 import {List, Range} from 'immutable'
+import Logo from 'components/Logo.jsx'
 
 export default class StoryCell extends React.Component {
   static propTypes = {
     changelog: React.PropTypes.shape({
       is_members_only: React.PropTypes.bool.isRequired,
-    }).isRequired,
+    }),
     story: React.PropTypes.object.isRequired,
-    slim: React.PropTypes.bool.isRequired,
-  }
-
-  static defaultProps = {
-    slim: false,
   }
 
   render() {
     const { story, changelog } = this.props
     return (
       <div className="flex">
-        {this.renderBadge()}
-
-        <div className="flex-auto">
-          {story.team_member_only && !changelog.is_members_only ? <Icon icon="lock" /> : null} {story.title}
+        <div className="flex-none mr2">
+          <Badge badge={story.emoji} size="1.5rem" />
         </div>
 
-        {this.renderContributors()}
+        <div className="flex-auto">
+          <div className={changelog ? 'bold' : ''}>{story.team_member_only && !changelog.is_members_only ? <Icon icon="lock" /> : null} {story.title}</div>
+          {this.renderChangelog()}
+        </div>
+
+        <div className="flex-none sm-show ml2">
+          <Stack items={this.avatars()} align="right" />
+        </div>
 
         <div className="flex-none sm-show ml2">
           <div className="h5 gray  mxn1 flex">
@@ -51,28 +52,18 @@ export default class StoryCell extends React.Component {
     )
   }
 
-  renderBadge() {
-    if (this.props.slim) {
+  renderChangelog() {
+    const { changelog } = this.props
+    if (!changelog) {
       return
     }
-
-    const { story } = this.props
-
     return (
-      <div className="flex-none mr2">
-        <Badge badge={story.emoji} size="1.5rem" />
-      </div>
-    )
-  }
-
-  renderContributors() {
-    if (this.props.slim) {
-      return
-    }
-
-    return (
-      <div className="flex-none sm-show ml2">
-        <Stack items={this.avatars()} align="right" />
+      <div className="h6">
+        <span className="gray">in</span>
+        {' '}
+        {changelog.name}
+        {' '}
+        <span className="gray">&mdash; {changelog.tagline}</span>
       </div>
     )
   }

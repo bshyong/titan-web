@@ -1,6 +1,5 @@
-import {List, Map, Set} from 'immutable'
+import {List} from 'immutable'
 import Badge from '../Badge.jsx'
-import Button from '../../ui/Button.jsx'
 import ClickablePaginator from '../../ui/ClickablePaginator.jsx'
 import connectToStores from '../../lib/connectToStores.jsx'
 import Divider from '../Divider.jsx'
@@ -156,18 +155,7 @@ export default class ProfilePage extends React.Component {
                 .reverse()
                 .map(story => (
                   <Table.Cell key={story.id} to="story" params={paramsFor.story(story.changelog, story)}>
-                    <div className="flex">
-                      <div className="flex-none">
-                        <Badge badge={story.emoji} size="1.5rem" />
-                      </div>
-                      <div className="flex-auto px2">
-                        {story.title}
-                      </div>
-                      <div className="flex-none gray h5">
-                        {story.changelog.name}
-                      </div>
-                    </div>
-
+                    <StoryCell story={story} changelog={story.changelog} />
                   </Table.Cell>
                 ))
             }
