@@ -1,6 +1,8 @@
 import {
   STORY_FETCHED
 } from '../../constants'
+import { createRedux } from 'redux'
+import { Provider } from 'redux/react'
 import api from '../../lib/api'
 import Dispatcher from '../../lib/dispatcher'
 import React from 'react/addons'
@@ -21,24 +23,29 @@ describe('StoryPage', () => {
     }
     const story = {
       emoji: {
-        unicode: '👍'
+        unicode: '👍',
       },
       user: {},
       contributors: [],
     }
 
+    const redux = createRedux({ test: () => 'test' });
     const Subject = stubRouterContext(StoryPage.Component, {
       changelog: changelog,
       story: story
     })
-    const c = TestUtils.renderIntoDocument(<Subject />)
+    const c = TestUtils.renderIntoDocument(
+      <Provider redux={redux}>
+        {() => <Subject ref="subject" />}
+      </Provider>
+    )
 
     fetchStory('changelog', story)
 
     spyOn(window, 'confirm').and.returnValue(true)
     spyOn(api, 'delete')
     spyOn(Router, 'transitionTo')
-    TestUtils.Simulate.click(c.refs.stub.refs.del)
+    TestUtils.Simulate.click(c.refs.subject.refs.stub.refs.del)
 
     expect(api.delete.calls.count()).toEqual(1)
     expect(Router.transitionTo.calls.count()).toEqual(1)
