@@ -136,6 +136,18 @@ export default class ChangelogSettings extends React.Component {
     )
   }
 
+  renderBanner(changelog) {
+    if (changelog.banner_url) {
+      return <img className="rounded" src={changelog.banner_url} />
+    }
+
+    return (
+      <div className="bg-smoke border center rounded py2 pointer">
+        Drag and drop here to upload a banner.
+      </div>
+    )
+  }
+
   renderBannerChanger() {
     const { changelog } = this.props
 
@@ -145,16 +157,16 @@ export default class ChangelogSettings extends React.Component {
           <h4 className="bold mr1 inline-block">
             Banner
           </h4>
-          <span className="gray">Drag and drop or click to change</span>
         </label>
         <div className="mr2 py1 visible-hover-wrapper">
           <DropzoneContainer id={`banner-${changelog.id}`}
             clickable="#banner-clickable"
             onUploaded={this.onBannerUploaded}
             onUploading={this.onBannerUploading}>
-            <img className="rounded"
-              id="banner-clickable"
-              src={changelog.banner_url} />
+            <div className="rounded pointer"
+              id="banner-clickable">
+              {this.renderBanner(changelog)}
+            </div>
             <LoadingBar loading={this.state.bannerUploading} />
           </DropzoneContainer>
         </div>
@@ -224,13 +236,12 @@ export default class ChangelogSettings extends React.Component {
           <h4 className="bold mr1 inline-block">
             Logo
           </h4>
-          <span className="gray">Drag and drop or click to change</span>
         </label>
         <DropzoneContainer id={`logo-${changelog.id}`}
           clickable="#logo-clickable"
           onUploaded={this.onLogoUploaded}
           onUploading={this.onLogoUploading}>
-          <div className="flex-auto" id="logo-clickable">
+          <div className="flex-auto pointer" id="logo-clickable">
             <div className="relative" style={{maxWidth: 64, width: 64}}>
               <div className="absolute" style={{bottom: 0}}>
                 <LoadingBar loading={this.state.logoUploading} />
@@ -405,12 +416,12 @@ export default class ChangelogSettings extends React.Component {
   }
 
   _onBannerUploaded(banner) {
-    ChangelogActions.update(
-      this.props.changelogId,
-      Map(ChangelogStore.changelog).set('banner_url', `${banner.firesize_url}/${banner.href}`).toJS()
-    )
-
     setTimeout(() => {
+      ChangelogActions.update(
+        this.props.changelogId,
+        Map(ChangelogStore.changelog).set('banner_url', `${banner.firesize_url}/${banner.href}`).toJS()
+      )
+
       this.setState({
         bannerUploading: false
       })

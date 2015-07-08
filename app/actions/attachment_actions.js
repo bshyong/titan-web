@@ -7,19 +7,17 @@ import {
 import api from '../lib/api'
 import Dispatcher from '../lib/dispatcher'
 
-class AttachmentActions {
+export default {
   confirmAttachment() {
     Dispatcher.dispatch({
       type: ATTACHMENT_SUCCEEDED
     })
-  }
+  },
 
   uploadAttachment(commentId) {
     return (file, done) => _upload(commentId, file, done)
   }
 }
-
-module.exports = new AttachmentActions()
 
 function _upload(commentId, file, done) {
   Dispatcher.dispatch({
