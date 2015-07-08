@@ -1,10 +1,8 @@
-import authenticated from 'components/mixins/authenticated_mixin.jsx'
 import Avatar from 'ui/Avatar.jsx'
 import Button from 'ui/Button.jsx'
 import ChangelogActions from 'actions/changelog_actions'
 import ChangelogInviteLink from 'components/Changelog/ChangelogInviteLink.jsx'
 import ChangelogStore from 'stores/changelog_store'
-import connectToStores from 'lib/connectToStores.jsx'
 import CustomDomainSettingsPanel from './CustomDomainSettingsPanel.jsx'
 import DropzoneContainer from '../DropzoneContainer.jsx'
 import Icon from 'ui/Icon.jsx'
@@ -21,8 +19,11 @@ import RouterContainer from 'lib/router_container'
 import Switch from 'ui/Switch.jsx'
 import Table from 'ui/Table.jsx'
 import TeamAdder from 'components/team_adder.jsx'
+import UriRegex from 'lib/uri_regex.js'
 import VisibilityToggler from 'components/VisibilityToggler.jsx'
 import WriteSetting from 'components/settings/WriteSetting.jsx'
+import authenticated from 'components/mixins/authenticated_mixin.jsx'
+import connectToStores from 'lib/connectToStores.jsx'
 
 import {List, Map} from 'immutable'
 
@@ -104,7 +105,9 @@ export default class ChangelogSettings extends React.Component {
         {this.renderLogoChanger()}
         {this.renderBannerChanger()}
         {this.renderHomepageChanger()}
+        {this.renderWebhookChanger()}
         {this.renderSaver()}
+
         <hr />
         <CustomDomainSettingsPanel />
         <hr />
@@ -158,6 +161,37 @@ export default class ChangelogSettings extends React.Component {
       </div>
     )
   }
+
+  renderWebhookChanger() {
+    const { changelog: { webhook_url } } = this.props
+
+    const error = !webhook_url || UriRegex.test(webhook_url) ? '' : 'Invalid URL; make sure to include http:// or https://'
+
+    return (
+      <div className="mb2">
+        <label>
+          <h4 className="bold mr3">
+            Slack Webhook URL
+          </h4>
+          <p className="gray">
+            <a href="https://my.slack.com/services/new/incoming-webhook/" target="_blank">Set up a webhook on Slack</a> and save it here to get notified when new posts are published.
+          </p>
+        </label>
+        <div className="mr2 py1 visible-hover-wrapper">
+          <form className="mb2">
+            <input type="text"
+              ref="homepage"
+              className="field-light full-width"
+              onChange={this.handleChange('webhook_url')}
+              value={this.props.changelog.webhook_url}
+              placeholder="https://www.examplewebhook.com" />
+            <small className="px1 red">{error}</small>
+          </form>
+        </div>
+      </div>
+    )
+  }
+
 
   renderHomepageChanger() {
     return (
