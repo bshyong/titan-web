@@ -196,7 +196,7 @@ export default class ChangelogSettings extends React.Component {
               className="field-light full-width"
               onChange={this.handleChange('webhook_url')}
               value={this.props.changelog.webhook_url}
-              placeholder="https://www.examplewebhook.com" />
+              placeholder="https://hooks.slack.com/services/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" />
             <small className="px1 red">{error}</small>
           </form>
         </div>
