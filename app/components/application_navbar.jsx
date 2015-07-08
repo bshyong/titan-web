@@ -114,6 +114,9 @@ export default class ApplicationNavbar extends React.Component {
             <a href="https://assembly.com/about">About</a>
           </List.Item>
           <List.Item>
+            <Link to="faq">FAQ</Link>
+          </List.Item>			
+          <List.Item>
             <a href="#" onClick={this._handleSignout}>Sign out</a>
           </List.Item>
         </List>

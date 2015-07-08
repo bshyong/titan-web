@@ -44,7 +44,7 @@ var internal = (
 
     <Route handler={AdminPage} path="/admin" />
     <Route handler={HomePage} path="/home" />
-    <Route handler={FaqPage} path="/faq" />
+    <Route handler={FaqPage} path="/faq" name="faq" />
 
     <Route handler={NewChangelogPage} path="/new" name="newChangelog" />
 

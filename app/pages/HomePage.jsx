@@ -210,6 +210,9 @@ export default class HomePage extends React.Component {
                     <a className="block p2 gray" href="https://cove.assembly.com/about">About</a>
                   </li>
                   <li>
+					<Link className="block p2 gray" to="faq">FAQ</Link>
+                  </li>					
+                  <li>
                     <a className="block p2 gray" href="http://blog.assembly.com">Blog</a>
                   </li>
                   <li>
