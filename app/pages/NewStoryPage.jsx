@@ -66,7 +66,7 @@ export default class NewStoryPage extends React.Component {
         contributors: ContributorsStore.contributors,
         errorMessage: StoryFormStore.errorMessage
       },
-      uploadsFinished: UploadingAttachmentStore.uploadsFinished,
+      uploadsFinished: UploadingAttachmentStore.uploadsFinished('new_story'),
     }
   }
 

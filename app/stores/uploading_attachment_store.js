@@ -19,14 +19,14 @@ class UploadingAttachmentStore extends Store {
             (this.attachments.get(commentId) || List()).push(attachment)
           )
           this.uploadStates = this.uploadStates.set(
-            [attachment.name, attachment.type, attachment.size].join('_'),
+            commentId,
             false
           )
           break
         case ATTACHMENT_UPLOADED:
-          var attachment = action.attachment
+          var commentId = action.commentId
           this.uploadStates = this.uploadStates.set(
-            [attachment.name, attachment.content_type, attachment.size].join('_'),
+            commentId,
             true
           )
           break
@@ -38,10 +38,8 @@ class UploadingAttachmentStore extends Store {
     })
   }
 
-  get uploadsFinished() {
-    return this.uploadStates.values().size === 0 ? true : this.uploadStates.every((v, k) => {
-      v === true
-    })
+  uploadsFinished(commentId) {
+    return this.uploadStates.get(commentId) !== true
   }
 
   getAttachments(commentId) {
