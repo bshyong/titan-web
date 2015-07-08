@@ -32,8 +32,8 @@ export default class StoryCell extends React.Component {
           <Stack items={this.avatars()} align="right" />
         </div>
 
-        <div className="flex-none sm-show ml2">
-          <div className="h5 gray  mxn1 flex">
+        <div className="flex-none sm-show ml2 right-align" style={{minWidth: '6rem'}}>
+          <div className="h5 gray mxn1 flex">
             <div className="px1 no-underline">
               <span className=" silver"><Icon icon="comment" /></span>
               {' '}
