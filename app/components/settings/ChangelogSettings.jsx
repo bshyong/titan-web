@@ -1,12 +1,15 @@
+import authenticated from 'components/mixins/authenticated_mixin.jsx'
 import Avatar from 'ui/Avatar.jsx'
 import Button from 'ui/Button.jsx'
 import ChangelogActions from 'actions/changelog_actions'
 import ChangelogInviteLink from 'components/Changelog/ChangelogInviteLink.jsx'
 import ChangelogStore from 'stores/changelog_store'
+import connectToStores from 'lib/connectToStores.jsx'
 import CustomDomainSettingsPanel from './CustomDomainSettingsPanel.jsx'
 import DropzoneContainer from '../DropzoneContainer.jsx'
 import Icon from 'ui/Icon.jsx'
 import ImportFromCovePanel from 'components/settings/ImportFromCovePanel.jsx'
+import InvitationActions from 'actions/invitation_actions'
 import Link from 'components/Link.jsx'
 import LoadingBar from 'ui/LoadingBar.jsx'
 import Logo from '../logo.jsx'
@@ -19,9 +22,7 @@ import Switch from 'ui/Switch.jsx'
 import Table from 'ui/Table.jsx'
 import TeamAdder from 'components/team_adder.jsx'
 import VisibilityToggler from 'components/VisibilityToggler.jsx'
-import authenticated from 'components/mixins/authenticated_mixin.jsx'
-import connectToStores from 'lib/connectToStores.jsx'
-import InvitationActions from 'actions/invitation_actions'
+import WriteSetting from 'components/settings/WriteSetting.jsx'
 
 import {List, Map} from 'immutable'
 
@@ -68,6 +69,7 @@ export default class ChangelogSettings extends React.Component {
     }
 
     const {changelog, changelog: { is_members_only }} = this.props
+
     return (
       <div>
         <h4 className="mt0 mb0 bold">Members</h4>
@@ -93,6 +95,7 @@ export default class ChangelogSettings extends React.Component {
         <TeamAdder memberships={this.props.coreMemberships} changelog={this.props.changelog} changelogId={this.props.changelogId} showBlankEntries={false} />
 
         <VisibilityToggler changelog={this.props.changelog} onChange={this.handleSwitchMembersOnly.bind(this)} />
+        <WriteSetting changelog={this.props.changelog} onChange={this.handleSwitchWriteSetting.bind(this)} />
 
         <hr />
 
@@ -345,6 +348,12 @@ export default class ChangelogSettings extends React.Component {
   handleSwitchMembersOnly() {
     ChangelogActions.update(this.props.changelogId, {
       is_members_only: !this.props.changelog.is_members_only
+    })
+  }
+
+  handleSwitchWriteSetting(setting) {
+    ChangelogActions.update(this.props.changelogId, {
+      anyone_can_write: setting === 'anyone'
     })
   }
 

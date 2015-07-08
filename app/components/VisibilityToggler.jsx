@@ -3,10 +3,6 @@ import RadioGroup from 'react-radio-group'
 import React from 'react'
 
 export default class VisibilityToggler extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
     const { is_members_only } = this.props.changelog
 

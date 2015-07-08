@@ -25,7 +25,8 @@ export default class StoryComposer extends React.Component {
   }
 
   coreTeamOnly(props) {
-    if (props.changelog && !props.changelog.user_is_team_member) {
+    const { changelog } = props
+    if (changelog && !(changelog.anyone_can_write || changelog.user_is_team_member)) {
       setTimeout(() => RouterContainer.get().transitionTo('/'), 1)
     }
   }

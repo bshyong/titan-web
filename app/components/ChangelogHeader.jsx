@@ -69,17 +69,16 @@ export default class ChangelogHeader extends React.Component {
 
   renderNewStoryButton() {
     const { changelog } = this.props
-    if (!(changelog && changelog.user_is_team_member)) {
-      return
-    }
+    if (changelog.anyone_can_write || changelog.user_is_team_member) {
+      return (
+        <div className="flex-auto px1">
+          <Link className="button button-outline block full-width center white" to="new" params={paramsFor.changelog(changelog)}>
+            <Icon icon="pencil" /> Write
+          </Link>
+        </div>
+      )
 
-    return (
-      <div className="flex-auto px1">
-        <Link className="button button-outline block full-width center white" to="new" params={paramsFor.changelog(changelog)}>
-          <Icon icon="pencil" /> Write
-        </Link>
-      </div>
-    )
+    }
   }
 
   renderSettingsButton() {
