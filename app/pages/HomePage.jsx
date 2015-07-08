@@ -95,7 +95,7 @@ export default class HomePage extends React.Component {
                 <figure className="m0 mb4">
                   <img className="mb2" src={HomeEmojiPickerImgSrc} />
                   <figcaption className="gray">
-		  			Slap on some fun on it
+		  			Slap some fun on it.
                   </figcaption>
                 </figure>
 
@@ -122,7 +122,7 @@ export default class HomePage extends React.Component {
                 <figure className="m0 mb4">
                   <img className="mb2" src={HomeSlackImgSrc} />
                   <figcaption className="gray">
-                    Automatically share your post with everyone on Slack.
+                    Automatically share your post with everyone in Slack.
                   </figcaption>
                 </figure>
 
@@ -157,7 +157,7 @@ export default class HomePage extends React.Component {
                 <figure className="m0 mb4">
                   <img className="mb2" src={HomePrivateImgSrc} />
                   <figcaption className="gray">
-                    Want to keep things within your team? Start with a private
+                    Want to keep things within your core team? Start with a private
                     Changelog.
                   </figcaption>
                 </figure>
