@@ -48,7 +48,7 @@ export default class HomePage extends React.Component {
           right={
             <div className="flex flex-center px1">
               <div className="px1 h5 sm-show">
-                Start your <span className="caps">free</span> Changelog
+                It's always <span className="caps">free</span>
               </div>
               <div className="px1">
                 <Button bg="orange" action={this.handleSignUp}>Sign up</Button>
@@ -66,8 +66,9 @@ export default class HomePage extends React.Component {
             Simple Changelogs for happy teams.
           </h1>
           <p className="h3 mb0 sm-col-10 gray">
-            Know what everyone is working on, get feedback on your work, and
-            even share your latest product updates with your community.
+            Stay up to date with everyone's progress, 
+		  	get feedback on your work, 
+		  	and share your product updates with the world.
           </p>
         </Jumbotron>
 
@@ -87,14 +88,14 @@ export default class HomePage extends React.Component {
                 <figure className="m0 mb4">
                   <img className="mb2" src={HomeWriteImgSrc} />
                   <figcaption className="gray">
-                    Easily post what you’re working on right now.
+                    Easily post about the work you’ve recently finished.
                   </figcaption>
                 </figure>
 
                 <figure className="m0 mb4">
                   <img className="mb2" src={HomeEmojiPickerImgSrc} />
                   <figcaption className="gray">
-                    Pick an Emoji that describes it.
+		  			Slap on some fun on it
                   </figcaption>
                 </figure>
 
@@ -121,14 +122,14 @@ export default class HomePage extends React.Component {
                 <figure className="m0 mb4">
                   <img className="mb2" src={HomeSlackImgSrc} />
                   <figcaption className="gray">
-                    Automatically share your post on Slack.
+                    Automatically share your post with everyone on Slack.
                   </figcaption>
                 </figure>
 
                 <figure className="m0 mb4">
                   <img className="mb2" src={HomeNotificationsImgSrc} />
                   <figcaption className="gray">
-                    Get immediate notifications when anyone leaves feedback.
+                    Get helpful notifications when someone leaves feedback.
                   </figcaption>
                 </figure>
               </div>
@@ -139,8 +140,7 @@ export default class HomePage extends React.Component {
               <div className="sm-col-7 flex-auto flex-last px3" style={{marginTop: '-2rem'}}>
                 <Sticky>
                   <h1 className="m0 py3 center sm-left-align">
-                    Invite the community into the creation process with a public
-                    Changelog
+                    Invite others into the creation process and grow your community
                   </h1>
                 </Sticky>
               </div>
@@ -149,8 +149,8 @@ export default class HomePage extends React.Component {
                 <figure className="m0 mb4">
                   <img className="mb2" src={HomePublicImgSrc} />
                   <figcaption className="gray">
-                    Let your community contribute and become evangelists of your
-                    product.
+                    Let your community contribute input and become evangelists of your
+                    product with a public Changelog.
                   </figcaption>
                 </figure>
 
