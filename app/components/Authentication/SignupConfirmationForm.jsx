@@ -6,10 +6,13 @@ import Button from 'ui/Button.jsx'
 import classnames from 'classnames'
 import connectToStores from 'lib/connectToStores.jsx'
 import Icon from 'ui/Icon.jsx'
+import Link from 'components/Link.jsx'
+import LoginForm from 'components/Authentication/LoginForm.jsx'
 import LogoSrc from 'images/logo.svg'
 import { Map } from 'immutable'
 import React from 'react'
 import SessionActions from 'actions/SessionActions'
+import SigninScrimActions from 'actions/SigninScrimActions'
 
 @connectToStores(AuthenticationFormStore)
 export default class SignupConfirmationForm extends React.Component {
@@ -21,6 +24,7 @@ export default class SignupConfirmationForm extends React.Component {
     super(props)
 
     this.handleChange = this._handleChange.bind(this)
+    this.handleSignInClick = this._handleSignInClick.bind(this)
     this.handleSubmit = this._handleSubmit.bind(this)
   }
 
@@ -38,6 +42,13 @@ export default class SignupConfirmationForm extends React.Component {
 
           <div className="mt2">
             <div className="border border-silver rounded p2">
+              <h5 className="mt0">
+                Already have an account?
+                {' '}<a href="javascript:void(0)"
+                  onClick={this.handleSignInClick}>
+                  Sign in
+                </a> and connect to Twitter through your /settings page.
+              </h5>
               <form>
                 <div className="py1">
                   <label className="left bold" htmlFor="confirmation-email">Email</label>
@@ -94,6 +105,12 @@ export default class SignupConfirmationForm extends React.Component {
     return (e) => {
       AuthenticationFormActions.change(Map(this.props).set(prop, e.target.value))
     }
+  }
+
+  _handleSignInClick(e) {
+    e.preventDefault()
+
+    SigninScrimActions.show(LoginForm, '/settings')
   }
 
   _handleSubmit(e) {

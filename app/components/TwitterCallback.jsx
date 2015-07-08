@@ -1,14 +1,19 @@
 import React from 'react'
-import SessionActions from '../actions/SessionActions'
+import TwitterActions from 'actions/oauth/TwitterActions'
 
 export default class TwitterCallback extends React.Component {
   static willTransitionTo(transition, params, query) {
-    SessionActions.twitterCallback(query)
+    if (window.opener) {
+      window.opener.location = window.location
+      window.close()
+    } else {
+      TwitterActions.callback(query)
+    }
   }
 
   render() {
     return (
-      <div>
+      <div className="p2">
         Redirecting...
       </div>
     )

@@ -17,6 +17,7 @@ import RouterContainer from '../lib/router_container'
 import SessionActions from '../actions/SessionActions'
 import SessionStore from '../stores/session_store'
 
+@authenticated()
 @connectToStores(ProfileStore)
 export default class SettingsPage extends React.Component {
   static willTransitionTo(transition, params, query) {

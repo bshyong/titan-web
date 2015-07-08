@@ -27,7 +27,6 @@ import PasswordResetPage from 'components/Authentication/PasswordResetPage.jsx'
 import ProfileSettings from 'components/ProfileSettings.jsx'
 import React from 'react'
 import SettingsPage from 'pages/SettingsPage.jsx'
-import SigninSSO from 'components/signin_sso.js.jsx'
 import SignupPage from 'pages/SignupPage.jsx'
 import SingleDateChangelogPage from 'pages/SingleDateChangelogPage.jsx'
 import StoryComposer from 'components/story_composer.js.jsx'
@@ -48,7 +47,6 @@ var internal = (
 
     <Route handler={NewChangelogPage} path="/new" name="newChangelog" />
 
-    <Route handler={SigninSSO} path="/signin/sso" name="sso" />
     <Route handler={TwitterCallback} path="/auth/twitter/callback" name="twitterCallback" />
     <Route handler={GithubCallback} path="/auth/github/callback" name="githubCallback" />
     <Route handler={PasswordResetPage} path="/password/reset" name="passwordReset" />
@@ -96,8 +94,6 @@ var internal = (
 var external = (
   <Route handler={AppPage} name="root" path="/">
     <Route handler={ChangelogPage}>
-      <Route handler={SigninSSO} path="/signin/sso" name="sso" />
-
       <DefaultRoute handler={ChangelogByDatePage} name="changelog" />
 
       <Route handler={ChangelogBySetsPage} name="changelog_by_sets" path="sets" />

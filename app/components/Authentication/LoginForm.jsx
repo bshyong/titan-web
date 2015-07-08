@@ -9,7 +9,7 @@ import LogoSrc from 'images/logo.svg'
 import { Map } from 'immutable'
 import PasswordResetEmailForm from 'components/Authentication/PasswordResetEmailForm.jsx'
 import React from 'react'
-import SessionActions from 'actions/SessionActions'
+import TwitterActions from 'actions/oauth/TwitterActions'
 import SigninScrimActions from 'actions/SigninScrimActions'
 import SignupForm from 'components/Authentication/SignupForm.jsx'
 
@@ -25,6 +25,7 @@ export default class LoginForm extends React.Component {
     this.handleChange = this._handleChange.bind(this)
     this.handleForgotPassword = this._handleForgotPassword.bind(this)
     this.handleSubmit = this._handleSubmit.bind(this)
+    this.handleTwitterClick = this._handleTwitterClick.bind(this)
     this.showSignupForm = this._showSignupForm.bind(this)
   }
 
@@ -36,7 +37,7 @@ export default class LoginForm extends React.Component {
           <img className="flex-none" src={LogoSrc} style={{height: '1.5rem'}} />
           <h1 className="mt0">Log in</h1>
           <Button size="big" bg="twitter-blue" block
-            action={SessionActions.initializeTwitterSignIn}>
+            action={this.handleTwitterClick}>
             <Icon icon="twitter" />
             <span className="ml2">Use Twitter</span>
           </Button>
@@ -109,7 +110,22 @@ export default class LoginForm extends React.Component {
     AuthenticationFormActions.submit('login', AuthenticationFormStore.formContent)
   }
 
+  _handleTwitterClick(e) {
+    e.preventDefault()
+
+    const { redirectTo } = this.props
+    const opts = redirectTo ? { redirectTo } : {}
+
+    TwitterActions.signIn(opts)
+  }
+
   _showSignupForm(e) {
     SigninScrimActions.initialize(SignupForm, {})
   }
+}
+
+LoginForm.propTypes = {
+  password: React.PropTypes.string,
+  redirectTo: React.PropTypes.string,
+  username: React.PropTypes.string
 }
