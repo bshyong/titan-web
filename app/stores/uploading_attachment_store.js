@@ -39,7 +39,7 @@ class UploadingAttachmentStore extends Store {
   }
 
   uploadsFinished(commentId) {
-    return this.uploadStates.get(commentId) !== true
+    return this.uploadStates.get(commentId) !== false
   }
 
   getAttachments(commentId) {
