@@ -184,14 +184,13 @@ export default class HomePage extends React.Component {
           <div className="container px2">
             <div className="sm-col-8 mx-auto center">
               <h2 className="mt0 mb3">
-                Customize your Changelog, use emojis, and give it your own
-                domain name.
+                Customize a Changelog to work just for you, from the emojis to its domain.
               </h2>
               <Button bg="orange" size="big" action={this.handleSignUp}>
                 Create your free Changelog
               </Button>
               <Link className="block mt3" to="changelog" params={{changelogId: 'assembly'}}>
-                We're building more features
+                We're always brainstorming new features to build just for you, check them out and let us know what you think
               </Link>
             </div>
           </div>
