@@ -93,6 +93,7 @@ var internal = (
 // For sites on custom domains
 var external = (
   <Route handler={AppPage} name="root" path="/">
+    <Route handler={TwitterCallback} path="/auth/twitter/callback" name="twitterCallback" />
     <Route handler={ChangelogPage}>
       <DefaultRoute handler={ChangelogByDatePage} name="changelog" />
 
