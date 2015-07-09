@@ -48,7 +48,7 @@ export default class HomePage extends React.Component {
           right={
             <div className="flex flex-center px1">
               <div className="px1 h5 sm-show">
-                It's always <span className="caps">free</span>
+                Want to keep everyone connected? Start a changelog, it's <span className="caps">free</span>.
               </div>
               <div className="px1">
                 <Button bg="orange" action={this.handleSignUp}>Sign up</Button>
@@ -88,7 +88,7 @@ export default class HomePage extends React.Component {
                 <figure className="m0 mb4">
                   <img className="mb2" src={HomeWriteImgSrc} />
                   <figcaption className="gray">
-                    Easily post about the work you’ve recently finished.
+                    Easily post about the work you’ve recently finished or new ideas you have.
                   </figcaption>
                 </figure>
 
@@ -184,7 +184,7 @@ export default class HomePage extends React.Component {
           <div className="container px2">
             <div className="sm-col-8 mx-auto center">
               <h2 className="mt0 mb3">
-                Customize a Changelog to work just for you, from the emojis to its domain.
+                Customize your Changelog to work just how you like, from the emojis to its domain.
               </h2>
               <Button bg="orange" size="big" action={this.handleSignUp}>
                 Create your free Changelog
