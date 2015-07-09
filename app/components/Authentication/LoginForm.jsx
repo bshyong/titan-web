@@ -30,14 +30,17 @@ export default class LoginForm extends React.Component {
     this.showSignupForm = this._showSignupForm.bind(this)
   }
 
-  // can't disable button because safari :'( http://stackoverflow.com/questions/11708092/detecting-browser-autofill/
+  // can't disable button because safari :'(
+  // http://stackoverflow.com/questions/11708092/detecting-browser-autofill/
   render() {
     return (
       <div className="flex flex-center">
         <div className="flex-none sm-col-4 mx-auto py4">
           <img className="flex-none" src={LogoSrc} style={{height: '1.5rem'}} />
           <h1 className="mt0">Log in</h1>
-          <Button size="big" bg="twitter-blue" block
+          <Button size="big"
+            bg="twitter-blue"
+            block
             action={this.handleTwitterClick}>
             <Icon icon="twitter" />
             <span className="ml2">Use Twitter</span>
@@ -63,7 +66,8 @@ export default class LoginForm extends React.Component {
                     ref="username"
                     className="block full-width field-light"
                     placeholder="jane"
-                    onChange={this.handleChange('username')}  />
+                    onChange={this.handleChange('username')}
+                    value={this.props.username} />
                 </div>
 
                 <div className="py1">
@@ -72,7 +76,8 @@ export default class LoginForm extends React.Component {
                     id="login-password"
                     ref="password"
                     className="block full-width field-light"
-                    onChange={this.handleChange('password')} />
+                    onChange={this.handleChange('password')}
+                    value={this.props.password} />
                   <small className="left">
                     <a href="javascript:void(0)"
                       className="darken-4 underline"
@@ -83,7 +88,7 @@ export default class LoginForm extends React.Component {
                 </div>
 
                 <div className="py2 mt2">
-                  <AuthenticationFormButton action={this.handleSubmit} disabled={false}>
+                  <AuthenticationFormButton action={this.handleSubmit}>
                     Log in
                   </AuthenticationFormButton>
                 </div>
@@ -108,7 +113,15 @@ export default class LoginForm extends React.Component {
   _handleSubmit(e) {
     e.preventDefault()
 
-    AuthenticationFormActions.submit('login', AuthenticationFormStore.formContent)
+    // we need this check in case the user has autofilled the sign-in form
+    let data = this.props
+    if (!data.username ||
+        !data.password) {
+      data.username = React.findDOMNode(this.refs.username).value
+      data.password = React.findDOMNode(this.refs.password).value
+    }
+
+    AuthenticationFormActions.submit('login', data)
   }
 
   _handleTwitterClick(e) {
