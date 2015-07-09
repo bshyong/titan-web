@@ -12,7 +12,7 @@ const content = `
 
 The Assembly you were familiar with, now affectionately called 1.0, will have a new home at cove.assembly.com for the time being. We will support the existing profitable products on version 1.0 as well as provide ways to migrate your product’s data to the next version of Assembly. We've also open sourced the codebase so you can continue running your product if you choose to self-host the platform.
 
-Our mission when we created Assembly was to connect creators around the world; so they could build products together that were greater than what one person could on their own. Thanks to you and the amazing Assembly community, we’ve learned much over the last two years. We’ve seen products collectively reach millions of users and paid out thousands of dollars to contributors. 
+Our mission when we created Assembly was to connect creators around the world; so they could build products together that were greater than what one person could on their own. Thanks to you and the amazing Assembly community, we’ve learned much over the last two years. We’ve seen products collectively reach millions of users and paid out thousands of dollars to contributors.
 
 There have also been challenges as the number of products on Assembly grew, leading to these product changes. Every product is unique and so are their needs when managing, hosting, and monetizing them. There were also needs for additional flexibility in the way products reward those in the community who help contribute to them. We realized there wasn’t any solution that could do justice to the breadth of creativity and innovation we were seeing from the Assembly community.
 
@@ -52,7 +52,7 @@ Contact us: [support@assembly.com](mailto:support@assembly.com)
 
 # If I migrate a product from v1, can I keep the ownership distribution I have today?
 
-When v1 eventually reaches it's end of life we'll provide alternative suggestions to maintaining an App Coin ledger. For the time being, you can continue to access the your product's App Coin ledger and award new App Coins on v1 (cove.assembly.com). 
+When v1 eventually reaches it's end of life we'll provide alternative suggestions to maintaining an App Coin ledger. For the time being, you can continue to access the your product's App Coin ledger and award new App Coins on v1 (cove.assembly.com).
 
 Products have already started collecting their own revenue so it is their responsibility to handling how they recognize the App Coins they have distributed. [Coderwall](http://assembly.com/coderwall) as an example is continuing to do so.
 
@@ -83,7 +83,7 @@ On Assembly v1, revenue was distributed by Assembly, and restricted to Stripe Su
 
 On Assembly v1, you could create Bounties that were aimed at recruiting new team members to work on your product. Assembly v2 instead creates a better way to showcase your team and its progress in building the product, which gets exposed to the community and will organically foster interest from people who can help make your product better.
 
-On Assembly v1, you could submit an idea and other people would build it for you for free – and you’d keep most of the ownership. Nope, that wasn’t how it worked. On Assembly v2, you can share your ideas on the [Requests For Startups](http://changelog.assembly.com/rfs changelog, and you can connect with great people in the community and build products together.
+On Assembly v1, you could submit an idea and other people would build it for you for free – and you’d keep most of the ownership. Nope, that wasn’t how it worked. On Assembly v2, you can share your ideas on the [Requests For Startups](http://www.assembly.com/rfs) changelog, and you can connect with great people in the community and build products together.
 
 ----
 
