@@ -9,6 +9,7 @@ import SignupForm from 'components/Authentication/SignupForm.jsx'
 import Sticky from 'ui/Sticky.jsx'
 import Navbar from 'ui/Navbar.jsx'
 import Link from 'components/Link.jsx'
+import onMobile from 'lib/on_mobile'
 import StoryFeed from 'components/StoryFeed.jsx'
 import StoryActions from 'actions/story_actions'
 
@@ -42,7 +43,7 @@ export default class HomePage extends React.Component {
         <Navbar
           left={
             <Link to="home">
-              <img className="block" src={LogoImgSrc} height={16} />
+              <img className="block" src={LogoImgSrc} height={onMobile() ? 14 : 16} />
             </Link>
           }
           right={
@@ -50,10 +51,10 @@ export default class HomePage extends React.Component {
               <div className="px1 h5 sm-show">
                 Want to keep everyone connected?
               </div>
-              <div className="px1">
+              <div className="mr1">
                 <Button bg="orange" action={this.handleSignUp}>Sign up</Button>
               </div>
-              <div className="px1">
+              <div>
                 <Button bg="gray" action={this.handleSignIn}>Log in</Button>
               </div>
             </div>
@@ -66,16 +67,16 @@ export default class HomePage extends React.Component {
             Simple Changelogs for happy teams.
           </h1>
           <p className="h3 mb0 sm-col-10 gray">
-            Follow everyone's progress, 
-		  	get feedback on your work, 
-		  	and share your product updates with the world.
+            Follow everyone's progress,
+            get feedback on your work,
+            and share your product updates with the world.
           </p>
         </Jumbotron>
 
         <div style={{backgroundColor: BgColor}}>
           <div className="container px2 py4" style={{paddingTop: 'calc(4rem + 2rem)'}}>
 
-            <div className="sm-flex mxn3 mb4">
+            <div className="sm-flex mb4">
               <div className="flex-auto flex-last sm-col-7 px3" style={{marginTop: '-2rem'}}>
                 <Sticky>
                   <h1 className="m0 py3 center sm-left-align">
@@ -95,7 +96,7 @@ export default class HomePage extends React.Component {
                 <figure className="m0 mb4">
                   <img className="mb2" src={HomeEmojiPickerImgSrc} />
                   <figcaption className="gray">
-		  			Slap some fun on it.
+		  			        Slap some fun on it.
                   </figcaption>
                 </figure>
 
@@ -108,8 +109,7 @@ export default class HomePage extends React.Component {
               </div>
             </div>
 
-
-            <div className="sm-flex mxn3 mb4">
+            <div className="sm-flex mb4">
               <div className="sm-col-7 flex-last px3" style={{marginTop: '-2rem'}}>
                 <Sticky>
                   <h1 className="m0 py3 center sm-left-align">
@@ -135,8 +135,7 @@ export default class HomePage extends React.Component {
               </div>
             </div>
 
-
-            <div className="sm-flex mxn3 mb4">
+            <div className="sm-flex mb4">
               <div className="sm-col-7 flex-auto flex-last px3" style={{marginTop: '-2rem'}}>
                 <Sticky>
                   <h1 className="m0 py3 center sm-left-align">
@@ -210,8 +209,8 @@ export default class HomePage extends React.Component {
                     <a className="block p2 gray" href="https://cove.assembly.com/about">About</a>
                   </li>
                   <li>
-					<Link className="block p2 gray" to="faq">FAQ</Link>
-                  </li>					
+					          <Link className="block p2 gray" to="faq">FAQ</Link>
+                  </li>
                   <li>
                     <a className="block p2 gray" href="http://blog.assembly.com">Blog</a>
                   </li>
