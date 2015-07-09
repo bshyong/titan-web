@@ -33,7 +33,9 @@ After that, the next step is to [create your own Changelog](http://changelog.ass
 # I was using Assembly 1.0, and now I’m confused.
 
 If you’re looking for a product from Assembly 1.0, it will be on cove.assembly.com. (For example, cove.assembly.com/coderwall
+
 If you’re having trouble logging in to your existing account, click “I forgot my password”
+
 If you want to bring your product onto Assembly Changelog, follow our migration guide.
 
 ----
