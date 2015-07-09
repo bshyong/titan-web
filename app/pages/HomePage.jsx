@@ -206,10 +206,10 @@ export default class HomePage extends React.Component {
               <div>
                 <ul className="list-reset flex mxn2 mb0">
                   <li>
-                    <a className="block p2 gray" href="https://cove.assembly.com/about">About</a>
+                    <Link className="block p2 gray" to="tos">Terms</Link>
                   </li>
                   <li>
-					          <Link className="block p2 gray" to="faq">FAQ</Link>
+					<Link className="block p2 gray" to="faq">FAQ</Link>
                   </li>
                   <li>
                     <a className="block p2 gray" href="http://blog.assembly.com">Blog</a>
