@@ -49,6 +49,7 @@ export default class PasswordResetForm extends React.Component {
               <form className="clearfix">
                 <div className="py1">
                   <input autoFocus
+                    ref="password"
                     type="password"
                     className="block full-width field-light"
                     value={password}
@@ -79,8 +80,15 @@ export default class PasswordResetForm extends React.Component {
   }
 
   _handleSubmit(e) {
-    const { password, token } = this.props
     e.preventDefault()
+    let { password, token } = this.props
+
+    // we need this check in case the form is autofilled or filled
+    // from LastPassword or 1Password or something
+    if (!password) {
+      password = React.findDOMNode(this.refs.password).value
+    }
+
     AuthenticationFormActions.submit('password/reset', { password, token })
   }
 }
