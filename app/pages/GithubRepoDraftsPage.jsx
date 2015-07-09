@@ -176,14 +176,19 @@ export default class GithubRepoDraftsPage extends React.Component {
     }, () => {
       GithubOnboardingActions.deleteDraft(changelogId, lastDraft.id)
       const nextDraft = drafts.get(this.state.currentDraftIndex)
-      StoryFormActions.change({
-        body: nextDraft.body,
-        contributors: nextDraft.contributors,
-        created_at: moment(nextDraft.updated_at).toISOString(),
-        emoji_id: lastDraft.emoji_id,
-        isPublic: true,
-        title: nextDraft.title,
-      })
+
+      if (nextDraft) {
+        StoryFormActions.change({
+          body: nextDraft.body,
+          contributors: nextDraft.contributors,
+          created_at: moment(nextDraft.updated_at).toISOString(),
+          emoji_id: lastDraft.emoji_id,
+          isPublic: true,
+          title: nextDraft.title,
+        })  
+      } else {
+        Router.transitionTo('changelog', {changelogId: changelogId})
+      }
     })
   }
 
