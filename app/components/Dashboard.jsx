@@ -26,13 +26,6 @@ export default class Dashboard extends React.Component {
 
     return (
       <div>
-        <Subheader text="Top posts today" />
-
-        <StoryFeed />
-
-        <Subheader text="Changelogs you're following" />
-        {this.renderFollowingChangelogs()}
-
         <Subheader text="Featured public changelogs" />
 
         <div className="sm-flex flex-wrap mxn2">
@@ -44,6 +37,13 @@ export default class Dashboard extends React.Component {
             </div>
           )}
         </div>
+
+        <Subheader text="Today's Trending Public Posts" />
+
+        <StoryFeed />
+
+        <Subheader text="Changelogs you're following" />
+        {this.renderFollowingChangelogs()}
       </div>
     )
   }
