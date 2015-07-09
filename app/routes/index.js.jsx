@@ -94,6 +94,7 @@ var internal = (
 var external = (
   <Route handler={AppPage} name="root" path="/">
     <Route handler={TwitterCallback} path="/auth/twitter/callback" name="twitterCallback" />
+    <Route handler={GithubCallback} path="/auth/github/callback" name="githubCallback" />
     <Route handler={ChangelogPage}>
       <DefaultRoute handler={ChangelogByDatePage} name="changelog" />
 
