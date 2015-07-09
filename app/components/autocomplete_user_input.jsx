@@ -14,7 +14,7 @@ export default class AutocompleteUserInput extends React.Component {
     placeholder: React.PropTypes.string,
     value: React.PropTypes.string
   }
-  
+
   constructor(props) {
     super(props)
     this.state = {
@@ -89,7 +89,11 @@ export default class AutocompleteUserInput extends React.Component {
   }
 
   handleBlur(e) {
-    this.setState({focused: false})
-    this.props.onBlur && this.props.onBlur(e)
+    // give the UserPicker time to select the user
+    // before blurring and dismissing it
+    setTimeout(() => {
+      this.setState({focused: false})
+      this.props.onBlur && this.props.onBlur(e)
+    }, 200)
   }
 }
