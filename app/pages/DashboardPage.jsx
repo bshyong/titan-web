@@ -31,7 +31,8 @@ export default class DashboardPage extends React.Component {
                 <h3 className="mt0 mb1 bold">Stay connected with your team.</h3>
                 <p className="mb0">
 				  Follow everyone's progress, get feedback on your work, 
-				  and share your product updates with the world.
+				  and share your product updates with the world. &nbsp;
+				  <img src="https://twemoji.maxcdn.com/svg/1f30e.svg" height="12" width="12"></img>
                 </p>
               </div>
               <div className="flex-none px2">

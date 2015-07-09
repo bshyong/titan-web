@@ -48,7 +48,7 @@ export default class HomePage extends React.Component {
           right={
             <div className="flex flex-center px1">
               <div className="px1 h5 sm-show">
-                Want to keep everyone connected? Start a changelog, it's <span className="caps">free</span>.
+                Want to keep everyone connected?
               </div>
               <div className="px1">
                 <Button bg="orange" action={this.handleSignUp}>Sign up</Button>
