@@ -7,6 +7,7 @@ import connectToStores from 'lib/connectToStores.jsx'
 import Icon from 'ui/Icon.jsx'
 import LogoSrc from 'images/logo.svg'
 import { Map } from 'immutable'
+import onMobile from 'lib/on_mobile'
 import PasswordResetEmailForm from 'components/Authentication/PasswordResetEmailForm.jsx'
 import React from 'react'
 import TwitterActions from 'actions/oauth/TwitterActions'
@@ -56,7 +57,7 @@ export default class LoginForm extends React.Component {
               <form className="clearfix">
                 <div className="py1">
                   <label className="left bold" htmlFor="login-username">Username or email</label>
-                  <input autoFocus
+                  <input autoFocus={!onMobile()}
                     type="text"
                     id="login-username"
                     ref="username"

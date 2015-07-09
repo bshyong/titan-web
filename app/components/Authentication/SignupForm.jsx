@@ -8,6 +8,7 @@ import connectToStores from 'lib/connectToStores.jsx'
 import Icon from 'ui/Icon.jsx'
 import LogoSrc from 'images/logo.svg'
 import { Map } from 'immutable'
+import onMobile from 'lib/on_mobile'
 import React from 'react'
 import TwitterActions from 'actions/oauth/TwitterActions'
 
@@ -54,7 +55,7 @@ export default class SignupForm extends React.Component {
           <form>
             <div className="py1">
               <label className="left bold" htmlFor="signup-email">Email</label>
-              <AvailableUsernameInput autoFocus
+              <AvailableUsernameInput autoFocus={!onMobile()}
                 type="email"
                 id="signup-email"
                 className="block full-width field-light"
