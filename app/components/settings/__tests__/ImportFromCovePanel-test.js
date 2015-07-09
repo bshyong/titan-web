@@ -12,9 +12,9 @@ describe('ImportFromCovePanel', () => {
       <ImportFromCovePanel changelog={changelog}
                            importProject={importProject}/>
     )
-    React.findDOMNode(c.refs.url).value = 'https://assembly.com/awws0m'
+    React.findDOMNode(c.refs.url).value = 'https://cove.assembly.com/awws0m'
     TestUtils.Simulate.submit(c.refs.form)
 
-    expect(importProject).toHaveBeenCalledWith('changelog-1', 'https://assembly.com/awws0m')
+    expect(importProject).toHaveBeenCalledWith('changelog-1', 'https://cove.assembly.com/awws0m')
   })
 })

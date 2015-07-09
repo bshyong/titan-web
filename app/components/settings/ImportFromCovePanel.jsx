@@ -35,7 +35,7 @@ export class ImportFromCovePanel extends React.Component {
           <input className={this.fieldClasses('url')} type="text"
             defaultValue={changelog.import_url}
             disabled={disabled} ref="url"
-            placeholder="https://assembly.com/my-project" />
+            placeholder="https://cove.assembly.com/my-project" />
         </div>
 
         <Button disabled={disabled}>

@@ -112,7 +112,7 @@ export class NewChangelog extends React.Component {
         <div>
           <div>
             <label className="bold mr1 pointer">
-              URL: <span className="gray">changelog.assembly.com/..</span>
+              URL: <span className="gray">assembly.com/..</span>
             </label>
           </div>
         </div>

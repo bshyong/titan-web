@@ -115,7 +115,7 @@ export default class ApplicationNavbar extends React.Component {
           </List.Item>
           <List.Item>
             <Link to="faq">FAQ</Link>
-          </List.Item>			
+          </List.Item>
           <List.Item>
             <a href="#" onClick={this._handleSignout}>Sign out</a>
           </List.Item>
