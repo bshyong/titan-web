@@ -47,7 +47,7 @@ var internal = (
     <Route handler={HomePage} path="/home" />
     <Route handler={FaqPage} path="/faq" name="faq" />
     <Route handler={NewFaqPage} path="/new-assembly-faq" name="newAssemblyFaq" />
-    <Route handler={migration} path=“/migration" name=“migration" />
+    <Route handler={migration} path="/migration" name="migration" />
 
     <Route handler={NewChangelogPage} path="/new" name="newChangelog" />
 
