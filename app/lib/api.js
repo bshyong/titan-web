@@ -39,7 +39,8 @@ module.exports = {
   req(url, options) {
     options.headers = {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Request-At': new Date()
     }
     if (SessionStore.jwt) {
       options.headers['Authorization'] = 'Bearer ' + SessionStore.jwt
