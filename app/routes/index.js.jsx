@@ -35,6 +35,7 @@ import TermsPage from 'pages/TermsPage.jsx'
 import TwitterCallback from 'components/TwitterCallback.jsx'
 import UserPage from 'pages/UserPage.jsx'
 import FaqPage from 'pages/FaqPage.jsx'
+import NewFaqPage from ‘pages/NewFaqPage.jsx’
 
 var internal = (
   <Route handler={AppPage} name="root" path="/">
@@ -44,6 +45,7 @@ var internal = (
     <Route handler={AdminPage} path="/admin" />
     <Route handler={HomePage} path="/home" />
     <Route handler={FaqPage} path="/faq" name="faq" />
+    <Route handler={NewFaqPage} path=“/new-assembly-faq" name=“newAssemblyFaq" />
 
     <Route handler={NewChangelogPage} path="/new" name="newChangelog" />
 
