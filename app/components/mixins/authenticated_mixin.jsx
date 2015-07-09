@@ -4,6 +4,7 @@ import RoutesStore from 'stores/routes_store'
 import SessionStore from 'stores/session_store'
 import SessionActions from 'actions/SessionActions'
 import SigninScrimActions from 'actions/SigninScrimActions'
+import SignupForm from 'components/Authentication/SignupForm.jsx'
 
 export default function Authenticated() {
   return (Component) => {
@@ -11,9 +12,9 @@ export default function Authenticated() {
       static willTransitionTo(transition, params, query) {
         if (!SessionStore.isSignedIn()) {
           transition.abort()
-          RouterContainer.router.transitionTo("signup", {}, {
-            redirectTo: window.location.pathname
-          })
+          const path = window.location.pathname
+          RouterContainer.router.transitionTo("home")
+          SigninScrimActions.show(SignupForm, path)
         } else {
           Component.willTransitionTo && Component.willTransitionTo(transition, params, query)
         }
