@@ -66,6 +66,6 @@ export default class InviteChangelogMembersPage extends React.Component {
   }
 
   handleNext() {
-    RouterContainer.get().transitionTo("new", {changelogId: this.props.changelog.slug})
+    RouterContainer.get().transitionTo("new", {changelogId: this.props.changelog.slug}, {o: 1})
   }
 }

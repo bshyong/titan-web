@@ -19,27 +19,8 @@ import UploadingAttachmentStore from '../stores/uploading_attachment_store'
 @connectToStores(StoryFormStore, UploadingAttachmentStore)
 export default class NewStoryPage extends React.Component {
   static willTransitionTo(transition, params, query) {
-    if (query.highlight) {
-      // TODO load if page refreshed
-    } else if (query.type=="helloWorld") {
-      StoryFormActions.change({
-        title: "Hello World",
-        team_member_only: false,
-        contributors: [],
-        body: `Hey @core\n\n
-        I set up this Changelog so we can better share our daily work and collect
-        feedback amongst our group.\n\n
-        It's simple to use; just log a quick note everytime you finish something
-        or have something to share. You can also add a quick description, image,
-        or link if you want too. Here are some examples.\n\n* 'Emojified all the
-        things, replaced all nouns with an emoji'\n* 'Just finished the new
-        homepage design, feedback?'\n* 'Released Version 2 in production'\n\n
-        What do you think?`
-      })
-    } else {
-      StoryFormActions.clearAll()
-      ContributorsActions.resetContributors(SessionStore.user)
-    }
+    StoryFormActions.clearAll()
+    ContributorsActions.resetContributors(SessionStore.user)
   }
 
   static get defaultProps() {
@@ -67,6 +48,7 @@ export default class NewStoryPage extends React.Component {
         errorMessage: StoryFormStore.errorMessage
       },
       uploadsFinished: UploadingAttachmentStore.uploadsFinished('new_story'),
+      fromOnboarding: RouterContainer.get().getCurrentQuery().o
     }
   }
 
@@ -113,14 +95,19 @@ export default class NewStoryPage extends React.Component {
   }
 
   handleOnPublish(e) {
-    const { story: { errorMessage }, uploadsFinished } = this.props
+    const { story: { errorMessage }, uploadsFinished, fromOnboarding, changelogId } = this.props
     e.preventDefault()
 
     if (uploadsFinished || confirm('Attachments are still uploading; are you sure you want to post?')) {
       if (!StoryFormStore.isValid() || errorMessage) {
         this.setState({showErrorMessage: true})
       } else {
-        StoryActions.publish(this.props.changelogId, StoryFormStore.data)
+        if (fromOnboarding) {
+          return StoryActions.publish(changelogId, StoryFormStore.data, false, () => {
+            RouterContainer.transitionTo('changelog', {changelogId: changelogId})
+          })
+        }
+        StoryActions.publish(changelogId, StoryFormStore.data)
       }
     }
   }
