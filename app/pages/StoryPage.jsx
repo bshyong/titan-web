@@ -7,7 +7,7 @@ import Discussion from '../components/discussion.jsx'
 import DiscussionActions from '../actions/discussion_actions'
 import DocumentTitle from 'react-document-title'
 import GroupedStoriesStore from '../stores/GroupedStoriesStore'
-import FlagStory from 'components/staff/FlagStory.jsx'
+import StoryBooster from 'components/staff/StoryBooster.jsx'
 import Guest from '../ui/Guest.jsx'
 import Icon from '../ui/Icon.jsx'
 import invite from '../lib/invite'
@@ -136,7 +136,7 @@ export default class StoryPage extends React.Component {
             <div className="clearfix bg-light-gray py4">
               <div className="container">
                 <h4>👊 Super Admin Power Panel™</h4>
-                <FlagStory changelogId={this.props.changelogId} story={this.props.story} />
+                <StoryBooster changelogId={this.props.changelogId} story={this.props.story} />
               </div>
             </div>
           </StaffOnly>

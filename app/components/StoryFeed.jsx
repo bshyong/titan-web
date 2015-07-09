@@ -26,7 +26,7 @@ export default class StoryFeed extends React.Component {
     if (stories !== null) {
       return (
         <Table>
-          {stories.sortBy(s => s.created_at).reverse().map(story => {
+          {stories.map(story => {
             const changelog = story.changelog
             return (
               <Table.Cell key={story.id} to="story" params={paramsFor.story(changelog, story)}>

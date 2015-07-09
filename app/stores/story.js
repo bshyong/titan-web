@@ -3,6 +3,11 @@ import Dispatcher from 'lib/dispatcher'
 
 export default function story(state = {}, action) {
   switch (action.type) {
+    case c.STORY_UPDATING:
+      // TODO remove once reduxed
+      Dispatcher.dispatch(action)
+      return state
+
     case c.STORY_FETCHED:
       // TODO remove once reduxed
       Dispatcher.dispatch({
