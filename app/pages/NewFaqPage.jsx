@@ -4,13 +4,13 @@ import React from 'react'
 
 const content = `
 
-This section of the FAQ is for anyone who was using Assembly prior to July 2015, and is curious about the changes. If you’re new to Assembly, the other FAQ sections will likely be more interesting to you.
+## This section of the FAQ is for anyone who was using Assembly prior to July 2015, and is curious about the changes. If you’re new to Assembly, the other FAQ sections will likely be more interesting to you.
 
 ----
 
 # Intro
 
-The Assembly you are familiar with, now affectionately called 1.0, will have a new home at cove.assembly.com for the time being. We will support the existing profitable products on version 1.0 as well as provide ways to migrate your product’s data to the next version of Assembly. We've also open sourced the codebase so you can continue running your product if you choose to self-host the platform.
+The Assembly you were familiar with, now affectionately called 1.0, will have a new home at cove.assembly.com for the time being. We will support the existing profitable products on version 1.0 as well as provide ways to migrate your product’s data to the next version of Assembly. We've also open sourced the codebase so you can continue running your product if you choose to self-host the platform.
 
 Our mission when we created Assembly was to connect creators around the world; so they could build products together that were greater than what one person could on their own. Thanks to you and the amazing Assembly community, we’ve learned much over the last two years. We’ve seen products collectively reach millions of users and paid out thousands of dollars to contributors. 
 
@@ -18,11 +18,13 @@ There have also been challenges as the number of products on Assembly grew, lead
 
 So, here we are with an exciting iteration on our original concept. Read below to get a better understanding of how this new version relates to Assembly 1.0, or explore the site to learn all about the new Assembly.
 
-If you’re looking for a product from Assembly 1.0, it will be on cove.assembly.com. (For example, cove.assembly.com/coderwall
+----
+
+If you’re looking for a product from Assembly 1.0, it will be on cove.assembly.com. (For example, cove.assembly.com/coderwall)
 
 If you’re having trouble logging in to your existing account, click “I forgot my password”
 
-If you want to bring your product onto Assembly Changelog, follow our migration guide.
+If you want to bring your product onto Assembly Changelog, follow our [migration guide](http://assembly.com/migration).
 
 If you’re curious about how we ended up with this new platform, read this [quick update about Assembly’s future](https://cove.assembly.com/meta/posts/a-quick-update-about-assembly-s-future)
 
@@ -30,7 +32,7 @@ If you’re curious about how we ended up with this new platform, read this [qui
 
 # How can I migrate my Assembly 1.0 product to Assembly 2.0?
 
-Follow our migration guide.
+Follow our [migration guide](http://assembly.com/migration).
 
 ----
 
@@ -38,13 +40,13 @@ Follow our migration guide.
 
 A product only needs a few actively engaged core team members to get it on its way to success. We haven’t observed App coins adding significant value to those early team members once relationships and trust formed among them. We do have plans to add a similar concept that core teams can use to recognize and reward new contributors that briefly help out, but the actual reward and how they are used will be defined by each product.
 
-If you want to still use App Coins for your product you can self host your own Assembly 1.0 instance. We’ve also open sourced the core infrastructure we used for App Coins which you can find at coins.assembly.com.
+If you want to still use App Coins for your product you can self host your own Assembly 1.0 instance. We’ve also open sourced the core infrastructure we used for App Coins which you can find at [coins.assembly.com](http://coins.assembly.com).
 
 ----
 
 # I need access to my domain/Heroku/repo for an Assembly 1.0 product
 
-Contact us: support@assembly.com
+Contact us: [support@assembly.com](mailto:support@assembly.com)
 
 ----
 
@@ -52,13 +54,13 @@ Contact us: support@assembly.com
 
 When v1 eventually reaches it's end of life we'll provide alternative suggestions to maintaining an App Coin ledger. For the time being, you can continue to access the your product's App Coin ledger and award new App Coins on v1 (cove.assembly.com). 
 
-Products have already started collecting their own revenue so it is their responsibility to handling how they recognize the App Coins they have distributed. Coderwall as an example is continuing to do so.
+Products have already started collecting their own revenue so it is their responsibility to handling how they recognize the App Coins they have distributed. [Coderwall](http://assembly.com/coderwall) as an example is continuing to do so.
 
 ----
 
 # I earn monthly revenue from an Assembly 1.0 product, what will happen to this?
 
-You’ll continue to earn revenue while the product is running, is profitable, and you have App Coins. You’ll continue to have access to your account on cove.assembly.com which you can use to request withdrawals, update information, and continue participating on the product’s bounties.
+You’ll continue to earn revenue while the product is running, is profitable, and you have App Coins. You’ll continue to have access to your account on [cove.assembly.com](http://cove.assembly.com), which you can use to request withdrawals, update information, and continue participating on the product’s bounties.
 
 ----
 
@@ -94,10 +96,10 @@ export default class NewFaqPage extends React.Component {
   render() {
     return (
       <div>
-        <ApplicationNavbar title="FAQ" />
+        <ApplicationNavbar title="New Assembly FAQ" />
         <div className="container px2 mb4">
           <div className="mb3">
-            <h2 className="bold">FAQ</h2>
+            <h2 className="bold">New Assembly FAQ</h2>
             <Markdown markdown={content} />
           </div>
         </div>
