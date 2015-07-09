@@ -4,10 +4,6 @@ import React from 'react'
 
 const content = `
 
-
-# Migration guide
-
-
 Do you have an Assembly product you’d like to migrate to Assembly v2? Great, you’re in the right place.
 
 ## 1. Secure domain, hosting, payments, etc.
@@ -67,10 +63,10 @@ export default class migration extends React.Component {
   render() {
     return (
       <div>
-        <ApplicationNavbar title="FAQ" />
+        <ApplicationNavbar title="Migration Guide" />
         <div className="container px2 mb4">
           <div className="mb3">
-            <h2 className="bold">FAQ</h2>
+            <h2 className="bold">Migration Guide</h2>
             <Markdown markdown={content} />
           </div>
         </div>
