@@ -106,12 +106,14 @@ export default {
   },
 
   delete(changelogId, storyId) {
-    Dispatcher.dispatch({
-      type: STORY_DELETED,
-      storyId: storyId
-    })
-    api.delete(`changelogs/${changelogId}/stories/${storyId}`)
-    Router.transitionTo("changelog", {changelogId: changelogId})
+    api.delete(`changelogs/${changelogId}/stories/${storyId}`).
+      then(() => {
+        Dispatcher.dispatch({
+          type: STORY_DELETED,
+          storyId: storyId
+        })
+        Router.transitionTo("changelog", {changelogId: changelogId})
+      })
   },
 
   edit(changelogId, storyId, data) {
@@ -127,7 +129,6 @@ export default {
           story: story,
           changelogId: changelogId,
         })
-
         Router.get().transitionTo('story', story.urlParams)
       })
   },
