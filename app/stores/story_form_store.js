@@ -36,9 +36,10 @@ class StoryFormStore extends Store {
 
         case GITHUB_DRAFTS_LOADED:
           if (action.drafts.length > 0) {
-            this.title = action.drafts[0].title,
-            this.body = action.drafts[0].body,
-            this.created_at = moment(action.drafts[0].updated_at).toISOString(),
+            this.title = action.drafts[0].title
+            this.body = action.drafts[0].body
+            this.emoji_id = action.drafts[0].emoji_id
+            this.created_at = moment(action.drafts[0].updated_at).toISOString()
             this.isPublic = true
           }
           break

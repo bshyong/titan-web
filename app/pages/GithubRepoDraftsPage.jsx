@@ -59,6 +59,7 @@ export default class GithubRepoDraftsPage extends React.Component {
       setTimeout(() => {StoryFormActions.change({
         title: drafts.get(0).title,
         body: drafts.get(0).body,
+        emoji_id: drafts.get(0).emoji_id,
         created_at: moment(drafts.get(0).updated_at).toISOString()
       })})
     }
@@ -179,6 +180,7 @@ export default class GithubRepoDraftsPage extends React.Component {
         body: nextDraft.body,
         contributors: nextDraft.contributors,
         created_at: moment(nextDraft.updated_at).toISOString(),
+        emoji_id: lastDraft.emoji_id,
         isPublic: true,
         title: nextDraft.title,
       })
