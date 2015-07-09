@@ -10,7 +10,7 @@ export default class Jumbotron extends React.Component {
       color
     )
     const style = {
-      backgroundImage: `url(${bgImageUrl})`
+      backgroundImage: `url(${encodeURI(bgImageUrl)})`
     }
     return (
       <div className={cn} style={style}>
