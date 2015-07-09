@@ -4,90 +4,63 @@ import React from 'react'
 
 const content = `
 
-This section of the FAQ is for anyone who was using Assembly prior to July 2015, and is curious about the changes. If you’re new to Assembly, the other FAQ sections will likely be more interesting to you.
 
-----
-
-# Intro
-
-The Assembly you are familiar with, now affectionately called 1.0, will have a new home at cove.assembly.com for the time being. We will support the existing profitable products on version 1.0 as well as provide ways to migrate your product’s data to the next version of Assembly. We've also open sourced the codebase so you can continue running your product if you choose to self-host the platform.
-
-Our mission when we created Assembly was to connect creators around the world; so they could build products together that were greater than what one person could on their own. Thanks to you and the amazing Assembly community, we’ve learned much over the last two years. We’ve seen products collectively reach millions of users and paid out thousands of dollars to contributors. 
-
-There have also been challenges as the number of products on Assembly grew, leading to these product changes. Every product is unique and so are their needs when managing, hosting, and monetizing them. There were also needs for additional flexibility in the way products reward those in the community who help contribute to them. We realized there wasn’t any solution that could do justice to the breadth of creativity and innovation we were seeing from the Assembly community.
-
-So, here we are with an exciting iteration on our original concept. Read below to get a better understanding of how this new version relates to Assembly 1.0, or explore the site to learn all about the new Assembly.
-
-If you’re looking for a product from Assembly 1.0, it will be on cove.assembly.com. (For example, cove.assembly.com/coderwall
-
-If you’re having trouble logging in to your existing account, click “I forgot my password”
-
-If you want to bring your product onto Assembly Changelog, follow our migration guide.
-
-If you’re curious about how we ended up with this new platform, read this [quick update about Assembly’s future](https://cove.assembly.com/meta/posts/a-quick-update-about-assembly-s-future)
-
-----
-
-# How can I migrate my Assembly 1.0 product to Assembly 2.0?
-
-Follow our migration guide.
-
-----
-
-# What happened to App Coins?
-
-A product only needs a few actively engaged core team members to get it on its way to success. We haven’t observed App coins adding significant value to those early team members once relationships and trust formed among them. We do have plans to add a similar concept that core teams can use to recognize and reward new contributors that briefly help out, but the actual reward and how they are used will be defined by each product.
-
-If you want to still use App Coins for your product you can self host your own Assembly 1.0 instance. We’ve also open sourced the core infrastructure we used for App Coins which you can find at coins.assembly.com.
-
-----
-
-# I need access to my domain/Heroku/repo for an Assembly 1.0 product
-
-Contact us: support@assembly.com
-
-----
-
-# If I migrate a product from v1, can I keep the ownership distribution I have today?
-
-When v1 eventually reaches it's end of life we'll provide alternative suggestions to maintaining an App Coin ledger. For the time being, you can continue to access the your product's App Coin ledger and award new App Coins on v1 (cove.assembly.com). 
-
-Products have already started collecting their own revenue so it is their responsibility to handling how they recognize the App Coins they have distributed. Coderwall as an example is continuing to do so.
-
-----
-
-# I earn monthly revenue from an Assembly 1.0 product, what will happen to this?
-
-You’ll continue to earn revenue while the product is running, is profitable, and you have App Coins. You’ll continue to have access to your account on cove.assembly.com which you can use to request withdrawals, update information, and continue participating on the product’s bounties.
-
-----
-
-# Can you outline all the differences between the way I built a distributed product on Assembly v1 and the way I can build one on Assembly v2?
-
-Sure thing:
-
-On Assembly v1, domains, payments and hosting were held by Assembly – meaning you were restricted to Stripe, Heroku, and a specific code license. Now, you and your team can manage these things with any tools and licenses you like.
-
-On Assembly v1, you could start with an idea and try to form a team to start building it. Now, there’s a bias toward action. You can just go ahead and start building in public and let people get involved along the way. By creating a “Pinned Post” with the details of how someone can get involved, you can open your product up to the community.
-
-On Assembly v1, each product used Assembly Chat for communication and Bounties for product management. Now, you can use any tools you like (lots of people are using Slack for chat and Trello for product management) – and they are tightly integrated with Assembly.
-
-On Assembly v1, all the products had to use Assembly’s tools for product management and communication. Now, you can use Trello, Slack, or whatever other powerful tools you want. Each product has a Pinned Post that points you to the pertinent info you’d need to get involved.
+# Migration guide
 
 
-On Assembly v1, ownership was handled on the platform. Now, you can manage this as you see fit. You might use a Google Spreadsheet to start off until you make enough progress to formalize things, you might use a tool like Coin Prism on the Blockchain, or you might incorporate and create a company with an equity cap table. It means you don’t need to rely on Assembly a the source of truth for ownership distribution.
+Do you have an Assembly product you’d like to migrate to Assembly v2? Great, you’re in the right place.
 
-On Assembly v1, revenue was distributed by Assembly, and restricted to Stripe Subscriptions. Now your team can use any payments tools you want and handle revenue sharing as you see fit.
+## 1. Secure domain, hosting, payments, etc.
 
-On Assembly v1, you could create Bounties that were aimed at recruiting new team members to work on your product. Assembly v2 instead creates a better way to showcase your team and its progress in building the product, which gets exposed to the community and will organically foster interest from people who can help make your product better.
+Assembly has initiated the process of transferring web domains, Heroku apps, and Stripe accounts back to the community in recent weeks. If Assembly still holds a piece of your product, check your inbox for steps to claim it, or [contact us](mailto:support@assembly.com).
 
-On Assembly v1, you could submit an idea and other people would build it for you for free – and you’d keep most of the ownership. Nope, that wasn’t how it worked. On Assembly v2, you can share your ideas on the [Requests For Startups](http://changelog.assembly.com/rfs changelog, and you can connect with great people in the community and build products together.
+## 2. Start a changelog
 
-----
+Head over to [Assembly.com](http://assembly.com), sign in, and click “Create Changelog”.
 
-# I have a question that isn't answered here.
+Fill in the pertinent details, walk through the onboarding process – where you can invite your team members by email or Assembly username, and create your first post (lots of people’s first post is “welcome to our new Changelog!”)
 
-Email us at [support@assembly.com](mailto:support@assembly.com)
+![Screen Shot 2015-07-07 at 4.13.22 PM.png](https://d1015h9unskp4y.cloudfront.net/attachments/7c63ab18-26be-4393-ab5a-677f1f13ff8e/Screen Shot 2015-07-07 at 4.13.22 PM.png)
+
+
+## 3. Import your product
+
+Visit your new Changelog. Click “settings” and scroll down until you see “Import a product from v1”.
+
+
+Paste the URL of your v1 product (example: cove.assembly.com/coderwall), and click import.
+
+
+![Screen Shot 2015-07-07 at 4.12.36 PM.png](https://d1015h9unskp4y.cloudfront.net/attachments/e9d53e76-e112-48ac-8f33-43c325a4b239/Screen Shot 2015-07-07 at 4.12.36 PM.png)
+
+
+## 4. Polish up your new Changelog
+
+Edit the wording for post titles that are unclear
+Add a cover image
+Change the emoji tags to your imported posts
+Create a “Pinned Post” that details how someone can get involved (links to repos, Slack channels, Trello boards, etc.)
+
+![changelogs.png](https://d1015h9unskp4y.cloudfront.net/attachments/c82424ce-65b9-49a6-84b7-50ce8cd05fa2/changelogs.png)
+
+## 5. Spread the word
+
+Go out and tell your friends about this new Changelog. It’s a great way for people to see all the progress you’ve made, to get involved and offer feedback, and to jump in and help out.
+
+
+The benefits of maintaining a Changelog include:
+
+
+Keeping your team on the same page with new designs and developments
+Encouraging celebration of wins – big and small
+Looping your community in as you build your product – to capture feedback early and often
+Growing your audience by exposing your Changelog to the 500,000 people in the Assembly community.
+
+
+Let us know if you have any questions along the way!
+
+![Screen Shot 2015-07-09 at 2.04.09 PM.png](https://d1015h9unskp4y.cloudfront.net/attachments/4e04040d-78be-4fcd-8e6f-bc3d82d1f652/Screen Shot 2015-07-09 at 2.04.09 PM.png)
+
 `
 
 export default class migration extends React.Component {
