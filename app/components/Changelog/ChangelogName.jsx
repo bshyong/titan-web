@@ -11,9 +11,10 @@ export default class ChangelogName extends React.Component {
 
   render() {
     const { changelog } = this.props
+    const title = changelog.is_members_only ? `Only ${changelog.name} members can view` : null
     return (
-      <span>
-        {changelog.is_members_only ? <abbr title={`Only ${changelog.name} members can view`}><Icon icon="lock" /></abbr> : null}
+      <span title={title}>
+        {changelog.is_members_only ? <Icon icon="lock" /> : null}
         {' '}
         {changelog.name}
       </span>
