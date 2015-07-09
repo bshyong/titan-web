@@ -30,7 +30,8 @@ export default {
       highlight: highlight
     })
 
-    api.post(`${highlight.url}/archive`)
+    // calling .substr() to remove the initial `/`
+    api.post(`${highlight.url.substr(1)}/archive`)
   },
 
   use(highlight) {
@@ -38,8 +39,9 @@ export default {
       type: HIGHLIGHT_USED,
       highlight: highlight
     })
-    
-    api.post(`${highlight.url}/used`)
+
+    // calling .substr() to remove the initial `/`
+    api.post(`${highlight.url.substr(1)}/used`)
 
     RouterContainer.get().transitionTo('new', {changelogId: 'assembly'}, {highlight: highlight.id})
   }
