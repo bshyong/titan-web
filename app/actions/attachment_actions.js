@@ -3,9 +3,9 @@ import {
   ATTACHMENT_SUCCEEDED,
   ATTACHMENT_UPLOADED,
   ATTACHMENT_UPLOADING
-} from '../constants'
-import api from '../lib/api'
-import Dispatcher from '../lib/dispatcher'
+} from 'constants'
+import api from 'lib/api'
+import Dispatcher from 'lib/dispatcher'
 
 export default {
   confirmAttachment() {

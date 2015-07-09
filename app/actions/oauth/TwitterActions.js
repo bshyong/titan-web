@@ -20,11 +20,7 @@ export default {
       query: opts
     })
 
-    window.open(
-      `${API_URL}/${path}`,
-      'Sign in to Changelog with Twitter',
-      'width=400,height=400,top=100,left=100'
-    )
+    window.location.href = `${API_URL}/${path}`
   },
 
   callback(query) {
