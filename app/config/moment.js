@@ -37,4 +37,9 @@ moment.locale('en', {
   },
 })
 
+moment.createFromInputFallback = function(config) {
+  // https://github.com/moment/moment/issues/1407
+  config._d = new Date(config._i)
+}
+
 export default moment

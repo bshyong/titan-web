@@ -8,14 +8,10 @@ describe('api', () => {
 
     api.req('some-url', {})
 
-    expect(window.fetch.calls.argsFor(0)).toEqual(
-      ['undefined/some-url', {
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'membership-invite': 'invite-1'
-        }
-      }]
-    )
+    const args = window.fetch.calls.argsFor(0)
+    expect(args[0]).toEqual('undefined/some-url')
+
+    const headers = args[1].headers
+    expect(headers['membership-invite']).toEqual('invite-1')
   })
 })
