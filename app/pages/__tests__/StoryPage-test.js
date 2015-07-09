@@ -43,12 +43,14 @@ describe('StoryPage', () => {
     fetchStory('changelog', story)
 
     spyOn(window, 'confirm').and.returnValue(true)
-    spyOn(api, 'delete')
+
+    let thenSpy = jasmine.createSpy('thenSpy')
+    spyOn(api, 'delete').and.returnValue({then: thenSpy})
     spyOn(Router, 'transitionTo')
     TestUtils.Simulate.click(c.refs.subject.refs.stub.refs.del)
 
+    expect(thenSpy).toHaveBeenCalled()
     expect(api.delete.calls.count()).toEqual(1)
-    expect(Router.transitionTo.calls.count()).toEqual(1)
   })
 })
 
