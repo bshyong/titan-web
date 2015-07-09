@@ -30,7 +30,7 @@ export default class DashboardPage extends React.Component {
               <div className="px2 mb2 sm-mb0">
                 <h3 className="mt0 mb1 bold">Stay connected with your team.</h3>
                 <p className="mb0">
-				  Know everyone's progress, get feedback on your work, 
+				  Follow everyone's progress, get feedback on your work, 
 				  and share your product updates with the world.
                 </p>
               </div>

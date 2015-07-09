@@ -66,7 +66,7 @@ export default class HomePage extends React.Component {
             Simple Changelogs for happy teams.
           </h1>
           <p className="h3 mb0 sm-col-10 gray">
-            Stay up to date with everyone's progress, 
+            Follow everyone's progress, 
 		  	get feedback on your work, 
 		  	and share your product updates with the world.
           </p>
