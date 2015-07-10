@@ -4,6 +4,8 @@
   .sm-left-align  { text-align: left }
   .sm-center      { text-align: center }
   .sm-right-align { text-align: right }
+  .sm-h1 {font-size: var(--h1);}
+  .sm-h00 {font-size: var(--h00);}
 }
 
 @media (--breakpoint-md) {

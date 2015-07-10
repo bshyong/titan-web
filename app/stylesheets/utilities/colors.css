@@ -16,6 +16,7 @@
 
 .orange-hover:hover { color: var(--orange) }
 .gray-hover:hover { color: var(--charcoal) }
+.white-hover:hover { color: var(--white)}
 
 .gray-visited:visited { color: var(--gray) }
 

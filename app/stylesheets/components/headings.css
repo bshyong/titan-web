@@ -6,3 +6,7 @@ h5,
 h6 {
   letter-spacing: -0.01em;
 }
+
+h2,h3 {
+  line-height: 1.5;
+}

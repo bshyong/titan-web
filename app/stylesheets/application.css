@@ -71,8 +71,10 @@
   --link-text-decoration: none;
   --link-hover-text-decoration: none;
 
-  --h1: 2.25rem;
+  /*--h1: 2.25rem;*/
   --paragraph-line-height:1.75;
+
+  --h00: 3.75rem;
 
   --time-1: 150ms;
   --time-2: 300ms;
@@ -84,3 +86,13 @@
   --font-family: "Avenir Next", "Avenir", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --heading-font-family: var(--font-family);
 }
+
+.m5  { margin: 5rem }
+.mt5 { margin-top: 5rem }
+.mr5 { margin-right: 5rem }
+.mb5 { margin-bottom: 5rem }
+.ml5 { margin-left: 5rem }
+
+.p5  { padding: 5rem }
+.py5 { padding-top: 5rem; padding-bottom: 5rem }
+.px5 { padding-left: 5rem; padding-right: 5rem }
