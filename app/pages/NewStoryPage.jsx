@@ -1,22 +1,26 @@
-import AuthenticatedMixin from '../components/mixins/authenticated_mixin.jsx'
-import Button from '../ui/Button.jsx'
-import ChangelogNavbar from 'components/Changelog/ChangelogNavbar.jsx'
+import AuthenticatedMixin from 'components/mixins/authenticated_mixin.jsx'
+import Button from 'ui/Button.jsx'
 import ChangelogStore from 'stores/changelog_store'
-import ContributorsActions from '../actions/ContributorsActions'
-import ContributorsStore from '../stores/ContributorsStore'
+import ChangelogNavbar from 'components/Changelog/ChangelogNavbar.jsx'
+import { connect } from 'redux/react'
+import connectToStores from 'lib/connectToStores.jsx'
+import ContributorsActions from 'actions/ContributorsActions'
+import ContributorsStore from 'stores/ContributorsStore'
 import DocumentTitle from 'react-document-title'
+import * as EmojiInputActions from 'actions/EmojiInputActions'
+import EmojiStore from 'stores/emoji_store'
 import React from 'react'
-import RouterContainer from '../lib/router_container'
-import SessionStore from '../stores/session_store'
-import StoryActions from '../actions/story_actions'
-import StoryForm from '../components/Story/StoryForm.jsx'
-import StoryFormActions from '../actions/story_form_actions'
-import StoryFormStore from '../stores/story_form_store'
-import StoryFormWalkthrough from '../components/Story/StoryFormWalkthrough.jsx'
-import UploadingAttachmentStore from '../stores/uploading_attachment_store'
-import connectToStores from '../lib/connectToStores.jsx'
+import RouterContainer from 'lib/router_container'
+import SessionStore from 'stores/session_store'
+import StoryActions from 'actions/story_actions'
+import StoryForm from 'components/Story/StoryForm.jsx'
+import StoryFormActions from 'actions/story_form_actions'
+import StoryFormStore from 'stores/story_form_store'
+import StoryFormWalkthrough from 'components/Story/StoryFormWalkthrough.jsx'
+import UploadingAttachmentStore from 'stores/uploading_attachment_store'
 
 @AuthenticatedMixin()
+@connect(state => ({...state}))
 @connectToStores(StoryFormStore, UploadingAttachmentStore)
 export default class NewStoryPage extends React.Component {
   static willTransitionTo(transition, params, query) {
@@ -111,6 +115,9 @@ export default class NewStoryPage extends React.Component {
 
     if (uploadsFinished || confirm('Attachments are still uploading; are you sure you want to post?')) {
       if (!StoryFormStore.isValid() || errorMessage) {
+        if (errorMessage.indexOf('emoji') > -1) {
+          this.props.dispatch(EmojiInputActions.open())
+        }
         this.setState({showErrorMessage: true})
       } else {
         if (fromOnboarding) {

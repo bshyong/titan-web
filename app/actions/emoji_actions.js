@@ -1,13 +1,12 @@
 import {
   EMOJI_FETCHED,
   EMOJI_SELECTED
-} from '../constants'
+} from 'constants'
 
-import Dispatcher from '../lib/dispatcher'
-import api from '../lib/api'
+import Dispatcher from 'lib/dispatcher'
+import api from 'lib/api'
 
 export default {
-
   fetch() {
     api.get(`emojis`).then(resp => {
       Dispatcher.dispatch({

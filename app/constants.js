@@ -64,6 +64,11 @@ export default keyMirror({
   EMOJI_FETCHED: null,
   EMOJI_SELECTED: null,
 
+  EMOJI_INPUT_BLURRED: null,
+  EMOJI_INPUT_CLOSED: null,
+  EMOJI_INPUT_FOCUSED: null,
+  EMOJI_INPUT_OPENED: null,
+
   FEED_STORIES_FETCHED: null,
   FOLLOWINGS_FETCHED: null,
 

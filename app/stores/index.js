@@ -1,5 +1,6 @@
 export authenticationForm from './authenticationForm'
 export changelogImport from './changelogImport'
 export currentUser from './currentUser'
+export emojiInput from './emojiInput'
 export newChangelog from './newChangelog'
 export story from './story'
