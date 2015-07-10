@@ -3,10 +3,11 @@ import {
   RESOURCE_NOT_FOUND
 } from '../constants'
 
-import Dispatcher from '../lib/dispatcher'
-import invite from '../lib/invite'
-import membership_invite from '../lib/membershipInvite'
-import SessionStore from '../stores/session_store'
+import Dispatcher from 'lib/dispatcher'
+import invite from 'lib/invite'
+import membership_invite from 'lib/membershipInvite'
+import moment from 'moment'
+import SessionStore from 'stores/session_store'
 
 module.exports = {
   get(url) {
@@ -40,8 +41,9 @@ module.exports = {
     options.headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Request-At': new Date()
+      'Request-At': moment().format()
     }
+
     if (SessionStore.jwt) {
       options.headers['Authorization'] = 'Bearer ' + SessionStore.jwt
     }
