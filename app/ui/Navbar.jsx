@@ -1,8 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
 
-import BgSrc from 'images/bg.png'
-
 export default class Navbar extends React.Component {
   static propTypes = {
     bg: React.PropTypes.string,
