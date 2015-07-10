@@ -45,7 +45,6 @@ var internal = (
 
     <Route handler={AdminPage} path="/admin" />
     <Route handler={HomePage} path="/home" />
-    <Route handler={FaqPage} path="/faq" name="faq" />
     <Route handler={NewFaqPage} path="/new-assembly-faq" name="newAssemblyFaq" />
     <Route handler={migration} path="/migration" name="migration" />
 
@@ -91,6 +90,9 @@ var internal = (
       <Route handler={StoryPage} path=":year/:month/:day/:storyId#:commentId" name="storyWithComment" />
       <Route handler={SingleDateChangelogPage} path="date/:date/:timeInterval" name="changelog_date" />
     </Route>
+	
+    <Route handler={FaqPage} path="/faq" name="faq" />
+	
   </Route>
 )
 
