@@ -13,10 +13,10 @@ It looks like this:
 
 The benefits of maintaining a Changelog include:
 
-Keeping your team on the same page with new designs and developments
-Encouraging celebration of wins – big and small
-Looping your community in as you build your product – to capture feedback early and often
-Growing your audience by exposing your Changelog to the 500,000 people in the Assembly community.
+- Keeping your team on the same page with new designs and developments
+- Encouraging celebration of wins – big and small
+- Looping your community in as you build your product – to capture feedback early and often
+- Growing your audience by exposing your Changelog to the 500,000 people in the Assembly community.
 
 ----
 
