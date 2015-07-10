@@ -1,13 +1,15 @@
 import {
+  CHANGELOG_DESTROYED,
   NOTIFICATIONS_ACKD,
   NOTIFICATIONS_FETCHED,
   NOTIFICATIONS_FETCHING,
-  NOTIFICATIONS_READ
+  NOTIFICATIONS_READ,
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import moment from 'moment'
 import Store from '../lib/store'
 import {Map, List} from 'immutable'
+import NotificationActions from '../actions/notification_actions'
 
 let ackKey = '_asm_activities_ack'
 
@@ -23,6 +25,10 @@ class NotificationsStore extends Store {
       switch (action.type) {
         case NOTIFICATIONS_ACKD:
           window.localStorage.setItem(ackKey, moment().unix())
+          break
+
+        case CHANGELOG_DESTROYED:
+          setTimeout(NotificationActions.fetchAll, 0)
           break
 
         case NOTIFICATIONS_FETCHING:
