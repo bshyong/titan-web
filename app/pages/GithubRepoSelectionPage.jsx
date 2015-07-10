@@ -84,6 +84,7 @@ export default class GithubRepoSelectionPage extends React.Component {
     return (
       <div className="p3">
         <h2>Loading Github repos..</h2>
+        <p>Hang tight; this can take 30 or so seconds if you have a large number of repositories</p>
         <LoadingBar loading={reposFetching} />
       </div>
     )
