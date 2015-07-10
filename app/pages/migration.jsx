@@ -1,5 +1,5 @@
-import ApplicationNavbar from 'components/application_navbar.jsx'
-import Markdown from '../ui/Markdown.jsx'
+import AppNavbar from 'components/App/AppNavbar.jsx'
+import Markdown from 'ui/Markdown.jsx'
 import React from 'react'
 
 const content = `
@@ -63,7 +63,7 @@ export default class migration extends React.Component {
   render() {
     return (
       <div>
-        <ApplicationNavbar title="Migration Guide" />
+        <AppNavbar title="Migration Guide" />
         <div className="container px2 mb4">
           <div className="mb3">
             <h2 className="bold">Migration Guide</h2>
