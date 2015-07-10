@@ -6,6 +6,7 @@ import {
 import Dispatcher from 'lib/dispatcher'
 import invite from 'lib/invite'
 import membership_invite from 'lib/membershipInvite'
+import moment from 'moment'
 import SessionStore from 'stores/session_store'
 
 module.exports = {
@@ -39,7 +40,8 @@ module.exports = {
   req(url, options) {
     options.headers = {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Request-At': moment().format()
     }
 
     if (SessionStore.jwt) {
