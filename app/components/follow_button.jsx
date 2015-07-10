@@ -2,7 +2,6 @@ import Button from '../ui/Button.jsx'
 import FollowActions from '../actions/follow_actions'
 import LoginForm from 'components/Authentication/LoginForm.jsx'
 import React from 'react'
-import SessionActions from '../actions/SessionActions'
 import SessionStore from '../stores/session_store'
 import SigninScrimActions from 'actions/SigninScrimActions'
 
@@ -15,11 +14,17 @@ export default class FollowButton extends React.Component {
   render() {
     const { toggled } = this.props
 
-    return (
-      <Button color="white" style="outline" block={true} action={this.handleClick}>
-        {toggled ? 'Following' : 'Follow Changelog'}
+    if (toggled) {
+      return <Button color="white" style="outline" block action={this.handleClick}>
+        Following
       </Button>
-    )
+    } else {
+      return (
+        <Button block bg="white" color="orange" action={this.handleClick}>
+          Follow
+        </Button>
+      )
+    }
   }
 
   _handleClick() {

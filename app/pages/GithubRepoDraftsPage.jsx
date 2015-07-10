@@ -1,4 +1,3 @@
-import ApplicationNavbar from '../components/application_navbar.jsx'
 import Button from '../ui/Button.jsx'
 import ContributorsStore from '../stores/ContributorsStore'
 import GithubOnboardingActions from '../actions/github_onboarding_actions'

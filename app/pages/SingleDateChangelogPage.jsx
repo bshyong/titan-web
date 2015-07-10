@@ -1,7 +1,6 @@
 import ChangelogDateRange from '../components/ChangelogDateRange.js.jsx'
-import ChangelogHeader from '../components/ChangelogHeader.jsx'
+import ChangelogNavbar from 'components/Changelog/ChangelogNavbar.jsx'
 import ChangelogStore from '../stores/changelog_store'
-import GroupedStoriesStore from '../stores/GroupedStoriesStore'
 import moment from 'moment'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
@@ -24,7 +23,7 @@ export default class SingleDateChangelogPage extends React.Component {
     const { changelogId, date, timeInterval } = this.props
 
     return <div>
-      <ChangelogHeader changelogId={changelogId} />
+      <ChangelogNavbar changelogId={changelogId} />
       <ChangelogDateRange changelogId={changelogId} start_date={date} timeInterval={timeInterval} />
     </div>
   }

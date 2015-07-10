@@ -1,4 +1,3 @@
-import ApplicationNavbar from '../components/application_navbar.jsx'
 import GithubOnboardingActions from '../actions/github_onboarding_actions'
 import GithubOnboardingStore from '../stores/github_onboarding_store'
 import React from 'react'

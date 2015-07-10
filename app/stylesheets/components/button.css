@@ -18,7 +18,7 @@
 
 .button-outline,
 .button-outline:focus {
-  border-width: 2px;
+  /*border-width: 2px;*/
   transition-property: border, box-shadow, background-color;
   box-shadow: none;
 }

@@ -4,7 +4,7 @@ import ChangelogStore from 'stores/changelog_store'
 import connectToStores from '../lib/connectToStores.jsx'
 import ContributorsActions from '../actions/ContributorsActions'
 import ContributorsStore from '../stores/ContributorsStore'
-import EmojiStore from '../stores/emoji_store'
+import ChangelogNavbar from 'components/Changelog/ChangelogNavbar.jsx'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
 import SessionStore from '../stores/session_store'
@@ -55,23 +55,30 @@ export default class NewStoryPage extends React.Component {
   render() {
     const { showErrorMessage } = this.state
 
+    if (!this.props.changelog) {
+      return
+    }
+
     return (
-      <div className="container py4 px2 sm-px0">
-        <StoryFormWalkthrough>
-          {this.renderSuccessBanner()}
-          <StoryForm story={this.props.story}
-            showErrorMessage={showErrorMessage}
-            changelog={this.props.changelog}
-            onChange={this.handleOnChange.bind(this)} />
-        </StoryFormWalkthrough>
-        <div className="py2 right-align">
-          <Button
-            color="orange"
-            style="outline"
-            action={this.handleOnPublish.bind(this)}
-            disabled={this.props.isCreating}>
-            Post
-          </Button>
+      <div>
+        <ChangelogNavbar changelog={this.props.changelog} size="small" />
+        <div className="container py4 px2 sm-px0">
+          <StoryFormWalkthrough>
+            {this.renderSuccessBanner()}
+            <StoryForm story={this.props.story}
+              showErrorMessage={showErrorMessage}
+              changelog={this.props.changelog}
+              onChange={this.handleOnChange.bind(this)} />
+          </StoryFormWalkthrough>
+          <div className="py2 right-align">
+            <Button
+              color="orange"
+              style="outline"
+              action={this.handleOnPublish.bind(this)}
+              disabled={this.props.isCreating}>
+              Post
+            </Button>
+          </div>
         </div>
       </div>
     )

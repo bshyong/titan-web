@@ -1,5 +1,6 @@
 import LoadingBar from './LoadingBar.jsx'
 import React from 'react'
+import Icon from 'ui/Icon.jsx'
 
 export default class ClickablePaginator extends React.Component {
   constructor(props) {
@@ -12,21 +13,16 @@ export default class ClickablePaginator extends React.Component {
 
   componentWillReceiveProps() {
     this.setState({
-      loading: false
+      loading: false,
     })
   }
 
   render() {
     return (
       <div>
-        <div>
-          {this.props.children}
-          <div className='m2 mt3'>
-            <LoadingBar loading={this.state.loading} />
-            {this.renderLoadMoreButton()}
-          </div>
-        </div>
-
+        {this.props.children}
+        <LoadingBar loading={this.state.loading} />
+        {this.renderLoadMoreButton()}
       </div>
     )
   }
@@ -44,9 +40,14 @@ export default class ClickablePaginator extends React.Component {
     if (this.props.hasMore) {
       return (
         <div
-          className="pointer p2 bg-smoke-hover gray orange-hover border-top block right-align"
+          className="flex flex-center pointer p2 gray orange-hover border-top border-smoke"
           onClick={this.handleOnClick.bind(this)}>
-          <div className="mx-auto h5">Load more</div>
+          <div className="inline-block bg-smoke rounded px1 mr1">
+            <Icon icon="ellipsis-h" color="silver" />
+          </div>
+          <div className="sm-show h6">
+            Load more
+          </div>
         </div>
       )
     }

@@ -1,5 +1,5 @@
 import Changelog from '../components/changelog.js.jsx'
-import ChangelogHeader from '../components/ChangelogHeader.jsx'
+import ChangelogNavbar from 'components/Changelog/ChangelogNavbar.jsx'
 import ChangelogStore from '../stores/changelog_store'
 import connectToStores from '../lib/connectToStores.jsx'
 import DocumentTitle from 'react-document-title'
@@ -31,7 +31,7 @@ export default class ChangelogPage extends React.Component {
     const { changelogId, changelogName } = this.props
     return <DocumentTitle title={["Sets", changelogName].join(' · ')}>
       <div>
-        <ChangelogHeader changelogId={changelogId} />
+        <ChangelogNavbar changelogId={changelogId} />
         <Changelog changelogId={changelogId} groupBy="markers" />
       </div>
     </DocumentTitle>

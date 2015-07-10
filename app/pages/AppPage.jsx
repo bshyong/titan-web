@@ -1,5 +1,4 @@
 import {RouteHandler} from 'react-router'
-import ApplicationNavbar from 'components/application_navbar.jsx'
 import connectToStores from 'lib/connectToStores.jsx'
 import ErrorPage from 'pages/ErrorPage.jsx'
 import NotFoundPage from 'pages/NotFoundPage.jsx'

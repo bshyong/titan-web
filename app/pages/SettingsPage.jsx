@@ -1,6 +1,6 @@
 import {List} from 'immutable'
 import {RouteHandler} from 'react-router'
-import ApplicationNavbar from '../components/application_navbar.jsx'
+import AppNavbar from 'components/App/AppNavbar.jsx'
 import authenticated from '../components/mixins/authenticated_mixin.jsx'
 import Button from '../ui/Button.jsx'
 import ChangelogActions from '../actions/changelog_actions'
@@ -35,7 +35,7 @@ export default class SettingsPage extends React.Component {
   render() {
     return (
       <div>
-        <ApplicationNavbar title="Settings" />
+        <AppNavbar title="Settings" />
         <div className="container">
           <div className="flex" style={{minHeight: 'calc(100vh - 3.5rem)'}}>
 

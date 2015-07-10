@@ -1,6 +1,6 @@
 import {connect} from 'redux/react'
 import {create} from 'actions/newChangelogActions'
-import ApplicationNavbar from '../components/application_navbar.jsx'
+import AppNavbar from 'components/App/AppNavbar.jsx'
 import authenticatedComponent from 'components/mixins/authenticated_mixin.jsx'
 import Button from '../ui/Button.jsx'
 import ChangelogStore from '../stores/changelog_store'
@@ -26,7 +26,7 @@ export default class ChangelogOnboardingPage extends React.Component {
   render() {
     return (
       <div>
-        <ApplicationNavbar title="New Changelog" />
+        <AppNavbar title="New Changelog" />
 
         <div className="flex flex-center full-width">
           <div className="container full-width px2">

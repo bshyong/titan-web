@@ -1,4 +1,4 @@
-import ApplicationNavbar from '../components/application_navbar.jsx'
+import AppNavbar from 'components/App/AppNavbar.jsx'
 import AuthenticatedComponent from '../components/mixins/authenticated_mixin.jsx'
 import Button from '../ui/Button.jsx'
 import ChangelogActions from '../actions/changelog_actions'
@@ -24,13 +24,14 @@ export default class DashboardPage extends React.Component {
     return (
       <DocumentTitle title="Dashboard">
         <div>
-          <ApplicationNavbar title="Dashboard" />
+          <AppNavbar title="Dashboard" />
+
           <Jumbotron bgColor="smoke" color="black">
             <div className="sm-flex flex-center sm-mxn2 center sm-left-align">
               <div className="px2 mb2 sm-mb0">
                 <h3 className="mt0 mb1 bold">Stay connected with your team.</h3>
                 <p className="mb0">
-				  Follow everyone's progress, get feedback on your work, 
+				  Follow everyone's progress, get feedback on your work,
 				  and share your product updates with the world. &nbsp;
 				  <img src="https://twemoji.maxcdn.com/svg/1f30e.svg" height="12" width="12"></img>
                 </p>
@@ -42,6 +43,7 @@ export default class DashboardPage extends React.Component {
               </div>
             </div>
           </Jumbotron>
+
           <div className="container px0 sm-px2 mb4">
             <Dashboard />
           </div>
