@@ -1,4 +1,4 @@
-import ApplicationNavbar from 'components/application_navbar.jsx'
+import AppNavbar from 'components/App/AppNavbar.jsx'
 import marked from 'marked'
 import React from 'react'
 
@@ -95,7 +95,7 @@ export default class TermsPage extends React.Component {
   render() {
     return (
       <div>
-        <ApplicationNavbar title="Terms and Conditions" />
+        <AppNavbar title="Terms and Conditions" />
         <div className="px4 py2">
           <h2 className="bold">Terms and Conditions</h2>
           <small className="gray">Last updated on July 9th, 2015</small>

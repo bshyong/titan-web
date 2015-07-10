@@ -1,32 +1,17 @@
-import { RouteHandler } from 'react-router'
-import {List, Set} from 'immutable'
-
-import Avatar from '../ui/Avatar.jsx'
 import Button from '../ui/Button.jsx'
-import ChangelogActions from '../actions/changelog_actions'
 import ChangelogStore from '../stores/changelog_store'
 import GroupedStoriesStore from '../stores/GroupedStoriesStore'
-import Icon from '../ui/Icon.jsx'
-import Link from '../components/Link.jsx'
 import LoadingBar from '../ui/LoadingBar.jsx'
 import PostSet from '../components/PostSet.jsx'
 import React from 'react'
 import ScrollPaginator from '../ui/ScrollPaginator.jsx'
-import SegmentedControl from '../ui/SegmentedControl.jsx'
-import SigninScrim from './Authentication/SigninScrim.jsx'
-import Stack from '../ui/Stack.jsx'
 import StoryActions from '../actions/story_actions'
 import StoryRange from './StoryRange.jsx'
-import Table from '../ui/Table.jsx'
 import connectToStores from '../lib/connectToStores.jsx'
-import dateString from '../lib/dateStringForTimeInterval'
-import moment from '../config/moment'
-import paramsFor from '../lib/paramsFor'
-import shallowEqual from 'react-pure-render/shallowEqual'
-import SessionStore from '../stores/session_store'
 import Router from '../lib/router_container'
-import emoji from '../lib/emoji'
 import Emoji from '../ui/Emoji.jsx'
+import ChangelogNavbar from 'components/Changelog/ChangelogNavbar.jsx'
+
 
 @connectToStores(ChangelogStore, GroupedStoriesStore)
 export default class Changelog extends React.Component {
@@ -58,9 +43,12 @@ export default class Changelog extends React.Component {
       }, page + 1, 25)
 
     return <div>
+      <ChangelogNavbar changelog={changelog} />
+
       {moreAvailable ?
         <ScrollPaginator page={page} onScrollBottom={nextPage} /> : null}
       {this.renderOpenSet()}
+
       <div className="container">
       	{this.renderGithubRepoMessage()}
       	{this.renderEmptyState()}

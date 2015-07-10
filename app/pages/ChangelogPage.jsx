@@ -1,5 +1,4 @@
 import {RouteHandler} from 'react-router'
-import ApplicationNavbar from '../components/application_navbar.jsx'
 import Avatar from '../ui/Avatar.jsx'
 import Button from '../ui/Button.jsx'
 import ChangelogActions from '../actions/changelog_actions'
@@ -46,7 +45,6 @@ export default class ChangelogPage extends React.Component {
     const changelogId = RouterContainer.changelogSlug()
     return (
       <div>
-        <ApplicationNavbar title={this.title()} />
         <RouteHandler changelogId={changelogId} />
       </div>
     )

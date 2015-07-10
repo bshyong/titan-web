@@ -1,7 +1,5 @@
-import ApplicationNavbar from './application_navbar.jsx'
 import AuthenticatedMixin from './mixins/authenticated_mixin.jsx'
 import connectToStores from '../lib/connectToStores.jsx'
-import EmojiStore from '../stores/emoji_store'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
 import StoryForm from './Story/StoryForm.jsx'
@@ -11,7 +9,7 @@ import StoryActions from '../actions/story_actions'
 import GroupedStoriesStore from '../stores/GroupedStoriesStore'
 import Button from '../ui/Button.jsx'
 import ChangelogStore from 'stores/changelog_store'
-import ContributorsStore from '../stores/ContributorsStore'
+import ChangelogNavbar from 'components/Changelog/ChangelogNavbar.jsx'
 
 @AuthenticatedMixin()
 @connectToStores(StoryFormStore)
@@ -37,15 +35,18 @@ export default class EditStoryForm extends React.Component {
       return <div />
     }
     return (
-      <div className="container py4">
-        <StoryForm changelog={this.props.changelog} story={this.props.story} onChange={this.handleOnChange.bind(this)} />
-        <div className="py2 right-align">
-          <Button
-            color="orange"
-            style="outline"
-            action={this.handleOnUpdate.bind(this)} disabled={!StoryFormStore.isValid()}>
-            Update
-          </Button>
+      <div>
+        <ChangelogNavbar changelog={this.props.changelog} size="small" />
+        <div className="container py4">
+          <StoryForm changelog={this.props.changelog} story={this.props.story} onChange={this.handleOnChange.bind(this)} />
+          <div className="py2 right-align">
+            <Button
+              color="orange"
+              style="outline"
+              action={this.handleOnUpdate.bind(this)} disabled={!StoryFormStore.isValid()}>
+              Update
+            </Button>
+          </div>
         </div>
       </div>
     )

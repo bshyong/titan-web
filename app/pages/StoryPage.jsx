@@ -1,13 +1,13 @@
 import {List} from 'immutable'
 import Avatar from '../ui/Avatar.jsx'
 import Badge from '../components/Badge.jsx'
+import ChangelogNavbar from 'components/Changelog/ChangelogNavbar.jsx'
 import ChangelogStore from '../stores/changelog_store'
 import connectToStores from '../lib/connectToStores.jsx'
 import Discussion from '../components/discussion.jsx'
 import DiscussionActions from '../actions/discussion_actions'
 import DocumentTitle from 'react-document-title'
 import GroupedStoriesStore from '../stores/GroupedStoriesStore'
-import StoryBooster from 'components/staff/StoryBooster.jsx'
 import Guest from '../ui/Guest.jsx'
 import Icon from '../ui/Icon.jsx'
 import invite from '../lib/invite'
@@ -19,11 +19,12 @@ import Popover from '../ui/Popover.jsx'
 import React from 'react'
 import Router from '../lib/router_container'
 import Stack from '../ui/Stack.jsx'
-import StoryActions from '../actions/story_actions'
-import StoryReadersStore from '../stores/story_readers_store'
-import UpvoteToggler from '../components/UpvoteToggler.jsx'
 import StaffOnly from 'components/StaffOnly.jsx'
 import Sticky from 'ui/Sticky.jsx'
+import StoryActions from '../actions/story_actions'
+import StoryBooster from 'components/staff/StoryBooster.jsx'
+import StoryReadersStore from '../stores/story_readers_store'
+import UpvoteToggler from '../components/UpvoteToggler.jsx'
 
 @connectToStores(GroupedStoriesStore, StoryReadersStore, ChangelogStore)
 export default class StoryPage extends React.Component {
@@ -64,11 +65,9 @@ export default class StoryPage extends React.Component {
     return (
       <DocumentTitle title={[story.title, (changelog && changelog.name)].join(' · ')}>
         <div className="flex flex-column" style={{minHeight: 'calc(100vh - 3.5rem)'}}>
-          {this.renderInvite()}
+          <ChangelogNavbar changelog={changelog} size="small" />
 
-          <Link className="p2 gray orange-hover" to="changelog" params={{changelogId}}>
-            <Icon icon="angle-left" /> { changelog.name }
-          </Link>
+          {this.renderInvite()}
 
           <div className="p2 sm-px0 sm-py3 md-py4">
             <div className="container sm-flex">

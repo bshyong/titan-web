@@ -1,5 +1,6 @@
-import ApplicationNavbar from 'components/application_navbar.jsx'
-import Markdown from '../ui/Markdown.jsx'
+import AppNavbar from 'components/App/AppNavbar.jsx'
+import Markdown from 'ui/Markdown.jsx'
+import DocumentTitle from 'react-document-title'
 import React from 'react'
 
 const content = `
@@ -50,15 +51,17 @@ Email us at [support@assembly.com](mailto:support@assembly.com)
 export default class FaqPage extends React.Component {
   render() {
     return (
-      <div>
-        <ApplicationNavbar title="FAQ" />
-        <div className="container px2 mb4">
-          <div className="mb3">
-            <h2 className="bold">FAQ</h2>
-            <Markdown markdown={content} />
+      <DocumentTitle title="FAQ">
+        <div>
+          <AppNavbar title="FAQ" />
+
+          <div className="container px2 py4">
+            <div className="mb3">
+              <Markdown markdown={content} />
+            </div>
           </div>
         </div>
-      </div>
+      </DocumentTitle>
     )
   }
 }

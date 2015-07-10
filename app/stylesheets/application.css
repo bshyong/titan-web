@@ -15,6 +15,7 @@
 
 /* Components */
 @import 'components/button';
+@import 'components/changelog_navbar';
 @import 'components/comment';
 @import 'components/field_light';
 @import 'components/field';

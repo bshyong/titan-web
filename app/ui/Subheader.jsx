@@ -6,6 +6,6 @@ export default class Subheader extends React.Component {
   }
 
   render() {
-    return <div className="mt3 p2 sm-px0 border-bottom bold">{this.props.text}</div>
+    return <div className="mt3 p2 border-bottom bold">{this.props.text}</div>
   }
 }

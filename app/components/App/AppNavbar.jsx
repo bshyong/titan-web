@@ -6,7 +6,6 @@ import Jewel from 'ui/Jewel.jsx'
 import Link from 'components/Link.jsx'
 import List from 'ui/List.jsx'
 import Navbar from 'ui/Navbar.jsx'
-import NotificationActions from 'actions/notification_actions'
 import NotificationsList from 'components/notifications_list.js.jsx'
 import NotificationsStore from 'stores/notifications_store'
 import paramsFor from 'lib/paramsFor'
@@ -20,9 +19,10 @@ import LoginForm from 'components/Authentication/LoginForm.jsx'
 
 // Logo versions:
 import LogoSrc from 'images/logo.svg'
+import LogoTransparentSrc from 'images/logo-transparent.svg'
 
 @connectToStores(ChangelogStore, SessionStore, NotificationsStore)
-export default class ApplicationNavbar extends React.Component {
+export default class AppNavbar extends React.Component {
 
   static getPropsFromStores() {
     return {
@@ -33,24 +33,32 @@ export default class ApplicationNavbar extends React.Component {
   }
 
   static propTypes = {
-    title: React.PropTypes.node.isRequired
-  }
-
-  static defaultProps = {
-    title: 'Changelog'
+    bgImgUrl: React.PropTypes.string,
   }
 
   render() {
-    return <Navbar title={this.props.title}
-                   left={this.left()}
-                   right={this.right()} />
+    return (
+      <Navbar {...this.props} left={this.left()} right={this.right()}>
+        <div className="p2">
+          {this.props.children}
+        </div>
+      </Navbar>
+    )
+  }
+
+  logoUrl() {
+    if (this.props.bgImgUrl) {
+      return LogoTransparentSrc
+    } else {
+      return LogoSrc
+    }
   }
 
   left() {
-    let route = this.props.user ? "dashboard" : "root"
+    const route = this.props.user ? 'dashboard' : 'root'
     return (
-      <Link to={route} className="flex">
-        <img className="flex-none mr2" src={LogoSrc} style={{height: '1.5rem'}} />
+      <Link to={route} className="flex p2">
+        <img className="flex-none mr2" src={this.logoUrl()} style={{height: '1.5rem'}} />
       </Link>
     )
   }

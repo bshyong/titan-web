@@ -1,5 +1,5 @@
 import React from 'react'
-import ApplicationNavbar from '../components/application_navbar.jsx'
+import AppNavbar from 'components/App/AppNavbar.jsx'
 import StoryActions from '../actions/story_actions'
 import StoryFeed from '../components/StoryFeed.jsx'
 
