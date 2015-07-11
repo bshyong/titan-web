@@ -13,8 +13,7 @@ export default function Authenticated() {
         if (!SessionStore.isSignedIn()) {
           transition.abort()
           const path = window.location.pathname
-          RouterContainer.router.transitionTo("home")
-          SigninScrimActions.show(SignupForm, path)
+          RouterContainer.router.transitionTo('signup')
         } else {
           Component.willTransitionTo && Component.willTransitionTo(transition, params, query)
         }

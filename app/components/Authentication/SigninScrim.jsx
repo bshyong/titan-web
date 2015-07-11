@@ -38,6 +38,18 @@ export default class SigninScrim extends React.Component {
     SigninScrimActions.hide()
   }
 
+  renderCloseButton() {
+    if (window.location.pathname !== '/signup') {
+      return (
+        <span className="gray ml2 pointer right relative"
+          onClick={this.handleClose}
+          style={{ fontSize: '2rem', top: -12 }}>
+          <Icon icon="close" />
+        </span>
+      )
+    }
+  }
+
   renderFormToggle() {
     const { Form } = this.props
     if (Form === LoginForm || Form === PasswordResetEmailForm) {
@@ -49,11 +61,7 @@ export default class SigninScrim extends React.Component {
             onClick={SigninScrimActions.show.bind(null, SignupForm)}>
             Sign up
           </a>.
-          <span className="gray ml2 pointer right relative"
-            onClick={this.handleClose}
-            style={{ fontSize: '2rem', top: -12 }}>
-            <Icon icon="close" />
-          </span>
+          {this.renderCloseButton()}
         </div>
       )
     } else if (Form === SignupConfirmationForm) {
@@ -68,11 +76,7 @@ export default class SigninScrim extends React.Component {
           onClick={SigninScrimActions.show.bind(null, LoginForm)}>
           Log in
         </a>.
-        <span className="gray ml2 pointer right relative"
-          onClick={this.handleClose}
-          style={{ fontSize: '2rem', top: -12 }}>
-          <Icon icon="close" />
-        </span>
+        {this.renderCloseButton()}
       </div>
     )
   }
