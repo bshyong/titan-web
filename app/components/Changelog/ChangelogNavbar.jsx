@@ -88,15 +88,15 @@ export default class ChangelogNavbar extends React.Component {
     const { changelog, following } = this.props
     return (
       <div className="changelog-navbar sm-flex flex-center md-mt0" style={{height: 'calc(2rem - 2px)'}}>
-        <div className="flex-none mb2 sm-mb0">
-          <Link className="block mx-auto" style={{width: '2rem'}} to="changelog" params={paramsFor.changelog(changelog)}>
-            <div className="shadow rounded">
+        <div className="flex-auto">
+          <Link className="block flex flex-center" to="changelog" params={paramsFor.changelog(changelog)}>
+            <div className="flex-none mb2 sm-mb0 shadow rounded center mx-auto">
               <Logo changelog={changelog} size="2rem"/>
             </div>
+            <div className="block flex-auto ml2 white sm-show">
+              <h3 className="mt0 mb0 bold"><ChangelogName changelog={changelog} /></h3>
+            </div>
           </Link>
-        </div>
-        <div className="block flex-auto mb2 md-mb0 sm-px2 center sm-left-align white">
-          <h3 className="mt0 mb0 bold"><ChangelogName changelog={changelog} /></h3>
         </div>
         <div className="flex-none ml2 sm-show">
           <div className="sm-flex mxn1">
