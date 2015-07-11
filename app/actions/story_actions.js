@@ -3,6 +3,8 @@ import {
   ANALYTICS_UPVOTE,
   FEED_STORIES_FETCHED,
   GROUP_STORIES_FETCHED,
+  PINNED_POSTS_FETCHED,
+  PINNED_POSTS_FETCHING,
   STORIES_FETCHED,
   STORIES_FETCHING,
   STORY_CREATING,
@@ -10,9 +12,11 @@ import {
   STORY_EDITING,
   STORY_FETCHED,
   STORY_HEARTED,
+  STORY_PINNED,
   STORY_PUBLISHED,
   STORY_SUBSCRIBED,
   STORY_UNHEARTED,
+  STORY_UNPINNED,
   STORY_UNSUBSCRIBED,
   STORY_UPDATED,
 } from '../constants'
@@ -71,6 +75,25 @@ export default {
           type: STORY_FETCHED,
           story: resp,
           changelogId: changelogId
+        })
+      })
+  },
+
+  fetchPinned(changelogId, page, per) {
+    Dispatcher.dispatch({
+      type: PINNED_POSTS_FETCHING
+    })
+
+    api.get(`changelogs/${changelogId}/stories?filter=pinned&page=${page}&per=${per}`).
+      then(resp => {
+        const stories = List(resp)
+
+        Dispatcher.dispatch({
+          type: PINNED_POSTS_FETCHED,
+          stories: stories,
+          page: page,
+          per: per,
+          moreAvailable: stories.size === per
         })
       })
   },
@@ -178,6 +201,22 @@ export default {
           Router.get().transitionTo('story', story.urlParams)
         }
       })
+  },
+
+  pin(changelogId, storyId) {
+    Dispatcher.dispatch({
+      type: STORY_PINNED,
+      storyId: storyId
+    })
+    api.put(`changelogs/${changelogId}/stories/${storyId}/pin`)
+  },
+
+  unpin(changelogId, storyId) {
+    Dispatcher.dispatch({
+      type: STORY_UNPINNED,
+      storyId: storyId
+    })
+    api.put(`changelogs/${changelogId}/stories/${storyId}/unpin`)
   },
 
   subscribe(storyId) {

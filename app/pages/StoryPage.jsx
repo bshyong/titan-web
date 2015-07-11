@@ -15,6 +15,7 @@ import Link from '../components/Link.jsx'
 import Markdown from '../ui/Markdown.jsx'
 import moment from '../config/moment'
 import paramsFor from '../lib/paramsFor'
+import PinPostButton from '../components/PinPostButton.jsx'
 import Popover from '../ui/Popover.jsx'
 import React from 'react'
 import Router from '../lib/router_container'
@@ -103,6 +104,7 @@ export default class StoryPage extends React.Component {
                       <li className="px1">
                         <span className="silver"><Icon icon="comment" /></span> {story.live_comments_count}
                       </li>
+                      {this.renderPinToggler()}
                       {this.renderEditLink()}
                       {this.renderDeleteLink()}
                       {this.renderShareLink()}
@@ -144,6 +146,11 @@ export default class StoryPage extends React.Component {
 
       </DocumentTitle>
     )
+  }
+
+  renderPinToggler() {
+    const { story, changelog } = this.props
+    return <PinPostButton post={story} changelogId={changelog.slug} />
   }
 
   renderDeleteLink() {
@@ -201,10 +208,6 @@ export default class StoryPage extends React.Component {
         </li>
       </Popover>
     )
-  }
-
-  handleTwitterShare() {
-
   }
 
   renderInvite() {

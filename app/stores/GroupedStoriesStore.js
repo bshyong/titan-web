@@ -10,9 +10,11 @@ import {
   STORY_DELETED,
   STORY_FETCHED,
   STORY_HEARTED,
+  STORY_PINNED,
   STORY_PUBLISHED,
   STORY_SUBSCRIBED,
   STORY_UNHEARTED,
+  STORY_UNPINNED,
   STORY_UNSUBSCRIBED,
 } from '../constants'
 import { List, Map, OrderedMap } from 'immutable'
@@ -40,6 +42,14 @@ class GroupedStoriesStore extends Store {
         case STORY_DELETED:
           let g = this.grouped.find(g => g.stories.get(action.storyId))
           g.stories = g.stories.delete(action.storyId)
+          break
+
+        case STORY_PINNED:
+          this.get(action.storyId).pinned_at = true
+          break
+
+        case STORY_UNPINNED:
+          this.get(action.storyId).pinned_at = false
           break
 
         case STORY_FETCHED:

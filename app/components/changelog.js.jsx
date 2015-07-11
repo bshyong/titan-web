@@ -11,9 +11,10 @@ import connectToStores from '../lib/connectToStores.jsx'
 import Router from '../lib/router_container'
 import Emoji from '../ui/Emoji.jsx'
 import ChangelogNavbar from 'components/Changelog/ChangelogNavbar.jsx'
+import PinnedPosts from '../components/PinnedPosts.jsx'
+import PinnedPostsStore from '../stores/PinnedPostsStore'
 
-
-@connectToStores(ChangelogStore, GroupedStoriesStore)
+@connectToStores(ChangelogStore, GroupedStoriesStore, PinnedPostsStore)
 export default class Changelog extends React.Component {
   static propTypes = {
     groupBy: React.PropTypes.string
@@ -26,6 +27,7 @@ export default class Changelog extends React.Component {
       loading: GroupedStoriesStore.loading,
       moreAvailable: GroupedStoriesStore.moreAvailable,
       page: GroupedStoriesStore.page,
+      pinnedPosts: PinnedPostsStore.all,
       totalStoriesCount: GroupedStoriesStore.totalStoriesCount,
     }
   }
@@ -51,11 +53,17 @@ export default class Changelog extends React.Component {
 
       <div className="container">
       	{this.renderGithubRepoMessage()}
+        {this.renderPinnedPosts()}
       	{this.renderEmptyState()}
         {this.renderStories()}
         <LoadingBar loading={loading} />
       </div>
     </div>
+  }
+
+  renderPinnedPosts() {
+    const { pinnedPosts, changelog } = this.props
+    return <PinnedPosts posts={pinnedPosts} changelogId={changelog.slug} />
   }
 
   renderOpenSet() {
