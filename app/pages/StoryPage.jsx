@@ -93,7 +93,8 @@ export default class StoryPage extends React.Component {
 
                 <div className="h5 gray sm-flex">
                   <div className="flex-auto mb1 sm-mb0">
-                    {moment(story.created_at).format('ll @ LT')} by <Link to="profile" params={{userId: story.user.username}} className="bold gray">@{story.user.username}</Link>
+                    {moment(story.created_at).format('ll @ LT')} <br />
+                    by <Link to="profile" params={{userId: story.user.username}} className="bold gray">@{story.user.username}</Link>
                   </div>
 
                   <div>
