@@ -42,7 +42,7 @@ export default class HomePage extends React.Component {
       <div>
         <Navbar
           left={
-            <Link to="home">
+            <Link className="block p2" to="home">
               <img className="block" src={LogoImgSrc} height={onMobile() ? 14 : 16} />
             </Link>
           }
