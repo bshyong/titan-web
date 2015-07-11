@@ -113,6 +113,9 @@ export default keyMirror({
 
   PENDING_MEMBERSHIP_UPDATED: null,
 
+  PINNED_POSTS_FETCHED: null,
+  PINNED_POSTS_FETCHING: null,
+
   PROFILE_CHANGELOGS_FETCHED: null,
   PROFILE_FETCHED: null,
   PROFILE_FETCHING: null,
@@ -151,6 +154,9 @@ export default keyMirror({
 
   STORY_FORM_CHANGE: null,
   STORY_FORM_CLEAR: null,
+
+  STORY_PINNED: null,
+  STORY_UNPINNED: null,
 
   TWITTER_ACCOUNT_UNLINKED: null,
 

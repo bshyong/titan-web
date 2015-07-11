@@ -30,6 +30,7 @@
 @import 'components/stack';
 @import 'components/strong';
 @import 'components/upvote_toggler';
+@import 'components/pinned_post';
 
 
 :root {

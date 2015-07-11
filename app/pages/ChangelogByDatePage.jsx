@@ -13,6 +13,7 @@ export default class ChangelogByDatePage extends React.Component {
     StoryActions.fetchAll(RouterContainer.changelogSlug(params), {
       group_by: 'calendar'
     })
+    StoryActions.fetchPinned(RouterContainer.changelogSlug(params))
   }
 
   static getPropsFromStores(props) {
