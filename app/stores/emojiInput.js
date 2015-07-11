@@ -42,7 +42,7 @@ export default function isEmojiInputOpen(state = Map(initialState), action) {
         isOpen: false
       })
     case EMOJI_INPUT_FOCUSED:
-      return Map(state).set('isFocused', false)
+      return Map(state).set('isFocused', true)
     case EMOJI_INPUT_OPENED:
       return Map(state).merge({
         isFocused: true,

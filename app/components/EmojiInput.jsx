@@ -13,12 +13,14 @@ import DefaultImgSrc from 'images/emoji-input-default.svg'
 
 const ENTER_KEY = 13
 
-@connect(state => ({
-  emojis: state.emojiInput.get('emojis'),
-  isFocused: state.emojiInput.get('isFocused'),
-  isOpen: state.emojiInput.get('isOpen'),
-  value: state.emojiInput.get('value')
-}))
+@connect(state => {
+  return {
+    emojis: state.emojiInput.get('emojis'),
+    isFocused: state.emojiInput.get('isFocused'),
+    isOpen: state.emojiInput.get('isOpen'),
+    value: state.emojiInput.get('value')
+  }
+})
 export default class EmojiInput extends React.Component {
   static propTypes = {
     autoFocus: React.PropTypes.bool,
@@ -94,6 +96,7 @@ export default class EmojiInput extends React.Component {
 
   renderDialog() {
     const { dispatch, isOpen, value } = this.props
+
     if (isOpen) {
       return (
         <Dialog onCloseRequested={() => dispatch(EmojiInputActions.blur())}>
