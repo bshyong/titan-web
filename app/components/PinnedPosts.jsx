@@ -1,6 +1,8 @@
 import Badge from './Badge.jsx'
 import PinPostButton from './PinPostButton.jsx'
 import React from 'react'
+import Link from '../components/Link.jsx'
+import paramsFor from '../lib/paramsFor'
 
 export default class PinnedPosts extends React.Component {
   static propTypes = {
@@ -29,7 +31,9 @@ export default class PinnedPosts extends React.Component {
             <Badge badge={post.emoji} size="2rem" />
           </div>
           <div className="flex-auto h3">
-            {post.title}
+            <Link to="story" params={paramsFor.story({slug: changelogId}, post)} className="black">
+              {post.title}
+            </Link>
           </div>
         </div>
         <div className="py2 px1 pointer list-reset h5" style={{position: 'absolute', right: 0, top: 0}}>
