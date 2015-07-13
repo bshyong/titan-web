@@ -7,14 +7,12 @@ export default class Picker extends React.Component {
   static defaultProps = {
     fullscreen: false,
     maxHeight: 300,
-    offset: 0,
     position: 'top',
     shown: false,
   }
 
   static propTypes = {
     maxHeight: React.PropTypes.number,
-    offset: React.PropTypes.number,
     position: React.PropTypes.oneOf(['top', 'bottom']),
     shown: React.PropTypes.bool,
     fullscreen: React.PropTypes.bool,
@@ -51,7 +49,6 @@ export default class Picker extends React.Component {
 
     const {
       maxHeight,
-      offset,
       position,
       shown
     } = this.props
@@ -61,7 +58,7 @@ export default class Picker extends React.Component {
       overflowY: 'auto'
     }
 
-    style[position] = -maxHeight + (offset ? offset - 6 : 0)
+    style[position] = -maxHeight
 
     const classes = classnames('absolute bg-white full-width shadow z4', {
       border: shown,

@@ -179,7 +179,6 @@ export default class TeamAdder extends React.Component {
         onUserSelected={this.onUserSelected.bind(this)}
         maxHeight={Math.min((this.fromTop === 0 ? 170 : this.fromTop), 170)}
         shown={this.state.focused}
-        offset={30}
         ref="userPicker" />
     }
 

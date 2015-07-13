@@ -154,10 +154,11 @@ export default class MarkdownArea extends React.Component {
     const match = MENTION_REGEX.exec(value.substr(0, this.selectionStart))
 
     if (match) {
-      return <UserPicker query={match[2]}
-          onUserSelected={this.onUserSelected}
-          maxHeight={Math.min((this.fromTop === 0 ? 170 : this.fromTop), 170)}
-          offset={this.offset} />
+      return <UserPicker
+        query={match[2]}
+        onUserSelected={this.onUserSelected}
+        maxHeight={Math.min((this.fromTop === 0 ? 170 : this.fromTop), 170)}
+      />
     }
   }
 
