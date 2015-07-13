@@ -62,7 +62,7 @@ export default class SigninScrim extends React.Component {
 
     return (
       <div className="h4">
-        Have an account?{' '}
+        Have an account? (Even an <a href="https://cove.assembly.com">ASM 1.0</a> account?){' '}
         <a href="javascript:void(0)"
           className="underline-hover"
           onClick={SigninScrimActions.show.bind(null, LoginForm)}>

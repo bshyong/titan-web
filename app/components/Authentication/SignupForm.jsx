@@ -71,7 +71,7 @@ export default class SignupForm extends React.Component {
                 className="block full-width field-light"
                 placeholder="jane"
                 value={username}
-                onChange={this.handleChange('username')}  />
+                onChange={this.handleChange('username')} />
             </div>
 
             <div className="py1">
