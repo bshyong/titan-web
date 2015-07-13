@@ -98,7 +98,7 @@ export default class AppNavbar extends React.Component {
     if (!user) {
       return (
         <div className="p2">
-          <a className="pointer" onClick={this._handleSignIn}>Log in</a>
+          <a className="white pointer" onClick={this._handleSignIn}>Log in</a>
         </div>
       )
     }
