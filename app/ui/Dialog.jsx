@@ -29,7 +29,7 @@ export default class Dialog extends React.Component {
     return (
       <div className="fixed top-0 left-0 full-width bg-darken-4 flex flex-center"
            style={{zIndex, minHeight: '100vh'}}>
-        <div ref="inner" className="relative shadow rounded overflow-hidden bg-white m2 full-width sm-mx-auto sm-col-8 md-col-6 lg-col-4">
+        <div ref="inner" className="relative shadow rounded overflow-hidden bg-white m2 full-width sm-mx-auto sm-col-8 md-col-6 lg-col-4" style={{maxHeight: 'calc(100vh - 1rem - 1rem)', overflowY: 'scroll'}}>
           {this.props.children}
         </div>
       </div>
