@@ -55,7 +55,7 @@ export default class AppNavbar extends React.Component {
   }
 
   left() {
-    const route = this.props.user ? 'dashboard' : 'root'
+    const route = this.props.user ? 'dashboard' : 'https://assembly.com'
     return (
       <Link to={route} className="flex p2">
         <img className="flex-none mr2" src={this.logoUrl()} style={{height: '1.5rem'}} />

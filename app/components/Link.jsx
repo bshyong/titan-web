@@ -10,11 +10,19 @@ export default class AppLink extends React.Component {
   }
 
   render() {
+    if (this.isFullUrl()) {
+      return this.renderAnchor()
+    }
+
     if (RouterContainer.isMainSite()) {
       return this.renderForMainSite()
-    } else {
-      return this.renderForCustomDomain()
     }
+
+    return this.renderForCustomDomain()
+  }
+
+  renderAnchor() {
+    return <a href={this.props.to}>{this.props.children}</a>
   }
 
   renderForMainSite() {
@@ -68,5 +76,9 @@ export default class AppLink extends React.Component {
     if (params.changelogId && params.changelogId.indexOf('.') === -1) {
       return params.changelogId
     }
+  }
+
+  isFullUrl() {
+    return this.props.to.match(/^http/)
   }
 }
