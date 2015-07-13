@@ -163,6 +163,7 @@ class Notification extends React.Component {
         title,
         updated_at,
         changelog,
+        category,
       }
     } = this.props
 
@@ -175,9 +176,9 @@ class Notification extends React.Component {
       urlParams: {}
     }
 
-    if (changelog) {
-      linkParams.to = 'changelog'
-      linkParams.urlParams = { changelogId: changelog.slug }
+    if (category === 'new_follower') {
+      linkParams.to = 'profile'
+      linkParams.urlParams = { userId: actors[0].user.username}
     } else if (story) {
       linkParams.to = initial_comment_id ? 'storyWithComment' : 'story'
       linkParams.urlParams = addParams(story.changelog_slug, story).urlParams
@@ -206,7 +207,7 @@ class Notification extends React.Component {
           <Avatar user={face} size={32} />
         </div>
         <div className="flex-auto h5 gray">
-          {story ? this.renderStoryNotification() : this.renderNewFollower()}
+          {category === 'new_follower' ? this.renderNewFollower() : this.renderStoryNotification()}
         </div>
         <div className="flex-none h5 gray ml1">
           {moment(updated_at).fromNow(true)}

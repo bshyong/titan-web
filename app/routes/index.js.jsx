@@ -73,7 +73,6 @@ var internal = (
       <Route handler={GithubRepoSelectionPage} path="github" name="githubRepos" />
       <Route handler={GithubRepoDraftsPage} path="github/drafts" name="githubDrafts" />
 
-
       <Route handler={InviteChangelogMembersPage} path="invite" name="inviteChangelogMembers" />
 
       <Route handler={ChangelogBySetsPage} name="changelog_by_sets" path="sets" />
@@ -103,7 +102,7 @@ var external = (
     <Route handler={GithubCallback} path="/auth/github/callback" name="githubCallback" />
     <Route handler={ChangelogPage}>
       <DefaultRoute handler={ChangelogByDatePage} name="changelog" />
-      
+
       <Route handler={GithubRepoSelectionPage} path="github" name="githubRepos" />
       <Route handler={GithubRepoDraftsPage} path="github/drafts" name="githubDrafts" />
 
