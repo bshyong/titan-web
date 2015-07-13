@@ -151,7 +151,9 @@ export default class StoryPage extends React.Component {
 
   renderPinToggler() {
     const { story, changelog } = this.props
-    return <PinPostButton post={story} changelogId={changelog.slug} />
+    if (changelog.user_is_team_member) {
+      return <PinPostButton post={story} changelogId={changelog.slug} />
+    }
   }
 
   renderDeleteLink() {

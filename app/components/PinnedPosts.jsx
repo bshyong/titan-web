@@ -1,12 +1,13 @@
 import Badge from './Badge.jsx'
+import ChangelogStore from '../stores/changelog_store'
+import Link from '../components/Link.jsx'
 import PinPostButton from './PinPostButton.jsx'
 import React from 'react'
-import Link from '../components/Link.jsx'
 import paramsFor from '../lib/paramsFor'
 
 export default class PinnedPosts extends React.Component {
   static propTypes = {
-    changelogId: React.PropTypes.string.isRequired,
+    changelog: React.PropTypes.object.isRequired,
     posts: React.PropTypes.object.isRequired,
   }
 
@@ -23,7 +24,7 @@ export default class PinnedPosts extends React.Component {
   }
 
   renderPinnedPost(post) {
-    const { changelogId } = this.props
+    const { changelog } = this.props
 
     return <div className="flex-auto p1 visible-hover-wrapper relative" style={{minWidth: '50%'}} key={post.id}>
         <div className="flex flex-center bg-smoke pinned-post p2">
@@ -31,14 +32,21 @@ export default class PinnedPosts extends React.Component {
             <Badge badge={post.emoji} size="2rem" />
           </div>
           <div className="flex-auto h3">
-            <Link to="story" params={paramsFor.story({slug: changelogId}, post)} className="black">
+            <Link to="story" params={paramsFor.story({slug: changelog.slug}, post)} className="black">
               {post.title}
             </Link>
           </div>
-        </div>
-        <div className="py2 px1 pointer list-reset h5" style={{position: 'absolute', right: 0, top: 0}}>
-          <PinPostButton post={post} changelogId={changelogId} type='hover' />
+          {this.renderPinButton(post)}
         </div>
     </div>
+  }
+
+  renderPinButton(post) {
+    const { changelog } = this.props
+    if (changelog.user_is_team_member) {
+      return <div className="py2 px1 pointer list-reset h5" style={{position: 'absolute', right: 0, top: 0}}>
+        <PinPostButton post={post} changelogId={changelog.slug} type='hover' />
+      </div>
+    }
   }
 }

@@ -63,7 +63,7 @@ export default class Changelog extends React.Component {
 
   renderPinnedPosts() {
     const { pinnedPosts, changelog } = this.props
-    return <PinnedPosts posts={pinnedPosts} changelogId={changelog.slug} />
+    return <PinnedPosts posts={pinnedPosts} changelog={changelog} />
   }
 
   renderOpenSet() {
