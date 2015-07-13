@@ -5,7 +5,7 @@ import Icon from 'ui/Icon.jsx'
 import MembershipActions from 'actions/MembershipActions'
 import React from 'react'
 import SessionStore from 'stores/session_store'
-import UserPicker from 'components/user_picker.jsx'
+import UserPicker from 'components/UserPicker.jsx'
 import { getOffsetTop } from 'ui/Picker.jsx'
 import { List, Range } from 'immutable'
 
@@ -172,16 +172,13 @@ export default class TeamAdder extends React.Component {
   }
 
   renderUserPicker() {
-    if (!this.state.focused) {
-      return
-    }
-
     const value = (this.state.emailOrUsername || '').replace(/^@+/, '')
 
     if (value) {
       return <UserPicker query={value}
         onUserSelected={this.onUserSelected.bind(this)}
         maxHeight={Math.min((this.fromTop === 0 ? 170 : this.fromTop), 170)}
+        shown={this.state.focused}
         offset={30}
         ref="userPicker" />
     }

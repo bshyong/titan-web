@@ -35,7 +35,6 @@ export default class UserPicker extends React.Component {
     super(props)
 
     this.handleKeyDown = this._handleKeyDown.bind(this)
-    this.handleUserSelected = this._handleUserSelected.bind(this)
   }
 
   componentDidMount() {
@@ -85,7 +84,7 @@ export default class UserPicker extends React.Component {
     return (
       <Picker {...this.props}
         maxHeight={height}
-        shown={userCount > 0}
+        shown={this.props.shown}
         ref="picker">
         <Table>
           {this.renderUsers()}
@@ -166,8 +165,10 @@ export default class UserPicker extends React.Component {
     }
   }
 
-  _handleUserSelected(u, e) {
+  handleUserSelected(u, e) {
     e.preventDefault()
+
+    console.log('hi')
 
     if (u) {
       this.props.onUserSelected(u)
@@ -195,5 +196,6 @@ UserPicker.propTypes = {
   onUserSelected: React.PropTypes.func.isRequired,
   position: React.PropTypes.oneOf(['top', 'bottom']),
   query: React.PropTypes.string,
-  users: React.PropTypes.instanceOf(List)
+  users: React.PropTypes.instanceOf(List),
+  shown: React.PropTypes.bool,
 }

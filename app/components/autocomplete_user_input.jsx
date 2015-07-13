@@ -3,7 +3,7 @@ import MENTION_REGEX from '../lib/mention_regex'
 import noop from '../lib/noop'
 import onUserSelected from '../lib/onUserSelected'
 import React from 'react'
-import UserPicker from './user_picker.jsx'
+import UserPicker from './UserPicker.jsx'
 import UserPickerActions from '../actions/user_picker_actions'
 
 export default class AutocompleteUserInput extends React.Component {
