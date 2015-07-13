@@ -119,7 +119,7 @@ export default class AppNavbar extends React.Component {
             <Link to="settings">Settings</Link>
           </List.Item>
           <List.Item>
-            <a href="https://assembly.com/about">About</a>
+            <a href="mailto:support@assembly.com">Support</a>
           </List.Item>
           <List.Item>
             <Link to="faq">FAQ</Link>
