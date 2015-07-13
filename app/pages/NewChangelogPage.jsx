@@ -31,7 +31,7 @@ export default class ChangelogOnboardingPage extends React.Component {
         <div className="flex flex-center full-width">
           <div className="container full-width px2">
             <div className="sm-col-9 mx-auto px2">
-              <h2 className="center mt4">Start a new changelog</h2>
+              <h2 className="center mt4">Start a new Changelog</h2>
               <p className="center mb3">
                 Changelogs make it easy to share what you and your team have accomplished, from fixing bugs and releasing new features, to organizational updates.
               </p>
