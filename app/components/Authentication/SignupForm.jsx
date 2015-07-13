@@ -6,10 +6,12 @@ import AvailableUsernameInput from 'components/Authentication/AvailableUsernameI
 import Button from 'ui/Button.jsx'
 import connectToStores from 'lib/connectToStores.jsx'
 import Icon from 'ui/Icon.jsx'
+import LoginForm from 'components/Authentication/LoginForm.jsx'
 import LogoSrc from 'images/logo.svg'
 import { Map } from 'immutable'
 import onMobile from 'lib/on_mobile'
 import React from 'react'
+import SigninScrimActions from 'actions/SigninScrimActions'
 import TwitterActions from 'actions/oauth/TwitterActions'
 
 @connectToStores(AuthenticationFormStore)
@@ -25,6 +27,7 @@ export default class SignupForm extends React.Component {
     super(props)
 
     this.handleChange = this._handleChange.bind(this)
+    this.handleLoginClick = this._handleLoginClick.bind(this)
     this.handleSubmit = this._handleSubmit.bind(this)
     this.handleTwitterClick = this._handleTwitterClick.bind(this)
   }
@@ -137,6 +140,10 @@ export default class SignupForm extends React.Component {
             Sign up with your email instead
           </a>
         </div>
+        <h5 className="gray">
+          ASM 1.0 members don't need to create a new account.
+          Just <a href="javascript:void(0)" onClick={this.handleLoginClick}>login</a>.
+        </h5>
       </div>
     )
   }
@@ -152,6 +159,12 @@ export default class SignupForm extends React.Component {
         Map(this.props).set(prop, e.target.value)
       )
     }
+  }
+
+  _handleLoginClick(e) {
+    e.preventDefault()
+
+    SigninScrimActions.show(LoginForm)
   }
 
   _handleSubmit(e) {
