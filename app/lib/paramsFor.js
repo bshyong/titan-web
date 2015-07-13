@@ -1,7 +1,7 @@
 export default {
   changelog: (changelog) => {
     return {
-      changelogId: changelog.slug
+      changelogId: changelog.slug,
     }
   },
 
@@ -12,7 +12,13 @@ export default {
       year: d[0],
       month: d[1],
       day: d[2],
-      storyId: story.slug
+      storyId: story.slug,
     }
-  }
+  },
+
+  user: (user) => {
+    return {
+      userId: user.username,
+    }
+  },
 }

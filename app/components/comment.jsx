@@ -12,6 +12,7 @@ import classnames from 'classnames'
 import moment from '../config/moment'
 import onMobile from '../lib/on_mobile'
 import Link from '../components/Link.jsx'
+import paramsFor from 'lib/paramsFor'
 
 @connectToStores(CommentsStore)
 export default class Comment extends React.Component {
@@ -37,7 +38,9 @@ export default class Comment extends React.Component {
         {this.renderSelectedMarker()}
         <div className="flex visible-hover-wrapper">
           <div className="flex-none mr2">
-            <Avatar user={user} size={24} />
+            <Link to="profile" params={paramsFor.user(user)} title={user.username}>
+              <Avatar user={user} size={24} />
+            </Link>
           </div>
 
           <div className="flex-auto h5" id={id}>
