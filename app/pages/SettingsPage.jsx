@@ -79,8 +79,4 @@ export default class SettingsPage extends React.Component {
       )
     })
   }
-
-  handleSignUp() {
-    SessionActions.signin()
-  }
 }

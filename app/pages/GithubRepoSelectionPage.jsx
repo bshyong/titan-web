@@ -10,13 +10,15 @@ import Link from '../components/Link.jsx'
 import Icon from '../ui/Icon.jsx'
 import ChangelogStore from '../stores/changelog_store'
 import Router from '../lib/router_container'
+import SigninScrimActions from '../actions/SigninScrimActions'
+import LoginForm from '../components/Authentication/LoginForm.jsx'
 
 @connectToStores(GithubOnboardingStore)
 export default class GithubRepoSelectionPage extends React.Component {
   static willTransitionTo(transition, params, query) {
     const user = SessionStore.user
     if (user){ GithubOnboardingActions.fetchRepos() }
-    else { SessionActions.signin() }
+    else { SigninScrimActions.initialize(LoginForm, {}, window.location.pathname) }
   }
 
   static getPropsFromStores(props) {
@@ -31,6 +33,10 @@ export default class GithubRepoSelectionPage extends React.Component {
   render() {
     const user = SessionStore.user
 
+    if (!user) {
+      return this.renderLoggedOutState()
+    }
+
     const { error, changelogId } = this.props
     const content = () => {
       if (error) {
@@ -42,6 +48,16 @@ export default class GithubRepoSelectionPage extends React.Component {
     return <div className="container">
       { content }
     </div>
+  }
+
+  renderLoggedOutState() {
+    return (
+      <div className="p3 h2 pointer">
+        Please <a onClick={() => {
+          SigninScrimActions.initialize(LoginForm, {}, window.location.pathname)
+        }}>log in</a> to Assembly to visit this page!
+      </div>
+    )
   }
 
   renderErrorState() {

@@ -3,6 +3,8 @@ import React from 'react'
 import SessionActions from '../actions/SessionActions'
 import SessionStore from '../stores/session_store'
 import StoryActions from '../actions/story_actions'
+import SigninScrimActions from '../actions/SigninScrimActions'
+import LoginForm from '../components/Authentication/LoginForm.jsx'
 
 export default class SubscribeStoryButton extends React.Component {
   constructor(props) {
@@ -25,7 +27,7 @@ export default class SubscribeStoryButton extends React.Component {
     const { story } = this.props
 
     if (!SessionStore.isSignedIn()) {
-      return SessionActions.signin()
+      return SigninScrimActions.initialize(LoginForm, {}, window.location.pathname)
     }
 
     if (story.viewer_has_subscribed) {

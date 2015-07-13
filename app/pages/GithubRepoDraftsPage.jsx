@@ -17,12 +17,17 @@ import Icon from '../ui/Icon.jsx'
 import moment from 'moment'
 import ContributorsActions from '../actions/ContributorsActions'
 import ChangelogStore from '../stores/changelog_store'
+import SigninScrimActions from '../actions/SigninScrimActions'
+import LoginForm from '../components/Authentication/LoginForm.jsx'
 
-@connectToStores(GithubOnboardingStore, StoryFormStore)
+
+@connectToStores(GithubOnboardingStore, StoryFormStore, SessionStore)
 export default class GithubRepoDraftsPage extends React.Component {
   static willTransitionTo(transition, params, query) {
     const user = SessionStore.user
-    if (!user){ SessionActions.signin() }
+    if (!user){
+      SigninScrimActions.initialize(LoginForm, {}, window.location.pathname)
+    }
   }
 
   static getPropsFromStores(props) {
@@ -36,6 +41,7 @@ export default class GithubRepoDraftsPage extends React.Component {
       },
       changelog: ChangelogStore.changelog,
       error: GithubOnboardingStore.error,
+      user: SessionStore.user,
     }
   }
 
@@ -65,7 +71,11 @@ export default class GithubRepoDraftsPage extends React.Component {
   }
 
   render() {
-    const { draftsLoading, error } = this.props
+    const { draftsLoading, error, user } = this.props
+
+    if (!user) {
+      return this.renderLoggedOutState()
+    }
 
     const content = () => {
       if (error) {
@@ -78,6 +88,16 @@ export default class GithubRepoDraftsPage extends React.Component {
     return <div className="container">
       {content}
     </div>
+  }
+
+  renderLoggedOutState() {
+    return (
+      <div className="p3 h2 pointer">
+        Please <a onClick={() => {
+          SigninScrimActions.initialize(LoginForm, {}, window.location.pathname)
+        }}>log in</a> to Assembly to visit this page!
+      </div>
+    )
   }
 
   renderErrorState() {
