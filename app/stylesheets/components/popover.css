@@ -3,6 +3,7 @@
   position: fixed;
   top: 48px;
   bottom: 48px;
+  z-index: 999;
 }
 
 @media (--breakpoint-sm) {

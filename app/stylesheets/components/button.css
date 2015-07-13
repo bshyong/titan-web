@@ -13,7 +13,7 @@
 }
 
 .button-outline {
-  z-index: 0;
+  z-index: auto;
 }
 
 .button-outline,
