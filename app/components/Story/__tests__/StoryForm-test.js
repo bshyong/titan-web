@@ -52,7 +52,6 @@ describe('StoryForm', () => {
 
     describe('.body', () => {
       it('triggers an update on change', () => {
-        TestUtils.Simulate.click(form.refs.toggleDetails)
 
         let body = TestUtils.findRenderedDOMComponentWithTag(
           form.refs.body.refs.textarea,
