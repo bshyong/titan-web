@@ -29,7 +29,7 @@ export default class GithubRepoDraftsPage extends React.Component {
     return {
       drafts: GithubOnboardingStore.drafts,
       draftsLoading: GithubOnboardingStore.loadingDrafts,
-      changelogId: Router.get().getCurrentParams().changelogId,
+      changelogId: ChangelogStore.slug,
       story: {
         ...StoryFormStore.data,
         contributors: ContributorsStore.contributors
@@ -184,7 +184,7 @@ export default class GithubRepoDraftsPage extends React.Component {
           emoji_id: lastDraft.emoji_id,
           isPublic: true,
           title: nextDraft.title,
-        })  
+        })
       } else {
         Router.transitionTo('changelog', {changelogId: changelogId})
       }

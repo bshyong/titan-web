@@ -21,7 +21,7 @@ export default class GithubRepoSelectionPage extends React.Component {
 
   static getPropsFromStores(props) {
     return {
-      changelogId: Router.get().getCurrentParams().changelogId,
+      changelogId: ChangelogStore.slug,
       error: GithubOnboardingStore.error,
       repos: GithubOnboardingStore.repos,
       reposFetching: GithubOnboardingStore.fetchingRepos,

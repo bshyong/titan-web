@@ -90,9 +90,9 @@ var internal = (
       <Route handler={StoryPage} path=":year/:month/:day/:storyId#:commentId" name="storyWithComment" />
       <Route handler={SingleDateChangelogPage} path="date/:date/:timeInterval" name="changelog_date" />
     </Route>
-	
+
     <Route handler={FaqPage} path="/faq" name="faq" />
-	
+
   </Route>
 )
 
@@ -103,6 +103,9 @@ var external = (
     <Route handler={GithubCallback} path="/auth/github/callback" name="githubCallback" />
     <Route handler={ChangelogPage}>
       <DefaultRoute handler={ChangelogByDatePage} name="changelog" />
+      
+      <Route handler={GithubRepoSelectionPage} path="github" name="githubRepos" />
+      <Route handler={GithubRepoDraftsPage} path="github/drafts" name="githubDrafts" />
 
       <Route handler={ChangelogBySetsPage} name="changelog_by_sets" path="sets" />
 
