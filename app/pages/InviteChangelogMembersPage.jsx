@@ -4,7 +4,7 @@ import ChangelogStore from '../stores/changelog_store'
 import connectToStores from '../lib/connectToStores.jsx'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
-import TeamAdder from '../components/team_adder.jsx'
+import TeamAdder from '../components/TeamAdder.jsx'
 
 @connectToStores(ChangelogStore)
 export default class InviteChangelogMembersPage extends React.Component {
