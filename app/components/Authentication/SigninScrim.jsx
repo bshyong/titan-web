@@ -19,7 +19,7 @@ export default class SigninScrim extends React.Component {
   }
 
   render() {
-    const { Form, shown } = this.props
+    const { children, Form, shown } = this.props
 
     return (
       <Scrim shown={shown}>
@@ -29,7 +29,7 @@ export default class SigninScrim extends React.Component {
           </div>
         </div>
 
-        {Form ? <Form /> : this.props.children}
+        {Form ? <Form /> : children}
       </Scrim>
     )
   }
@@ -38,20 +38,15 @@ export default class SigninScrim extends React.Component {
     SigninScrimActions.hide()
   }
 
-  renderCloseButton() {
-    if (window.location.pathname !== '/signup') {
-      return (
-        <span className="gray ml2 pointer right relative"
-          onClick={this.handleClose}
-          style={{ fontSize: '2rem', top: -12 }}>
-          <Icon icon="close" />
-        </span>
-      )
-    }
-  }
-
   renderFormToggle() {
     const { Form } = this.props
+    const closer = (
+      <span className="gray ml2 pointer right relative"
+        onClick={this.handleClose}
+        style={{ fontSize: '2rem', top: -12 }}>
+        <Icon icon="close" />
+      </span>
+    )
     if (Form === LoginForm || Form === PasswordResetEmailForm) {
       return (
         <div className="h4">
@@ -61,7 +56,7 @@ export default class SigninScrim extends React.Component {
             onClick={SigninScrimActions.show.bind(null, SignupForm)}>
             Sign up
           </a>.
-          {this.renderCloseButton()}
+          {closer}
         </div>
       )
     } else if (Form === SignupConfirmationForm) {
@@ -76,7 +71,7 @@ export default class SigninScrim extends React.Component {
           onClick={SigninScrimActions.show.bind(null, LoginForm)}>
           Log in
         </a>.
-        {this.renderCloseButton()}
+        {closer}
       </div>
     )
   }

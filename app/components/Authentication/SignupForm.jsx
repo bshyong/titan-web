@@ -172,7 +172,7 @@ export default class SignupForm extends React.Component {
 
     AuthenticationFormActions.submit(
       'register',
-      AuthenticationFormStore.formContent
+      this.props
     )
   }
 

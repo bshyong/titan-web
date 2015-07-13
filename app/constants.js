@@ -135,6 +135,8 @@ export default keyMirror({
   SIGNIN_SCRIM_INITIALIZED: null,
   SIGNIN_SCRIM_SHOWN: null,
 
+  SIGNUP_PAGE_FORM_CHANGED: null,
+
   STORIES_FETCHED: null,
   STORIES_FETCHING: null,
 
