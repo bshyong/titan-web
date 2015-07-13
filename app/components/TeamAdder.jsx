@@ -41,7 +41,7 @@ export default class TeamAdder extends React.Component {
     return (
       <div className="mb2">
         <div>
-          {memberships.filter(m => m.is_core).map((m, i) => {
+          {memberships.map((m, i) => {
             return <div key={m.user.username}>
               {this.renderListItem(
                 i + 1,

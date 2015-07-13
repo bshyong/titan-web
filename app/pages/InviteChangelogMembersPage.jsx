@@ -10,7 +10,7 @@ import TeamAdder from '../components/TeamAdder.jsx'
 export default class InviteChangelogMembersPage extends React.Component {
   static getPropsFromStores(props) {
     return {
-      memberships: ChangelogStore.memberships,
+      coreMemberships: ChangelogStore.coreMemberships,
       changelog: ChangelogStore.changelog
     }
   }
@@ -33,7 +33,7 @@ export default class InviteChangelogMembersPage extends React.Component {
                 Anyone you add here will be members of your Changelog. They will be able to read, write, and comment on all posts.
               </p>
 
-              <TeamAdder memberships={this.props.memberships}
+              <TeamAdder memberships={this.props.coreMemberships}
                          changelog={changelog}
                          showBlankEntries={true}
                          showNumbers={true} />
