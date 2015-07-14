@@ -1,6 +1,7 @@
 import {RouteHandler} from 'react-router'
 import connectToStores from 'lib/connectToStores.jsx'
 import ErrorPage from 'pages/ErrorPage.jsx'
+import Footer from 'components/Footer.jsx'
 import NotFoundPage from 'pages/NotFoundPage.jsx'
 import React from 'react'
 import RoutesStore from 'stores/routes_store'
@@ -29,7 +30,10 @@ export default class AppPage extends React.Component {
     return (
       <div>
         <SigninScrim />
-        <RouteHandler />
+        <div style={{minHeight: 800}}>
+          <RouteHandler />
+        </div>
+        <Footer />
       </div>
     )
   }
