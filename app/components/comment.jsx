@@ -40,7 +40,7 @@ export default class Comment extends React.Component {
     return (
       <div>
         {this.renderSelectedMarker()}
-        <div className="flex">
+        <div className="flex visible-hover-wrapper">
           <div className={cs}>
             <Link to="profile" params={paramsFor.user(user)} title={`@${user.username}`}>
               <Avatar user={user} size={24} />
@@ -69,7 +69,7 @@ export default class Comment extends React.Component {
     }
 
     const {
-      comment: { body, parsed_body }
+      comment: { body, parsed_body, created_at }
     } = this.props
 
     return (
@@ -88,6 +88,10 @@ export default class Comment extends React.Component {
           {this.renderEditButton()}
 
           {this.renderDeleteButton()}
+
+          <div className="p1 visible-hover">
+            {moment(created_at).fromNow()}
+          </div>
         </div>
       </div>
     )
@@ -95,21 +99,6 @@ export default class Comment extends React.Component {
 
   isDeleted() {
     return !!this.props.comment.deleted_at
-  }
-
-  renderDeletedComment() {
-    const { comment: { created_at } } = this.props
-
-    return (
-      <div className="flex-auto h5">
-        <div className="flex">
-          <div className="flex-auto gray">Deleted</div>
-          <div className="flex-none gray">
-            {moment(created_at).fromNow()}
-          </div>
-        </div>
-      </div>
-    )
   }
 
   renderDeleteButton() {
