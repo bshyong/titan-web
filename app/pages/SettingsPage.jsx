@@ -22,7 +22,7 @@ import paramsFor from '../lib/paramsFor'
 @connectToStores(ProfileStore)
 export default class SettingsPage extends React.Component {
   static willTransitionTo(transition, params, query) {
-    ProfileActions.fetchChangelogs(SessionStore.user.username)
+    ProfileActions.fetchChangelogs()
     ChangelogActions.clearCurrent()
   }
 

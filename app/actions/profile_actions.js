@@ -39,8 +39,8 @@ export default {
     })
   },
 
-  fetchChangelogs(userId, params) {
-    api.get(`users/${userId}/changelogs`, params).then(resp => {
+  fetchChangelogs(params = {}) {
+    api.get(`user/changelogs`, params).then(resp => {
       Dispatcher.dispatch({
         type: PROFILE_CHANGELOGS_FETCHED,
         changelogs: List(resp)
