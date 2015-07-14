@@ -57,7 +57,7 @@ describe('FollowButton', () => {
       let FollowActions, SessionStore
 
       beforeEach(() => {
-        FollowActions = require('../../actions/follow_actions')
+        FollowActions = require('../../actions/FollowActions')
         SessionStore = require('../../stores/session_store')
 
         spyOn(SessionStore, 'isSignedIn').and.callFake(() => {

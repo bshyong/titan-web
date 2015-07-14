@@ -7,6 +7,7 @@ import Icon from 'ui/Icon.jsx'
 import Jewel from 'ui/Jewel.jsx'
 import Link from 'components/Link.jsx'
 import List from 'ui/List.jsx'
+import Logo from 'components/logo.jsx'
 import Navbar from 'ui/Navbar.jsx'
 import NotificationsList from 'components/notifications_list.js.jsx'
 import NotificationsStore from 'stores/notifications_store'
@@ -21,10 +22,11 @@ import SessionStore from 'stores/session_store'
 import LogoSrc from 'images/logo.svg'
 import LogoTransparentSrc from 'images/logo-transparent.svg'
 
-@connect(state => ({}))
+@connect(state => ({
+  membered: state.changelogs.membered,
+}))
 @connectToStores(ChangelogStore, SessionStore, NotificationsStore)
 export default class AppNavbar extends React.Component {
-
   static getPropsFromStores() {
     return {
       user: SessionStore.user,
@@ -76,25 +78,8 @@ export default class AppNavbar extends React.Component {
     }
   }
 
-  renderNewStory() {
-    const { changelog } = this.props
-    if (changelog && changelog.user_is_team_member) {
-      return (
-        <div>
-          <List.Item>
-            <Link to="new" params={paramsFor.changelog(changelog)}>
-              <Icon icon="pencil" fw={true} /> Write
-            </Link>
-            {this.renderHighlightsLink()}
-          </List.Item>
-          <hr className="mt1 border-top mb1" />
-        </div>
-      )
-    }
-  }
-
   right() {
-    const { user } = this.props
+    const { user, membered } = this.props
 
     if (!user) {
       return (
@@ -108,14 +93,13 @@ export default class AppNavbar extends React.Component {
     const unreadCount = this.props.unreadCount
 
     const userMenu = (
-      <div className="py1">
-        <List>
-          {this.renderNewStory(changelogId)}
-        </List>
+      <div className="py2">
+        {membered && this.renderChangelogs(membered)}
+
         <List type="small">
           <List.Item>
             <Link to="profile" params={{userId: user.username}}>Profile</Link>
-          </List.Item>
+          </List. Item>
           <List.Item>
             <Link to="settings">Settings</Link>
           </List.Item>
@@ -123,10 +107,7 @@ export default class AppNavbar extends React.Component {
             <a href="mailto:support@assembly.com">Support</a>
           </List.Item>
           <List.Item>
-            <Link to="faq">FAQ</Link>
-          </List.Item>
-          <List.Item>
-            <a href="#" onClick={this._handleSignout}>Sign out</a>
+            <a href="#" onClick={this._handleSignout}>Log out</a>
           </List.Item>
         </List>
       </div>
@@ -150,6 +131,34 @@ export default class AppNavbar extends React.Component {
           </div>
         </Popover>
       </div>
+    )
+  }
+
+  renderChangelogs(changelogs) {
+    return (
+      <div>
+        <div className="px2 gray h6">Changelogs</div>
+        <hr className="ml2 mt0 mb1" />
+        <List>
+          {changelogs.map(this.renderChangelogEntry)}
+        </List>
+        <hr className="mt1 border-top mb1" />
+      </div>
+    )
+  }
+
+  renderChangelogEntry(changelog) {
+    return (
+      <List.Item>
+        <Link to="changelog" params={paramsFor.changelog(changelog)}>
+          <div className="flex flex-center">
+            <Logo changelog={changelog} size="2rem" />
+            <div className="flex-auto px1">
+              {changelog.name}
+            </div>
+          </div>
+        </Link>
+      </List.Item>
     )
   }
 

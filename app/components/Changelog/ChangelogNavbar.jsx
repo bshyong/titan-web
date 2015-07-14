@@ -9,12 +9,15 @@ import paramsFor from 'lib/paramsFor'
 import React from 'react'
 import URL from 'url'
 import AppNavbar from 'components/App/AppNavbar.jsx'
+import {connect} from 'redux/react'
 
+@connect(state => ({
+  following: state.changelogs.following,
+}))
 @connectToStores(ChangelogStore)
 export default class ChangelogNavbar extends React.Component {
   static getPropsFromStores(props) {
     return {
-      following: ChangelogStore.following,
       changelog: ChangelogStore.changelog
     }
   }

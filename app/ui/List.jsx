@@ -21,7 +21,7 @@ List.defaultProps = {
 
 class ListItem extends React.Component {
   render() {
-    return <li className="list-item">{this.props.children}</li>
+    return <li className="list-item h5 bg-white bg-smoke-hover">{this.props.children}</li>
   }
 }
 

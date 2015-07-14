@@ -1,5 +1,4 @@
 import {
-  FOLLOWINGS_FETCHED,
   CHANGELOGS_ALL_FETCHED,
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
@@ -14,9 +13,6 @@ class DashboardStore extends Store {
       switch (action.type) {
         case CHANGELOGS_ALL_FETCHED:
           this.featured = action.changelogs
-          break;
-        case FOLLOWINGS_FETCHED:
-          this.following = action.changelogs
           break;
         default:
           return

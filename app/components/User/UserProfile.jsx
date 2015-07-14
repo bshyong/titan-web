@@ -1,3 +1,4 @@
+import {connect} from 'redux/react'
 import {List} from 'immutable'
 import Badge from '../Badge.jsx'
 import ClickablePaginator from '../../ui/ClickablePaginator.jsx'
@@ -11,12 +12,15 @@ import ProfileActions from '../../actions/profile_actions.js'
 import ProfileStore from '../../stores/profile_store.js'
 import ProfileStories from '../../stores/profile_stories_store'
 import React from 'react'
+import SessionStore from '../../stores/session_store'
 import StoryCell from '../Story/StoryCell.jsx'
 import Subheader from 'ui/Subheader.jsx'
 import Table from '../../ui/Table.jsx'
 import UserCell from '../User/UserCell.jsx'
-import SessionStore from '../../stores/session_store'
 
+@connect(state => ({
+  following: state.changelogs.following
+}))
 @connectToStores(ProfileStore, ProfileStories, SessionStore)
 export default class ProfilePage extends React.Component {
 
@@ -27,7 +31,6 @@ export default class ProfilePage extends React.Component {
     return {
       changelogs: ProfileStore.changelogs,
       currentUser: SessionStore.user,
-      following: ProfileStore.following,
       stories: ProfileStories.stories,
       storyPagination: ProfileStories.pagination,
       upvotes: ProfileStore.upvotes,

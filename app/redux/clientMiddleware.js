@@ -10,7 +10,10 @@ export default function clientMiddleware(api) {
     return promise(api).then(
       resp => next({...rest, resp, type: SUCCESS})
     ).catch(
-      errors => next({...rest, errors, type: FAILURE})
+      errors => {
+        console && console.error(errors)
+        return next({...rest, errors, type: FAILURE})
+      }
     )
   }
 }
