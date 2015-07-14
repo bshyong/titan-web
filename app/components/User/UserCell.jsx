@@ -1,6 +1,7 @@
 import Avatar from '../../ui/Avatar.jsx'
 import React from 'react'
 import SessionStore from '../../stores/session_store'
+import moment from '../../config/moment'
 
 export default class UserCell extends React.Component {
 
@@ -26,19 +27,20 @@ export default class UserCell extends React.Component {
           <h2 className="mt0 mb0 bold">{user.username}</h2>
           {this.renderBlurb.bind(this)()}
         </div>
-          {this.renderEmail()}
+          {this.renderStaffOnlyInfo()}
       </div>
     )
   }
 
-  renderEmail() {
+  renderStaffOnlyInfo() {
     const { user } = this.props
-    if (SessionStore.user) {
-      if (SessionStore.user.staff_at !== null) {
-        return (
-          user.email
-        )
-      }
+    if (SessionStore.user && SessionStore.user.staff_at !== null) {
+      return (
+        <p className="center">
+          {user.email}<br />
+        Last request: {moment(user.last_request_at).fromNow()}
+        </p>
+      )
     }
   }
 
