@@ -196,37 +196,6 @@ export default class HomePage extends React.Component {
             </div>
           </div>
         </div>
-
-        <div className="bg-charcoal">
-          <div className="container px2">
-            <div className="flex flex-center py2">
-              <div className="flex-auto white">
-                <Link className="block white" to="home">
-                  <img className="block" src={WorkmarkWhiteImgSrc} />
-                </Link>
-              </div>
-              <div>
-                <ul className="list-reset flex mxn2 mb0">
-                  <li>
-                    <Link className="block p2 gray" to="tos">Terms</Link>
-                  </li>
-                  <li>
-					          <Link className="block p2 gray" to="faq">FAQ</Link>
-                  </li>
-                  <li>
-                    <a className="block p2 gray" href="http://blog.assembly.com">Blog</a>
-                  </li>
-                  <li>
-                    <a className="block p2 gray" href="https://twitter.com/asm"><Icon icon="twitter" /></a>
-                  </li>
-                  <li>
-                    <a className="block p2 gray" href="https://facebook.com/assemblymade"><Icon icon="facebook" /></a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     )
   }
