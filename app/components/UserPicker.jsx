@@ -168,8 +168,6 @@ export default class UserPicker extends React.Component {
   handleUserSelected(u, e) {
     e.preventDefault()
 
-    console.log('hi')
-
     if (u) {
       this.props.onUserSelected(u)
 

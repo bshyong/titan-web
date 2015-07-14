@@ -55,7 +55,7 @@ export default class InviteChangelogMembersPage extends React.Component {
                         bg="white"
                         style="outline"
                         action={this.handleNext.bind(this)}>
-                  Next, write your first post
+                  Voilà!
                 </Button>
               </div>
             </div>
@@ -66,6 +66,6 @@ export default class InviteChangelogMembersPage extends React.Component {
   }
 
   handleNext() {
-    RouterContainer.get().transitionTo("new", {changelogId: this.props.changelog.slug}, {o: 1})
+    RouterContainer.get().transitionTo(`/${this.props.changelog.slug}`, {})
   }
 }
