@@ -1,6 +1,5 @@
 import Icon from '../ui/Icon.jsx'
 import React from 'react'
-import SessionStore from '../stores/session_store'
 import StoryActions from '../actions/story_actions'
 import classnames from 'classnames'
 
@@ -8,23 +7,20 @@ export default class PinPostButton extends React.Component {
   static propTypes = {
     changelogId: React.PropTypes.string.isRequired,
     post: React.PropTypes.object.isRequired,
-    textOnHover: React.PropTypes.bool
+    type: React.PropTypes.oneOf(['hoverText', 'normal']),
+    disabled: React.PropTypes.bool,
   }
 
   static defaultProps = {
-    textOnHover: false
+    type: 'normal'
   }
 
   render() {
-    const { post, textOnHover } = this.props
-
-    if (!SessionStore.isSignedIn()) {
-      return <div />
-    }
+    const { post, textOnHover, disabled } = this.props
 
     return (
       <li className="px1">
-        <span className="gray gray-hover pointer" onClick={this.handleClick}>
+        <span className='gray' onClick={this.handleClick}>
           {this.renderContent()}
         </span>
       </li>
@@ -32,23 +28,34 @@ export default class PinPostButton extends React.Component {
   }
 
   renderContent() {
-    const { type, post } = this.props
-    if (type === 'hover') {
-      return <div className="flex flex-center">
-        <span className='visible-hover mr1'>
-          {post.pinned_at ? 'Unpin' : 'Pin'}
-        </span> <Icon icon="thumb-tack" />
-      </div>
+    const { type, post, disabled } = this.props
+    if (type === 'hoverText') {
+      return this.renderHoverType()
     }
-    return <div className="flex flex-center">
+    return <div className="flex flex-center gray-hover pointer">
       <Icon icon="thumb-tack" /> <span className='ml1'>
         {post.pinned_at ? 'Unpin' : 'Pin'}
       </span>
     </div>
   }
 
+  renderHoverType() {
+    const { post, disabled } = this.props
+    const icon = <Icon icon="thumb-tack" />
+
+    if (disabled) {
+      return icon
+    }
+    return <div className="flex flex-center gray-hover visible-hover-wrapper pointer">
+      <span className='visible-hover mr1'>
+        {post.pinned_at ? 'Unpin' : 'Pin'}
+      </span> {icon}
+    </div>
+  }
+
   handleClick = () => {
-    const { post, changelogId } = this.props
+    const { post, changelogId, disabled } = this.props
+    if (disabled) { return }
 
     if (post.pinned_at) {
       StoryActions.unpin(changelogId, post.slug)

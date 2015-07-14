@@ -26,7 +26,7 @@ export default class PinnedPosts extends React.Component {
   renderPinnedPost(post) {
     const { changelog } = this.props
 
-    return <div className="flex-auto p1 visible-hover-wrapper relative" style={{minWidth: '50%'}} key={post.id}>
+    return <div className="flex-auto p1 relative" style={{minWidth: '50%'}} key={post.id}>
         <div className="flex flex-center bg-smoke pinned-post p2">
           <div className="flex-none mr2">
             <Badge badge={post.emoji} size="2rem" />
@@ -43,10 +43,9 @@ export default class PinnedPosts extends React.Component {
 
   renderPinButton(post) {
     const { changelog } = this.props
-    if (changelog.user_is_team_member) {
-      return <div className="py2 px1 pointer list-reset h5" style={{position: 'absolute', right: 0, top: 0}}>
-        <PinPostButton post={post} changelogId={changelog.slug} type='hover' />
-      </div>
-    }
+
+    return <div className='py2 px1 list-reset h5' style={{position: 'absolute', right: 0, top: 0}}>
+      <PinPostButton post={post} changelogId={changelog.slug} disabled={!changelog.user_is_team_member} type='hoverText' />
+    </div>
   }
 }
