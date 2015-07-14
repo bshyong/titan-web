@@ -43,7 +43,7 @@ export default class ChangelogSettings extends React.Component {
     return {
       changelogId,
       changelog: ChangelogStore.changelog,
-      coreMemberships: ChangelogStore.coreMemberships,
+      coreMemberships: ChangelogStore.memberships,
       errors: ChangelogStore.errors,
       updateSuccessful: ChangelogStore.updateSuccessful
     }
