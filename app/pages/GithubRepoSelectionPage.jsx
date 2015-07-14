@@ -1,26 +1,33 @@
-import GithubOnboardingActions from '../actions/github_onboarding_actions'
-import GithubOnboardingStore from '../stores/github_onboarding_store'
+import { connect } from 'redux/react'
+import * as AuthenticationFormActions from 'actions/AuthenticationFormActions'
+import Authenticated from 'components/mixins/authenticated_mixin.jsx'
+import ChangelogStore from 'stores/changelog_store'
+import connectToStores from 'lib/connectToStores.jsx'
+import GithubOnboardingActions from 'actions/github_onboarding_actions'
+import GithubOnboardingStore from 'stores/github_onboarding_store'
+import Icon from 'ui/Icon.jsx'
+import Link from 'components/Link.jsx'
+import LoadingBar from 'ui/LoadingBar.jsx'
+import LoginForm from 'components/Authentication/LoginForm.jsx'
 import React from 'react'
-import RouterContainer from '../lib/router_container'
-import SessionActions from '../actions/SessionActions'
-import SessionStore from '../stores/session_store'
-import connectToStores from '../lib/connectToStores.jsx'
-import LoadingBar from '../ui/LoadingBar.jsx'
-import Link from '../components/Link.jsx'
-import Icon from '../ui/Icon.jsx'
-import ChangelogStore from '../stores/changelog_store'
-import Router from '../lib/router_container'
-import SigninScrimActions from '../actions/SigninScrimActions'
-import LoginForm from '../components/Authentication/LoginForm.jsx'
+import Router from 'lib/router_container'
+import RouterContainer from 'lib/router_container'
+import SessionActions from 'actions/SessionActions'
+import SessionStore from 'stores/session_store'
+import SigninScrimActions from 'actions/SigninScrimActions'
+import statics from 'lib/statics'
 
+@Authenticated()
+@connect(state => ({}))
 @connectToStores(GithubOnboardingStore)
-export default class GithubRepoSelectionPage extends React.Component {
-  static willTransitionTo(transition, params, query) {
-    const user = SessionStore.user
-    if (user){ GithubOnboardingActions.fetchRepos() }
-    else { SigninScrimActions.initialize(LoginForm, {}, window.location.pathname) }
+@statics({
+  willTransitionTo(transition, params, query) {
+    if (SessionStore.user) {
+      GithubOnboardingActions.fetchRepos()
+    }
   }
-
+})
+export default class GithubRepoSelectionPage extends React.Component {
   static getPropsFromStores(props) {
     return {
       changelogId: ChangelogStore.slug,
@@ -54,7 +61,10 @@ export default class GithubRepoSelectionPage extends React.Component {
     return (
       <div className="p3 h2 pointer">
         Please <a onClick={() => {
-          SigninScrimActions.initialize(LoginForm, {}, window.location.pathname)
+          this.props.dispatch(AuthenticationFormActions.changeForm({
+            formComponent: 'login',
+            formContent: { redirectTo: window.location.pathname }
+          }))
         }}>log in</a> to Assembly to visit this page!
       </div>
     )

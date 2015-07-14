@@ -12,20 +12,12 @@ export default {
     })
   },
 
-  initialize(form, formContent, redirectTo) {
+  initialize(formComponent, formContent, redirectTo) {
     Dispatcher.dispatch({
       type: SIGNIN_SCRIM_INITIALIZED,
-      form: form,
+      formComponent: formComponent,
       formContent: formContent,
       redirectTo: typeof redirectTo === 'string' ? redirectTo : null,
     })
-  },
-
-  show(form, redirectTo) {
-    Dispatcher.dispatch({
-      type: SIGNIN_SCRIM_SHOWN,
-      form: form,
-      redirectTo: typeof redirectTo === 'string' ? redirectTo : null,
-    })
-  },
+  }
 }

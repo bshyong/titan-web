@@ -24,6 +24,7 @@ describe('StoryPage', () => {
     const story = {
       emoji: {
         unicode: '👍',
+        name: 'thumbsup'
       },
       user: {},
       contributors: [],
@@ -32,6 +33,7 @@ describe('StoryPage', () => {
     const redux = createRedux({ test: () => 'test' });
     const Subject = stubRouterContext(StoryPage.Component, {
       changelog: changelog,
+      changelogId: 'abc',
       story: story
     })
     const c = TestUtils.renderIntoDocument(

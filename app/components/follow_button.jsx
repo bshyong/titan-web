@@ -1,10 +1,13 @@
+import * as AuthenticationFormActions from 'actions/AuthenticationFormActions'
 import Button from '../ui/Button.jsx'
+import { connect } from 'redux/react'
 import FollowActions from '../actions/follow_actions'
 import LoginForm from 'components/Authentication/LoginForm.jsx'
 import React from 'react'
 import SessionStore from '../stores/session_store'
 import SigninScrimActions from 'actions/SigninScrimActions'
 
+@connect(state => ({}))
 export default class FollowButton extends React.Component {
   constructor(props) {
     super(props)
@@ -29,7 +32,11 @@ export default class FollowButton extends React.Component {
 
   _handleClick() {
     if (!SessionStore.isSignedIn()) {
-      return SigninScrimActions.initialize(LoginForm, {}, window.location.pathname)
+      this.props.dispatch(AuthenticationFormActions.changeForm({
+        formComponent: 'login',
+        formContent: { redirectTo: window.location.pathname }
+      }))
+      return
     }
 
     if (this.props.toggled) {

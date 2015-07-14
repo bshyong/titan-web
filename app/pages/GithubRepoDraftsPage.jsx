@@ -1,36 +1,33 @@
-import Button from '../ui/Button.jsx'
-import ContributorsStore from '../stores/ContributorsStore'
-import GithubOnboardingActions from '../actions/github_onboarding_actions'
-import GithubOnboardingStore from '../stores/github_onboarding_store'
-import Link from '../components/Link.jsx'
-import LoadingBar from '../ui/LoadingBar.jsx'
-import React from 'react'
-import Router from '../lib/router_container'
-import SessionActions from '../actions/SessionActions'
-import SessionStore from '../stores/session_store'
-import StoryActions from '../actions/story_actions'
-import StoryForm from '../components/Story/StoryForm.jsx'
-import StoryFormActions from '../actions/story_form_actions'
-import StoryFormStore from '../stores/story_form_store'
-import connectToStores from '../lib/connectToStores.jsx'
-import Icon from '../ui/Icon.jsx'
+import { connect } from 'redux/react'
+import * as AuthenticationFormActions from 'actions/AuthenticationFormActions'
+import Authenticated from 'components/mixins/authenticated_mixin.jsx'
+import Button from 'ui/Button.jsx'
+import ChangelogStore from 'stores/changelog_store'
+import connectToStores from 'lib/connectToStores.jsx'
+import ContributorsActions from 'actions/ContributorsActions'
+import ContributorsStore from 'stores/ContributorsStore'
+import GithubOnboardingActions from 'actions/github_onboarding_actions'
+import GithubOnboardingStore from 'stores/github_onboarding_store'
+import Icon from 'ui/Icon.jsx'
+import Link from 'components/Link.jsx'
+import LoadingBar from 'ui/LoadingBar.jsx'
 import moment from 'moment'
-import ContributorsActions from '../actions/ContributorsActions'
-import ChangelogStore from '../stores/changelog_store'
-import SigninScrimActions from '../actions/SigninScrimActions'
-import LoginForm from '../components/Authentication/LoginForm.jsx'
+import React from 'react'
+import Router from 'lib/router_container'
+import SessionActions from 'actions/SessionActions'
+import SessionStore from 'stores/session_store'
+import SigninScrimActions from 'actions/SigninScrimActions'
+import statics from 'lib/statics'
+import StoryActions from 'actions/story_actions'
+import StoryForm from 'components/Story/StoryForm.jsx'
+import StoryFormActions from 'actions/story_form_actions'
+import StoryFormStore from 'stores/story_form_store'
 
-
+@Authenticated()
+@connect(state => ({}))
 @connectToStores(GithubOnboardingStore, StoryFormStore, SessionStore)
-export default class GithubRepoDraftsPage extends React.Component {
-  static willTransitionTo(transition, params, query) {
-    const user = SessionStore.user
-    if (!user){
-      SigninScrimActions.initialize(LoginForm, {}, window.location.pathname)
-    }
-  }
-
-  static getPropsFromStores(props) {
+@statics({
+  getPropsFromStores(props) {
     return {
       drafts: GithubOnboardingStore.drafts,
       draftsLoading: GithubOnboardingStore.loadingDrafts,
@@ -44,12 +41,23 @@ export default class GithubRepoDraftsPage extends React.Component {
       user: SessionStore.user,
     }
   }
-
+})
+export default class GithubRepoDraftsPage extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
       currentDraftIndex: 0
+    }
+  }
+
+  componentWillMount() {
+    const user = SessionStore.user
+    if (!user) {
+      this.props.dispatch(AuthenticationFormActions.changeForm({
+        formComponent: 'login',
+        formContent: { redirectTo: window.location.pathname }
+      }))
     }
   }
 
@@ -94,7 +102,10 @@ export default class GithubRepoDraftsPage extends React.Component {
     return (
       <div className="p3 h2 pointer">
         Please <a onClick={() => {
-          SigninScrimActions.initialize(LoginForm, {}, window.location.pathname)
+          this.props.dispatch(AuthenticationFormActions.changeForm({
+            formComponent: 'login',
+            formContent: { redirectTo: window.location.pathname }
+          }))
         }}>log in</a> to Assembly to visit this page!
       </div>
     )

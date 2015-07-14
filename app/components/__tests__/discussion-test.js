@@ -1,3 +1,5 @@
+import { createRedux } from 'redux'
+import { Provider } from 'redux/react'
 import { List } from 'immutable'
 
 describe('Discussion', () => {
@@ -10,12 +12,17 @@ describe('Discussion', () => {
   })
 
   it('has comments count', () => {
-    var discussion = TestUtils.renderIntoDocument(
-      <Discussion story={{}} comments={List()} commentsCount={0} />
+    const redux = createRedux({ test: () => ({}) });
+    const discussion = TestUtils.renderIntoDocument(
+      <Provider redux={redux}>
+        {() => <Discussion story={{}} comments={List()} commentsCount={0} ref="discussion" />}
+      </Provider>
     )
 
-    var text = TestUtils.findRenderedDOMComponentWithClass(
-      discussion, 'ref-comments-count');
+    const text = TestUtils.findRenderedDOMComponentWithClass(
+      discussion.refs.discussion,
+      'ref-comments-count'
+    );
     expect(text.getDOMNode().textContent).toEqual('0 Comments');
   })
 })

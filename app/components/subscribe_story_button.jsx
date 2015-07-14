@@ -1,3 +1,5 @@
+import * as AuthenticationFormActions from 'actions/AuthenticationFormActions'
+import { connect } from 'redux/react'
 import Icon from '../ui/Icon.jsx'
 import React from 'react'
 import SessionActions from '../actions/SessionActions'
@@ -27,7 +29,10 @@ export default class SubscribeStoryButton extends React.Component {
     const { story } = this.props
 
     if (!SessionStore.isSignedIn()) {
-      return SigninScrimActions.initialize(LoginForm, {}, window.location.pathname)
+      this.props.dispatch(AuthenticationFormActions.changeForm({
+        formComponent: 'login',
+        formContent: { redirectTo: window.location.pathname }
+      }))
     }
 
     if (story.viewer_has_subscribed) {

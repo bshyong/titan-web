@@ -1,4 +1,5 @@
-import LoginForm from 'components/Authentication/LoginForm.jsx'
+import * as AuthenticationFormActions from 'actions/AuthenticationFormActions'
+import { connect } from 'redux/react'
 import React from 'react'
 import SessionStore from '../stores/session_store'
 import SigninScrimActions from 'actions/SigninScrimActions'
@@ -6,6 +7,7 @@ import StoryActions from '../actions/story_actions'
 import classnames from 'classnames'
 import Icon from 'ui/Icon.jsx'
 
+@connect(state => ({}))
 export default class UpvoteToggler extends React.Component {
 
   constructor(props) {
@@ -48,7 +50,10 @@ export default class UpvoteToggler extends React.Component {
   _handleClick(e) {
     const { story } = this.props
     if (!SessionStore.isSignedIn()) {
-      SigninScrimActions.initialize(LoginForm, {}, window.location.pathname)
+      this.props.dispatch(AuthenticationFormActions.changeForm({
+        formComponent: 'login',
+        formContent: { redirectTo: window.location.pathname }
+      }))
       return
     }
 

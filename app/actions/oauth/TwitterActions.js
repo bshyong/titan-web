@@ -28,16 +28,15 @@ export default {
     let data = new FormData()
     data.append('provider', provider)
     data.append('uid', uid)
+    data.append('username', username)
 
-    fetch(`${API_URL}/auth/twitter/signin`, {
+    return fetch(`${API_URL}/auth/twitter/signin`, {
       method: 'POST',
       body: data
     }).then(resp => resp.json()).then(json => {
       if (json.token) {
         SessionActions.signinFromToken(json.token)
         window.location.href = redirect.get()
-      } else {
-        SigninScrimActions.initialize(SignupConfirmationForm, query)
       }
     })
   },

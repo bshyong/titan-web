@@ -1,5 +1,7 @@
+import * as AuthenticationFormActions from 'actions/AuthenticationFormActions'
 import Avatar from 'ui/Avatar.jsx'
 import ChangelogStore from 'stores/changelog_store.js'
+import { connect } from 'redux/react'
 import connectToStores from 'lib/connectToStores.jsx'
 import Icon from 'ui/Icon.jsx'
 import Jewel from 'ui/Jewel.jsx'
@@ -14,13 +16,12 @@ import React from 'react'
 import RouterContainer from 'lib/router_container'
 import SessionActions from 'actions/SessionActions'
 import SessionStore from 'stores/session_store'
-import SigninScrimActions from 'actions/SigninScrimActions'
-import LoginForm from 'components/Authentication/LoginForm.jsx'
 
 // Logo versions:
 import LogoSrc from 'images/logo.svg'
 import LogoTransparentSrc from 'images/logo-transparent.svg'
 
+@connect(state => ({}))
 @connectToStores(ChangelogStore, SessionStore, NotificationsStore)
 export default class AppNavbar extends React.Component {
 
@@ -98,7 +99,7 @@ export default class AppNavbar extends React.Component {
     if (!user) {
       return (
         <div className="p2">
-          <a className="white pointer" onClick={this._handleSignIn}>Log in</a>
+          <a className="white pointer" onClick={this._handleSignIn.bind(this)}>Log in</a>
         </div>
       )
     }
@@ -153,7 +154,10 @@ export default class AppNavbar extends React.Component {
   }
 
   _handleSignIn(e) {
-    SigninScrimActions.show(LoginForm, window.location.pathname)
+    this.props.dispatch(AuthenticationFormActions.changeForm({
+      formComponent: 'login',
+      formContent: { redirectTo: window.location.pathname }
+    }))
   }
 
   _handleSignout() {
