@@ -257,24 +257,6 @@ export default class ChangelogSettings extends React.Component {
     )
   }
 
-  renderMembership(m) {
-    return (
-      <div className="flex flex-center px2 py1 bg-smoke-hover visible-hover-wrapper" key={m.id}>
-        <div>
-          <Avatar user={m.user} size={16 * 2} />
-        </div>
-        <div className="flex-auto px2">
-          {m.user.username}
-        </div>
-        <div className="visible-hover">
-          <a className="pointer red" onClick={this.handleRemoveClicked(m)}>
-            <Icon icon="trash-o" />
-          </a>
-        </div>
-      </div>
-    )
-  }
-
   renderNameChanger() {
     return (
       <div className="mb2">
@@ -371,13 +353,9 @@ export default class ChangelogSettings extends React.Component {
   handleRemoveClicked(membership) {
     return (e) => {
       if (confirm(`Are you sure you want to remove @${membership.user.username}?`)) {
-        MembershipActions.update(
+        MembershipActions.delete(
           this.props.changelogId,
-          membership.user.username, {
-            can_view: false,
-            can_write: false,
-            is_core: false
-          }
+          membership.user.username
         )
       }
     }

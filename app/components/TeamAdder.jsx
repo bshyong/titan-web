@@ -206,13 +206,9 @@ export default class TeamAdder extends React.Component {
 
   handleRemoveClicked(membership) {
     return () => {
-      MembershipActions.update(
+      MembershipActions.delete(
         this.props.changelog.slug,
-        membership.user.username, {
-          can_view: false,
-          can_write: false,
-          is_core: false
-        }
+        membership.user.username,
       )
     }
   }

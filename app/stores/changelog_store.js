@@ -10,6 +10,7 @@ import {
   CHANGELOG_UPDATED,
   CHANGELOG_UPDATE_FAILED,
   IMPORT_STARTED,
+  MEMBERSHIP_DELETED,
   MEMBERSHIP_UPDATE_FAILED,
   MEMBERSHIP_UPDATED,
   MEMBERSHIP_UPDATING,
@@ -64,6 +65,10 @@ class ChangelogStore extends Store {
           this.memberships = action.memberships.sortBy(m => m.user.username.toLowerCase())
           break
 
+        case MEMBERSHIP_DELETED:
+          this.memberships = this.memberships.filterNot(m => m.user.username === action.userId)
+          break
+
         case MEMBERSHIP_UPDATING:
           this.errors = null
           this.updateSuccessful = null
@@ -76,7 +81,7 @@ class ChangelogStore extends Store {
           break
 
         case MEMBERSHIP_UPDATE_FAILED:
-          this.memberships = this.memberships.filterNot(m => m.user.username == action.userId)
+          this.memberships = this.memberships.filterNot(m => m.user.username === action.userId)
           this.errors = action.errors
           this.updateSuccessful = false
           break
