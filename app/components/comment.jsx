@@ -33,27 +33,21 @@ export default class Comment extends React.Component {
       comment: {id, user, body, parsed_body, created_at}
     } = this.props
 
+    const cs = classnames("flex-none mr2", {
+      'muted': this.isDeleted(),
+    })
+
     return (
       <div>
         {this.renderSelectedMarker()}
-        <div className="flex visible-hover-wrapper">
-          <div className="flex-none mr2">
-            <Link to="profile" params={paramsFor.user(user)} title={user.username}>
+        <div className="flex">
+          <div className={cs}>
+            <Link to="profile" params={paramsFor.user(user)} title={`@${user.username}`}>
               <Avatar user={user} size={24} />
             </Link>
           </div>
 
           <div className="flex-auto h5" id={id}>
-            <div className="flex">
-              <Link className="flex-auto bold black" to="profile" params={{userId: user.username}}>{user.username}</Link>
-              <div className="flex-none flex gray mxn1 visible-hover">
-                <div className="px1">
-                  {moment(created_at).fromNow(true)}
-                </div>
-                {this.renderEditButton()}
-                {this.renderDeleteButton()}
-              </div>
-            </div>
             {this.renderBody()}
           </div>
         </div>
@@ -62,17 +56,15 @@ export default class Comment extends React.Component {
   }
 
   renderBody() {
-    if (this.props.comment.deleted_at) {
+    if (this.isDeleted()) {
       return <div className="gray">Deleted</div>
     }
 
     if (this.props.editing) {
       return (
-        <div className="mt1">
-          <CommentForm {...this.props.comment}
-              storyId={this.props.storyId}
-              changelogId={this.props.changelogId} />
-        </div>
+        <CommentForm {...this.props.comment}
+            storyId={this.props.storyId}
+            changelogId={this.props.changelogId} />
       )
     }
 
@@ -80,7 +72,29 @@ export default class Comment extends React.Component {
       comment: { body, parsed_body }
     } = this.props
 
-    return <Markdown markdown={parsed_body || body || ''} />
+    return (
+      <div>
+        <Markdown markdown={parsed_body || body || ''} />
+
+        <div className="h5 silver flex mxn1 mt2">
+          <div className="p1">
+            <Icon icon="heart" color="orange" /> <span className="gray">1</span>
+          </div>
+
+          <div className="p1">
+            <Icon icon="trophy" color="yellow" /> <span className="gray">2</span>
+          </div>
+
+          {this.renderEditButton()}
+
+          {this.renderDeleteButton()}
+        </div>
+      </div>
+    )
+  }
+
+  isDeleted() {
+    return !!this.props.comment.deleted_at
   }
 
   renderDeletedComment() {
@@ -109,7 +123,7 @@ export default class Comment extends React.Component {
     }
 
     return (
-      <div className="px1 pointer gray-hover" onClick={this.handleDelete.bind(this)}>
+      <div className="p1 pointer gray-hover" onClick={this.handleDelete.bind(this)}>
         <Icon icon="trash" />
       </div>
     )
@@ -126,7 +140,7 @@ export default class Comment extends React.Component {
     }
 
     return (
-      <div className="px1 pointer gray-hover" onClick={this.toggleEditing.bind(this)}>
+      <div className="p1 pointer gray-hover" onClick={this.toggleEditing.bind(this)}>
         <Icon icon="pencil" />
       </div>
     )
