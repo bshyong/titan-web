@@ -6,13 +6,16 @@ import paramsFor from '../lib/paramsFor'
 import React from 'react'
 import StoryFeed from 'components/StoryFeed.jsx'
 import Subheader from 'ui/Subheader.jsx'
+import {connect} from 'redux/react'
 
+@connect(state => ({
+  following: state.changelogs.following,
+}))
 @connectToStores(DashboardStore)
 export default class Dashboard extends React.Component {
   static getPropsFromStores(prevProps) {
     return {
       featured: DashboardStore.featured,
-      following: DashboardStore.following,
     }
   }
 
@@ -51,7 +54,7 @@ export default class Dashboard extends React.Component {
   renderFollowingChangelogs() {
     const { following } = this.props
 
-    if (following.length === 0) {
+    if (!following || following.length === 0) {
       return
     }
 

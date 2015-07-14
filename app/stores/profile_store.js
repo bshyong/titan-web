@@ -17,7 +17,6 @@ class ProfileStore extends Store {
   constructor() {
     super()
     this._profile = {}
-    this._following = []
     this._stories = Map()
 
     this.dispatchToken = Dispatcher.register(action => {
@@ -49,10 +48,6 @@ class ProfileStore extends Store {
           this.updateSuccessful = false
           break
 
-        case FOLLOWINGS_FETCHED:
-          this._following = action.changelogs
-          break
-
         case TWITTER_ACCOUNT_UNLINKED:
           this._profile.user = action.profile
           break
@@ -70,10 +65,6 @@ class ProfileStore extends Store {
 
   get upvotes() {
     return this._profile.upvotes
-  }
-
-  get following() {
-    return this._following
   }
 }
 

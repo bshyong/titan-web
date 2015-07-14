@@ -1,3 +1,5 @@
+import {connect} from 'redux/react'
+import {fetchFollowing, fetchMembered} from 'actions/changelogActions'
 import {RouteHandler} from 'react-router'
 import connectToStores from 'lib/connectToStores.jsx'
 import ErrorPage from 'pages/ErrorPage.jsx'
@@ -9,12 +11,20 @@ import SessionActions from 'actions/SessionActions'
 import SessionStore from 'stores/session_store'
 import SigninScrim from 'components/Authentication/SigninScrim.jsx'
 
+@connect(state => ({}))
 @connectToStores(RoutesStore)
 export default class AppPage extends React.Component {
   static getPropsFromStores(props) {
     return {
       apiError: RoutesStore.apiError,
       resourceFound: RoutesStore.resourceFound
+    }
+  }
+
+  componentWillMount() {
+    if (SessionStore.user) {
+      this.props.dispatch(fetchFollowing(SessionStore.user.username))
+      this.props.dispatch(fetchMembered(SessionStore.user.username))
     }
   }
 

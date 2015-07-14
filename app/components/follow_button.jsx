@@ -1,7 +1,7 @@
 import * as AuthenticationFormActions from 'actions/AuthenticationFormActions'
 import Button from '../ui/Button.jsx'
 import { connect } from 'redux/react'
-import FollowActions from '../actions/follow_actions'
+import FollowActions from '../actions/FollowActions'
 import LoginForm from 'components/Authentication/LoginForm.jsx'
 import React from 'react'
 import SessionStore from '../stores/session_store'

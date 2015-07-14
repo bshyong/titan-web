@@ -17,7 +17,7 @@ describe('StoryPage', () => {
     spyOn(Router, 'changelogSlug')
   })
 
-  it("deletes story on delete clicked", () => {
+  it('deletes story on delete clicked', () => {
     const changelog = {
       viewer_can_edit: true,
     }
@@ -30,11 +30,11 @@ describe('StoryPage', () => {
       contributors: [],
     }
 
-    const redux = createRedux({ test: () => 'test' });
+    const redux = createRedux({changelogs: () => ({})})
     const Subject = stubRouterContext(StoryPage.Component, {
       changelog: changelog,
       changelogId: 'abc',
-      story: story
+      story: story,
     })
     const c = TestUtils.renderIntoDocument(
       <Provider redux={redux}>
@@ -60,6 +60,6 @@ function fetchStory(changelogId, story) {
   Dispatcher.dispatch({
     type: STORY_FETCHED,
     story: story,
-    changelogId: changelogId
+    changelogId: changelogId,
   })
 }

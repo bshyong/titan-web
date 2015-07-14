@@ -4,7 +4,7 @@ import Button from '../ui/Button.jsx'
 import ChangelogActions from '../actions/changelog_actions'
 import Dashboard from '../components/Dashboard.jsx'
 import DocumentTitle from 'react-document-title'
-import FollowingActions from '../actions/follow_actions'
+import FollowActions from '../actions/FollowActions'
 import Jumbotron from '../ui/Jumbotron.jsx'
 import React from 'react'
 import SessionStore from '../stores/session_store'
@@ -15,7 +15,6 @@ import StoryActions from 'actions/story_actions'
 export default class DashboardPage extends React.Component {
   static willTransitionTo(transition, params, query) {
     ChangelogActions.fetchAll()
-    FollowingActions.fetchFollowing(SessionStore.user.username)
     ChangelogActions.clearCurrent()
     StoryActions.fetchFeed()
   }
