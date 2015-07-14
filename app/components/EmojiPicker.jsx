@@ -1,13 +1,16 @@
 import classnames from 'classnames'
-import connectToStores from '../lib/connectToStores.jsx'
-import Emoji from './Emoji.jsx'
-import EmojiActions from '../actions/emoji_actions.js'
-import EmojiStore from '../stores/emoji_store'
-import Picker from '../ui/RealPicker.jsx'
+import connectToStores from 'lib/connectToStores.jsx'
+import Emoji from 'components/Emoji.jsx'
+import EmojiActions from 'actions/emoji_actions.js'
+import EmojiStore from 'stores/emoji_store'
+import Picker from 'ui/RealPicker.jsx'
 import React from 'react'
 
+const DEFAULT_VALUE = "c6a2b5b8-b1fc-4ff0-b108-746cef842362"
 const EmojiGridRows = 3
 const ENTER_KEY = 13
+
+import DefaultImgSrc from 'images/emoji-input-default.svg'
 
 @connectToStores(EmojiStore)
 export default class EmojiPicker extends React.Component {
@@ -89,7 +92,23 @@ export default class EmojiPicker extends React.Component {
 
     // Fill out the height so the bar doesn't jump around the place
     if (!emoji) {
-      return <div style={{minHeight: "3rem"}} />
+      const style = {
+        width: '2rem',
+        height: '2rem',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundImage: `url(${DefaultImgSrc})`
+      }
+      return (
+        <div className="flex flex-center" style={{minHeight: "3rem"}}>
+          <div className="mr2">
+            <div className="bg-white circle center flex flex-center p1" style={style} />
+          </div>
+          <div className="white">
+            Select an emoji
+          </div>
+        </div>
+      )
     }
 
     return (
@@ -144,5 +163,5 @@ EmojiPicker.propTypes = {
 }
 
 EmojiPicker.defaultProps = {
-  defaultValue: "c6a2b5b8-b1fc-4ff0-b108-746cef842362"
+  defaultValue: DEFAULT_VALUE
 }

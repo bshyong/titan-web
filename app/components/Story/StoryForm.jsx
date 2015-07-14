@@ -121,7 +121,7 @@ export default class StoryForm extends React.Component {
   renderErrorMessage() {
     const { story: { errorMessage }, showErrorMessage } = this.props
     if (showErrorMessage && errorMessage) {
-      return <div className="h4 p1 mb2 center bg-red white">
+      return <div className="h4 p1 mb2 center bg-red white rounded">
         {errorMessage}
       </div>
     }

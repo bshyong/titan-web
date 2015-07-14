@@ -1,11 +1,20 @@
+import { createRedux } from 'redux'
+import { Provider } from 'redux/react'
+import { List, Map } from 'immutable'
+import stubRouterContext from '../../../lib/stubRouterContext'
+
 describe('StoryForm', () => {
   let React,
       RouterContainer,
       EmojiActions,
       StoryForm,
-      TestUtils
+      TestUtils,
+      api
 
   beforeEach(() => {
+    api = require('../../../lib/api')
+    spyOn(api, 'get').and.returnValue({ then: () => {} })
+
     React = require('react/addons')
     EmojiActions = require('../../../actions/emoji_actions')
     spyOn(EmojiActions, 'fetch').and.returnValue([])
@@ -16,11 +25,22 @@ describe('StoryForm', () => {
 
   describe('render()', () => {
     it('renders with an empty story', () => {
-      const form = TestUtils.renderIntoDocument(
-        <StoryForm story={{}} changelog={{is_members_only: false}} />
-      )
 
-      expect(form instanceof StoryForm).toBe(true)
+
+      const redux = createRedux({ emojiInput: () => Map({ emojis: List() }) });
+      const Subject = stubRouterContext(StoryForm, {
+        changelog: { is_members_only: false },
+        story: {}
+      })
+
+      expect(
+        TestUtils.renderIntoDocument.bind(
+          TestUtils,
+          <Provider redux={redux}>
+            {() => <Subject ref="subject" />}
+          </Provider>
+        )
+      ).not.toThrow()
     })
   })
 
@@ -33,9 +53,18 @@ describe('StoryForm', () => {
         is_members_only: false,
         user_is_team_member: true,
       }
+
+      const redux = createRedux({ emojiInput: () => Map({ emojis: List() }) });
+      const Subject = stubRouterContext(StoryForm, {
+        changelog: changelog,
+        story: {},
+        onChange: onChange
+      })
       form = TestUtils.renderIntoDocument(
-        <StoryForm story={{}} changelog={changelog} onChange={onChange} />
-      )
+        <Provider redux={redux}>
+          {() => <Subject ref="subject" />}
+        </Provider>
+      ).refs.subject.refs.stub
     })
 
     describe('.title', () => {

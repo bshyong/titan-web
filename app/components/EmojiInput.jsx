@@ -1,59 +1,54 @@
 import classnames from 'classnames'
-import Dialog from '../ui/Dialog.jsx'
-import Emoji from './Emoji.jsx'
-import EmojiActions from '../actions/emoji_actions'
-import EmojiPicker from './EmojiPicker.jsx'
-import EmojiStore from '../stores/emoji_store'
-import Picker from '../ui/RealPicker.jsx'
+import { connect } from 'redux/react'
+import Dialog from 'ui/Dialog.jsx'
+import Emoji from 'components/Emoji.jsx'
+import EmojiActions from 'actions/emoji_actions'
+import EmojiPicker from 'components/EmojiPicker.jsx'
+import EmojiStore from 'stores/emoji_store'
+import * as EmojiInputActions from 'actions/EmojiInputActions'
+import Picker from 'ui/RealPicker.jsx'
 import React from 'react'
 
 import DefaultImgSrc from 'images/emoji-input-default.svg'
 
 const ENTER_KEY = 13
 
+@connect(state => {
+  return {
+    emojis: state.emojiInput.get('emojis'),
+    isFocused: state.emojiInput.get('isFocused'),
+    isOpen: state.emojiInput.get('isOpen'),
+    value: state.emojiInput.get('value')
+  }
+})
 export default class EmojiInput extends React.Component {
   static propTypes = {
     autoFocus: React.PropTypes.bool,
     defaultValue: React.PropTypes.string,
+    // dispatch comes from the @connect decorator
+    dispatch: React.PropTypes.func.isRequired,
+    emojis: React.PropTypes.object,
     onChange: React.PropTypes.func,
+    isFocused: React.PropTypes.bool,
+    isOpen: React.PropTypes.bool,
     value: React.PropTypes.string,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      value: props.defaultValue,
-      showDialog: false,
-      focused: false,
-    }
-  }
-
-  get value() {
-    return this.props.value || this.state.value
-  }
-
   componentDidMount() {
-    EmojiActions.fetch()
-    EmojiStore.addChangeListener(this.setState.bind(this, {}))
+    this.props.dispatch(EmojiInputActions.fetch())
     if (this.props.autoFocus) {
       React.findDOMNode(this.refs.button).focus()
     }
   }
 
-  componentWillUnmount() {
-    EmojiStore.removeChangeListener(this.setState.bind(this, {}))
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      value: nextProps.value || this.state.value
-    })
-  }
-
   render() {
+    const {
+      isFocused,
+      value
+    } = this.props
     const cs = classnames(
       "field-light bg-white flex flex-center overflow-hidden pointer", {
-        "is-focused": this.state.focused
+        "is-focused": isFocused
       }
     )
 
@@ -62,7 +57,7 @@ export default class EmojiInput extends React.Component {
       height: '3rem',
       backgroundColor: 'white',
       borderRadius: '50%',
-      backgroundImage: (!this.value ? `url(${DefaultImgSrc})` : ''),
+      backgroundImage: (!value ? `url(${DefaultImgSrc})` : ''),
       backgroundSize: 'cover',
       backgroundPosition: 'center',
     }
@@ -70,13 +65,13 @@ export default class EmojiInput extends React.Component {
     return (
       <div>
         <div className={cs}
-             tabIndex={0}
-             onClick={this.handleWillChange.bind(this)}
-             onFocus={this.handleToggleFocus.bind(this)}
-             onBlur={this.handleToggleFocus.bind(this)}
-             onKeyDown={this.handleKeyDown.bind(this)}
-             style={style}
-             ref="button">
+          tabIndex={0}
+          onClick={this.handleWillChange.bind(this)}
+          onFocus={this.handleFocus.bind(this)}
+          onBlur={this.handleBlur.bind(this)}
+          onKeyDown={this.handleKeyDown.bind(this)}
+          style={style}
+          ref="button">
           {this.renderEmoji()}
         </div>
         {this.renderDialog()}
@@ -85,7 +80,10 @@ export default class EmojiInput extends React.Component {
   }
 
   renderEmoji() {
-    const emoji = EmojiStore.find(this.value)
+    if (!this.props.emojis) {
+      return
+    }
+    const emoji = this.props.emojis.find(e => e.id === this.props.value)
     if (!emoji) {
       return
     }
@@ -97,14 +95,15 @@ export default class EmojiInput extends React.Component {
   }
 
   renderDialog() {
-    if (!this.state.showDialog) {
-      return
+    const { dispatch, isOpen, value } = this.props
+
+    if (isOpen) {
+      return (
+        <Dialog onCloseRequested={() => dispatch(EmojiInputActions.blur())}>
+          <EmojiPicker defaultValue={value} onChange={this.handleDidChange.bind(this)} />
+        </Dialog>
+      )
     }
-    return (
-      <Dialog onCloseRequested={() => this.setState({ showDialog: false, focused: false })}>
-        <EmojiPicker defaultValue={this.value} onChange={this.handleDidChange.bind(this)} />
-      </Dialog>
-    )
   }
 
   handleKeyDown(e) {
@@ -114,22 +113,19 @@ export default class EmojiInput extends React.Component {
   }
 
   handleWillChange() {
-    this.setState({
-      showDialog: true,
-      focused: true,
-    })
+    this.props.dispatch(EmojiInputActions.open())
   }
 
   handleDidChange(e) {
-    this.setState({
-      value: e.value,
-      showDialog: false,
-      focused: false,
-    })
     this.props.onChange({target: {value: e.value}})
+    this.props.dispatch(EmojiInputActions.select(e.value))
   }
 
-  handleToggleFocus() {
-    this.setState({focused: !this.state.focused})
+  handleBlur() {
+    this.props.dispatch(EmojiInputActions.blur())
+  }
+
+  handleFocus() {
+    this.props.dispatch(EmojiInputActions.focus())
   }
 }
