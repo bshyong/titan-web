@@ -24,6 +24,7 @@ import VisibilityToggler from 'components/VisibilityToggler.jsx'
 import WriteSetting from 'components/settings/WriteSetting.jsx'
 import authenticated from 'components/mixins/authenticated_mixin.jsx'
 import connectToStores from 'lib/connectToStores.jsx'
+import DocumentTitle from 'react-document-title'
 
 import {List, Map} from 'immutable'
 
@@ -72,67 +73,69 @@ export default class ChangelogSettings extends React.Component {
     const {changelog, changelog: { is_members_only }} = this.props
 
     return (
-      <div>
-        <h4 className="mt0 mb0 bold">Members</h4>
-        <p className="h5 gray">
-          Anyone you add here will be members of your Changelog. They will be able to read, write, and comment on all posts.
-        </p>
-        <p className="h5 gray mb1">
-          Send this private link to anyone you want to invite:
-        </p>
+      <DocumentTitle title={["Settings", changelog.name].join(' · ')}>
+        <div>
+          <h4 className="mt0 mb0 bold">Members</h4>
+          <p className="h5 gray">
+            Anyone you add here will be members of your Changelog. They will be able to read, write, and comment on all posts.
+          </p>
+          <p className="h5 gray mb1">
+            Send this private link to anyone you want to invite:
+          </p>
 
-        <div className="mb2">
-          <ChangelogInviteLink changelog={this.props.changelog} />
-          <Button
-            style="transparent"
-            size="small"
-            color="gray"
-            action={this.handleResetInvitationLink.bind(this)}
-            ref="reset">
-            Reset
-          </Button>
-        </div>
-
-        <TeamAdder memberships={this.props.coreMemberships} changelog={this.props.changelog} changelogId={this.props.changelogId} showBlankEntries={false} />
-
-        <VisibilityToggler changelog={this.props.changelog} onChange={this.handleSwitchMembersOnly.bind(this)} />
-        <WriteSetting changelog={this.props.changelog} onChange={this.handleSwitchWriteSetting.bind(this)} />
-
-        <hr />
-
-        {this.renderNameChanger()}
-        {this.renderTaglineChanger()}
-        {this.renderLogoChanger()}
-        {this.renderBannerChanger()}
-        {this.renderHomepageChanger()}
-        {this.renderWebhookChanger()}
-        {this.renderSaver()}
-
-        <hr />
-        <CustomDomainSettingsPanel />
-        <hr />
-        <ImportFromCovePanel changelog={changelog} />
-        <hr />
-
-        <div className="flex flex-center py2">
-          <div className="flex-auto">
-            <h4 className="mt0 mb0 bold">
-              <a href="https://en.wikipedia.org/wiki/Danger,_Will_Robinson"
-                className="black">
-                Danger, Will Robinson!
-              </a>
-            </h4>
-          </div>
-          <div className="mxn1">
-            <Button color="red"
+          <div className="mb2">
+            <ChangelogInviteLink changelog={this.props.changelog} />
+            <Button
               style="transparent"
               size="small"
-              action={this.handleDeleteChangelog.bind(this)}>
-              Delete changelog
+              color="gray"
+              action={this.handleResetInvitationLink.bind(this)}
+              ref="reset">
+              Reset
             </Button>
           </div>
+
+          <TeamAdder memberships={this.props.coreMemberships} changelog={this.props.changelog} changelogId={this.props.changelogId} showBlankEntries={false} />
+
+          <VisibilityToggler changelog={this.props.changelog} onChange={this.handleSwitchMembersOnly.bind(this)} />
+          <WriteSetting changelog={this.props.changelog} onChange={this.handleSwitchWriteSetting.bind(this)} />
+
+          <hr />
+
+          {this.renderNameChanger()}
+          {this.renderTaglineChanger()}
+          {this.renderLogoChanger()}
+          {this.renderBannerChanger()}
+          {this.renderHomepageChanger()}
+          {this.renderWebhookChanger()}
+          {this.renderSaver()}
+
+          <hr />
+          <CustomDomainSettingsPanel />
+          <hr />
+          <ImportFromCovePanel changelog={changelog} />
+          <hr />
+
+          <div className="flex flex-center py2">
+            <div className="flex-auto">
+              <h4 className="mt0 mb0 bold">
+                <a href="https://en.wikipedia.org/wiki/Danger,_Will_Robinson"
+                  className="black">
+                  Danger, Will Robinson!
+                </a>
+              </h4>
+            </div>
+            <div className="mxn1">
+              <Button color="red"
+                style="transparent"
+                size="small"
+                action={this.handleDeleteChangelog.bind(this)}>
+                Delete changelog
+              </Button>
+            </div>
+          </div>
         </div>
-      </div>
+      </DocumentTitle>
     )
   }
 

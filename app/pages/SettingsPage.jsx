@@ -1,21 +1,22 @@
 import {List} from 'immutable'
 import {RouteHandler} from 'react-router'
 import AppNavbar from 'components/App/AppNavbar.jsx'
-import authenticated from '../components/mixins/authenticated_mixin.jsx'
 import Button from '../ui/Button.jsx'
 import ChangelogActions from '../actions/changelog_actions'
 import ChangelogName from 'components/Changelog/ChangelogName.jsx'
-import classnames from 'classnames'
-import connectToStores from '../lib/connectToStores.jsx'
+import DocumentTitle from 'react-document-title'
 import Link from '../components/Link.jsx'
 import Logo from '../components/logo.jsx'
-import paramsFor from '../lib/paramsFor'
 import ProfileActions from '../actions/profile_actions.js'
 import ProfileStore from '../stores/profile_store.js'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
 import SessionActions from '../actions/SessionActions'
 import SessionStore from '../stores/session_store'
+import authenticated from '../components/mixins/authenticated_mixin.jsx'
+import classnames from 'classnames'
+import connectToStores from '../lib/connectToStores.jsx'
+import paramsFor from '../lib/paramsFor'
 
 @authenticated()
 @connectToStores(ProfileStore)
@@ -34,33 +35,35 @@ export default class SettingsPage extends React.Component {
 
   render() {
     return (
-      <div>
-        <AppNavbar title="Settings" />
-        <div className="container">
-          <div className="flex" style={{minHeight: 'calc(100vh - 3.5rem)'}}>
+      <DocumentTitle title='Settings'>
+        <div>
+          <AppNavbar title="Settings" />
+          <div className="container">
+            <div className="flex" style={{minHeight: 'calc(100vh - 3.5rem)'}}>
 
-            <div className="col-3 border-right py4">
-              <div className="mb4">
-                <h4 className="mt0 mb2 gray">Personal Settings</h4>
-                <Link to="profile_settings" className="block px2 py1 black bg-smoke-hover"
-                    activeClassName="bg-smoke bold">
-                  Profile
-                </Link>
+              <div className="col-3 border-right py4">
+                <div className="mb4">
+                  <h4 className="mt0 mb2 gray">Personal Settings</h4>
+                  <Link to="profile_settings" className="block px2 py1 black bg-smoke-hover"
+                      activeClassName="bg-smoke bold">
+                    Profile
+                  </Link>
+                </div>
+
+                <div className="mb4">
+                  <h4 className="mt0 mb2 gray">Changelogs</h4>
+                  {this.renderChangelogLinks()}
+                </div>
               </div>
 
-              <div className="mb4">
-                <h4 className="mt0 mb2 gray">Changelogs</h4>
-                {this.renderChangelogLinks()}
+              <div className="col col-9 p4">
+                <RouteHandler />
               </div>
-            </div>
 
-            <div className="col col-9 p4">
-              <RouteHandler />
             </div>
-
           </div>
         </div>
-      </div>
+      </DocumentTitle>
     )
   }
 

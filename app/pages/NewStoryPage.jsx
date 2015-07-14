@@ -1,10 +1,10 @@
 import AuthenticatedMixin from '../components/mixins/authenticated_mixin.jsx'
 import Button from '../ui/Button.jsx'
+import ChangelogNavbar from 'components/Changelog/ChangelogNavbar.jsx'
 import ChangelogStore from 'stores/changelog_store'
-import connectToStores from '../lib/connectToStores.jsx'
 import ContributorsActions from '../actions/ContributorsActions'
 import ContributorsStore from '../stores/ContributorsStore'
-import ChangelogNavbar from 'components/Changelog/ChangelogNavbar.jsx'
+import DocumentTitle from 'react-document-title'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
 import SessionStore from '../stores/session_store'
@@ -14,6 +14,7 @@ import StoryFormActions from '../actions/story_form_actions'
 import StoryFormStore from '../stores/story_form_store'
 import StoryFormWalkthrough from '../components/Story/StoryFormWalkthrough.jsx'
 import UploadingAttachmentStore from '../stores/uploading_attachment_store'
+import connectToStores from '../lib/connectToStores.jsx'
 
 @AuthenticatedMixin()
 @connectToStores(StoryFormStore, UploadingAttachmentStore)
@@ -54,33 +55,36 @@ export default class NewStoryPage extends React.Component {
 
   render() {
     const { showErrorMessage } = this.state
+    const { changelog, story, isCreating } = this.props
 
-    if (!this.props.changelog) {
-      return
+    if (!changelog) {
+      return null
     }
 
     return (
-      <div>
-        <ChangelogNavbar changelog={this.props.changelog} size="small" />
-        <div className="container py4 px2 sm-px0">
-          <StoryFormWalkthrough>
-            {this.renderSuccessBanner()}
-            <StoryForm story={this.props.story}
-              showErrorMessage={showErrorMessage}
-              changelog={this.props.changelog}
-              onChange={this.handleOnChange.bind(this)} />
-          </StoryFormWalkthrough>
-          <div className="py2 right-align">
-            <Button
-              color="orange"
-              style="outline"
-              action={this.handleOnPublish.bind(this)}
-              disabled={this.props.isCreating}>
-              Post
-            </Button>
+      <DocumentTitle title={["New story", changelog.name].join(' · ')}>
+        <div>
+          <ChangelogNavbar changelog={changelog} size="small" />
+          <div className="container py4 px2 sm-px0">
+            <StoryFormWalkthrough>
+              {this.renderSuccessBanner()}
+              <StoryForm story={story}
+                showErrorMessage={showErrorMessage}
+                changelog={changelog}
+                onChange={this.handleOnChange.bind(this)} />
+            </StoryFormWalkthrough>
+            <div className="py2 right-align">
+              <Button
+                color="orange"
+                style="outline"
+                action={this.handleOnPublish.bind(this)}
+                disabled={isCreating}>
+                Post
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
+      </DocumentTitle>
     )
   }
 
