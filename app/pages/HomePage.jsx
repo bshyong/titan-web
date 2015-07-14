@@ -1,13 +1,16 @@
+import * as AuthenticationFormActions from 'actions/AuthenticationFormActions'
 import Button from 'ui/Button.jsx'
+import { connect } from 'redux/react'
+import Icon from 'ui/Icon.jsx'
 import Jumbotron from 'ui/Jumbotron.jsx'
 import Link from 'components/Link.jsx'
-import LoginForm from 'components/Authentication/LoginForm.jsx'
 import Navbar from 'ui/Navbar.jsx'
 import onMobile from 'lib/on_mobile'
 import React from 'react'
+import RouterContainer from 'lib/router_container'
 import SessionStore from 'stores/session_store'
 import SigninScrimActions from 'actions/SigninScrimActions'
-import SignupForm from 'components/Authentication/SignupForm.jsx'
+import statics from 'lib/statics'
 import Sticky from 'ui/Sticky.jsx'
 import StoryActions from 'actions/story_actions'
 import StoryFeed from 'components/StoryFeed.jsx'
@@ -21,20 +24,21 @@ import HomePublicImgSrc from 'images/home-public.png'
 import HomePrivateImgSrc from 'images/home-private.png'
 import EmojiBgImgSrc from 'images/home-emoji-bg.jpg'
 import FacesImgSrc from 'images/faces.gif'
-
 import LogoImgSrc from 'images/HomePageLogo.svg'
+import WorkmarkWhiteImgSrc from 'images/workmark-white.svg'
 
 
 const BgColor = '#F5F6F8'
-
-export default class HomePage extends React.Component {
-  static willTransitionTo(transition) {
+@statics({
+  willTransitionTo(transition) {
     if (SessionStore.user) {
-      transition.redirect('dashboard')
+      return transition.redirect('dashboard')
     }
     StoryActions.fetchFeed()
   }
-
+})
+@connect(state => ({}))
+export default class HomePage extends React.Component {
   render() {
     return (
       <div>
@@ -50,10 +54,10 @@ export default class HomePage extends React.Component {
                 Want to keep everyone connected?
               </div>
               <div className="mr1">
-                <Button bg="orange" action={this.handleSignUp}>Sign up</Button>
+                <Button bg="orange" action={this.handleSignUp.bind(this)}>Sign up</Button>
               </div>
               <div>
-                <Button bg="gray" action={this.handleSignIn}>Log in</Button>
+                <Button bg="gray" action={this.handleSignIn.bind(this)}>Log in</Button>
               </div>
             </div>
           }
@@ -192,15 +196,52 @@ export default class HomePage extends React.Component {
             </div>
           </div>
         </div>
+
+        <div className="bg-charcoal">
+          <div className="container px2">
+            <div className="flex flex-center py2">
+              <div className="flex-auto white">
+                <Link className="block white" to="home">
+                  <img className="block" src={WorkmarkWhiteImgSrc} />
+                </Link>
+              </div>
+              <div>
+                <ul className="list-reset flex mxn2 mb0">
+                  <li>
+                    <Link className="block p2 gray" to="tos">Terms</Link>
+                  </li>
+                  <li>
+					          <Link className="block p2 gray" to="faq">FAQ</Link>
+                  </li>
+                  <li>
+                    <a className="block p2 gray" href="http://blog.assembly.com">Blog</a>
+                  </li>
+                  <li>
+                    <a className="block p2 gray" href="https://twitter.com/asm"><Icon icon="twitter" /></a>
+                  </li>
+                  <li>
+                    <a className="block p2 gray" href="https://facebook.com/assemblymade"><Icon icon="facebook" /></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }
 
   handleSignIn() {
-    SigninScrimActions.show(LoginForm, '/dashboard')
+    this.props.dispatch(AuthenticationFormActions.changeForm({
+      formComponent: 'login',
+      formContent: { redirectTo: '/dashboard' }
+    }))
   }
 
   handleSignUp() {
-    SigninScrimActions.show(SignupForm, '/new')
+    this.props.dispatch(AuthenticationFormActions.changeForm({
+      formComponent: 'signup',
+      formContent: { redirectTo: '/new' }
+    }))
   }
 }

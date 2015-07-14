@@ -1,5 +1,5 @@
+export authenticationForm from './authenticationForm'
 export changelogImport from './changelogImport'
 export currentUser from './currentUser'
 export newChangelog from './newChangelog'
-export signupPage from './signupPage'
 export story from './story'

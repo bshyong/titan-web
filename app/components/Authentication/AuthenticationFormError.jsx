@@ -1,13 +1,15 @@
-import AuthenticationFormActions from 'actions/AuthenticationFormActions'
-import AuthenticationFormStore from 'stores/AuthenticationFormStore'
-import connectToStores from 'lib/connectToStores.jsx'
+import * as authenticationFormActions from 'actions/AuthenticationFormActions'
+import { connect } from 'redux/react'
 import Icon from 'ui/Icon.jsx'
 import React from 'react'
 
-@connectToStores(AuthenticationFormStore)
-export default class LoginForm extends React.Component {
-  static getPropsFromStores() {
-    return { error: AuthenticationFormStore.error }
+@connect(state => ({
+  error: state.authenticationForm.get('error')
+}))
+export default class AuthenticationFormError extends React.Component {
+  static propTypes = {
+    dispatch: React.PropTypes.func.isRequired,
+    error: React.PropTypes.string
   }
 
   constructor(props) {
@@ -45,6 +47,6 @@ export default class LoginForm extends React.Component {
   }
 
   _handleClick(e) {
-    AuthenticationFormActions.dismissError()
+    this.props.dispatch(authenticationFormActions.dismissError())
   }
 }

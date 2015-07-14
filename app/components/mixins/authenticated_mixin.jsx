@@ -12,8 +12,7 @@ export default function Authenticated() {
       static willTransitionTo(transition, params, query) {
         if (!SessionStore.isSignedIn()) {
           transition.abort()
-          const path = window.location.pathname
-          RouterContainer.router.transitionTo('signup')
+          RouterContainer.transitionTo('signup', {}, { redirectTo: window.location.pathname })
         } else {
           Component.willTransitionTo && Component.willTransitionTo(transition, params, query)
         }

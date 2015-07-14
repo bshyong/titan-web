@@ -1,3 +1,6 @@
+import { createRedux } from 'redux'
+import { Provider } from 'redux/react'
+
 describe('FollowButton', () => {
   let React, FollowButton, TestUtils
 
@@ -8,39 +11,45 @@ describe('FollowButton', () => {
   })
 
   describe('handleClick()', () => {
-    let SigninScrimActions
+    let AuthenticationFormActions
 
     beforeEach(() => {
-      SigninScrimActions = require('../../actions/SigninScrimActions')
+      AuthenticationFormActions = require('../../actions/AuthenticationFormActions')
     })
 
     describe('not signed in', () => {
-      it('calls SigninScrimActions.initialize()', () => {
-        spyOn(SigninScrimActions, 'initialize')
+      it('calls AuthenticationFormActions.changeForm()', () => {
+        spyOn(AuthenticationFormActions, 'changeForm')
 
+        const redux = createRedux({ test: () => ({}) });
         let followButton = TestUtils.renderIntoDocument(
-          <FollowButton changelogId="changelog" toggled={true} />
+          <Provider redux={redux}>
+            {() => <FollowButton changelogId="changelog" toggled={true} ref="button" />}
+          </Provider>
         )
 
         let button = TestUtils.findRenderedDOMComponentWithTag(
-          followButton,
+          followButton.refs.button,
           'button'
         )
 
         TestUtils.Simulate.click(button)
 
-        expect(SigninScrimActions.initialize).toHaveBeenCalled()
+        expect(AuthenticationFormActions.changeForm).toHaveBeenCalled()
       })
     })
 
     describe('signed in', () => {
       const makeButton = (toggled) => {
+        const redux = createRedux({ test: () => ({}) });
         let followButton = TestUtils.renderIntoDocument(
-          <FollowButton changelogId="changelog" toggled={toggled} />
+          <Provider redux={redux}>
+            {() => <FollowButton changelogId="changelog" toggled={toggled} ref="button" />}
+          </Provider>
         )
 
         return TestUtils.findRenderedDOMComponentWithTag(
-          followButton,
+          followButton.refs.button,
           'button'
         )
       }

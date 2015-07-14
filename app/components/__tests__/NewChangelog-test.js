@@ -9,7 +9,9 @@ describe('NewChangelog', () => {
   it('calls formChange on field changed', () => {
     const formChange = jasmine.createSpy('formChange')
     const c = TestUtils.renderIntoDocument(
-      <NewChangelog fields={Map()} formChange={formChange}/>
+      <NewChangelog fields={Map()}
+        formChange={formChange}
+        create={() => {}} />
     )
 
     TestUtils.Simulate.change(c.refs.name, {target: {value: 'HEY!'}})

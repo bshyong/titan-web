@@ -1,10 +1,7 @@
-import AuthenticationFormActions from 'actions/AuthenticationFormActions'
 import AuthenticationFormButton from 'components/Authentication/AuthenticationFormButton.jsx'
 import AuthenticationFormError from 'components/Authentication/AuthenticationFormError.jsx'
-import AuthenticationFormStore from 'stores/AuthenticationFormStore'
 import AvailableUsernameInput from 'components/Authentication/AvailableUsernameInput.jsx'
 import Button from 'ui/Button.jsx'
-import connectToStores from 'lib/connectToStores.jsx'
 import Icon from 'ui/Icon.jsx'
 import LoginForm from 'components/Authentication/LoginForm.jsx'
 import LogoSrc from 'images/logo.svg'
@@ -14,13 +11,19 @@ import React from 'react'
 import SigninScrimActions from 'actions/SigninScrimActions'
 import TwitterActions from 'actions/oauth/TwitterActions'
 
-@connectToStores(AuthenticationFormStore)
 export default class SignupForm extends React.Component {
-  static getPropsFromStores() {
-    return {
-      shown: AuthenticationFormStore.shown,
-      ...AuthenticationFormStore.formContent
-    }
+  static propTypes = {
+    change: React.PropTypes.func.isRequired,
+    changeForm: React.PropTypes.func.isRequired,
+    formContent: React.PropTypes.shape({
+      email: React.PropTypes.string,
+      password: React.PropTypes.string,
+      redirectTo: React.PropTypes.string,
+      username: React.PropTypes.string
+    }),
+    show: React.PropTypes.func.isRequired,
+    shown: React.PropTypes.bool,
+    submit: React.PropTypes.func.isRequired
   }
 
   constructor(props) {
@@ -49,7 +52,7 @@ export default class SignupForm extends React.Component {
       email,
       password,
       username
-    } = this.props
+    } = this.props.formContent
 
     return (
       <div>
@@ -136,7 +139,7 @@ export default class SignupForm extends React.Component {
         <div className="mt4">
           <a href="javascript:void(0)"
             className="bold darken-4 gray-hover"
-            onClick={AuthenticationFormActions.show}>
+            onClick={this.props.show}>
             Sign up with your email instead
           </a>
         </div>
@@ -149,14 +152,14 @@ export default class SignupForm extends React.Component {
   }
 
   isButtonDisabled() {
-    const { email, password, username } = this.props
+    const { email, password, username } = this.props.formContent
     return !email || !password || !username
   }
 
   _handleChange(prop) {
     return (e) => {
-      AuthenticationFormActions.change(
-        Map(this.props).set(prop, e.target.value)
+      this.props.change(
+        Map(this.props.formContent).set(prop, e.target.value)
       )
     }
   }
@@ -170,9 +173,9 @@ export default class SignupForm extends React.Component {
   _handleSubmit(e) {
     e.preventDefault()
 
-    AuthenticationFormActions.submit(
+    this.props.submit(
       'register',
-      this.props
+      this.props.formContent
     )
   }
 
@@ -184,12 +187,4 @@ export default class SignupForm extends React.Component {
 
     TwitterActions.signIn(opts)
   }
-}
-
-SignupForm.propTypes = {
-  email: React.PropTypes.string,
-  password: React.PropTypes.string,
-  redirectTo: React.PropTypes.string,
-  shown: React.PropTypes.bool,
-  username: React.PropTypes.string
 }

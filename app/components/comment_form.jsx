@@ -1,7 +1,9 @@
+import * as AuthenticationFormActions from 'actions/AuthenticationFormActions'
 import Avatar from '../ui/Avatar.jsx'
 import Button from '../ui/Button.jsx'
 import Comment from '../components/comment.jsx'
 import CommentFormActions from '../actions/comment_form_actions'
+import { connect } from 'redux/react'
 import LoginForm from 'components/Authentication/LoginForm.jsx'
 import MarkdownArea from '../ui/markdown_area.jsx'
 import NewCommentsStore from '../stores/new_comments_store'
@@ -10,6 +12,7 @@ import SessionActions from '../actions/SessionActions'
 import SessionStore from '../stores/session_store'
 import SigninScrimActions from 'actions/SigninScrimActions'
 
+@connect(state => ({}))
 export default class CommentForm extends React.Component {
   constructor(props) {
     super(props)
@@ -149,7 +152,10 @@ export default class CommentForm extends React.Component {
   }
 
   _handleSignInClick(e) {
-    SigninScrimActions.initialize(LoginForm, {}, window.location.pathname)
+    this.props.dispatch(AuthenticationFormActions.changeForm({
+      formComponent: 'login',
+      formContent: { redirectTo: window.location.pathname }
+    }))
   }
 
   _onStoreChange() {

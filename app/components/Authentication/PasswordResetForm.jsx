@@ -1,23 +1,23 @@
-import AuthenticationFormActions from 'actions/AuthenticationFormActions'
 import AuthenticationFormButton from 'components/Authentication/AuthenticationFormButton.jsx'
-import AuthenticationFormStore from 'stores/AuthenticationFormStore'
 import Button from 'ui/Button.jsx'
-import connectToStores from 'lib/connectToStores.jsx'
+import { connect } from 'redux/react'
 import Icon from 'ui/Icon.jsx'
 import LogoSrc from 'images/logo.svg'
 import { Map } from 'immutable'
 import PasswordResetActions from 'actions/PasswordResetActions'
-import PasswordResetFormStore from 'stores/PasswordResetFormStore'
 import React from 'react'
 import SigninScrim from 'components/Authentication/SigninScrim.jsx'
 import SigninScrimActions from 'actions/SigninScrimActions'
 
-@connectToStores(AuthenticationFormStore, PasswordResetFormStore)
 export default class PasswordResetForm extends React.Component {
-  static getPropsFromStores() {
-    return {
-      ...AuthenticationFormStore.formContent
-    }
+  static propTypes = {
+    change: React.PropTypes.func.isRequired,
+    changeForm: React.PropTypes.func.isRequired,
+    formContent: React.PropTypes.shape({
+      password: React.PropTypes.string,
+      redirectTo: React.PropTypes.string
+    }),
+    submit: React.PropTypes.func.isRequired
   }
 
   constructor(props) {
@@ -27,15 +27,11 @@ export default class PasswordResetForm extends React.Component {
     this.handleSubmit = this._handleSubmit.bind(this)
   }
 
-  componentDidMount() {
-    SigninScrimActions.show(PasswordResetForm)
-  }
-
   render() {
-    const { password } = this.props
+    const { password } = this.props.formContent
 
     return (
-      <div className="flex flex-center">
+      <div className="flex flex-center center">
         <div className="flex-none sm-col-4 mx-auto py4">
           <img className="flex-none" src={LogoSrc} style={{height: '1.5rem'}} />
           <h1 className="mt0">Reset your password</h1>
@@ -72,16 +68,18 @@ export default class PasswordResetForm extends React.Component {
   }
 
   isButtonDisabled() {
-    return !this.props.password
+    return !this.props.formContent.password
   }
 
   _handleChange(e) {
-    AuthenticationFormActions.change(Map({ password: e.target.value }))
+    this.props.change(Map({ password: e.target.value }))
   }
 
   _handleSubmit(e) {
     e.preventDefault()
-    let { password, token } = this.props
+    let {
+      formContent: { password },
+    } = this.props
 
     // we need this check in case the form is autofilled or filled
     // from LastPassword or 1Password or something
@@ -89,6 +87,6 @@ export default class PasswordResetForm extends React.Component {
       password = React.findDOMNode(this.refs.password).value
     }
 
-    AuthenticationFormActions.submit('password/reset', { password, token })
+    this.props.submit(`password/reset${window.location.search}`, { password })
   }
 }

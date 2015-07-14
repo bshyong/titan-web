@@ -1,23 +1,24 @@
-import AuthenticationFormActions from 'actions/AuthenticationFormActions'
 import AuthenticationFormButton from 'components/Authentication/AuthenticationFormButton.jsx'
 import AuthenticationFormError from 'components/Authentication/AuthenticationFormError.jsx'
-import AuthenticationFormStore from 'stores/AuthenticationFormStore'
 import Button from 'ui/Button.jsx'
 import connectToStores from 'lib/connectToStores.jsx'
 import Icon from 'ui/Icon.jsx'
 import LogoSrc from 'images/logo.svg'
 import { Map } from 'immutable'
 import onMobile from 'lib/on_mobile'
-import PasswordResetEmailForm from 'components/Authentication/PasswordResetEmailForm.jsx'
 import React from 'react'
 import TwitterActions from 'actions/oauth/TwitterActions'
-import SigninScrimActions from 'actions/SigninScrimActions'
-import SignupForm from 'components/Authentication/SignupForm.jsx'
 
-@connectToStores(AuthenticationFormStore)
 export default class LoginForm extends React.Component {
-  static getPropsFromStores() {
-    return AuthenticationFormStore.formContent
+  static propTypes = {
+    change: React.PropTypes.func.isRequired,
+    changeForm: React.PropTypes.func.isRequired,
+    formContent: React.PropTypes.shape({
+      password: React.PropTypes.string,
+      username: React.PropTypes.string
+    }),
+    redirectTo: React.PropTypes.string,
+    submit: React.PropTypes.func.isRequired
   }
 
   constructor(props) {
@@ -33,6 +34,10 @@ export default class LoginForm extends React.Component {
   // can't disable button because safari :'(
   // http://stackoverflow.com/questions/11708092/detecting-browser-autofill/
   render() {
+    const {
+      password,
+      username
+    } = this.props.formContent
     return (
       <div className="flex flex-center">
         <div className="flex-none sm-col-4 mx-auto py4">
@@ -59,7 +64,9 @@ export default class LoginForm extends React.Component {
               </AuthenticationFormError>
               <form className="clearfix">
                 <div className="py1">
-                  <label className="left bold" htmlFor="login-username">Username or email</label>
+                  <label className="left bold" htmlFor="login-username">
+                    Username or email
+                  </label>
                   <input autoFocus={!onMobile()}
                     type="text"
                     id="login-username"
@@ -67,7 +74,7 @@ export default class LoginForm extends React.Component {
                     className="block full-width field-light"
                     placeholder="jane"
                     onChange={this.handleChange('username')}
-                    value={this.props.username} />
+                    value={username} />
                 </div>
 
                 <div className="py1">
@@ -77,7 +84,7 @@ export default class LoginForm extends React.Component {
                     ref="password"
                     className="block full-width field-light"
                     onChange={this.handleChange('password')}
-                    value={this.props.password} />
+                    value={password} />
                   <small className="left">
                     <a href="javascript:void(0)"
                       className="darken-4 underline"
@@ -102,26 +109,26 @@ export default class LoginForm extends React.Component {
 
   _handleChange(prop) {
     return (e) => {
-      AuthenticationFormActions.change(Map(this.props).set(prop, e.target.value))
+      this.props.change(Map(this.props.formContent).set(prop, e.target.value))
     }
   }
 
   _handleForgotPassword(e) {
-    SigninScrimActions.show(PasswordResetEmailForm)
+    this.props.changeForm({ formComponent: 'passwordResetEmail' })
   }
 
   _handleSubmit(e) {
     e.preventDefault()
 
     // we need this check in case the user has autofilled the sign-in form
-    let data = this.props
+    let data = this.props.formContent
     if (!data.username ||
         !data.password) {
       data.username = React.findDOMNode(this.refs.username).value
       data.password = React.findDOMNode(this.refs.password).value
     }
 
-    AuthenticationFormActions.submit('login', data)
+    this.props.submit('login', data)
   }
 
   _handleTwitterClick(e) {
@@ -134,12 +141,6 @@ export default class LoginForm extends React.Component {
   }
 
   _showSignupForm(e) {
-    SigninScrimActions.initialize(SignupForm, {})
+    this.props.changeForm({ formComponent: 'signup'})
   }
-}
-
-LoginForm.propTypes = {
-  password: React.PropTypes.string,
-  redirectTo: React.PropTypes.string,
-  username: React.PropTypes.string
 }

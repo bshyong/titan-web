@@ -1,23 +1,26 @@
 import AuthenticationFormActions from 'actions/AuthenticationFormActions'
 import AuthenticationFormButton from 'components/Authentication/AuthenticationFormButton.jsx'
-import AuthenticationFormStore from 'stores/AuthenticationFormStore'
 import AvailableUsernameInput from 'components/Authentication/AvailableUsernameInput.jsx'
 import Button from 'ui/Button.jsx'
 import classnames from 'classnames'
-import connectToStores from 'lib/connectToStores.jsx'
 import Icon from 'ui/Icon.jsx'
 import Link from 'components/Link.jsx'
-import LoginForm from 'components/Authentication/LoginForm.jsx'
 import LogoSrc from 'images/logo.svg'
 import { Map } from 'immutable'
 import React from 'react'
-import SessionActions from 'actions/SessionActions'
-import SigninScrimActions from 'actions/SigninScrimActions'
 
-@connectToStores(AuthenticationFormStore)
 export default class SignupConfirmationForm extends React.Component {
-  static getPropsFromStores() {
-    return AuthenticationFormStore.formContent
+  static propTypes =  {
+    change: React.PropTypes.func.isRequired,
+    changeForm: React.PropTypes.func.isRequired,
+    formContent: React.PropTypes.shape({
+      email: React.PropTypes.string,
+      // for finishing up Twitter login
+      provider: React.PropTypes.string,
+      // for finishing up Twitter login
+      uid: React.PropTypes.string,
+      username: React.PropTypes.string
+    }),
   }
 
   constructor(props) {
@@ -32,7 +35,7 @@ export default class SignupConfirmationForm extends React.Component {
     const {
       email,
       username
-    } = this.props
+    } = this.props.formContent
 
     return (
       <div className="flex flex-center">
@@ -97,34 +100,28 @@ export default class SignupConfirmationForm extends React.Component {
   }
 
   isButtonDisabled() {
-    const { email, username } = this.props
+    const { email, username } = this.props.formContent
     return !email || !username
   }
 
   _handleChange(prop) {
     return (e) => {
-      AuthenticationFormActions.change(Map(this.props).set(prop, e.target.value))
+      this.props.change(Map(this.props.formContent).set(prop, e.target.value))
     }
   }
 
   _handleSignInClick(e) {
     e.preventDefault()
 
-    SigninScrimActions.show(LoginForm, '/settings')
+    this.props.changeForm({
+      formComponent: 'login',
+      formContent: { ...this.props.formContent, redirectTo: '/settings' }
+    })
   }
 
   _handleSubmit(e) {
     e.preventDefault()
 
-    AuthenticationFormActions.submit('auth/twitter/confirm', this.props)
+    this.props.submit('auth/twitter/confirm', this.props.formContent)
   }
-}
-
-SignupConfirmationForm.propTypes = {
-  email: React.PropTypes.string,
-  // for finishing up Twitter login
-  provider: React.PropTypes.string,
-  // for finishing up Twitter login
-  uid: React.PropTypes.string,
-  username: React.PropTypes.string
 }

@@ -1,9 +1,8 @@
-import AuthenticationFormActions from 'actions/AuthenticationFormActions'
 import AuthenticationFormButton from 'components/Authentication/AuthenticationFormButton.jsx'
 import AuthenticationFormError from 'components/Authentication/AuthenticationFormError.jsx'
-import AuthenticationFormStore from 'stores/AuthenticationFormStore'
 import Button from 'ui/Button.jsx'
 import classnames from 'classnames'
+import { connect } from 'redux/react'
 import connectToStores from 'lib/connectToStores.jsx'
 import Icon from 'ui/Icon.jsx'
 import LogoSrc from 'images/logo.svg'
@@ -11,17 +10,26 @@ import { Map } from 'immutable'
 import PasswordResetActions from 'actions/PasswordResetActions'
 import PasswordResetFormStore from 'stores/PasswordResetFormStore'
 import React from 'react'
-import SessionActions from 'actions/SessionActions'
-import SigninScrimActions from 'actions/SigninScrimActions'
 
-@connectToStores(AuthenticationFormStore, PasswordResetFormStore)
+@connect(state => ({
+  formContent: state.authenticationForm.get('formContent').toJS()
+}))
+@connectToStores(PasswordResetFormStore)
 export default class PasswordResetEmailForm extends React.Component {
   static getPropsFromStores() {
     return {
-      ...AuthenticationFormStore.formContent,
       confirmation: PasswordResetFormStore.confirmation,
       confirmationType: PasswordResetFormStore.confirmationType
     }
+  }
+
+  static propTypes = {
+    change: React.PropTypes.func.isRequired,
+    confirmation: React.PropTypes.string,
+    confirmationType: React.PropTypes.string,
+    formContent: React.PropTypes.shape({
+      email: React.PropTypes.string
+    })
   }
 
   constructor(props) {
@@ -55,7 +63,11 @@ export default class PasswordResetEmailForm extends React.Component {
   }
 
   renderForm() {
-    const { email, confirmation, confirmationType } = this.props
+    const {
+      confirmation,
+      confirmationType,
+      formContent: { email }
+    } = this.props
 
     if (confirmation) {
       const classes = classnames(confirmationType, 'white rounded p2')
@@ -80,7 +92,8 @@ export default class PasswordResetEmailForm extends React.Component {
         </div>
 
         <div className="py2">
-          <AuthenticationFormButton action={this.handleSubmit} disabled={this.isButtonDisabled()}>
+          <AuthenticationFormButton action={this.handleSubmit}
+            disabled={this.isButtonDisabled()}>
             Send reset link
           </AuthenticationFormButton>
         </div>
@@ -89,15 +102,15 @@ export default class PasswordResetEmailForm extends React.Component {
   }
 
   isButtonDisabled() {
-    return !this.props.email
+    return !this.props.formContent.email
   }
 
   _handleChange(e) {
-    AuthenticationFormActions.change(Map({ email: e.target.value }))
+    this.props.change(Map({ email: e.target.value }))
   }
 
   _handleSubmit(e) {
     e.preventDefault()
-    PasswordResetActions.submitEmail(this.props.email)
+    PasswordResetActions.submitEmail(this.props.formContent.email)
   }
 }
