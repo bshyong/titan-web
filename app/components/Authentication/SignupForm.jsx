@@ -7,7 +7,6 @@ import LoginForm from 'components/Authentication/LoginForm.jsx'
 import LogoSrc from 'images/logo.svg'
 import { Map } from 'immutable'
 import onMobile from 'lib/on_mobile'
-import PasswordInputAndHelper from 'components/Authentication/PasswordInputAndHelper.jsx'
 import React from 'react'
 import SigninScrimActions from 'actions/SigninScrimActions'
 import TwitterActions from 'actions/oauth/TwitterActions'
@@ -82,9 +81,13 @@ export default class SignupForm extends React.Component {
             </div>
 
             <div className="py1">
-              <PasswordInputAndHelper id="signup-password"
+              <label className="left bold" htmlFor="signup-password">Password</label>
+              <input type="password"
+                id="signup-password"
+                className="block full-width field-light"
                 value={password}
                 onChange={this.handleChange('password')} />
+              <small className="gray left">8 characters minimum</small>
             </div>
 
             <div className="py2 mt2">
@@ -164,7 +167,7 @@ export default class SignupForm extends React.Component {
   _handleLoginClick(e) {
     e.preventDefault()
 
-    this.props.changeForm({ formComponent: 'login' })
+    SigninScrimActions.show(LoginForm)
   }
 
   _handleSubmit(e) {
