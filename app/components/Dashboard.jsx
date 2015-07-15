@@ -1,9 +1,11 @@
+import {fetchFollowing} from 'actions/changelogActions'
 import ChangelogCard from './Changelog/ChangelogCard.jsx'
 import connectToStores from '../lib/connectToStores.jsx'
 import DashboardStore from '../stores/DashboardStore'
 import Link from '../components/Link.jsx'
 import paramsFor from '../lib/paramsFor'
 import React from 'react'
+import SessionStore from 'stores/session_store'
 import StoryFeed from 'components/StoryFeed.jsx'
 import Subheader from 'ui/Subheader.jsx'
 import {connect} from 'redux/react'
@@ -22,6 +24,10 @@ export default class Dashboard extends React.Component {
   static propTypes = {
     featured: React.PropTypes.object,
     following: React.PropTypes.object,
+  }
+
+  componentWillMount() {
+    this.props.dispatch(fetchFollowing(SessionStore.user.username))
   }
 
   render() {
