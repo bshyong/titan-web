@@ -32,8 +32,8 @@ export default class EmptyStateGuide extends React.Component {
               }}>
               <div className="gray gray-hover">
                 <img src={SoloSrc} />
-                <h3>Solo Projects</h3>
-                <h4>Read tips</h4>
+                <h3 className="black">Solo Projects</h3>
+                <h4 className="underline">Read tips</h4>
               </div>
             </Link>
           </div>
@@ -45,8 +45,8 @@ export default class EmptyStateGuide extends React.Component {
               }}>
               <div className="gray gray-hover">
                 <img src={TeamsSrc} />
-                <h3>Small teams</h3>
-                <h4>Read tips</h4>
+                <h3 className="black">Small teams</h3>
+                <h4 className="underline">Read tips</h4>
               </div>
             </Link>
           </div>
@@ -58,8 +58,8 @@ export default class EmptyStateGuide extends React.Component {
               }}>
               <div className="gray gray-hover">
                 <img src={ForFunSrc} />
-                <h3>For fun</h3>
-                <h4>Read tips</h4>
+                <h3 className="black">For fun</h3>
+                <h4 className="underline">Read tips</h4>
               </div>
             </Link>
           </div>
