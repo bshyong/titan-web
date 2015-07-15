@@ -13,5 +13,5 @@ module.exports = {
       'facepalm', 'what', 'oops', 'eyeroll', 'confused', 'sad'
     ]
   },
-  apiUrl: 'http://api.giphy.com/v1/gifs/search'
+  apiUrl: 'https://api.giphy.com/v1/gifs/search'
 }
