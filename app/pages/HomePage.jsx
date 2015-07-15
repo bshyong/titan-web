@@ -109,9 +109,8 @@ export default class HomePage extends React.Component {
           </div>
         </div>
         <div style={{backgroundColor: BgColor}}>
-          <div className="container px2 py5" style={{paddingTop: 'calc(5rem + 1rem)'}}>
-
-            <div className="sm-flex mb5">
+          <div className="container px2 py4" style={{paddingTop: 'calc(5rem + 1rem)'}}>
+            <div className="sm-flex mb4">
               <div className="flex-auto sm-col-5 m0 sm-mr4" style={{marginTop: '-2rem'}}>
                 <Sticky>
                   <h2 className="m0 py2 sm-py4 sm-left-align sm-h1">

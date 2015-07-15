@@ -31,3 +31,6 @@
 /* border */
 
 .border-smoke { border-color: var(--smoke) }
+
+::-moz-selection { background-color: var(--yellow) }
+::selection { background-color: var(--yellow) }
