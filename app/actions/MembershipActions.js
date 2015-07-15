@@ -8,7 +8,6 @@ import {
 
 import api from '../lib/api'
 import Dispatcher from '../lib/dispatcher'
-import { flash } from './SnackbarActions'
 
 export default {
   delete(changelogId, userId) {
@@ -36,18 +35,12 @@ export default {
           userId: userId,
           membership: resp
         })
-        flash({
-          msg: `Membership updated for "${userId}"`
-        })
       }).catch(errors => {
         Dispatcher.dispatch({
           type: MEMBERSHIP_UPDATE_FAILED,
           changelogId: changelogId,
           userId: userId,
           errors: errors
-        })
-        flash({
-          msg: `Unknown user "${userId}"`
         })
       })
     } else {
@@ -60,18 +53,12 @@ export default {
           membership: resp,
           created: change.is_core ? true : false
         })
-        flash({
-          msg: `Membership updated for "${userId}"`
-        })
       }).catch(errors => {
         Dispatcher.dispatch({
           type: MEMBERSHIP_UPDATE_FAILED,
           changelogId: changelogId,
           userId: userId,
           errors: errors
-        })
-        flash({
-          msg: `Unknown user "${userId}"`
         })
       })
     }

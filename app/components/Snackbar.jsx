@@ -1,8 +1,8 @@
 import React from 'react'
-import connectToStores from '../lib/connectToStores.jsx'
-import SnackbarStore from '../stores/SnackbarStore'
-import {clear} from '../actions/SnackbarActions'
-import Button from '../ui/Button.jsx'
+import connectToStores from 'lib/connectToStores.jsx'
+import SnackbarStore from 'stores/SnackbarStore'
+import {clear} from 'actions/SnackbarActions'
+import Button from 'ui/Button.jsx'
 
 @connectToStores(SnackbarStore)
 export default class Snackbar extends React.Component {
@@ -26,21 +26,21 @@ export default class Snackbar extends React.Component {
   }
 }
 
-const ToastTimeout = 1200
+const TOAST_TIMEOUT = 2400
 
 class Toast extends React.Component {
 
   componentDidMount() {
     this.timeout = setTimeout(() => {
       clear(this.props.toast.id)
-    }, ToastTimeout)
+    }, TOAST_TIMEOUT)
   }
 
   componentDidUpdate() {
     clearTimeout(this.timeout)
     this.timeout = setTimeout(() => {
       clear(this.props.toast.id)
-    }, ToastTimeout)
+    }, TOAST_TIMEOUT)
   }
 
   componentWillUnmount() {

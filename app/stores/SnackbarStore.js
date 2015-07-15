@@ -1,10 +1,13 @@
 import {
+  MEMBERSHIP_UPDATED,
+  MEMBERSHIP_UPDATE_FAILED,
+  PENDING_MEMBERSHIP_UPDATED,
   SNACKBAR_ADD_TOAST,
   SNACKBAR_CLEAR,
-} from '../constants'
+} from 'constants'
 import { List } from 'immutable'
-import Store from '../lib/store'
-import Dispatcher from '../lib/dispatcher'
+import Store from 'lib/store'
+import Dispatcher from 'lib/dispatcher'
 
 class SnackbarStore extends Store {
   constructor() {
@@ -13,6 +16,20 @@ class SnackbarStore extends Store {
 
     this.dispatchToken = Dispatcher.register(action => {
       switch (action.type) {
+        case MEMBERSHIP_UPDATED:
+          this._toasts = this._toasts.push({
+            msg: `Membership updated for "${action.userId}"`
+          })
+          break
+        case MEMBERSHIP_UPDATE_FAILED:
+          this._toasts = this._toasts.push({
+            msg: `Unknown user "${action.userId}"`
+          })
+          break
+        case PENDING_MEMBERSHIP_UPDATED:
+          this._toasts = this._toasts.push({
+            msg: `Membership updated for "${action.userId}"`
+          })
         case SNACKBAR_ADD_TOAST:
           this._toasts = this._toasts.push(action.toast)
           break
