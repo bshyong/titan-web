@@ -39,6 +39,13 @@ const BgColor = '#F5F6F8'
 })
 @connect(state => ({}))
 export default class HomePage extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.handleSignIn = this._handleSignIn.bind(this)
+    this.handleSignUp = this._handleSignUp.bind(this)
+  }
+
   render() {
     return (
       <div>
@@ -54,10 +61,10 @@ export default class HomePage extends React.Component {
                 Want to keep everyone connected?
               </div>
               <div className="mr1">
-                <Button bg="orange" action={this.handleSignUp.bind(this)}>Sign up</Button>
+                <Button bg="orange" action={this.handleSignUp}>Sign up</Button>
               </div>
               <div>
-                <Button bg="gray" action={this.handleSignIn.bind(this)}>Log in</Button>
+                <Button bg="gray" action={this.handleSignIn}>Log in</Button>
               </div>
             </div>
           }
@@ -199,14 +206,14 @@ export default class HomePage extends React.Component {
     )
   }
 
-  handleSignIn() {
+  _handleSignIn() {
     this.props.dispatch(AuthenticationFormActions.changeForm({
       formComponent: 'login',
       formContent: { redirectTo: '/dashboard' }
     }))
   }
 
-  handleSignUp() {
+  _handleSignUp() {
     this.props.dispatch(AuthenticationFormActions.changeForm({
       formComponent: 'signup',
       formContent: { redirectTo: '/new' }
