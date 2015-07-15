@@ -26,6 +26,7 @@ import StoryActions from '../actions/story_actions'
 import StoryBooster from 'components/staff/StoryBooster.jsx'
 import StoryReadersStore from '../stores/story_readers_store'
 import UpvoteToggler from '../components/UpvoteToggler.jsx'
+import TallyCounter from 'ui/TallyCounter.jsx'
 
 @connectToStores(GroupedStoriesStore, StoryReadersStore, ChangelogStore)
 export default class StoryPage extends React.Component {

@@ -1,24 +1,28 @@
 import Avatar from '../ui/Avatar.jsx'
+import classnames from 'classnames'
 import CommentForm from './comment_form.jsx'
 import CommentsStore from '../stores/comments_store'
 import connectToStores from '../lib/connectToStores.jsx'
 import DiscussionActions from '../actions/discussion_actions'
+import Flair from 'components/Flair.jsx'
 import Icon from '../ui/Icon.jsx'
+import Link from '../components/Link.jsx'
 import Markdown from '../ui/Markdown.jsx'
+import moment from '../config/moment'
+import paramsFor from 'lib/paramsFor'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
 import SessionStore from '../stores/session_store'
-import classnames from 'classnames'
-import moment from '../config/moment'
-import onMobile from '../lib/on_mobile'
-import Link from '../components/Link.jsx'
-import paramsFor from 'lib/paramsFor'
+import ChangelogStore from 'stores/changelog_store'
+import TallyCounter from 'ui/TallyCounter.jsx'
+import Heart from 'components/Heart.jsx'
 
 @connectToStores(CommentsStore)
 export default class Comment extends React.Component {
   static getPropsFromStores(props) {
     return {
-      editing: CommentsStore.editingCommentId === props.comment.id
+      changelog: ChangelogStore.changelog,
+      editing: CommentsStore.editingCommentId === props.comment.id,
     }
   }
 
@@ -69,7 +73,8 @@ export default class Comment extends React.Component {
     }
 
     const {
-      comment: { body, parsed_body, created_at }
+      changelog,
+      comment: { body, parsed_body, created_at, hearts_count }
     } = this.props
 
     return (
@@ -77,13 +82,9 @@ export default class Comment extends React.Component {
         <Markdown markdown={parsed_body || body || ''} />
 
         <div className="h5 silver flex mxn1 mt2">
-          <div className="p1">
-            <Icon icon="heart" color="orange" /> <span className="gray">1</span>
-          </div>
+          {this.renderHearts()}
 
-          <div className="p1">
-            <Icon icon="trophy" color="yellow" /> <span className="gray">2</span>
-          </div>
+          {this.renderFlair()}
 
           {this.renderEditButton()}
 
@@ -99,6 +100,35 @@ export default class Comment extends React.Component {
 
   isDeleted() {
     return !!this.props.comment.deleted_at
+  }
+
+  renderHearts() {
+    const { comment } = this.props
+    return (
+      <div className="p1">
+        <Heart heartable={comment} />
+      </div>
+    )
+  }
+
+  renderFlair() {
+    const { changelog, comment } = this.props
+
+    if (!changelog.user_is_team_member && comment.flairs_count === 0) {
+      return
+    }
+
+    const image = <Flair changelog={changelog}
+      muted={!comment.viewer_has_flaired}
+      size={16} />
+
+    return (
+      <div className="p1">
+        <TallyCounter image={image}
+          enabled={changelog.user_is_team_member}
+          tally={comment.flairs_count} />
+      </div>
+    )
   }
 
   renderDeleteButton() {

@@ -106,6 +106,7 @@ export default class ChangelogSettings extends React.Component {
           {this.renderTaglineChanger()}
           {this.renderLogoChanger()}
           {this.renderBannerChanger()}
+          {this.renderFlairChanger()}
           {this.renderHomepageChanger()}
           {this.renderWebhookChanger()}
           {this.renderSaver()}
@@ -238,6 +239,33 @@ export default class ChangelogSettings extends React.Component {
         <label>
           <h4 className="bold mr1 inline-block">
             Logo
+          </h4>
+        </label>
+        <DropzoneContainer id={`logo-${changelog.id}`}
+          clickable="#logo-clickable"
+          onUploaded={this.onLogoUploaded}
+          onUploading={this.onLogoUploading}>
+          <div className="flex-auto pointer" id="logo-clickable">
+            <div className="relative" style={{maxWidth: 64, width: 64}}>
+              <div className="absolute" style={{bottom: 0}}>
+                <LoadingBar loading={this.state.logoUploading} />
+              </div>
+              <Logo changelog={changelog} size={64} />
+            </div>
+          </div>
+        </DropzoneContainer>
+      </div>
+    )
+  }
+
+  renderFlairChanger() {
+    const { changelog } = this.props
+
+    return (
+      <div className="mb3">
+        <label>
+          <h4 className="bold mr1 inline-block">
+            Changelog flair
           </h4>
         </label>
         <DropzoneContainer id={`logo-${changelog.id}`}
