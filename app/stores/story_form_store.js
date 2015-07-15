@@ -1,6 +1,7 @@
 import {
   EMOJI_SELECTED,
   HIGHLIGHT_USED,
+  ROUTE_TRANSITIONED,
   STORY_CREATING,
   STORY_FETCHED,
   STORY_FORM_CHANGE,
@@ -25,6 +26,9 @@ class StoryFormStore extends Store {
         case STORY_CREATING:
           this.isCreating = true
           break
+        case ROUTE_TRANSITIONED:
+          this.init()
+          break
         case STORY_FETCHED:
           this.isCreating = false
           this.title = action.story.title
@@ -33,7 +37,6 @@ class StoryFormStore extends Store {
           this.emoji_id = action.story.emoji_id || action.story.emoji.id
           this.created_at = action.story.created_at
           break
-
         case GITHUB_DRAFTS_LOADED:
           if (action.drafts.length > 0) {
             this.title = action.drafts[0].title
