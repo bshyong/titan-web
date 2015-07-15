@@ -16,6 +16,8 @@ import {
   STORY_UNHEARTED,
   STORY_UNPINNED,
   STORY_UNSUBSCRIBED,
+  HEARTABLE_HEARTING,
+  HEARTABLE_UNHEARTING,
 } from '../constants'
 import { List, Map, OrderedMap } from 'immutable'
 import moment from 'moment'
@@ -65,10 +67,25 @@ class GroupedStoriesStore extends Store {
           }
           break
 
+        case HEARTABLE_HEARTING:
         case STORY_HEARTED:
-          const { storyId: storyId1 } = action
-          this.get(storyId1).viewer_has_hearted = true
-          this.get(storyId1).hearts_count += 1
+          if (action.heartableType !== 'story') {
+            return
+          }
+          const { heartableId: storyId1 } = action
+          console.log(action, this.get(storyId1))
+          this.getById(storyId1).viewer_has_hearted = true
+          this.getById(storyId1).hearts_count += 1
+          break
+
+        case HEARTABLE_UNHEARTING:
+        case STORY_UNHEARTED:
+          if (action.heartableType !== 'story') {
+            return
+          }
+          const { heartableId: storyId4 } = action
+          this.getById(storyId4).viewer_has_hearted = false
+          this.getById(storyId4).hearts_count -= 1
           break
 
         case STORY_SUBSCRIBED:
@@ -79,12 +96,6 @@ class GroupedStoriesStore extends Store {
         case STORY_UNSUBSCRIBED:
           const { storyId: storyId3 } = action
           this.get(storyId3).viewer_has_subscribed = false
-          break
-
-        case STORY_UNHEARTED:
-          const { storyId: storyId4 } = action
-          this.get(storyId4).viewer_has_hearted = false
-          this.get(storyId4).hearts_count -= 1
           break
 
         case GROUP_COLLAPSED:
@@ -172,6 +183,13 @@ class GroupedStoriesStore extends Store {
     let group = this.grouped.find(g => g.stories.get(slug))
     if (group) {
       return group.stories.get(slug)
+    }
+  }
+
+  getById(id) {
+    let group = this.grouped.find(g => g.stories.find(story => story.id === id))
+    if (group) {
+      return group.stories.find(story => story.id === id)
     }
   }
 

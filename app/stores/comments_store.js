@@ -51,8 +51,13 @@ class CommentsStore extends Store {
           break
 
         case HEARTABLE_HEARTING:
+          if (action.heartableType !== 'comment') {
+            return
+          }
           const idx = this.comments.findIndex(c => c.id === action.heartableId)
-          if(idx === -1) { break }
+          if(idx === -1) {
+            return
+          }
           const comment = this.comments.get(idx)
           this.comments = this.comments.set(idx, {
             ...comment,
@@ -62,8 +67,13 @@ class CommentsStore extends Store {
           break
 
         case HEARTABLE_UNHEARTING:
+          if (action.heartableType !== 'comment') {
+            return
+          }
           const idx = this.comments.findIndex(c => c.id === action.heartableId)
-          if(idx === -1) { break }
+          if(idx === -1) {
+            return
+          }
           const comment = this.comments.get(idx)
           this.comments = this.comments.set(idx, {
             ...comment,

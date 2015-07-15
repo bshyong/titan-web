@@ -23,6 +23,7 @@ export default class TallyCounter extends React.Component {
     const cs = {
       root: classnames('clicker', 'flex flex-center gray', {
         'clicker--enabled': enabled,
+        'flex-column': orientation === 'vertical',
       }),
       image: classnames('clicker-image', {
         'pointer': enabled,

@@ -1,7 +1,7 @@
 import c from 'constants'
 import Dispatcher from 'lib/dispatcher'
 
-export default function comments(state = {}, action) {
+export default function heartables(state = {}, action) {
   switch (action.type) {
     case c.HEARTABLE_HEARTING:
       // TODO remove once reduxed
