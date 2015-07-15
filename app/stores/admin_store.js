@@ -1,4 +1,5 @@
 import {
+  ADMIN_CHANGELOG_STATS_FETCHED,
   ADMIN_DATA_FETCHED,
   ADMIN_STORIES_FETCHED,
   ADMIN_USERS_DATA_FETCHED
@@ -12,6 +13,7 @@ class AdminStore extends Store {
     this._changelogs = []
     this._users = []
     this._stories = []
+    this._stats = []
 
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
@@ -24,11 +26,18 @@ class AdminStore extends Store {
         case ADMIN_STORIES_FETCHED:
           this._stories = action.stories
           break;
+        case ADMIN_CHANGELOG_STATS_FETCHED:
+          this._stats = action.stats
+          break;
         default:
           return
       }
       this.emitChange()
     })
+  }
+
+  get stats() {
+    return this._stats
   }
 
   get changelogs() {

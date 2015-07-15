@@ -17,7 +17,8 @@ export default class Admin extends React.Component {
     return {
       changelogs: AdminStore.changelogs,
       users: AdminStore.users,
-      stories: AdminStore.stories
+      stories: AdminStore.stories,
+      stats: AdminStore.stats
     }
   }
 
@@ -31,6 +32,7 @@ export default class Admin extends React.Component {
 
         <h1>Latest 20 Stories</h1>
         {this.renderStories()}
+        {this.renderStats()}
       </div>
     )
   }
@@ -123,6 +125,38 @@ export default class Admin extends React.Component {
         </tbody>
       </table>
     )
+  }
+
+  renderStats() {
+    return (
+      <div>
+        <h2>Stories Stats</h2>
+          <table>
+            <thead>
+              <th>Week Ending On</th>
+              <th>Total Changelogs</th>
+              <th>Total Stories</th>
+            </thead>
+            <tbody>
+              {this.renderAllStats()}
+            </tbody>
+          </table>
+      </div>
+    )
+  }
+
+  renderAllStats() {
+    let c = List(this.props.stats)
+    return c.map(stat => {
+      let date = moment(stat[0]).format('MMMM D, YYYY')
+      return (
+        <tr>
+          <td>{date}</td>
+          <td>{stat[1]}</td>
+          <td>{stat[2]}</td>
+        </tr>
+      )
+    })
   }
 
   renderThem() {
