@@ -22,10 +22,13 @@ import HomeSlackImgSrc from 'images/home-slack.png'
 import HomeNotificationsImgSrc from 'images/home-notifications.png'
 import HomePublicImgSrc from 'images/home-public.png'
 import HomePrivateImgSrc from 'images/home-private.png'
+import HomeCommentImgSrc from 'images/comment.png'
 import EmojiBgImgSrc from 'images/home-emoji-bg.jpg'
 import FacesImgSrc from 'images/faces.gif'
 import LogoImgSrc from 'images/HomePageLogo.svg'
 import WorkmarkWhiteImgSrc from 'images/workmark-white.svg'
+import SoloSrc from 'images/solo.svg'
+import TeamsSrc from 'images/small-teams.svg'
 
 
 const BgColor = '#F5F6F8'
@@ -70,16 +73,41 @@ export default class HomePage extends React.Component {
           }
         />
 
-        <Jumbotron bgColor="blue py5">
-          <img className="block mb2" src={FacesImgSrc} width={76 / 2} />
-          <h1 className="sm-h00 mt0 mb2 sm-col-10 white">
-            Simple Changelogs for happy teams.
-          </h1>
-          <h2 className="mb0" style={{color: '#004354'}}>
-            Follow everyone's progress, get feedback on your work, and share your product updates with the world.
-          </h2>
+        <Jumbotron bgColor="blue">
+          <div className="py3">
+            <img className="block mb2" src={FacesImgSrc} width={76 / 2} />
+            <h1 className="sm-h00 mt0 mb2 sm-col-10 white">
+              Simple Changelogs for happy teams.
+            </h1>
+            <h2 className="mb0" style={{color: '#004354'}}>
+              Follow everyone's progress, get feedback on your work, and share your product updates with the world.
+            </h2>
+          </div>
         </Jumbotron>
 
+        <div>
+          <div className="container px2 py4">
+            <h3 className="center py3 mb0 mt0">Use Changelog for teams and projects of all sizes</h3>
+            <div className="sm-mt4 sm-mb4 sm-flex flex-baseline">
+              <div className="sm-col-6 center p3 border-right">
+                <img src={TeamsSrc} />
+                <h2 className="sm-h1">Small teams</h2>
+                <figcaption className="gray">Who are they and why is Changelog valuable to this target market</figcaption>
+              </div>
+              <div className="sm-col-6 center p3" >
+                <img src={SoloSrc} />
+                <h2 className="sm-h1">Solo projects</h2>
+                <figcaption className="gray">Who are they and why is Changelog valuable to this target market</figcaption>
+              </div>
+            </div>
+            <div className="sm-mb4">
+              <a href="#howitworks">
+                <h4 className="center blue">How it works</h4>
+                <i className="h3 fa fa-arrow-circle-o-down blue center block"></i>
+              </a>
+            </div>
+          </div>
+        </div>
         <div style={{backgroundColor: BgColor}}>
           <div className="container px2 py5" style={{paddingTop: 'calc(5rem + 1rem)'}}>
 
@@ -117,7 +145,7 @@ export default class HomePage extends React.Component {
             </div>
 
 
-            <div className="sm-flex mb5">
+            <div className="sm-flex">
               <div className="flex-auto sm-col-5 m0 sm-mr4" style={{marginTop: '-2rem'}}>
                 <Sticky>
                   <h2 className="m0 py2 sm-py4 sm-left-align sm-h1">
@@ -128,55 +156,27 @@ export default class HomePage extends React.Component {
 
               <div className="sm-col-5 m0 sm-ml4">
                 <figure className="m0 sm-mb4 py3 sm-mt4">
+                  <img className="mb2" src={HomeCommentImgSrc} />
+                  <figcaption className="gray">
+                    Getting people involved leads to quicker progress, a happier team, and a better product.
+                  </figcaption>
+                </figure>
+
+                <figure className="m0 sm-mb4 py3">
                   <img className="mb2" src={HomeSlackImgSrc} />
                   <figcaption className="gray">
                     Automatically share your post with everyone in Slack.
                   </figcaption>
                 </figure>
 
-                <figure className="m0 sm-mb4 py3">
-                  <img className="mb2" src={HomeNotificationsImgSrc} />
-                  <figcaption className="gray">
-                    Get helpful notifications when someone leaves feedback.
-                  </figcaption>
-                </figure>
               </div>
             </div>
-
-            <div className="sm-flex mb5">
-              <div className="flex-auto sm-col-5 m0 sm-mr4" style={{marginTop: '-2rem'}}>
-                <Sticky>
-                  <h2 className="m0 py2 sm-py4 sm-left-align sm-h1">
-                    Invite others into the creation process and grow your community
-                  </h2>
-                </Sticky>
-              </div>
-
-              <div className="sm-col-5 m0 sm-ml4">
-                <figure className="m0 sm-mb4 py3 sm-mt4">
-                  <img className="mb2" src={HomePublicImgSrc} />
-                  <figcaption className="gray">
-                    Let your community contribute input and become evangelists of your
-                    product with a public Changelog.
-                  </figcaption>
-                </figure>
-
-                <figure className="m0 sm-mb4 py3">
-                  <img className="mb2" src={HomePrivateImgSrc} />
-                  <figcaption className="gray">
-                    Want to keep things within your core team? Start with a private
-                    Changelog.
-                  </figcaption>
-                </figure>
-              </div>
-            </div>
-
           </div>
         </div>
 
         <div>
           <div className="container px2 py4">
-            <h3 className="center border-bottom py2 mb0 mt0">What's happening today in the community</h3>
+            <h3 className="center border-bottom py2 mb0 mt0">See how the community is using Changelog</h3>
             <StoryFeed />
             <div className="border-top center py2">
               <Button style="transparent" color="orange" action={this.handleSignUp}>Sign up and see more</Button>
@@ -196,8 +196,8 @@ export default class HomePage extends React.Component {
               <Button bg="orange" size="big" action={this.handleSignUp}>
                 Create your free Changelog
               </Button>
-              <Link className="block mt3 h5 gray underline-hover" to="changelog" params={{changelogId: 'assembly'}}>
-                Not ready? Check out new features we're building and let us know what you think.
+              <Link className="block mt3 h5 gray underline gray-hover underline-hover" to="changelog" params={{changelogId: 'assembly'}}>
+                Not ready? <span className="block">Watch us build Assembly and let us know your thoughts.</span>
               </Link>
             </div>
           </div>
