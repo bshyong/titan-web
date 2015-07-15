@@ -77,12 +77,8 @@ export default class LoginForm extends React.Component {
                     value={username} />
                 </div>
 
-                <div className="py1">
-                  <label className="left bold block" htmlFor="login-password">Password</label>
-                  <input type="password"
-                    id="login-password"
-                    ref="password"
-                    className="block full-width field-light"
+                <div className="py1 mb4">
+                  <PasswordInputAndHelper ref="password"
                     onChange={this.handleChange('password')}
                     value={password} />
                   <small className="left">

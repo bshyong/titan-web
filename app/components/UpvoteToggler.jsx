@@ -3,7 +3,7 @@ import { connect } from 'redux/react'
 import React from 'react'
 import SessionStore from '../stores/session_store'
 import SigninScrimActions from 'actions/SigninScrimActions'
-import StoryActions from '../actions/story_actions'
+import StoryActions from 'actions/story_actions'
 import classnames from 'classnames'
 import Icon from 'ui/Icon.jsx'
 

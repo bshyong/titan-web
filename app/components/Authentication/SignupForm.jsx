@@ -80,12 +80,8 @@ export default class SignupForm extends React.Component {
                 onChange={this.handleChange('username')} />
             </div>
 
-            <div className="py1">
-              <label className="left bold" htmlFor="signup-password">Password</label>
-              <input type="password"
-                id="signup-password"
-                className="block full-width field-light"
-                value={password}
+            <div className="py1 mb4">
+              <PasswordInputAndHelper value={password}
                 onChange={this.handleChange('password')} />
               <small className="gray left">8 characters minimum</small>
             </div>
