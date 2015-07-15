@@ -12,6 +12,7 @@ import EmojiStore from 'stores/emoji_store'
 import React from 'react'
 import RouterContainer from 'lib/router_container'
 import SessionStore from 'stores/session_store'
+import statics from 'lib/statics'
 import StoryActions from 'actions/story_actions'
 import StoryForm from 'components/Story/StoryForm.jsx'
 import StoryFormActions from 'actions/story_form_actions'
@@ -20,13 +21,15 @@ import StoryFormWalkthrough from 'components/Story/StoryFormWalkthrough.jsx'
 import UploadingAttachmentStore from 'stores/uploading_attachment_store'
 
 @AuthenticatedMixin()
+@connect(state => ({...state}))
 @connectToStores(StoryFormStore, UploadingAttachmentStore)
-export default class NewStoryPage extends React.Component {
-  static willTransitionTo(transition, params, query) {
+@statics({
+  willTransitionTo(transition, params, query) {
     StoryFormActions.clearAll()
     ContributorsActions.resetContributors(SessionStore.user)
   }
-
+})
+export default class NewStoryPage extends React.Component {
   static get defaultProps() {
     return {
       changelogId: RouterContainer.changelogSlug()
