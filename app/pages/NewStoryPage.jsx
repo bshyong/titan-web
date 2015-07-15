@@ -20,7 +20,6 @@ import StoryFormWalkthrough from 'components/Story/StoryFormWalkthrough.jsx'
 import UploadingAttachmentStore from 'stores/uploading_attachment_store'
 
 @AuthenticatedMixin()
-@connect(state => ({...state}))
 @connectToStores(StoryFormStore, UploadingAttachmentStore)
 export default class NewStoryPage extends React.Component {
   static willTransitionTo(transition, params, query) {
