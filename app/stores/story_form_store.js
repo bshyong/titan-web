@@ -26,9 +26,6 @@ class StoryFormStore extends Store {
         case STORY_CREATING:
           this.isCreating = true
           break
-        case ROUTE_TRANSITIONED:
-          this.init()
-          break
         case STORY_FETCHED:
           this.isCreating = false
           this.title = action.story.title
