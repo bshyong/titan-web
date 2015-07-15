@@ -9,11 +9,7 @@ import paramsFor from 'lib/paramsFor'
 import React from 'react'
 import URL from 'url'
 import AppNavbar from 'components/App/AppNavbar.jsx'
-import {connect} from 'redux/react'
 
-@connect(state => ({
-  following: state.changelogs.following,
-}))
 @connectToStores(ChangelogStore)
 export default class ChangelogNavbar extends React.Component {
   static getPropsFromStores(props) {
@@ -57,7 +53,9 @@ export default class ChangelogNavbar extends React.Component {
   }
 
   renderDefault() {
-    const { changelog, following } = this.props
+    const { changelog } = this.props
+    const following = changelog.viewer_is_follower
+
     return (
       <div className="changelog-navbar sm-flex flex-center sm-py3 md-py4 mt4 sm-mt2 md-mt0">
         <div className="flex-none mb2 sm-mb0">
@@ -88,7 +86,9 @@ export default class ChangelogNavbar extends React.Component {
   }
 
   renderSmall() {
-    const { changelog, following } = this.props
+    const { changelog } = this.props
+    const following = changelog.viewer_is_follower
+
     return (
       <div className="changelog-navbar sm-flex flex-center md-mt0" style={{height: 'calc(2rem - 2px)'}}>
         <div className="flex-auto">
