@@ -1,6 +1,7 @@
 import keyMirror from 'keymirror'
 
 export default keyMirror({
+  ADMIN_CHANGELOG_STATS_FETCHED: null,
   ADMIN_DATA_FETCHED: null,
   ADMIN_STORIES_FETCHED: null,
   ADMIN_USERS_DATA_FETCHED: null,

@@ -14,6 +14,7 @@ export default class AdminPage extends React.Component {
     AdminActions.adminDataFetched()
     AdminActions.adminUserDataFetched()
     AdminActions.adminStoriesFetched()
+    AdminActions.adminStatsFetched()
   }
 
   static get defaultProps() {

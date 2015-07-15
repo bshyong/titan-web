@@ -1,4 +1,5 @@
 import {
+  ADMIN_CHANGELOG_STATS_FETCHED,
   ADMIN_DATA_FETCHED,
   ADMIN_STORIES_FETCHED,
   ADMIN_USERS_DATA_FETCHED
@@ -36,5 +37,16 @@ export default {
         users: resp
       })
     })
+  },
+
+  adminStatsFetched() {
+    api.get('admin/changelogs/stats').then(resp => {
+      console.log(resp)
+      Dispatcher.dispatch({
+        type: ADMIN_CHANGELOG_STATS_FETCHED,
+        stats: resp.stats,
+      })
+    })
   }
+
 }
