@@ -1,9 +1,0 @@
-/*.changelog-navbar {
-  padding-top: 0;
-}
-
-@media (--breakpoint-sm) {
-  .changelog-navbar {
-    padding-top: var(--space-4);
-  }
-}*/

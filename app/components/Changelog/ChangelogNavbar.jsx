@@ -57,22 +57,22 @@ export default class ChangelogNavbar extends React.Component {
     const following = changelog.viewer_is_follower
 
     return (
-      <div className="changelog-navbar sm-flex flex-center sm-py3 md-py4 mt4 sm-mt2 md-mt0">
-        <div className="flex-none mb2 sm-mb0">
+      <div className="changelog-navbar md-flex flex-center md-py3 mt4 md-mt2 lg-mt0">
+        <div className="flex-none mb2 md-mb0">
           <Link className="block mx-auto" style={{width: '4rem'}} to="changelog" params={paramsFor.changelog(changelog)}>
             <div className="shadow rounded">
               <Logo changelog={changelog} size="4rem"/>
             </div>
           </Link>
         </div>
-        <div className="block flex-auto mb2 md-mb0 sm-px3 center sm-left-align white">
+        <div className="block flex-auto mb2 md-mb0 md-px3 center md-left-align white">
           <h2 className="mt0 mb0 bold"><ChangelogName changelog={changelog} /></h2>
           <div>{changelog.tagline}</div>
           {this.renderHomepageUrl()}
         </div>
-        <div className="flex-none sm-ml2">
-          <div className="sm-flex mxn1">
-            <div className="flex mb2 sm-mb0">
+        <div className="flex-none md-ml2">
+          <div className="md-flex mxn1">
+            <div className="flex mb2 md-mb0">
               {this.renderNewStoryButton()}
               {this.renderSettingsButton()}
             </div>
@@ -90,20 +90,20 @@ export default class ChangelogNavbar extends React.Component {
     const following = changelog.viewer_is_follower
 
     return (
-      <div className="changelog-navbar sm-flex flex-center md-mt0" style={{height: 'calc(2rem - 2px)'}}>
+      <div className="changelog-navbar md-flex flex-center lg-mt0" style={{height: 'calc(2rem - 2px)'}}>
         <div className="flex-auto">
           <Link className="block flex flex-center" to="changelog" params={paramsFor.changelog(changelog)}>
-            <div className="flex-none mb2 sm-mb0 shadow rounded center mx-auto">
+            <div className="flex-none mb2 md-mb0 shadow rounded center mx-auto">
               <Logo changelog={changelog} size="2rem"/>
             </div>
-            <div className="block flex-auto ml2 white sm-show">
+            <div className="block flex-auto ml2 white md-show">
               <h3 className="mt0 mb0 bold"><ChangelogName changelog={changelog} /></h3>
             </div>
           </Link>
         </div>
-        <div className="flex-none ml2 sm-show">
-          <div className="sm-flex mxn1">
-            <div className="flex mb2 sm-mb0">
+        <div className="flex-none ml2 md-show">
+          <div className="md-flex mxn1">
+            <div className="flex mb2 md-mb0">
               {this.renderNewStoryButton()}
               {this.renderSettingsButton()}
             </div>
