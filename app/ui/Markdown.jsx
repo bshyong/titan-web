@@ -1,4 +1,4 @@
-import marked from 'marked'
+import marked from '../config/marked'
 import React from 'react'
 
 export default class Markdown extends React.Component {
