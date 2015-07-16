@@ -6,6 +6,7 @@ import Icon from 'ui/Icon.jsx'
 import LogoSrc from 'images/logo.svg'
 import { Map } from 'immutable'
 import onMobile from 'lib/on_mobile'
+import PasswordInputAndHelper from 'components/Authentication/PasswordInputAndHelper.jsx'
 import React from 'react'
 import TwitterActions from 'actions/oauth/TwitterActions'
 
@@ -81,7 +82,7 @@ export default class LoginForm extends React.Component {
                   <PasswordInputAndHelper ref="password"
                     onChange={this.handleChange('password')}
                     value={password} />
-                  <small className="left">
+                  <small className="right">
                     <a href="javascript:void(0)"
                       className="darken-4 underline"
                       onClick={this.handleForgotPassword}>

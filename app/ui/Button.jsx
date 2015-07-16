@@ -41,7 +41,7 @@ Button.propTypes = {
   bg: React.PropTypes.string,
   block: React.PropTypes.bool.isRequired,
   color: React.PropTypes.string,
-  disabled: React.PropTypes.bool.isRequired,
+  disabled: React.PropTypes.bool,
   size: React.PropTypes.oneOf([
     'small',
     'default',

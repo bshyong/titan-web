@@ -28,6 +28,8 @@ export default class PasswordInputAndHelper extends React.Component {
     const valid = PasswordInputAndHelper.isValidPassword(value)
     const classes = PasswordInputAndHelper.fieldClasses(valid)
 
+    // the input will render weirdly if we leave
+    // children in props
     delete this.props.children
 
     return (

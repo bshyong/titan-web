@@ -1,10 +1,14 @@
+import authenticated from 'components/mixins/authenticated_mixin.jsx'
 import Avatar from 'ui/Avatar.jsx'
 import Button from 'ui/Button.jsx'
 import ChangelogActions from 'actions/changelog_actions'
 import ChangelogInviteLink from 'components/Changelog/ChangelogInviteLink.jsx'
 import ChangelogStore from 'stores/changelog_store'
+import connectToStores from 'lib/connectToStores.jsx'
 import CustomDomainSettingsPanel from './CustomDomainSettingsPanel.jsx'
-import DropzoneContainer from '../DropzoneContainer.jsx'
+import DocumentTitle from 'react-document-title'
+import DropzoneContainer from 'components/DropzoneContainer.jsx'
+import Flair from 'components/Flair.jsx'
 import Icon from 'ui/Icon.jsx'
 import ImportFromCovePanel from 'components/settings/ImportFromCovePanel.jsx'
 import InvitationActions from 'actions/invitation_actions'
@@ -22,9 +26,6 @@ import TeamAdder from 'components/TeamAdder.jsx'
 import UriRegex from 'lib/uri_regex.js'
 import VisibilityToggler from 'components/VisibilityToggler.jsx'
 import WriteSetting from 'components/settings/WriteSetting.jsx'
-import authenticated from 'components/mixins/authenticated_mixin.jsx'
-import connectToStores from 'lib/connectToStores.jsx'
-import DocumentTitle from 'react-document-title'
 
 import {List, Map} from 'immutable'
 
@@ -61,6 +62,8 @@ export default class ChangelogSettings extends React.Component {
   componentDidMount() {
     this.onBannerUploaded = this._onBannerUploaded.bind(this)
     this.onBannerUploading = this._onBannerUploading.bind(this)
+    this.onFlairUploaded = this._onFlairUploaded.bind(this)
+    this.onFlairUploading = this._onFlairUploading.bind(this)
     this.onLogoUploaded = this._onLogoUploaded.bind(this)
     this.onLogoUploading = this._onLogoUploading.bind(this)
   }
@@ -268,19 +271,35 @@ export default class ChangelogSettings extends React.Component {
             Changelog flair
           </h4>
         </label>
-        <DropzoneContainer id={`logo-${changelog.id}`}
-          clickable="#logo-clickable"
-          onUploaded={this.onLogoUploaded}
-          onUploading={this.onLogoUploading}>
-          <div className="flex-auto pointer" id="logo-clickable">
+        <DropzoneContainer id={`flair-${changelog.id}`}
+          clickable="#flair-clickable"
+          onUploaded={this.onFlairUploaded}
+          onUploading={this.onFlairUploading}>
+          <div className="flex-auto pointer" id="flair-clickable">
             <div className="relative" style={{maxWidth: 64, width: 64}}>
               <div className="absolute" style={{bottom: 0}}>
-                <LoadingBar loading={this.state.logoUploading} />
+                <LoadingBar loading={this.state.flairUploading} />
               </div>
-              <Logo changelog={changelog} size={64} />
+              <Flair changelog={changelog} size={64} />
             </div>
           </div>
         </DropzoneContainer>
+        <div className="mb2">
+          <label>
+            <h4 className="bold mr3">
+              Changelog flair name
+            </h4>
+          </label>
+          <div className="mr2 py1 visible-hover-wrapper">
+            <form className="mb2">
+              <input type="text"
+                ref="name"
+                className="field-light full-width"
+                onChange={this.handleChange('flair_name')}
+                value={this.props.changelog.flair_name} />
+            </form>
+          </div>
+        </div>
       </div>
     )
   }
@@ -447,7 +466,8 @@ export default class ChangelogSettings extends React.Component {
     setTimeout(() => {
       ChangelogActions.update(
         this.props.changelogId,
-        Map(ChangelogStore.changelog).set('logo_url', `${logo.firesize_url}/${logo.href}`).toJS()
+        Map(ChangelogStore.changelog).
+          set('logo_url', `${logo.firesize_url}/${logo.href}`).toJS()
       )
 
       this.setState({
@@ -459,6 +479,26 @@ export default class ChangelogSettings extends React.Component {
   _onLogoUploading(logoArray) {
     this.setState({
       logoUploading: true
+    })
+  }
+
+  _onFlairUploaded(flair) {
+    setTimeout(() => {
+      ChangelogActions.update(
+        this.props.changelogId,
+        Map(ChangelogStore.changelog).
+          set('flair_url', `${flair.firesize_url}/${encodeURIComponent(flair.href)}`).toJS()
+      )
+
+      this.setState({
+        flairUploading: false
+      })
+    }, 500)
+  }
+
+  _onFlairUploading(flairArray) {
+    this.setState({
+      flairUploading: true
     })
   }
 }
