@@ -18,12 +18,13 @@ export default class TallyCounter extends React.Component {
   }
 
   render() {
-    const { orientation, enabled } = this.props
+    const { orientation, enabled, size } = this.props
 
     const cs = {
       root: classnames('clicker', 'flex flex-center gray', {
         'clicker--enabled': enabled,
         'flex-column': orientation === 'vertical',
+        'h3': size === 'big',
       }),
       image: classnames('clicker-image', {
         'pointer': enabled,

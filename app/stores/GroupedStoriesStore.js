@@ -2,11 +2,10 @@ import {
   COMMENT_CREATING,
   GROUP_COLLAPSED,
   GROUP_STORIES_FETCHED,
-  SET_UPDATED,
+  FLAIRABLE_FLAIRING,
   SET_UPDATING,
   STORIES_FETCHED,
   STORIES_FETCHING,
-  STORY_CREATING,
   STORY_DELETED,
   STORY_FETCHED,
   STORY_HEARTED,
@@ -19,12 +18,11 @@ import {
   HEARTABLE_HEARTING,
   HEARTABLE_UNHEARTING,
 } from '../constants'
-import { List, Map, OrderedMap } from 'immutable'
+import { List, OrderedMap } from 'immutable'
 import moment from 'moment'
 import paramsFor from '../lib/paramsFor'
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
-import ChangelogStore from './changelog_store.js'
 
 class GroupedStoriesStore extends Store {
   constructor() {
@@ -86,6 +84,15 @@ class GroupedStoriesStore extends Store {
           const { heartableId: storyId4 } = action
           this.getById(storyId4).viewer_has_hearted = false
           this.getById(storyId4).hearts_count -= 1
+          break
+
+        case FLAIRABLE_FLAIRING:
+          if (action.flairableType !== 'story') {
+            return
+          }
+          const { flairableId: storyId99 } = action
+          this.getById(storyId99).viewer_has_flaired = true
+          this.getById(storyId99).flairs_count += 1
           break
 
         case STORY_SUBSCRIBED:

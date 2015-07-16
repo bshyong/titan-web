@@ -1,11 +1,11 @@
 import {
   COMMENT_DELETED,
   COMMENT_EDITING_TOGGLED,
-  COMMENTS_FETCHED,
-  COMMENTS_FETCHING,
   COMMENT_PUBLISHED,
   COMMENT_UPDATED,
-
+  COMMENTS_FETCHED,
+  COMMENTS_FETCHING,
+  FLAIRABLE_FLAIRING,
   HEARTABLE_HEARTING,
   HEARTABLE_UNHEARTING,
 } from '../constants'
@@ -55,7 +55,7 @@ class CommentsStore extends Store {
             return
           }
           const idx = this.comments.findIndex(c => c.id === action.heartableId)
-          if(idx === -1) {
+          if (idx === -1) {
             return
           }
           const comment = this.comments.get(idx)
@@ -71,7 +71,7 @@ class CommentsStore extends Store {
             return
           }
           const idx = this.comments.findIndex(c => c.id === action.heartableId)
-          if(idx === -1) {
+          if (idx === -1) {
             return
           }
           const comment = this.comments.get(idx)
@@ -79,6 +79,22 @@ class CommentsStore extends Store {
             ...comment,
             hearts_count: comment.hearts_count - 1,
             viewer_has_hearted: false,
+          })
+          break
+
+        case FLAIRABLE_FLAIRING:
+          if (action.flairableType !== 'comment') {
+            return
+          }
+          const idx = this.comments.findIndex(c => c.id === action.flairableId)
+          if (idx === -1) {
+            return
+          }
+          const comment = this.comments.get(idx)
+          this.comments = this.comments.set(idx, {
+            ...comment,
+            flairs_count: comment.flairs_count + 1,
+            viewer_has_flaired: true,
           })
           break
 

@@ -20,7 +20,7 @@ export default class Flair extends React.Component {
     const defaultUrl = 'https://assembly.imgix.net/c4187edf-fa89-4c15-a5cc-e509c8e34877/rfpmarker.png'
 
     return (
-      <img className="block circle" src={`${flair_url || defaultUrl}?crop=${size}&${muted ? "sat=-90&blend=DEE0E3" : ''}`} width={size} height={size} />
+      <img className="block circle" src={`${flair_url || defaultUrl}?crop=${size}&${muted ? "sat=-50&blend=DEE0E3" : ''}`} width={size} height={size} />
     )
   }
 }

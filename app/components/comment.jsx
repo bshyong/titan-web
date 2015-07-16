@@ -16,6 +16,7 @@ import SessionStore from '../stores/session_store'
 import ChangelogStore from 'stores/changelog_store'
 import TallyCounter from 'ui/TallyCounter.jsx'
 import Heart from 'components/Heart.jsx'
+import FlairClicker from 'components/FlairClicker.jsx'
 
 @connectToStores(CommentsStore)
 export default class Comment extends React.Component {
@@ -124,9 +125,7 @@ export default class Comment extends React.Component {
 
     return (
       <div className="p1">
-        <TallyCounter image={image}
-          enabled={changelog.user_is_team_member}
-          tally={comment.flairs_count} />
+        <FlairClicker flairable={comment} changelog={changelog} />
       </div>
     )
   }
