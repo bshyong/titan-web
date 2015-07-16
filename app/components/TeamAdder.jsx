@@ -130,7 +130,7 @@ export default class TeamAdder extends React.Component {
     }
 
     return (
-      <div className="flex flex-center mb2" key={i}>
+      <div className="flex flex-center mb2" key={`team-adder-item-${i}`}>
         <div className="mr2" style={{lineHeight: '2.5rem'}}>{i}.</div>
         <div className="flex-auto">{fn(...args)}</div>
       </div>

@@ -149,7 +149,7 @@ export default class AppNavbar extends React.Component {
 
   renderChangelogEntry(changelog) {
     return (
-      <List.Item key={changelog.id}>
+      <List.Item key={`entry-${changelog.id}`}>
         <Link to="changelog" params={paramsFor.changelog(changelog)}>
           <div className="flex flex-center">
             <Logo changelog={changelog} size="2rem" />
