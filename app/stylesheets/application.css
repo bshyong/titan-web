@@ -12,6 +12,7 @@
 @import 'utilities/underline';
 @import 'utilities/visible_hover';
 @import 'utilities/whitespace';
+@import 'utilities/syntax_highlight'
 
 /* Components */
 @import 'components/button';
