@@ -39,7 +39,7 @@ export default class ProfilePage extends React.Component {
   }
 
   render() {
-    const { user } = this.props
+    const { user, following } = this.props
 
     if (!user) {
       return <div />
@@ -56,7 +56,7 @@ export default class ProfilePage extends React.Component {
           <Divider />
         </div>
 
-        {this.renderThingyCounts(upvoteCount, this.props.user.contribution_count, this.props.following.length)}
+        {this.renderThingyCounts(upvoteCount, user.contribution_count, (following || []).length)}
 
         <div className="container">
           {this.renderSection('Public posts', this.renderStories.bind(this))}
@@ -171,7 +171,7 @@ export default class ProfilePage extends React.Component {
   renderFollowingChangelogs() {
     const { following: changelogs, user: {followings_count} } = this.props
 
-    if (followings_count === 0) {
+    if (followings_count === 0 || !changelogs) {
       return this.renderBlankState(
         '1f60e',
         "Not following any changelogs",
