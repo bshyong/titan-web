@@ -80,7 +80,7 @@ export default class HomePage extends React.Component {
               Simple Changelogs for happy teams.
             </h1>
             <h2 className="mb0" style={{color: '#004354'}}>
-              Follow everyone's progress, get feedback on your work, and share your product updates with the world.
+              Follow everyone’s progress, get feedback on your work, and share you product updates with your team and the world. 
             </h2>
           </div>
         </Jumbotron>
@@ -91,13 +91,13 @@ export default class HomePage extends React.Component {
             <div className="sm-mt4 sm-mb4 sm-flex flex-baseline">
               <div className="sm-col-6 center p3 border-right">
                 <img src={TeamsSrc} />
-                <h2 className="sm-h1">Small teams</h2>
-                <figcaption className="gray">Who are they and why is Changelog valuable to this target market</figcaption>
+                <h2 className="sm-h1">Small Teams</h2>
+                <figcaption className="gray">Communication is the lifeblood of high-performance teams! Create more signal, less noise.</figcaption>
               </div>
               <div className="sm-col-6 center p3" >
                 <img src={SoloSrc} />
-                <h2 className="sm-h1">Solo projects</h2>
-                <figcaption className="gray">Who are they and why is Changelog valuable to this target market</figcaption>
+                <h2 className="sm-h1">Solo Projects</h2>
+                <figcaption className="gray">Building a community around your indie project is vital for your success. Save time, money, and resources to get it done.</figcaption>
               </div>
             </div>
             <div className="sm-mb4">
@@ -130,7 +130,7 @@ export default class HomePage extends React.Component {
                 <figure className="m0 sm-mb4 py3">
                   <img className="mb2" src={HomeEmojiPickerImgSrc} />
                   <figcaption className="gray">
-		  			        Slap some fun on it.
+		  			Give your update some character, make it fun!		  			
                   </figcaption>
                 </figure>
 
@@ -148,7 +148,7 @@ export default class HomePage extends React.Component {
               <div className="flex-auto sm-col-5 m0 sm-mr4" style={{marginTop: '-2rem'}}>
                 <Sticky>
                   <h2 className="m0 py2 sm-py4 sm-left-align sm-h1">
-                    Get thoughtful feedback from those who care
+                    Get thoughtful and actionable feedback from those who care
                   </h2>
                 </Sticky>
               </div>
@@ -164,7 +164,7 @@ export default class HomePage extends React.Component {
                 <figure className="m0 sm-mb4 py3">
                   <img className="mb2" src={HomeSlackImgSrc} />
                   <figcaption className="gray">
-                    Automatically share your post with everyone in Slack.
+                    Automatically share your update with everyone in Slack (and more integrations to come)!
                   </figcaption>
                 </figure>
 

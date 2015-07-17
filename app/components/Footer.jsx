@@ -17,14 +17,14 @@ export default class Footer extends React.Component {
             <div>
               <ul className="list-reset flex mxn2 mb0">
                 <li>
-                  <Link className="block p2 gray white-hover" to="tos">Terms</Link>
+                  <a className="block p2 gray white-hover" href="http://blog.assembly.com">Blog</a>
                 </li>
                 <li>
                   <Link className="block p2 gray white-hover" to="faq">FAQ</Link>
                 </li>
                 <li>
-                  <a className="block p2 gray white-hover" href="http://blog.assembly.com">Blog</a>
-                </li>
+                  <Link className="block p2 gray white-hover" to="tos">Terms</Link>
+                </li>				  
                 <li>
                   <a className="block p2 gray white-hover" href="https://twitter.com/asm"><Icon icon="twitter" /></a>
                 </li>
