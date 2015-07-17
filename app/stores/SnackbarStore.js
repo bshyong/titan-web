@@ -30,6 +30,7 @@ class SnackbarStore extends Store {
           this._toasts = this._toasts.push({
             msg: `Membership updated for "${action.userId}"`
           })
+          break
         case SNACKBAR_ADD_TOAST:
           this._toasts = this._toasts.push(action.toast)
           break

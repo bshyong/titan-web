@@ -1,5 +1,4 @@
 import {
-  SNACKBAR_ADD_TOAST,
   SNACKBAR_CLEAR,
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
