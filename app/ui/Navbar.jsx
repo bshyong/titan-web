@@ -8,10 +8,11 @@ export default class Navbar extends React.Component {
     title: React.PropTypes.node,
     left: React.PropTypes.node,
     right: React.PropTypes.node,
+    size: React.PropTypes.string,
   }
 
   render() {
-    const {bg, bgImgUrl, title, children, left, right} = this.props
+    const {bg, bgImgUrl, title, children, left, right, size} = this.props
     const cn = classnames(
       'navbar',
       'sm-flex flex-column full-width relative z1',
@@ -27,20 +28,42 @@ export default class Navbar extends React.Component {
       style.backgroundImage = `url(${bgImgUrl})`
     }
 
+    const content = size === 'small' ? this.renderSmall() : this.renderDefault()
+
     return (
       <div className={cn} style={style}>
         {this.renderShade()}
-        <div className="flex flex-center full-width" style={{height: '4rem'}}>
-          <div>{left}</div>
-          <div className="flex-grow center bold">{title}</div>
-          <div>{right}</div>
-        </div>
-
-        <div className="container full-width" style={{marginTop: '-4rem'}}>
-          {children}
-        </div>
+        {content}
       </div>
     )
+  }
+
+  renderDefault() {
+    const {title, children, left, right} = this.props
+    return <div>
+      <div className="flex flex-center full-width" style={{height: '4rem'}}>
+        <div>{left}</div>
+        <div className="flex-grow center bold">{title}</div>
+        <div>{right}</div>
+      </div>
+
+      <div className="container full-width" style={{marginTop: '-4rem'}}>
+        {children}
+      </div>
+    </div>
+  }
+
+  renderSmall() {
+    const {title, children, left, right} = this.props
+    return <div>
+      <div className="flex flex-center full-width" style={{height: '4rem'}}>
+        <div className="flex-none">{left}</div>
+        <div className="container full-width">
+          {children}
+        </div>
+        <div className="flex-none">{right}</div>
+      </div>
+    </div>
   }
 
   renderShade() {
