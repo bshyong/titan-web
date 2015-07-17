@@ -178,11 +178,19 @@ export default class MarkdownArea extends React.Component {
   _onUploaded(attachment) {
     setTimeout(() => {
       let value = this.props.value || ''
-
       let text = value.replace(
         `![Uploading ${attachment.name}...]()`,
-        `![${attachment.name}](${attachment.firesize_url}/${attachment.href})\n`
+        `![${attachment.name}](${attachment.firesize_url}/${attachment.href}) `
       )
+
+      let diff = text.length - value.length
+      let beginning = text.substr(0, this.selectionStart + diff)
+      let end = text.substr(this.selectionStart + diff)
+      if (end === beginning) {
+        end = ''
+      }
+
+      const start = this.selectionStart = beginning.length
 
       let simulatedEvent = {
         target: {
@@ -191,6 +199,8 @@ export default class MarkdownArea extends React.Component {
       }
 
       this.props.onChange(simulatedEvent)
+
+      React.findDOMNode(this.refs.textarea).setSelectionRange(start, start)
     }, 0)
   }
 
@@ -207,7 +217,7 @@ export default class MarkdownArea extends React.Component {
         end = ''
       }
 
-      const start = this.selectionStart = [beginning, attachmentText].join('\n').length
+      const start = this.selectionStart = [beginning, attachmentText].join(' ').length
 
       const simulatedEvent = {
         target: {

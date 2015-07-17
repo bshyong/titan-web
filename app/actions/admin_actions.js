@@ -41,7 +41,6 @@ export default {
 
   adminStatsFetched() {
     api.get('admin/changelogs/stats').then(resp => {
-      console.log(resp)
       Dispatcher.dispatch({
         type: ADMIN_CHANGELOG_STATS_FETCHED,
         stats: resp.stats,

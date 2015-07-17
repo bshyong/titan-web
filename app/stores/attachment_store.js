@@ -4,7 +4,7 @@ import {
   ATTACHMENT_UPLOADED
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
-import { Map } from 'immutable'
+import { List, Map } from 'immutable'
 import Store from '../lib/store'
 
 class AttachmentsStore extends Store {
@@ -19,7 +19,7 @@ class AttachmentsStore extends Store {
         case ATTACHMENT_UPLOADED:
           this.attachments = this.attachments.set(
             action.commentId,
-            action.attachment
+            this.attachments.get(action.commentId, List()).push(action.attachment)
           )
           return
         case ATTACHMENT_SUCCEEDED:
@@ -39,7 +39,14 @@ class AttachmentsStore extends Store {
   }
 
   getAttachment(commentId) {
-    return this.attachments.get(commentId)
+    let attachment = this.attachments.get(commentId).last()
+
+    this.attachments = this.attachments.set(
+      commentId,
+      this.attachments.get(commentId, List()).pop()
+    )
+
+    return attachment
   }
 
   getError(commentId) {
