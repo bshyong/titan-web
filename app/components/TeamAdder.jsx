@@ -20,12 +20,10 @@ export default class TeamAdder extends React.Component {
       emailOrUsername: ''
     }
     this.timeout = null
-    this.emailOrUsername = null
   }
 
   componentDidMount() {
     this.fromTop = getOffsetTop(React.findDOMNode(this))
-    this.emailOrUsername = React.findDOMNode(this.refs.emailOrUsername)
   }
 
   componentWillUpdate() {
@@ -161,7 +159,7 @@ export default class TeamAdder extends React.Component {
 
   handleChange() {
     this.setState({
-      emailOrUsername: this.emailOrUsername.value
+      emailOrUsername: this.refs.emailOrUsername.value
     })
   }
 

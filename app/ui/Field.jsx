@@ -2,7 +2,7 @@ import React from 'react'
 
 export default class Field extends React.Component {
   get value() {
-    return this.refs.field.value
+    return React.findDOMNode(this.refs.field).value
   }
 
   render() {
