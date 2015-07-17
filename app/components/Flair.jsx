@@ -3,7 +3,6 @@ import React from 'react'
 export default class Flair extends React.Component {
   static propTypes = {
     changelog: React.PropTypes.shape({
-      logo_url: React.PropTypes.string.isRequired,
       flair_url: React.PropTypes.string,
     }).isRequired,
     muted: React.PropTypes.bool.isRequired,
@@ -16,7 +15,7 @@ export default class Flair extends React.Component {
   }
 
   render() {
-    const { changelog: { flair_url, logo_url }, size, muted } = this.props
+    const { changelog: { flair_url }, size, muted } = this.props
     const defaultUrl = 'https://assembly.imgix.net/c4187edf-fa89-4c15-a5cc-e509c8e34877/rfpmarker.png'
 
     return (

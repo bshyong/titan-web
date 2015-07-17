@@ -53,6 +53,20 @@ export default class Comment extends React.Component {
           </div>
 
           <div className="flex-auto h5" id={id}>
+            <div className="flex">
+              <Link className="flex-auto bold black"
+                to="profile"
+                params={{userId: user.username}}>
+                {user.username}
+              </Link>
+              <div className="flex-none flex gray mxn1 visible-hover">
+                <div className="px1">
+                  {moment(created_at).fromNow()}
+                </div>
+                {this.renderEditButton()}
+                {this.renderDeleteButton()}
+              </div>
+            </div>
             {this.renderBody()}
           </div>
         </div>
@@ -84,16 +98,7 @@ export default class Comment extends React.Component {
 
         <div className="h5 silver flex mxn1 mt2">
           {this.renderHearts()}
-
           {this.renderFlair()}
-
-          {this.renderEditButton()}
-
-          {this.renderDeleteButton()}
-
-          <div className="p1 visible-hover">
-            {moment(created_at).fromNow()}
-          </div>
         </div>
       </div>
     )
