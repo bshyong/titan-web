@@ -172,10 +172,11 @@ export default class StoryPage extends React.Component {
   }
 
   renderEditLink() {
-    if (this.props.changelog.viewer_can_edit) {
+    const { changelog, story } = this.props
+    if (changelog.viewer_can_edit) {
       return (
         <li className="px1">
-          <Link to="edit" params={paramsFor.story(ChangelogStore.changelog, this.props.story)}>
+          <Link to="edit" params={paramsFor.story(changelog, story)}>
             <span className="gray gray-hover"><Icon icon="pencil" /> Edit</span>
           </Link>
         </li>

@@ -20,6 +20,7 @@ describe('StoryPage', () => {
   it('deletes story on delete clicked', () => {
     const changelog = {
       viewer_can_edit: true,
+      slug: 'changelog'
     }
     const story = {
       emoji: {
@@ -28,6 +29,8 @@ describe('StoryPage', () => {
       },
       user: {},
       contributors: [],
+      created_at: "2015-07-08T21:37:55.814Z",
+      slug: 'story'
     }
 
     const redux = createRedux({changelogs: () => ({})})
