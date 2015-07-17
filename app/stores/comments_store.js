@@ -54,11 +54,11 @@ class CommentsStore extends Store {
           if (action.heartableType !== 'comment') {
             return
           }
-          const idx = this.comments.findIndex(c => c.id === action.heartableId)
+          let idx = this.comments.findIndex(c => c.id === action.heartableId)
           if (idx === -1) {
             return
           }
-          const comment = this.comments.get(idx)
+          let comment = this.comments.get(idx)
           this.comments = this.comments.set(idx, {
             ...comment,
             hearts_count: comment.hearts_count + 1,
@@ -70,11 +70,11 @@ class CommentsStore extends Store {
           if (action.heartableType !== 'comment') {
             return
           }
-          const idx = this.comments.findIndex(c => c.id === action.heartableId)
+          let idx = this.comments.findIndex(c => c.id === action.heartableId)
           if (idx === -1) {
             return
           }
-          const comment = this.comments.get(idx)
+          let comment = this.comments.get(idx)
           this.comments = this.comments.set(idx, {
             ...comment,
             hearts_count: comment.hearts_count - 1,
@@ -86,11 +86,11 @@ class CommentsStore extends Store {
           if (action.flairableType !== 'comment') {
             return
           }
-          const idx = this.comments.findIndex(c => c.id === action.flairableId)
+          let idx = this.comments.findIndex(c => c.id === action.flairableId)
           if (idx === -1) {
             return
           }
-          const comment = this.comments.get(idx)
+          let comment = this.comments.get(idx)
           this.comments = this.comments.set(idx, {
             ...comment,
             flairs_count: comment.flairs_count + 1,
