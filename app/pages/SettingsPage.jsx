@@ -39,9 +39,9 @@ export default class SettingsPage extends React.Component {
         <div>
           <AppNavbar title="Settings" />
           <div className="container">
-            <div className="flex" style={{minHeight: 'calc(100vh - 3.5rem)'}}>
+            <div className="sm-flex" style={{minHeight: 'calc(100vh - 3.5rem)'}}>
 
-              <div className="col-3 border-right py4">
+              <div className="border-right py4 flex-none ml1">
                 <div className="mb4">
                   <h4 className="mt0 mb2 gray">Personal Settings</h4>
                   <Link to="profile_settings" className="block px2 py1 black bg-smoke-hover"
@@ -56,7 +56,7 @@ export default class SettingsPage extends React.Component {
                 </div>
               </div>
 
-              <div className="col col-9 p4">
+              <div className="p4 flex-auto">
                 <RouteHandler />
               </div>
 
