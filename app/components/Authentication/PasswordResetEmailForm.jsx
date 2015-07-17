@@ -7,7 +7,7 @@ import connectToStores from 'lib/connectToStores.jsx'
 import Icon from 'ui/Icon.jsx'
 import LogoSrc from 'images/logo.svg'
 import { Map } from 'immutable'
-import PasswordResetActions from 'actions/PasswordResetActions'
+import { submitEmail } from 'actions/PasswordResetActions'
 import PasswordResetFormStore from 'stores/PasswordResetFormStore'
 import React from 'react'
 
@@ -111,6 +111,6 @@ export default class PasswordResetEmailForm extends React.Component {
 
   _handleSubmit(e) {
     e.preventDefault()
-    PasswordResetActions.submitEmail(this.props.formContent.email)
+    this.props.dispatch(submitEmail(this.props.formContent.email))
   }
 }

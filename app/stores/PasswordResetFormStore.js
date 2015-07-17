@@ -1,5 +1,6 @@
 import {
   PASSWORD_RESET_TOKEN_CONFIRMED,
+  PASSWORD_RESET_TOKEN_FAILED,
   PASSWORD_RESET_TOKEN_REQUESTED,
   SIGNIN_SCRIM_INITIALIZED,
   SIGNIN_SCRIM_SHOWN
@@ -21,6 +22,9 @@ class PasswordResetEmailFormStore extends Store {
           this.email = action.email
           this.confirmation = `An email has been sent to ${action.email}.`
           this.confirmationType = 'bg-blue'
+          break
+        case PASSWORD_RESET_TOKEN_FAILED:
+          this.confirmation = ''
           break
         case PASSWORD_RESET_TOKEN_REQUESTED:
           this.email = action.email
