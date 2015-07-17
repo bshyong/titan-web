@@ -27,24 +27,24 @@ export default class PinnedPosts extends React.Component {
     const { changelog } = this.props
 
     return <div className="flex-auto p1 relative" style={{minWidth: '50%'}} key={post.id}>
+      <Link to="story" params={paramsFor.story({slug: changelog.slug}, post)} className="black">
         <div className="flex flex-center bg-smoke pinned-post p2">
           <div className="flex-none mr2">
             <Badge badge={post.emoji} size="2rem" />
           </div>
           <div className="flex-auto h3">
-            <Link to="story" params={paramsFor.story({slug: changelog.slug}, post)} className="black">
-              {post.title}
-            </Link>
+            {post.title}
           </div>
-          {this.renderPinButton(post)}
         </div>
+      </Link>
+      {this.renderPinButton(post)}
     </div>
   }
 
   renderPinButton(post) {
     const { changelog } = this.props
 
-    return <div className='py2 px1 list-reset h5' style={{position: 'absolute', right: 0, top: 0}}>
+    return <div className='mt2 px1 list-reset h5 z3' style={{position: 'absolute', right: 0, top: 0}}>
       <PinPostButton post={post} changelogId={changelog.slug} disabled={!changelog.user_is_team_member} type='hoverText' />
     </div>
   }
