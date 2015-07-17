@@ -38,3 +38,12 @@
 .upvote-toggler--unhearted:hover > .upvote-toggler-icon {
   transform: scale(1.5);
 }
+
+.clicker--enabled > .clicker-image {
+  transition: transform var(--time-1);
+  will-change: transform;
+}
+
+.clicker--enabled > .clicker-image:hover {
+  transform: scale(1.5);
+}

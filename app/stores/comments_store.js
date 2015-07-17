@@ -1,10 +1,13 @@
 import {
   COMMENT_DELETED,
   COMMENT_EDITING_TOGGLED,
+  COMMENT_PUBLISHED,
+  COMMENT_UPDATED,
   COMMENTS_FETCHED,
   COMMENTS_FETCHING,
-  COMMENT_PUBLISHED,
-  COMMENT_UPDATED
+  FLAIRABLE_FLAIRING,
+  HEARTABLE_HEARTING,
+  HEARTABLE_UNHEARTING,
 } from '../constants'
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
@@ -45,6 +48,54 @@ class CommentsStore extends Store {
         case COMMENT_UPDATED:
           this.comments = List(action.comments)
           this._editingComment = null
+          break
+
+        case HEARTABLE_HEARTING:
+          if (action.heartableType !== 'comment') {
+            return
+          }
+          const idx = this.comments.findIndex(c => c.id === action.heartableId)
+          if (idx === -1) {
+            return
+          }
+          const comment = this.comments.get(idx)
+          this.comments = this.comments.set(idx, {
+            ...comment,
+            hearts_count: comment.hearts_count + 1,
+            viewer_has_hearted: true,
+          })
+          break
+
+        case HEARTABLE_UNHEARTING:
+          if (action.heartableType !== 'comment') {
+            return
+          }
+          const idx = this.comments.findIndex(c => c.id === action.heartableId)
+          if (idx === -1) {
+            return
+          }
+          const comment = this.comments.get(idx)
+          this.comments = this.comments.set(idx, {
+            ...comment,
+            hearts_count: comment.hearts_count - 1,
+            viewer_has_hearted: false,
+          })
+          break
+
+        case FLAIRABLE_FLAIRING:
+          if (action.flairableType !== 'comment') {
+            return
+          }
+          const idx = this.comments.findIndex(c => c.id === action.flairableId)
+          if (idx === -1) {
+            return
+          }
+          const comment = this.comments.get(idx)
+          this.comments = this.comments.set(idx, {
+            ...comment,
+            flairs_count: comment.flairs_count + 1,
+            viewer_has_flaired: true,
+          })
           break
 
         default:

@@ -11,7 +11,8 @@ import { List, Range } from 'immutable'
 
 export default class TeamAdder extends React.Component {
   static defaultProps = {
-    memberships: List()
+    memberships: List(),
+    showNumbers: false
   }
   constructor(props) {
     super(props)
@@ -42,13 +43,15 @@ export default class TeamAdder extends React.Component {
       <div className="mb2">
         <div>
           {memberships.map((m, i) => {
-            return <div key={m.user.username}>
-              {this.renderListItem(
-                i + 1,
-                (m.type === "membership" ? this.renderMember : this.renderEmail).bind(this),
-                m)
-              }
-            </div>
+            return (
+              <div key={m.user.username}>
+                {this.renderListItem(
+                  i + 1,
+                  (m.type === "membership" ? this.renderMember : this.renderEmail).bind(this),
+                  m
+                )}
+              </div>
+            )
           })}
         </div>
         {this.renderListItem(
@@ -123,11 +126,11 @@ export default class TeamAdder extends React.Component {
 
   renderListItem(i, fn, ...args) {
     if (!this.props.showNumbers) {
-      return <div className="mb2">{fn(...args)}</div>
+      return <div className="mb2" key={i}>{fn(...args)}</div>
     }
 
     return (
-      <div className="flex flex-center mb2">
+      <div className="flex flex-center mb2" key={`team-adder-item-${i}`}>
         <div className="mr2" style={{lineHeight: '2.5rem'}}>{i}.</div>
         <div className="flex-auto">{fn(...args)}</div>
       </div>
@@ -233,8 +236,4 @@ TeamAdder.propTypes = {
   changelog: React.PropTypes.object,
   showBlankEntries: React.PropTypes.bool,
   showNumbers: React.PropTypes.bool,
-}
-
-TeamAdder.defaultProps = {
-  showNumbers: false
 }

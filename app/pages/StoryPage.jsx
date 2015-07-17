@@ -7,8 +7,10 @@ import connectToStores from '../lib/connectToStores.jsx'
 import Discussion from '../components/discussion.jsx'
 import DiscussionActions from '../actions/discussion_actions'
 import DocumentTitle from 'react-document-title'
+import FlairClicker from 'components/FlairClicker.jsx'
 import GroupedStoriesStore from '../stores/GroupedStoriesStore'
 import Guest from '../ui/Guest.jsx'
+import Heart from 'components/Heart.jsx'
 import Icon from '../ui/Icon.jsx'
 import invite from '../lib/invite'
 import Link from '../components/Link.jsx'
@@ -25,7 +27,6 @@ import Sticky from 'ui/Sticky.jsx'
 import StoryActions from '../actions/story_actions'
 import StoryBooster from 'components/staff/StoryBooster.jsx'
 import StoryReadersStore from '../stores/story_readers_store'
-import UpvoteToggler from '../components/UpvoteToggler.jsx'
 
 @connectToStores(GroupedStoriesStore, StoryReadersStore, ChangelogStore)
 export default class StoryPage extends React.Component {
@@ -117,9 +118,11 @@ export default class StoryPage extends React.Component {
               <div className="flex-first sm-col-2" style={{marginTop: '-1rem', marginBottom: '-1rem'}}>
                 <Sticky>
                   <div className="flex flex-column flex-center p2 center">
-                    <UpvoteToggler story={story}
-                           size="lg"
-                           hearted={story.viewer_has_hearted} />
+                    <div className="mb3">
+                      <Heart heartable={story} orientation="vertical" size="big" />
+                    </div>
+
+                    <FlairClicker flairable={story} changelog={changelog} orientation="vertical" size="big" />
                   </div>
                 </Sticky>
               </div>

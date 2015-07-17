@@ -1,24 +1,29 @@
 import Avatar from '../ui/Avatar.jsx'
+import classnames from 'classnames'
 import CommentForm from './comment_form.jsx'
 import CommentsStore from '../stores/comments_store'
 import connectToStores from '../lib/connectToStores.jsx'
 import DiscussionActions from '../actions/discussion_actions'
+import Flair from 'components/Flair.jsx'
 import Icon from '../ui/Icon.jsx'
+import Link from '../components/Link.jsx'
 import Markdown from '../ui/Markdown.jsx'
+import moment from '../config/moment'
+import paramsFor from 'lib/paramsFor'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
 import SessionStore from '../stores/session_store'
-import classnames from 'classnames'
-import moment from '../config/moment'
-import onMobile from '../lib/on_mobile'
-import Link from '../components/Link.jsx'
-import paramsFor from 'lib/paramsFor'
+import ChangelogStore from 'stores/changelog_store'
+import TallyCounter from 'ui/TallyCounter.jsx'
+import Heart from 'components/Heart.jsx'
+import FlairClicker from 'components/FlairClicker.jsx'
 
 @connectToStores(CommentsStore)
 export default class Comment extends React.Component {
   static getPropsFromStores(props) {
     return {
-      editing: CommentsStore.editingCommentId === props.comment.id
+      changelog: ChangelogStore.changelog,
+      editing: CommentsStore.editingCommentId === props.comment.id,
     }
   }
 
@@ -33,27 +38,21 @@ export default class Comment extends React.Component {
       comment: {id, user, body, parsed_body, created_at}
     } = this.props
 
+    const cs = classnames("flex-none mr2", {
+      'muted': this.isDeleted(),
+    })
+
     return (
       <div>
         {this.renderSelectedMarker()}
         <div className="flex visible-hover-wrapper">
-          <div className="flex-none mr2">
-            <Link to="profile" params={paramsFor.user(user)} title={user.username}>
+          <div className={cs}>
+            <Link to="profile" params={paramsFor.user(user)} title={`@${user.username}`}>
               <Avatar user={user} size={24} />
             </Link>
           </div>
 
           <div className="flex-auto h5" id={id}>
-            <div className="flex">
-              <Link className="flex-auto bold black" to="profile" params={{userId: user.username}}>{user.username}</Link>
-              <div className="flex-none flex gray mxn1 visible-hover">
-                <div className="px1">
-                  {moment(created_at).fromNow(true)}
-                </div>
-                {this.renderEditButton()}
-                {this.renderDeleteButton()}
-              </div>
-            </div>
             {this.renderBody()}
           </div>
         </div>
@@ -62,38 +61,71 @@ export default class Comment extends React.Component {
   }
 
   renderBody() {
-    if (this.props.comment.deleted_at) {
+    if (this.isDeleted()) {
       return <div className="gray">Deleted</div>
     }
 
     if (this.props.editing) {
       return (
-        <div className="mt1">
-          <CommentForm {...this.props.comment}
-              storyId={this.props.storyId}
-              changelogId={this.props.changelogId} />
-        </div>
+        <CommentForm {...this.props.comment}
+            storyId={this.props.storyId}
+            changelogId={this.props.changelogId} />
       )
     }
 
     const {
-      comment: { body, parsed_body }
+      changelog,
+      comment: { body, parsed_body, created_at, hearts_count }
     } = this.props
 
-    return <Markdown markdown={parsed_body || body || ''} />
-  }
-
-  renderDeletedComment() {
-    const { comment: { created_at } } = this.props
-
     return (
-      <div className="flex-auto h5">
-        <div className="flex">
-          <div className="flex-auto gray">Deleted</div>
-          <div className="flex-none gray">
+      <div>
+        <Markdown markdown={parsed_body || body || ''} />
+
+        <div className="h5 silver flex mxn1 mt2">
+          {this.renderHearts()}
+
+          {this.renderFlair()}
+
+          {this.renderEditButton()}
+
+          {this.renderDeleteButton()}
+
+          <div className="p1 visible-hover">
             {moment(created_at).fromNow()}
           </div>
         </div>
+      </div>
+    )
+  }
+
+  isDeleted() {
+    return !!this.props.comment.deleted_at
+  }
+
+  renderHearts() {
+    const { comment } = this.props
+    return (
+      <div className="p1">
+        <Heart heartable={comment} />
+      </div>
+    )
+  }
+
+  renderFlair() {
+    const { changelog, comment } = this.props
+
+    if (!changelog.user_is_team_member && comment.flairs_count === 0) {
+      return
+    }
+
+    const image = <Flair changelog={changelog}
+      muted={!comment.viewer_has_flaired}
+      size={16} />
+
+    return (
+      <div className="p1">
+        <FlairClicker flairable={comment} changelog={changelog} />
       </div>
     )
   }
@@ -109,7 +141,7 @@ export default class Comment extends React.Component {
     }
 
     return (
-      <div className="px1 pointer gray-hover" onClick={this.handleDelete.bind(this)}>
+      <div className="p1 pointer gray-hover" onClick={this.handleDelete.bind(this)}>
         <Icon icon="trash" />
       </div>
     )
@@ -126,7 +158,7 @@ export default class Comment extends React.Component {
     }
 
     return (
-      <div className="px1 pointer gray-hover" onClick={this.toggleEditing.bind(this)}>
+      <div className="p1 pointer gray-hover" onClick={this.toggleEditing.bind(this)}>
         <Icon icon="pencil" />
       </div>
     )

@@ -10,22 +10,22 @@ const eventDefinitions = {
   ANALYTICS_ENGAGED: 'engaged',
 }
 
-export default {
-  identifyUser() {
-    const user = SessionStore.user
-    if (user) {
-      analytics.identify(user.id, {
-        username: user.username,
-        email: user.email,
-        staff: user.staff_at
-      })
-    }
-    return user
-  },
+function identifyUser() {
+  const user = SessionStore.user
+  if (user) {
+    analytics.identify(user.id, {
+      username: user.username,
+      email: user.email,
+      staff: user.staff_at
+    })
+  }
+  return user
+}
 
-  page(name){
+export default {
+  page(name) {
     analytics.page(name, {
-      signedIn: !!this.identifyUser()
+      signedIn: !!identifyUser()
     })
   },
 
@@ -35,7 +35,7 @@ export default {
       console.warn(`You are tracking <${eventName}>, which is not a defined event`)
     }
 
-    properties.signedIn = !!this.identifyUser()
+    properties.signedIn = !!identifyUser()
     analytics.track(definedEventName || eventName, properties)
   },
 }
