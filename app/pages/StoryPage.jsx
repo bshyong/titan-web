@@ -172,7 +172,7 @@ export default class StoryPage extends React.Component {
   }
 
   renderEditLink() {
-    if (this.props.changelog.user_is_team_member) {
+    if (this.props.changelog.viewer_can_edit) {
       return (
         <li className="px1">
           <Link to="edit" params={paramsFor.story(ChangelogStore.changelog, this.props.story)}>
