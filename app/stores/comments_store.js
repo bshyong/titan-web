@@ -20,6 +20,8 @@ class CommentsStore extends Store {
     this._loading = false
     this._editingComment = null
 
+    let idx, comment
+
     this.dispatchToken = Dispatcher.register((action) => {
       switch (action.type) {
         case COMMENT_EDITING_TOGGLED:
@@ -54,11 +56,11 @@ class CommentsStore extends Store {
           if (action.heartableType !== 'comment') {
             return
           }
-          let idx = this.comments.findIndex(c => c.id === action.heartableId)
+          idx = this.comments.findIndex(c => c.id === action.heartableId)
           if (idx === -1) {
             return
           }
-          let comment = this.comments.get(idx)
+          comment = this.comments.get(idx)
           this.comments = this.comments.set(idx, {
             ...comment,
             hearts_count: comment.hearts_count + 1,
@@ -70,11 +72,11 @@ class CommentsStore extends Store {
           if (action.heartableType !== 'comment') {
             return
           }
-          let idx = this.comments.findIndex(c => c.id === action.heartableId)
+          idx = this.comments.findIndex(c => c.id === action.heartableId)
           if (idx === -1) {
             return
           }
-          let comment = this.comments.get(idx)
+          comment = this.comments.get(idx)
           this.comments = this.comments.set(idx, {
             ...comment,
             hearts_count: comment.hearts_count - 1,
@@ -86,11 +88,11 @@ class CommentsStore extends Store {
           if (action.flairableType !== 'comment') {
             return
           }
-          let idx = this.comments.findIndex(c => c.id === action.flairableId)
+          idx = this.comments.findIndex(c => c.id === action.flairableId)
           if (idx === -1) {
             return
           }
-          let comment = this.comments.get(idx)
+          comment = this.comments.get(idx)
           this.comments = this.comments.set(idx, {
             ...comment,
             flairs_count: comment.flairs_count + 1,
