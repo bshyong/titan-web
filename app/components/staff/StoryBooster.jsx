@@ -14,7 +14,7 @@ export class StoryBooster extends React.Component {
     return (
       <div>
         <label className="mr1">Boost</label>
-        <input type="number" step="0.1" className="field field-light"
+        <input type="number" step="2" className="field field-light"
           value={story.boost} onChange={this.handleChange.bind(this)} />
       </div>
     )
