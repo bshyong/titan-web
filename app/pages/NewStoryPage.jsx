@@ -20,15 +20,15 @@ import StoryFormStore from 'stores/story_form_store'
 import StoryFormWalkthrough from 'components/Story/StoryFormWalkthrough.jsx'
 import UploadingAttachmentStore from 'stores/uploading_attachment_store'
 
-@AuthenticatedMixin()
-@connect(state => ({...state}))
-@connectToStores(StoryFormStore, UploadingAttachmentStore)
 @statics({
   willTransitionTo(transition, params, query) {
     StoryFormActions.clearAll()
     ContributorsActions.resetContributors(SessionStore.user)
   }
 })
+@AuthenticatedMixin()
+@connect(state => ({...state}))
+@connectToStores(StoryFormStore, UploadingAttachmentStore)
 export default class NewStoryPage extends React.Component {
   static get defaultProps() {
     return {
