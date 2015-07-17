@@ -101,10 +101,8 @@ export default class HomePage extends React.Component {
               </div>
             </div>
             <div className="sm-mb4">
-              <a href="#howitworks">
                 <h4 className="center blue">How it works</h4>
                 <i className="h3 fa fa-arrow-circle-o-down blue center block"></i>
-              </a>
             </div>
           </div>
         </div>
