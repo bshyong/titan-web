@@ -15,7 +15,7 @@ export default class Navbar extends React.Component {
     const {bg, bgImgUrl, title, children, left, right, size} = this.props
     const cn = classnames(
       'navbar',
-      'sm-flex flex-column full-width relative z1',
+      'flex flex-column full-width relative z1',
       `bg-${bg}`,
     )
     const style = {

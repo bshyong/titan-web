@@ -80,7 +80,7 @@ export default class HomePage extends React.Component {
               Simple Changelogs for happy teams.
             </h1>
             <h2 className="mb0" style={{color: '#004354'}}>
-              Follow everyone’s progress, get feedback on your work, and share you product updates with your team and the world. 
+              Follow everyone’s progress, get feedback on your work, and share you product updates with your team and the world.
             </h2>
           </div>
         </Jumbotron>
@@ -128,7 +128,7 @@ export default class HomePage extends React.Component {
                 <figure className="m0 sm-mb4 py3">
                   <img className="mb2" src={HomeEmojiPickerImgSrc} />
                   <figcaption className="gray">
-		  			Give your update some character, make it fun!		  			
+		  			Give your update some character, make it fun!
                   </figcaption>
                 </figure>
 
