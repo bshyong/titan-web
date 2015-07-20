@@ -5,13 +5,14 @@ import Router from 'lib/router_container'
 export default class DeepLinkTwitter extends Component {
   static willTransitionTo(transition, params, query) {
     const { text } = query
+    const encodedText = encodeURIComponent(text)
 
     transition.abort()
 
-    window.location.href = `twitter://post?message=${text}`
+    window.location.href = `twitter://post?message=${encodedText}`
 
     setTimeout(() => {
-      window.location.href = `https://twitter.com/intent/tweet?text=${text}`
+      window.location.href = `https://twitter.com/intent/tweet?text=${encodedText}`
     }, 2500)
   }
 

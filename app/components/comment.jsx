@@ -99,6 +99,7 @@ export default class Comment extends React.Component {
         <div className="h5 silver flex mxn1 mt2">
           {this.renderHearts()}
           {this.renderFlair()}
+          {this.renderTweet()}
         </div>
       </div>
     )
@@ -124,13 +125,22 @@ export default class Comment extends React.Component {
       return
     }
 
-    const image = <Flair changelog={changelog}
-      muted={!comment.viewer_has_flaired}
-      size={16} />
-
     return (
       <div className="p1">
         <FlairClicker flairable={comment} changelog={changelog} />
+      </div>
+    )
+  }
+
+  renderTweet() {
+    const { comment: { body, id } } = this.props
+    return (
+      <div className="p1">
+        <a target="_blank"
+          className="gray gray-hover"
+          href={`/deeplinks/twitter?text=${encodeURIComponent(body)}%20-%20${window.location}%23${id}%20via%20%40asm`}>
+          <Icon icon="twitter" />
+        </a>
       </div>
     )
   }
