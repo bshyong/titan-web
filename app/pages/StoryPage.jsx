@@ -191,7 +191,9 @@ export default class StoryPage extends React.Component {
       <h5 className="mt0">share with</h5>
       <ul className="list-reset flex mb0 h3">
         <li className="px1">
-          <a target="_blank" className="gray gray-hover" href={`https://twitter.com/home?status=${story.title}%20-%20${window.location}%20via%20%40asm`}>
+          <a target="_blank"
+            className="gray gray-hover"
+            href={`/deeplinks/twitter?text=${encodeURIComponent(story.title)}%20-%20${window.location}%20via%20%40asm`}>
             <Icon icon="twitter" />
           </a>
         </li>
