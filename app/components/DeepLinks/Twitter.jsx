@@ -8,12 +8,7 @@ export default class DeepLinkTwitter extends Component {
 
     transition.abort()
 
-    if (onMobile()) {
-      window.location.href = `twitter://post?message=${text}`
-    } else {
-      window.location.href = `https://twitter.com/intent/tweet?text=${text}`
-      return
-    }
+    window.location.href = `twitter://post?message=${text}`
 
     setTimeout(() => {
       window.location.href = `https://twitter.com/intent/tweet?text=${text}`
