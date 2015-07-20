@@ -45,7 +45,7 @@ export default class ProfileSettings extends React.Component {
           value: next.profile.username
         },
         gif_url: {
-          value: next.profile.flair_url || next.profile.gif_url
+          value: next.profile.gif_url
         }
       })
     } else {

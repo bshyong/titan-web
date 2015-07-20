@@ -14,7 +14,7 @@ export default class Avatar extends React.Component {
   }
 
   url() {
-    const gif_url = this.props.user.flair_url || this.props.user.gif_url
+    const { gif_url } = this.props.user
     if(this.props.flaired && gif_url) {
       return gif_url
     } else {
