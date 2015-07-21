@@ -12,6 +12,7 @@ import EmojiStore from 'stores/emoji_store'
 import React from 'react'
 import RouterContainer from 'lib/router_container'
 import SessionStore from 'stores/session_store'
+import { showTweetScrim } from 'actions/TweetScrimActions'
 import statics from 'lib/statics'
 import StoryActions from 'actions/story_actions'
 import StoryForm from 'components/Story/StoryForm.jsx'
@@ -52,7 +53,8 @@ export default class NewStoryPage extends React.Component {
       story: {
         ...StoryFormStore.data,
         contributors: ContributorsStore.contributors,
-        errorMessage: StoryFormStore.errorMessage
+        errorMessage: StoryFormStore.errorMessage,
+        publishToTwitter: StoryFormStore.publishToTwitter
       },
       uploadsFinished: UploadingAttachmentStore.uploadsFinished('new_story'),
       fromOnboarding: RouterContainer.get().getCurrentQuery().o
@@ -112,13 +114,22 @@ export default class NewStoryPage extends React.Component {
   }
 
   handleOnPublish(e) {
-    const { story: { errorMessage }, uploadsFinished, fromOnboarding, changelogId } = this.props
     e.preventDefault()
+    const {
+      story: {
+        errorMessage,
+        publishToTwitter
+      },
+      uploadsFinished,
+      fromOnboarding,
+      changelogId,
+      dispatch
+    } = this.props
 
     if (uploadsFinished || confirm('Attachments are still uploading; are you sure you want to post?')) {
       if (!StoryFormStore.isValid() || errorMessage) {
         if (errorMessage.indexOf('emoji') > -1) {
-          this.props.dispatch(EmojiInputActions.open())
+          dispatch(EmojiInputActions.open())
         }
         this.setState({showErrorMessage: true})
       } else {
@@ -127,7 +138,25 @@ export default class NewStoryPage extends React.Component {
             RouterContainer.transitionTo('changelog', {changelogId: changelogId})
           })
         }
-        StoryActions.publish(changelogId, StoryFormStore.data)
+
+        const callback = publishToTwitter ? (story) => {
+          const {
+            title,
+            urlParams: {
+              changelogId,
+              day,
+              month,
+              storyId,
+              year
+            }
+          } = story
+          const fullUrl = `${MAIN_HOST}/${changelogId}/${year}/${month}/${day}/${storyId}`
+          const text = `${title}: ${fullUrl} via @asm`
+
+          dispatch(showTweetScrim(text))
+        } : () => {}
+
+        StoryActions.publish(changelogId, StoryFormStore.data, true, callback)
       }
     }
   }

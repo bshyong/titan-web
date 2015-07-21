@@ -15,6 +15,7 @@ import { List } from 'immutable'
 import Store from '../lib/store'
 import ContributorsStore from '../stores/ContributorsStore'
 import moment from 'moment'
+import { getPublishToTwitter } from 'lib/publishToTwitter'
 
 class StoryFormStore extends Store {
   constructor() {
@@ -51,6 +52,7 @@ class StoryFormStore extends Store {
           this.team_member_only = action.fields.team_member_only
           this.emoji_id = action.fields.emoji_id
           this.created_at = action.fields.created_at
+          this.publishToTwitter = action.fields.publishToTwitter
           this.setErrorMessage()
           break
 
@@ -107,6 +109,7 @@ class StoryFormStore extends Store {
     this.team_member_only = false
     this.emoji_id = null
     this.isCreating = false
+    this.publishToTwitter = getPublishToTwitter()
     this._errorMessage = "Please enter a title and select an emoji"
   }
 

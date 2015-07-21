@@ -133,7 +133,7 @@ class GroupedStoriesStore extends Store {
           break
 
         case STORY_PUBLISHED:
-          let group3 = this.grouped.find(g => g.group.key === action.story.group.id)
+          let group3 = this.grouped.find(g => g.group && g.group.key === action.story.group.id)
           if (group3) {
             group3.stories = group3.stories.set(action.story.slug, action.story)
           } else {

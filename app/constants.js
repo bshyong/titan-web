@@ -83,6 +83,7 @@ export default keyMirror({
   FLAIRABLE_FLAIRING: null,
   FLAIRABLE_FLAIRED: null,
   FLAIRABLE_FLAIRING_FAILED: null,
+  FLAIRABLE_UNFLAIRING: null,
 
   GIF_FORM_CHANGED: null,
   GIF_REACTION_FETCHED: null,
@@ -188,6 +189,16 @@ export default keyMirror({
 
   STORY_PINNED: null,
   STORY_UNPINNED: null,
+
+  TWEET_FAILED: null,
+
+  TWEET_FORM_CHANGED: null,
+  TWEET_FORM_DISMISSED: null,
+  TWEET_FORM_ERROR_DISMISSED: null,
+  TWEET_FORM_SUBMITTED: null,
+
+  TWEET_SCRIM_HIDDEN: null,
+  TWEET_SCRIM_SHOWN: null,
 
   TWITTER_ACCOUNT_UNLINKED: null,
 
