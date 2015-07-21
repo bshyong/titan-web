@@ -39,7 +39,8 @@ class AttachmentsStore extends Store {
   }
 
   getAttachment(commentId) {
-    let attachment = this.attachments.get(commentId).last()
+    let attachments = this.attachments.get(commentId)
+    let attachment = attachments && attachments.last()
 
     this.attachments = this.attachments.set(
       commentId,
