@@ -87,9 +87,11 @@ export default keyMirror({
   GIF_FORM_CHANGED: null,
   GIF_REACTION_FETCHED: null,
 
-  GIFS_FETCHING: null,
+  GIFS_CLEAR: null,
+  GIFS_FETCH_FAILED: null,
   GIFS_FETCHED: null,
   GIFS_FETCHED_FROM_STORE: null,
+  GIFS_FETCHING: null,
 
   GITHUB_DRAFTS_LOADED: null,
   GITHUB_DRAFTS_LOADING: null,

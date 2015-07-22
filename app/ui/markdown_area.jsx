@@ -1,5 +1,5 @@
 import DropzoneContainer from '../components/DropzoneContainer.jsx'
-import GifPicker from '../components/gif_picker.jsx'
+import GifPicker from '../components/GifPicker.jsx'
 import GifPickerTrigger from '../images/magic-icon.svg'
 import MENTION_REGEX from '../lib/mention_regex'
 import React from 'react'
@@ -30,6 +30,8 @@ export default class MarkdownArea extends React.Component {
     this.onUploading = this._onUploading.bind(this)
     this.onUserSelected = this._onUserSelected.bind(this)
     this.onGifSelected = this._onGifSelected.bind(this)
+    this.toggleGifPicker = this.toggleGifPicker.bind(this)
+    this.closeGifPicker = this.closeGifPicker.bind(this)
     this.onFocus = this._onFocus.bind(this)
     this.onBlur = this._onBlur.bind(this)
     this.updateSelectionStart = this._updateSelectionStart.bind(this)
@@ -107,10 +109,10 @@ export default class MarkdownArea extends React.Component {
               <div className="flex-none">
                 <Sticky>
                   <div className="flex ml1">
-                    <div className="py1 mr1 pointer gray" onClick={this.toggleGifPicker.bind(this)}>
+                    <div className="py1 mr1 pointer gray" onClick={this.toggleGifPicker}>
                       <img className="block" src={GifPickerTrigger} style={{height: '1.5rem'}} />
                     </div>
-                    <div className="py1 mr1 pointer gray" ref="clickable" onClick={this.closeGifPicker.bind(this)}>
+                    <div className="py1 mr1 pointer gray" ref="clickable" onClick={this.closeGifPicker}>
                       <img className="block" src={UploadSrc} style={{height: '1.5rem'}} />
                     </div>
                   </div>
@@ -139,8 +141,8 @@ export default class MarkdownArea extends React.Component {
       return (
         <GifPicker
           position={this.props.gifPickerPosition}
-          onGifSelect={this.onGifSelected.bind(this)}
-          onPickerCancel={this.toggleGifPicker.bind(this)} />
+          onGifSelect={this.onGifSelected}
+          onPickerCancel={this.toggleGifPicker} />
       )
     }
   }

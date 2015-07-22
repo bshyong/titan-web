@@ -1,40 +1,30 @@
+import * as gifActions from 'actions/gifActions'
 import Button from '../ui/Button.jsx'
+import Clipper from '../ui/Clipper.jsx'
 import Gif from '../ui/Gif.jsx'
-import GifActions from '../actions/gif_actions'
-import GifStore from '../stores/gif_store'
 import Icon from '../ui/Icon.jsx'
 import LoadingBar from '../ui/LoadingBar.jsx'
+import onMobile from '../lib/on_mobile'
 import Picker from '../ui/Picker.jsx'
 import React from 'react'
 import ScrollEater from '../ui/ScrollEater.jsx'
 import ScrollPaginator from '../ui/ScrollPaginator.jsx'
-import debounce from '../lib/debounce'
-import onMobile from '../lib/on_mobile'
+import shouldPureComponentUpdate from 'react-pure-render/function';
 import { reactionStrings } from '../config/gifpicker'
-import Clipper from '../ui/Clipper.jsx'
+import {debounceFunc} from '../lib/debounce'
 
 let giphyAttribution = require('../images/giphy.png')
 let giphyAttributionHoriz = require('../images/giphy-h.png')
 
-
-export default class GifPicker extends React.Component {
+export class GifPicker extends React.Component {
+  shouldComponentUpdate = shouldPureComponentUpdate
 
   constructor(props) {
     super(props)
-    this.state = {
-      currentGifIndex: 0,
-      fetching: GifStore.fetching,
-      gifs: [],
-      page: 1,
-      reactionImages: GifStore.reactionImages,
-      searchTerm: GifStore.searchTerm,
-    }
-
+    this.state = {}
     this.onMobile = onMobile()
-
     this.timeout = null
     this.reactionStrings = this.randomReactionStrings()
-    this.onStoreChange = this._onStoreChange.bind(this)
     this.handleOnChange = this._handleOnChange.bind(this)
   }
 
@@ -48,10 +38,9 @@ export default class GifPicker extends React.Component {
   }
 
   componentDidMount() {
-    GifStore.addChangeListener(this.onStoreChange)
     this.gifResults = React.findDOMNode(this.refs.gifResults)
     this.picker = React.findDOMNode(this.refs.picker)
-    GifActions.fetchImagesForReactions(this.reactionStrings)
+    this.props.fetchImagesForReactions(this.reactionStrings)
     React.findDOMNode(this.refs.gifSearch).focus()
     this.setState({
       pickerHeight: this.picker.clientHeight
@@ -59,10 +48,9 @@ export default class GifPicker extends React.Component {
   }
 
   componentWillUnmount() {
-    GifStore.removeChangeListener(this.onStoreChange)
     const string = React.findDOMNode(this.refs.gifSearch).value = null
-    GifActions.changeSearchTerm(string)
-    GifStore.clearStore()
+    this.props.changeSearchTerm(string)
+    this.props.clearGifs()
   }
 
   componentDidUpdate() {
@@ -87,7 +75,7 @@ export default class GifPicker extends React.Component {
   }
 
   renderForMobile() {
-    const { searchTerm } = this.state
+    const { searchTerm } = this.props
     return (
       <div>
         <div className="p1 right-align h5 bg-white orange flex" style={{height: 36, position: 'sticky', top: 0}}>
@@ -113,7 +101,7 @@ export default class GifPicker extends React.Component {
   }
 
   renderForDesktop() {
-    const { searchTerm } = this.state
+    const { searchTerm } = this.props
     return (
       <div>
         <div className="p1 right-align h5 bg-white orange flex" style={{height: 24, position: 'sticky', top: 0}}>
@@ -139,7 +127,7 @@ export default class GifPicker extends React.Component {
   }
 
   renderContentContainer() {
-    const { fetching, searchTerm } = this.state
+    const { fetching, searchTerm } = this.props
     const style = {
       overflowY: 'scroll',
       maxHeight: this.onMobile ? 'calc(97vh - 60px)' : 300
@@ -148,13 +136,13 @@ export default class GifPicker extends React.Component {
     const paginator = <ScrollPaginator
                     element={this.gifResults}
                     container={this.picker}
-                    page={this.state.page}
-                    onScrollBottom={() => GifActions.getFromStore(this.state.page + 1)} />
+                    page={this.props.page}
+                    onScrollBottom={() => this.props.getFromStore(this.props.page + 1)} />
 
     return (
       <ScrollEater>
         <div className="center" ref="gifResults" style={style}>
-          {this.state.moreAvailable ? paginator : null}
+          {this.props.moreAvailable ? paginator : null}
           {this.renderPicker()}
           <LoadingBar loading={fetching && searchTerm !== null} />
         </div>
@@ -163,7 +151,7 @@ export default class GifPicker extends React.Component {
   }
 
   renderPicker() {
-    if (this.state.searchTerm) {
+    if (this.props.searchTerm) {
       return this.renderGifs()
     } else {
       return this.renderReactionPicker()
@@ -172,7 +160,7 @@ export default class GifPicker extends React.Component {
 
   renderReactionPicker() {
     const reactions = this.reactionStrings.reduce((memo, curr) => {
-      const imageUrl = this.state.reactionImages.get(curr)
+      const imageUrl = this.props.reactionImages.get(curr)
       const styles = {
         backgroundImage: `url(${imageUrl})`,
         minHeight: 120,
@@ -202,7 +190,7 @@ export default class GifPicker extends React.Component {
 
   renderGifs() {
 
-    if (this.state.fetching) {
+    if (this.props.fetching) {
       return (
         <div className="flex flex-center h5 gray p2 center" style={{maxHeight: 50}}>
           <div className="mx-auto">
@@ -212,7 +200,7 @@ export default class GifPicker extends React.Component {
       )
     }
 
-    const gifs = this.state.gifs
+    const gifs = this.props.gifs
 
     let gifRows = gifs.reduce((memo, curr, index, array) => {
       if (index % 2 == 0) {
@@ -244,7 +232,7 @@ export default class GifPicker extends React.Component {
   }
 
   handleGifSelect(gif) {
-    this.props.onGifSelect(gif, GifStore.searchTerm)
+    this.props.onGifSelect(gif, this.props.searchTerm)
     React.findDOMNode(this.refs.gifSearch).value = ''
     this.handleOnChange()
   }
@@ -282,22 +270,13 @@ export default class GifPicker extends React.Component {
 
   _handleOnChange(e) {
     const string = React.findDOMNode(this.refs.gifSearch).value
-    GifActions.changeSearchTerm(string)
-    debounce(
-      GifActions.fetchGifs, GifActions, [string]
-    )()
+    this.props.changeSearchTerm(string)
+    this.fetchGifs(string)
   }
 
-  _onStoreChange() {
-    this.setState({
-      fetching: GifStore.fetching,
-      gifs: GifStore.getAll(),
-      moreAvailable: GifStore.moreAvailable,
-      page: GifStore.page,
-      reactionImages: GifStore.reactionImages,
-      searchTerm: GifStore.searchTerm,
-    })
-  }
+  fetchGifs = debounceFunc(string => {
+    this.props.fetchGifs(string)
+  }, 300)
 }
 
 GifPicker.propTypes = {
@@ -308,4 +287,23 @@ GifPicker.propTypes = {
 
 GifPicker.defaultProps = {
   position: 'top'
+}
+
+import {connect} from 'redux/react'
+import {bindActionCreators} from 'redux'
+
+@connect(state => {
+  return {
+  fetching: state.gifs.fetching,
+  gifs: state.gifs.gifs.slice(0,(20 * state.gifs.page)),
+  moreAvailable: state.gifs.moreAvailable,
+  page: state.gifs.page,
+  reactionImages: state.gifs.reactionImages,
+  searchTerm: state.gifs.searchTerm,}
+})
+export default class GifPickerWrapper extends React.Component {
+  render() {
+    return <GifPicker {...this.props}
+                      {...bindActionCreators(gifActions, this.props.dispatch)} />
+  }
 }
