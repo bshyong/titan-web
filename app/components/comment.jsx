@@ -173,7 +173,7 @@ export default class Comment extends React.Component {
     }
 
     return (
-      <div className="p1 pointer gray-hover" onClick={this.toggleEditing.bind(this)}>
+      <div className="px1 pointer gray-hover" onClick={this.toggleEditing.bind(this)}>
         <Icon icon="pencil" />
       </div>
     )
