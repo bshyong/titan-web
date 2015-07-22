@@ -156,7 +156,7 @@ export default class Comment extends React.Component {
     }
 
     return (
-      <div className="p1 pointer gray-hover" onClick={this.handleDelete.bind(this)}>
+      <div className="px1 pointer gray-hover" onClick={this.handleDelete.bind(this)}>
         <Icon icon="trash" />
       </div>
     )

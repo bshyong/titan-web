@@ -73,7 +73,7 @@ export default class StoryPage extends React.Component {
 
           <div className="p2 sm-px0 sm-py3 md-py4">
             <div className="container sm-flex">
-              <div className="sm-col-8">
+              <div className="sm-col-9">
 
                 <div className="mb3">
                   <div className="mb2">
@@ -130,10 +130,11 @@ export default class StoryPage extends React.Component {
           </div>
 
           <div className="flex-auto bg-smoke">
-            <div className="container">
-              <div className="sm-col-8 mx-auto mt4" style={{marginBottom: '20rem'}}>
+            <div className="container flex sm-flex">
+              <div className="sm-col-9 mt4" style={{marginBottom: '20rem'}}>
                 <Discussion story={this.props.story} changelogId={this.props.changelogId} />
               </div>
+              <div className="flex-first sm-col-2"></div>
             </div>
           </div>
 

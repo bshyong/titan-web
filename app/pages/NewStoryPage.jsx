@@ -1,13 +1,12 @@
+import * as EmojiInputActions from 'actions/EmojiInputActions'
 import AuthenticatedMixin from 'components/mixins/authenticated_mixin.jsx'
 import Button from 'ui/Button.jsx'
-import ChangelogStore from 'stores/changelog_store'
 import ChangelogNavbar from 'components/Changelog/ChangelogNavbar.jsx'
-import { connect } from 'redux/react'
+import ChangelogStore from 'stores/changelog_store'
 import connectToStores from 'lib/connectToStores.jsx'
 import ContributorsActions from 'actions/ContributorsActions'
 import ContributorsStore from 'stores/ContributorsStore'
 import DocumentTitle from 'react-document-title'
-import * as EmojiInputActions from 'actions/EmojiInputActions'
 import EmojiStore from 'stores/emoji_store'
 import React from 'react'
 import RouterContainer from 'lib/router_container'
@@ -19,6 +18,7 @@ import StoryFormActions from 'actions/story_form_actions'
 import StoryFormStore from 'stores/story_form_store'
 import StoryFormWalkthrough from 'components/Story/StoryFormWalkthrough.jsx'
 import UploadingAttachmentStore from 'stores/uploading_attachment_store'
+import { connect } from 'redux/react'
 
 @statics({
   willTransitionTo(transition, params, query) {
@@ -27,7 +27,7 @@ import UploadingAttachmentStore from 'stores/uploading_attachment_store'
   }
 })
 @AuthenticatedMixin()
-@connect(state => ({...state}))
+@connect(state => ({}))
 @connectToStores(StoryFormStore, UploadingAttachmentStore)
 export default class NewStoryPage extends React.Component {
   static get defaultProps() {

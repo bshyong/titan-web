@@ -1,3 +1,8 @@
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 .caps { letter-spacing: .1em }
 
 @media (--breakpoint-sm) {

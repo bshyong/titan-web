@@ -3,6 +3,7 @@ import {
   RESOURCE_NOT_FOUND
 } from '../constants'
 
+import 'isomorphic-fetch'
 import Dispatcher from 'lib/dispatcher'
 import invite from 'lib/invite'
 import membership_invite from 'lib/membershipInvite'

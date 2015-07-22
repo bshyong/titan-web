@@ -34,6 +34,12 @@
 
 
 :root {
+  --base-font-size: 18px;
+  /*--body-font-size: var(--base-font-size);*/
+  --paragraph-font-size: var(--base-font-size);
+  --list-font-size: var(--base-font-size);
+  --paragraph-font-size: var(--base-font-size);
+
   --blue: #11A3B7;
   --yellow: #F9C933;
   --green: #93B945;
@@ -72,7 +78,7 @@
   --link-hover-text-decoration: none;
 
   /*--h1: 2.25rem;*/
-  --paragraph-line-height:1.75;
+  --paragraph-line-height:1.6;
 
   --h00: 3.75rem;
 
