@@ -10,7 +10,6 @@ import DocumentTitle from 'react-document-title'
 import DropzoneContainer from 'components/DropzoneContainer.jsx'
 import Flair from 'components/Flair.jsx'
 import Icon from 'ui/Icon.jsx'
-import ImportFromCovePanel from 'components/settings/ImportFromCovePanel.jsx'
 import InvitationActions from 'actions/invitation_actions'
 import Link from 'components/Link.jsx'
 import LoadingBar from 'ui/LoadingBar.jsx'
@@ -116,8 +115,6 @@ export default class ChangelogSettings extends React.Component {
 
           <hr />
           <CustomDomainSettingsPanel />
-          <hr />
-          <ImportFromCovePanel changelog={changelog} />
           <hr />
 
           <div className="flex flex-center py2">
