@@ -19,7 +19,7 @@ export default class Avatar extends React.Component {
       return gif_url
     } else {
       const {size, user: {avatar_url}} = this.props
-      return `${avatar_url}?s=${size * 2}`
+      return `${avatar_url}&s=${size * 2}`
     }
   }
 }
