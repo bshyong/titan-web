@@ -25,8 +25,6 @@ describe('StoryForm', () => {
 
   describe('render()', () => {
     it('renders with an empty story', () => {
-
-
       const redux = createRedux({ emojiInput: () => Map({ emojis: List() }) });
       const Subject = stubRouterContext(StoryForm, {
         changelog: { is_members_only: false },
@@ -69,9 +67,10 @@ describe('StoryForm', () => {
 
     describe('.title', () => {
       it('triggers an update on change', () => {
-        const el = TestUtils.findRenderedDOMComponentWithTag(
-          form.refs.title, 'textarea'
-        )
+        const el = TestUtils.scryRenderedDOMComponentsWithTag(
+          form,
+          'textarea'
+        )[0]
 
         TestUtils.Simulate.change(el, { target: { value: 'a' } })
 
@@ -81,11 +80,11 @@ describe('StoryForm', () => {
 
     describe('.body', () => {
       it('triggers an update on change', () => {
-
-        let body = TestUtils.findRenderedDOMComponentWithTag(
-          form.refs.body.refs.textarea,
+        console.log(form.refs)
+        const body = TestUtils.scryRenderedDOMComponentsWithTag(
+          form,
           'textarea'
-        )
+        )[1]
 
         let updatedBody = body.getDOMNode()
         updatedBody.value = 'a'
@@ -97,7 +96,11 @@ describe('StoryForm', () => {
 
     describe('.team_member_only', () => {
       it('toggles on click', () => {
-        TestUtils.Simulate.click(form.refs.isPublic)
+        const isPublic = TestUtils.scryRenderedDOMComponentsWithClass(
+          form,
+          'gray underline bold pointer'
+        )[0].getDOMNode()
+        TestUtils.Simulate.click(isPublic)
         expect(onChange).toHaveBeenCalledWith({team_member_only: true})
       })
     })

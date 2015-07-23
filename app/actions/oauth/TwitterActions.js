@@ -10,7 +10,7 @@ import SignupConfirmationForm from 'components/Authentication/SignupConfirmation
 import url from 'url'
 
 export default {
-  signIn(opts) {
+  signIn(opts = {}) {
     redirect.set(opts.redirectTo || window.location.href)
 
     delete opts.redirectTo

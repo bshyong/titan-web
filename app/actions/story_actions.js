@@ -177,7 +177,12 @@ export default {
     })
   },
 
-  publish(changelogId, data, shouldTransition = true, successCallback = (() => {})) {
+  publish(
+    changelogId,
+    data,
+    shouldTransition = true,
+    successCallback = (() => {})
+  ) {
     Dispatcher.dispatch({
       type: STORY_CREATING
     })
@@ -185,6 +190,7 @@ export default {
     api.post(`changelogs/${changelogId}/stories`, data).
       then(resp => {
         let story = addParams(changelogId, resp)
+
         Dispatcher.dispatch({
           type: STORY_PUBLISHED,
           story: story,
@@ -196,7 +202,7 @@ export default {
           bodyLength: (story.body && story.body.length) || 0
         })
 
-        successCallback()
+        successCallback(story)
         if (shouldTransition) {
           Router.get().transitionTo('story', story.urlParams)
         }
