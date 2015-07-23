@@ -1,16 +1,16 @@
-import { connect } from 'redux/react'
 import Calendar from 'rc-calendar'
 import ContributorsInput from 'components/ContributorsInput.jsx'
 import Dialog from 'ui/Dialog.jsx'
 import EmojiInput from 'components/EmojiInput.jsx'
 import enUS from 'rc-calendar/lib/locale/en-us'
 import Icon from 'ui/Icon.jsx'
-import MarkdownArea from 'ui/markdown_area.jsx'
+import MarkdownArea from 'ui/MarkdownArea.jsx'
 import MembersOnly from 'components/MembersOnly.jsx'
 import moment from 'moment'
-import { setPublishToTwitter } from 'lib/publishToTwitter'
 import React, { Component, PropTypes } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
+import { connect } from 'redux/react'
+import { setPublishToTwitter } from 'lib/publishToTwitter'
 
 import 'stylesheets/components/calendar.css'
 
@@ -81,7 +81,7 @@ export default class StoryForm extends Component {
               <TextareaAutosize
                 className="field-light block full-width h2"
                 placeholder="What happened?"
-                value={title}
+                value={title || ''}
                 onChange={this.handleTitleChanged}
                 ref="title" />
             </div>
@@ -193,12 +193,12 @@ export default class StoryForm extends Component {
     return (
       <div className="mt2">
         <MarkdownArea id={this.props.storyId || "new_story"}
-          placeholder="Describe your story (optional)"
-          gifPickerPosition="bottom"
-          ref="body"
-          value={this.props.story.body}
-          rows={4}
-          onChange={this.handleBodyChanged} />
+                  value={this.props.story.body}
+                  onChange={this.handleBodyChanged}
+                  placeholder="Describe your story (optional)"
+                  gifPickerPosition="bottom"
+                  ref="body"
+                  rows={4} />
         <div className="right-align">
           <a className="mt1 h6 silver" href="http://daringfireball.net/projects/markdown/basics" target="_blank">
             <strong>*Markdown*</strong> <i>_syntax_</i>
@@ -220,6 +220,10 @@ export default class StoryForm extends Component {
     this.dispatchChange({emoji_id: e.target.value})
   }
 
+  handleBodyChanged(e) {
+    this.dispatchChange({body: e.target.value})
+  }
+
   handleTitleChanged(e) {
     this.dispatchChange({title: e.target.value})
   }
@@ -230,10 +234,6 @@ export default class StoryForm extends Component {
 
   handleCreatedAtChanged(e) {
     this.dispatchChange({created_at: moment(e.time).toISOString()})
-  }
-
-  handleBodyChanged(e) {
-    this.dispatchChange({body: e.target.value})
   }
 
   handleTwitterChange(e) {

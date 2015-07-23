@@ -1,6 +1,6 @@
 import React from 'react'
 import Icon from '../ui/Icon.jsx'
-import MarkdownArea from '../ui/markdown_area.jsx'
+import MarkdownArea from '../ui/MarkdownArea.jsx'
 import SessionStore from '../stores/session_store'
 import ProfileActions from '../actions/profile_actions.js'
 

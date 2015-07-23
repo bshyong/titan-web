@@ -11,7 +11,7 @@ import ChangelogPage from 'pages/ChangelogPage.jsx'
 import ChangelogSettings from 'components/settings/ChangelogSettings.jsx'
 import DashboardPage from 'pages/DashboardPage.jsx'
 import DeepLinkTwitter from 'components/DeepLinks/Twitter.jsx'
-import EditStoryForm from 'components/edit_story_form.js.jsx'
+import EditStoryPage from 'pages/EditStoryPage.jsx'
 import FeedPage from 'pages/FeedPage.jsx'
 import GithubCallback from 'components/GithubCallback.jsx'
 import GithubRepoDraftsPage from 'pages/GithubRepoDraftsPage.jsx'
@@ -79,7 +79,7 @@ var internal = (
 
       <Route handler={ChangelogBySetsPage} name="changelog_by_sets" path="sets" />
 
-      <Route handler={EditStoryForm} path=":storyId/edit" name="edit" />
+      <Route handler={EditStoryPage} path=":storyId/edit" name="edit" />
 
       <Route handler={StoryComposer} path="new">
         <DefaultRoute handler={NewStoryPage} name="new" />
@@ -111,7 +111,7 @@ var external = (
 
       <Route handler={ChangelogBySetsPage} name="changelog_by_sets" path="sets" />
 
-      <Route handler={EditStoryForm} path=":storyId/edit" name="edit" />
+      <Route handler={EditStoryPage} path=":storyId/edit" name="edit" />
 
       <Route handler={StoryComposer} path="new">
         <DefaultRoute handler={NewStoryPage} name="new" />

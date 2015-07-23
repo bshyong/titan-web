@@ -75,6 +75,11 @@ RouterContainer.setRouters({
 RouterContainer.setDomain(window.location.hostname)
 
 RouterContainer.router.run((Handler, state) => {
+  const fetchs = state.routes.map(r => r.handler).filter(h => h.fetchData).map(h => h.fetchData)
+  const reduxState = redux.getState()
+  const dispatches = fetchs.map(f => f(state.params, state.query, reduxState))
+  dispatches.filter(d => !!d).map(redux.dispatch)
+
   React.render(
     <Provider redux={redux}>
       {() => <Handler />}

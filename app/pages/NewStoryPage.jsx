@@ -11,30 +11,35 @@ import EmojiStore from 'stores/emoji_store'
 import React from 'react'
 import RouterContainer from 'lib/router_container'
 import SessionStore from 'stores/session_store'
-import { showTweetScrim } from 'actions/TweetScrimActions'
 import statics from 'lib/statics'
 import StoryActions from 'actions/story_actions'
 import StoryForm from 'components/Story/StoryForm.jsx'
-import StoryFormActions from 'actions/story_form_actions'
-import StoryFormStore from 'stores/story_form_store'
+import * as storyFormActions from 'actions/storyFormActions'
 import StoryFormWalkthrough from 'components/Story/StoryFormWalkthrough.jsx'
 import UploadingAttachmentStore from 'stores/uploading_attachment_store'
 import { connect } from 'redux/react'
+import { showTweetScrim } from 'actions/TweetScrimActions'
 
-@statics({
-  willTransitionTo(transition, params, query) {
-    StoryFormActions.clearAll()
-    ContributorsActions.resetContributors(SessionStore.user)
-  }
-})
 @AuthenticatedMixin()
-@connect(state => ({}))
-@connectToStores(StoryFormStore, UploadingAttachmentStore)
+@connect(state => ({
+  isCreating: state.storyFields.isCreating,
+  storyFields: state.storyFields,
+  errorMessage: state.storyFields.errorMessage,
+  publishToTwitter: state.storyFields.publishToTwitter,
+}))
+@connectToStores(ChangelogStore, UploadingAttachmentStore, ContributorsStore)
 export default class NewStoryPage extends React.Component {
   static get defaultProps() {
     return {
       changelogId: RouterContainer.changelogSlug()
     }
+  }
+
+  componentWillMount() {
+    setTimeout(() => {
+      this.props.dispatch(storyFormActions.clearAll())
+      ContributorsActions.resetContributors(SessionStore.user)
+    }, 0)
   }
 
   constructor(props) {
@@ -43,19 +48,15 @@ export default class NewStoryPage extends React.Component {
     this.state = {
       showErrorMessage: false
     }
+
+    this.handleOnPublish = this.handleOnPublish.bind(this)
+    this.handleOnChange = this.handleOnChange.bind(this)
   }
 
   static getPropsFromStores(props) {
     return {
-      ...props,
       changelog: ChangelogStore.changelog,
-      isCreating: StoryFormStore.isCreating,
-      story: {
-        ...StoryFormStore.data,
-        contributors: ContributorsStore.contributors,
-        errorMessage: StoryFormStore.errorMessage,
-        publishToTwitter: StoryFormStore.publishToTwitter
-      },
+      contributors: ContributorsStore.contributors,
       uploadsFinished: UploadingAttachmentStore.uploadsFinished('new_story'),
       fromOnboarding: RouterContainer.get().getCurrentQuery().o
     }
@@ -63,11 +64,13 @@ export default class NewStoryPage extends React.Component {
 
   render() {
     const { showErrorMessage } = this.state
-    const { changelog, story, isCreating } = this.props
+    const { changelog, storyFields, contributors, isCreating } = this.props
 
     if (!changelog) {
       return null
     }
+
+    const story = {...storyFields, ...contributors}
 
     return (
       <DocumentTitle title={["New story", changelog.name].join(' · ')}>
@@ -77,15 +80,16 @@ export default class NewStoryPage extends React.Component {
             <StoryFormWalkthrough>
               {this.renderSuccessBanner()}
               <StoryForm story={story}
+                ref="form"
                 showErrorMessage={showErrorMessage}
                 changelog={changelog}
-                onChange={this.handleOnChange.bind(this)} />
+                onChange={this.handleOnChange} />
             </StoryFormWalkthrough>
             <div className="py2 right-align">
               <Button
                 color="orange"
                 style="outline"
-                action={this.handleOnPublish.bind(this)}
+                action={this.handleOnPublish}
                 disabled={isCreating}>
                 Post
               </Button>
@@ -97,7 +101,7 @@ export default class NewStoryPage extends React.Component {
   }
 
   renderSuccessBanner() {
-    const { isCreating, story: { title } } = this.props
+    const { isCreating } = this.props
     if (isCreating) {
       return (
         <div className="bg-blue center p2 mb2 rounded">
@@ -110,31 +114,29 @@ export default class NewStoryPage extends React.Component {
   }
 
   handleOnChange(fields) {
-    StoryFormActions.change(fields)
+    this.props.dispatch(storyFormActions.change(fields))
   }
 
   handleOnPublish(e) {
     e.preventDefault()
     const {
-      story: {
-        errorMessage,
-        publishToTwitter
-      },
-      uploadsFinished,
-      fromOnboarding,
       changelogId,
-      dispatch
+      dispatch,
+      fromOnboarding,
+      publishToTwitter,
+      storyFields,
+      uploadsFinished,
     } = this.props
 
     if (uploadsFinished || confirm('Attachments are still uploading; are you sure you want to post?')) {
-      if (!StoryFormStore.isValid() || errorMessage) {
-        if (errorMessage.indexOf('emoji') > -1) {
+      if (!storyFields.title || !storyFields.emoji_id || storyFields.errorMessage) {
+        if (storyFields.errorMessage.indexOf('emoji') > -1) {
           dispatch(EmojiInputActions.open())
         }
         this.setState({showErrorMessage: true})
       } else {
         if (fromOnboarding) {
-          return StoryActions.publish(changelogId, StoryFormStore.data, false, () => {
+          return StoryActions.publish(changelogId, storyFields, false, () => {
             RouterContainer.transitionTo('changelog', {changelogId: changelogId})
           })
         }
@@ -156,7 +158,7 @@ export default class NewStoryPage extends React.Component {
           dispatch(showTweetScrim(text))
         } : () => {}
 
-        StoryActions.publish(changelogId, StoryFormStore.data, true, callback)
+        StoryActions.publish(changelogId, storyFields, true, callback)
       }
     }
   }

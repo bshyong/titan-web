@@ -171,8 +171,9 @@ export default keyMirror({
   STORY_CREATING: null,
   STORY_DELETED: null,
   STORY_EDITING: null,
-  STORY_FETCH: null,
+  STORY_FETCH_FAILED: null,
   STORY_FETCHED: null,
+  STORY_FETCHING: null,
   STORY_HEARTED: null,
   STORY_PUBLISHED: null,
   STORY_SUBSCRIBED: null,
@@ -181,6 +182,8 @@ export default keyMirror({
   STORY_UPDATE_FAILED: null,
   STORY_UPDATED: null,
   STORY_UPDATING: null,
+
+  STORY_FIELDS_EDIT: null,
 
   STORY_FORM_CHANGE: null,
   STORY_FORM_CLEAR: null,
@@ -207,5 +210,5 @@ export default keyMirror({
   USER_PICKER_SET_HIGHLIGHT_INDEX: null,
   USER_PICKER_USER_SELECTED: null,
   USER_PICKER_USERS_CLEARED: null,
-  USER_PICKER_USERS_FETCHED: null
+  USER_PICKER_USERS_FETCHED: null,
 })

@@ -24,16 +24,16 @@ export default class MarkdownArea extends React.Component {
       focused: false
     }
 
+    this.closeGifPicker = this.closeGifPicker.bind(this)
     this.handleChange = this._handleChange.bind(this)
     this.handleKeyDown = this._handleKeyDown.bind(this)
+    this.onBlur = this._onBlur.bind(this)
+    this.onFocus = this._onFocus.bind(this)
+    this.onGifSelected = this._onGifSelected.bind(this)
     this.onUploaded = this._onUploaded.bind(this)
     this.onUploading = this._onUploading.bind(this)
     this.onUserSelected = this._onUserSelected.bind(this)
-    this.onGifSelected = this._onGifSelected.bind(this)
     this.toggleGifPicker = this.toggleGifPicker.bind(this)
-    this.closeGifPicker = this.closeGifPicker.bind(this)
-    this.onFocus = this._onFocus.bind(this)
-    this.onBlur = this._onBlur.bind(this)
     this.updateSelectionStart = this._updateSelectionStart.bind(this)
   }
 

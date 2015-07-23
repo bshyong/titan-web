@@ -26,6 +26,7 @@ import Dispatcher from '../lib/dispatcher'
 import Router from '../lib/router_container'
 import api from '../lib/api'
 import segment from '../lib/segment'
+import ContributorsStore from 'stores/ContributorsStore'
 import { List } from 'immutable'
 
 export default {
@@ -139,10 +140,15 @@ export default {
       })
   },
 
-  edit(changelogId, storyId, data) {
+  edit(changelogId, storyId, fields) {
     Dispatcher.dispatch({
       type: STORY_EDITING
     })
+
+    const data = {
+      ...fields,
+      contributors: ContributorsStore.tokens.map(t => t.string).toJS().join(','),
+    }
 
     api.put(`changelogs/${changelogId}/stories/${storyId}`, data).
       then(resp => {

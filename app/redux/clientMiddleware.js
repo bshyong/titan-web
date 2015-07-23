@@ -2,6 +2,8 @@ import segment from 'lib/segment'
 
 export default function clientMiddleware(api) {
   return (next) => (action) => {
+    console.info(action.type, action)
+
     const { promise, types, analytics, ...rest } = action
 
     if (!promise) {
