@@ -18,6 +18,7 @@
     "babel-loader": "^5.0.0",
     "babel-runtime": "^5.4.7",
     "basscss": "~6.1.6",
+    "c3": "^0.4.10",
     "classnames": "~1.2",
     "compression": "^1.4.3",
     "compression-webpack-plugin": "^0.2.0",

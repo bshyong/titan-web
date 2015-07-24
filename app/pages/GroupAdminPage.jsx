@@ -7,7 +7,6 @@ import React from 'react'
 import ScrollPaginator from 'ui/ScrollPaginator.jsx'
 import c3 from 'c3'
 
-
 export class GroupAdminPage extends React.Component {
 
   componentDidMount() {
