@@ -26,13 +26,12 @@ export class GroupAdminPage extends React.Component {
 
           <div className="py2">
             <h2 className="bold">{groupStats.stats.followers_count} Followers</h2>
-            <LoadingBar loading={groupStats.fetching} />
             {this.followersChart(groupStats)}
           </div>
 
           <div className="py2">
             {this.renderLoadedState()}
-            {groupMembers.fetching ? this.renderLoadingState() : null}
+            {groupMembers.fetching || groupStats.fetching ? this.renderLoadingState() : null}
             <LoadingBar loading={groupMembers.fetching} />
           </div>
         </div>
@@ -77,7 +76,7 @@ export class GroupAdminPage extends React.Component {
 
   renderLoadingState() {
     return <div>
-      <h5 className="bold">Loading member data..</h5>
+      <h5 className="bold">Loading data..</h5>
     </div>
   }
 
@@ -104,7 +103,7 @@ export class GroupMembers extends React.Component {
 
     return <div>
       <div className="overflow-scroll">
-        <table className="table-light overflow-hidden bg-white border rounded">
+        <table className="table-light overflow-hidden bg-white border rounded h5">
           <thead className="bg-smoke">
             <tr className="">
               <th className="">User</th>
@@ -112,6 +111,7 @@ export class GroupMembers extends React.Component {
               <th className="">Twitter</th>
               <th className="">Contributions</th>
               <th className="">Last Contributed At</th>
+              <th className="">Joined At</th>
             </tr>
           </thead>
           <tbody>
@@ -130,8 +130,8 @@ export class GroupMembers extends React.Component {
       <td className="">
         <Link to="profile"
           params={{userId: user.username}}>
-          <div className="flex flex-center p1">
-            <div><Avatar user={user} size={32} /></div>
+          <div className="flex flex-center">
+            <div className="flex-none"><Avatar user={user} size={32} /></div>
             <div className="px1">@{user.username}</div>
           </div>
         </Link>
@@ -140,22 +140,25 @@ export class GroupMembers extends React.Component {
         <div className="py1">{user.email}</div>
       </td>
       <td className="">
-        <div className="py1 h5">
+        <div className="py1">
           {{...twitter_info}.handle ?
             <span>
               <Link to={`https://twitter.com/${twitter_info.handle}`}>
                 {`@${twitter_info.handle}`}
-              </Link>, {{...twitter_info}.followers} followers
+              </Link>
             </span> : '-'}
         </div>
       </td>
       <td className="">
-        <div className="py1 h5">
+        <div className="py1">
           {`${contributions.stories} stories, ${contributions.comments} comments, ${contributions.hearts} hearts`}
         </div>
       </td>
       <td>
-        last contributed at here
+        last contributed at
+      </td>
+      <td>
+        joined at
       </td>
     </tr>
   }
