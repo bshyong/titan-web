@@ -56,7 +56,7 @@ export class GroupMembers extends React.Component {
             <th className="">User</th>
             <th className="">Email</th>
             <th className="">Twitter</th>
-            <th className="">LinkedIn</th>
+            <th className="">Contributions</th>
           </tr>
         </thead>
         <tbody>
@@ -67,7 +67,7 @@ export class GroupMembers extends React.Component {
   }
 
   renderUserRow(user) {
-    const { linkedin_info, twitter_info } = user
+    const { contributions, twitter_info } = user
 
     return <tr key={user.id}>
       <td className="">
@@ -94,7 +94,7 @@ export class GroupMembers extends React.Component {
       </td>
       <td className="">
         <div className="py1 h5">
-          {{...linkedin_info}.handle ? `https://linkedin.com/${linkedin_info.handle}` : '-'}
+          {`${contributions.stories} stories, ${contributions.comments} comments, ${contributions.hearts} hearts`}
         </div>
       </td>
     </tr>
