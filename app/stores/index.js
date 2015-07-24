@@ -1,3 +1,4 @@
+export adminStore from './adminStore'
 export authenticationForm from './authenticationForm'
 export changelogs from './changelogs'
 export currentUser from './currentUser'

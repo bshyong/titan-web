@@ -1,25 +1,24 @@
-import { RouteHandler } from 'react-router'
-import {List, Set} from 'immutable'
-import AdminActions from '../actions/admin_actions'
-import AdminStore from '../stores/admin_store'
-import connectToStores from '../lib/connectToStores.jsx'
-import Link from '../components/Link.jsx'
+import { connect } from 'redux/react'
+import { List } from 'immutable'
 import Logo from './logo.jsx'
 import moment from 'moment'
 import paramsFor from '../lib/paramsFor'
-import React from 'react'
+import React, { Component, PropTypes } from 'react'
 import StoryCell from './Story/StoryCell.jsx'
 import Table from '../ui/Table.jsx'
 
-@connectToStores(AdminStore)
-export default class Admin extends React.Component {
-  static getPropsFromStores() {
-    return {
-      changelogs: AdminStore.changelogs,
-      users: AdminStore.users,
-      stories: AdminStore.stories,
-      stats: AdminStore.stats
-    }
+@connect(state => ({
+  changelogs: state.adminStore.changelogs,
+  stats: state.adminStore.stats,
+  stories: state.adminStore.stories,
+  users: state.adminStore.users,
+}))
+export default class Admin extends Component {
+  static propTypes = {
+    changelogs: PropTypes.array.isRequired,
+    stats: PropTypes.array.isRequired,
+    stories: PropTypes.array.isRequired,
+    users: PropTypes.array.isRequired,
   }
 
   render() {
@@ -39,12 +38,12 @@ export default class Admin extends React.Component {
 
   renderStories() {
     const { stories } = this.props
-    if (stories === null) {
+    if (!stories) {
       return
     }
 
-    return stories.map(story => {
-      if (story.changelog !==null) {
+    return stories.map((story) => {
+      if (story.changelog !== null) {
         return (
           <Table.Cell key={story.id} to="story" params={paramsFor.story({slug: story.changelog.slug}, story)} image={<Logo changelog={story.changelog} size="1.5rem" />}>
             <StoryCell story={story} slim={true} />
@@ -79,7 +78,7 @@ export default class Admin extends React.Component {
 
   renderChangelogs() {
     if (this.props.changelogs) {
-      let c = List(this.props.changelogs).sortBy(changelog => changelog.created_at).reverse()
+      const c = List(this.props.changelogs).sortBy(changelog => changelog.created_at).reverse()
       return c.map(changelog => {
         return (
           <tr>
@@ -91,15 +90,15 @@ export default class Admin extends React.Component {
   }
 
   renderChangelog(changelog) {
-    let date = moment(changelog.created_at).format('MMMM D, YYYY')
+    const date = moment(changelog.created_at).format('MMMM D, YYYY')
     let username = null
     let l = null
     if (changelog.user) {
       username = changelog.user.username
-      l = "users/".concat(username)
+      l = 'users/'.concat(username)
     } else {
-      username = "Mr. E"
-      l = "users/awwstn"
+      username = 'Mr. E'
+      l = 'users/awwstn'
     }
     return (
       <tr>
@@ -146,9 +145,9 @@ export default class Admin extends React.Component {
   }
 
   renderAllStats() {
-    let c = List(this.props.stats)
+    const c = List(this.props.stats)
     return c.map(stat => {
-      let date = moment(stat[0]).format('MMMM D, YYYY')
+      const date = moment(stat[0]).format('MMMM D, YYYY')
       return (
         <tr>
           <td>{date}</td>
@@ -162,8 +161,8 @@ export default class Admin extends React.Component {
   renderThem() {
     if (this.props.users) {
       return List(this.props.users).map(user => {
-        let date = moment(user.created_at).format('MMMM D, YYYY')
-        let q  = "users/".concat(user.username)
+        const date = moment(user.created_at).format('MMMM D, YYYY')
+        const q  = 'users/'.concat(user.username)
         return (
           <tr>
             <td><a href={q}>{user.username}</a></td>

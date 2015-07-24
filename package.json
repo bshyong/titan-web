@@ -66,6 +66,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^3.1.23",
+    "babel-tape-runner": "^1.1.0",
     "eslint": "^0.24.0",
     "eslint-plugin-react": "^2.6.4",
     "jasmine": "^2.3.1",
