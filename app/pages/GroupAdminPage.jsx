@@ -96,7 +96,7 @@ export class GroupMembers extends React.Component {
 
   constructor(props) {
     super(props)
-    this.fetchMore = ::this.fetchMore
+    this.fetchMore = this.fetchMore.bind(this)
   }
 
   render() {
