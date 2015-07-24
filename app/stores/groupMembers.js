@@ -5,6 +5,7 @@ const initialState = {
   fetching: false,
   moreAvailable: true,
   page: 1,
+  per: 25,
   members: List(),
 }
 
@@ -19,7 +20,9 @@ export default function groupMembers(state = initialState, action) {
       return {
         ...state,
         fetching: false,
-        members: List(action.resp),
+        page: action.page,
+        moreAvailable: action.per == List(action.members).size,
+        members: state.members.concat(List(action.members)),
       }
     default:
       return state

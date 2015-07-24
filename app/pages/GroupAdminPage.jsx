@@ -1,17 +1,18 @@
-import AppNavbar from 'components/App/AppNavbar.jsx'
-import React from 'react'
-import SessionStore from 'stores/session_store'
-import Link from 'components/Link.jsx'
-import Avatar from 'ui/Avatar.jsx'
 import * as GroupAdminActions from 'actions/group_admin_actions'
+import AppNavbar from 'components/App/AppNavbar.jsx'
+import Avatar from 'ui/Avatar.jsx'
+import Link from 'components/Link.jsx'
 import LoadingBar from 'ui/LoadingBar.jsx'
-
+import React from 'react'
+import ScrollPaginator from 'ui/ScrollPaginator.jsx'
+import SessionStore from 'stores/session_store'
 
 export class GroupAdminPage extends React.Component {
 
   componentDidMount() {
     const { changelogId } = this.props
-    this.props.fetchMembers(changelogId)
+    const { page, per } = this.props.groupMembers
+    this.props.fetchMembers(changelogId, page, per)
   }
 
   render() {
@@ -21,7 +22,8 @@ export class GroupAdminPage extends React.Component {
       <div>
         <AppNavbar title="Group admin page" />
         <div className="px4 py2">
-          {groupMembers.fetching ? this.renderLoadingState() : this.renderLoadedState()}
+          {this.renderLoadedState()}
+          {groupMembers.fetching ? this.renderLoadingState() : null}
           <LoadingBar loading={groupMembers.fetching} />
         </div>
       </div>
@@ -30,12 +32,13 @@ export class GroupAdminPage extends React.Component {
 
   renderLoadingState() {
     return <div>
-      <h2 className="bold">Loading member data..</h2>
+      <h5 className="bold">Loading member data..</h5>
     </div>
   }
 
   renderLoadedState() {
     const { groupMembers } = this.props
+    if (groupMembers.members.size == 0) { return null }
 
     return <div>
       <h2 className="bold">{groupMembers.members.size} Followers</h2>
@@ -46,23 +49,31 @@ export class GroupAdminPage extends React.Component {
 
 export class GroupMembers extends React.Component {
 
-  render() {
-    const { members } = this.props.groupMembers
+  constructor(props) {
+    super(props)
+    this.fetchMore = ::this.fetchMore
+  }
 
-    return <div className="overflow-scroll">
-      <table className="table-light overflow-hidden bg-white border rounded">
-        <thead className="bg-smoke">
-          <tr className="">
-            <th className="">User</th>
-            <th className="">Email</th>
-            <th className="">Twitter</th>
-            <th className="">Contributions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {members.map(m => this.renderUserRow(m))}
-        </tbody>
-      </table>
+  render() {
+    const { members, moreAvailable, page } = this.props.groupMembers
+
+    return <div>
+      <div className="overflow-scroll">
+        <table className="table-light overflow-hidden bg-white border rounded">
+          <thead className="bg-smoke">
+            <tr className="">
+              <th className="">User</th>
+              <th className="">Email</th>
+              <th className="">Twitter</th>
+              <th className="">Contributions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {members.map(m => this.renderUserRow(m))}
+          </tbody>
+        </table>
+      </div>
+      {moreAvailable ? <ScrollPaginator page={page} onScrollBottom={this.fetchMore} /> : null}
     </div>
   }
 
@@ -98,6 +109,13 @@ export class GroupMembers extends React.Component {
         </div>
       </td>
     </tr>
+  }
+
+  fetchMore() {
+    const { changelogId } = this.props
+    const { page, per } = this.props.groupMembers
+
+    this.props.fetchMembers(changelogId, page + 1, per)
   }
 }
 
