@@ -12,8 +12,8 @@ export class GroupAdminPage extends React.Component {
 
   componentDidMount() {
     const { changelogId } = this.props
-    const { page, per } = this.props.groupMembers
-    this.props.fetchMembers(changelogId, page, per)
+    const { page, per, sort, filter } = this.props.groupMembers
+    this.props.fetchMembers(changelogId, page, per, sort, filter)
     this.props.fetchStats(changelogId)
   }
 
@@ -166,9 +166,9 @@ export class GroupMembers extends React.Component {
 
   fetchMore() {
     const { changelogId } = this.props
-    const { page, per } = this.props.groupMembers
+    const { page, per, sort, filter } = this.props.groupMembers
 
-    this.props.fetchMembers(changelogId, page + 1, per)
+    this.props.fetchMembers(changelogId, page + 1, per, sort, filter)
   }
 }
 

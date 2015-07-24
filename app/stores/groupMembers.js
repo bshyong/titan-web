@@ -7,6 +7,8 @@ const initialState = {
   page: 1,
   per: 25,
   members: List(),
+  sort: 'joined-desc',
+  filter: ''
 }
 
 export default function groupMembers(state = initialState, action) {
@@ -17,12 +19,15 @@ export default function groupMembers(state = initialState, action) {
         fetching: true,
       }
     case c.GROUP_MEMBERS_FETCHED:
+      var membersList = List(action.members)
       return {
         ...state,
         fetching: false,
         page: action.page,
         moreAvailable: action.per == List(action.members).size,
-        members: state.members.concat(List(action.members)),
+        members: action.page == 1 ? membersList : state.members.concat(membersList),
+        sort: action.sort,
+        filter: action.filter
       }
     default:
       return state
