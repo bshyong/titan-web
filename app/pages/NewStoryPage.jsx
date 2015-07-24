@@ -7,7 +7,6 @@ import connectToStores from 'lib/connectToStores.jsx'
 import ContributorsActions from 'actions/ContributorsActions'
 import ContributorsStore from 'stores/ContributorsStore'
 import DocumentTitle from 'react-document-title'
-import EmojiStore from 'stores/emoji_store'
 import React from 'react'
 import RouterContainer from 'lib/router_container'
 import SessionStore from 'stores/session_store'
@@ -16,22 +15,39 @@ import StoryActions from 'actions/story_actions'
 import StoryForm from 'components/Story/StoryForm.jsx'
 import * as storyFormActions from 'actions/storyFormActions'
 import StoryFormWalkthrough from 'components/Story/StoryFormWalkthrough.jsx'
-import UploadingAttachmentStore from 'stores/uploading_attachment_store'
 import { connect } from 'redux/react'
 import { showTweetScrim } from 'actions/TweetScrimActions'
 
 @AuthenticatedMixin()
 @connect(state => ({
+  attachments: state.attachments,
   isCreating: state.storyFields.isCreating,
   storyFields: state.storyFields,
   errorMessage: state.storyFields.errorMessage,
   publishToTwitter: state.storyFields.publishToTwitter,
 }))
-@connectToStores(ChangelogStore, UploadingAttachmentStore, ContributorsStore)
+@connectToStores(ChangelogStore, ContributorsStore)
+@statics({
+  getPropsFromStores(props) {
+    return {
+      changelog: ChangelogStore.changelog,
+      contributors: ContributorsStore.contributors,
+      fromOnboarding: RouterContainer.get().getCurrentQuery().o,
+    }
+  },
+  willTransitionTo() {
+    StoryFormActions.clearAll()
+    ContributorsActions.resetContributors(SessionStore.user)
+  },
+})
+@AuthenticatedMixin()
+@connect(state => ({
+  attachments: state.attachments,
+}))
 export default class NewStoryPage extends React.Component {
   static get defaultProps() {
     return {
-      changelogId: RouterContainer.changelogSlug()
+      changelogId: RouterContainer.changelogSlug(),
     }
   }
 
@@ -46,20 +62,11 @@ export default class NewStoryPage extends React.Component {
     super(props)
 
     this.state = {
-      showErrorMessage: false
+      showErrorMessage: false,
     }
 
     this.handleOnPublish = this.handleOnPublish.bind(this)
     this.handleOnChange = this.handleOnChange.bind(this)
-  }
-
-  static getPropsFromStores(props) {
-    return {
-      changelog: ChangelogStore.changelog,
-      contributors: ContributorsStore.contributors,
-      uploadsFinished: UploadingAttachmentStore.uploadsFinished('new_story'),
-      fromOnboarding: RouterContainer.get().getCurrentQuery().o
-    }
   }
 
   render() {
@@ -120,13 +127,15 @@ export default class NewStoryPage extends React.Component {
   handleOnPublish(e) {
     e.preventDefault()
     const {
+      attachments,
       changelogId,
       dispatch,
       fromOnboarding,
       publishToTwitter,
       storyFields,
-      uploadsFinished,
     } = this.props
+
+    const uploadsFinished = !attachments.new_story
 
     if (uploadsFinished || confirm('Attachments are still uploading; are you sure you want to post?')) {
       if (!storyFields.title || !storyFields.emoji_id || storyFields.errorMessage) {
