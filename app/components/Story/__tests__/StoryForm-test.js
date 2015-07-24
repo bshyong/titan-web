@@ -80,7 +80,6 @@ describe('StoryForm', () => {
 
     describe('.body', () => {
       it('triggers an update on change', () => {
-        console.log(form.refs)
         const body = TestUtils.scryRenderedDOMComponentsWithTag(
           form,
           'textarea'
