@@ -1,51 +1,57 @@
-import AttachmentActions from '../actions/attachment_actions'
-import AttachmentStore from '../stores/attachment_store'
-import Dropzone from '../config/dropzone'
-import Icon from '../ui/Icon.jsx'
-import onMobile from '../lib/on_mobile'
-import React from 'react'
-import UploadingAttachmentStore from '../stores/uploading_attachment_store'
+import { connect } from 'redux/react'
+import * as AttachmentActions from 'actions/AttachmentActions'
+import api from 'lib/api'
+import Dropzone from 'config/dropzone'
+import React, { Component, PropTypes } from 'react'
+import statics from 'lib/statics'
 
-export default class DropzoneContainer extends React.Component {
+@connect(state => ({
+  attachments: state.attachments,
+}))
+export default class DropzoneContainer extends Component {
+  static propTypes = {
+    clickable: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.object,
+      PropTypes.string,
+    ]),
+    onError: PropTypes.func.isRequired,
+    onUploaded: PropTypes.func.isRequired,
+    onUploading: PropTypes.func.isRequired,
+  }
+
+  static defaultProps = {
+    onError: () => {},
+    onUploaded: () => {},
+    onUploading: () => {},
+  }
+
   constructor(props) {
     super(props)
 
-    this.getAttachments = this._getAttachments.bind(this)
-    this.getUploadingAttachments = this._getUploadingAttachments.bind(this)
+    this.attachDropzone = this._attachDropzone.bind(this)
+    this.confirmAttachment = this._confirmAttachment.bind(this)
     this.onSending = this._onSending.bind(this)
+    this.uploadAttachment = this._uploadAttachment.bind(this)
+
+    this.state = {
+      attachments: {},
+    }
   }
 
   componentDidMount() {
     this.attachDropzone()
-
-    AttachmentStore.addChangeListener(this.getAttachments)
-    UploadingAttachmentStore.addChangeListener(this.getUploadingAttachments)
   }
 
   componentDidUpdate() {
     if (!this.dropzone) {
       this.attachDropzone()
     }
-    this.dropzone.options.accept = AttachmentActions.uploadAttachment(this.props.id)
+    this.dropzone.options.accept = this.uploadAttachment
   }
 
   componentWillUnmount() {
     this.dropzone = null
-
-    AttachmentStore.removeChangeListener(this.getAttachments)
-    UploadingAttachmentStore.removeChangeListener(this.getUploadingAttachments)
-  }
-
-  attachDropzone() {
-    if (this.props.clickable) {
-      this.dropzone = new Dropzone(React.findDOMNode(this.refs.dropzone), {
-        accept: AttachmentActions.uploadAttachment(this.props.id),
-        clickable: this.props.clickable,
-        sending: this.onSending,
-        success: AttachmentActions.confirmAttachment,
-        url: `https://s3.amazonaws.com/titan-api`
-      })
-    }
   }
 
   render() {
@@ -56,33 +62,29 @@ export default class DropzoneContainer extends React.Component {
     )
   }
 
-  shouldComponentUpdate(nextProps) {
-    if (nextProps.id !== this.props.id) {
-      return true
-    }
-
-    if (nextProps.children !== this.props.children) {
-      return true
-    }
-
-    return false
+  _attachDropzone() {
+    this.dropzone = new Dropzone(React.findDOMNode(this.refs.dropzone), {
+      accept: this.uploadAttachment,
+      clickable: this.props.clickable,
+      sending: this.onSending,
+      success: this.confirmAttachment,
+      url: `${S3_URL}`,
+    })
   }
 
-  _getAttachments() {
-    let id = this.props.id
-    let attachment = AttachmentStore.getAttachment(id)
+  _confirmAttachment(file) {
+    const { attachments, } = this.state
+    const { key, } = file.form
+    const attachment = attachments[key]
 
     if (attachment) {
       this.props.onUploaded(attachment)
-    }
-  }
 
-  _getUploadingAttachments() {
-    let id = this.props.id
-    let attachments = UploadingAttachmentStore.getAttachments(id)
+      delete attachments[key]
 
-    if (attachments.size) {
-      this.props.onUploading(attachments)
+      this.setState({
+        attachments: attachments,
+      })
     }
   }
 
@@ -92,14 +94,51 @@ export default class DropzoneContainer extends React.Component {
   // need to attach this information to the uploading file so that S3 accepts
   // it.
   _onSending(file, xhr, formData) {
-    for (let k in file.form) {
-      formData.append(k, file.form[k])
+    for (const k in file.form) {
+      if (file.form.hasOwnProperty(k)) {
+        formData.append(k, file.form[k])
+      }
     }
   }
-}
 
-DropzoneContainer.propTypes = {
-  id: React.PropTypes.string.isRequired,
-  onUploaded: React.PropTypes.func.isRequired,
-  onUploading: React.PropTypes.func.isRequired
+  // NOTE: (pletcher) Moving the upload call out of an action creator and
+  // and into the component itself felt a bit funny at first, but it
+  // seriously cuts down on upload complexity. Now we don't need to manage
+  // state in multiple stores (and no store needs to know the details
+  // about attachments), and we instead get a simple wrapper for hooking into
+  // the upload API. (The store (`attachments`), for its part, just increments and decrements
+  // the attachments going in and out of a given container.)
+  _uploadAttachment(file, done) {
+    const { dispatch, id, onError, onUploading, } = this.props
+
+    onUploading(file)
+
+    dispatch(AttachmentActions.uploading(id))
+
+    api.post('attachments', {
+      name: file.name,
+      content_type: file.type,
+      size: file.size,
+    }).then(attachment => {
+      const { attachments, } = this.state
+
+      file.form = attachment.form
+      attachment.name = file.name
+
+      this.setState({
+        attachments: {
+          ...attachments,
+          [attachment.form.key]: attachment,
+        },
+      })
+
+      done()
+
+      dispatch(AttachmentActions.uploaded(id))
+    }).catch(error => {
+      onError(error)
+
+      dispatch(AttachmentActions.failed(id))
+    })
+  }
 }

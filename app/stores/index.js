@@ -1,4 +1,5 @@
 export adminStore from './adminStore'
+export attachments from './attachments'
 export authenticationForm from './authenticationForm'
 export changelogs from './changelogs'
 export currentUser from './currentUser'

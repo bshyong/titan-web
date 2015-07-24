@@ -37,7 +37,8 @@ var webpackConfig = {
       API_URL: JSON.stringify(process.env.API_URL),
       MAIN_HOST: JSON.stringify(process.env.MAIN_HOST || 'assembly.test'),
       RR_URL: JSON.stringify(process.env.RR_URL || 'https://readraptor.com'),
-      'process.env.NODE_ENV': JSON.stringify('test')
+      'process.env.NODE_ENV': JSON.stringify('test'),
+      S3_URL: JSON.stringify(process.env.S3_URL || 'https://s3.amazonaws.com/titan-api'),
     }),
     new ExtractTextPlugin('[name]-[chunkhash].css')
   ]
