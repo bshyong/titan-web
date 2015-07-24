@@ -1,11 +1,11 @@
 import c from 'constants'
-import { List } from 'immutable'
+import { List, Map } from 'immutable'
 
 const initialState = {
   fetching: false,
   moreAvailable: true,
   page: 1,
-  stats: List(),
+  stats: Map(),
 }
 
 export default function groupStats(state = initialState, action) {
@@ -19,7 +19,7 @@ export default function groupStats(state = initialState, action) {
       return {
         ...state,
         fetching: false,
-        stats: List(action.resp),
+        stats: action.resp,
       }
     default:
       return state

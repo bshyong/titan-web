@@ -1,20 +1,12 @@
 import * as GroupAdminActions from 'actions/group_admin_actions'
 import AppNavbar from 'components/App/AppNavbar.jsx'
-<<<<<<< HEAD
-=======
-import React from 'react'
-import Link from 'components/Link.jsx'
->>>>>>> added graph to group admin page
 import Avatar from 'ui/Avatar.jsx'
 import Link from 'components/Link.jsx'
 import LoadingBar from 'ui/LoadingBar.jsx'
-<<<<<<< HEAD
 import React from 'react'
 import ScrollPaginator from 'ui/ScrollPaginator.jsx'
-import SessionStore from 'stores/session_store'
-=======
 import c3 from 'c3'
->>>>>>> added graph to group admin page
+
 
 export class GroupAdminPage extends React.Component {
 
@@ -27,33 +19,61 @@ export class GroupAdminPage extends React.Component {
 
   render() {
     const { groupMembers, groupStats } = this.props
-    console.log(groupStats)
+
     return (
       <div>
         <AppNavbar title="Group admin page" />
+        <div className="container">
+
+            <div className="px4 py2">
+              <h2>{groupStats.stats.followers_count} Followers</h2>
+              <LoadingBar loading={groupStats.fetching} />
+              {this.followersChart(groupStats)}
+            </div>
           <div className="px4 py2">
-            <h3>Followers</h3>
-            {this.followersChart()}
+            {groupMembers.fetching ? this.renderLoadingState() : this.renderLoadedState()}
+            <LoadingBar loading={groupMembers.fetching} />
           </div>
+<<<<<<< HEAD
         <div className="px4 py2">
           {this.renderLoadedState()}
           {groupMembers.fetching ? this.renderLoadingState() : null}
           <LoadingBar loading={groupMembers.fetching} />
+=======
+>>>>>>> small css changes to admin view
         </div>
       </div>
     )
   }
 
-  followersChart() {
-    var chart = c3.generate({
-      bindto: '#followersChart',
-      data: {
-        columns: [
-        ['data1', 30, 200, 100, 400, 150, 250],
-        ['data2', 50, 20, 10, 40, 15, 25]
-        ]
+  followersChart(groupStats) {
+    let d = ['x']
+    let n = ['Followers']
+    if (groupStats.stats.followers_history) {
+      for (var key in groupStats.stats.followers_history) {
+        if (key !== null) {
+          d.push(key)
+          n.push(groupStats.stats.followers_history[key])
+        }
       }
-    });
+      var chart = c3.generate({
+        bindto: '#followersChart',
+        data: {
+          x: 'x',
+          columns: [
+            d,
+            n
+            ],
+          type: 'area-spline'
+        },
+        axis: {
+          x: {
+           type: 'timeseries'
+           }
+          }
+      });
+
+    }
     return (
       <div id="followersChart">
       </div>
