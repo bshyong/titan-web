@@ -6,6 +6,7 @@ import LoadingBar from 'ui/LoadingBar.jsx'
 import React from 'react'
 import ScrollPaginator from 'ui/ScrollPaginator.jsx'
 import c3 from 'c3'
+import moment from 'config/moment'
 
 export class GroupAdminPage extends React.Component {
 
@@ -103,14 +104,14 @@ export class GroupMembers extends React.Component {
 
     return <div>
       <div className="overflow-scroll">
-        <table className="table-light overflow-hidden bg-white border rounded h5">
+        <table className="table-light bg-white border rounded h5">
           <thead className="bg-smoke">
             <tr className="">
               <th className="">User</th>
               <th className="">Email</th>
               <th className="">Twitter</th>
               <th className="">Contributions</th>
-              <th className="">Last Contributed At</th>
+              <th className="">Last Activity</th>
               <th className="">Joined At</th>
             </tr>
           </thead>
@@ -158,7 +159,7 @@ export class GroupMembers extends React.Component {
         last contributed at
       </td>
       <td>
-        joined at
+        {moment(user.joined_at).fromNow()}
       </td>
     </tr>
   }
