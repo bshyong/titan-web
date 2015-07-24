@@ -15,3 +15,10 @@ export function fetchMembers(changelogId, page, per) {
       })
   }
 }
+
+export function fetchStats(changelogId) {
+  return {
+    types: [c.GROUP_STATS_FETCHING, c.GROUP_STATS_FETCHED, c.GROUP_STATS_FETCH_FAILED],
+    promise: api => api.get(`changelogs/${changelogId}/admin/stats`),
+  }
+}
