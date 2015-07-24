@@ -25,24 +25,20 @@ export class GroupAdminPage extends React.Component {
         <AppNavbar title="Group admin page" />
         <div className="container">
 
-            <div className="px4 py2">
-              <h2>{groupStats.stats.followers_count} Followers</h2>
-              <LoadingBar loading={groupStats.fetching} />
-              {this.followersChart(groupStats)}
-            </div>
-          <div className="px4 py2">
-            {groupMembers.fetching ? this.renderLoadingState() : this.renderLoadedState()}
+          <div className="py2">
+            <h2 className="bold">{groupStats.stats.followers_count} Followers</h2>
+            <LoadingBar loading={groupStats.fetching} />
+            {this.followersChart(groupStats)}
+          </div>
+
+          <div className="py2">
+            {this.renderLoadedState()}
+            {groupMembers.fetching ? this.renderLoadingState() : null}
             <LoadingBar loading={groupMembers.fetching} />
           </div>
-<<<<<<< HEAD
-        <div className="px4 py2">
-          {this.renderLoadedState()}
-          {groupMembers.fetching ? this.renderLoadingState() : null}
-          <LoadingBar loading={groupMembers.fetching} />
-=======
->>>>>>> small css changes to admin view
         </div>
       </div>
+
     )
   }
 
@@ -91,7 +87,7 @@ export class GroupAdminPage extends React.Component {
     if (groupMembers.members.size == 0) { return null }
 
     return <div>
-      <h2 className="bold">{groupMembers.members.size} Followers</h2>
+      <h2>Followers</h2>
       <GroupMembers {...this.props} />
     </div>
   }
@@ -116,6 +112,7 @@ export class GroupMembers extends React.Component {
               <th className="">Email</th>
               <th className="">Twitter</th>
               <th className="">Contributions</th>
+              <th className="">Last Contributed At</th>
             </tr>
           </thead>
           <tbody>
@@ -157,6 +154,9 @@ export class GroupMembers extends React.Component {
         <div className="py1 h5">
           {`${contributions.stories} stories, ${contributions.comments} comments, ${contributions.hearts} hearts`}
         </div>
+      </td>
+      <td>
+        last contributed at here
       </td>
     </tr>
   }
