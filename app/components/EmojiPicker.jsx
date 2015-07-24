@@ -19,6 +19,15 @@ export default class EmojiPicker extends React.Component {
     return props
   }
 
+  static propTypes = {
+    onChange: React.PropTypes.func.isRequired,
+    defaultValue: React.PropTypes.string.isRequired,
+  }
+
+  static defaultProps = {
+    defaultValue: DEFAULT_VALUE
+  }
+
   constructor(props) {
     super(props)
     this.state = {
@@ -155,13 +164,4 @@ export default class EmojiPicker extends React.Component {
       this.handleChange()
     }
   }
-}
-
-EmojiPicker.propTypes = {
-  onChange: React.PropTypes.func.isRequired,
-  defaultValue: React.PropTypes.string.isRequired,
-}
-
-EmojiPicker.defaultProps = {
-  defaultValue: DEFAULT_VALUE
 }

@@ -1,34 +1,41 @@
-import Button from '../../ui/Button.jsx'
 import Calendar from 'rc-calendar'
-import ChangelogName from 'components/Changelog/ChangelogName.jsx'
-import ContributorsInput from '../ContributorsInput.jsx'
+import ContributorsInput from 'components/ContributorsInput.jsx'
 import Dialog from 'ui/Dialog.jsx'
-import EmojiInput from '../EmojiInput.jsx'
+import EmojiInput from 'components/EmojiInput.jsx'
 import enUS from 'rc-calendar/lib/locale/en-us'
-import Icon from '../../ui/Icon.jsx'
-import MarkdownArea from '../../ui/markdown_area.jsx'
+import Icon from 'ui/Icon.jsx'
+import MarkdownArea from 'ui/MarkdownArea.jsx'
 import MembersOnly from 'components/MembersOnly.jsx'
 import moment from 'moment'
-import React from 'react'
-import RouterContainer from '../../lib/router_container'
+import React, { Component, PropTypes } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
+import { connect } from 'redux/react'
+import { setPublishToTwitter } from 'lib/publishToTwitter'
 
-import '../../stylesheets/components/calendar.css'
+import 'stylesheets/components/calendar.css'
 
-export default class StoryForm extends React.Component {
+@connect(state => ({
+  currentUser: state.currentUser,
+}))
+export default class StoryForm extends Component {
   static propTypes = {
-    onChange: React.PropTypes.func,
-    changelog: React.PropTypes.shape({
-      is_members_only: React.PropTypes.bool.isRequired,
+    onChange: PropTypes.func,
+    changelog: PropTypes.shape({
+      is_members_only: PropTypes.bool.isRequired,
     }),
-    story: React.PropTypes.shape({
-      title: React.PropTypes.string,
-      body:  React.PropTypes.string,
-      team_member_only: React.PropTypes.bool,
-      contributors: React.PropTypes.string,
-      emoji_id: React.PropTypes.string,
-      created_at: React.PropTypes.string,
+    story: PropTypes.shape({
+      body: PropTypes.string,
+      contributors: PropTypes.string,
+      created_at: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.string,
+      ]),
+      emoji_id: PropTypes.string,
+      publishToTwitter: PropTypes.bool,
+      team_member_only: PropTypes.bool,
+      title: PropTypes.string,
     }).isRequired,
+    showErrorMessage: PropTypes.bool,
   }
 
   constructor(props) {
@@ -37,6 +44,15 @@ export default class StoryForm extends React.Component {
       showDetails: true,
       showCalendar: false,
     }
+
+    this.handleBodyChanged = this.handleBodyChanged.bind(this)
+    this.handleCalendarToggled = this.handleCalendarToggled.bind(this)
+    this.handleCreatedAtChanged = this.handleCreatedAtChanged.bind(this)
+    this.handleDetailsToggled = this.handleDetailsToggled.bind(this)
+    this.handleEmojiChanged = this.handleEmojiChanged.bind(this)
+    this.handlePrivacyToggled = this.handlePrivacyToggled.bind(this)
+    this.handleTitleChanged = this.handleTitleChanged.bind(this)
+    this.handleTwitterChange = this.handleTwitterChange.bind(this)
   }
 
   render() {
@@ -44,12 +60,9 @@ export default class StoryForm extends React.Component {
       changelog,
       story: {
         title,
-        body,
-        team_member_only,
-        contributors,
         emoji_id,
         created_at,
-        errorMessage,
+        publishToTwitter
       }
     } = this.props
 
@@ -60,7 +73,7 @@ export default class StoryForm extends React.Component {
           <div className="flex-none px1 mb2">
             <EmojiInput
                 value={emoji_id}
-                onChange={this.handleEmojiChanged.bind(this)} />
+                onChange={this.handleEmojiChanged} />
           </div>
 
           <div className="flex-auto px1">
@@ -68,15 +81,17 @@ export default class StoryForm extends React.Component {
               <TextareaAutosize
                 className="field-light block full-width h2"
                 placeholder="What happened?"
-                value={title}
-                onChange={this.handleTitleChanged.bind(this)}
+                value={title || ''}
+                onChange={this.handleTitleChanged}
                 ref="title" />
             </div>
 
             {this.renderDetails()}
 
             <div className="py1">
-              <a className="pointer gray h5 bold" onClick={this.handleDetailsToggled.bind(this)} ref="toggleDetails">
+              <a className="pointer gray h5 bold"
+                onClick={this.handleDetailsToggled}
+                ref="toggleDetails">
                 <Icon icon={this.state.showDetails ? 'caret-up' : 'caret-down'} color="silver" />
                 {' '}
                 {!this.state.showDetails ? 'Add details' : 'Hide details'}
@@ -93,19 +108,32 @@ export default class StoryForm extends React.Component {
                 <div className="p1">
                   <Icon icon="calendar" color="silver" />
                   {' '}
-                  <a className="gray underline bold pointer" onClick={this.handleCalendarToggled.bind(this)}>
+                  <a className="gray underline bold pointer"
+                    onClick={this.handleCalendarToggled}>
                     {moment(created_at).format('MMM, DD YYYY')}
                   </a>
                   {this.state.showCalendar &&
-                    <Dialog onCloseRequested={this.handleCalendarToggled.bind(this)} invisible={true}>
+                    <Dialog onCloseRequested={this.handleCalendarToggled}
+                      invisible={true}>
                       <div className="absolute">
                         <Calendar
                           style={{zIndex: 1000}}
                           locale={enUS}
-                          onSelect={this.handleCreatedAtChanged.bind(this)} />
+                          onSelect={this.handleCreatedAtChanged} />
                       </div>
                     </Dialog>
                   }
+                </div>
+                <div className="p1">
+                  <input className="field-light mr1"
+                    type="checkbox"
+                    onChange={this.handleTwitterChange}
+                    checked={publishToTwitter} />
+                  <a className="gray underline bold pointer"
+                    onClick={this.handleTwitterChange}
+                    ref="publishToTwitter">
+                    Publish to Twitter
+                  </a>
                 </div>
 
                 <div className="flex-grow" />
@@ -119,11 +147,18 @@ export default class StoryForm extends React.Component {
   }
 
   renderErrorMessage() {
-    const { story: { errorMessage }, showErrorMessage } = this.props
+    const {
+      story: {
+        errorMessage
+      },
+      showErrorMessage,
+    } = this.props
     if (showErrorMessage && errorMessage) {
-      return <div className="h4 p1 mb2 center bg-red white rounded">
-        {errorMessage}
-      </div>
+      return (
+        <div className="h4 p1 mb2 center bg-red white rounded">
+          {errorMessage}
+        </div>
+      )
     }
     return <div />
   }
@@ -141,7 +176,8 @@ export default class StoryForm extends React.Component {
       <div className="p1">
         <Icon icon="eye" color="silver" />
         {' '}
-        <a className="gray underline bold pointer" onClick={this.handlePrivacyToggled.bind(this)}
+        <a className="gray underline bold pointer"
+          onClick={this.handlePrivacyToggled}
           ref="isPublic">
           {team_member_only ? 'Changelog members only' : 'Everyone'}
         </a>
@@ -157,12 +193,12 @@ export default class StoryForm extends React.Component {
     return (
       <div className="mt2">
         <MarkdownArea id={this.props.storyId || "new_story"}
+                  value={this.props.story.body}
+                  onChange={this.handleBodyChanged}
                   placeholder="Describe your story (optional)"
                   gifPickerPosition="bottom"
                   ref="body"
-                  value={this.props.story.body}
-                  rows={4}
-                  onChange={this.handleBodyChanged.bind(this)}/>
+                  rows={4} />
         <div className="right-align">
           <a className="mt1 h6 silver" href="http://daringfireball.net/projects/markdown/basics" target="_blank">
             <strong>*Markdown*</strong> <i>_syntax_</i>
@@ -184,6 +220,10 @@ export default class StoryForm extends React.Component {
     this.dispatchChange({emoji_id: e.target.value})
   }
 
+  handleBodyChanged(e) {
+    this.dispatchChange({body: e.target.value})
+  }
+
   handleTitleChanged(e) {
     this.dispatchChange({title: e.target.value})
   }
@@ -196,8 +236,10 @@ export default class StoryForm extends React.Component {
     this.dispatchChange({created_at: moment(e.time).toISOString()})
   }
 
-  handleBodyChanged(e) {
-    this.dispatchChange({body: e.target.value})
+  handleTwitterChange(e) {
+    const { story: { publishToTwitter } } = this.props
+    this.dispatchChange({ publishToTwitter: !publishToTwitter })
+    setPublishToTwitter(!publishToTwitter)
   }
 
   dispatchChange(values) {

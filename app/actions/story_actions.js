@@ -26,6 +26,7 @@ import Dispatcher from '../lib/dispatcher'
 import Router from '../lib/router_container'
 import api from '../lib/api'
 import segment from '../lib/segment'
+import ContributorsStore from 'stores/ContributorsStore'
 import { List } from 'immutable'
 
 export default {
@@ -139,10 +140,15 @@ export default {
       })
   },
 
-  edit(changelogId, storyId, data) {
+  edit(changelogId, storyId, fields) {
     Dispatcher.dispatch({
       type: STORY_EDITING
     })
+
+    const data = {
+      ...fields,
+      contributors: ContributorsStore.tokens.map(t => t.string).toJS().join(','),
+    }
 
     api.put(`changelogs/${changelogId}/stories/${storyId}`, data).
       then(resp => {
@@ -177,7 +183,12 @@ export default {
     })
   },
 
-  publish(changelogId, data, shouldTransition = true, successCallback = (() => {})) {
+  publish(
+    changelogId,
+    data,
+    shouldTransition = true,
+    successCallback = (() => {})
+  ) {
     Dispatcher.dispatch({
       type: STORY_CREATING
     })
@@ -185,6 +196,7 @@ export default {
     api.post(`changelogs/${changelogId}/stories`, data).
       then(resp => {
         let story = addParams(changelogId, resp)
+
         Dispatcher.dispatch({
           type: STORY_PUBLISHED,
           story: story,
@@ -196,7 +208,7 @@ export default {
           bodyLength: (story.body && story.body.length) || 0
         })
 
-        successCallback()
+        successCallback(story)
         if (shouldTransition) {
           Router.get().transitionTo('story', story.urlParams)
         }

@@ -23,13 +23,13 @@ export default function(Component, props, stubs) {
   return class StubbedRouterComponent extends React.Component {
     static childContextTypes = {
       router: React.PropTypes.func,
-      routeDepth: React.PropTypes.number
+      routeDepth: React.PropTypes.number,
     }
 
     getChildContext() {
       return {
         router: RouterStub,
-        routeDepth: 0
+        routeDepth: 0,
       }
     }
 

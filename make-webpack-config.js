@@ -43,12 +43,13 @@ module.exports = function makeConfig(options) {
     },
     plugins: [
       new webpack.DefinePlugin({
-        APP_ENV: JSON.stringify(process.env.APP_ENV),
+        __DEV__: options.devServer ? true : false,
         API_URL: JSON.stringify(process.env.API_URL),
+        APP_ENV: JSON.stringify(process.env.APP_ENV),
+        GIPHY_API_KEY: JSON.stringify(process.env.GIPHY_API_KEY),
         MAIN_HOST: JSON.stringify(process.env.MAIN_HOST),
         RR_URL: JSON.stringify(process.env.RR_URL || 'https://readraptor.com'),
-        __DEV__: options.devServer ? true : false,
-        GIPHY_API_KEY: JSON.stringify(process.env.GIPHY_API_KEY)
+        S3_URL: JSON.stringify(process.env.S3_URL || 'https://s3.amazonaws.com/titan-api'),
       }),
       function() {
         this.plugin('done', function(stats) {

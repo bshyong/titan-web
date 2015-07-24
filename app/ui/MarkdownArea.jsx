@@ -24,16 +24,16 @@ export default class MarkdownArea extends React.Component {
       focused: false
     }
 
+    this.closeGifPicker = this.closeGifPicker.bind(this)
     this.handleChange = this._handleChange.bind(this)
     this.handleKeyDown = this._handleKeyDown.bind(this)
+    this.onBlur = this._onBlur.bind(this)
+    this.onFocus = this._onFocus.bind(this)
+    this.onGifSelected = this._onGifSelected.bind(this)
     this.onUploaded = this._onUploaded.bind(this)
     this.onUploading = this._onUploading.bind(this)
     this.onUserSelected = this._onUserSelected.bind(this)
-    this.onGifSelected = this._onGifSelected.bind(this)
     this.toggleGifPicker = this.toggleGifPicker.bind(this)
-    this.closeGifPicker = this.closeGifPicker.bind(this)
-    this.onFocus = this._onFocus.bind(this)
-    this.onBlur = this._onBlur.bind(this)
     this.updateSelectionStart = this._updateSelectionStart.bind(this)
   }
 
@@ -206,31 +206,29 @@ export default class MarkdownArea extends React.Component {
     }, 0)
   }
 
-  _onUploading(attachments) {
+  _onUploading(attachment) {
     setTimeout(() => {
       const value = this.props.value || ''
-      const beginning = value.substr(0, this.selectionStart).trim()
+      const beginning = value.substr(0, this.selectionStart)
 
-      const attachmentText = attachments.
-        map(a => `![Uploading ${a.name}...]()`).join('\n')
+      const attachmentText = `![Uploading ${attachment.name}...]()`
 
       let end = value.substr(this.selectionStart)
       if (end === beginning) {
         end = ''
       }
 
-      const start = this.selectionStart = [beginning, attachmentText].join(' ').length
+      const start = this.selectionStart = (beginning + attachmentText).length
 
       const simulatedEvent = {
         target: {
-          value: [beginning, attachmentText, end].join('\n')
-        }
+          value: beginning + attachmentText + end,
+        },
       }
 
       this.props.onChange(simulatedEvent)
 
       React.findDOMNode(this.refs.textarea).setSelectionRange(start, start)
-
     }, 0)
   }
 

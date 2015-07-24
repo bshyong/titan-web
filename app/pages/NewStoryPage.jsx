@@ -7,65 +7,77 @@ import connectToStores from 'lib/connectToStores.jsx'
 import ContributorsActions from 'actions/ContributorsActions'
 import ContributorsStore from 'stores/ContributorsStore'
 import DocumentTitle from 'react-document-title'
-import EmojiStore from 'stores/emoji_store'
 import React from 'react'
 import RouterContainer from 'lib/router_container'
 import SessionStore from 'stores/session_store'
 import statics from 'lib/statics'
 import StoryActions from 'actions/story_actions'
 import StoryForm from 'components/Story/StoryForm.jsx'
-import StoryFormActions from 'actions/story_form_actions'
-import StoryFormStore from 'stores/story_form_store'
+import * as storyFormActions from 'actions/storyFormActions'
 import StoryFormWalkthrough from 'components/Story/StoryFormWalkthrough.jsx'
-import UploadingAttachmentStore from 'stores/uploading_attachment_store'
 import { connect } from 'redux/react'
+import { showTweetScrim } from 'actions/TweetScrimActions'
 
+@AuthenticatedMixin()
+@connect(state => ({
+  attachments: state.attachments,
+  isCreating: state.storyFields.isCreating,
+  storyFields: state.storyFields,
+  errorMessage: state.storyFields.errorMessage,
+  publishToTwitter: state.storyFields.publishToTwitter,
+}))
+@connectToStores(ChangelogStore, ContributorsStore)
 @statics({
-  willTransitionTo(transition, params, query) {
+  getPropsFromStores(props) {
+    return {
+      changelog: ChangelogStore.changelog,
+      contributors: ContributorsStore.contributors,
+      fromOnboarding: RouterContainer.get().getCurrentQuery().o,
+    }
+  },
+  willTransitionTo() {
     StoryFormActions.clearAll()
     ContributorsActions.resetContributors(SessionStore.user)
-  }
+  },
 })
 @AuthenticatedMixin()
-@connect(state => ({}))
-@connectToStores(StoryFormStore, UploadingAttachmentStore)
+@connect(state => ({
+  attachments: state.attachments,
+}))
 export default class NewStoryPage extends React.Component {
   static get defaultProps() {
     return {
-      changelogId: RouterContainer.changelogSlug()
+      changelogId: RouterContainer.changelogSlug(),
     }
+  }
+
+  componentWillMount() {
+    setTimeout(() => {
+      this.props.dispatch(storyFormActions.clearAll())
+      ContributorsActions.resetContributors(SessionStore.user)
+    }, 0)
   }
 
   constructor(props) {
     super(props)
 
     this.state = {
-      showErrorMessage: false
+      showErrorMessage: false,
     }
-  }
 
-  static getPropsFromStores(props) {
-    return {
-      ...props,
-      changelog: ChangelogStore.changelog,
-      isCreating: StoryFormStore.isCreating,
-      story: {
-        ...StoryFormStore.data,
-        contributors: ContributorsStore.contributors,
-        errorMessage: StoryFormStore.errorMessage
-      },
-      uploadsFinished: UploadingAttachmentStore.uploadsFinished('new_story'),
-      fromOnboarding: RouterContainer.get().getCurrentQuery().o
-    }
+    this.handleOnPublish = this.handleOnPublish.bind(this)
+    this.handleOnChange = this.handleOnChange.bind(this)
   }
 
   render() {
     const { showErrorMessage } = this.state
-    const { changelog, story, isCreating } = this.props
+    const { changelog, storyFields, contributors, isCreating } = this.props
 
     if (!changelog) {
       return null
     }
+
+    const story = {...storyFields, ...contributors}
 
     return (
       <DocumentTitle title={["New story", changelog.name].join(' · ')}>
@@ -75,15 +87,16 @@ export default class NewStoryPage extends React.Component {
             <StoryFormWalkthrough>
               {this.renderSuccessBanner()}
               <StoryForm story={story}
+                ref="form"
                 showErrorMessage={showErrorMessage}
                 changelog={changelog}
-                onChange={this.handleOnChange.bind(this)} />
+                onChange={this.handleOnChange} />
             </StoryFormWalkthrough>
             <div className="py2 right-align">
               <Button
                 color="orange"
                 style="outline"
-                action={this.handleOnPublish.bind(this)}
+                action={this.handleOnPublish}
                 disabled={isCreating}>
                 Post
               </Button>
@@ -95,7 +108,7 @@ export default class NewStoryPage extends React.Component {
   }
 
   renderSuccessBanner() {
-    const { isCreating, story: { title } } = this.props
+    const { isCreating } = this.props
     if (isCreating) {
       return (
         <div className="bg-blue center p2 mb2 rounded">
@@ -108,26 +121,53 @@ export default class NewStoryPage extends React.Component {
   }
 
   handleOnChange(fields) {
-    StoryFormActions.change(fields)
+    this.props.dispatch(storyFormActions.change(fields))
   }
 
   handleOnPublish(e) {
-    const { story: { errorMessage }, uploadsFinished, fromOnboarding, changelogId } = this.props
     e.preventDefault()
+    const {
+      attachments,
+      changelogId,
+      dispatch,
+      fromOnboarding,
+      publishToTwitter,
+      storyFields,
+    } = this.props
+
+    const uploadsFinished = !attachments.new_story
 
     if (uploadsFinished || confirm('Attachments are still uploading; are you sure you want to post?')) {
-      if (!StoryFormStore.isValid() || errorMessage) {
-        if (errorMessage.indexOf('emoji') > -1) {
-          this.props.dispatch(EmojiInputActions.open())
+      if (!storyFields.title || !storyFields.emoji_id || storyFields.errorMessage) {
+        if (storyFields.errorMessage.indexOf('emoji') > -1) {
+          dispatch(EmojiInputActions.open())
         }
         this.setState({showErrorMessage: true})
       } else {
         if (fromOnboarding) {
-          return StoryActions.publish(changelogId, StoryFormStore.data, false, () => {
+          return StoryActions.publish(changelogId, storyFields, false, () => {
             RouterContainer.transitionTo('changelog', {changelogId: changelogId})
           })
         }
-        StoryActions.publish(changelogId, StoryFormStore.data)
+
+        const callback = publishToTwitter ? (story) => {
+          const {
+            title,
+            urlParams: {
+              changelogId,
+              day,
+              month,
+              storyId,
+              year
+            }
+          } = story
+          const fullUrl = `${MAIN_HOST}/${changelogId}/${year}/${month}/${day}/${storyId}`
+          const text = `${title}: ${fullUrl} via @asm`
+
+          dispatch(showTweetScrim(text))
+        } : () => {}
+
+        StoryActions.publish(changelogId, storyFields, true, callback)
       }
     }
   }

@@ -20,12 +20,16 @@ import SigninScrimActions from 'actions/SigninScrimActions'
 import statics from 'lib/statics'
 import StoryActions from 'actions/story_actions'
 import StoryForm from 'components/Story/StoryForm.jsx'
-import StoryFormActions from 'actions/story_form_actions'
-import StoryFormStore from 'stores/story_form_store'
+import * as storyFormActions from 'actions/storyFormActions'
 
 @Authenticated()
-@connect(state => ({}))
-@connectToStores(GithubOnboardingStore, StoryFormStore, SessionStore)
+@connect(state => ({
+  isCreating: state.storyFields.isCreating,
+  storyFields: state.storyFields,
+  errorMessage: state.storyFields.errorMessage,
+  publishToTwitter: state.storyFields.publishToTwitter,
+}))
+@connectToStores(GithubOnboardingStore, SessionStore)
 @statics({
   getPropsFromStores(props) {
     return {
@@ -33,7 +37,6 @@ import StoryFormStore from 'stores/story_form_store'
       draftsLoading: GithubOnboardingStore.loadingDrafts,
       changelogId: ChangelogStore.slug,
       story: {
-        ...StoryFormStore.data,
         contributors: ContributorsStore.contributors
       },
       changelog: ChangelogStore.changelog,
@@ -46,6 +49,7 @@ export default class GithubRepoDraftsPage extends React.Component {
   constructor(props) {
     super(props)
 
+    this.handleOnChange = this.handleOnChange.bind(this)
     this.state = {
       currentDraftIndex: 0
     }
@@ -69,12 +73,14 @@ export default class GithubRepoDraftsPage extends React.Component {
     }
 
     if (!drafts.isEmpty()) {
-      setTimeout(() => {StoryFormActions.change({
-        title: drafts.get(0).title,
-        body: drafts.get(0).body,
-        emoji_id: drafts.get(0).emoji_id,
-        created_at: moment(drafts.get(0).updated_at).toISOString()
-      })})
+      setTimeout(() => {
+        this.props.dispatch(storyFormActions.change({
+          title: drafts.get(0).title,
+          body: drafts.get(0).body,
+          emoji_id: drafts.get(0).emoji_id,
+          created_at: moment(drafts.get(0).updated_at).toISOString()
+        }))
+      })
     }
   }
 
@@ -133,7 +139,7 @@ export default class GithubRepoDraftsPage extends React.Component {
   }
 
   renderDraftStoryForms() {
-    const { drafts, story, changelog } = this.props
+    const { drafts, storyFields, changelog } = this.props
     const { currentDraftIndex } = this.state
 
     if (drafts.isEmpty() || currentDraftIndex > drafts.size) { return this.renderEmptyState() }
@@ -146,9 +152,9 @@ export default class GithubRepoDraftsPage extends React.Component {
         <div className="p3">
           <div className="mt2">
             <StoryForm
-              story={story}
+              story={storyFields}
               changelog={changelog}
-              onChange={this.handleOnChange.bind(this)}
+              onChange={this.handleOnChange}
               showDetails={true} />
             <div className="py2 flex flex-center">
               <div className="flex-auto" />
@@ -167,7 +173,7 @@ export default class GithubRepoDraftsPage extends React.Component {
                 <Button
                   color="orange"
                   style="outline"
-                  action={this.handleOnPublish.bind(this)} disabled={!StoryFormStore.isValid()}>
+                  action={this.handleOnPublish.bind(this)} disabled={!storyFields.title}>
                   Post
                 </Button>
               </div>
@@ -208,14 +214,14 @@ export default class GithubRepoDraftsPage extends React.Component {
       const nextDraft = drafts.get(this.state.currentDraftIndex)
 
       if (nextDraft) {
-        StoryFormActions.change({
+        this.props.dispatch(storyFormActions.change({
           body: nextDraft.body,
           contributors: nextDraft.contributors,
           created_at: moment(nextDraft.updated_at).toISOString(),
           emoji_id: lastDraft.emoji_id,
           isPublic: true,
           title: nextDraft.title,
-        })
+        }))
       } else {
         Router.transitionTo('changelog', {changelogId: changelogId})
       }
@@ -223,18 +229,19 @@ export default class GithubRepoDraftsPage extends React.Component {
   }
 
   handleOnChange(fields) {
-    StoryFormActions.change(fields)
+    this.props.dispatch(storyFormActions.change(fields))
   }
 
   handleOnPublish(e) {
     e.preventDefault()
+    const { storyFields } = this.props
     const payload = {
-      body:  StoryFormStore.body,
+      body:  storyFields.body,
       contributors: ContributorsStore.validTokensAsString,
-      created_at: StoryFormStore.created_at,
-      emoji_id: StoryFormStore.emoji_id,
-      team_member_only: !StoryFormStore.isPublic,
-      title: StoryFormStore.title,
+      created_at: storyFields.created_at,
+      emoji_id: storyFields.emoji_id,
+      team_member_only: !storyFields.isPublic,
+      title: storyFields.title,
     }
     StoryActions.publish(this.props.changelogId, payload, false, this.handleDraftDeletion.bind(this))
   }

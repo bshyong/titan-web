@@ -83,6 +83,7 @@ export default keyMirror({
   FLAIRABLE_FLAIRING: null,
   FLAIRABLE_FLAIRED: null,
   FLAIRABLE_FLAIRING_FAILED: null,
+  FLAIRABLE_UNFLAIRING: null,
 
   GIF_FORM_CHANGED: null,
   GIF_REACTION_FETCHED: null,
@@ -178,8 +179,9 @@ export default keyMirror({
   STORY_CREATING: null,
   STORY_DELETED: null,
   STORY_EDITING: null,
-  STORY_FETCH: null,
+  STORY_FETCH_FAILED: null,
   STORY_FETCHED: null,
+  STORY_FETCHING: null,
   STORY_HEARTED: null,
   STORY_PUBLISHED: null,
   STORY_SUBSCRIBED: null,
@@ -189,11 +191,23 @@ export default keyMirror({
   STORY_UPDATED: null,
   STORY_UPDATING: null,
 
+  STORY_FIELDS_EDIT: null,
+
   STORY_FORM_CHANGE: null,
   STORY_FORM_CLEAR: null,
 
   STORY_PINNED: null,
   STORY_UNPINNED: null,
+
+  TWEET_FAILED: null,
+
+  TWEET_FORM_CHANGED: null,
+  TWEET_FORM_DISMISSED: null,
+  TWEET_FORM_ERROR_DISMISSED: null,
+  TWEET_FORM_SUBMITTED: null,
+
+  TWEET_SCRIM_HIDDEN: null,
+  TWEET_SCRIM_SHOWN: null,
 
   TWITTER_ACCOUNT_UNLINKED: null,
 
@@ -204,5 +218,5 @@ export default keyMirror({
   USER_PICKER_SET_HIGHLIGHT_INDEX: null,
   USER_PICKER_USER_SELECTED: null,
   USER_PICKER_USERS_CLEARED: null,
-  USER_PICKER_USERS_FETCHED: null
+  USER_PICKER_USERS_FETCHED: null,
 })

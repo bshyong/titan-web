@@ -10,7 +10,8 @@ import RoutesStore from 'stores/routes_store'
 import SessionActions from 'actions/SessionActions'
 import SessionStore from 'stores/session_store'
 import SigninScrim from 'components/Authentication/SigninScrim.jsx'
-import Snackbar from '../components/Snackbar.jsx'
+import Snackbar from 'components/Snackbar.jsx'
+import TweetScrim from 'components/Social/TweetScrim.jsx'
 
 @connect(state => ({}))
 @connectToStores(RoutesStore)
@@ -40,6 +41,7 @@ export default class AppPage extends React.Component {
     return (
       <div>
         <SigninScrim />
+        <TweetScrim />
         <div style={{minHeight: 800}}>
           <RouteHandler />
           <Snackbar />

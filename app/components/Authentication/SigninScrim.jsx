@@ -18,8 +18,12 @@ export default class SigninScrim extends React.Component {
   render() {
     const { shown } = this.props
 
+    if (!shown) {
+      return null
+    }
+
     return (
-      <Scrim shown={shown}>
+      <Scrim>
         <div className="clearfix p3">
           <div className="sm-col-right">
             <AuthenticationFormToggler />

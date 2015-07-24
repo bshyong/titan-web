@@ -13,5 +13,5 @@ export default {
 
   set(href) {
     localStorage.setItem(KEY, href)
-  }
+  },
 }
