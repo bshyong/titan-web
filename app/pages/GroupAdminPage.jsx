@@ -114,20 +114,24 @@ export class GroupMembers extends React.Component {
               <th className="">Twitter</th>
               <th className="">
                 <SortArrow
-                  active={sortCategory === 'contributions'}
+                  category="contributions"
+                  onClick={sort => fetchMembers(changelogId, 1, per, sort, filter)}
+                  activeCategory={sortCategory}
                   direction={sortOrder || 'desc'} />
                 &nbsp;Contributions
               </th>
               <th className="">
                 <SortArrow
-                  active={sortCategory === 'last_activity'}
+                  category="last_activity"
+                  onClick={sort => fetchMembers(changelogId, 1, per, sort, filter)}
+                  activeCategory={sortCategory}
                   direction={sortOrder || 'desc'} />
                  &nbsp;Last Activity
               </th>
               <th className="">
                 <SortArrow
                   category="joined"
-                  onClick={(sort) => fetchMembers(changelogId, 1, per, sort, filter)}
+                  onClick={sort => fetchMembers(changelogId, 1, per, sort, filter)}
                   activeCategory={sortCategory}
                   direction={sortOrder || 'desc'} />
                  &nbsp;Joined At
