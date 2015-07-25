@@ -7,6 +7,7 @@ import React from 'react'
 import ScrollPaginator from 'ui/ScrollPaginator.jsx'
 import c3 from 'c3'
 import moment from 'config/moment'
+import Icon from 'ui/Icon.jsx'
 
 export class GroupAdminPage extends React.Component {
 
@@ -37,7 +38,6 @@ export class GroupAdminPage extends React.Component {
           </div>
         </div>
       </div>
-
     )
   }
 
@@ -100,7 +100,9 @@ export class GroupMembers extends React.Component {
   }
 
   render() {
-    const { members, moreAvailable, page } = this.props.groupMembers
+    const { members, moreAvailable, page, per, sort, filter, fetching } = this.props.groupMembers
+    const [sortCategory, sortOrder] = this.props.groupMembers.sort.split('-')
+    const { fetchMembers, changelogId } = this.props
 
     return <div>
       <div className="overflow-scroll">
@@ -110,9 +112,26 @@ export class GroupMembers extends React.Component {
               <th className="">User</th>
               <th className="">Email</th>
               <th className="">Twitter</th>
-              <th className="">Contributions</th>
-              <th className="">Last Activity</th>
-              <th className="">Joined At</th>
+              <th className="">
+                <SortArrow
+                  active={sortCategory === 'contributions'}
+                  direction={sortOrder || 'desc'} />
+                &nbsp;Contributions
+              </th>
+              <th className="">
+                <SortArrow
+                  active={sortCategory === 'last_activity'}
+                  direction={sortOrder || 'desc'} />
+                 &nbsp;Last Activity
+              </th>
+              <th className="">
+                <SortArrow
+                  category="joined"
+                  onClick={(sort) => fetchMembers(changelogId, 1, per, sort, filter)}
+                  activeCategory={sortCategory}
+                  direction={sortOrder || 'desc'} />
+                 &nbsp;Joined At
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -137,8 +156,8 @@ export class GroupMembers extends React.Component {
           </div>
         </Link>
       </td>
-      <td className="">
-        <div className="py1">{user.email}</div>
+      <td>
+        <div className="py1" style={{wordBreak: 'break-all'}}>{user.email}</div>
       </td>
       <td className="">
         <div className="py1">
@@ -152,7 +171,7 @@ export class GroupMembers extends React.Component {
       </td>
       <td className="">
         <div className="py1">
-          {`${contributions.stories} stories, ${contributions.comments} comments, ${contributions.hearts} hearts`}
+          -
         </div>
       </td>
       <td>
@@ -169,6 +188,34 @@ export class GroupMembers extends React.Component {
     const { page, per, sort, filter } = this.props.groupMembers
 
     this.props.fetchMembers(changelogId, page + 1, per, sort, filter)
+  }
+}
+
+export class SortArrow extends React.Component {
+  static propTypes = {
+    direction: React.PropTypes.oneOf(['asc', 'desc']),
+    category: React.PropTypes.string,
+    activeCategory: React.PropTypes.string,
+    onClick: React.PropTypes.func
+  }
+
+  static defaultProps = {
+    onClick: () => {}
+  }
+
+  render() {
+    const { activeCategory, direction, onClick, category } = this.props
+    const oppositeDirection = direction === 'asc' ? 'desc' : 'asc'
+
+    if (category === activeCategory) {
+      return <span onClick={onClick.bind(null, [category, oppositeDirection].join('-'))} className="pointer">
+        <Icon icon={`sort-${direction}`} />
+      </span>
+    }
+
+    return <span onClick={onClick} className="pointer">
+      <Icon icon="sort" />
+    </span>
   }
 }
 

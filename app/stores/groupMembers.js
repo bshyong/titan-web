@@ -16,6 +16,7 @@ export default function groupMembers(state = initialState, action) {
     case c.GROUP_MEMBERS_FETCHING:
       return {
         ...state,
+        members: action.page === 1 ? List() : state.members,
         fetching: true,
       }
     case c.GROUP_MEMBERS_FETCHED:
@@ -24,8 +25,8 @@ export default function groupMembers(state = initialState, action) {
         ...state,
         fetching: false,
         page: action.page,
-        moreAvailable: action.per == List(action.members).size,
-        members: action.page == 1 ? membersList : state.members.concat(membersList),
+        moreAvailable: action.per === List(action.members).size,
+        members: action.page === 1 ? membersList : state.members.concat(membersList),
         sort: action.sort,
         filter: action.filter
       }
