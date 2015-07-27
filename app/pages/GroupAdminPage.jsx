@@ -148,7 +148,7 @@ export class GroupMembers extends React.Component {
   }
 
   renderUserRow(user) {
-    const { contributions, twitter_info } = user
+    const { contributions, twitter_info, last_contributed_at } = user
 
     return <tr key={user.id}>
       <td className="">
@@ -175,11 +175,11 @@ export class GroupMembers extends React.Component {
       </td>
       <td className="">
         <div className="py1">
-          -
+          {contributions}
         </div>
       </td>
       <td>
-        last contributed at
+        {moment(last_contributed_at).fromNow()}
       </td>
       <td>
         {moment(user.joined_at).fromNow()}
