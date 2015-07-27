@@ -122,7 +122,7 @@ export class GroupMembers extends React.Component {
               </th>
               <th className="">
                 <SortArrow
-                  category="last_activity"
+                  category="last_contributed_at"
                   onClick={sort => fetchMembers(changelogId, 1, per, sort, filter)}
                   activeCategory={sortCategory}
                   direction={sortOrder || 'desc'} />
@@ -210,15 +210,10 @@ export class SortArrow extends React.Component {
   render() {
     const { activeCategory, direction, onClick, category } = this.props
     const oppositeDirection = direction === 'asc' ? 'desc' : 'asc'
+    const iconClass = category === activeCategory ? `sort-${direction}` : 'sort'
 
-    if (category === activeCategory) {
-      return <span onClick={onClick.bind(null, [category, oppositeDirection].join('-'))} className="pointer">
-        <Icon icon={`sort-${direction}`} />
-      </span>
-    }
-
-    return <span onClick={onClick} className="pointer">
-      <Icon icon="sort" />
+    return <span onClick={onClick.bind(null, [category, oppositeDirection].join('-'))} className="pointer">
+      <Icon icon={iconClass} />
     </span>
   }
 }
