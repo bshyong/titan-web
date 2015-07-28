@@ -148,7 +148,7 @@ export class GroupMembers extends React.Component {
   }
 
   renderUserRow(user) {
-    const { contributions, twitter_info, last_contributed_at } = user
+    const { contribution_count, twitter_info, last_contributed_at } = user
 
     return <tr key={user.id}>
       <td className="">
@@ -175,7 +175,7 @@ export class GroupMembers extends React.Component {
       </td>
       <td className="">
         <div className="py1">
-          {contributions}
+          {contribution_count}
         </div>
       </td>
       <td>
@@ -209,8 +209,15 @@ export class SortArrow extends React.Component {
 
   render() {
     const { activeCategory, direction, onClick, category } = this.props
-    const oppositeDirection = direction === 'asc' ? 'desc' : 'asc'
-    const iconClass = category === activeCategory ? `sort-${direction}` : 'sort'
+    let oppositeDirection, iconClass
+
+    if (category === activeCategory) {
+      iconClass = `sort-${direction}`
+      oppositeDirection = direction === 'asc' ? 'desc' : 'asc'
+    } else {
+      iconClass = 'sort'
+      oppositeDirection = 'desc'
+    }
 
     return <span onClick={onClick.bind(null, [category, oppositeDirection].join('-'))} className="pointer">
       <Icon icon={iconClass} />
