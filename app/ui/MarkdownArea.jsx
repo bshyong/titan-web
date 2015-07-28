@@ -40,7 +40,9 @@ export default class MarkdownArea extends React.Component {
   componentDidMount() {
     const offsetTop = getOffsetTop(React.findDOMNode(this))
     this.fromTop = getOffsetTop(React.findDOMNode(this))
-    this.dropzoneClickable = React.findDOMNode(this.refs.clickable)
+    this.setState({
+      dropzoneClickable: React.findDOMNode(this.refs.clickable)
+    })
   }
 
   componentWillUpdate() {
@@ -89,7 +91,7 @@ export default class MarkdownArea extends React.Component {
         <DropzoneContainer id={this.props.id}
           onUploaded={this.onUploaded}
           onUploading={this.onUploading}
-          clickable={this.dropzoneClickable}>
+          clickable={this.state.dropzoneClickable}>
           {onMobile() ? null : this.renderGifPicker()}
           {this.renderUserPicker()}
           <div className={classes}

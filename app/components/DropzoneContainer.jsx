@@ -63,13 +63,15 @@ export default class DropzoneContainer extends Component {
   }
 
   _attachDropzone() {
-    this.dropzone = new Dropzone(React.findDOMNode(this.refs.dropzone), {
-      accept: this.uploadAttachment,
-      clickable: this.props.clickable,
-      sending: this.onSending,
-      success: this.confirmAttachment,
-      url: `${S3_URL}`,
-    })
+    if (this.props.clickable) {
+      this.dropzone = new Dropzone(React.findDOMNode(this.refs.dropzone), {
+        accept: this.uploadAttachment,
+        clickable: this.props.clickable,
+        sending: this.onSending,
+        success: this.confirmAttachment,
+        url: `${S3_URL}`,
+      })
+    }
   }
 
   _confirmAttachment(file) {
