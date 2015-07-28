@@ -61,8 +61,6 @@ export class GroupAdminPage extends React.Component {
           h.push(groupStats.stats.hearts_history[key])
         }
       }
-      console.log(d2)
-      console.log(h)
       var chart = c3.generate({
         bindto: '#followersChart',
         data: {
@@ -185,7 +183,11 @@ export class GroupMembers extends React.Component {
         </Link>
       </td>
       <td>
-        <div className="py1" style={{wordBreak: 'break-all'}}>{user.email}</div>
+        <div className="py1" style={{wordBreak: 'break-all'}}>
+          <a href={`mailto:${user.email}?Subject=Hi`}>
+            {user.email}
+          </a>
+        </div>
       </td>
       <td className="">
         <div className="py1">

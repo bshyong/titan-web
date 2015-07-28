@@ -75,6 +75,7 @@ export default class ChangelogNavbar extends React.Component {
             <div className="flex mb2 md-mb0">
               {this.renderNewStoryButton()}
               {this.renderSettingsButton()}
+              {this.renderAdminButton()}
             </div>
             <div className="flex-none px1">
               <FollowButton changelogId={changelog.id} toggled={following}/>
@@ -106,6 +107,7 @@ export default class ChangelogNavbar extends React.Component {
             <div className="flex mb2 md-mb0">
               {this.renderNewStoryButton()}
               {this.renderSettingsButton()}
+              {this.renderAdminButton()}
             </div>
             <div className="flex-none px1">
               <FollowButton changelogId={changelog.id} toggled={following}/>
@@ -141,6 +143,22 @@ export default class ChangelogNavbar extends React.Component {
       )
 
     }
+  }
+
+  renderAdminButton() {
+    const { changelog } = this.props
+    console.log('hey')
+    if (!(changelog && changelog.user_is_team_member)) {
+      return
+    }
+
+    return (
+      <div className="flex-auto px1">
+        <Link className="button button-outline block full-width center white" to="groupAdminPage" params={{changelogId: changelog.slug}}>
+          <Icon icon="cog" /> Admin
+        </Link>
+      </div>
+    )
   }
 
   renderSettingsButton() {
