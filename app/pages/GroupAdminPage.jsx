@@ -45,8 +45,10 @@ export class GroupAdminPage extends React.Component {
   followersChart(groupStats) {
     let d = ['x']
     let d2 = ['x2']
+    let d3 = ['x3']
     let n = ['Followers']
     let h = ['Hearts']
+    let v = ['Views']
     if (groupStats.stats.followers_history) {
       for (var key in groupStats.stats.followers_history) {
         if (key !== null) {
@@ -61,23 +63,34 @@ export class GroupAdminPage extends React.Component {
           h.push(groupStats.stats.hearts_history[key])
         }
       }
+
+      for (var key in groupStats.stats.views_history) {
+        if (key !== null) {
+          d3.push(key)
+          v.push(groupStats.stats.views_history[key])
+        }
+      }
       var chart = c3.generate({
         bindto: '#followersChart',
         data: {
           xs: {
               'Followers': 'x',
-              'Hearts': 'x2'
+              'Hearts': 'x2',
+              'Views': 'x3'
           },
           columns: [
             d,
             d2,
+            d3,
             n,
-            h
+            h,
+            v
             ],
           type: 'area-spline',
           axes: {
             'Hearts': 'y2',
-            'Followers': 'y'
+            'Followers': 'y',
+            'Views': 'y3'
           }
         },
         axis: {
@@ -85,6 +98,9 @@ export class GroupAdminPage extends React.Component {
            type: 'timeseries'
          },
          y2: {
+           show: true
+         },
+         y3: {
            show: true
          }
           }
