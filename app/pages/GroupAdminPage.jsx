@@ -29,6 +29,8 @@ export class GroupAdminPage extends React.Component {
 
           <div className="py2">
             <h2 className="bold">{groupStats.stats.followers_count} Followers</h2>
+            <h2 className="bold">{groupStats.stats.hearts_count} Hearts</h2>
+            <h2 className="bold">{groupStats.stats.views_count} Views</h2>
             {this.followersChart(groupStats)}
           </div>
 
@@ -44,7 +46,11 @@ export class GroupAdminPage extends React.Component {
 
   followersChart(groupStats) {
     let d = ['x']
+    let d2 = ['x2']
+    let d3 = ['x3']
     let n = ['Followers']
+    let h = ['Hearts']
+    let v = ['Views']
     if (groupStats.stats.followers_history) {
       for (var key in groupStats.stats.followers_history) {
         if (key !== null) {
@@ -52,20 +58,53 @@ export class GroupAdminPage extends React.Component {
           n.push(groupStats.stats.followers_history[key])
         }
       }
+
+      for (var key in groupStats.stats.hearts_history) {
+        if (key !== null) {
+          d2.push(key)
+          h.push(groupStats.stats.hearts_history[key])
+        }
+      }
+
+      for (var key in groupStats.stats.views_history) {
+        if (key !== null) {
+          d3.push(key)
+          v.push(groupStats.stats.views_history[key])
+        }
+      }
       var chart = c3.generate({
         bindto: '#followersChart',
         data: {
-          x: 'x',
+          xs: {
+              'Followers': 'x',
+              'Hearts': 'x2',
+              'Views': 'x3'
+          },
           columns: [
             d,
-            n
+            d2,
+            d3,
+            n,
+            h,
+            v
             ],
-          type: 'area-spline'
+          type: 'area-spline',
+          axes: {
+            'Hearts': 'y2',
+            'Followers': 'y',
+            'Views': 'y3'
+          }
         },
         axis: {
           x: {
            type: 'timeseries'
-           }
+         },
+         y2: {
+           show: true
+         },
+         y3: {
+           show: true
+         }
           }
       });
 
@@ -176,7 +215,11 @@ export class GroupMembers extends React.Component {
         </Link>
       </td>
       <td>
-        <div className="py1" style={{wordBreak: 'break-all'}}>{user.email}</div>
+        <div className="py1" style={{wordBreak: 'break-all'}}>
+          <a href={`mailto:${user.email}?Subject=Hi`}>
+            {user.email}
+          </a>
+        </div>
       </td>
       <td className="">
         <div className="py1">
