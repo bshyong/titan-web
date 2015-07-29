@@ -119,6 +119,14 @@ export class GroupMembers extends React.Component {
               <th className="">User</th>
               <th className="">Email</th>
               <th className="">Twitter</th>
+                <th className="">
+                  <SortArrow
+                    category="hearts"
+                    onClick={sort => fetchMembers(changelogId, 1, per, sort, filter)}
+                    activeCategory={sortCategory}
+                    direction={sortOrder || 'desc'} />
+                  &nbsp;Hearts
+                </th>
               <th className="">
                 <SortArrow
                   category="contributions"
@@ -155,7 +163,7 @@ export class GroupMembers extends React.Component {
   }
 
   renderUserRow(user) {
-    const { contribution_count, twitter_info, last_contributed_at } = user
+    const { total_hearts_count, contribution_count, twitter_info, last_contributed_at } = user
 
     return <tr key={user.id}>
       <td className="">
@@ -178,6 +186,11 @@ export class GroupMembers extends React.Component {
                 {`@${twitter_info.handle}`}
               </Link>
             </span> : '-'}
+        </div>
+      </td>
+      <td className="">
+        <div className="py1">
+          {total_hearts_count || 0}
         </div>
       </td>
       <td className="">
