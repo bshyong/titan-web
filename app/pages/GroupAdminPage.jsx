@@ -8,6 +8,7 @@ import ScrollPaginator from 'ui/ScrollPaginator.jsx'
 import c3 from 'c3'
 import moment from 'config/moment'
 import Icon from 'ui/Icon.jsx'
+import SessionStore from 'stores/session_store'
 
 export class GroupAdminPage extends React.Component {
 
@@ -82,11 +83,17 @@ export class GroupAdminPage extends React.Component {
   }
 
   renderLoadedState() {
-    const { groupMembers } = this.props
+    const { groupMembers, changelogId } = this.props
     if (groupMembers.members.size == 0) { return null }
 
+    const csvLink = `${API_URL}/changelogs/${changelogId}/admin/members_csv.csv?a=${SessionStore.jwt}`
+
     return <div>
-      <h2>Followers</h2>
+      <div className="flex flex-end py1">
+        <div className="h2">Followers</div>
+        <div className="flex-auto"></div>
+        <div className="pointer"><a href={csvLink} target="_blank">Download CSV</a></div>
+      </div>
       <GroupMembers {...this.props} />
     </div>
   }
