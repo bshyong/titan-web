@@ -41,7 +41,7 @@ const BgColor = '#F5F6F8'
   }
 })
 @connect(state => ({}))
-export default class HomePage extends React.Component {
+export default class ChangelogHomePage extends React.Component {
   constructor(props) {
     super(props)
 
@@ -80,7 +80,7 @@ export default class HomePage extends React.Component {
               Simple Changelogs for happy teams.
             </h1>
             <h2 className="mb0" style={{color: '#004354'}}>
-              Follow everyone’s progress, get feedback on your work, and share your product updates with your team and the world.
+              Follow everyone’s progress, get feedback on your work, and share you product updates with your team and the world.
             </h2>
           </div>
         </Jumbotron>

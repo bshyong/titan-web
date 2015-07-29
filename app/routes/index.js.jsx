@@ -18,6 +18,7 @@ import GithubRepoDraftsPage from 'pages/GithubRepoDraftsPage.jsx'
 import GithubRepoSelectionPage from 'pages/GithubRepoSelectionPage.jsx'
 import HighlightPicker from 'components/HighlightPicker.jsx'
 import HomePage from 'pages/HomePage.jsx'
+import ChangelogHomePage from 'pages/ChangelogHomePage.jsx'
 import ImpersonatePage from 'pages/ImpersonatePage.jsx'
 import InvitationPage from 'pages/InvitationPage.jsx'
 import InviteChangelogMembersPage from 'pages/InviteChangelogMembersPage.jsx'
@@ -47,6 +48,7 @@ var internal = (
 
     <Route handler={AdminPage} path="/admin" />
     <Route handler={HomePage} path="/home" />
+	<Route handler={ChangelogHomePage} path="/changelog-home" />
     <Route handler={NewFaqPage} path="/new-assembly-faq" name="newAssemblyFaq" />
     <Route handler={migration} path="/migration" name="migration" />
 
