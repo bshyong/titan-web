@@ -8,6 +8,7 @@ import ScrollPaginator from 'ui/ScrollPaginator.jsx'
 import c3 from 'c3'
 import moment from 'config/moment'
 import Icon from 'ui/Icon.jsx'
+import SessionStore from 'stores/session_store'
 
 export class GroupAdminPage extends React.Component {
 
@@ -29,6 +30,7 @@ export class GroupAdminPage extends React.Component {
           <div className="py2">
             <h2 className="bold">{groupStats.stats.followers_count} Followers</h2>
             <h2 className="bold">{groupStats.stats.hearts_count} Hearts</h2>
+            <h2 className="bold">{groupStats.stats.views_count} Views</h2>
             {this.followersChart(groupStats)}
           </div>
 
@@ -45,8 +47,10 @@ export class GroupAdminPage extends React.Component {
   followersChart(groupStats) {
     let d = ['x']
     let d2 = ['x2']
+    let d3 = ['x3']
     let n = ['Followers']
     let h = ['Hearts']
+    let v = ['Views']
     if (groupStats.stats.followers_history) {
       for (var key in groupStats.stats.followers_history) {
         if (key !== null) {
@@ -61,23 +65,34 @@ export class GroupAdminPage extends React.Component {
           h.push(groupStats.stats.hearts_history[key])
         }
       }
+
+      for (var key in groupStats.stats.views_history) {
+        if (key !== null) {
+          d3.push(key)
+          v.push(groupStats.stats.views_history[key])
+        }
+      }
       var chart = c3.generate({
         bindto: '#followersChart',
         data: {
           xs: {
               'Followers': 'x',
-              'Hearts': 'x2'
+              'Hearts': 'x2',
+              'Views': 'x3'
           },
           columns: [
             d,
             d2,
+            d3,
             n,
-            h
+            h,
+            v
             ],
           type: 'area-spline',
           axes: {
             'Hearts': 'y2',
-            'Followers': 'y'
+            'Followers': 'y',
+            'Views': 'y3'
           }
         },
         axis: {
@@ -85,6 +100,9 @@ export class GroupAdminPage extends React.Component {
            type: 'timeseries'
          },
          y2: {
+           show: true
+         },
+         y3: {
            show: true
          }
           }
@@ -104,11 +122,17 @@ export class GroupAdminPage extends React.Component {
   }
 
   renderLoadedState() {
-    const { groupMembers } = this.props
+    const { groupMembers, changelogId } = this.props
     if (groupMembers.members.size == 0) { return null }
 
+    const csvLink = `${API_URL}/changelogs/${changelogId}/admin/members_csv.csv?a=${SessionStore.jwt}`
+
     return <div>
-      <h2>Followers</h2>
+      <div className="flex flex-end py1">
+        <div className="h2">Followers</div>
+        <div className="flex-auto"></div>
+        <div className="pointer"><a href={csvLink} target="_blank">Download CSV</a></div>
+      </div>
       <GroupMembers {...this.props} />
     </div>
   }
@@ -134,6 +158,14 @@ export class GroupMembers extends React.Component {
               <th className="">User</th>
               <th className="">Email</th>
               <th className="">Twitter</th>
+                <th className="">
+                  <SortArrow
+                    category="hearts"
+                    onClick={sort => fetchMembers(changelogId, 1, per, sort, filter)}
+                    activeCategory={sortCategory}
+                    direction={sortOrder || 'desc'} />
+                  &nbsp;Hearts
+                </th>
               <th className="">
                 <SortArrow
                   category="contributions"
@@ -170,7 +202,7 @@ export class GroupMembers extends React.Component {
   }
 
   renderUserRow(user) {
-    const { contribution_count, twitter_info, last_contributed_at } = user
+    const { total_hearts_count, contribution_count, twitter_info, last_contributed_at } = user
 
     return <tr key={user.id}>
       <td className="">
@@ -197,6 +229,11 @@ export class GroupMembers extends React.Component {
                 {`@${twitter_info.handle}`}
               </Link>
             </span> : '-'}
+        </div>
+      </td>
+      <td className="">
+        <div className="py1">
+          {total_hearts_count || 0}
         </div>
       </td>
       <td className="">
