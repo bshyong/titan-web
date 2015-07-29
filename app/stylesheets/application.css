@@ -1,4 +1,5 @@
 @import 'basscss';
+@import 'c3/c3.css';
 
 /* Utilities */
 @import 'utilities/colors';
