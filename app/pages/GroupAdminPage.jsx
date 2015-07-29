@@ -27,10 +27,12 @@ export class GroupAdminPage extends React.Component {
         <AppNavbar title="Group admin page" />
         <div className="container">
 
-          <div className="py2">
-            <h2 className="bold">{groupStats.stats.followers_count} Followers</h2>
-            <h2 className="bold">{groupStats.stats.hearts_count} Hearts</h2>
-            <h2 className="bold">{groupStats.stats.views_count} Views</h2>
+          <div className="py2 h2 bold">
+            <p>
+              {groupStats.stats.followers_count} Followers,&nbsp;
+              {groupStats.stats.hearts_count} Hearts,&nbsp;
+              {groupStats.stats.views_count} Views
+            </p>
             {this.followersChart(groupStats)}
           </div>
 
