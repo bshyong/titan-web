@@ -29,6 +29,7 @@ export class GroupAdminPage extends React.Component {
           <div className="py2">
             <h2 className="bold">{groupStats.stats.followers_count} Followers</h2>
             <h2 className="bold">{groupStats.stats.hearts_count} Hearts</h2>
+            <h2 className="bold">{groupStats.stats.views_count} Views</h2>
             {this.followersChart(groupStats)}
           </div>
 
