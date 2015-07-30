@@ -1,21 +1,19 @@
 import AuthenticationForm from 'components/Authentication/AuthenticationForm.jsx'
 import AuthenticationFormToggler from 'components/Authentication/AuthenticationFormToggler.jsx'
-import connectToStores from 'lib/connectToStores.jsx'
 import React from 'react'
 import Scrim from 'ui/Scrim.jsx'
-import SigninScrimStore from 'stores/SigninScrimStore'
+import {connect} from 'redux/react'
 
-@connectToStores(SigninScrimStore)
+@connect(state => ({
+  shown: state.signinScrim.shown,
+}))
 export default class SigninScrim extends React.Component {
-  static getPropsFromStores() {
-    return { shown: SigninScrimStore.shown }
-  }
-
   static propTypes = {
-    shown: React.PropTypes.bool
+    shown: React.PropTypes.bool,
   }
 
   render() {
+    console.log('shown', this.props)
     const { shown } = this.props
 
     if (!shown) {

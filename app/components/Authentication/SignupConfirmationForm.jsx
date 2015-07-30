@@ -1,4 +1,4 @@
-import AuthenticationFormActions from 'actions/AuthenticationFormActions'
+import AuthenticationFormActions from 'actions/authenticationFormActions'
 import AuthenticationFormButton from 'components/Authentication/AuthenticationFormButton.jsx'
 import AvailableUsernameInput from 'components/Authentication/AvailableUsernameInput.jsx'
 import Button from 'ui/Button.jsx'

@@ -1,5 +1,5 @@
 import AuthenticationForm from 'components/Authentication/AuthenticationForm.jsx'
-import * as AuthenticationFormActions from 'actions/AuthenticationFormActions'
+import * as AuthenticationFormActions from 'actions/authenticationFormActions'
 import { connect } from 'redux/react'
 import { Map } from 'immutable'
 import querystring from 'querystring'

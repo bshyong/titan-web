@@ -1,4 +1,4 @@
-import * as AuthenticationFormActions from 'actions/AuthenticationFormActions'
+import * as AuthenticationFormActions from 'actions/authenticationFormActions'
 import Avatar from 'ui/Avatar.jsx'
 import { connect } from 'redux/react'
 import connectToStores from 'lib/connectToStores.jsx'

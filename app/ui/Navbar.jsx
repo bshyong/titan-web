@@ -12,7 +12,7 @@ export default class Navbar extends React.Component {
   }
 
   render() {
-    const {bg, bgImgUrl, title, children, left, right, size} = this.props
+    const {bg, bgImgUrl, size} = this.props
     const cn = classnames(
       'navbar',
       'flex flex-column full-width relative z1',
@@ -54,7 +54,7 @@ export default class Navbar extends React.Component {
   }
 
   renderSmall() {
-    const {title, children, left, right} = this.props
+    const {children, left, right} = this.props
     return <div>
       <div className="flex flex-center full-width" style={{height: '4rem'}}>
         <div className="flex-none">{left}</div>
@@ -67,8 +67,8 @@ export default class Navbar extends React.Component {
   }
 
   renderShade() {
-    if(!this.props.bgImgUrl) {
-      return
+    if (!this.props.bgImgUrl) {
+      return null
     }
     return (
       <div className="absolute top-0 right-0 bottom-0 left-0 bg-darken-4" style={{zIndex: -1}} />

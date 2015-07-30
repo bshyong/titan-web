@@ -1,29 +1,26 @@
-import * as AuthenticationFormActions from 'actions/AuthenticationFormActions'
+import * as AuthenticationFormActions from 'actions/authenticationFormActions'
 import Avatar from '../ui/Avatar.jsx'
 import Button from '../ui/Button.jsx'
 import Comment from '../components/comment.jsx'
 import CommentFormActions from '../actions/comment_form_actions'
 import { connect } from 'redux/react'
-import LoginForm from 'components/Authentication/LoginForm.jsx'
 import MarkdownArea from '../ui/MarkdownArea.jsx'
 import NewCommentsStore from '../stores/new_comments_store'
 import React from 'react'
-import SessionActions from '../actions/SessionActions'
 import SessionStore from '../stores/session_store'
-import SigninScrimActions from 'actions/SigninScrimActions'
 
-@connect(state => ({}))
+@connect(() => ({}))
 export default class CommentForm extends React.Component {
   constructor(props) {
     super(props)
 
     if (props.id) {
       this.state = {
-        comment: props.body
+        comment: props.body,
       }
     } else {
       this.state = {
-        comment: NewCommentsStore.get(this.props.storyId)
+        comment: NewCommentsStore.get(this.props.storyId),
       }
     }
 
@@ -49,7 +46,7 @@ export default class CommentForm extends React.Component {
   renderButton() {
     const valid = NewCommentsStore.isValid(this.props.id || this.props.storyId)
     if (!valid) {
-      return
+      return null
     }
     return (
       <div className="mt2">
@@ -96,21 +93,19 @@ export default class CommentForm extends React.Component {
       )
     }
 
-    const { user } = this.state
-
     if (this.state.isSaving) {
       return this.renderOptimisticComment()
-    } else {
-      return (
-        <div className="flex">
-          {this.renderAvatar()}
-          <div className="flex-auto">
-            {this.renderTextArea()}
-            {this.renderButton()}
-          </div>
-        </div>
-      )
     }
+
+    return (
+      <div className="flex">
+        {this.renderAvatar()}
+        <div className="flex-auto">
+          {this.renderTextArea()}
+          {this.renderButton()}
+        </div>
+      </div>
+    )
   }
 
   renderAvatar() {
@@ -151,17 +146,17 @@ export default class CommentForm extends React.Component {
     )
   }
 
-  _handleSignInClick(e) {
+  _handleSignInClick() {
     this.props.dispatch(AuthenticationFormActions.changeForm({
       formComponent: 'login',
-      formContent: { redirectTo: window.location.pathname }
+      formContent: { redirectTo: window.location.pathname },
     }))
   }
 
   _onStoreChange() {
     this.setState({
       isSaving: NewCommentsStore.isSaving(this.props.id || this.props.storyId),
-      comment: NewCommentsStore.get(this.props.id || this.props.storyId) || ''
+      comment: NewCommentsStore.get(this.props.id || this.props.storyId) || '',
     })
   }
 }

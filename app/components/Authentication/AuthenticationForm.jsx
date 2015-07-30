@@ -1,4 +1,4 @@
-import * as AuthenticationFormActions from 'actions/AuthenticationFormActions'
+import * as AuthenticationFormActions from 'actions/authenticationFormActions'
 import { bindActionCreators } from 'redux'
 import { connect } from 'redux/react'
 import LoginForm from 'components/Authentication/LoginForm.jsx'

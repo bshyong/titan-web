@@ -5,8 +5,6 @@ import {
   ATTACHMENT_UPLOADING,
 } from 'constants'
 
-const initialState = {}
-
 export default function attachments(state = {}, action) {
   switch (action.type) {
     case ATTACHMENT_UPLOADED:

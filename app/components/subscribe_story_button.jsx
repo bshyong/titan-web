@@ -1,12 +1,8 @@
-import * as AuthenticationFormActions from 'actions/AuthenticationFormActions'
-import { connect } from 'redux/react'
+import * as AuthenticationFormActions from 'actions/authenticationFormActions'
 import Icon from '../ui/Icon.jsx'
 import React from 'react'
-import SessionActions from '../actions/SessionActions'
 import SessionStore from '../stores/session_store'
 import StoryActions from '../actions/story_actions'
-import SigninScrimActions from '../actions/SigninScrimActions'
-import LoginForm from '../components/Authentication/LoginForm.jsx'
 
 export default class SubscribeStoryButton extends React.Component {
   constructor(props) {
@@ -31,7 +27,7 @@ export default class SubscribeStoryButton extends React.Component {
     if (!SessionStore.isSignedIn()) {
       this.props.dispatch(AuthenticationFormActions.changeForm({
         formComponent: 'login',
-        formContent: { redirectTo: window.location.pathname }
+        formContent: { redirectTo: window.location.pathname },
       }))
     }
 

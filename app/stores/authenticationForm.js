@@ -8,14 +8,6 @@ import {
 } from 'constants'
 import { Map } from 'immutable'
 
-const ensureString = (s) => {
-  if (typeof s !== 'string') {
-    return ''
-  }
-
-  return s
-}
-
 const initialState = Map({
   closeable: true,
   error: null,
@@ -24,7 +16,7 @@ const initialState = Map({
     email: '',
     password: '',
     redirectTo: '',
-    username: ''
+    username: '',
   }),
   shown: false,
 })

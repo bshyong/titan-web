@@ -3,7 +3,6 @@ import * as AttachmentActions from 'actions/AttachmentActions'
 import api from 'lib/api'
 import Dropzone from 'config/dropzone'
 import React, { Component, PropTypes } from 'react'
-import statics from 'lib/statics'
 
 @connect(state => ({
   attachments: state.attachments,
@@ -75,9 +74,11 @@ export default class DropzoneContainer extends Component {
   }
 
   _confirmAttachment(file) {
-    const { attachments, } = this.state
-    const { key, } = file.form
+    const { attachments } = this.state
+    const { key } = file.form
     const attachment = attachments[key]
+
+    window.file = file
 
     if (attachment) {
       this.props.onUploaded(attachment)
@@ -111,7 +112,7 @@ export default class DropzoneContainer extends Component {
   // the upload API. (The store (`attachments`), for its part, just increments and decrements
   // the attachments going in and out of a given container.)
   _uploadAttachment(file, done) {
-    const { dispatch, id, onError, onUploading, } = this.props
+    const { dispatch, id, onError, onUploading } = this.props
 
     onUploading(file)
 
@@ -122,7 +123,7 @@ export default class DropzoneContainer extends Component {
       content_type: file.type,
       size: file.size,
     }).then(attachment => {
-      const { attachments, } = this.state
+      const { attachments } = this.state
 
       file.form = attachment.form
       attachment.name = file.name

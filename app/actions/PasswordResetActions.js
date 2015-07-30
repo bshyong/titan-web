@@ -5,28 +5,27 @@ import {
   PASSWORD_RESET_TOKEN_REQUESTED
 } from 'constants'
 import api from 'lib/api'
-import Dispatcher from 'lib/dispatcher'
 
 export function submitEmail(email) {
   return dispatch => {
-    Dispatcher.dispatch({
+    dispatch({
       type: PASSWORD_RESET_TOKEN_REQUESTED,
-      email: email
+      email: email,
     })
 
-    return api.post('password/reset/new', { email: email }).then(resp => {
-      Dispatcher.dispatch({
+    return api.post('password/reset/new', { email: email }).then(() => {
+      dispatch({
         type: PASSWORD_RESET_TOKEN_CONFIRMED,
-        email: email
+        email: email,
       })
     }).catch(error => {
-      Dispatcher.dispatch({
-        type: PASSWORD_RESET_TOKEN_FAILED
+      dispatch({
+        type: PASSWORD_RESET_TOKEN_FAILED,
       })
 
       dispatch({
         type: AUTHENTICATION_FORM_ERROR,
-        error: error.error
+        error: error.error,
       })
     })
   }

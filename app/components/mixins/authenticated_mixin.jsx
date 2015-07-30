@@ -2,9 +2,6 @@ import React from 'react'
 import RouterContainer from 'lib/router_container'
 import RoutesStore from 'stores/routes_store'
 import SessionStore from 'stores/session_store'
-import SessionActions from 'actions/SessionActions'
-import SigninScrimActions from 'actions/SigninScrimActions'
-import SignupForm from 'components/Authentication/SignupForm.jsx'
 
 export default function Authenticated() {
   return (Component) => {
@@ -15,7 +12,9 @@ export default function Authenticated() {
           transition.abort()
           RouterContainer.transitionTo('signup', {}, { redirectTo: window.location.pathname })
         } else {
-          Component.willTransitionTo && Component.willTransitionTo(transition, params, query)
+          if (Component.willTransitionTo) {
+            Component.willTransitionTo(transition, params, query)
+          }
         }
       }
 
@@ -43,7 +42,7 @@ export default function Authenticated() {
         return {
           resourceFound: RoutesStore.resourceFound,
           signedIn: SessionStore.isSignedIn(),
-          user: SessionStore.user
+          user: SessionStore.user,
         }
       }
 

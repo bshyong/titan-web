@@ -1,3 +1,5 @@
+import { Map } from 'immutable'
+import {connect} from 'redux/react'
 import AuthenticationFormButton from 'components/Authentication/AuthenticationFormButton.jsx'
 import AuthenticationFormError from 'components/Authentication/AuthenticationFormError.jsx'
 import AvailableUsernameInput from 'components/Authentication/AvailableUsernameInput.jsx'
@@ -5,13 +7,13 @@ import Button from 'ui/Button.jsx'
 import Icon from 'ui/Icon.jsx'
 import LoginForm from 'components/Authentication/LoginForm.jsx'
 import LogoSrc from 'images/logo.svg'
-import { Map } from 'immutable'
 import onMobile from 'lib/on_mobile'
 import PasswordInputAndHelper from 'components/Authentication/PasswordInputAndHelper.jsx'
 import React from 'react'
-import SigninScrimActions from 'actions/SigninScrimActions'
+import * as signinScrimActions from 'actions/signinScrimActions'
 import TwitterActions from 'actions/oauth/TwitterActions'
 
+@connect(() => ({}))
 export default class SignupForm extends React.Component {
   static propTypes = {
     change: React.PropTypes.func.isRequired,
@@ -20,11 +22,11 @@ export default class SignupForm extends React.Component {
       email: React.PropTypes.string,
       password: React.PropTypes.string,
       redirectTo: React.PropTypes.string,
-      username: React.PropTypes.string
+      username: React.PropTypes.string,
     }),
     show: React.PropTypes.func.isRequired,
     shown: React.PropTypes.bool,
-    submit: React.PropTypes.func.isRequired
+    submit: React.PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -52,7 +54,7 @@ export default class SignupForm extends React.Component {
     const {
       email,
       password,
-      username
+      username,
     } = this.props.formContent
 
     return (
@@ -164,7 +166,7 @@ export default class SignupForm extends React.Component {
   _handleLoginClick(e) {
     e.preventDefault()
 
-    SigninScrimActions.show(LoginForm)
+    this.props.dispatch(signinScrimActions.show(LoginForm))
   }
 
   _handleSubmit(e) {
