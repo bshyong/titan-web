@@ -111,7 +111,7 @@ export class GroupAdminPage extends React.Component {
 
   renderLoadedState() {
     const { groupMembers, changelogId } = this.props
-    if (groupMembers.members.size == 0) { return null }
+    if (groupMembers.members.size === 0) { return null }
 
     const csvLink = `${API_URL}/changelogs/${changelogId}/admin/members_csv.csv?a=${SessionStore.jwt}`
 
@@ -141,10 +141,9 @@ export class GroupMembers extends React.Component {
     return <div>
       <div className="overflow-scroll">
         <table className="table-light bg-white border rounded h5">
-          <thead className="bg-smoke">
+          <thead className="bg-charcoal white">
             <tr className="">
               <th className="">User</th>
-              <th className="">Email</th>
               <th className="">Twitter</th>
                 <th className="">
                   <SortArrow
@@ -152,7 +151,7 @@ export class GroupMembers extends React.Component {
                     onClick={sort => fetchMembers(changelogId, 1, per, sort, filter)}
                     activeCategory={sortCategory}
                     direction={sortOrder || 'desc'} />
-                  &nbsp;Hearts
+                  &nbsp;<Icon icon="heart" /> Earned
                 </th>
               <th className="">
                 <SortArrow
@@ -178,6 +177,7 @@ export class GroupMembers extends React.Component {
                   direction={sortOrder || 'desc'} />
                  &nbsp;Joined At
               </th>
+              <th className=""></th>
             </tr>
           </thead>
           <tbody>
@@ -201,13 +201,6 @@ export class GroupMembers extends React.Component {
             <div className="px1">@{user.username}</div>
           </div>
         </Link>
-      </td>
-      <td>
-        <div className="py1" style={{wordBreak: 'break-all'}}>
-          <a href={`mailto:${user.email}?Subject=Hi`}>
-            {user.email}
-          </a>
-        </div>
       </td>
       <td className="">
         <div className="py1">
@@ -235,6 +228,13 @@ export class GroupMembers extends React.Component {
       <td>
         {moment(user.joined_at).fromNow()}
       </td>
+      <td>
+        <div className="py1" style={{wordBreak: 'break-all'}}>
+          <a href={`mailto:${user.email}?Subject=Hi`}>
+            <Icon icon="envelope-o fw gray" />
+          </a>
+        </div>
+      </td>
     </tr>
   }
 
@@ -251,16 +251,17 @@ export class SortArrow extends React.Component {
     direction: React.PropTypes.oneOf(['asc', 'desc']),
     category: React.PropTypes.string,
     activeCategory: React.PropTypes.string,
-    onClick: React.PropTypes.func
+    onClick: React.PropTypes.func,
   }
 
   static defaultProps = {
-    onClick: () => {}
+    onClick: () => {},
   }
 
   render() {
     const { activeCategory, direction, onClick, category } = this.props
-    let oppositeDirection, iconClass
+    let oppositeDirection
+    let iconClass
 
     if (category === activeCategory) {
       iconClass = `sort-${direction}`
@@ -283,8 +284,8 @@ import {bindActionCreators} from 'redux'
   return {
     ...state,
     groupMembers: {
-      ...state.groupMembers
-    }
+      ...state.groupMembers,
+    },
   }
 })
 

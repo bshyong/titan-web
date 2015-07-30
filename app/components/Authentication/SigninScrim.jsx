@@ -13,7 +13,6 @@ export default class SigninScrim extends React.Component {
   }
 
   render() {
-    console.log('shown', this.props)
     const { shown } = this.props
 
     if (!shown) {
