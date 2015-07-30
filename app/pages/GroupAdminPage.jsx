@@ -244,7 +244,7 @@ export class GroupMembers extends React.Component {
         </div>
       </td>
       <td>
-        {moment(last_contributed_at).fromNow()}
+        {last_contributed_at ? moment(last_contributed_at).fromNow() : '-'}
       </td>
       <td>
         {moment(user.joined_at).fromNow()}
