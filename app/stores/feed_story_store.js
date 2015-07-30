@@ -1,23 +1,9 @@
 import {
-  COMMENT_CREATING,
   FEED_STORIES_FETCHED,
-  STORIES_FETCHED,
-  STORIES_FETCHING,
-  STORY_CREATING,
-  STORY_DELETED,
-  STORY_FETCHED,
-  STORY_HEARTED,
-  STORY_PUBLISHED,
-  STORY_SUBSCRIBED,
-  STORY_UNHEARTED,
-  STORY_UNSUBSCRIBED,
 } from '../constants'
-import { Map, List } from 'immutable'
-import moment from 'moment'
-import paramsFor from '../lib/paramsFor'
+import { List } from 'immutable'
 import Dispatcher from '../lib/dispatcher'
 import Store from '../lib/store'
-import ChangelogStore from './changelog_store.js'
 
 class FeedStoryStore extends Store {
   constructor() {
@@ -30,7 +16,7 @@ class FeedStoryStore extends Store {
     this.dispatchToken = Dispatcher.register(action => {
       switch (action.type) {
         case FEED_STORIES_FETCHED:
-          if (action.page == 1) {
+          if (action.page === 1) {
             this.stories = List()
           }
 
@@ -39,7 +25,7 @@ class FeedStoryStore extends Store {
           this._page = action.page
           this._loading = false
           this.emitChange()
-          break;
+          break
         default:
           return
       }

@@ -1,57 +1,38 @@
+import {connect} from 'redux/react'
 import {List} from 'immutable'
-import Avatar from '../ui/Avatar.jsx'
-import Badge from '../components/Badge.jsx'
+import Avatar from 'ui/Avatar.jsx'
+import Badge from 'components/Badge.jsx'
 import ChangelogNavbar from 'components/Changelog/ChangelogNavbar.jsx'
-import ChangelogStore from '../stores/changelog_store'
-import connectToStores from '../lib/connectToStores.jsx'
-import Discussion from '../components/discussion.jsx'
-import DiscussionActions from '../actions/discussion_actions'
+import connectToStores from 'lib/connectToStores.jsx'
+import Discussion from 'components/discussion.jsx'
+import DiscussionActions from 'actions/discussion_actions'
 import DocumentTitle from 'react-document-title'
+import fetchData from 'decorators/fetchData'
 import FlairClicker from 'components/FlairClicker.jsx'
-import GroupedStoriesStore from '../stores/GroupedStoriesStore'
-import Guest from '../ui/Guest.jsx'
+import GroupedStoriesStore from 'stores/GroupedStoriesStore'
+import Guest from 'ui/Guest.jsx'
 import Heart from 'components/Heart.jsx'
-import Icon from '../ui/Icon.jsx'
-import invite from '../lib/invite'
-import Link from '../components/Link.jsx'
-import Markdown from '../ui/Markdown.jsx'
-import moment from '../config/moment'
-import paramsFor from '../lib/paramsFor'
-import PinPostButton from '../components/PinPostButton.jsx'
-import Popover from '../ui/Popover.jsx'
+import Icon from 'ui/Icon.jsx'
+import invite from 'lib/invite'
+import Link from 'components/Link.jsx'
+import Markdown from 'ui/Markdown.jsx'
+import moment from 'config/moment'
+import paramsFor from 'lib/paramsFor'
+import PinPostButton from 'components/PinPostButton.jsx'
+import Popover from 'ui/Popover.jsx'
 import React from 'react'
-import Router from '../lib/router_container'
-import Stack from '../ui/Stack.jsx'
+import Router from 'lib/router_container'
+import Stack from 'ui/Stack.jsx'
 import StaffOnly from 'components/StaffOnly.jsx'
 import Sticky from 'ui/Sticky.jsx'
-import StoryActions from '../actions/story_actions'
+import StoryActions from 'actions/story_actions'
 import StoryBooster from 'components/staff/StoryBooster.jsx'
-import StoryReadersStore from '../stores/story_readers_store'
+import StoryReadersStore from 'stores/story_readers_store'
 
-@connectToStores(GroupedStoriesStore, StoryReadersStore, ChangelogStore)
-export default class StoryPage extends React.Component {
-  static willTransitionTo(transition, params, query) {
-    if (query.i) {
-      invite.set(query.i)
-    }
-    StoryActions.fetch(Router.changelogSlug(params), params.storyId)
-    DiscussionActions.fetchAll(Router.changelogSlug(params), params.storyId)
-  }
 
-  static getPropsFromStores() {
-    const params = Router.get().getCurrentParams()
-    const storyId = params.storyId
-    return {
-      changelog: ChangelogStore.changelog,
-      story: GroupedStoriesStore.get(storyId),
-      totalReads: StoryReadersStore.totalReads,
-      uniqueReads: StoryReadersStore.uniqueReads,
-    }
-  }
-
+export class StoryPage extends React.Component {
   render() {
     const { story, changelog } = this.props
-    const changelogId = Router.changelogSlug()
     let body
 
     if (!story) {
@@ -222,7 +203,7 @@ export default class StoryPage extends React.Component {
 
   renderInvite() {
     if (!this.props.story.invited) {
-      return
+      return null
     }
 
     return (
@@ -234,7 +215,7 @@ export default class StoryPage extends React.Component {
 
   avatars() {
     const { story } = this.props
-    let guests = List(new Array(story.guests_count || 0)).map(() => <Guest size={32} />)
+    const guests = List(new Array(story.guests_count || 0)).map(() => <Guest size={32} />)
 
     return List(story.contributors).
       map(user => (
@@ -245,9 +226,36 @@ export default class StoryPage extends React.Component {
   }
 
   deleteStory() {
-    const { changelogId, story: { slug } } = this.props
+    const { changelogId, story } = this.props
     if (window.confirm('Are you sure you want to delete this story?')) {
-      StoryActions.delete(changelogId, slug)
+      StoryActions.delete(changelogId, story.slug)
     }
+  }
+}
+
+@fetchData((params, query) => {
+  if (query.i) {
+    invite.set(query.i)
+  }
+  StoryActions.fetch(Router.changelogSlug(params), params.storyId)
+  DiscussionActions.fetchAll(Router.changelogSlug(params), params.storyId)
+})
+@connect(state => ({
+  changelog: state.currentChangelog.changelog,
+}))
+@connectToStores(GroupedStoriesStore, StoryReadersStore)
+export default class Wrapper extends React.Component {
+  static getPropsFromStores(props) {
+    const params = props.params || Router.get().getCurrentParams()
+    const storyId = params.storyId
+    return {
+      story: GroupedStoriesStore.get(storyId),
+      totalReads: StoryReadersStore.totalReads,
+      uniqueReads: StoryReadersStore.uniqueReads,
+    }
+  }
+
+  render() {
+    return <StoryPage {...this.props} />
   }
 }

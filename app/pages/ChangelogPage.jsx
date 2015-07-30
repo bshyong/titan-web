@@ -1,44 +1,41 @@
+import {connect} from 'redux/react'
 import {RouteHandler} from 'react-router'
-import Avatar from '../ui/Avatar.jsx'
-import Button from '../ui/Button.jsx'
-import ChangelogActions from '../actions/changelog_actions'
+import * as changelogActions from 'actions/changelogActions'
+import Avatar from 'ui/Avatar.jsx'
 import ChangelogName from 'components/Changelog/ChangelogName.jsx'
-import ChangelogStore from '../stores/changelog_store'
-import classnames from 'classnames'
-import Icon from '../ui/Icon.jsx'
-import Link from '../components/Link.jsx'
-import paramsFor from '../lib/paramsFor'
+import fetchData from 'decorators/fetchData'
+import Link from 'components/Link.jsx'
 import React from 'react'
-import RouterContainer from '../lib/router_container'
-import SessionActions from '../actions/SessionActions'
-import SessionStore from '../stores/session_store'
+import RouterContainer from 'lib/router_container'
+import SessionActions from 'actions/SessionActions'
+import SessionStore from 'stores/session_store'
 
+@fetchData(params =>
+  changelogActions.select(RouterContainer.changelogSlug(params))
+)
+@connect(state => ({
+  changelog: state.currentChangelog.changelog,
+}))
 export default class ChangelogPage extends React.Component {
-  static willTransitionTo(transition, params, query) {
-    ChangelogActions.select(RouterContainer.changelogSlug(params))
+  state = {
+    user: SessionStore.user,
   }
 
   constructor() {
     super()
-    this.state = {
-      changelog: ChangelogStore.changelog,
-      user:      SessionStore.user
-    }
     this.onStoreChange = this._onStoreChange.bind(this)
   }
 
   componentDidMount() {
-    ChangelogStore.addChangeListener(this.onStoreChange)
     SessionStore.addChangeListener(this.onStoreChange)
   }
 
   componentWillUnmount() {
-    ChangelogStore.removeChangeListener(this.onStoreChange)
     SessionStore.removeChangeListener(this.onStoreChange)
   }
 
   render() {
-    if (!this.state.changelog) {
+    if (!this.props.changelog) {
       return <div />
     }
 
@@ -52,7 +49,7 @@ export default class ChangelogPage extends React.Component {
 
   renderProfileNav() {
     if (!this.state.user) {
-      return
+      return <div />
     }
     return (
       <div className="flex-none p1">
@@ -68,15 +65,14 @@ export default class ChangelogPage extends React.Component {
 
     return (
       <Link to="changelog" params={{changelogId}} className="black">
-        <ChangelogName changelog={this.state.changelog} />
+        <ChangelogName changelog={this.props.changelog} />
       </Link>
     )
   }
 
   _onStoreChange() {
     this.setState({
-      changelog: ChangelogStore.changelog,
-      user:      SessionStore.user
+      user: SessionStore.user,
     })
   }
 }

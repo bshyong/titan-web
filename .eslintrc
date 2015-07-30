@@ -37,10 +37,11 @@
     "S3_URL": false
   },
   "rules": {
-    "comma-dangle": [2, "always"],
+    "comma-dangle": [2, "always-multiline"],
     "new-cap": 0,
     "no-var": 2,
     "prefer-const": 2,
+    "quotes": 0,
     "react/jsx-uses-react": 2,
     "react/jsx-uses-vars": 2,
     "react/react-in-jsx-scope": 2,

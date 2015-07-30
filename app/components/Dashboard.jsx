@@ -1,7 +1,5 @@
 import {fetchFollowing} from 'actions/changelogActions'
 import ChangelogCard from './Changelog/ChangelogCard.jsx'
-import connectToStores from '../lib/connectToStores.jsx'
-import DashboardStore from '../stores/DashboardStore'
 import Link from '../components/Link.jsx'
 import paramsFor from '../lib/paramsFor'
 import React from 'react'
@@ -11,16 +9,10 @@ import Subheader from 'ui/Subheader.jsx'
 import {connect} from 'redux/react'
 
 @connect(state => ({
+  featured: state.changelogs.featured,
   following: state.changelogs.following,
 }))
-@connectToStores(DashboardStore)
 export default class Dashboard extends React.Component {
-  static getPropsFromStores(prevProps) {
-    return {
-      featured: DashboardStore.featured,
-    }
-  }
-
   static propTypes = {
     featured: React.PropTypes.object,
     following: React.PropTypes.object,
@@ -38,7 +30,7 @@ export default class Dashboard extends React.Component {
         <Subheader text="Featured public changelogs" />
 
         <div className="sm-flex flex-wrap mxn2">
-          {featured.map((changelog, i) =>
+          {(featured || []).map((changelog, i) =>
             <div className="sm-col-4 p2" key={changelog.id + i}>
               <Link to="changelog" params={paramsFor.changelog(changelog)}>
                 <ChangelogCard changelog={changelog} />
@@ -61,7 +53,7 @@ export default class Dashboard extends React.Component {
     const { following } = this.props
 
     if (!following || following.length === 0) {
-      return
+      return <div />
     }
 
     return (

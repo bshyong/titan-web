@@ -10,8 +10,8 @@ const TestUtils = React.addons.TestUtils
 describe('AuthenticationForm', () => {
   it("renders the form that matches the formComponent string it's passed", () => {
     spyOn(LoginForm.prototype, 'render').and.returnValue(<div />)
-    const redux = createRedux({ authenticationForm: () => Map({ formContent: Map() }) });
-    const c = TestUtils.renderIntoDocument(
+    const redux = createRedux({ authenticationForm: () => Map({ formContent: Map() }) })
+    TestUtils.renderIntoDocument(
       <Provider redux={redux}>
         {() => <AuthenticationForm
           dispatch={() => {}}

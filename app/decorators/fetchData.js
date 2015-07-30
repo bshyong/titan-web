@@ -7,9 +7,7 @@ export default function fetchData(callback) {
     static fetchData = callback
 
     render() {
-      return (
-        <Component {...this.props} />
-      )
+      return <Component {...this.props} />
     }
   }
 }

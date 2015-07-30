@@ -2,7 +2,6 @@ import * as EmojiInputActions from 'actions/EmojiInputActions'
 import AuthenticatedMixin from 'components/mixins/authenticated_mixin.jsx'
 import Button from 'ui/Button.jsx'
 import ChangelogNavbar from 'components/Changelog/ChangelogNavbar.jsx'
-import ChangelogStore from 'stores/changelog_store'
 import connectToStores from 'lib/connectToStores.jsx'
 import ContributorsActions from 'actions/ContributorsActions'
 import ContributorsStore from 'stores/ContributorsStore'
@@ -21,29 +20,21 @@ import { showTweetScrim } from 'actions/TweetScrimActions'
 @AuthenticatedMixin()
 @connect(state => ({
   attachments: state.attachments,
-  isCreating: state.storyFields.isCreating,
-  storyFields: state.storyFields,
+  changelog: state.currentChangelog.changelog,
   errorMessage: state.storyFields.errorMessage,
+  isCreating: state.storyFields.isCreating,
   publishToTwitter: state.storyFields.publishToTwitter,
+  storyFields: state.storyFields,
 }))
-@connectToStores(ChangelogStore, ContributorsStore)
+@connectToStores(ContributorsStore)
 @statics({
-  getPropsFromStores(props) {
+  getPropsFromStores() {
     return {
-      changelog: ChangelogStore.changelog,
       contributors: ContributorsStore.contributors,
       fromOnboarding: RouterContainer.get().getCurrentQuery().o,
     }
   },
-  willTransitionTo() {
-    StoryFormActions.clearAll()
-    ContributorsActions.resetContributors(SessionStore.user)
-  },
 })
-@AuthenticatedMixin()
-@connect(state => ({
-  attachments: state.attachments,
-}))
 export default class NewStoryPage extends React.Component {
   static get defaultProps() {
     return {

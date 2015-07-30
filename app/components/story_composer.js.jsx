@@ -1,21 +1,17 @@
-import ChangelogStore from '../stores/changelog_store'
-import connectToStores from '../lib/connectToStores.jsx'
+import { RouteHandler } from 'react-router'
+import {connect} from 'redux/react'
+import fetchData from 'decorators/fetchData'
 import HighlightsActionCreator from '../actions/highlight_actions'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
-import { RouteHandler } from 'react-router'
-import Link from '../components/Link.jsx'
 
-@connectToStores(ChangelogStore)
+@fetchData(params => {
+  HighlightsActionCreator.fetchAll(RouterContainer.changelogSlug(params))
+})
+@connect(state => ({
+  changelog: state.currentChangelog.changelog,
+}))
 export default class StoryComposer extends React.Component {
-  static willTransitionTo(transition, params, query) {
-    HighlightsActionCreator.fetchAll(RouterContainer.changelogSlug(params))
-  }
-
-  static getPropsFromStores(props) {
-    return { changelog: ChangelogStore.changelog }
-  }
-
   componentWillMount() {
     this.coreTeamOnly(this.props)
   }

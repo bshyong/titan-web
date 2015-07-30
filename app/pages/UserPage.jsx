@@ -1,23 +1,20 @@
 import {connect} from 'redux/react'
 import {fetchFollowing} from 'actions/changelogActions'
 import AppNavbar from 'components/App/AppNavbar.jsx'
-import ChangelogActions from '../actions/changelog_actions'
-import FollowActions from '../actions/FollowActions.js'
-import ProfileActions from '../actions/profile_actions.js'
+import * as changelogActions from 'actions/changelogActions'
+import ProfileActions from 'actions/profile_actions.js'
 import React from 'react'
-import RouterContainer from '../lib/router_container'
-import statics from 'lib/statics'
-import UserProfile from '../components/User/UserProfile.jsx'
+import RouterContainer from 'lib/router_container'
+import UserProfile from 'components/User/UserProfile.jsx'
+import fetchData from 'decorators/fetchData'
 
+@fetchData(params => {
+  ProfileActions.fetch(params.userId)
+  ProfileActions.fetchStories(params.userId)
 
-@statics({
-  willTransitionTo(transition, params, query) {
-    ProfileActions.fetch(params.userId)
-    ProfileActions.fetchStories(params.userId)
-    ChangelogActions.clearCurrent()
-  }
+  return changelogActions.clearCurrent()
 })
-@connect(state => ({}))
+@connect(() => ({}))
 export default class UserPage extends React.Component {
   componentWillMount() {
     this.props.dispatch(fetchFollowing(RouterContainer.get().getCurrentParams().userId))

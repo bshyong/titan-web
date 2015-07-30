@@ -9,6 +9,7 @@ import SignupForm from 'components/Authentication/SignupForm.jsx'
 export default function Authenticated() {
   return (Component) => {
     return class Authenticated extends React.Component {
+      static fetchData = Component.fetchData
       static willTransitionTo(transition, params, query) {
         if (!SessionStore.isSignedIn()) {
           transition.abort()

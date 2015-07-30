@@ -5,19 +5,19 @@ export default function(Component, props, stubs) {
   function RouterStub() { }
 
   Object.assign(RouterStub, {
-    makePath () {},
-    makeHref () {},
-    transitionTo () {},
-    replaceWith () {},
-    goBack () {},
-    getCurrentPath () {},
-    getCurrentRoutes () {},
-    getCurrentPathname () {},
-    getCurrentParams () {},
-    getCurrentQuery () {},
-    isActive () {},
+    makePath() {},
+    makeHref() {},
+    transitionTo() {},
+    replaceWith() {},
+    goBack() {},
+    getCurrentPath() {},
+    getCurrentRoutes() {},
+    getCurrentPathname() {},
+    getCurrentParams() {},
+    getCurrentQuery() {},
+    isActive() {},
     getRouteAtDepth() {},
-    setRouteComponentAtDepth() {}
+    setRouteComponentAtDepth() {},
   }, stubs)
 
   return class StubbedRouterComponent extends React.Component {

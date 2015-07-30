@@ -20,8 +20,8 @@ import url from 'url'
 // Redirect old links to assembly.com
 // TODO: use 301 when we have server side rendering
 if (window.location.host === 'changelog.assembly.com') {
-  let parts = url.parse(window.location.href)
-  let to = `${parts.protocol}\/\/assembly.com${parts.path}`
+  const parts = url.parse(window.location.href)
+  const to = `${parts.protocol}\/\/assembly.com${parts.path}`
 
   window.location.href = to
 }
@@ -31,28 +31,28 @@ if (window.location.host === 'changelog.assembly.com') {
 import createRedux from 'redux/create'
 import { Provider } from 'redux/react'
 
-let initialState = {}
-let jwt = localStorage.getItem('jwt')
+const initialState = {}
+const jwt = localStorage.getItem('jwt')
 if (jwt) {
   const user = SessionActions.signinFromToken(jwt)
   initialState.currentUser = user
 }
-let redux = createRedux(api, initialState)
+const redux = createRedux(api, initialState)
 
 // Monkey patch to make domains and hashes in urls work
 Router.HistoryLocation.getCurrentPath = function getCurrentPath() {
   // We can't use window.location.hash here because it's not
   // consistent across browsers - Firefox will pre-decode it!
-  var hash = window.location.href.split('#')[1] || ''
-  if(hash) {
+  let hash = window.location.href.split('#')[1] || ''
+  if (hash) {
     hash = "#" + hash
   }
 
-  let windowPath = decodeURI(
+  const windowPath = decodeURI(
     window.location.pathname + window.location.search + hash
   )
 
-  let parts = url.parse(windowPath)
+  const parts = url.parse(windowPath)
   if (parts.pathname.length > 1 && parts.pathname.substr(-1) === '/') {
     parts.pathname = parts.pathname.substr(0, parts.pathname.length - 1)
   }
@@ -63,12 +63,12 @@ Router.HistoryLocation.getCurrentPath = function getCurrentPath() {
 RouterContainer.setRouters({
   internal: Router.create({
     routes: Routes.internal,
-    location: Router.HistoryLocation
+    location: Router.HistoryLocation,
   }),
 
   external: Router.create({
     routes: Routes.external,
-    location: Router.HistoryLocation
+    location: Router.HistoryLocation,
   }),
 })
 
@@ -78,7 +78,12 @@ RouterContainer.router.run((Handler, state) => {
   const fetchs = state.routes.map(r => r.handler).filter(h => h.fetchData).map(h => h.fetchData)
   const reduxState = redux.getState()
   const dispatches = fetchs.map(f => f(state.params, state.query, reduxState))
-  dispatches.filter(d => !!d).map(redux.dispatch)
+  dispatches.filter(d => !!d).map(d => {
+    if (d.map) {
+      return d.map(redux.dispatch)
+    }
+    return redux.dispatch(d)
+  })
 
   React.render(
     <Provider redux={redux}>
@@ -86,11 +91,11 @@ RouterContainer.router.run((Handler, state) => {
     </Provider>
     , document.body)
 
-  let route = state.routes[state.routes.length-1]
+  const route = state.routes[state.routes.length - 1]
   segment.track(ANALYTICS_ENGAGED, {
     type: 'page_view',
     path: state.path,
-    routeName: route ? route.name : '404'
+    routeName: route ? route.name : '404',
   })
 
   Dispatcher.dispatch({type: ROUTE_TRANSITIONED})

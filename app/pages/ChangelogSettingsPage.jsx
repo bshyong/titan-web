@@ -1,60 +1,34 @@
+/* eslint no-alert:0 */
+import {connect} from 'redux/react'
+import {Map} from 'immutable'
+import {resetInvitation} from 'actions/invitationActions'
+import * as changelogActions from 'actions/changelogActions'
 import authenticated from 'components/mixins/authenticated_mixin.jsx'
-import Avatar from 'ui/Avatar.jsx'
 import Button from 'ui/Button.jsx'
-import ChangelogActions from 'actions/changelog_actions'
 import ChangelogInviteLink from 'components/Changelog/ChangelogInviteLink.jsx'
-import ChangelogStore from 'stores/changelog_store'
-import connectToStores from 'lib/connectToStores.jsx'
-import CustomDomainSettingsPanel from './CustomDomainSettingsPanel.jsx'
+import CustomDomainSettingsPanel from 'components/settings/CustomDomainSettingsPanel.jsx'
 import DocumentTitle from 'react-document-title'
 import DropzoneContainer from 'components/DropzoneContainer.jsx'
 import Flair from 'components/Flair.jsx'
-import Icon from 'ui/Icon.jsx'
-import InvitationActions from 'actions/invitation_actions'
-import Link from 'components/Link.jsx'
 import LoadingBar from 'ui/LoadingBar.jsx'
-import Logo from '../logo.jsx'
-import MembershipActions from 'actions/MembershipActions'
-import ProfileStore from 'stores/profile_store'
-import RadioGroup from 'react-radio-group'
+import Logo from 'components/logo.jsx'
+import * as membershipActions from 'actions/membershipActions'
 import React from 'react'
 import RouterContainer from 'lib/router_container'
-import Switch from 'ui/Switch.jsx'
-import Table from 'ui/Table.jsx'
 import TeamAdder from 'components/TeamAdder.jsx'
 import UriRegex from 'lib/uri_regex.js'
 import VisibilityToggler from 'components/VisibilityToggler.jsx'
 import WriteSetting from 'components/settings/WriteSetting.jsx'
+import fetchData from 'decorators/fetchData'
+import {bindActionCreators} from 'redux'
 
-import {List, Map} from 'immutable'
-
-@authenticated()
-@connectToStores(ChangelogStore)
-export default class ChangelogSettings extends React.Component {
-  static willTransitionTo(transition, params) {
-    ChangelogActions.clearCurrent()
-    ChangelogActions.select(RouterContainer.changelogSlug(params))
-    ChangelogActions.fetchMemberships(RouterContainer.changelogSlug(params))
-  }
-
-  static getPropsFromStores(props) {
-    const changelogId = RouterContainer.changelogSlug()
-
-    return {
-      changelogId,
-      changelog: ChangelogStore.changelog,
-      coreMemberships: ChangelogStore.memberships,
-      errors: ChangelogStore.errors,
-      updateSuccessful: ChangelogStore.updateSuccessful
-    }
-  }
-
+export class ChangelogSettingsPage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       bannerUploading: false,
       logoUploading: false,
-      saved: false
+      saved: false,
     }
   }
 
@@ -68,11 +42,12 @@ export default class ChangelogSettings extends React.Component {
   }
 
   render() {
+    console.log(this.props.coreMemberships, this.props.changelog)
     if (!(this.props.coreMemberships && this.props.changelog)) {
       return <div /> // loading
     }
 
-    const {changelog, changelog: { is_members_only }} = this.props
+    const { changelog } = this.props
 
     return (
       <DocumentTitle title={["Settings", changelog.name].join(' · ')}>
@@ -179,9 +154,10 @@ export default class ChangelogSettings extends React.Component {
   }
 
   renderWebhookChanger() {
-    const { changelog: { webhook_url } } = this.props
+    const { changelog } = this.props
+    const webhookUrl = changelog.webhook_url
 
-    const error = !webhook_url || UriRegex.test(webhook_url) ? '' : 'Invalid URL; make sure to include http:// or https://'
+    const error = !webhookUrl || UriRegex.test(webhookUrl) ? '' : 'Invalid URL; make sure to include http:// or https://'
 
     return (
       <div className="mb2">
@@ -373,14 +349,14 @@ export default class ChangelogSettings extends React.Component {
 
   handleAddMember(e) {
     e.preventDefault()
-    let el = React.findDOMNode(this.refs.emailOrUsername)
-    let text = el.value
-    MembershipActions.update(
+    const el = React.findDOMNode(this.refs.emailOrUsername)
+    const text = el.value
+    this.props.updateMembership(
       this.props.changelogId,
       text, {
         can_write: true,
         can_view: true,
-        is_core: true
+        is_core: true,
       }
     )
     el.value = ''
@@ -388,16 +364,16 @@ export default class ChangelogSettings extends React.Component {
 
   handleChange(field) {
     return (e) => {
-      ChangelogActions.change(
+      this.props.change(
         Map(this.props.changelog).set(field, e.target.value).toJS()
       )
     }
   }
 
   handleRemoveClicked(membership) {
-    return (e) => {
+    return () => {
       if (confirm(`Are you sure you want to remove @${membership.user.username}?`)) {
-        MembershipActions.delete(
+        this.props.deleteMembership(
           this.props.changelogId,
           membership.user.username
         )
@@ -408,94 +384,117 @@ export default class ChangelogSettings extends React.Component {
   handleSave(e) {
     e.preventDefault()
     this.setState({
-      saved: true
+      saved: true,
     })
-    ChangelogActions.update(this.props.changelogId, ChangelogStore.changelog)
+    this.props.update(this.props.changelogId, this.props.changelog)
     RouterContainer.get().
       transitionTo('changelog', {changelogId: this.props.changelogId})
   }
 
   handleSwitchMembersOnly() {
-    ChangelogActions.update(this.props.changelogId, {
-      is_members_only: !this.props.changelog.is_members_only
+    this.props.update(this.props.changelogId, {
+      is_members_only: !this.props.changelog.is_members_only,
     })
   }
 
   handleSwitchWriteSetting(setting) {
-    ChangelogActions.update(this.props.changelogId, {
-      anyone_can_write: setting === 'anyone'
+    this.props.update(this.props.changelogId, {
+      anyone_can_write: setting === 'anyone',
     })
   }
 
   handleResetInvitationLink() {
     const { changelog } = this.props
-    if(confirm('Are you sure you want to invalidate this link and create a new one?')) {
-      InvitationActions.resetInvitation(changelog.slug, changelog.invite_hash)
+    if (confirm('Are you sure you want to invalidate this link and create a new one?')) {
+      this.props.dispatch(resetInvitation(changelog.slug, changelog.invite_hash))
     }
   }
 
   handleDeleteChangelog() {
     if (confirm("Are you 100%, totally sure you want to delete this changelog?")) {
-      ChangelogActions.destroy(this.props.changelogId)
+      this.props.destroy(this.props.changelogId)
     }
   }
 
   _onBannerUploaded(banner) {
     setTimeout(() => {
-      ChangelogActions.update(
+      this.props.update(
         this.props.changelogId,
-        Map(ChangelogStore.changelog).set('banner_url', `${banner.firesize_url}/${banner.href}`).toJS()
+        Map(this.props.changelog).set('banner_url', `${banner.firesize_url}/${banner.href}`).toJS()
       )
 
       this.setState({
-        bannerUploading: false
+        bannerUploading: false,
       })
     }, 500)
   }
 
-  _onBannerUploading(bannerArray) {
+  _onBannerUploading() {
     this.setState({
-      bannerUploading: true
+      bannerUploading: true,
     })
   }
 
   _onLogoUploaded(logo) {
     setTimeout(() => {
-      ChangelogActions.update(
+      this.props.update(
         this.props.changelogId,
-        Map(ChangelogStore.changelog).
+        Map(this.props.changelog).
           set('logo_url', `${logo.firesize_url}/${logo.href}`).toJS()
       )
 
       this.setState({
-        logoUploading: false
+        logoUploading: false,
       })
     }, 500)
   }
 
-  _onLogoUploading(logoArray) {
+  _onLogoUploading() {
     this.setState({
-      logoUploading: true
+      logoUploading: true,
     })
   }
 
   _onFlairUploaded(flair) {
     setTimeout(() => {
-      ChangelogActions.update(
+      this.props.update(
         this.props.changelogId,
-        Map(ChangelogStore.changelog).
+        Map(this.props.changelog).
           set('flair_url', `${flair.firesize_url}/${encodeURIComponent(flair.href)}`).toJS()
       )
 
       this.setState({
-        flairUploading: false
+        flairUploading: false,
       })
     }, 500)
   }
 
-  _onFlairUploading(flairArray) {
+  _onFlairUploading() {
     this.setState({
-      flairUploading: true
+      flairUploading: true,
     })
+  }
+}
+
+@authenticated()
+@fetchData(params => {
+  return [
+    changelogActions.clearCurrent(),
+    changelogActions.select(RouterContainer.changelogSlug(params)),
+    changelogActions.fetchMemberships(RouterContainer.changelogSlug(params)),
+  ]
+})
+@connect(state => ({
+  changelog: state.currentChangelog.changelog,
+  coreMemberships: state.memberships.core,
+  errors: state.currentChangelog.errors,
+  updateSuccessful: state.currentChangelog.updateSuccessful,
+  changelogId: RouterContainer.changelogSlug(),
+}))
+export default class Wrapper extends React.Component {
+  render() {
+    return <ChangelogSettingsPage {...this.props}
+                                  {...bindActionCreators(changelogActions, this.props.dispatch)}
+                                  {...bindActionCreators(membershipActions, this.props.dispatch)} />
   }
 }

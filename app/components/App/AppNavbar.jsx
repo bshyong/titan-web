@@ -1,6 +1,5 @@
 import * as AuthenticationFormActions from 'actions/AuthenticationFormActions'
 import Avatar from 'ui/Avatar.jsx'
-import ChangelogStore from 'stores/changelog_store.js'
 import { connect } from 'redux/react'
 import connectToStores from 'lib/connectToStores.jsx'
 import Icon from 'ui/Icon.jsx'
@@ -24,14 +23,14 @@ import LogoTransparentSrc from 'images/logo-transparent.svg'
 
 @connect(state => ({
   membered: state.changelogs.membered,
+  changelog: state.currentChangelog.changelog,
 }))
-@connectToStores(ChangelogStore, SessionStore, NotificationsStore)
+@connectToStores(SessionStore, NotificationsStore)
 export default class AppNavbar extends React.Component {
   static getPropsFromStores() {
     return {
       user: SessionStore.user,
-      changelog: ChangelogStore.changelog,
-      unreadCount: NotificationsStore.unreadCount
+      unreadCount: NotificationsStore.unreadCount,
     }
   }
 

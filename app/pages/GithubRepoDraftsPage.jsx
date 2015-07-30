@@ -2,7 +2,6 @@ import { connect } from 'redux/react'
 import * as AuthenticationFormActions from 'actions/AuthenticationFormActions'
 import Authenticated from 'components/mixins/authenticated_mixin.jsx'
 import Button from 'ui/Button.jsx'
-import ChangelogStore from 'stores/changelog_store'
 import connectToStores from 'lib/connectToStores.jsx'
 import ContributorsActions from 'actions/ContributorsActions'
 import ContributorsStore from 'stores/ContributorsStore'
@@ -24,10 +23,12 @@ import * as storyFormActions from 'actions/storyFormActions'
 
 @Authenticated()
 @connect(state => ({
-  isCreating: state.storyFields.isCreating,
-  storyFields: state.storyFields,
+  changelog: state.currentChangelog.changelog,
+  changelogId: state.currentChangelog.slug,
   errorMessage: state.storyFields.errorMessage,
+  isCreating: state.storyFields.isCreating,
   publishToTwitter: state.storyFields.publishToTwitter,
+  storyFields: state.storyFields,
 }))
 @connectToStores(GithubOnboardingStore, SessionStore)
 @statics({
@@ -35,11 +36,9 @@ import * as storyFormActions from 'actions/storyFormActions'
     return {
       drafts: GithubOnboardingStore.drafts,
       draftsLoading: GithubOnboardingStore.loadingDrafts,
-      changelogId: ChangelogStore.slug,
       story: {
         contributors: ContributorsStore.contributors
       },
-      changelog: ChangelogStore.changelog,
       error: GithubOnboardingStore.error,
       user: SessionStore.user,
     }

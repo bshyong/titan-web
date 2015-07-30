@@ -2,22 +2,30 @@ import Avatar from 'ui/Avatar.jsx'
 import EMAIL_REGEX from '../lib/email_regex'
 import Field from 'ui/Field.jsx'
 import Icon from 'ui/Icon.jsx'
-import MembershipActions from 'actions/MembershipActions'
+import * as membershipActions from 'actions/membershipActions'
 import React from 'react'
 import SessionStore from 'stores/session_store'
 import UserPicker from 'components/UserPicker.jsx'
 import { getOffsetTop } from 'ui/Picker.jsx'
 import { List, Range } from 'immutable'
 
-export default class TeamAdder extends React.Component {
+export class TeamAdder extends React.Component {
+  static propTypes = {
+    memberships: React.PropTypes.object,
+    changelogId: React.PropTypes.string,
+    changelog: React.PropTypes.object,
+    showBlankEntries: React.PropTypes.bool,
+    showNumbers: React.PropTypes.bool,
+  }
+
   static defaultProps = {
     memberships: List(),
-    showNumbers: false
+    showNumbers: false,
   }
   constructor(props) {
     super(props)
     this.state = {
-      emailOrUsername: ''
+      emailOrUsername: '',
     }
     this.timeout = null
   }
@@ -91,10 +99,10 @@ export default class TeamAdder extends React.Component {
     )
   }
 
+  // Don't let people delete themselves
   renderDeleteLink(m) {
-    // Don't let people delete themselves
     if (m.user.username === SessionStore.user.username) {
-      return
+      return <div />
     }
 
     return (
@@ -153,13 +161,13 @@ export default class TeamAdder extends React.Component {
 
   toggleFocus() {
     this.setState({
-      focused: !this.state.focused
+      focused: !this.state.focused,
     })
   }
 
   handleChange() {
     this.setState({
-      emailOrUsername: this.refs.emailOrUsername.value
+      emailOrUsername: this.refs.emailOrUsername.value,
     })
   }
 
@@ -182,20 +190,19 @@ export default class TeamAdder extends React.Component {
         shown={this.state.focused}
         ref="userPicker" />
     }
-
   }
 
   handleAddMember() {
-    MembershipActions.update(
+    this.props.updateMembership(
       this.props.changelog.slug,
       this.state.emailOrUsername, {
         can_write: true,
         can_view: true,
-        is_core: true
+        is_core: true,
       }
     )
     this.setState({
-      emailOrUsername: ''
+      emailOrUsername: '',
     })
   }
 
@@ -207,7 +214,7 @@ export default class TeamAdder extends React.Component {
 
   handleRemoveClicked(membership) {
     return () => {
-      MembershipActions.delete(
+      this.props.deleteMembership(
         this.props.changelog.slug,
         membership.user.username,
       )
@@ -228,10 +235,13 @@ export default class TeamAdder extends React.Component {
   }
 }
 
-TeamAdder.propTypes = {
-  memberships: React.PropTypes.object,
-  changelogId: React.PropTypes.string,
-  changelog: React.PropTypes.object,
-  showBlankEntries: React.PropTypes.bool,
-  showNumbers: React.PropTypes.bool,
+import {connect} from 'redux/react'
+import {bindActionCreators} from 'redux'
+
+@connect(() => ({}))
+export default class Wrapper extends React.Component {
+  render() {
+    return <TeamAdder {...this.props}
+                      {...bindActionCreators(membershipActions, this.props.dispatch)} />
+  }
 }

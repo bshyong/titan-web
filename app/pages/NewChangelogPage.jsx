@@ -3,26 +3,18 @@ import {create} from 'actions/newChangelogActions'
 import AppNavbar from 'components/App/AppNavbar.jsx'
 import authenticatedComponent from 'components/mixins/authenticated_mixin.jsx'
 import Button from '../ui/Button.jsx'
-import ChangelogStore from '../stores/changelog_store'
-import connectToStores from '../lib/connectToStores.jsx'
 import NewChangelog from '../components/NewChangelog.jsx'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
 
 @authenticatedComponent()
 @connect(state => ({
-  canCreate: state.newChangelog.canCreate
+  canCreate: state.newChangelog.canCreate,
+  memberships: state.memberships,
+  changelogId: state.newChangelog.changelog.slug,
+  changelog: state.newChangelog.changelog,
 }))
-@connectToStores(ChangelogStore)
 export default class ChangelogOnboardingPage extends React.Component {
-  static getPropsFromStores(props) {
-    return {
-      memberships: ChangelogStore.memberships,
-      changelogId: ChangelogStore.slug,
-      changelog: ChangelogStore.changelog,
-    }
-  }
-
   render() {
     return (
       <div>
@@ -63,9 +55,9 @@ export default class ChangelogOnboardingPage extends React.Component {
   }
 
   handleRedirect() {
-    const changelogId = ChangelogStore.slug
+    const {changelogId} = this.props
     RouterContainer.get().transitionTo("inviteChangelogMembers", {
-      changelogId: changelogId
+      changelogId: changelogId,
     })
   }
 }

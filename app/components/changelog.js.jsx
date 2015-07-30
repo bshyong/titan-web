@@ -1,7 +1,7 @@
+import {connect} from 'redux/react'
 import Button from '../ui/Button.jsx'
 import ChangelogNavbar from 'components/Changelog/ChangelogNavbar.jsx'
-import ChangelogStore from '../stores/changelog_store'
-import Emoji from '../ui/Emoji.jsx'
+import connectToStores from '../lib/connectToStores.jsx'
 import EmptyStateGuide from '../components/EmptyStateGuide.jsx'
 import GroupedStoriesStore from '../stores/GroupedStoriesStore'
 import LoadingBar from '../ui/LoadingBar.jsx'
@@ -13,9 +13,11 @@ import Router from '../lib/router_container'
 import ScrollPaginator from '../ui/ScrollPaginator.jsx'
 import StoryActions from '../actions/story_actions'
 import StoryRange from './StoryRange.jsx'
-import connectToStores from '../lib/connectToStores.jsx'
 
-@connectToStores(ChangelogStore, GroupedStoriesStore, PinnedPostsStore)
+@connect(state => ({
+  changelog: state.currentChangelog.changelog,
+}))
+@connectToStores(GroupedStoriesStore, PinnedPostsStore)
 export default class Changelog extends React.Component {
   static propTypes = {
     groupBy: React.PropTypes.string
@@ -23,7 +25,6 @@ export default class Changelog extends React.Component {
 
   static getPropsFromStores(props) {
     return {
-      changelog: ChangelogStore.changelog,
       groupedStories: GroupedStoriesStore.grouped,
       loading: GroupedStoriesStore.loading,
       moreAvailable: GroupedStoriesStore.moreAvailable,

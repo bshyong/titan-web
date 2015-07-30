@@ -1,10 +1,12 @@
+import {connect} from 'redux/react'
 import Avatar from '../ui/Avatar.jsx'
 import classnames from 'classnames'
 import CommentForm from './comment_form.jsx'
 import CommentsStore from '../stores/comments_store'
 import connectToStores from '../lib/connectToStores.jsx'
 import DiscussionActions from '../actions/discussion_actions'
-import Flair from 'components/Flair.jsx'
+import FlairClicker from 'components/FlairClicker.jsx'
+import Heart from 'components/Heart.jsx'
 import Icon from '../ui/Icon.jsx'
 import Link from '../components/Link.jsx'
 import Markdown from '../ui/Markdown.jsx'
@@ -13,16 +15,14 @@ import paramsFor from 'lib/paramsFor'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
 import SessionStore from '../stores/session_store'
-import ChangelogStore from 'stores/changelog_store'
-import TallyCounter from 'ui/TallyCounter.jsx'
-import Heart from 'components/Heart.jsx'
-import FlairClicker from 'components/FlairClicker.jsx'
 
+@connect(state => ({
+  changelog: state.currentChangelog.changelog,
+}))
 @connectToStores(CommentsStore)
 export default class Comment extends React.Component {
   static getPropsFromStores(props) {
     return {
-      changelog: ChangelogStore.changelog,
       editing: CommentsStore.editingCommentId === props.comment.id,
     }
   }

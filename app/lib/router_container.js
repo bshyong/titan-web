@@ -1,10 +1,10 @@
 import SessionStore from '../stores/session_store'
 import url from 'url'
 
-var _customDomain = null
-var _routers = null
+let _customDomain = null
+let _routers = null
 
-var _mainUrl = url.parse(MAIN_HOST)
+const _mainUrl = url.parse(MAIN_HOST)
 
 export default {
   isCurrentDomain(test) {
@@ -75,7 +75,7 @@ export default {
       protocol: _mainUrl.protocol,
       hostname: (hostname || _mainUrl.hostname),
       pathname: path,
-      query: query
+      query: query,
     })
-  }
+  },
 }

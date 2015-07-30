@@ -1,5 +1,4 @@
 import Badge from './Badge.jsx'
-import ChangelogStore from '../stores/changelog_store'
 import Link from '../components/Link.jsx'
 import PinPostButton from './PinPostButton.jsx'
 import React from 'react'

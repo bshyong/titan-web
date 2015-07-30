@@ -6,9 +6,8 @@ import {
 import AdminPage from 'pages/AdminPage.jsx'
 import AppPage from 'pages/AppPage.jsx'
 import ChangelogByDatePage from 'pages/ChangelogByDatePage.jsx'
-import ChangelogBySetsPage from 'pages/ChangelogBySetsPage.jsx'
 import ChangelogPage from 'pages/ChangelogPage.jsx'
-import ChangelogSettings from 'components/settings/ChangelogSettings.jsx'
+import ChangelogSettingsPage from 'pages/ChangelogSettingsPage.jsx'
 import DashboardPage from 'pages/DashboardPage.jsx'
 import DeepLinkTwitter from 'components/DeepLinks/Twitter.jsx'
 import EditStoryPage from 'pages/EditStoryPage.jsx'
@@ -41,7 +40,7 @@ import NewFaqPage from 'pages/NewFaqPage.jsx'
 import migration from 'pages/migration.jsx'
 import GroupAdminPage from 'pages/GroupAdminPage.jsx'
 
-var internal = (
+const internal = (
   <Route handler={AppPage} name="root" path="/">
     <DefaultRoute handler={HomePage} name="home" />
     <NotFoundRoute handler={NotFound} name="not_found" />
@@ -65,7 +64,7 @@ var internal = (
     <Route handler={TermsPage} path="/tos" name="tos" />
 
     <Route handler={SettingsPage} name="settings" path="/settings">
-      <Route handler={ChangelogSettings} name="changelog_settings" path=":changelogId" />
+      <Route handler={ChangelogSettingsPage} name="changelog_settings" path=":changelogId" />
       <DefaultRoute handler={ProfileSettings} name="profile_settings" />
     </Route>
 
@@ -80,8 +79,6 @@ var internal = (
       <Route handler={GroupAdminPage} path="admin" name="groupAdminPage" />
 
       <Route handler={InviteChangelogMembersPage} path="invite" name="inviteChangelogMembers" />
-
-      <Route handler={ChangelogBySetsPage} name="changelog_by_sets" path="sets" />
 
       <Route handler={EditStoryPage} path=":storyId/edit" name="edit" />
 
@@ -102,7 +99,7 @@ var internal = (
 )
 
 // For sites on custom domains
-var external = (
+const external = (
   <Route handler={AppPage} name="root" path="/">
     <Route handler={TwitterCallback} path="/auth/twitter/callback" name="twitterCallback" />
     <Route handler={GithubCallback} path="/auth/github/callback" name="githubCallback" />
@@ -112,8 +109,6 @@ var external = (
 
       <Route handler={GithubRepoSelectionPage} path="github" name="githubRepos" />
       <Route handler={GithubRepoDraftsPage} path="github/drafts" name="githubDrafts" />
-
-      <Route handler={ChangelogBySetsPage} name="changelog_by_sets" path="sets" />
 
       <Route handler={EditStoryPage} path=":storyId/edit" name="edit" />
 
@@ -131,5 +126,5 @@ var external = (
 )
 
 export default {
-  internal, external
+  internal, external,
 }

@@ -1,6 +1,6 @@
+import {connect} from 'redux/react'
+import AppNavbar from 'components/App/AppNavbar.jsx'
 import ChangelogName from 'components/Changelog/ChangelogName.jsx'
-import ChangelogStore from 'stores/changelog_store'
-import connectToStores from 'lib/connectToStores.jsx'
 import FollowButton from 'components/follow_button.jsx'
 import Icon from 'ui/Icon.jsx'
 import Link from 'components/Link.jsx'
@@ -8,16 +8,11 @@ import Logo from 'components/logo.jsx'
 import paramsFor from 'lib/paramsFor'
 import React from 'react'
 import URL from 'url'
-import AppNavbar from 'components/App/AppNavbar.jsx'
 
-@connectToStores(ChangelogStore)
+@connect(state => ({
+  changelog: state.currentChangelog.changelog
+}))
 export default class ChangelogNavbar extends React.Component {
-  static getPropsFromStores(props) {
-    return {
-      changelog: ChangelogStore.changelog
-    }
-  }
-
   static propTypes = {
     size: React.PropTypes.oneOf(['default', 'small']),
   }
@@ -29,7 +24,7 @@ export default class ChangelogNavbar extends React.Component {
   render() {
     const {
       changelog,
-      size
+      size,
     } = this.props
 
     if (!changelog) {
@@ -141,7 +136,6 @@ export default class ChangelogNavbar extends React.Component {
           </Link>
         </div>
       )
-
     }
   }
 

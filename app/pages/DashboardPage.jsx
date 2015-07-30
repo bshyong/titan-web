@@ -1,24 +1,24 @@
 import AppNavbar from 'components/App/AppNavbar.jsx'
 import AuthenticatedComponent from '../components/mixins/authenticated_mixin.jsx'
 import Button from '../ui/Button.jsx'
-import ChangelogActions from '../actions/changelog_actions'
+import * as changelogActions from 'actions/changelogActions'
 import Dashboard from '../components/Dashboard.jsx'
 import DocumentTitle from 'react-document-title'
-import FollowActions from '../actions/FollowActions'
 import Jumbotron from '../ui/Jumbotron.jsx'
 import React from 'react'
-import SessionStore from '../stores/session_store'
 import Link from '../components/Link.jsx'
 import StoryActions from 'actions/story_actions'
+import fetchData from 'decorators/fetchData'
 
+@fetchData(() => {
+  StoryActions.fetchFeed()
+  return [
+    changelogActions.fetchAll(),
+    changelogActions.clearCurrent(),
+  ]
+})
 @AuthenticatedComponent()
 export default class DashboardPage extends React.Component {
-  static willTransitionTo(transition, params, query) {
-    ChangelogActions.fetchAll()
-    ChangelogActions.clearCurrent()
-    StoryActions.fetchFeed()
-  }
-
   render() {
     return (
       <DocumentTitle title="Dashboard">
@@ -30,9 +30,9 @@ export default class DashboardPage extends React.Component {
               <div className="px2 mb2 sm-mb0">
                 <h3 className="mt0 mb1 bold">Stay connected with your team.</h3>
                 <p className="mb0">
-				  Follow everyone's progress, get feedback on your work,
-				  and share your product updates with the world. &nbsp;
-				  <img src="https://twemoji.maxcdn.com/svg/1f30e.svg" height="12" width="12"></img>
+                  Follow everyone&#39;s progress, get feedback on your work,
+                  and share your product updates with the world. &nbsp;
+                  <img src="https://twemoji.maxcdn.com/svg/1f30e.svg" height="12" width="12"></img>
                 </p>
               </div>
               <div className="flex-none px2">

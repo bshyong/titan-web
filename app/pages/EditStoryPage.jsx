@@ -1,10 +1,7 @@
 import AuthenticatedMixin from 'components/mixins/authenticated_mixin.jsx'
 import Button from 'ui/Button.jsx'
 import ChangelogNavbar from 'components/Changelog/ChangelogNavbar.jsx'
-import ChangelogStore from 'stores/changelog_store'
-import connectToStores from 'lib/connectToStores.jsx'
 import DocumentTitle from 'react-document-title'
-import GroupedStoriesStore from 'stores/GroupedStoriesStore'
 import LoadingBar from 'ui/LoadingBar.jsx'
 import React from 'react'
 import RouterContainer from 'lib/router_container'
@@ -18,25 +15,19 @@ import fetchData from 'decorators/fetchData'
 @fetchData((params, query, state) => {
   if (!state.story.id) {
     return storyActions.fetch(RouterContainer.changelogSlug(params), params.storyId)
-  } else {
-    return storyActions.editStory(state.story)
   }
+
+  return storyActions.editStory(state.story)
 })
 @AuthenticatedMixin()
 @connect(state => ({
+  changelog: state.currentChangelog.changelog,
   storyFields: state.storyFields,
-  storyLoaded: !!state.storyFields.title
+  storyLoaded: !!state.storyFields.title,
 }))
-@connectToStores(ChangelogStore)
 export default class EditStoryPage extends React.Component {
   static get defaultProps() {
     return RouterContainer.get().getCurrentParams()
-  }
-
-  static getPropsFromStores(props) {
-    return {
-      changelog: ChangelogStore.changelog,
-    }
   }
 
   render() {

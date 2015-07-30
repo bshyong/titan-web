@@ -1,36 +1,31 @@
 import { connect } from 'redux/react'
 import * as AuthenticationFormActions from 'actions/AuthenticationFormActions'
 import Authenticated from 'components/mixins/authenticated_mixin.jsx'
-import ChangelogStore from 'stores/changelog_store'
 import connectToStores from 'lib/connectToStores.jsx'
 import GithubOnboardingActions from 'actions/github_onboarding_actions'
 import GithubOnboardingStore from 'stores/github_onboarding_store'
 import Icon from 'ui/Icon.jsx'
-import Link from 'components/Link.jsx'
 import LoadingBar from 'ui/LoadingBar.jsx'
-import LoginForm from 'components/Authentication/LoginForm.jsx'
 import React from 'react'
 import Router from 'lib/router_container'
-import RouterContainer from 'lib/router_container'
-import SessionActions from 'actions/SessionActions'
 import SessionStore from 'stores/session_store'
-import SigninScrimActions from 'actions/SigninScrimActions'
 import statics from 'lib/statics'
 
 @Authenticated()
-@connect(state => ({}))
+@connect(state => ({
+  changelogId: state.currentChangelog.changelog.slug,
+}))
 @connectToStores(GithubOnboardingStore)
 @statics({
   willTransitionTo(transition, params, query) {
     if (SessionStore.user) {
       GithubOnboardingActions.fetchRepos()
     }
-  }
+  },
 })
 export default class GithubRepoSelectionPage extends React.Component {
   static getPropsFromStores(props) {
     return {
-      changelogId: ChangelogStore.slug,
       error: GithubOnboardingStore.error,
       repos: GithubOnboardingStore.repos,
       reposFetching: GithubOnboardingStore.fetchingRepos,

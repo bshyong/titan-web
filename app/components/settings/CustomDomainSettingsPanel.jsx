@@ -1,21 +1,16 @@
-import Button from '../../ui/Button.jsx'
-import ChangelogActions from '../../actions/changelog_actions'
-import ChangelogStore from '../../stores/changelog_store'
-import connectToStores from '../../lib/connectToStores.jsx'
+import Button from 'ui/Button.jsx'
+import * as changelogActions from 'actions/changelogActions'
 import classnames from 'classnames'
 import React from 'react'
+import { connect } from 'redux/react'
 
-@connectToStores(ChangelogStore)
+@connect(state => ({
+  changelog: state.currentChangelog.changelog,
+  errors: state.currentChangelog.errors,
+  saving: state.currentChangelog.saving,
+  updateSuccessful: state.currentChangelog.updateSuccessful,
+}))
 export default class CustomDomainSettingsPanel extends React.Component {
-  static getPropsFromStores() {
-    return {
-      changelog: ChangelogStore.changelog,
-      errors: ChangelogStore.errors,
-      saving: ChangelogStore.saving,
-      updateSuccessful: ChangelogStore.updateSuccessful
-    }
-  }
-
   render() {
     if (!this.props.changelog) {
       return <div />
@@ -44,7 +39,7 @@ export default class CustomDomainSettingsPanel extends React.Component {
 
   renderInstructions() {
     if (!this.props.changelog.cname_target) {
-      return
+      return <div />
     }
 
     return (
@@ -65,7 +60,7 @@ export default class CustomDomainSettingsPanel extends React.Component {
   handleSubmit(e) {
     e.preventDefault()
     let value = React.findDOMNode(this.refs.domain).value
-    ChangelogActions.update(this.props.changelog.id, { domain: value })
+    this.props.dispatch(changelogActions.update(this.props.changelog.id, { domain: value }))
   }
 
   fieldClasses(field) {

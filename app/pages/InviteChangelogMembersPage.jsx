@@ -1,20 +1,15 @@
-import Button from '../ui/Button.jsx'
-import ChangelogInviteLink from '../components/Changelog/ChangelogInviteLink.jsx'
-import ChangelogStore from '../stores/changelog_store'
-import connectToStores from '../lib/connectToStores.jsx'
+import {connect} from 'redux/react'
+import Button from 'ui/Button.jsx'
+import ChangelogInviteLink from 'components/Changelog/ChangelogInviteLink.jsx'
 import React from 'react'
-import RouterContainer from '../lib/router_container'
-import TeamAdder from '../components/TeamAdder.jsx'
+import RouterContainer from 'lib/router_container'
+import TeamAdder from 'components/TeamAdder.jsx'
 
-@connectToStores(ChangelogStore)
+@connect(state => ({
+  coreMemberships: state.memberships.core,
+  changelog: state.currentChangelog.changelog,
+}))
 export default class InviteChangelogMembersPage extends React.Component {
-  static getPropsFromStores(props) {
-    return {
-      coreMemberships: ChangelogStore.coreMemberships,
-      changelog: ChangelogStore.changelog
-    }
-  }
-
   render() {
     const { changelog } = this.props
 
