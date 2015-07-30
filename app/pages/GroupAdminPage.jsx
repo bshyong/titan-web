@@ -79,33 +79,19 @@ export class GroupAdminPage extends React.Component {
         data: {
           xs: {
               'Followers': 'x',
-              'Hearts': 'x2',
-              'Views': 'x3'
           },
           columns: [
             d,
-            d2,
-            d3,
             n,
-            h,
-            v
             ],
           type: 'area-spline',
           axes: {
-            'Hearts': 'y2',
-            'Followers': 'y',
-            'Views': 'y3'
+            'Followers': 'y'
           }
         },
         axis: {
           x: {
            type: 'timeseries'
-         },
-         y2: {
-           show: true
-         },
-         y3: {
-           show: true
          }
           }
       });
@@ -182,7 +168,7 @@ export class GroupMembers extends React.Component {
                   onClick={sort => fetchMembers(changelogId, 1, per, sort, filter)}
                   activeCategory={sortCategory}
                   direction={sortOrder || 'desc'} />
-                 &nbsp;Last Activity
+                &nbsp;Last Viewed At
               </th>
               <th className="">
                 <SortArrow
