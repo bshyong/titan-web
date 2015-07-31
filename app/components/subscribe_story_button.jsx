@@ -1,14 +1,16 @@
-import * as AuthenticationFormActions from 'actions/AuthenticationFormActions'
-import { connect } from 'redux/react'
-import Icon from '../ui/Icon.jsx'
+import * as AuthenticationFormActions from 'actions/authenticationFormActions'
+import Icon from 'ui/Icon.jsx'
 import React from 'react'
-import SessionActions from '../actions/SessionActions'
-import SessionStore from '../stores/session_store'
-import StoryActions from '../actions/story_actions'
-import SigninScrimActions from '../actions/SigninScrimActions'
-import LoginForm from '../components/Authentication/LoginForm.jsx'
+import SessionStore from 'stores/session_store'
+import {subscribe, unsubscribe} from 'actions/storyActions'
+import {connect} from 'redux/react'
 
+@connect(() => ({}))
 export default class SubscribeStoryButton extends React.Component {
+  static propTypes = {
+    story: React.PropTypes.object.isRequired,
+  }
+
   constructor(props) {
     super(props)
   }
@@ -31,18 +33,14 @@ export default class SubscribeStoryButton extends React.Component {
     if (!SessionStore.isSignedIn()) {
       this.props.dispatch(AuthenticationFormActions.changeForm({
         formComponent: 'login',
-        formContent: { redirectTo: window.location.pathname }
+        formContent: { redirectTo: window.location.pathname },
       }))
     }
 
     if (story.viewer_has_subscribed) {
-      StoryActions.unsubscribe(story.slug)
+      this.props.dispatch(unsubscribe(story.slug))
     } else {
-      StoryActions.subscribe(story.slug)
+      this.props.dispatch(subscribe(story.slug))
     }
   }
-}
-
-SubscribeStoryButton.propTypes = {
-  story: React.PropTypes.object.isRequired,
 }

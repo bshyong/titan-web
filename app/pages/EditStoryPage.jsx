@@ -5,7 +5,6 @@ import DocumentTitle from 'react-document-title'
 import LoadingBar from 'ui/LoadingBar.jsx'
 import React from 'react'
 import RouterContainer from 'lib/router_container'
-import StoryActions from 'actions/story_actions'
 import * as storyActions from 'actions/storyActions'
 import StoryForm from 'components/Story/StoryForm.jsx'
 import * as storyFormActions from 'actions/storyFormActions'
@@ -65,6 +64,6 @@ export default class EditStoryPage extends React.Component {
 
   handleOnUpdate() {
     const story = this.props.storyFields
-    StoryActions.edit(this.props.changelogId, this.props.storyId, story)
+    this.props.dispatch(storyActions.edit(this.props.changelogId, this.props.storyId, story))
   }
 }

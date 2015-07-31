@@ -17,7 +17,7 @@ import SessionActions from 'actions/SessionActions'
 import SessionStore from 'stores/session_store'
 import SigninScrimActions from 'actions/SigninScrimActions'
 import statics from 'lib/statics'
-import StoryActions from 'actions/story_actions'
+import {publish} from 'actions/storyActions'
 import StoryForm from 'components/Story/StoryForm.jsx'
 import * as storyFormActions from 'actions/storyFormActions'
 
@@ -242,7 +242,7 @@ export default class GithubRepoDraftsPage extends React.Component {
       team_member_only: !storyFields.isPublic,
       title: storyFields.title,
     }
-    StoryActions.publish(this.props.changelogId, payload, false, this.handleDraftDeletion.bind(this))
+    this.props.dispatch(publish(this.props.changelogId, payload, false, this.handleDraftDeletion.bind(this)))
   }
 
 }

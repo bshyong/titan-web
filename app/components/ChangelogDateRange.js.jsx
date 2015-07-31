@@ -1,19 +1,26 @@
-import connectToStores from '../lib/connectToStores.jsx'
 import moment from 'moment'
 import React from 'react'
 import StoryRange from './StoryRange.jsx'
-import Table from '../ui/Table.jsx'
-import StoryActions from '../actions/story_actions'
-import GroupedStoriesStore from '../stores/GroupedStoriesStore'
-import dateString from '../lib/dateStringForTimeInterval'
+import Table from 'ui/Table.jsx'
+import dateString from 'lib/dateStringForTimeInterval'
+import {connect} from 'redux/react'
 
-@connectToStores(GroupedStoriesStore)
+function allWithinDates(startDate, timeInterval) {
+  const endDate = moment(startDate).add(1, timeInterval.concat('s'))
+  return this.stories.toList().filter(story => {
+    const d = moment(story.created_at)
+    return d >= startDate && d < endDate
+  })
+}
+
+@connect((state, props) => ({
+  stories: allWithinDates(moment(props.start_date), props.timeInterval),
+}))
 export default class ChangelogDateRange extends React.Component {
-  static getPropsFromStores(props) {
-    let start_date = moment(props.start_date)
-    return {
-      stories: GroupedStoriesStore.allWithinDates(start_date, props.timeInterval)
-    }
+  static propTypes = {
+    changelogId: React.PropTypes.string.isRequired,
+    start_date: React.PropTypes.object.isRequired,
+    timeInterval: React.PropTypes.string.isRequired,
   }
 
   render() {
@@ -25,10 +32,4 @@ export default class ChangelogDateRange extends React.Component {
       </div>
     )
   }
-}
-
-ChangelogDateRange.propTypes = {
-  changelogId: React.PropTypes.string.isRequired,
-  start_date: React.PropTypes.object.isRequired,
-  timeInterval: React.PropTypes.string.isRequired
 }

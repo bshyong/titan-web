@@ -1,13 +1,10 @@
 import React from 'react'
-import AppNavbar from 'components/App/AppNavbar.jsx'
-import StoryActions from '../actions/story_actions'
+import {fetchFeed} from 'actions/storyActions'
 import StoryFeed from '../components/StoryFeed.jsx'
+import fetchData from 'decorators/fetchData'
 
+@fetchData(() => fetchFeed(1, 25))
 export default class FeedPage extends React.Component {
-  static willTransitionTo(transition, params, query) {
-    StoryActions.fetchFeed(1, 25)
-  }
-
   render() {
     return <div>
       <ApplicationNavbar />

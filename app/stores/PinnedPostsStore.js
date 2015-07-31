@@ -1,52 +1,37 @@
-import {
-  PINNED_POSTS_FETCHED,
-  PINNED_POSTS_FETCHING,
-  STORY_PINNED,
-  STORY_UNPINNED,
-} from '../constants'
+import c from 'constants'
 import { List } from 'immutable'
-import Dispatcher from '../lib/dispatcher'
-import Store from '../lib/store'
-import GroupedStoriesStore from '../stores/GroupedStoriesStore'
 
-class PinnedPostsStore extends Store {
-  constructor() {
-    super()
-    this._stories = List()
-    this._loading = false
-
-    this.dispatchToken = Dispatcher.register(action => {
-      switch (action.type) {
-        case PINNED_POSTS_FETCHING:
-          this._stories = List()
-          this._loading = true
-          break
-        case PINNED_POSTS_FETCHED:
-          this._stories = List(action.stories)
-          break
-        case STORY_PINNED:
-          // filter out duplicates first
-          this._stories = this._stories.filter(s => {
-                            s.id !== action.storyId
-                          }).push(GroupedStoriesStore.get(action.storyId))
-          break
-        case STORY_UNPINNED:
-          this._stories = this._stories.filter(s => { return s.slug !== action.storyId })
-          break
-        default:
-          return
-      }
-      this.emitChange()
-    }.bind(this))
-  }
-
-  get all() {
-    return this._stories
-  }
-
-  get loading() {
-    return this._loading
-  }
+const initialState = {
+  loading: false,
+  stories: List(),
 }
 
-export default new PinnedPostsStore()
+export default function pinnedPosts(state = initialState, action) {
+  switch (action.type) {
+    case c.PINNED_POSTS_FETCHING:
+      return {
+        loading: true,
+        stories: List(),
+      }
+
+    case c.PINNED_POSTS_FETCHED:
+      return {
+        loading: false,
+        stories: List(action.resp),
+      }
+    case c.STORY_PINNED:
+      return {
+        ...state,
+        stories: state.stories.push(action.story),
+      }
+
+    case c.STORY_UNPINNED:
+      return {
+        ...state,
+        stories: state.stories.filterNot(s => s.slug === action.story.slug),
+      }
+
+    default:
+      return state
+  }
+}

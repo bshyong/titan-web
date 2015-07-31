@@ -7,12 +7,12 @@ import DocumentTitle from 'react-document-title'
 import Jumbotron from '../ui/Jumbotron.jsx'
 import React from 'react'
 import Link from '../components/Link.jsx'
-import StoryActions from 'actions/story_actions'
+import storyActions from 'actions/storyActions'
 import fetchData from 'decorators/fetchData'
 
 @fetchData(() => {
-  StoryActions.fetchFeed()
   return [
+    storyActions.fetchFeed(),
     changelogActions.fetchAll(),
     changelogActions.clearCurrent(),
   ]

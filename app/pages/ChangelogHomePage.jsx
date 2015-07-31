@@ -9,10 +9,9 @@ import onMobile from 'lib/on_mobile'
 import React from 'react'
 import RouterContainer from 'lib/router_container'
 import SessionStore from 'stores/session_store'
-import SigninScrimActions from 'actions/SigninScrimActions'
-import statics from 'lib/statics'
+import SoloSrc from 'images/solo.svg'
 import Sticky from 'ui/Sticky.jsx'
-import StoryActions from 'actions/story_actions'
+import storyActions from 'actions/storyActions'
 import StoryFeed from 'components/StoryFeed.jsx'
 
 import HomeWriteImgSrc from 'images/home-write.png'
@@ -29,24 +28,25 @@ import LogoImgSrc from 'images/HomePageLogo.svg'
 import WorkmarkWhiteImgSrc from 'images/workmark-white.svg'
 import SoloSrc from 'images/solo.svg'
 import TeamsSrc from 'images/small-teams.svg'
-
+import fetchData from 'decorators/fetchData'
+import Router from 'lib/router_container'
 
 const BgColor = '#F5F6F8'
-@statics({
-  willTransitionTo(transition) {
-    if (SessionStore.user) {
-      return transition.redirect('dashboard')
-    }
-    StoryActions.fetchFeed()
-  }
-})
-@connect(state => ({}))
+
+@fetchData(() => storyActions.fetchFeed())
+@connect(() => ({}))
 export default class ChangelogHomePage extends React.Component {
   constructor(props) {
     super(props)
 
     this.handleSignIn = this._handleSignIn.bind(this)
     this.handleSignUp = this._handleSignUp.bind(this)
+  }
+
+  componentWillMount() {
+    if (SessionStore.user) {
+      return Router.transitionTo('dashboard')
+    }
   }
 
   render() {
@@ -206,14 +206,14 @@ export default class ChangelogHomePage extends React.Component {
   _handleSignIn() {
     this.props.dispatch(AuthenticationFormActions.changeForm({
       formComponent: 'login',
-      formContent: { redirectTo: '/dashboard' }
+      formContent: { redirectTo: '/dashboard' },
     }))
   }
 
   _handleSignUp() {
     this.props.dispatch(AuthenticationFormActions.changeForm({
       formComponent: 'signup',
-      formContent: { redirectTo: '/new' }
+      formContent: { redirectTo: '/new' },
     }))
   }
 }

@@ -1,8 +1,9 @@
+import {connect} from 'redux/react'
+import {pin, unpin} from 'actions/storyActions'
 import Icon from '../ui/Icon.jsx'
 import React from 'react'
-import StoryActions from '../actions/story_actions'
-import classnames from 'classnames'
 
+@connect(() => ({}))
 export default class PinPostButton extends React.Component {
   static propTypes = {
     changelogId: React.PropTypes.string.isRequired,
@@ -12,12 +13,10 @@ export default class PinPostButton extends React.Component {
   }
 
   static defaultProps = {
-    type: 'normal'
+    type: 'normal',
   }
 
   render() {
-    const { post, textOnHover, disabled } = this.props
-
     return (
       <li className="px1">
         <span className='gray' onClick={this.handleClick}>
@@ -28,7 +27,7 @@ export default class PinPostButton extends React.Component {
   }
 
   renderContent() {
-    const { type, post, disabled } = this.props
+    const { type, post } = this.props
     if (type === 'hoverText') {
       return this.renderHoverType()
     }
@@ -58,9 +57,9 @@ export default class PinPostButton extends React.Component {
     if (disabled) { return }
 
     if (post.pinned_at) {
-      StoryActions.unpin(changelogId, post.slug)
+      this.props.dispatch(unpin(changelogId, post))
     } else {
-      StoryActions.pin(changelogId, post.slug)
+      this.props.dispatch(pin(changelogId, post))
     }
   }
 }

@@ -12,7 +12,7 @@ import SessionStore from 'stores/session_store'
 import SigninScrimActions from 'actions/SigninScrimActions'
 import statics from 'lib/statics'
 import Sticky from 'ui/Sticky.jsx'
-import StoryActions from 'actions/story_actions'
+import {fetchFeed} from 'actions/storyActions'
 import StoryFeed from 'components/StoryFeed.jsx'
 
 import HomeWriteImgSrc from 'images/home-write.png'
@@ -29,16 +29,18 @@ import LogoImgSrc from 'images/HomePageLogo.svg'
 import WorkmarkWhiteImgSrc from 'images/workmark-white.svg'
 import SoloSrc from 'images/solo.svg'
 import TeamsSrc from 'images/small-teams.svg'
+import fetchData from 'decorators/fetchData'
 
 
 const BgColor = '#F5F6F8'
+
+@fetchData(() => fetchFeed())
 @statics({
   willTransitionTo(transition) {
     if (SessionStore.user) {
       return transition.redirect('dashboard')
     }
-    StoryActions.fetchFeed()
-  }
+  },
 })
 @connect(state => ({}))
 export default class HomePage extends React.Component {
@@ -206,14 +208,14 @@ export default class HomePage extends React.Component {
   _handleSignIn() {
     this.props.dispatch(AuthenticationFormActions.changeForm({
       formComponent: 'login',
-      formContent: { redirectTo: '/dashboard' }
+      formContent: { redirectTo: '/dashboard' },
     }))
   }
 
   _handleSignUp() {
     this.props.dispatch(AuthenticationFormActions.changeForm({
       formComponent: 'signup',
-      formContent: { redirectTo: '/new' }
+      formContent: { redirectTo: '/new' },
     }))
   }
 }

@@ -1,24 +1,26 @@
-import Avatar from '../ui/Avatar.jsx'
 import Comment from './comment.jsx'
 import CommentForm from './comment_form.jsx'
 import CommentsStore from '../stores/comments_store'
 import connectToStores from '../lib/connectToStores.jsx'
-import GifPicker from './GifPicker.jsx'
-import GroupedStoriesStore from '../stores/GroupedStoriesStore'
 import LoadingBar from '../ui/LoadingBar.jsx'
-import MarkdownArea from '../ui/MarkdownArea.jsx'
 import pluralize from '../lib/pluralize'
 import React from 'react'
 import SubscribeStoryButton from './subscribe_story_button.jsx'
-import Table from '../ui/Table.jsx'
-import {List} from 'immutable'
+import {connect} from 'redux/react'
 
-@connectToStores(CommentsStore, GroupedStoriesStore)
+function getCommentsCount(grouped, slug) {
+  const group = grouped.find(g => g.stories.get(slug))
+  return group.stories.get(slug).live_comments_count
+}
+
+@connect((state, props) => ({
+  commentsCount: getCommentsCount(state.groupedStories.grouped, props.story.slug),
+}))
+@connectToStores(CommentsStore)
 export default class Discussion extends React.Component {
-  static getPropsFromStores(props) {
+  static getPropsFromStores() {
     return {
       comments: CommentsStore.all(),
-      commentsCount: GroupedStoriesStore.getCommentsCount(props.story.slug),
       loading: CommentsStore.loading,
     }
   }
@@ -67,7 +69,7 @@ export default class Discussion extends React.Component {
   }
 
   scrollToComment() {
-    let scrollId = window.location.hash.substr(1)
+    const scrollId = window.location.hash.substr(1)
     if (this.scrollId !== scrollId) {
       this.scrollId = scrollId
       this.scrolled = false
@@ -77,7 +79,7 @@ export default class Discussion extends React.Component {
       return
     }
 
-    let el = document.getElementById(this.scrollId)
+    const el = document.getElementById(this.scrollId)
 
     if (el) {
       this.scrolled = true

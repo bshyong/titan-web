@@ -1,18 +1,17 @@
-import * as AuthenticationFormActions from 'actions/AuthenticationFormActions'
-import Avatar from '../ui/Avatar.jsx'
-import Button from '../ui/Button.jsx'
-import Comment from '../components/comment.jsx'
-import CommentFormActions from '../actions/comment_form_actions'
+import * as AuthenticationFormActions from 'actions/authenticationFormActions'
+import Avatar from 'ui/Avatar.jsx'
+import Button from 'ui/Button.jsx'
+import Comment from 'components/comment.jsx'
+import * as commentFormActions from 'actions/commentFormActions'
 import { connect } from 'redux/react'
-import LoginForm from 'components/Authentication/LoginForm.jsx'
-import MarkdownArea from '../ui/MarkdownArea.jsx'
-import NewCommentsStore from '../stores/new_comments_store'
+import MarkdownArea from 'ui/MarkdownArea.jsx'
+import NewCommentsStore from 'stores/newComments'
 import React from 'react'
-import SessionActions from '../actions/SessionActions'
-import SessionStore from '../stores/session_store'
-import SigninScrimActions from 'actions/SigninScrimActions'
+import SessionStore from 'stores/session_store'
 
-@connect(state => ({}))
+@connect((state) => ({
+  comment: state.newComments.get(this.props.storyId),
+}))
 export default class CommentForm extends React.Component {
   constructor(props) {
     super(props)
@@ -23,7 +22,7 @@ export default class CommentForm extends React.Component {
       }
     } else {
       this.state = {
-        comment: NewCommentsStore.get(this.props.storyId)
+        comment: props.comment,
       }
     }
 
@@ -36,14 +35,6 @@ export default class CommentForm extends React.Component {
     this.handleSignInClick = this._handleSignInClick.bind(this)
     this.handleToggleFocus = this._handleToggleFocus.bind(this)
     this.onStoreChange = this._onStoreChange.bind(this)
-  }
-
-  componentDidMount() {
-    NewCommentsStore.addChangeListener(this.onStoreChange)
-  }
-
-  componentWillUnmount() {
-    NewCommentsStore.removeChangeListener(this.onStoreChange)
   }
 
   renderButton() {
@@ -129,26 +120,26 @@ export default class CommentForm extends React.Component {
     }
 
     if (this.props.id) {
-      CommentFormActions.update(
+      this.props.dispatch(commentFormActions.update(
         this.props.changelogId,
         this.props.storyId,
         this.props.id,
         this.state.comment
-      )
+      ))
     } else {
-      CommentFormActions.publish(
+      this.props.dispatch(commentFormActions.publish(
         this.props.changelogId,
         this.props.storyId,
         this.state.comment
-      )
+      ))
     }
   }
 
   _handleOnChange(e) {
-    CommentFormActions.change(
+    this.props.dispatch(commentFormActions.change(
       this.props.id || this.props.storyId,
       e.target.value
-    )
+    ))
   }
 
   _handleSignInClick(e) {

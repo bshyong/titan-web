@@ -100,7 +100,6 @@ export default keyMirror({
   GITHUB_REPOS_FETCHING: null,
   GITHUB_UNAUTHED_ERROR: null,
 
-  GROUP_COLLAPSED: null,
   GROUP_DONE: null,
   GROUP_STORIES_FETCHED: null,
 
@@ -162,7 +161,9 @@ export default keyMirror({
   PROFILE_UPDATED: null,
   PROFILE_UPDATING: null,
 
+  ROUTE_TRANSITIONING: null,
   ROUTE_TRANSITIONED: null,
+
   RESOURCE_NOT_FOUND: null,
 
   SET_UPDATE_FAILED: null,

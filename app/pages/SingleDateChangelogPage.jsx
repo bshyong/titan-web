@@ -1,18 +1,17 @@
-import ChangelogDateRange from '../components/ChangelogDateRange.js.jsx'
+import ChangelogDateRange from 'components/ChangelogDateRange.js.jsx'
 import ChangelogNavbar from 'components/Changelog/ChangelogNavbar.jsx'
 import fetchData from 'decorators/fetchData'
 import moment from 'moment'
 import React from 'react'
-import RouterContainer from '../lib/router_container'
-import StoryActions from '../actions/story_actions'
+import RouterContainer from 'lib/router_container'
+import {fetchSpecificDate} from 'actions/storyActions'
 
-@fetchData(params => {
-  StoryActions.fetchSpecificDate(
+@fetchData(params => fetchSpecificDate(
     RouterContainer.changelogSlug(params),
     params.date,
     params.timeInterval
   )
-})
+)
 export default class SingleDateChangelogPage extends React.Component {
   static get defaultProps() {
     return {
