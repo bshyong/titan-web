@@ -77,7 +77,7 @@ export class GroupAdminPage extends React.Component {
           <div className="py2">
             {this.renderLoadedState()}
             {groupMembers.fetching || groupStats.fetching ? this.renderLoadingState() : null}
-            <LoadingBar loading={groupMembers.fetching} />
+            <LoadingBar loading={groupMembers.fetching || groupStats.fetching} />
           </div>
         </div>
       </div>
@@ -85,59 +85,51 @@ export class GroupAdminPage extends React.Component {
   }
 
   followersChart(groupStats) {
-    let d = ['x']
-    let d2 = ['x2']
-    let d3 = ['x3']
-    let n = ['Followers']
-    let h = ['Hearts']
-    let v = ['Views']
+    const d = ['x']
+    const d2 = ['x2']
+    const d3 = ['x3']
+    const n = ['Followers']
+    const h = ['Hearts']
+    const v = ['Views']
+
     if (groupStats.stats.followers_history) {
-      for (var key in groupStats.stats.followers_history) {
+      for (const key in groupStats.stats.followers_history) {
         if (key !== null) {
           d.push(key)
           n.push(groupStats.stats.followers_history[key])
         }
       }
 
-      for (var key in groupStats.stats.hearts_history) {
+      for (const key in groupStats.stats.hearts_history) {
         if (key !== null) {
           d2.push(key)
           h.push(groupStats.stats.hearts_history[key])
         }
       }
 
-      for (var key in groupStats.stats.views_history) {
+      for (const key in groupStats.stats.views_history) {
         if (key !== null) {
           d3.push(key)
           v.push(groupStats.stats.views_history[key])
         }
       }
-      var chart = c3.generate({
+
+      c3.generate({
         bindto: '#followersChart',
         data: {
-          xs: {
-              'Followers': 'x',
-          },
-          columns: [
-            d,
-            n,
-            ],
+          xs: { 'Followers': 'x' },
+          columns: [ d, n ],
           type: 'area-spline',
-          axes: {
-            'Followers': 'y'
-          }
+          axes: { 'Followers': 'y' },
         },
         axis: {
-          x: {
-           type: 'timeseries'
-         }
-          }
-      });
-
+          x: { type: 'timeseries' },
+         },
+      })
     }
+
     return (
-      <div id="followersChart">
-      </div>
+      <div id="followersChart" />
     )
   }
 
@@ -172,7 +164,7 @@ export class GroupMembers extends React.Component {
   }
 
   render() {
-    const { members, moreAvailable, page, per, sort, filter, fetching } = this.props.groupMembers
+    const { members, moreAvailable, page, per, sort, filter } = this.props.groupMembers
     const [sortCategory, sortOrder] = this.props.groupMembers.sort.split('-')
     const { fetchMembers, changelogId } = this.props
 
