@@ -35,7 +35,7 @@ export class GroupAdminPage extends React.Component {
                   <div className="h1 gray">
                     <Icon icon="heart" />
                   </div>
-                  <div className="h1">
+                  <div className="sm-h00 h1" style={{fontWeight: 400}}>
                     {groupStats.stats.hearts_count}
                   </div>
                   <div className="h5 gray">
@@ -48,7 +48,7 @@ export class GroupAdminPage extends React.Component {
                   <div className="h1 gray">
                     <Icon icon="eye" />
                   </div>
-                  <div className="h1">
+                  <div className="sm-h00 h1" style={{fontWeight: 400}}>
                     {groupStats.stats.views_count}
                   </div>
                   <div className="h5 gray">
@@ -61,7 +61,7 @@ export class GroupAdminPage extends React.Component {
                   <div className="h1 gray">
                     <Icon icon="user" />
                   </div>
-                  <div className="h1">
+                  <div className="sm-h00 h1" style={{fontWeight: 400}}>
                     {groupStats.stats.followers_count}
                   </div>
                   <div className="h5 gray">
