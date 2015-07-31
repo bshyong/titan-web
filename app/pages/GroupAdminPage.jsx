@@ -249,7 +249,7 @@ export class GroupMembers extends React.Component {
       </td>
       <td className="center py1">
         <div className="py1">
-          {moment(user.joined_at).fromNow()}
+          {moment(user.joined_at).format('ll')}
         </div>
       </td>
       <td className="">
