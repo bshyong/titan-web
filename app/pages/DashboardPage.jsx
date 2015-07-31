@@ -10,9 +10,7 @@ import Link from '../components/Link.jsx'
 import StoryActions from 'actions/story_actions'
 import fetchData from 'decorators/fetchData'
 
-@AuthenticatedComponent()
 @fetchData(() => {
-  StoryActions.fetchFeed()
   return [
     changelogActions.fetchAll(),
     changelogActions.clearCurrent(),
@@ -21,23 +19,26 @@ import fetchData from 'decorators/fetchData'
 export default class DashboardPage extends React.Component {
   render() {
     return (
-      <DocumentTitle title="Dashboard">
+      <DocumentTitle title="Assembly">
         <div>
-          <AppNavbar title="Dashboard" />
+          <AppNavbar title="Assembly" />
 
           <Jumbotron bgColor="smoke" color="black">
             <div className="sm-flex flex-center sm-mxn2 center sm-left-align">
               <div className="px2 mb2 sm-mb0">
-                <h3 className="mt0 mb1 bold">Stay connected with your team.</h3>
+                <h3 className="mt0 mb1 bold">
+                  Bring ideas to life with people around the world.
+                </h3>
                 <p className="mb0">
-                  Follow everyone&#39;s progress, get feedback on your work,
-                  and share your product updates with the world. &nbsp;
-                  <img src="https://twemoji.maxcdn.com/svg/1f30e.svg" height="12" width="12"></img>
+                  Assembly is the simplest way to start and grow a community that gets things done.
+                  Start your group, customizing everything down to the domain.
+                  We'll help you find and stay connected with others that care.
+                  Discuss ideas, share goals, and reach them with your new friends.
                 </p>
               </div>
               <div className="flex-none px2">
                 <Link to="newChangelog">
-                  <Button bg="orange" size="big" block={true}>Create Changelog</Button>
+                  <Button bg="orange" size="big" block={true}>Create a Group</Button>
                 </Link>
               </div>
             </div>

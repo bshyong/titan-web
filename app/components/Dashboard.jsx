@@ -18,16 +18,12 @@ export default class Dashboard extends React.Component {
     following: React.PropTypes.object,
   }
 
-  componentWillMount() {
-    this.props.dispatch(fetchFollowing(SessionStore.user.username))
-  }
-
   render() {
     const { featured } = this.props
 
     return (
       <div>
-        <Subheader text="Featured public changelogs" />
+        <Subheader text="Trending Groups Co-Creating Products" />
 
         <div className="sm-flex flex-wrap mxn2">
           {(featured || []).map((changelog, i) =>
@@ -38,33 +34,6 @@ export default class Dashboard extends React.Component {
             </div>
           )}
         </div>
-
-        <Subheader text="Today's Trending Public Posts" />
-
-        <StoryFeed />
-
-        <Subheader text="Changelogs you're following" />
-        {this.renderFollowingChangelogs()}
-      </div>
-    )
-  }
-
-  renderFollowingChangelogs() {
-    const { following } = this.props
-
-    if (!following || following.length === 0) {
-      return <div />
-    }
-
-    return (
-      <div className="sm-flex flex-wrap mxn2">
-        {following.map((changelog, i) =>
-          <div className="sm-col-4 p2" key={changelog.id + i}>
-            <Link to="changelog" params={paramsFor.changelog(changelog)}>
-              <ChangelogCard changelog={changelog} />
-            </Link>
-          </div>
-        )}
       </div>
     )
   }
