@@ -1,30 +1,23 @@
-import {fetchFollowing} from 'actions/changelogActions'
 import ChangelogCard from './Changelog/ChangelogCard.jsx'
 import Link from '../components/Link.jsx'
 import paramsFor from '../lib/paramsFor'
 import React from 'react'
-import SessionStore from 'stores/session_store'
-import StoryFeed from 'components/StoryFeed.jsx'
 import Subheader from 'ui/Subheader.jsx'
-import {connect} from 'redux/react'
+import ScrollPaginator from 'ui/ScrollPaginator.jsx'
+import * as changelogActions from 'actions/changelogActions'
+import LoadingBar from 'ui/LoadingBar.jsx'
 
-@connect(state => ({
-  featured: state.changelogs.featured,
-  following: state.changelogs.following,
-}))
-export default class Dashboard extends React.Component {
+export class Dashboard extends React.Component {
   static propTypes = {
     featured: React.PropTypes.object,
     following: React.PropTypes.object,
   }
 
   render() {
-    const { featured } = this.props
-
+    const { featured, page, moreAvailable } = this.props
     return (
       <div>
         <Subheader text="Trending Groups Co-Creating Products" />
-
         <div className="sm-flex flex-wrap mxn2">
           {(featured || []).map((changelog, i) =>
             <div className="sm-col-4 p2" key={changelog.id + i}>
@@ -33,8 +26,31 @@ export default class Dashboard extends React.Component {
               </Link>
             </div>
           )}
+          {moreAvailable ? <ScrollPaginator page={page} onScrollBottom={this.fetchMore.bind(this)} /> : null}
         </div>
+        <LoadingBar loading={moreAvailable} />
       </div>
     )
+  }
+
+  fetchMore() {
+    const { page, per } = this.props
+    this.props.fetchAll(page + 1, per)
+  }
+}
+
+
+import {connect} from 'redux/react'
+import {bindActionCreators} from 'redux'
+
+@connect(state => {
+  return {
+    ...state.changelogs,
+  }
+})
+export default class DashboardWrapper extends React.Component {
+  render() {
+    return <Dashboard {...this.props}
+      {...bindActionCreators(changelogActions, this.props.dispatch)} />
   }
 }

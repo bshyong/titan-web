@@ -5,7 +5,7 @@ export function fetchMembers(changelogId, page, per, sort, filter) {
   return dispatch => {
     dispatch({
       type: c.GROUP_MEMBERS_FETCHING,
-      page: page
+      page: page,
     })
     api.get(`changelogs/${changelogId}/admin/followers?page=${page}&per=${per}&sort=${sort}&filter=${filter}`).
       then(resp => {
@@ -15,7 +15,7 @@ export function fetchMembers(changelogId, page, per, sort, filter) {
           per: per,
           page: page,
           sort: sort,
-          filter: filter
+          filter: filter,
         })
       })
   }
