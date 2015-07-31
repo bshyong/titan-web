@@ -28,12 +28,50 @@ export class GroupAdminPage extends React.Component {
         <div className="container">
 
           <div className="py2 h2 bold">
-            <p>
-              {groupStats.stats.followers_count} Followers,&nbsp;
-              {groupStats.stats.hearts_count} Hearts,&nbsp;
-              {groupStats.stats.views_count} Views
-            </p>
-            {this.followersChart(groupStats)}
+            <div className="clearfix">
+              <div className="col col-4 center px2">
+                <div className="border py2">
+                  <div className="h1 gray">
+                    <Icon icon="heart" />
+                  </div>
+                  <div className="h1">
+                    {groupStats.stats.hearts_count}
+                  </div>
+                  <div className="h5 gray">
+                    hearts
+                  </div>
+                </div>
+              </div>
+              <div className="col col-4 center px2">
+                <div className="border py2">
+                  <div className="h1 gray">
+                    <Icon icon="eye" />
+                  </div>
+                  <div className="h1">
+                    {groupStats.stats.views_count}
+                  </div>
+                  <div className="h5 gray">
+                    views
+                  </div>
+                </div>
+              </div>
+              <div className="col col-4 center px2">
+                <div className="border py2">
+                  <div className="h1 gray">
+                    <Icon icon="user" />
+                  </div>
+                  <div className="h1">
+                    {groupStats.stats.followers_count}
+                  </div>
+                  <div className="h5 gray">
+                    members
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="px2 mt2">
+              {this.followersChart(groupStats)}
+            </div>
           </div>
 
           <div className="py2">
