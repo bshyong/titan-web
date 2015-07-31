@@ -9,6 +9,7 @@ import c3 from 'c3'
 import moment from 'config/moment'
 import Icon from 'ui/Icon.jsx'
 import SessionStore from 'stores/session_store'
+import ordinalNumber from 'lib/ordinalNumberString'
 
 export class GroupAdminPage extends React.Component {
 
@@ -241,7 +242,7 @@ export class GroupMembers extends React.Component {
       </td>
       <td className="py1">
         <div className="py1">
-          {contribution_rank || 0}
+          {ordinalNumber(contribution_rank) || 0}
         </div>
       </td>
       <td className="py1">
