@@ -13,6 +13,7 @@ import SessionStore from 'stores/session_store'
 export class GroupAdminPage extends React.Component {
 
   componentDidMount() {
+    moment.locale('admin')
     const { changelogId } = this.props
     const { page, per, sort, filter } = this.props.groupMembers
     this.props.fetchMembers(changelogId, page, per, sort, filter)
@@ -26,7 +27,6 @@ export class GroupAdminPage extends React.Component {
       <div>
         <AppNavbar title="Group admin page" />
         <div className="container">
-
           <div className="py2 h2 bold">
             <div className="clearfix">
               <div className="col col-4 center px2">
