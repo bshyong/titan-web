@@ -51,7 +51,7 @@ export default class AppNavbar extends React.Component {
   }
 
   logoUrl() {
-    if (this.props.bgImgUrl) {
+    if (this.props.bgImgUrl || this.props.onProduct == "yes") {
       return LogoTransparentSrc
     } else {
       return LogoSrc
@@ -85,17 +85,26 @@ export default class AppNavbar extends React.Component {
     const { user, membered } = this.props
 
     if (!user) {
-      return (
-
-        <div className="flex flex-center px1">
-          <div className="mr1">
-            <Button bg="twitter-blue" action={this._handleSignUp.bind(this)}>Sign up</Button>
+      if (this.props.bgImgUrl || this.props.onProduct == "yes")
+      {
+        return (
+          <div className="p2">
+            <a className="white pointer" onClick={this._handleSignIn.bind(this)}>Log in</a>
           </div>
-          <div>
-            <Button bg="gray" action={this._handleSignIn.bind(this)}>Log in</Button>
+        )
+      }
+      else {
+        return (
+          <div className="flex flex-center px1">
+            <div className="mr1">
+              <Button bg="twitter-blue" action={this._handleSignUp.bind(this)}>Sign up</Button>
+            </div>
+            <div>
+              <Button bg="gray" action={this._handleSignIn.bind(this)}>Log in</Button>
+            </div>
           </div>
-        </div>
-      )
+        )
+      }
     }
 
     const changelogId = RouterContainer.changelogSlug()
