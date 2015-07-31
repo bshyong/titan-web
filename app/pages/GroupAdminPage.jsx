@@ -222,7 +222,7 @@ export class GroupMembers extends React.Component {
   }
 
   renderUserRow(user) {
-    const { total_hearts_count, contribution_count, twitter_info, last_contributed_at } = user
+    const { total_hearts_count, contribution_rank, twitter_info, last_contributed_at } = user
 
     return <tr key={user.id}>
       <td className="py1">
@@ -241,7 +241,7 @@ export class GroupMembers extends React.Component {
       </td>
       <td className="py1">
         <div className="py1">
-          {contribution_count || 0}
+          {contribution_rank || 0}
         </div>
       </td>
       <td className="py1">
