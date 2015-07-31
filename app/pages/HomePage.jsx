@@ -1,36 +1,27 @@
-import * as AuthenticationFormActions from 'actions/AuthenticationFormActions'
-import Button from 'ui/Button.jsx'
 import { connect } from 'redux/react'
-import Icon from 'ui/Icon.jsx'
+import * as AuthenticationFormActions from 'actions/authenticationFormActions'
+import Button from 'ui/Button.jsx'
+import EmojiBgImgSrc from 'images/home-emoji-bg.jpg'
+import FacesImgSrc from 'images/faces.gif'
+import HomeCommentImgSrc from 'images/comment.png'
+import HomeContributorsImgSrc from 'images/home-contributors.png'
+import HomeEmojiPickerImgSrc from 'images/home-emoji-picker.png'
+import HomeSlackImgSrc from 'images/home-slack.png'
+import HomeWriteImgSrc from 'images/home-write.png'
 import Jumbotron from 'ui/Jumbotron.jsx'
 import Link from 'components/Link.jsx'
+import LogoImgSrc from 'images/HomePageLogo.svg'
 import Navbar from 'ui/Navbar.jsx'
 import onMobile from 'lib/on_mobile'
 import React from 'react'
-import RouterContainer from 'lib/router_container'
 import SessionStore from 'stores/session_store'
-import SigninScrimActions from 'actions/SigninScrimActions'
+import SoloSrc from 'images/solo.svg'
 import statics from 'lib/statics'
 import Sticky from 'ui/Sticky.jsx'
 import {fetchFeed} from 'actions/storyActions'
 import StoryFeed from 'components/StoryFeed.jsx'
-
-import HomeWriteImgSrc from 'images/home-write.png'
-import HomeEmojiPickerImgSrc from 'images/home-emoji-picker.png'
-import HomeContributorsImgSrc from 'images/home-contributors.png'
-import HomeSlackImgSrc from 'images/home-slack.png'
-import HomeNotificationsImgSrc from 'images/home-notifications.png'
-import HomePublicImgSrc from 'images/home-public.png'
-import HomePrivateImgSrc from 'images/home-private.png'
-import HomeCommentImgSrc from 'images/comment.png'
-import EmojiBgImgSrc from 'images/home-emoji-bg.jpg'
-import FacesImgSrc from 'images/faces.gif'
-import LogoImgSrc from 'images/HomePageLogo.svg'
-import WorkmarkWhiteImgSrc from 'images/workmark-white.svg'
-import SoloSrc from 'images/solo.svg'
 import TeamsSrc from 'images/small-teams.svg'
 import fetchData from 'decorators/fetchData'
-
 
 const BgColor = '#F5F6F8'
 
@@ -42,7 +33,7 @@ const BgColor = '#F5F6F8'
     }
   },
 })
-@connect(state => ({}))
+@connect(() => ({}))
 export default class HomePage extends React.Component {
   constructor(props) {
     super(props)
@@ -130,7 +121,7 @@ export default class HomePage extends React.Component {
                 <figure className="m0 sm-mb4 py3">
                   <img className="mb2" src={HomeEmojiPickerImgSrc} />
                   <figcaption className="gray">
-		  			Give your update some character, make it fun!
+                    Give your update some character, make it fun!
                   </figcaption>
                 </figure>
 

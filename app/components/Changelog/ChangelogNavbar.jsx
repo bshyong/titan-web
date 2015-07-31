@@ -10,7 +10,7 @@ import React from 'react'
 import URL from 'url'
 
 @connect(state => ({
-  changelog: state.currentChangelog.changelog
+  changelog: state.currentChangelog.changelog,
 }))
 export default class ChangelogNavbar extends React.Component {
   static propTypes = {
@@ -70,7 +70,7 @@ export default class ChangelogNavbar extends React.Component {
             <div className="flex mb2 md-mb0">
               {this.renderNewStoryButton()}
               {this.renderSettingsButton()}
-            
+
             </div>
             <div className="flex-none px1">
               <FollowButton changelogId={changelog.id} toggled={following}/>
@@ -116,7 +116,7 @@ export default class ChangelogNavbar extends React.Component {
   renderHomepageUrl() {
     const { changelog } = this.props
     if (!changelog.homepage_url) {
-      return
+      return null
     }
     const host = URL.parse(changelog.homepage_url).host
     return (
@@ -141,9 +141,8 @@ export default class ChangelogNavbar extends React.Component {
 
   renderAdminButton() {
     const { changelog } = this.props
-    console.log('hey')
     if (!(changelog && changelog.user_is_team_member)) {
-      return
+      return null
     }
 
     return (
@@ -158,7 +157,7 @@ export default class ChangelogNavbar extends React.Component {
   renderSettingsButton() {
     const { changelog } = this.props
     if (!(changelog && changelog.user_is_team_member)) {
-      return
+      return null
     }
 
     return (

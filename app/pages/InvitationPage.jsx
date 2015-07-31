@@ -8,7 +8,7 @@ import Link from '../components/Link.jsx'
 import membershipInvite from '../lib/membershipInvite'
 import React from 'react'
 import SessionStore from '../stores/session_store'
-import SigninScrimActions from 'actions/SigninScrimActions'
+import * as signinScrimActions from 'actions/signinScrimActions'
 import SignupForm from 'components/Authentication/SignupForm.jsx'
 
 @connectToStores(SessionStore)
@@ -36,9 +36,9 @@ export class InvitationPage extends React.Component {
           <div className="container p3">
             <div className="sm-col-9 mx-auto">
               <div className="h2 mt4 mb0" style={{lineHeight: '2em'}}>
-              Hi { guest.username || (currentUser || {}).username || ''}<br /><br />
-              {invitor.username} invited you to be a member of the {`${changelog.name}'s`} Changelog. {currentUser ? 'You can now read, write, and invite others to this Changelog.' : null} Use it to stay date with everyone's progress, get feedback from others on your work,
-  		  and even let you share product updates with a larger community. How exciting!<br />
+                Hi { guest.username || (currentUser || {}).username || ''}<br /><br />
+                {invitor.username} invited you to be a member of the {`${changelog.name}'s`} Changelog. {currentUser ? 'You can now read, write, and invite others to this Changelog.' : null} Use it to stay date with everyone's progress, get feedback from others on your work,
+                and even let you share product updates with a larger community. How exciting!<br />
               </div>
 
               <div className="mt2 mb3">
@@ -75,7 +75,7 @@ export class InvitationPage extends React.Component {
         </Button>
       </Link>
     }
-    return <Button color="white" bg="orange" size="big" action={() => SigninScrimActions.show(SignupForm, window.location.pathname)}>
+    return <Button color="white" bg="orange" size="big" action={() => this.props.show(SignupForm, window.location.pathname)}>
       Claim your invite
     </Button>
   }
@@ -90,7 +90,6 @@ import * as invitationActions from 'actions/invitationActions'
   return invitationActions.fetchInvitation(params.invite_token)
 })
 @connect(state => {
-  console.log('update', state.invitation)
   return ({
   invitation: state.invitation,
 })})
@@ -100,6 +99,7 @@ export default class InvitationPageWrapper extends React.Component {
       return <div />
     }
     return <InvitationPage {...this.props} invitation={this.props.invitation.invitation}
-                           {...bindActionCreators(invitationActions)} />
+                           {...bindActionCreators(invitationActions)}
+                           {...bindActionCreators(signinScrimActions)} />
   }
 }

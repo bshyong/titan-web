@@ -1,4 +1,4 @@
-import * as authenticationFormActions from 'actions/AuthenticationFormActions'
+import * as authenticationFormActions from 'actions/authenticationFormActions'
 import { connect } from 'redux/react'
 import Icon from 'ui/Icon.jsx'
 import React from 'react'

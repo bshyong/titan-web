@@ -1,30 +1,61 @@
-import * as AuthenticationFormActions from 'actions/AuthenticationFormActions'
+import * as AuthenticationFormActions from 'actions/authenticationFormActions'
 import { bindActionCreators } from 'redux'
 import { connect } from 'redux/react'
 import Icon from 'ui/Icon.jsx'
 import React from 'react'
-import SigninScrimActions from 'actions/SigninScrimActions'
+import * as signinScrimActions from 'actions/signinScrimActions'
+
+// be sure to bind this function
+// to the right context, e.g.,
+// renderToggleLink.call(this, ...)
+function renderToggleLink(prompt, formComponent, linkText) {
+  const {
+    changeForm,
+    closeable,
+    formContent,
+  } = this.props
+
+  return (
+    <div className="h4">
+      {`${prompt} `}
+      <a className="underline-hover pointer"
+        onClick={changeForm.bind(changeForm, {
+          closeable: closeable,
+          formComponent: formComponent,
+          formContent: formContent,
+        })}>
+        {linkText}
+      </a>.
+      {closeable && this.renderCloser()}
+    </div>
+  )
+}
 
 class GenericToggler extends React.Component {
   renderCloser() {
     return (
       <span className="gray ml2 pointer right relative"
-        onClick={SigninScrimActions.hide}
+        onClick={this.handleClick}
         style={{ fontSize: '2rem', top: -12 }}>
         <Icon icon="close" />
       </span>
     )
   }
+
+  handleClick = () => {
+    this.props.dispatch(signinScrimActions.hide())
+  }
 }
 
+@connect(() => ({}))
 class Login extends GenericToggler {
   static defaultProps = {
-    closeable: true
+    closeable: true,
   }
 
   static propTypes = {
     changeForm: React.PropTypes.func.isRequired,
-    closeable: React.PropTypes.bool
+    closeable: React.PropTypes.bool,
   }
 
   render() {
@@ -32,14 +63,15 @@ class Login extends GenericToggler {
   }
 }
 
+@connect(() => ({}))
 class Signup extends GenericToggler {
   static defaultProps = {
-    closeable: true
+    closeable: true,
   }
 
   static propTypes = {
     changeForm: React.PropTypes.func.isRequired,
-    closeable: React.PropTypes.bool
+    closeable: React.PropTypes.bool,
   }
 
   render() {
@@ -54,21 +86,21 @@ class Signup extends GenericToggler {
 const togglers = {
   login: Signup,
   passwordResetEmail: Signup,
-  signup: Login
+  signup: Login,
 }
 
 @connect(state => {
   return {
     closeable: state.authenticationForm.get('closeable'),
     formComponent: state.authenticationForm.get('formComponent'),
-    formContent: state.authenticationForm.get('formContent')
+    formContent: state.authenticationForm.get('formContent'),
   }
 })
 export default class AuthenticationToggler extends React.Component {
   static propTypes = {
     closeable: React.PropTypes.bool,
     dispatch: React.PropTypes.func.isRequired,
-    formComponent: React.PropTypes.string
+    formComponent: React.PropTypes.string,
   }
 
   render() {
@@ -82,31 +114,4 @@ export default class AuthenticationToggler extends React.Component {
 
     return null
   }
-}
-
-// be sure to bind this function
-// to the right context, e.g.,
-// renderToggleLink.call(this, ...)
-function renderToggleLink(prompt, formComponent, linkText) {
-  const {
-    changeForm,
-    closeable,
-    formContent
-  } = this.props
-
-  return (
-    <div className="h4">
-      {`${prompt} `}
-      <a href="javascript:void(0)"
-        className="underline-hover"
-        onClick={changeForm.bind(changeForm, {
-          closeable: closeable,
-          formComponent: formComponent,
-          formContent: formContent
-        })}>
-        {linkText}
-      </a>.
-      {closeable && this.renderCloser()}
-    </div>
-  )
 }

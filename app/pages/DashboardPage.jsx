@@ -10,6 +10,7 @@ import Link from '../components/Link.jsx'
 import storyActions from 'actions/storyActions'
 import fetchData from 'decorators/fetchData'
 
+@AuthenticatedComponent()
 @fetchData(() => {
   return [
     storyActions.fetchFeed(),
@@ -17,7 +18,6 @@ import fetchData from 'decorators/fetchData'
     changelogActions.clearCurrent(),
   ]
 })
-@AuthenticatedComponent()
 export default class DashboardPage extends React.Component {
   render() {
     return (

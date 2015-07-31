@@ -14,7 +14,7 @@ describe('FollowButton', () => {
     let AuthenticationFormActions
 
     beforeEach(() => {
-      AuthenticationFormActions = require('../../actions/AuthenticationFormActions')
+      AuthenticationFormActions = require('../../actions/authenticationFormActions')
     })
 
     describe('not signed in', () => {

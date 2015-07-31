@@ -1,13 +1,11 @@
-import * as AuthenticationFormActions from 'actions/AuthenticationFormActions'
+import * as AuthenticationFormActions from 'actions/authenticationFormActions'
 import Button from '../ui/Button.jsx'
 import { connect } from 'redux/react'
 import FollowActions from '../actions/FollowActions'
-import LoginForm from 'components/Authentication/LoginForm.jsx'
 import React from 'react'
 import SessionStore from '../stores/session_store'
-import SigninScrimActions from 'actions/SigninScrimActions'
 
-@connect(state => ({}))
+@connect(() => ({}))
 export default class FollowButton extends React.Component {
   constructor(props) {
     super(props)
@@ -21,20 +19,20 @@ export default class FollowButton extends React.Component {
       return <Button color="white" style="outline" block action={this.handleClick}>
         Following
       </Button>
-    } else {
-      return (
-        <Button block bg="white" color="orange" action={this.handleClick}>
-          Follow
-        </Button>
-      )
     }
+
+    return (
+      <Button block bg="white" color="orange" action={this.handleClick}>
+        Follow
+      </Button>
+    )
   }
 
   _handleClick() {
     if (!SessionStore.isSignedIn()) {
       this.props.dispatch(AuthenticationFormActions.changeForm({
         formComponent: 'login',
-        formContent: { redirectTo: window.location.pathname }
+        formContent: { redirectTo: window.location.pathname },
       }))
       return
     }
@@ -49,5 +47,5 @@ export default class FollowButton extends React.Component {
 
 FollowButton.propTypes = {
   changelogId: React.PropTypes.string.isRequired,
-  toggled: React.PropTypes.bool
+  toggled: React.PropTypes.bool,
 }

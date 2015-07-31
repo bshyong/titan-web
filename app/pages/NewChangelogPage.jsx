@@ -10,11 +10,9 @@ import RouterContainer from '../lib/router_container'
 @authenticatedComponent()
 @connect(state => ({
   canCreate: state.newChangelog.canCreate,
-  memberships: state.memberships,
-  changelogId: state.newChangelog.changelog.slug,
-  changelog: state.newChangelog.changelog,
+  changelog: state.currentChangelog.changelog,
 }))
-export default class ChangelogOnboardingPage extends React.Component {
+export default class NewChangelogPage extends React.Component {
   render() {
     return (
       <div>
@@ -54,10 +52,10 @@ export default class ChangelogOnboardingPage extends React.Component {
     this.props.dispatch(create(this.handleRedirect))
   }
 
-  handleRedirect() {
-    const {changelogId} = this.props
+  handleRedirect = () => {
+    console.log('props', this.props)
     RouterContainer.get().transitionTo("inviteChangelogMembers", {
-      changelogId: changelogId,
+      changelogId: this.props.changelog.slug,
     })
   }
 }

@@ -1,5 +1,5 @@
 import { connect } from 'redux/react'
-import * as AuthenticationFormActions from 'actions/AuthenticationFormActions'
+import * as AuthenticationFormActions from 'actions/authenticationFormActions'
 import Authenticated from 'components/mixins/authenticated_mixin.jsx'
 import connectToStores from 'lib/connectToStores.jsx'
 import GithubOnboardingActions from 'actions/github_onboarding_actions'

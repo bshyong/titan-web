@@ -1,26 +1,26 @@
 /* eslint no-alert:0 */
+import {bindActionCreators} from 'redux'
 import {connect} from 'redux/react'
 import {Map} from 'immutable'
 import {resetInvitation} from 'actions/invitationActions'
 import * as changelogActions from 'actions/changelogActions'
+import * as membershipActions from 'actions/membershipActions'
 import authenticated from 'components/mixins/authenticated_mixin.jsx'
 import Button from 'ui/Button.jsx'
 import ChangelogInviteLink from 'components/Changelog/ChangelogInviteLink.jsx'
 import CustomDomainSettingsPanel from 'components/settings/CustomDomainSettingsPanel.jsx'
 import DocumentTitle from 'react-document-title'
 import DropzoneContainer from 'components/DropzoneContainer.jsx'
+import fetchData from 'decorators/fetchData'
 import Flair from 'components/Flair.jsx'
 import LoadingBar from 'ui/LoadingBar.jsx'
 import Logo from 'components/logo.jsx'
-import * as membershipActions from 'actions/membershipActions'
 import React from 'react'
 import RouterContainer from 'lib/router_container'
 import TeamAdder from 'components/TeamAdder.jsx'
 import UriRegex from 'lib/uri_regex.js'
 import VisibilityToggler from 'components/VisibilityToggler.jsx'
 import WriteSetting from 'components/settings/WriteSetting.jsx'
-import fetchData from 'decorators/fetchData'
-import {bindActionCreators} from 'redux'
 
 export class ChangelogSettingsPage extends React.Component {
   constructor(props) {
@@ -42,7 +42,6 @@ export class ChangelogSettingsPage extends React.Component {
   }
 
   render() {
-    console.log(this.props.coreMemberships, this.props.changelog)
     if (!(this.props.coreMemberships && this.props.changelog)) {
       return <div /> // loading
     }

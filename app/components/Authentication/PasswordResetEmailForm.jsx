@@ -1,35 +1,25 @@
-import AuthenticationFormButton from 'components/Authentication/AuthenticationFormButton.jsx'
-import AuthenticationFormError from 'components/Authentication/AuthenticationFormError.jsx'
-import Button from 'ui/Button.jsx'
-import classnames from 'classnames'
 import { connect } from 'redux/react'
-import connectToStores from 'lib/connectToStores.jsx'
-import Icon from 'ui/Icon.jsx'
-import LogoSrc from 'images/logo.svg'
 import { Map } from 'immutable'
 import { submitEmail } from 'actions/PasswordResetActions'
-import PasswordResetFormStore from 'stores/PasswordResetFormStore'
+import AuthenticationFormButton from 'components/Authentication/AuthenticationFormButton.jsx'
+import AuthenticationFormError from 'components/Authentication/AuthenticationFormError.jsx'
+import classnames from 'classnames'
+import LogoSrc from 'images/logo.svg'
 import React from 'react'
 
 @connect(state => ({
-  formContent: state.authenticationForm.get('formContent').toJS()
+  formContent: state.authenticationForm.get('formContent').toJS(),
+  confirmation: state.passwordResetForm.confirmation,
+  confirmationType: state.passwordResetForm.confirmationType,
 }))
-@connectToStores(PasswordResetFormStore)
 export default class PasswordResetEmailForm extends React.Component {
-  static getPropsFromStores() {
-    return {
-      confirmation: PasswordResetFormStore.confirmation,
-      confirmationType: PasswordResetFormStore.confirmationType
-    }
-  }
-
   static propTypes = {
     change: React.PropTypes.func.isRequired,
     confirmation: React.PropTypes.string,
     confirmationType: React.PropTypes.string,
     formContent: React.PropTypes.shape({
-      email: React.PropTypes.string
-    })
+      email: React.PropTypes.string,
+    }),
   }
 
   constructor(props) {

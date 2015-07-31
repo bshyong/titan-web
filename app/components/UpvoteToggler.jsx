@@ -6,7 +6,7 @@ import Icon from 'ui/Icon.jsx'
 import React from 'react'
 import SessionStore from 'stores/session_store'
 
-@connect(state => ({}))
+@connect(() => ({}))
 export default class UpvoteToggler extends React.Component {
 
   constructor(props) {
@@ -23,7 +23,7 @@ export default class UpvoteToggler extends React.Component {
     const {
       story: { hearts_count },
       hearted,
-      size
+      size,
     } = this.props
 
     const cn = classnames(
@@ -33,7 +33,7 @@ export default class UpvoteToggler extends React.Component {
         'upvote-toggler--sm': size === 'sm',
         'upvote-toggler--lg': size === 'lg',
         'upvote-toggler--unhearted gray': !hearted,
-        'upvote-toggler--hearted orange': hearted
+        'upvote-toggler--hearted orange': hearted,
       })
 
     return (
@@ -46,12 +46,12 @@ export default class UpvoteToggler extends React.Component {
     )
   }
 
-  _handleClick(e) {
+  _handleClick() {
     const { story } = this.props
     if (!SessionStore.isSignedIn()) {
       this.props.dispatch(AuthenticationFormActions.changeForm({
         formComponent: 'login',
-        formContent: { redirectTo: window.location.pathname }
+        formContent: { redirectTo: window.location.pathname },
       }))
       return
     }
@@ -59,7 +59,7 @@ export default class UpvoteToggler extends React.Component {
     this.props.dispatch(clickHeart(story))
   }
 
-  _handleHover(e) {
+  _handleHover() {
     this.setState({hovered: !this.state.hovered})
   }
 }
@@ -67,10 +67,10 @@ export default class UpvoteToggler extends React.Component {
 UpvoteToggler.propTypes = {
   story: React.PropTypes.object.isRequired,
   hearted: React.PropTypes.bool.isRequired,
-  size: React.PropTypes.oneOf(['sm', 'lg']).isRequired
+  size: React.PropTypes.oneOf(['sm', 'lg']).isRequired,
 }
 
 UpvoteToggler.defaultProps = {
   size: 'sm',
-  hearted: false
+  hearted: false,
 }

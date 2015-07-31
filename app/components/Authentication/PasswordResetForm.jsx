@@ -1,13 +1,7 @@
 import AuthenticationFormButton from 'components/Authentication/AuthenticationFormButton.jsx'
-import Button from 'ui/Button.jsx'
-import { connect } from 'redux/react'
-import Icon from 'ui/Icon.jsx'
 import LogoSrc from 'images/logo.svg'
 import { Map } from 'immutable'
-import PasswordResetActions from 'actions/PasswordResetActions'
 import React from 'react'
-import SigninScrim from 'components/Authentication/SigninScrim.jsx'
-import SigninScrimActions from 'actions/SigninScrimActions'
 
 export default class PasswordResetForm extends React.Component {
   static propTypes = {
@@ -15,9 +9,9 @@ export default class PasswordResetForm extends React.Component {
     changeForm: React.PropTypes.func.isRequired,
     formContent: React.PropTypes.shape({
       password: React.PropTypes.string,
-      redirectTo: React.PropTypes.string
+      redirectTo: React.PropTypes.string,
     }),
-    submit: React.PropTypes.func.isRequired
+    submit: React.PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -49,7 +43,7 @@ export default class PasswordResetForm extends React.Component {
                     type="password"
                     className="block full-width field-light"
                     value={password}
-                    onChange={this.handleChange}  />
+                    onChange={this.handleChange} />
                 </div>
 
                 <div className="py2">

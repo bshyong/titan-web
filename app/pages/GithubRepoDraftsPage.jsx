@@ -1,9 +1,8 @@
 import { connect } from 'redux/react'
-import * as AuthenticationFormActions from 'actions/AuthenticationFormActions'
+import * as AuthenticationFormActions from 'actions/authenticationFormActions'
 import Authenticated from 'components/mixins/authenticated_mixin.jsx'
 import Button from 'ui/Button.jsx'
 import connectToStores from 'lib/connectToStores.jsx'
-import ContributorsActions from 'actions/ContributorsActions'
 import ContributorsStore from 'stores/ContributorsStore'
 import GithubOnboardingActions from 'actions/github_onboarding_actions'
 import GithubOnboardingStore from 'stores/github_onboarding_store'
@@ -13,9 +12,7 @@ import LoadingBar from 'ui/LoadingBar.jsx'
 import moment from 'moment'
 import React from 'react'
 import Router from 'lib/router_container'
-import SessionActions from 'actions/SessionActions'
 import SessionStore from 'stores/session_store'
-import SigninScrimActions from 'actions/SigninScrimActions'
 import statics from 'lib/statics'
 import {publish} from 'actions/storyActions'
 import StoryForm from 'components/Story/StoryForm.jsx'
@@ -32,17 +29,17 @@ import * as storyFormActions from 'actions/storyFormActions'
 }))
 @connectToStores(GithubOnboardingStore, SessionStore)
 @statics({
-  getPropsFromStores(props) {
+  getPropsFromStores() {
     return {
       drafts: GithubOnboardingStore.drafts,
       draftsLoading: GithubOnboardingStore.loadingDrafts,
       story: {
-        contributors: ContributorsStore.contributors
+        contributors: ContributorsStore.contributors,
       },
       error: GithubOnboardingStore.error,
       user: SessionStore.user,
     }
-  }
+  },
 })
 export default class GithubRepoDraftsPage extends React.Component {
   constructor(props) {
@@ -50,7 +47,7 @@ export default class GithubRepoDraftsPage extends React.Component {
 
     this.handleOnChange = this.handleOnChange.bind(this)
     this.state = {
-      currentDraftIndex: 0
+      currentDraftIndex: 0,
     }
   }
 
@@ -59,7 +56,7 @@ export default class GithubRepoDraftsPage extends React.Component {
     if (!user) {
       this.props.dispatch(AuthenticationFormActions.changeForm({
         formComponent: 'login',
-        formContent: { redirectTo: window.location.pathname }
+        formContent: { redirectTo: window.location.pathname },
       }))
     }
   }
@@ -77,7 +74,7 @@ export default class GithubRepoDraftsPage extends React.Component {
           title: drafts.get(0).title,
           body: drafts.get(0).body,
           emoji_id: drafts.get(0).emoji_id,
-          created_at: moment(drafts.get(0).updated_at).toISOString()
+          created_at: moment(drafts.get(0).updated_at).toISOString(),
         }))
       })
     }
@@ -93,9 +90,9 @@ export default class GithubRepoDraftsPage extends React.Component {
     const content = () => {
       if (error) {
         return this.renderErrorState()
-      } else {
-        return draftsLoading ? this.renderLoadingState() : this.renderDraftStoryForms()
       }
+
+      return draftsLoading ? this.renderLoadingState() : this.renderDraftStoryForms()
     }()
 
     return <div className="container">
@@ -109,7 +106,7 @@ export default class GithubRepoDraftsPage extends React.Component {
         Please <a onClick={() => {
           this.props.dispatch(AuthenticationFormActions.changeForm({
             formComponent: 'login',
-            formContent: { redirectTo: window.location.pathname }
+            formContent: { redirectTo: window.location.pathname },
           }))
         }}>log in</a> to Assembly to visit this page!
       </div>
@@ -207,7 +204,7 @@ export default class GithubRepoDraftsPage extends React.Component {
     const lastDraft = drafts.get(this.state.currentDraftIndex)
 
     this.setState({
-      currentDraftIndex: this.state.currentDraftIndex + 1
+      currentDraftIndex: this.state.currentDraftIndex + 1,
     }, () => {
       GithubOnboardingActions.deleteDraft(changelogId, lastDraft.id)
       const nextDraft = drafts.get(this.state.currentDraftIndex)
@@ -235,7 +232,7 @@ export default class GithubRepoDraftsPage extends React.Component {
     e.preventDefault()
     const { storyFields } = this.props
     const payload = {
-      body:  storyFields.body,
+      body: storyFields.body,
       contributors: ContributorsStore.validTokensAsString,
       created_at: storyFields.created_at,
       emoji_id: storyFields.emoji_id,
