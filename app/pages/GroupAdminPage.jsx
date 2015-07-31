@@ -165,7 +165,7 @@ export class GroupMembers extends React.Component {
 
   render() {
     const { members, moreAvailable, page, per, sort, filter } = this.props.groupMembers
-    const [sortCategory, sortOrder] = this.props.groupMembers.sort.split('-')
+    const [sortCategory, sortOrder] = sort.split('-')
     const { fetchMembers, changelogId } = this.props
 
     return <div>
@@ -173,39 +173,41 @@ export class GroupMembers extends React.Component {
         <table className="table-light bg-white border rounded h5">
           <thead className="bg-charcoal white">
             <tr className="">
-              <th className="py2">Member</th>
-              <th className="py2">
+              <SortableHeader
+                onClick={newSort => fetchMembers(changelogId, 1, per, newSort, filter)}
+                category="username"
+                activeCategory={sortCategory}
+                direction={sortOrder || 'desc'}>
+                Member
+              </SortableHeader>
+              <SortableHeader
+                onClick={newSort => fetchMembers(changelogId, 1, per, newSort, filter)}
+                category="hearts"
+                activeCategory={sortCategory}
+                direction={sortOrder || 'desc'}>
                 <Icon icon="heart" /> Earned
-                <SortArrow
-                  category="hearts"
-                  onClick={sort => fetchMembers(changelogId, 1, per, sort, filter)}
-                  activeCategory={sortCategory}
-                  direction={sortOrder || 'desc'} />
-              </th>
-              <th className="py2">
-                Contributions
-                <SortArrow
-                  category="contributions"
-                  onClick={sort => fetchMembers(changelogId, 1, per, sort, filter)}
-                  activeCategory={sortCategory}
-                  direction={sortOrder || 'desc'} />
-              </th>
-              <th className="py2">
+              </SortableHeader>
+              <SortableHeader
+                onClick={newSort => fetchMembers(changelogId, 1, per, newSort, filter)}
+                category="rank"
+                activeCategory={sortCategory}
+                direction={sortOrder || 'desc'}>
+                Rank #
+              </SortableHeader>
+              <SortableHeader
+                onClick={newSort => fetchMembers(changelogId, 1, per, newSort, filter)}
+                category="last_activity"
+                activeCategory={sortCategory}
+                direction={sortOrder || 'desc'}>
                 Last Active
-                <SortArrow
-                  category="last_contributed_at"
-                  onClick={sort => fetchMembers(changelogId, 1, per, sort, filter)}
-                  activeCategory={sortCategory}
-                  direction={sortOrder || 'desc'} />
-              </th>
-              <th className="py2">
-                 Joined
-                 <SortArrow
-                   category="joined"
-                   onClick={sort => fetchMembers(changelogId, 1, per, sort, filter)}
-                   activeCategory={sortCategory}
-                   direction={sortOrder || 'desc'} />
-              </th>
+              </SortableHeader>
+              <SortableHeader
+                onClick={newSort => fetchMembers(changelogId, 1, per, newSort, filter)}
+                category="joined"
+                activeCategory={sortCategory}
+                direction={sortOrder || 'desc'}>
+                Joined
+              </SortableHeader>
               <th className=""></th>
               <th className=""></th>
             </tr>
@@ -237,23 +239,23 @@ export class GroupMembers extends React.Component {
           {total_hearts_count || 0}
         </div>
       </td>
-      <td className="center py1">
+      <td className="py1">
         <div className="py1">
           {contribution_count || 0}
         </div>
       </td>
-      <td className="center py1">
+      <td className="py1">
         <div className="py1">
           {last_contributed_at ? moment(last_contributed_at).fromNow() : '-'}
         </div>
       </td>
-      <td className="center py1">
+      <td className="py1">
         <div className="py1">
           {moment(user.joined_at).format('ll')}
         </div>
       </td>
-      <td className="">
-        <div className="py1">
+      <td>
+        <div className="py1 center">
           {{...twitter_info}.handle ?
             <span>
               <Link to={`https://twitter.com/${twitter_info.handle}`}>
@@ -280,7 +282,7 @@ export class GroupMembers extends React.Component {
   }
 }
 
-export class SortArrow extends React.Component {
+export class SortableHeader extends React.Component {
   static propTypes = {
     direction: React.PropTypes.oneOf(['asc', 'desc']),
     category: React.PropTypes.string,
@@ -293,21 +295,26 @@ export class SortArrow extends React.Component {
   }
 
   render() {
-    const { activeCategory, direction, onClick, category } = this.props
+    const { activeCategory, direction, onClick, category, children } = this.props
     let oppositeDirection
     let iconClass
 
     if (category === activeCategory) {
-      iconClass = `sort-${direction}`
+      iconClass = `sort-${direction} blue`
       oppositeDirection = direction === 'asc' ? 'desc' : 'asc'
     } else {
       iconClass = 'sort'
       oppositeDirection = 'desc'
     }
 
-    return <span onClick={onClick.bind(null, [category, oppositeDirection].join('-'))} className="pointer px1">
-      <Icon icon={iconClass} />
-    </span>
+    return <th
+      className="py2 bg-black-hover pointer"
+      onClick={onClick.bind(null, [category, oppositeDirection].join('-'))}>
+      {children}
+      <span className="pointer px1">
+        <Icon icon={iconClass} />
+      </span>
+    </th>
   }
 }
 
