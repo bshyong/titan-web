@@ -27,6 +27,7 @@
 .bg-twitter-blue { background-color: var(--twitter-blue) }
 
 .bg-smoke-hover:hover { background-color: var(--smoke) }
+.bg-black-hover:hover { background-color: var(--black) }
 
 /* border */
 

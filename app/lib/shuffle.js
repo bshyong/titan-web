@@ -1,11 +1,12 @@
 export default (array) => {
-  array = array.slice(0)
+  let remaining = array.length
 
-  array.forEach((value, index) => {
-    let j = Math.floor(Math.random() * (index + 1))
-    array[index] = array[j]
-    array[j] = value
-  })
+  while (remaining > 0) {
+    const randomIndex = Math.floor(Math.random() * remaining--)
+    const temp = array[remaining]
+    array[remaining] = array[randomIndex]
+    array[randomIndex] = temp
+  }
 
   return array
 }

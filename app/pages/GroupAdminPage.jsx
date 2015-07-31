@@ -9,10 +9,12 @@ import c3 from 'c3'
 import moment from 'config/moment'
 import Icon from 'ui/Icon.jsx'
 import SessionStore from 'stores/session_store'
+import ordinalNumber from 'lib/ordinalNumberString'
 
 export class GroupAdminPage extends React.Component {
 
   componentDidMount() {
+    moment.locale('admin')
     const { changelogId } = this.props
     const { page, per, sort, filter } = this.props.groupMembers
     this.props.fetchMembers(changelogId, page, per, sort, filter)
@@ -26,7 +28,6 @@ export class GroupAdminPage extends React.Component {
       <div>
         <AppNavbar title="Group admin page" />
         <div className="container">
-
           <div className="py2 h2 bold">
             <div className="clearfix">
               <div className="col col-4 center px2">
@@ -34,7 +35,7 @@ export class GroupAdminPage extends React.Component {
                   <div className="h1 gray">
                     <Icon icon="heart" />
                   </div>
-                  <div className="h1">
+                  <div className="sm-h00 h1" style={{fontWeight: 400}}>
                     {groupStats.stats.hearts_count}
                   </div>
                   <div className="h5 gray">
@@ -47,7 +48,7 @@ export class GroupAdminPage extends React.Component {
                   <div className="h1 gray">
                     <Icon icon="eye" />
                   </div>
-                  <div className="h1">
+                  <div className="sm-h00 h1" style={{fontWeight: 400}}>
                     {groupStats.stats.views_count}
                   </div>
                   <div className="h5 gray">
@@ -60,7 +61,7 @@ export class GroupAdminPage extends React.Component {
                   <div className="h1 gray">
                     <Icon icon="user" />
                   </div>
-                  <div className="h1">
+                  <div className="sm-h00 h1" style={{fontWeight: 400}}>
                     {groupStats.stats.followers_count}
                   </div>
                   <div className="h5 gray">
@@ -77,7 +78,7 @@ export class GroupAdminPage extends React.Component {
           <div className="py2">
             {this.renderLoadedState()}
             {groupMembers.fetching || groupStats.fetching ? this.renderLoadingState() : null}
-            <LoadingBar loading={groupMembers.fetching} />
+            <LoadingBar loading={groupMembers.fetching || groupStats.fetching} />
           </div>
         </div>
       </div>
@@ -85,59 +86,51 @@ export class GroupAdminPage extends React.Component {
   }
 
   followersChart(groupStats) {
-    let d = ['x']
-    let d2 = ['x2']
-    let d3 = ['x3']
-    let n = ['Followers']
-    let h = ['Hearts']
-    let v = ['Views']
+    const d = ['x']
+    const d2 = ['x2']
+    const d3 = ['x3']
+    const n = ['Followers']
+    const h = ['Hearts']
+    const v = ['Views']
+
     if (groupStats.stats.followers_history) {
-      for (var key in groupStats.stats.followers_history) {
+      for (const key in groupStats.stats.followers_history) {
         if (key !== null) {
           d.push(key)
           n.push(groupStats.stats.followers_history[key])
         }
       }
 
-      for (var key in groupStats.stats.hearts_history) {
+      for (const key in groupStats.stats.hearts_history) {
         if (key !== null) {
           d2.push(key)
           h.push(groupStats.stats.hearts_history[key])
         }
       }
 
-      for (var key in groupStats.stats.views_history) {
+      for (const key in groupStats.stats.views_history) {
         if (key !== null) {
           d3.push(key)
           v.push(groupStats.stats.views_history[key])
         }
       }
-      var chart = c3.generate({
+
+      c3.generate({
         bindto: '#followersChart',
         data: {
-          xs: {
-              'Followers': 'x',
-          },
-          columns: [
-            d,
-            n,
-            ],
+          xs: { 'Followers': 'x' },
+          columns: [ d, n ],
           type: 'area-spline',
-          axes: {
-            'Followers': 'y'
-          }
+          axes: { 'Followers': 'y' },
         },
         axis: {
-          x: {
-           type: 'timeseries'
-         }
-          }
-      });
-
+          x: { type: 'timeseries' },
+         },
+      })
     }
+
     return (
-      <div id="followersChart">
-      </div>
+      <div id="followersChart" />
     )
   }
 
@@ -156,8 +149,6 @@ export class GroupAdminPage extends React.Component {
     return <div>
       <div className="flex flex-end py1">
         <div className="h2">Followers</div>
-        <div className="flex-auto"></div>
-        <div className="pointer"><a href={csvLink} target="_blank">Download CSV</a></div>
       </div>
       <GroupMembers {...this.props} />
     </div>
@@ -172,8 +163,8 @@ export class GroupMembers extends React.Component {
   }
 
   render() {
-    const { members, moreAvailable, page, per, sort, filter, fetching } = this.props.groupMembers
-    const [sortCategory, sortOrder] = this.props.groupMembers.sort.split('-')
+    const { members, moreAvailable, page, per, sort, filter } = this.props.groupMembers
+    const [sortCategory, sortOrder] = sort.split('-')
     const { fetchMembers, changelogId } = this.props
 
     return <div>
@@ -181,39 +172,41 @@ export class GroupMembers extends React.Component {
         <table className="table-light bg-white border rounded h5">
           <thead className="bg-charcoal white">
             <tr className="">
-              <th className="py2">Member</th>
-              <th className="py2">
+              <SortableHeader
+                onClick={newSort => fetchMembers(changelogId, 1, per, newSort, filter)}
+                category="username"
+                activeCategory={sortCategory}
+                direction={sortOrder || 'desc'}>
+                Member
+              </SortableHeader>
+              <SortableHeader
+                onClick={newSort => fetchMembers(changelogId, 1, per, newSort, filter)}
+                category="hearts"
+                activeCategory={sortCategory}
+                direction={sortOrder || 'desc'}>
                 <Icon icon="heart" /> Earned
-                <SortArrow
-                  category="hearts"
-                  onClick={sort => fetchMembers(changelogId, 1, per, sort, filter)}
-                  activeCategory={sortCategory}
-                  direction={sortOrder || 'desc'} />
-              </th>
-              <th className="py2">
-                Contributions
-                <SortArrow
-                  category="contributions"
-                  onClick={sort => fetchMembers(changelogId, 1, per, sort, filter)}
-                  activeCategory={sortCategory}
-                  direction={sortOrder || 'desc'} />
-              </th>
-              <th className="py2">
+              </SortableHeader>
+              <SortableHeader
+                onClick={newSort => fetchMembers(changelogId, 1, per, newSort, filter)}
+                category="rank"
+                activeCategory={sortCategory}
+                direction={sortOrder || 'desc'}>
+                Rank #
+              </SortableHeader>
+              <SortableHeader
+                onClick={newSort => fetchMembers(changelogId, 1, per, newSort, filter)}
+                category="last_activity"
+                activeCategory={sortCategory}
+                direction={sortOrder || 'desc'}>
                 Last Active
-                <SortArrow
-                  category="last_contributed_at"
-                  onClick={sort => fetchMembers(changelogId, 1, per, sort, filter)}
-                  activeCategory={sortCategory}
-                  direction={sortOrder || 'desc'} />
-              </th>
-              <th className="py2">
-                 Joined
-                 <SortArrow
-                   category="joined"
-                   onClick={sort => fetchMembers(changelogId, 1, per, sort, filter)}
-                   activeCategory={sortCategory}
-                   direction={sortOrder || 'desc'} />
-              </th>
+              </SortableHeader>
+              <SortableHeader
+                onClick={newSort => fetchMembers(changelogId, 1, per, newSort, filter)}
+                category="joined"
+                activeCategory={sortCategory}
+                direction={sortOrder || 'desc'}>
+                Joined
+              </SortableHeader>
               <th className=""></th>
               <th className=""></th>
             </tr>
@@ -228,7 +221,7 @@ export class GroupMembers extends React.Component {
   }
 
   renderUserRow(user) {
-    const { total_hearts_count, contribution_count, twitter_info, last_contributed_at } = user
+    const { total_hearts_count, contribution_rank, twitter_info, last_contributed_at } = user
 
     return <tr key={user.id}>
       <td className="py1">
@@ -236,7 +229,7 @@ export class GroupMembers extends React.Component {
           params={{userId: user.username}}>
           <div className="flex flex-center">
             <div className="flex-none"><Avatar user={user} size={32} /></div>
-            <div className="px1">@{user.username}</div>
+            <div className="px1 black">{user.username}</div>
           </div>
         </Link>
       </td>
@@ -245,23 +238,23 @@ export class GroupMembers extends React.Component {
           {total_hearts_count || 0}
         </div>
       </td>
-      <td className="center py1">
+      <td className="py1">
         <div className="py1">
-          {contribution_count || 0}
+          {ordinalNumber(contribution_rank) || 0}
         </div>
       </td>
-      <td className="center py1">
+      <td className="py1">
         <div className="py1">
           {last_contributed_at ? moment(last_contributed_at).fromNow() : '-'}
         </div>
       </td>
-      <td className="center py1">
+      <td className="py1">
         <div className="py1">
-          {moment(user.joined_at).fromNow()}
+          {moment(user.joined_at).format('ll')}
         </div>
       </td>
-      <td className="">
-        <div className="py1">
+      <td>
+        <div className="py1 center">
           {{...twitter_info}.handle ?
             <span>
               <Link to={`https://twitter.com/${twitter_info.handle}`}>
@@ -288,7 +281,7 @@ export class GroupMembers extends React.Component {
   }
 }
 
-export class SortArrow extends React.Component {
+export class SortableHeader extends React.Component {
   static propTypes = {
     direction: React.PropTypes.oneOf(['asc', 'desc']),
     category: React.PropTypes.string,
@@ -301,21 +294,26 @@ export class SortArrow extends React.Component {
   }
 
   render() {
-    const { activeCategory, direction, onClick, category } = this.props
+    const { activeCategory, direction, onClick, category, children } = this.props
     let oppositeDirection
     let iconClass
 
     if (category === activeCategory) {
-      iconClass = `sort-${direction}`
+      iconClass = `sort-${direction} blue`
       oppositeDirection = direction === 'asc' ? 'desc' : 'asc'
     } else {
       iconClass = 'sort'
       oppositeDirection = 'desc'
     }
 
-    return <span onClick={onClick.bind(null, [category, oppositeDirection].join('-'))} className="pointer px1">
-      <Icon icon={iconClass} />
-    </span>
+    return <th
+      className="py2 bg-black-hover pointer"
+      onClick={onClick.bind(null, [category, oppositeDirection].join('-'))}>
+      {children}
+      <span className="pointer px1">
+        <Icon icon={iconClass} />
+      </span>
+    </th>
   }
 }
 

@@ -1,39 +1,55 @@
 import moment from 'moment'
 
-moment.locale('en-short', {
-  calendar : {
-    lastDay : '[Yesterday]',
-    sameDay : '[Today]',
-    nextDay : '[Tomorrow]',
-    lastWeek : 'dddd',
-    nextWeek : 'dddd [at]',
-    sameElse : 'LL'
+const defaults = {
+  calendar: {
+    lastDay: '[Yesterday]',
+    sameDay: '[Today]',
+    nextDay: '[Tomorrow]',
+    lastWeek: 'dddd',
+    nextWeek: 'dddd [at]',
+    sameElse: 'LL',
   },
-  relativeTime : {
-      future: "in %s",
-      past:   "%s ago",
-      s:  "now",
-      m:  "~1m",
-      mm: "%dm",
-      h:  "~1h",
-      hh: "%dh",
-      d:  "~1d",
-      dd: "%dd",
-      M:  "~1mo",
-      MM: "%dm",
-      y:  "~1y",
-      yy: "%dy"
-  }
+}
+
+moment.locale('en-short', {
+  ...defaults,
+  relativeTime: {
+    future: "in %s",
+    past: "%s ago",
+    s: "now",
+    m: "~1m",
+    mm: "%dm",
+    h: "~1h",
+    hh: "%dh",
+    d: "~1d",
+    dd: "%dd",
+    M: "~1mo",
+    MM: "%dm",
+    y: "~1y",
+    yy: "%dy",
+  },
 })
 
 moment.locale('en', {
-  calendar : {
-    lastDay : '[Yesterday]',
-    sameDay : '[Today]',
-    nextDay : '[Tomorrow]',
-    lastWeek : 'dddd',
-    nextWeek : 'dddd [at]',
-    sameElse : 'LL'
+  ...defaults,
+})
+
+moment.locale('admin', {
+  ...defaults,
+  relativeTime: {
+    future: "in %s",
+    past: "%s ago",
+    s: "now",
+    m: "min",
+    mm: "%d min",
+    h: "1 hr",
+    hh: "%d hrs",
+    d: "1 day",
+    dd: "%d days",
+    M: "1 mo",
+    MM: "%d mos",
+    y: "1 yr",
+    yy: "%d yrs",
   },
 })
 
