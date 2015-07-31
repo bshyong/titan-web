@@ -149,8 +149,6 @@ export class GroupAdminPage extends React.Component {
     return <div>
       <div className="flex flex-end py1">
         <div className="h2">Followers</div>
-        <div className="flex-auto"></div>
-        <div className="pointer"><a href={csvLink} target="_blank">Download CSV</a></div>
       </div>
       <GroupMembers {...this.props} />
     </div>
@@ -231,7 +229,7 @@ export class GroupMembers extends React.Component {
           params={{userId: user.username}}>
           <div className="flex flex-center">
             <div className="flex-none"><Avatar user={user} size={32} /></div>
-            <div className="px1">@{user.username}</div>
+            <div className="px1 black">{user.username}</div>
           </div>
         </Link>
       </td>
