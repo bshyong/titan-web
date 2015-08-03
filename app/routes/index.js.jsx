@@ -15,7 +15,6 @@ import FeedPage from 'pages/FeedPage.jsx'
 import GithubCallback from 'components/GithubCallback.jsx'
 import GithubRepoDraftsPage from 'pages/GithubRepoDraftsPage.jsx'
 import GithubRepoSelectionPage from 'pages/GithubRepoSelectionPage.jsx'
-import HighlightPicker from 'components/HighlightPicker.jsx'
 import HomePage from 'pages/HomePage.jsx'
 import ChangelogHomePage from 'pages/ChangelogHomePage.jsx'
 import ImpersonatePage from 'pages/ImpersonatePage.jsx'
@@ -84,8 +83,6 @@ const internal = (
 
       <Route handler={StoryComposer} path="new">
         <DefaultRoute handler={NewStoryPage} name="new" />
-
-        <Route handler={HighlightPicker} path="highlights:filter?" name="highlights" />
       </Route>
 
       <Route handler={StoryPage} path=":year/:month/:day/:storyId" name="story" />
@@ -114,8 +111,6 @@ const external = (
 
       <Route handler={StoryComposer} path="new">
         <DefaultRoute handler={NewStoryPage} name="new" />
-
-        <Route handler={HighlightPicker} path="highlights:filter?" name="highlights" />
       </Route>
 
       <Route handler={StoryPage} path=":year/:month/:day/:storyId" name="story" />

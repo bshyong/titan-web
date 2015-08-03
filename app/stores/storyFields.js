@@ -1,7 +1,6 @@
 import {
   EMOJI_SELECTED,
   GITHUB_DRAFTS_LOADED,
-  HIGHLIGHT_USED,
   STORY_CREATING,
   STORY_FETCHED,
   STORY_FIELDS_EDIT,
@@ -37,10 +36,6 @@ function getErrorMessage(title, emojiId) {
   }
 }
 
-function flattenUsers(users) {
-  return users.map(u => `@${u.username}`).join(', ')
-}
-
 export default function storyFields(state = initialState, action) {
   switch (action.type) {
     case STORY_CREATING:
@@ -50,7 +45,6 @@ export default function storyFields(state = initialState, action) {
       }
     case STORY_FIELDS_EDIT:
     case STORY_FETCHED:
-      const emoji_id = action.resp.emoji.id
       const contributors = action.resp.contributors.map(u => `@${u.username}`).join(',')
       return {
         created_at: action.resp.created_at,
@@ -58,7 +52,7 @@ export default function storyFields(state = initialState, action) {
         body: action.resp.body,
         contributors,
         team_member_only: action.resp.team_member_only,
-        emoji_id,
+        emoji_id: action.resp.emoji.id,
         isCreating: false,
       }
     case GITHUB_DRAFTS_LOADED:
@@ -91,13 +85,6 @@ export default function storyFields(state = initialState, action) {
     case STORY_FORM_CLEAR:
     case STORY_PUBLISHED:
       return initialState
-
-    case HIGHLIGHT_USED:
-      return {
-        ...state,
-        body: action.highlight.content,
-        contributors: flattenUsers(action.highlight.mentioned_users),
-      }
 
     default:
       return state

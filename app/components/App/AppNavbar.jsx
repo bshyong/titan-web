@@ -65,18 +65,6 @@ export default class AppNavbar extends React.Component {
     )
   }
 
-  renderHighlightsLink() {
-    const { changelog } = this.props
-
-    if (changelog.slug === 'assembly') {
-      return (
-        <Link to="highlights" params={paramsFor.changelog(changelog)}>
-          <Icon icon="magic" fw={true} /> Highlights
-        </Link>
-      )
-    }
-  }
-
   right() {
     const { user, membered } = this.props
 

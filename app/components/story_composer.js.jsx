@@ -1,13 +1,8 @@
 import { RouteHandler } from 'react-router'
 import {connect} from 'redux/react'
-import fetchData from 'decorators/fetchData'
-import HighlightsActionCreator from '../actions/highlight_actions'
 import React from 'react'
 import RouterContainer from '../lib/router_container'
 
-@fetchData(params => {
-  HighlightsActionCreator.fetchAll(RouterContainer.changelogSlug(params))
-})
 @connect(state => ({
   changelog: state.currentChangelog.changelog,
 }))
