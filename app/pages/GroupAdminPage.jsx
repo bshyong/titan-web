@@ -333,6 +333,7 @@ import {bindActionCreators} from 'redux'
     },
   }
 })
+
 export default class GroupAdminPageWrapper extends React.Component {
   render() {
     return <GroupAdminPage {...this.props}
