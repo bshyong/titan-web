@@ -17,8 +17,6 @@ import RouterContainer from 'lib/router_container'
 import SessionActions from 'actions/SessionActions'
 import SessionStore from 'stores/session_store'
 
-import Button from 'ui/Button.jsx'
-
 // Logo versions:
 import LogoSrc from 'images/logo.svg'
 import LogoTransparentSrc from 'images/logo-transparent.svg'
@@ -51,7 +49,7 @@ export default class AppNavbar extends React.Component {
   }
 
   logoUrl() {
-    if (this.props.bgImgUrl || this.props.onProduct == "yes") {
+    if (this.props.bgImgUrl) {
       return LogoTransparentSrc
     } else {
       return LogoSrc
@@ -61,11 +59,9 @@ export default class AppNavbar extends React.Component {
   left() {
     const route = this.props.user ? 'dashboard' : 'https://assembly.com'
     return (
-      <div className="flex flex-center px2">
       <Link to={route} className="flex p2">
         <img className="flex-none mr2" src={this.logoUrl()} style={{height: '1.5rem'}} />
       </Link>
-    </div>
     )
   }
 
@@ -73,26 +69,11 @@ export default class AppNavbar extends React.Component {
     const { user, membered } = this.props
 
     if (!user) {
-      if (this.props.bgImgUrl || this.props.onProduct == "yes")
-      {
-        return (
-          <div className="p2">
-            <a className="white pointer" onClick={this._handleSignIn.bind(this)}>Log in</a>
-          </div>
-        )
-      }
-      else {
-        return (
-          <div className="flex flex-center px1">
-            <div className="mr1">
-              <Button bg="twitter-blue" action={this._handleSignUp.bind(this)}>Sign up</Button>
-            </div>
-            <div>
-              <Button bg="gray" action={this._handleSignIn.bind(this)}>Log in</Button>
-            </div>
-          </div>
-        )
-      }
+      return (
+        <div className="p2">
+          <a className="white pointer" onClick={this._handleSignIn.bind(this)}>Log in</a>
+        </div>
+      )
     }
 
     const changelogId = RouterContainer.changelogSlug()
@@ -172,13 +153,6 @@ export default class AppNavbar extends React.Component {
     this.props.dispatch(AuthenticationFormActions.changeForm({
       formComponent: 'login',
       formContent: { redirectTo: window.location.pathname }
-    }))
-  }
-
-  _handleSignUp() {
-    this.props.dispatch(AuthenticationFormActions.changeForm({
-      formComponent: 'signup',
-      formContent: { redirectTo: '/new' },
     }))
   }
 

@@ -41,7 +41,7 @@ export default class ChangelogNavbar extends React.Component {
     }
 
     return (
-      <AppNavbar bg="charcoal" bgImgUrl={changelog.banner_url} onProduct="yes" size={size}>
+      <AppNavbar bg="charcoal" bgImgUrl={changelog.banner_url} size={size}>
         {content}
       </AppNavbar>
     )

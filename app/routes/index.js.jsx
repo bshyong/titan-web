@@ -41,13 +41,12 @@ import GroupAdminPage from 'pages/GroupAdminPage.jsx'
 
 const internal = (
   <Route handler={AppPage} name="root" path="/">
-    <DefaultRoute handler={DashboardPage} name="home" />
-    <Route handler={DashboardPage} path="/home" />
-    <Route handler={ChangelogHomePage} path="/changelog-home" />
-
+    <DefaultRoute handler={HomePage} name="home" />
     <NotFoundRoute handler={NotFound} name="not_found" />
 
     <Route handler={AdminPage} path="/admin" />
+    <Route handler={HomePage} path="/home" />
+	<Route handler={ChangelogHomePage} path="/changelog-home" />
     <Route handler={NewFaqPage} path="/new-assembly-faq" name="newAssemblyFaq" />
     <Route handler={migration} path="/migration" name="migration" />
 
@@ -59,7 +58,6 @@ const internal = (
     <Route handler={PasswordResetPage} path="/password/reset" name="passwordReset" />
     <Route handler={UserPage} path="/users/:userId" name="profile" />
     <Route handler={ImpersonatePage} path="/users/:userId/impersonate" name="impersonate" />
-    <Route handler={ImpersonatePage} path="/impersonate/:userId"  />
     <Route handler={FeedPage} path="/feed" name="feed" />
     <Route handler={TermsPage} path="/terms" name="terms" />
     <Route handler={TermsPage} path="/tos" name="tos" />

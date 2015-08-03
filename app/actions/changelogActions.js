@@ -17,19 +17,13 @@ export function fetchMembered() {
   }
 }
 
-export function fetchAll(page = 1, per = 24) {
+export function fetchAll() {
   return dispatch => {
-    dispatch({
-      type: c.CHANGELOGS_FEATURED_FETCHING,
-      page: page,
-    })
-    api.get(`changelogs?page=${page}&per_page=${per}`).
+    api.get(`changelogs`).
       then(resp => {
         dispatch({
           type: c.CHANGELOGS_FEATURED_FETCHED,
           changelogs: resp,
-          page: page,
-          per: per,
         })
       })
   }
