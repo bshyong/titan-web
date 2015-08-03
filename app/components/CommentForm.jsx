@@ -54,7 +54,7 @@ export default class CommentForm extends React.Component {
   }
 
   render() {
-    if (!this.props.user) {
+    if (!this.props.user.id) {
       return (
         <div className="pointer">
           <a onClick={this.handleSignInClick} >
