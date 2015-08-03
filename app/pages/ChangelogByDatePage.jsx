@@ -1,18 +1,17 @@
-import Changelog from '../components/changelog.js.jsx'
-import DocumentTitle from 'react-document-title'
-import React from 'react'
-import RouterContainer from '../lib/router_container'
-import StoryActions from '../actions/story_actions'
-
-import fetchData from 'decorators/fetchData'
 import {connect} from 'redux/react'
+import Changelog from 'components/changelog.js.jsx'
+import DocumentTitle from 'react-document-title'
+import fetchData from 'decorators/fetchData'
+import React from 'react'
+import RouterContainer from 'lib/router_container'
+import {fetchAll, fetchPinned} from 'actions/storyActions'
 
-@fetchData(params => {
-  StoryActions.fetchAll(RouterContainer.changelogSlug(params), {
+@fetchData(params => [
+  fetchAll(RouterContainer.changelogSlug(params), {
     group_by: 'calendar',
-  })
-  StoryActions.fetchPinned(RouterContainer.changelogSlug(params))
-})
+  }),
+  fetchPinned(RouterContainer.changelogSlug(params)),
+])
 @connect(state => ({
   changelogName: state.currentChangelog.changelog && state.currentChangelog.changelog.name,
 }))

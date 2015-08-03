@@ -1,26 +1,30 @@
-import Avatar from '../ui/Avatar.jsx'
+import {connect} from 'redux/react'
+import * as commentFormActions from 'actions/commentFormActions'
 import Comment from './comment.jsx'
-import CommentForm from './comment_form.jsx'
-import CommentsStore from '../stores/comments_store'
-import connectToStores from '../lib/connectToStores.jsx'
-import GifPicker from './GifPicker.jsx'
-import GroupedStoriesStore from '../stores/GroupedStoriesStore'
-import LoadingBar from '../ui/LoadingBar.jsx'
-import MarkdownArea from '../ui/MarkdownArea.jsx'
-import pluralize from '../lib/pluralize'
+import CommentForm from './CommentForm.jsx'
+import LoadingBar from 'ui/LoadingBar.jsx'
+import pluralize from 'lib/pluralize'
 import React from 'react'
 import SubscribeStoryButton from './subscribe_story_button.jsx'
-import Table from '../ui/Table.jsx'
-import {List} from 'immutable'
 
-@connectToStores(CommentsStore, GroupedStoriesStore)
+function getCommentsCount(grouped, slug) {
+  const group = grouped.find(g => g.stories.get(slug))
+  if (!group) {
+    return 0
+  }
+  return group.stories.get(slug).live_comments_count
+}
+
+@connect((state, props) => ({
+  user: state.currentUser,
+  commentsCount: getCommentsCount(state.groupedStories.grouped, props.story.slug),
+  comments: state.comments.comments,
+  loading: state.comments.loading,
+}))
 export default class Discussion extends React.Component {
-  static getPropsFromStores(props) {
-    return {
-      comments: CommentsStore.all(),
-      commentsCount: GroupedStoriesStore.getCommentsCount(props.story.slug),
-      loading: CommentsStore.loading,
-    }
+  static propTypes = {
+    story: React.PropTypes.object.isRequired,
+    changelogId: React.PropTypes.string.isRequired,
   }
 
   componentDidMount() {
@@ -50,7 +54,9 @@ export default class Discussion extends React.Component {
         <LoadingBar loading={loading} />
 
         <div className="p2 md-px0">
-          <CommentForm storyId={story.slug} changelogId={this.props.changelogId}/>
+          <CommentForm user={this.props.user}
+                       showAvatar={true}
+                       onPublish={this.handlePublishComment} />
         </div>
       </div>
     )
@@ -66,8 +72,17 @@ export default class Discussion extends React.Component {
     )
   }
 
+  handlePublishComment = (text, cb) => {
+    this.props.dispatch(commentFormActions.publish(
+      this.props.user,
+      this.props.changelogId,
+      this.props.story.slug,
+      text,
+    ), cb)
+  }
+
   scrollToComment() {
-    let scrollId = window.location.hash.substr(1)
+    const scrollId = window.location.hash.substr(1)
     if (this.scrollId !== scrollId) {
       this.scrollId = scrollId
       this.scrolled = false
@@ -77,16 +92,11 @@ export default class Discussion extends React.Component {
       return
     }
 
-    let el = document.getElementById(this.scrollId)
+    const el = document.getElementById(this.scrollId)
 
     if (el) {
       this.scrolled = true
       el.scrollIntoView({behavior: "smooth"})
     }
   }
-}
-
-Discussion.propTypes = {
-  story: React.PropTypes.object.isRequired,
-  changelogId: React.PropTypes.string.isRequired,
 }

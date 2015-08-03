@@ -1,37 +1,32 @@
 import {connect} from 'redux/react'
-import Button from '../ui/Button.jsx'
+import Button from 'ui/Button.jsx'
 import ChangelogNavbar from 'components/Changelog/ChangelogNavbar.jsx'
-import connectToStores from '../lib/connectToStores.jsx'
-import EmptyStateGuide from '../components/EmptyStateGuide.jsx'
-import GroupedStoriesStore from '../stores/GroupedStoriesStore'
-import LoadingBar from '../ui/LoadingBar.jsx'
-import PinnedPosts from '../components/PinnedPosts.jsx'
-import PinnedPostsStore from '../stores/PinnedPostsStore'
-import PostSet from '../components/PostSet.jsx'
+import EmptyStateGuide from 'components/EmptyStateGuide.jsx'
+import LoadingBar from 'ui/LoadingBar.jsx'
+import PinnedPosts from 'components/PinnedPosts.jsx'
+import PostSet from 'components/PostSet.jsx'
 import React from 'react'
-import Router from '../lib/router_container'
-import ScrollPaginator from '../ui/ScrollPaginator.jsx'
-import StoryActions from '../actions/story_actions'
-import StoryRange from './StoryRange.jsx'
+import Router from 'lib/router_container'
+import ScrollPaginator from 'ui/ScrollPaginator.jsx'
+import {fetchAll} from 'actions/storyActions'
+import StoryRange from 'components/StoryRange.jsx'
+
+function countStories(grouped) {
+  return grouped.reduce((r, g) => r + g.stories.size, 0)
+}
 
 @connect(state => ({
   changelog: state.currentChangelog.changelog,
+  groupedStories: state.groupedStories.grouped,
+  loading: state.groupedStories.loading,
+  moreAvailable: state.groupedStories.moreAvailable,
+  page: state.groupedStories.page,
+  pinnedPosts: state.pinnedPosts.stories,
+  totalStoriesCount: countStories(state.groupedStories.grouped),
 }))
-@connectToStores(GroupedStoriesStore, PinnedPostsStore)
 export default class Changelog extends React.Component {
   static propTypes = {
-    groupBy: React.PropTypes.string
-  }
-
-  static getPropsFromStores(props) {
-    return {
-      groupedStories: GroupedStoriesStore.grouped,
-      loading: GroupedStoriesStore.loading,
-      moreAvailable: GroupedStoriesStore.moreAvailable,
-      page: GroupedStoriesStore.page,
-      pinnedPosts: PinnedPostsStore.all,
-      totalStoriesCount: GroupedStoriesStore.totalStoriesCount,
-    }
+    groupBy: React.PropTypes.string,
   }
 
   render() {
@@ -41,10 +36,10 @@ export default class Changelog extends React.Component {
       return <div />
     }
 
-    let nextPage = () =>
-      StoryActions.fetchAll(changelogId, {
-        group_by: this.props.groupBy
-      }, page + 1, 25)
+    const nextPage = () =>
+      this.props.dispatch(fetchAll(changelogId, {
+        group_by: this.props.groupBy,
+      }, page + 1, 25))
 
     return <div>
       <ChangelogNavbar changelog={changelog} />
@@ -54,8 +49,8 @@ export default class Changelog extends React.Component {
       {this.renderOpenSet()}
 
       <div className="container">
-      	{this.renderEmptyState()}
-      	{this.renderGithubRepoMessage()}
+        {this.renderEmptyState()}
+        {this.renderGithubRepoMessage()}
         {this.renderPinnedPosts()}
         {this.renderStories()}
         <LoadingBar loading={loading} />
@@ -74,7 +69,7 @@ export default class Changelog extends React.Component {
 
     groupedStories = groupedStories.filterNot(g => g.group.done_at)
 
-    if (groupBy === 'calendar' || groupedStories.isEmpty()) { return }
+    if (groupBy === 'calendar' || groupedStories.isEmpty()) { return null }
 
     return (
       <div style={{background: changelog.user_is_team_member ? '#FAF9F7' : null}}>
@@ -97,7 +92,7 @@ export default class Changelog extends React.Component {
     const { changelogId, changelog, groupedStories } = this.props
 
     if (!groupedStories) {
-      return
+      return null
     }
 
     if (this.props.groupBy === 'calendar') {
@@ -126,14 +121,14 @@ export default class Changelog extends React.Component {
   renderEmptyState() {
     const { totalStoriesCount, loading } = this.props
 
-    if (totalStoriesCount > 0 || loading) { return }
+    if (totalStoriesCount > 0 || loading) { return null }
     return <EmptyStateGuide />
   }
 
   renderGithubRepoMessage() {
     const { totalStoriesCount, changelogId, changelog, loading } = this.props
 
-    if (totalStoriesCount > 0 || !changelog.user_is_team_member || loading) { return }
+    if (totalStoriesCount > 0 || !changelog.user_is_team_member || loading) { return null }
 
     return <div className="mt3 mb3 p2 bg-smoke h4 sm-flex flex-center flex-wrap">
       <div className="flex-auto">You can pull in draft posts from your GitHub repos.<br /><span className="h5 gray">We don't save your data and promise not to peek at your code.</span></div>

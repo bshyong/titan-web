@@ -13,7 +13,10 @@ export default function clientMiddleware(api) {
     return promise(api).then(
       resp => {
         if (analytics) {
-          segment.track.apply(this, analytics)
+          const body = typeof analytics === 'function' ?
+            analytics(resp) :
+            analytics
+          segment.track.apply(this, body)
         }
         return next({...rest, resp, type: SUCCESS})
       }

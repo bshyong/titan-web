@@ -1,12 +1,13 @@
-import ClickablePaginator from '../ui/ClickablePaginator.jsx'
-import paramsFor from '../lib/paramsFor'
-import PostSetActions from '../actions/PostSetActions'
+import ClickablePaginator from 'ui/ClickablePaginator.jsx'
+import paramsFor from 'lib/paramsFor'
 import React from 'react'
-import StoryActions from '../actions/story_actions'
+import {fetchForSpecificGroup} from 'actions/storyActions'
 import StoryCell from './Story/StoryCell.jsx'
-import Table from '../ui/Table.jsx'
+import Table from 'ui/Table.jsx'
 import UpvoteToggler from './UpvoteToggler.jsx'
+import {connect} from 'redux/react'
 
+@connect(() => ({}))
 export default class PostSet extends React.Component {
   static propTypes = {
     changelogId: React.PropTypes.string.isRequired,
@@ -20,18 +21,9 @@ export default class PostSet extends React.Component {
     super(props)
     this.per = 50
     this.state = {
-      editing: false,
       hasMore: this.hasMoreStories(),
       page: 0,
       title: this.props.group.title,
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (!prevState.editing && this.state.editing) {
-      let input = React.findDOMNode(this.refs.text)
-      input.value = this.state.title
-      input.focus()
     }
   }
 
@@ -63,21 +55,10 @@ export default class PostSet extends React.Component {
     return (
       <div className="border-bottom flex flex-center">
         <div className="flex-auto">
-          {this.state.editing ? this.renderEditForm() : this.renderTitle() }
+          {this.renderTitle()}
         </div>
-        {this.renderFinalizeButton()}
       </div>
     )
-  }
-
-  renderFinalizeButton() {
-    if (this.props.editable && !this.props.group.done_at) {
-      return <div className="flex-none mr1">
-        <a className="gray h5 orange-hover pointer" onClick={this.handleCloseGroup.bind(this)}>
-          Close set
-        </a>
-      </div>
-    }
   }
 
   renderTitle() {
@@ -85,68 +66,17 @@ export default class PostSet extends React.Component {
     return (
       <div className="py2 flex flex-center">
         <div className="flex-none">
-          {title ? title : "Latest Set"}
-        </div>
-        <div className="flex-none">
-          {this.renderEditButton()}
+          {title}
         </div>
       </div>
     )
-  }
-
-  renderEditButton() {
-    if (this.props.editable) {
-      return <div className="px2">
-        <a className="gray h5 orange-hover pointer" onClick={this.handleShowEditing.bind(this)}>
-          Edit
-        </a>
-      </div>
-    }
-  }
-
-  renderEditForm() {
-    return (
-      <form>
-        <div className="py1 flex flex-center">
-          <div className="mr1">
-            <input type="text"
-              className="field-light full-width"
-              placeholder="Latest"
-              ref="text" />
-          </div>
-          <div className="px1">
-            <a className="h4 orange pointer" onClick={this.handleTitleSave.bind(this)}>
-              Save
-            </a>
-          </div>
-        </div>
-      </form>
-    )
-  }
-
-  handleShowEditing() {
-    this.setState({editing: true})
-  }
-
-  handleTitleSave(e) {
-    e.preventDefault()
-    let newTitle = React.findDOMNode(this.refs.text).value
-    this.setState({
-      editing: false,
-      title: newTitle
-    })
-    PostSetActions.updateTitle(this.props.group.key, newTitle)
-  }
-
-  handleCloseGroup() {
-    PostSetActions.finalize(this.props.group.key)
   }
 
   handleShowMore() {
     const { changelogId, group } = this.props
-    StoryActions.fetchForSpecificGroup(changelogId, group.key, this.state.page + 1, this.per)
+    this.props.dispatch(fetchForSpecificGroup(changelogId, group.key, this.state.page + 1, this.per))
     this.setState({
-      page: this.state.page + 1
+      page: this.state.page + 1,
     })
   }
 

@@ -1,10 +1,16 @@
 import * as AuthenticationFormActions from 'actions/authenticationFormActions'
-import Icon from '../ui/Icon.jsx'
+import Icon from 'ui/Icon.jsx'
 import React from 'react'
-import SessionStore from '../stores/session_store'
-import StoryActions from '../actions/story_actions'
+import SessionStore from 'stores/session_store'
+import {subscribe, unsubscribe} from 'actions/storyActions'
+import {connect} from 'redux/react'
 
+@connect(() => ({}))
 export default class SubscribeStoryButton extends React.Component {
+  static propTypes = {
+    story: React.PropTypes.object.isRequired,
+  }
+
   constructor(props) {
     super(props)
   }
@@ -32,13 +38,9 @@ export default class SubscribeStoryButton extends React.Component {
     }
 
     if (story.viewer_has_subscribed) {
-      StoryActions.unsubscribe(story.slug)
+      this.props.dispatch(unsubscribe(story.slug))
     } else {
-      StoryActions.subscribe(story.slug)
+      this.props.dispatch(subscribe(story.slug))
     }
   }
-}
-
-SubscribeStoryButton.propTypes = {
-  story: React.PropTypes.object.isRequired,
 }

@@ -1,15 +1,16 @@
+import {bindActionCreators} from 'redux'
 import {connect} from 'redux/react'
 import {List} from 'immutable'
+import * as storyActions from 'actions/storyActions'
 import Avatar from 'ui/Avatar.jsx'
 import Badge from 'components/Badge.jsx'
 import ChangelogNavbar from 'components/Changelog/ChangelogNavbar.jsx'
 import connectToStores from 'lib/connectToStores.jsx'
 import Discussion from 'components/discussion.jsx'
-import DiscussionActions from 'actions/discussion_actions'
+import {fetchAll} from 'actions/discussionActions'
 import DocumentTitle from 'react-document-title'
 import fetchData from 'decorators/fetchData'
 import FlairClicker from 'components/FlairClicker.jsx'
-import GroupedStoriesStore from 'stores/GroupedStoriesStore'
 import Guest from 'ui/Guest.jsx'
 import Heart from 'components/Heart.jsx'
 import Icon from 'ui/Icon.jsx'
@@ -25,10 +26,8 @@ import Router from 'lib/router_container'
 import Stack from 'ui/Stack.jsx'
 import StaffOnly from 'components/StaffOnly.jsx'
 import Sticky from 'ui/Sticky.jsx'
-import StoryActions from 'actions/story_actions'
 import StoryBooster from 'components/staff/StoryBooster.jsx'
 import StoryReadersStore from 'stores/story_readers_store'
-
 
 export class StoryPage extends React.Component {
   render() {
@@ -228,34 +227,43 @@ export class StoryPage extends React.Component {
   deleteStory() {
     const { changelogId, story } = this.props
     if (window.confirm('Are you sure you want to delete this story?')) {
-      StoryActions.delete(changelogId, story.slug)
+      this.props.deleteStory(changelogId, story.slug)
     }
   }
 }
+
+function getStory(stories, slug) {
+  const group = stories.find(g => g.stories.get(slug))
+  if (group) {
+    return group.stories.get(slug)
+  }
+}
+
 
 @fetchData((params, query) => {
   if (query.i) {
     invite.set(query.i)
   }
-  StoryActions.fetch(Router.changelogSlug(params), params.storyId)
-  DiscussionActions.fetchAll(Router.changelogSlug(params), params.storyId)
+  return [
+    storyActions.fetch(Router.changelogSlug(params), params.storyId),
+    fetchAll(Router.changelogSlug(params), params.storyId),
+  ]
 })
 @connect(state => ({
   changelog: state.currentChangelog.changelog,
+  story: getStory(state.groupedStories.grouped, state.router.params.storyId),
 }))
-@connectToStores(GroupedStoriesStore, StoryReadersStore)
+@connectToStores(StoryReadersStore)
 export default class Wrapper extends React.Component {
-  static getPropsFromStores(props) {
-    const params = props.params || Router.get().getCurrentParams()
-    const storyId = params.storyId
+  static getPropsFromStores() {
     return {
-      story: GroupedStoriesStore.get(storyId),
       totalReads: StoryReadersStore.totalReads,
       uniqueReads: StoryReadersStore.uniqueReads,
     }
   }
 
   render() {
-    return <StoryPage {...this.props} />
+    return <StoryPage {...this.props}
+                      {...bindActionCreators(storyActions, this.props.dispatch)} />
   }
 }

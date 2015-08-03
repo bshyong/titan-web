@@ -1,12 +1,14 @@
-import ClickablePaginator from '../ui/ClickablePaginator.jsx'
+import {connect} from 'redux/react'
+import {fetchSpecificDate} from 'actions/storyActions'
+import ClickablePaginator from 'ui/ClickablePaginator.jsx'
 import moment from 'moment'
-import paramsFor from '../lib/paramsFor'
+import paramsFor from 'lib/paramsFor'
 import React from 'react'
-import StoryActions from '../actions/story_actions'
 import StoryCell from './Story/StoryCell.jsx'
 import Subheader from 'ui/Subheader.jsx'
-import Table from '../ui/Table.jsx'
+import Table from 'ui/Table.jsx'
 
+@connect(() => ({}))
 export default class StoryRange extends React.Component {
   static propTypes = {
     group: React.PropTypes.object.isRequired,
@@ -15,7 +17,7 @@ export default class StoryRange extends React.Component {
     }).isRequired,
     changelogId: React.PropTypes.string.isRequired,
     stories: React.PropTypes.object.isRequired,
-    truncatable: React.PropTypes.bool.isRequired
+    truncatable: React.PropTypes.bool.isRequired,
   }
 
   constructor(props) {
@@ -27,14 +29,14 @@ export default class StoryRange extends React.Component {
   }
 
   render() {
-    const { group, changelog, changelogId } = this.props
+    const { group, changelogId } = this.props
     const showLoadMore = this.hasMoreStories()
     let { stories } = this.props
     let title = group.title
-    let date = moment(group.title)
+    const date = moment(group.title)
     if (date.isValid()) {
       let format = 'MMM'
-      if (date.year() != moment().year()) {
+      if (date.year() !== moment().year()) {
         format = 'MMM YYYY'
       }
       title = date.format(format)
@@ -63,9 +65,9 @@ export default class StoryRange extends React.Component {
 
   handleShowMore() {
     const { changelogId, group } = this.props
-    StoryActions.fetchSpecificDate(changelogId, group.key, this.state.page + 1, this.per)
+    this.props.dispatch(fetchSpecificDate(changelogId, group.key, this.state.page + 1, this.per))
     this.setState({
-      page: this.state.page + 1
+      page: this.state.page + 1,
     })
   }
 

@@ -1,10 +1,10 @@
-import * as AuthenticationFormActions from 'actions/authenticationFormActions'
 import { connect } from 'redux/react'
-import React from 'react'
-import SessionStore from '../stores/session_store'
-import StoryActions from 'actions/story_actions'
+import {clickHeart} from 'actions/storyActions'
+import * as AuthenticationFormActions from 'actions/authenticationFormActions'
 import classnames from 'classnames'
 import Icon from 'ui/Icon.jsx'
+import React from 'react'
+import SessionStore from 'stores/session_store'
 
 @connect(() => ({}))
 export default class UpvoteToggler extends React.Component {
@@ -56,7 +56,7 @@ export default class UpvoteToggler extends React.Component {
       return
     }
 
-    StoryActions.clickHeart(story)
+    this.props.dispatch(clickHeart(story))
   }
 
   _handleHover() {

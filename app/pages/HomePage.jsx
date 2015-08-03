@@ -18,17 +18,19 @@ import SessionStore from 'stores/session_store'
 import SoloSrc from 'images/solo.svg'
 import statics from 'lib/statics'
 import Sticky from 'ui/Sticky.jsx'
-import StoryActions from 'actions/story_actions'
+import {fetchFeed} from 'actions/storyActions'
 import StoryFeed from 'components/StoryFeed.jsx'
 import TeamsSrc from 'images/small-teams.svg'
+import fetchData from 'decorators/fetchData'
 
 const BgColor = '#F5F6F8'
+
+@fetchData(() => fetchFeed())
 @statics({
   willTransitionTo(transition) {
     if (SessionStore.user) {
       return transition.redirect('dashboard')
     }
-    StoryActions.fetchFeed()
   },
 })
 @connect(() => ({}))

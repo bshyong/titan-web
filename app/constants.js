@@ -52,6 +52,7 @@ export default keyMirror({
   CHANGELOGS_MEMBERED_FETCHED: null,
   CHANGELOGS_MEMBERED_FETCH_FAILED: null,
 
+  COMMENT_CREATE_FAILED: null,
   COMMENT_CREATING: null,
   COMMENT_DELETED: null,
   COMMENT_EDITING_TOGGLED: null,
@@ -101,7 +102,6 @@ export default keyMirror({
   GITHUB_REPOS_FETCHING: null,
   GITHUB_UNAUTHED_ERROR: null,
 
-  GROUP_COLLAPSED: null,
   GROUP_DONE: null,
   GROUP_STORIES_FETCHED: null,
 
@@ -163,7 +163,9 @@ export default keyMirror({
   PROFILE_UPDATED: null,
   PROFILE_UPDATING: null,
 
+  ROUTE_TRANSITIONING: null,
   ROUTE_TRANSITIONED: null,
+
   RESOURCE_NOT_FOUND: null,
 
   SET_UPDATE_FAILED: null,

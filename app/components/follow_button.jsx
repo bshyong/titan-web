@@ -1,9 +1,9 @@
-import * as AuthenticationFormActions from 'actions/authenticationFormActions'
-import Button from '../ui/Button.jsx'
 import { connect } from 'redux/react'
-import FollowActions from '../actions/FollowActions'
+import * as AuthenticationFormActions from 'actions/authenticationFormActions'
+import {follow, unfollow} from 'actions/changelogActions'
+import Button from 'ui/Button.jsx'
 import React from 'react'
-import SessionStore from '../stores/session_store'
+import SessionStore from 'stores/session_store'
 
 @connect(() => ({}))
 export default class FollowButton extends React.Component {
@@ -38,9 +38,9 @@ export default class FollowButton extends React.Component {
     }
 
     if (this.props.toggled) {
-      FollowActions.unfollow(this.props.changelogId)
+      this.props.dispatch(unfollow(this.props.changelogId))
     } else {
-      FollowActions.follow(this.props.changelogId)
+      this.props.dispatch(follow(this.props.changelogId))
     }
   }
 }

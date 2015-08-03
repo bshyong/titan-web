@@ -10,7 +10,7 @@ import React from 'react'
 import RouterContainer from 'lib/router_container'
 import SessionStore from 'stores/session_store'
 import statics from 'lib/statics'
-import StoryActions from 'actions/story_actions'
+import {publish} from 'actions/storyActions'
 import StoryForm from 'components/Story/StoryForm.jsx'
 import * as storyFormActions from 'actions/storyFormActions'
 import StoryFormWalkthrough from 'components/Story/StoryFormWalkthrough.jsx'
@@ -99,12 +99,12 @@ export default class NewStoryPage extends React.Component {
   }
 
   renderSuccessBanner() {
-    const { isCreating } = this.props
+    const { isCreating, storyFields } = this.props
     if (isCreating) {
       return (
         <div className="bg-blue center p2 mb2 rounded">
           <h4 className="bold mb0 mt0 white">
-            {title} is being published &mdash; sit tight!
+            {storyFields.title} is being published &mdash; sit tight!
           </h4>
         </div>
       )
@@ -136,21 +136,20 @@ export default class NewStoryPage extends React.Component {
         this.setState({showErrorMessage: true})
       } else {
         if (fromOnboarding) {
-          return StoryActions.publish(changelogId, storyFields, false, () => {
+          return this.props.dispatch(publish(changelogId, storyFields, false, () => {
             RouterContainer.transitionTo('changelog', {changelogId: changelogId})
-          })
+          }))
         }
 
         const callback = publishToTwitter ? (story) => {
           const {
             title,
             urlParams: {
-              changelogId,
               day,
               month,
               storyId,
-              year
-            }
+              year,
+            },
           } = story
           const fullUrl = `${MAIN_HOST}/${changelogId}/${year}/${month}/${day}/${storyId}`
           const text = `${title}: ${fullUrl} via @asm`
@@ -158,7 +157,7 @@ export default class NewStoryPage extends React.Component {
           dispatch(showTweetScrim(text))
         } : () => {}
 
-        StoryActions.publish(changelogId, storyFields, true, callback)
+        this.props.dispatch(publish(changelogId, storyFields, true, callback))
       }
     }
   }

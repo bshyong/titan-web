@@ -1,13 +1,10 @@
 require('babel/polyfill')
 
-import {
-  ANALYTICS_ENGAGED,
-  ROUTE_TRANSITIONED
-} from './constants'
 import './images/favicon.ico'
 import './stylesheets/application.css'
 import 'isomorphic-fetch'
 import api from 'lib/api'
+import c from 'constants'
 import Dispatcher from './lib/dispatcher'
 import React from 'react'
 import Router from 'react-router'
@@ -75,6 +72,7 @@ RouterContainer.setRouters({
 RouterContainer.setDomain(window.location.hostname)
 
 RouterContainer.router.run((Handler, state) => {
+  redux.dispatch({type: c.ROUTE_TRANSITIONING, state: state})
   const fetchs = state.routes.map(r => r.handler).filter(h => h.fetchData).map(h => h.fetchData)
   const reduxState = redux.getState()
   const dispatches = fetchs.map(f => f(state.params, state.query, reduxState))
@@ -92,11 +90,12 @@ RouterContainer.router.run((Handler, state) => {
     , document.body)
 
   const route = state.routes[state.routes.length - 1]
-  segment.track(ANALYTICS_ENGAGED, {
+  segment.track(c.ANALYTICS_ENGAGED, {
     type: 'page_view',
     path: state.path,
     routeName: route ? route.name : '404',
   })
 
-  Dispatcher.dispatch({type: ROUTE_TRANSITIONED})
+  Dispatcher.dispatch({type: c.ROUTE_TRANSITIONED})
+  redux.dispatch({type: c.ROUTE_TRANSITIONED, state: state})
 })
