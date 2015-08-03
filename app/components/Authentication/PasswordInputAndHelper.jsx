@@ -5,13 +5,13 @@ export default class PasswordInputAndHelper extends React.Component {
   static fieldClasses(valid) {
     return {
       input: classnames("block left full-width field-light", {
-        'is-error': !valid
+        'is-error': !valid,
       }),
       helper: classnames("left", {
         bold: !valid,
         gray: valid,
-        red: !valid
-      })
+        red: !valid,
+      }),
     }
   }
 
