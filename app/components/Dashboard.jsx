@@ -50,9 +50,9 @@ export class Dashboard extends React.Component {
           Load more
         </Button>
       </div>
-    } else {
-      return <ScrollPaginator page={page} onScrollBottom={this.fetchMore} />
     }
+
+    return <ScrollPaginator page={page} onScrollBottom={this.fetchMore} />
   }
 
   fetchMore() {
