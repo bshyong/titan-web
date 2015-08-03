@@ -99,7 +99,7 @@ export default class InvitationPageWrapper extends React.Component {
       return <div />
     }
     return <InvitationPage {...this.props} invitation={this.props.invitation.invitation}
-                           {...bindActionCreators(invitationActions)}
-                           {...bindActionCreators(signinScrimActions)} />
+                           {...bindActionCreators(invitationActions, this.props.dispatch)}
+                           {...bindActionCreators(signinScrimActions, this.props.dispatch)} />
   }
 }

@@ -1,6 +1,6 @@
 import c from 'constants'
 import api from 'lib/api'
-import segment from 'lib/segment'
+import uniqueId from 'lib/uniqueId'
 
 export function change(storyId, comment) {
   return {
@@ -10,24 +10,19 @@ export function change(storyId, comment) {
   }
 }
 
-export function publish(changelogId, storyId, comment) {
-  return dispatch => {
-    dispatch({
-      type: c.COMMENT_CREATING,
-      storyId: storyId,
-    })
-
-    api.post(`changelogs/${changelogId}/stories/${storyId}/comments`, {body: comment}).
-      then(resp => {
-        dispatch({
-          type: c.COMMENT_PUBLISHED,
-          comment: resp,
-          storyId: storyId,
-        })
-        segment.track(c.ANALYTICS_COMMENT_CREATED, {
-          bodyLength: resp.body.length,
-        })
-      })
+export function publish(user, changelogId, storyId, body) {
+  return {
+    promise: client => client.post(`changelogs/${changelogId}/stories/${storyId}/comments`, {body: body}),
+    types: [c.COMMENT_CREATING, c.COMMENT_PUBLISHED, c.COMMENT_CREATE_FAILED],
+    user,
+    changelogId,
+    storyId,
+    body,
+    cid: uniqueId('comment'),
+    analytics: resp => [
+      c.ANALYTICS_COMMENT_CREATED, {
+      bodyLength: resp.body.length,
+    }],
   }
 }
 

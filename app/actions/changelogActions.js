@@ -1,6 +1,7 @@
 import c from 'constants'
 import api from 'lib/api'
 import Router from 'lib/router_container'
+import segment from 'lib/segment'
 
 export function fetchFollowing(userId) {
   return {
@@ -65,6 +66,31 @@ export function fetchMemberships(changelogId) {
           resp,
         })
       })
+  }
+}
+
+export function follow(changelogId) {
+  return dispatch => {
+    dispatch({
+      type: c.CHANGELOG_FOLLOWED,
+    })
+
+    segment.track(c.ANALYTICS_FOLLOWED, {
+      type: 'changelog',
+      id: changelogId,
+    })
+
+    api.post(`changelogs/${changelogId}/follow`)
+  }
+}
+
+export function unfollow(changelogId) {
+  return dispatch => {
+    dispatch({
+      type: c.CHANGELOG_UNFOLLOWED,
+    })
+
+    api.post(`changelogs/${changelogId}/unfollow`)
   }
 }
 

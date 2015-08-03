@@ -7,7 +7,7 @@ import Badge from 'components/Badge.jsx'
 import ChangelogNavbar from 'components/Changelog/ChangelogNavbar.jsx'
 import connectToStores from 'lib/connectToStores.jsx'
 import Discussion from 'components/discussion.jsx'
-import DiscussionActions from 'actions/discussion_actions'
+import {fetchAll} from 'actions/discussionActions'
 import DocumentTitle from 'react-document-title'
 import fetchData from 'decorators/fetchData'
 import FlairClicker from 'components/FlairClicker.jsx'
@@ -244,8 +244,10 @@ function getStory(stories, slug) {
   if (query.i) {
     invite.set(query.i)
   }
-  DiscussionActions.fetchAll(Router.changelogSlug(params), params.storyId)
-  return storyActions.fetch(Router.changelogSlug(params), params.storyId)
+  return [
+    storyActions.fetch(Router.changelogSlug(params), params.storyId),
+    fetchAll(Router.changelogSlug(params), params.storyId),
+  ]
 })
 @connect(state => ({
   changelog: state.currentChangelog.changelog,
@@ -262,6 +264,6 @@ export default class Wrapper extends React.Component {
 
   render() {
     return <StoryPage {...this.props}
-                      {...bindActionCreators(storyActions)} />
+                      {...bindActionCreators(storyActions, this.props.dispatch)} />
   }
 }

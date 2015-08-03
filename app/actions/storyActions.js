@@ -271,5 +271,6 @@ export function update(changelogId, storyId, params) {
   return {
     types: [c.STORY_UPDATING, c.STORY_FETCHED, c.STORY_UPDATE_FAILED],
     promise: client => client.put(`changelogs/${changelogId}/stories/${storyId}`, params),
+    changelogId, storyId, params,
   }
 }

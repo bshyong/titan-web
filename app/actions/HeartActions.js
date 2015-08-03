@@ -18,7 +18,7 @@ export function heart(heartableType, heartableId) {
       id: heartableId,
     }],
     heartableType,
-    heartableId
+    heartableId,
   }
 }
 
@@ -27,14 +27,14 @@ export function unheart(heartableType, heartableId) {
     types: [HEARTABLE_UNHEARTING, HEARTABLE_UNHEARTED, HEARTABLE_UNHEARTING_FAILED],
     promise: api => api.delete(`user/hearts/${heartableType}/${heartableId}`),
     heartableType,
-    heartableId
+    heartableId,
   }
 }
 
 export function toggleHeart(heartable) {
   if (!heartable.viewer_has_hearted) {
     return heart(heartable.type, heartable.id)
-  } else {
-    return unheart(heartable.type, heartable.id)
   }
+
+  return unheart(heartable.type, heartable.id)
 }

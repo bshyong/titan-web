@@ -24,31 +24,3 @@ export function newComments(comments = Map(), action) {
       return comments
   }
 }
-//
-//   isSaving(storyId) {
-//     const comment = this.comments.get(storyId)
-//     if (comment) {
-//       return this.comments.get(storyId).isSaving
-//     }
-//   }
-//
-//   isValid(storyId) {
-//     const comment = this.comments.get(storyId)
-//     if (comment) {
-//       return comment.body && comment.body.length > 0
-//     }
-//   }
-//
-//   get(storyId) {
-//     const comment = this.comments.get(storyId)
-//     if (comment) {
-//       return comment.body
-//     }
-//   }
-//
-//   all() {
-//     return this.comments.toJS()
-//   }
-// }
-//
-// export default new NewCommentsStore()

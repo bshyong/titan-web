@@ -10,15 +10,18 @@ export default function pinnedPosts(state = initialState, action) {
   switch (action.type) {
     case c.PINNED_POSTS_FETCHING:
       return {
+        ...state,
         loading: true,
         stories: List(),
       }
 
     case c.PINNED_POSTS_FETCHED:
       return {
+        ...state,
         loading: false,
-        stories: List(action.resp),
+        stories: List(action.stories),
       }
+
     case c.STORY_PINNED:
       return {
         ...state,

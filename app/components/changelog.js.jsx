@@ -1,11 +1,9 @@
 import {connect} from 'redux/react'
 import Button from 'ui/Button.jsx'
 import ChangelogNavbar from 'components/Changelog/ChangelogNavbar.jsx'
-import connectToStores from 'lib/connectToStores.jsx'
 import EmptyStateGuide from 'components/EmptyStateGuide.jsx'
 import LoadingBar from 'ui/LoadingBar.jsx'
 import PinnedPosts from 'components/PinnedPosts.jsx'
-import PinnedPostsStore from 'stores/PinnedPostsStore'
 import PostSet from 'components/PostSet.jsx'
 import React from 'react'
 import Router from 'lib/router_container'
@@ -13,24 +11,22 @@ import ScrollPaginator from 'ui/ScrollPaginator.jsx'
 import {fetchAll} from 'actions/storyActions'
 import StoryRange from 'components/StoryRange.jsx'
 
+function countStories(grouped) {
+  return grouped.reduce((r, g) => r + g.stories.size, 0)
+}
+
 @connect(state => ({
   changelog: state.currentChangelog.changelog,
   groupedStories: state.groupedStories.grouped,
   loading: state.groupedStories.loading,
   moreAvailable: state.groupedStories.moreAvailable,
   page: state.groupedStories.page,
-  totalStoriesCount: state.groupedStories.totalStoriesCount,
+  pinnedPosts: state.pinnedPosts.stories,
+  totalStoriesCount: countStories(state.groupedStories.grouped),
 }))
-@connectToStores(PinnedPostsStore)
 export default class Changelog extends React.Component {
   static propTypes = {
     groupBy: React.PropTypes.string,
-  }
-
-  static getPropsFromStores() {
-    return {
-      pinnedPosts: PinnedPostsStore.all,
-    }
   }
 
   render() {

@@ -53,7 +53,6 @@ export default class NewChangelogPage extends React.Component {
   }
 
   handleRedirect = () => {
-    console.log('props', this.props)
     RouterContainer.get().transitionTo("inviteChangelogMembers", {
       changelogId: this.props.changelog.slug,
     })

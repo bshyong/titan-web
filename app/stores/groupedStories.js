@@ -15,7 +15,7 @@ import {
   STORY_UNSUBSCRIBED,
   HEARTABLE_HEARTING,
   HEARTABLE_UNHEARTING,
-} from '../constants'
+} from 'constants'
 import { List, OrderedMap } from 'immutable'
 
 const initialState = {
@@ -34,10 +34,12 @@ function addStory(groups, story) {
     })
   }
 
-  return groups.set(
-    groupIndex,
-    groups.get(groupIndex).stories.set(story.slug, story)
-  )
+  const group = groups.get(groupIndex)
+
+  return groups.set(groupIndex, {
+    group: group.group,
+    stories: group.stories.set(story.slug, story),
+  })
 }
 
 // I'm sure this could be done better with mergeWith
@@ -47,52 +49,55 @@ function addStories(groups, stories) {
     const groupIndex = groups.findIndex(g => g.group.key === newGroup.group.key)
     if (groupIndex !== -1) {
       newGroup.stories.forEach(s => {
-        newGroups = newGroups.set(
-          groupIndex,
-          newGroups.get(groupIndex).stories.set(s.slug, s)
-        )
+        const group = newGroups.get(groupIndex)
+        const groupStories = group.stories.set(s.slug, s)
+        newGroups = newGroups.set(groupIndex, {
+          group: group.group,
+          stories: groupStories,
+        })
       })
     } else {
+      const groupStories = OrderedMap(newGroup.stories.map(s => [s.slug, s]))
       newGroups = newGroups.push({
         group: newGroup.group,
-        stories: OrderedMap(newGroup.stories.map(s => [s.slug, s])),
+        stories: groupStories,
       })
     }
   })
   return newGroups
 }
 
-function updateStory(groups, slug, op) {
-  const groupIndex = groups.findIndex(g => g.stories.get(slug))
+function updateStory(groups, finder, op) {
+  const groupIndex = groups.findIndex(g => finder(g.stories))
   if (groupIndex === -1) {
     return groups
   }
 
   const group = groups.get(groupIndex)
-  const story = group.stories.get(slug)
+  const story = finder(group.stories)
+
   return groups.set(
-    groupIndex,
-    group.stories.set({
-      ...story,
-      ...op(story),
-    })
+    groupIndex, {
+      group: group.group,
+      stories: group.stories.set(story.slug, {
+        ...story,
+        ...op(story),
+      }),
+    }
+  )
+}
+
+function updateStoryBySlug(groups, slug, op) {
+  return updateStory(groups,
+    stories => stories.get(slug),
+    op
   )
 }
 
 function updateStoryById(groups, storyId, op) {
-  const groupIndex = groups.findIndex(g => g.stories.find(s => s.id === storyId))
-  if (groupIndex === -1) {
-    return groups
-  }
-
-  const group = groups.get(groupIndex)
-  const story = group.stories.find(s => s.id === storyId)
-  return groups.set(
-    groupIndex,
-    group.stories.set({
-      ...story,
-      ...op(story),
-    })
+  return updateStory(groups,
+    stories => stories.find(s => s.id === storyId),
+    op
   )
 }
 
@@ -104,18 +109,19 @@ function removeStory(groups, slug) {
 
   const group = groups.get(groupIndex)
   return groups.set(
-    groupIndex,
-    group.stories.filterNot(s => s.id === slug),
+    groupIndex, {
+      group: group.group,
+      stories: group.stories.filterNot(s => s.id === slug),
+    }
   )
 }
 
 export default function groupedStories(state = initialState, action) {
-  console.info(action.type, action)
   switch (action.type) {
     case COMMENT_CREATING:
       return {
         ...state,
-        grouped: updateStory(state.grouped, action.storyId, s => ({
+        grouped: updateStoryBySlug(state.grouped, action.storyId, s => ({
           live_comments_count: s.live_comments_count + 1,
         })),
       }
@@ -129,7 +135,7 @@ export default function groupedStories(state = initialState, action) {
     case STORY_PINNED:
       return {
         ...state,
-        grouped: updateStory(state.grouped, action.storyId, () => ({
+        grouped: updateStoryBySlug(state.grouped, action.story.slug, () => ({
           pinned_at: true,
         })),
       }
@@ -137,7 +143,7 @@ export default function groupedStories(state = initialState, action) {
     case STORY_UNPINNED:
       return {
         ...state,
-        grouped: updateStory(state.grouped, action.storyId, () => ({
+        grouped: updateStoryBySlug(state.grouped, action.story.slug, () => ({
           pinned_at: false,
         })),
       }
@@ -158,33 +164,37 @@ export default function groupedStories(state = initialState, action) {
         ...state,
         grouped: updateStoryById(state.grouped, action.heartableId, s => ({
           viewer_has_hearted: true,
-          hearts_counst: s.hearts_count + 1,
+          hearts_count: s.hearts_count + 1,
         })),
       }
 
     case HEARTABLE_UNHEARTING:
     case STORY_UNHEARTED:
+      if (action.heartableType !== 'story') {
+        return state
+      }
+
       return {
         ...state,
         grouped: updateStoryById(state.grouped, action.heartableId, s => ({
           viewer_has_hearted: false,
-          hearts_counst: s.hearts_count - 1,
+          hearts_count: s.hearts_count - 1,
         })),
       }
 
     case FLAIRABLE_FLAIRING:
       return {
         ...state,
-        grouped: updateStoryById(state.grouped, action.heartableId, s => ({
+        grouped: updateStoryById(state.grouped, action.flairableId, s => ({
           viewer_has_flaired: true,
-          hearts_counst: s.flairs_count + 1,
+          flairs_count: s.flairs_count + 1,
         })),
       }
 
     case STORY_SUBSCRIBED:
       return {
         ...state,
-        grouped: updateStory(state.grouped, action.storyId, () => ({
+        grouped: updateStoryBySlug(state.grouped, action.storyId, () => ({
           viewer_has_subscribed: true,
         })),
       }
@@ -192,7 +202,7 @@ export default function groupedStories(state = initialState, action) {
     case STORY_UNSUBSCRIBED:
       return {
         ...state,
-        grouped: updateStory(state.grouped, action.storyId, () => ({
+        grouped: updateStoryBySlug(state.grouped, action.storyId, () => ({
           viewer_has_subscribed: false,
         })),
       }
@@ -201,13 +211,13 @@ export default function groupedStories(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        grouped: addStories(state.grouped, action.stories),
+        grouped: addStories(state.grouped, action.grouped),
       }
 
     case STORIES_FETCHED:
       return {
         ...state,
-        grouped: addStories(action.page === 1 ? List() : state.grouped, action.stories),
+        grouped: addStories(action.page === 1 ? List() : state.grouped, action.grouped),
         page: action.page,
         moreAvailable: action.moreAvailable,
         loading: false,
@@ -230,42 +240,3 @@ export default function groupedStories(state = initialState, action) {
       return state
   }
 }
-
-//   get(slug) {
-//     let group = this.grouped.find(g => g.stories.get(slug))
-//     if (group) {
-//       return group.stories.get(slug)
-//     }
-//   }
-//
-//   getById(id) {
-//     let group = this.grouped.find(g => g.stories.find(story => story.id === id))
-//     if (group) {
-//       return group.stories.find(story => story.id === id)
-//     }
-//   }
-//
-//
-//   get totalStoriesCount() {
-//     return this.grouped.reduce((r, g) => {
-//       return r + g.stories.size
-//     }, 0)
-//   }
-//
-//   get loading() {
-//     return this._loading
-//   }
-//
-//   get moreAvailable() {
-//     return this._moreAvailable
-//   }
-//
-//   get page() {
-//     return this._page
-//   }
-// }
-//
-// function addParams(changelogSlug, story) {
-//   story.urlParams = paramsFor.story({slug: changelogSlug}, story)
-//   return story
-// }

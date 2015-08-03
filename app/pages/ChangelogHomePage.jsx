@@ -17,7 +17,7 @@ import React from 'react'
 import SessionStore from 'stores/session_store'
 import SoloSrc from 'images/solo.svg'
 import Sticky from 'ui/Sticky.jsx'
-import storyActions from 'actions/storyActions'
+import {fetchFeed} from 'actions/storyActions'
 import StoryFeed from 'components/StoryFeed.jsx'
 import TeamsSrc from 'images/small-teams.svg'
 import fetchData from 'decorators/fetchData'
@@ -25,7 +25,7 @@ import Router from 'lib/router_container'
 
 const BgColor = '#F5F6F8'
 
-@fetchData(() => storyActions.fetchFeed())
+@fetchData(() => fetchFeed())
 @connect(() => ({}))
 export default class ChangelogHomePage extends React.Component {
   constructor(props) {

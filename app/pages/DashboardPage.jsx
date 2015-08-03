@@ -7,17 +7,15 @@ import DocumentTitle from 'react-document-title'
 import Jumbotron from '../ui/Jumbotron.jsx'
 import React from 'react'
 import Link from '../components/Link.jsx'
-import storyActions from 'actions/storyActions'
+import {fetchFeed} from 'actions/storyActions'
 import fetchData from 'decorators/fetchData'
 
 @AuthenticatedComponent()
-@fetchData(() => {
-  return [
-    storyActions.fetchFeed(),
-    changelogActions.fetchAll(),
-    changelogActions.clearCurrent(),
-  ]
-})
+@fetchData(() => [
+  fetchFeed(),
+  changelogActions.fetchAll(),
+  changelogActions.clearCurrent(),
+])
 export default class DashboardPage extends React.Component {
   render() {
     return (
