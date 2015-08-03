@@ -69,7 +69,7 @@ export default class ChangelogNavbar extends React.Component {
           <div className="md-flex mxn1">
             <div className="flex mb2 md-mb0">
               {this.renderNewStoryButton()}
-              {this.renderSettingsButton()}
+              {this.renderAdminButton()}
 
             </div>
             <div className="flex-none px1">
@@ -101,7 +101,7 @@ export default class ChangelogNavbar extends React.Component {
           <div className="md-flex mxn1">
             <div className="flex mb2 md-mb0">
               {this.renderNewStoryButton()}
-              {this.renderSettingsButton()}
+              {this.renderAdminButton()}
 
             </div>
             <div className="flex-none px1">
