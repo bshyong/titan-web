@@ -8,20 +8,37 @@ export default class ChangelogCard extends React.Component {
     const { changelog } = this.props
     return (
       <Card>
-        <div className="mb2 mx-auto" style={{width: '3rem'}}>
-          <Logo changelog={changelog} size="3rem" />
+        <div className="flex flex-center">
+          <div className="flex-auto">
+            <div className="h2 black">
+              <ChangelogName changelog={changelog} />
+            </div>
+            <div className="black">{changelog.tagline}</div>
+            {this.renderLatestConvo()}
+          </div>
+          <div className="flex-none" style={{width: '3rem'}}>
+            <Logo changelog={changelog} size="3rem" />
+          </div>
         </div>
-        <div className="center h4 bold black">
-          <ChangelogName changelog={changelog} />
-        </div>
-        <div className="center gray">{changelog.tagline}</div>
       </Card>
     )
+  }
+
+  renderLatestConvo() {
+    const { changelog } = this.props
+
+    if (changelog.latest_story_title) {
+      return <div className="gray mt1">
+        <span className="bold">Latest convo: </span>
+        <span className="italic">{changelog.latest_story_title}</span>
+      </div>
+    }
+    return null
   }
 }
 
 ChangelogCard.propTypes = {
   changelog: React.PropTypes.shape({
-    name: React.PropTypes.string.isRequired
-  }).isRequired
+    name: React.PropTypes.string.isRequired,
+  }).isRequired,
 }
