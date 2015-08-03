@@ -6,6 +6,7 @@ import Subheader from 'ui/Subheader.jsx'
 import ScrollPaginator from 'ui/ScrollPaginator.jsx'
 import * as changelogActions from 'actions/changelogActions'
 import LoadingBar from 'ui/LoadingBar.jsx'
+import Button from 'ui/Button.jsx'
 
 export class Dashboard extends React.Component {
   static propTypes = {
@@ -13,8 +14,13 @@ export class Dashboard extends React.Component {
     following: React.PropTypes.object,
   }
 
+  constructor(props) {
+    super(props)
+    this.fetchMore = ::this.fetchMore
+  }
+
   render() {
-    const { featured, page, moreAvailable } = this.props
+    const { featured, fetching } = this.props
     return (
       <div>
         <Subheader text="Trending Groups Co-Creating Products" />
@@ -26,16 +32,32 @@ export class Dashboard extends React.Component {
               </Link>
             </div>
           )}
-          {moreAvailable ? <ScrollPaginator page={page} onScrollBottom={this.fetchMore.bind(this)} /> : null}
         </div>
-        <LoadingBar loading={moreAvailable} />
+        <LoadingBar loading={fetching} />
+        {this.renderPagination()}
       </div>
     )
   }
 
+  renderPagination() {
+    const { moreAvailable, page, fetchAll, per } = this.props
+
+    if (!moreAvailable) { return null }
+
+    if (page === 1) {
+      return <div>
+        <Button action={fetchAll.bind(this, 2, per)} style="solid" size="big" block={true}>
+          Load more
+        </Button>
+      </div>
+    } else {
+      return <ScrollPaginator page={page} onScrollBottom={this.fetchMore} />
+    }
+  }
+
   fetchMore() {
-    const { page, per } = this.props
-    this.props.fetchAll(page + 1, per)
+    const { page, per, fetchAll } = this.props
+    fetchAll(page + 1, per)
   }
 }
 

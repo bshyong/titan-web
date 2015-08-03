@@ -16,7 +16,7 @@ export function fetchMembered() {
   }
 }
 
-export function fetchAll(page = 1, per = 25) {
+export function fetchAll(page = 1, per = 24) {
   return dispatch => {
     dispatch({
       type: c.CHANGELOGS_FEATURED_FETCHING,

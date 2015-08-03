@@ -5,7 +5,7 @@ const initialState = {
   fetching: false,
   moreAvailable: true,
   page: 1,
-  per: 25,
+  per: 24,
   featured: List(),
   following: List(),
   membered: List(),
