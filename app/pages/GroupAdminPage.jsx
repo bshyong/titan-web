@@ -146,9 +146,14 @@ export class GroupAdminPage extends React.Component {
 
     const csvLink = `${API_URL}/changelogs/${changelogId}/admin/members_csv.csv?a=${SessionStore.jwt}`
 
+
     return <div>
       <div className="flex flex-end py1">
         <div className="h2">Followers</div>
+          <div className="flex-auto"></div>
+          <Link to="changelog_settings" params={{changelogId: changelogId}}>
+            <div className="pointer">Members & Settings</div>
+          </Link>
       </div>
       <GroupMembers {...this.props} />
     </div>
