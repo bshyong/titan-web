@@ -1,10 +1,8 @@
-import classnames from 'classnames'
-import connectToStores from 'lib/connectToStores.jsx'
 import Emoji from 'components/Emoji.jsx'
-import EmojiActions from 'actions/emoji_actions.js'
-import EmojiStore from 'stores/emoji_store'
 import Picker from 'ui/RealPicker.jsx'
 import React from 'react'
+import {List} from 'immutable'
+import {connect} from 'redux/react'
 
 const DEFAULT_VALUE = "c6a2b5b8-b1fc-4ff0-b108-746cef842362"
 const EmojiGridRows = 3
@@ -12,26 +10,28 @@ const ENTER_KEY = 13
 
 import DefaultImgSrc from 'images/emoji-input-default.svg'
 
-@connectToStores(EmojiStore)
+function search(fuse, query) {
+  return List(fuse.search(query))
+}
+
+@connect(state => ({
+  emojis: state.emoji.emojis,
+  fuse: state.emoji.fuse,
+}))
 export default class EmojiPicker extends React.Component {
-
-  static getPropsFromStores(props) {
-    return props
-  }
-
   static propTypes = {
     onChange: React.PropTypes.func.isRequired,
     defaultValue: React.PropTypes.string.isRequired,
   }
 
   static defaultProps = {
-    defaultValue: DEFAULT_VALUE
+    defaultValue: DEFAULT_VALUE,
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      value: props.defaultValue
+      value: props.defaultValue,
     }
   }
 
@@ -47,7 +47,7 @@ export default class EmojiPicker extends React.Component {
 
   renderEmojis() {
     const minHeight = EmojiGridRows * 16 * 3.5
-    if (EmojiStore.isEmpty()) {
+    if (this.props.emojis.isEmpty()) {
       return <div style={{minHeight: minHeight}} />
     }
 
@@ -55,9 +55,9 @@ export default class EmojiPicker extends React.Component {
     let emojis = null
 
     if (query) {
-      emojis = EmojiStore.search(query)
+      emojis = search(this.props.fuse, query)
     } else {
-      emojis = EmojiStore.all
+      emojis = this.props.emojis
     }
 
     return (
@@ -74,7 +74,7 @@ export default class EmojiPicker extends React.Component {
           <input type="search"
                  className="input-invisible block full-width"
                  style={{paddingLeft: '1rem', paddingRight: '1rem'}}
-                 placeholder={EmojiStore.isEmpty() ? null : "Search for a descriptive emoji"}
+                 placeholder={this.props.emojis.isEmpty() ? null : "Search for a descriptive emoji"}
                  onChange={this.handleSearchChange.bind(this)}
                  ref="search" />
         </div>
@@ -84,7 +84,7 @@ export default class EmojiPicker extends React.Component {
   }
 
   renderEmoji(emoji) {
-    let selected = emoji.id === this.state.value
+    const selected = emoji.id === this.state.value
     return (
       <div className="p2 pointer circle"
            style={{backgroundColor: (selected && '#F1F1F1')}}
@@ -97,7 +97,7 @@ export default class EmojiPicker extends React.Component {
   }
 
   renderValue() {
-    const emoji = EmojiStore.find(this.state.value)
+    const emoji = this.props.emojis.find(e => e.id === this.state.value)
 
     // Fill out the height so the bar doesn't jump around the place
     if (!emoji) {
@@ -106,7 +106,7 @@ export default class EmojiPicker extends React.Component {
         height: '2rem',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        backgroundImage: `url(${DefaultImgSrc})`
+        backgroundImage: `url(${DefaultImgSrc})`,
       }
       return (
         <div className="flex flex-center" style={{minHeight: "3rem"}}>
@@ -139,14 +139,14 @@ export default class EmojiPicker extends React.Component {
 
   handleSearchChange(e) {
     const query = e.target.value.replace(/:/g, '').trim()
-    const directEmojiHit = EmojiStore.findByCharacter(query)
+    const directEmojiHit = this.props.emojis.find(emoji => emoji.character === query)
     this.setState({
       query: query,
       value: (directEmojiHit ? directEmojiHit.id : this.state.value),
     })
   }
 
-  selectEmoji(emoji, e) {
+  selectEmoji(emoji) {
     this.setState({value: emoji.id})
     React.findDOMNode(this).focus()
   }
@@ -155,7 +155,7 @@ export default class EmojiPicker extends React.Component {
     this.props.onChange({value: this.state.value})
   }
 
-  handleCancel(e) {
+  handleCancel() {
     this.props.onChange({value: this.props.defaultValue})
   }
 

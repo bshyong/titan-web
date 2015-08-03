@@ -2,11 +2,8 @@ import classnames from 'classnames'
 import { connect } from 'redux/react'
 import Dialog from 'ui/Dialog.jsx'
 import Emoji from 'components/Emoji.jsx'
-import EmojiActions from 'actions/emoji_actions'
 import EmojiPicker from 'components/EmojiPicker.jsx'
-import EmojiStore from 'stores/emoji_store'
 import * as EmojiInputActions from 'actions/EmojiInputActions'
-import Picker from 'ui/RealPicker.jsx'
 import React from 'react'
 
 import DefaultImgSrc from 'images/emoji-input-default.svg'
@@ -18,7 +15,7 @@ const ENTER_KEY = 13
     emojis: state.emojiInput.get('emojis'),
     isFocused: state.emojiInput.get('isFocused'),
     isOpen: state.emojiInput.get('isOpen'),
-    value: state.emojiInput.get('value')
+    value: state.emojiInput.get('value'),
   }
 })
 export default class EmojiInput extends React.Component {
@@ -44,11 +41,11 @@ export default class EmojiInput extends React.Component {
   render() {
     const {
       isFocused,
-      value
+      value,
     } = this.props
     const cs = classnames(
       "field-light bg-white flex flex-center overflow-hidden pointer", {
-        "is-focused": isFocused
+        "is-focused": isFocused,
       }
     )
 
@@ -81,11 +78,11 @@ export default class EmojiInput extends React.Component {
 
   renderEmoji() {
     if (!this.props.emojis) {
-      return
+      return null
     }
     const emoji = this.props.emojis.find(e => e.id === this.props.value)
     if (!emoji) {
-      return
+      return null
     }
     return (
       <div className="mx-auto">
@@ -107,7 +104,7 @@ export default class EmojiInput extends React.Component {
   }
 
   handleKeyDown(e) {
-    if (e.keyCode == ENTER_KEY) {
+    if (e.keyCode === ENTER_KEY) {
       this.handleWillChange()
     }
   }
