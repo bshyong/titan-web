@@ -47,9 +47,10 @@ export function submit(path, data) {
       SessionActions.signinFromToken(resp.token)
       window.location = data.redirectTo || '/'
     }).catch(error => {
+      console.log(error)
       dispatch({
         type: AUTHENTICATION_FORM_ERROR,
-        error: error.error,
+        error: error,
       })
     })
   }

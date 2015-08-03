@@ -13,14 +13,14 @@ const formComponents = {
   passwordReset: PasswordResetForm,
   passwordResetEmail: PasswordResetEmailForm,
   signup: SignupForm,
-  signupConfirmation: SignupConfirmationForm
+  signupConfirmation: SignupConfirmationForm,
 }
 
 @connect(state => ({
   formComponent: state.authenticationForm.get('formComponent'),
   formContent: state.authenticationForm.get('formContent').toJS(),
   shown: state.authenticationForm.get('shown'),
-  token: state.authenticationForm.get('token')
+  token: state.authenticationForm.get('token'),
 }))
 export default class AuthenticationForm extends React.Component {
   static propTypes = {
@@ -30,16 +30,16 @@ export default class AuthenticationForm extends React.Component {
       'passwordReset',
       'passwordResetEmail',
       'signup',
-      'signupConfirmation'
+      'signupConfirmation',
     ]),
     formContent: React.PropTypes.shape({
       email: React.PropTypes.string,
       password: React.PropTypes.string,
       redirectTo: React.PropTypes.string,
-      username: React.PropTypes.string
+      username: React.PropTypes.string,
     }),
     shown: React.PropTypes.bool,
-    token: React.PropTypes.string
+    token: React.PropTypes.string,
   }
 
   render() {

@@ -13,7 +13,9 @@ import React from 'react'
 import * as signinScrimActions from 'actions/signinScrimActions'
 import TwitterActions from 'actions/oauth/TwitterActions'
 
-@connect(() => ({}))
+@connect(state => ({
+  error: state.authenticationForm.get('error'),
+}))
 export default class SignupForm extends React.Component {
   static propTypes = {
     change: React.PropTypes.func.isRequired,
@@ -64,13 +66,14 @@ export default class SignupForm extends React.Component {
           <form>
             <div className="py1">
               <label className="left bold" htmlFor="signup-email">Email</label>
-              <AvailableUsernameInput autoFocus={!onMobile()}
+              <input autoFocus={!onMobile()}
                 type="email"
                 id="signup-email"
                 className="block full-width field-light"
                 placeholder="jane@example.com"
                 value={email}
                 onChange={this.handleChange('email')} />
+              {this.renderError('email')}
             </div>
 
             <div className="py1">
@@ -86,7 +89,6 @@ export default class SignupForm extends React.Component {
             <div className="py1 mb4">
               <PasswordInputAndHelper value={password}
                 onChange={this.handleChange('password')} />
-              <small className="gray left">8 characters minimum</small>
             </div>
 
             <div className="py2 mt2">
@@ -113,6 +115,17 @@ export default class SignupForm extends React.Component {
           </a>
         </div>
       </div>
+    )
+  }
+
+  renderError() {
+    if (!(this.props.error && this.props.error.email)) {
+      return null
+    }
+    return (
+      <small className="red mt1">
+        Email {this.props.error.email}
+      </small>
     )
   }
 

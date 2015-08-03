@@ -4,12 +4,12 @@ import Icon from 'ui/Icon.jsx'
 import React from 'react'
 
 @connect(state => ({
-  error: state.authenticationForm.get('error')
+  error: state.authenticationForm.get('error'),
 }))
 export default class AuthenticationFormError extends React.Component {
   static propTypes = {
     dispatch: React.PropTypes.func.isRequired,
-    error: React.PropTypes.string
+    error: React.PropTypes.string,
   }
 
   constructor(props) {
@@ -21,7 +21,7 @@ export default class AuthenticationFormError extends React.Component {
   render() {
     const { children, error } = this.props
 
-    if (error) {
+    if (error && error.error) {
       return (
         <div className="white bg-red rounded">
           <div className="right mr1 mt1">
@@ -35,7 +35,7 @@ export default class AuthenticationFormError extends React.Component {
           <div className="p2">
             Something went wrong!
             <div className="h5">
-              {error}
+              {error.error}
               {children}
             </div>
           </div>
@@ -46,7 +46,7 @@ export default class AuthenticationFormError extends React.Component {
     return null
   }
 
-  _handleClick(e) {
+  _handleClick() {
     this.props.dispatch(authenticationFormActions.dismissError())
   }
 }
