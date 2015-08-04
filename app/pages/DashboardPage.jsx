@@ -1,5 +1,4 @@
 import AppNavbar from 'components/App/AppNavbar.jsx'
-import AuthenticatedComponent from '../components/mixins/authenticated_mixin.jsx'
 import Button from '../ui/Button.jsx'
 import * as changelogActions from 'actions/changelogActions'
 import Dashboard from '../components/Dashboard.jsx'
@@ -10,7 +9,6 @@ import Link from '../components/Link.jsx'
 import {fetchFeed} from 'actions/storyActions'
 import fetchData from 'decorators/fetchData'
 
-@AuthenticatedComponent()
 @fetchData(() => [
   fetchFeed(),
   changelogActions.fetchAll(),
