@@ -9,13 +9,13 @@ export default class ChangelogCard extends React.Component {
   render() {
     const { changelog } = this.props
     return (
-      <Card>
+      <div className="px2 py3 bg-smoke-hover border-bottom">
         <div className="flex flex-center">
-          <div className="flex-auto px1">
+          <div className="flex-auto mr2">
             <div className="h2 black">
               <ChangelogName changelog={changelog} />
             </div>
-            <div className="black">{changelog.tagline}</div>
+            <div className="black h5">{changelog.tagline}</div>
             {this.renderLatestConvo()}
           </div>
           <div className="flex-none mr1">
@@ -25,7 +25,7 @@ export default class ChangelogCard extends React.Component {
             <Logo changelog={changelog} size="3rem" />
           </div>
         </div>
-      </Card>
+      </div>
     )
   }
 
@@ -34,7 +34,7 @@ export default class ChangelogCard extends React.Component {
     if (changelog.followers_count > 3) {
       return <div className="flex flex-center">
         {this.renderAvatarStack()}
-        <div className="gray px1">+ {changelog.followers_count - 3}</div>
+        <div className="gray h5 bold px1">+ {changelog.followers_count - 3}</div>
       </div>
     } else {
       return this.renderAvatarStack()
@@ -56,9 +56,8 @@ export default class ChangelogCard extends React.Component {
     const { changelog } = this.props
 
     if (changelog.latest_story_title) {
-      return <div className="gray mt1">
-        <span className="bold">Latest: </span>
-        <span className="italic">{changelog.latest_story_title}</span>
+      return <div className="h6 gray" style={{paddingTop: '0.25rem'}}>
+        <span className="bold">Latest: {changelog.latest_story_title}</span>
       </div>
     }
     return null
