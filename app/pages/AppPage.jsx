@@ -9,7 +9,7 @@ import React from 'react'
 import RoutesStore from 'stores/routes_store'
 import SessionActions from 'actions/SessionActions'
 import SessionStore from 'stores/session_store'
-import SigninScrim from 'components/Authentication/SigninScrim.jsx'
+import SigninScrim from 'components/Authentication/signinScrim.jsx'
 import Snackbar from 'components/Snackbar.jsx'
 import TweetScrim from 'components/Social/TweetScrim.jsx'
 
