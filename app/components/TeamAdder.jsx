@@ -123,11 +123,7 @@ export class TeamAdder extends React.Component {
   }
 
   renderBlankEntry() {
-    return (
-      <div className="bg-smoke silver rounded px2 py1">
-        Add more team members
-      </div>
-    )
+    
   }
 
   renderListItem(i, fn, ...args) {
