@@ -6,11 +6,9 @@ import DocumentTitle from 'react-document-title'
 import Jumbotron from '../ui/Jumbotron.jsx'
 import React from 'react'
 import Link from '../components/Link.jsx'
-import {fetchFeed} from 'actions/storyActions'
 import fetchData from 'decorators/fetchData'
 
 @fetchData(() => [
-  fetchFeed(),
   changelogActions.fetchAll(),
   changelogActions.clearCurrent(),
 ])

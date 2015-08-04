@@ -57,7 +57,7 @@ export default class ChangelogCard extends React.Component {
 
     if (changelog.latest_story_title) {
       return <div className="gray mt1">
-        <span className="bold">Latest convo: </span>
+        <span className="bold">Latest: </span>
         <span className="italic">{changelog.latest_story_title}</span>
       </div>
     }
