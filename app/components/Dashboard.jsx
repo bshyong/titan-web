@@ -26,7 +26,7 @@ export class Dashboard extends React.Component {
         <Subheader text="Trending Groups Co-Creating Products" />
         <div className="sm-flex flex-wrap mxn2">
           {(featured || []).map((changelog, i) =>
-            <div className="sm-col-12 p2" key={changelog.id + i}>
+            <div className="sm-col-12 px2" key={changelog.id + i}>
               <Link to="changelog" params={paramsFor.changelog(changelog)}>
                 <ChangelogCard changelog={changelog} />
               </Link>
@@ -45,8 +45,8 @@ export class Dashboard extends React.Component {
     if (!moreAvailable) { return null }
 
     if (page === 1) {
-      return <div>
-        <Button action={fetchAll.bind(this, 2, per)} style="solid" size="big" block={true}>
+      return <div className="m2 sm-mt2 sm-m0">
+        <Button action={fetchAll.bind(this, 2, per)} style="solid" block={true}>
           Load more
         </Button>
       </div>
