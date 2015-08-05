@@ -12,7 +12,7 @@ import URL from 'url'
 
 @connect(state => ({
   changelog: state.currentChangelog.changelog,
-  user: state.currentUser,
+  isStaff: (state.currentUser && state.currentUser.staff_at),
 }))
 export default class ChangelogNavbar extends React.Component {
   static propTypes = {
@@ -142,8 +142,9 @@ export default class ChangelogNavbar extends React.Component {
   }
 
   renderFlagButton() {
-    const { user, changelog } = this.props
-    if (user.staff_at !== null) {
+    const { isStaff, changelog } = this.props
+
+    if (isStaff) {
       return (
         <div className="flex-auto px1">
           <div className="button button-outline block full-width center white" onClick={changelogActions.flag(changelog.slug)}>

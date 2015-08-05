@@ -76,7 +76,7 @@ export function fetchMemberships(changelogId) {
 }
 
 export function flag(changelogId) {
-  api.post(`changelogs/${changelogId}/flag`)
+  api.put(`changelogs/${changelogId}/flag`)
   return null
 }
 
