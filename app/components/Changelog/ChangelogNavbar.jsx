@@ -1,5 +1,6 @@
 import {connect} from 'redux/react'
 import AppNavbar from 'components/App/AppNavbar.jsx'
+import * as changelogActions from 'actions/changelogActions'
 import ChangelogName from 'components/Changelog/ChangelogName.jsx'
 import FollowButton from 'components/follow_button.jsx'
 import Icon from 'ui/Icon.jsx'
@@ -11,6 +12,7 @@ import URL from 'url'
 
 @connect(state => ({
   changelog: state.currentChangelog.changelog,
+  isStaff: (state.currentUser && state.currentUser.staff_at),
 }))
 export default class ChangelogNavbar extends React.Component {
   static propTypes = {
@@ -70,7 +72,7 @@ export default class ChangelogNavbar extends React.Component {
             <div className="flex mb2 md-mb0">
               {this.renderNewStoryButton()}
               {this.renderAdminButton()}
-
+              {this.renderFlagButton()}
             </div>
             <div className="flex-none px1">
               <FollowButton changelogId={changelog.id} toggled={following}/>
@@ -102,7 +104,7 @@ export default class ChangelogNavbar extends React.Component {
             <div className="flex mb2 md-mb0">
               {this.renderNewStoryButton()}
               {this.renderAdminButton()}
-
+              {this.renderFlagButton()}
             </div>
             <div className="flex-none px1">
               <FollowButton changelogId={changelog.id} toggled={following}/>
@@ -134,6 +136,20 @@ export default class ChangelogNavbar extends React.Component {
           <Link className="button button-outline block full-width center white" to="new" params={paramsFor.changelog(changelog)}>
             <Icon icon="plus" /> Post
           </Link>
+        </div>
+      )
+    }
+  }
+
+  renderFlagButton() {
+    const { isStaff, changelog } = this.props
+
+    if (isStaff) {
+      return (
+        <div className="flex-auto px1">
+          <div className="button button-outline block full-width center white" onClick={changelogActions.flag(changelog.slug)}>
+            <Icon icon="flag" /> Flag
+          </div>
         </div>
       )
     }
