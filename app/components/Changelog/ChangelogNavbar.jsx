@@ -11,6 +11,7 @@ import URL from 'url'
 
 @connect(state => ({
   changelog: state.currentChangelog.changelog,
+  user: state.currentUser,
 }))
 export default class ChangelogNavbar extends React.Component {
   static propTypes = {
@@ -102,7 +103,7 @@ export default class ChangelogNavbar extends React.Component {
             <div className="flex mb2 md-mb0">
               {this.renderNewStoryButton()}
               {this.renderAdminButton()}
-
+              {this.renderFlagButton()}
             </div>
             <div className="flex-none px1">
               <FollowButton changelogId={changelog.id} toggled={following}/>
@@ -136,6 +137,19 @@ export default class ChangelogNavbar extends React.Component {
           </Link>
         </div>
       )
+    }
+  }
+
+  renderFlagButton() {
+    const { user } = this.props
+    if (user.staff_at !== null) {
+      return (
+        <div className="flex-auto px1">
+          <Icon icon="flag" />Flag
+        </div>
+      )
+    } else {
+      console.log('wat')
     }
   }
 
