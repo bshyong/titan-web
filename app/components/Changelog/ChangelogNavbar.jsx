@@ -1,5 +1,6 @@
 import {connect} from 'redux/react'
 import AppNavbar from 'components/App/AppNavbar.jsx'
+import changelogActions from 'actions/changelogActions'
 import ChangelogName from 'components/Changelog/ChangelogName.jsx'
 import FollowButton from 'components/follow_button.jsx'
 import Icon from 'ui/Icon.jsx'
@@ -71,7 +72,7 @@ export default class ChangelogNavbar extends React.Component {
             <div className="flex mb2 md-mb0">
               {this.renderNewStoryButton()}
               {this.renderAdminButton()}
-
+              {this.renderFlagButton()}
             </div>
             <div className="flex-none px1">
               <FollowButton changelogId={changelog.id} toggled={following}/>
@@ -141,15 +142,15 @@ export default class ChangelogNavbar extends React.Component {
   }
 
   renderFlagButton() {
-    const { user } = this.props
+    const { user, changelog } = this.props
     if (user.staff_at !== null) {
       return (
         <div className="flex-auto px1">
-          <Icon icon="flag" />Flag
+          <div className="button button-outline block full-width center white" onClick={changelogActions.flag(changelog.slug)}>
+            <Icon icon="flag" /> Flag
+          </div>
         </div>
       )
-    } else {
-      console.log('wat')
     }
   }
 

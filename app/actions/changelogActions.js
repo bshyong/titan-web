@@ -75,6 +75,10 @@ export function fetchMemberships(changelogId) {
   }
 }
 
+export function flag(changelogId) {
+  api.post(`changelogs/${changelogId}/flag`)
+}
+
 export function follow(changelogId) {
   return dispatch => {
     dispatch({
