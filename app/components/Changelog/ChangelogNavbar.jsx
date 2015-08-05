@@ -1,6 +1,6 @@
 import {connect} from 'redux/react'
 import AppNavbar from 'components/App/AppNavbar.jsx'
-import changelogActions from 'actions/changelogActions'
+import * as changelogActions from 'actions/changelogActions'
 import ChangelogName from 'components/Changelog/ChangelogName.jsx'
 import FollowButton from 'components/follow_button.jsx'
 import Icon from 'ui/Icon.jsx'
